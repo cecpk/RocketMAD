@@ -489,6 +489,51 @@ function getDateStr(t) {
     return dateStr
 }
 
+function scout(encounterId) { // eslint-disable-line no-unused-vars
+    var infoEl = $('#scoutInfo' + atob(encounterId))
+
+    $.ajax({
+        url: 'scout',
+        type: 'GET',
+        data: {
+            'encounter_id': encounterId
+        },
+        dataType: 'json',
+        cache: false,
+        beforeSend: function () {
+            infoEl.text('Scouting, please wait...')
+            infoEl.show()
+        },
+        error: function () {
+            infoEl.text('Error scouting, try again?')
+        },
+        success: function (data, textStatus, jqXHR) {
+            if (data.success) {
+                // update local values
+                var pkm = mapData.pokemons[encounterId]
+                pkm['individual_attack'] = data.iv_attack
+                pkm['individual_defense'] = data.iv_defense
+                pkm['individual_stamina'] = data.iv_stamina
+                pkm['move_1'] = data.move_1
+                pkm['move_2'] = data.move_2
+                pkm['weight'] = data.weight
+                pkm['height'] = data.height
+                pkm['gender'] = data.gender
+                pkm['cp'] = data.cp
+                pkm['cp_multiplier'] = data.cp_multiplier
+                pkm['catch_prob_1'] = data.catch_prob_1
+                pkm['catch_prob_2'] = data.catch_prob_2
+                pkm['catch_prob_3'] = data.catch_prob_3
+                pkm['rating_attack'] = data.rating_attack
+                pkm['rating_defense'] = data.rating_defense
+                pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
+            } else {
+                infoEl.text(data.error)
+            }
+        }
+    })
+}
+
 function pokemonLabel(item) {
     var name = item['pokemon_name']
     var rarityDisplay = item['pokemon_rarity'] ? '(' + item['pokemon_rarity'] + ')' : ''
@@ -510,6 +555,12 @@ function pokemonLabel(item) {
     var form = item['form']
     var cp = item['cp']
     var cpMultiplier = item['cp_multiplier']
+    var prob1 = item['catch_prob_1']
+    var prob2 = item['catch_prob_2']
+    var prob3 = item['catch_prob_3']
+    var ratingAttack = item['rating_attack']
+    var ratingDefense = item['rating_defense']
+    var encounterIdLong = atob(encounterId)
 
     $.each(types, function (index, type) {
         typesDisplay += getTypeSpan(type)
@@ -529,6 +580,27 @@ function pokemonLabel(item) {
       ${name} <span class='pokemon name pokedex'><a href='http://pokemon.gameinfo.io/en/pokemon/${id}' target='_blank' title='View in Pokédex'>#${id}</a></span> ${formString} <span class='pokemon gender rarity'>${genderType[gender - 1]} ${rarityDisplay}</span> ${typesDisplay}
     </div>`
 
+    var movesetRating = ''
+    if (ratingAttack !== null) {
+        movesetRating = `
+          <div class='pokemon'>
+            Moveset Rating:
+            Attack <span class='pokemon encounter'>${ratingAttack}</span> |
+            Defense <span class='pokemon encounter'>${ratingDefense}</span>
+          </div>`
+    }
+
+    var catchProbs = ''
+    if (prob1 !== null) {
+        catchProbs = `
+          <div class='pokemon'>
+            Probs:
+            <img class='pokemon ball' src='static/images/markers/pokeball.png'> ${(prob1 * 100).toFixed(1)}%
+            <img class='pokemon ball' src='static/images/markers/greatball.png'> ${(prob2 * 100).toFixed(1)}%
+            <img class='pokemon ball' src='static/images/markers/ultraball.png'> ${(prob3 * 100).toFixed(1)}%
+          </div>`
+    }
+
     if (cp !== null && cpMultiplier !== null) {
         var pokemonLevel = getPokemonLevel(cpMultiplier)
 
@@ -536,15 +608,26 @@ function pokemonLabel(item) {
             var iv = getIv(atk, def, sta)
         }
 
+        var iv_circle = cssPercentageCircle(`${iv.toFixed(0)}<br>%`, iv, 100, 82, 66, 51)
+        var level_circle = cssPercentageCircle(`Lvl<br>${pokemonLevel}`, pokemonLevel, 30, 25, 20, 10)
+
         contentstring += `
           <div class='pokemon container'>
             <div class='pokemon container content-left'>
               <div>
                 <img class='pokemon sprite' src='static/icons/${id}.png'>
-                <span class='pokemon'>Level: </span><span class='pokemon'>${pokemonLevel}</span>
-                <span class='pokemon links exclude'><a href='javascript:excludePokemon(${id})'>Exclude</a></span>
-                <span class='pokemon links notify'><a href='javascript:notifyAboutPokemon(${id})'>Notify</a></span>
-                <span class='pokemon links remove'><a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a></span>
+                <div class='pokemon cp big'>
+                  CP <span class='pokemon encounter big'>${cp}</span>
+                </div>
+                <div class='pokemon links'>
+                  <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id})'>Hide</a>
+                </div>
+                <div class='pokemon links'>
+                  <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id})'>Notify</a>
+                </div>
+                <div class='pokemon links'>
+                  <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
+                </div>
               </div>
           </div>
           <div class='pokemon container content-right'>
@@ -553,15 +636,19 @@ function pokemonLabel(item) {
                 <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
               </div>
               <div class='pokemon'>
-                CP: <span class='pokemon encounter'>${cp}/${iv.toFixed(1)}%</span> (A${atk}/D${def}/S${sta})
+                ${iv_circle}
+                (A <span class='pokemon encounter'>${atk}</span> &nbsp;&nbsp; D <span class='pokemon encounter'>${def}</span> &nbsp;&nbsp; S <span class='pokemon encounter'>${sta}</span>)
+                ${level_circle}
               </div>
               <div class='pokemon'>
-                Moveset: <span class='pokemon encounter'>${pMove1}/${pMove2}</span>
+                Moveset: <span class='pokemon encounter'>${pMove1}</span> / <span class='pokemon encounter'>${pMove2}</span>
               </div>
+              ${movesetRating}
               <div class='pokemon'>
                 Weight: ${weight.toFixed(2)}kg | Height: ${height.toFixed(2)}m
               </div>
-              <div>
+              ${catchProbs}
+              <div class='pokemon'>
                 <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
               </div>
           </div>
@@ -573,10 +660,15 @@ function pokemonLabel(item) {
         <div class='pokemon container content-left'>
           <div>
             <img class='pokemon sprite' src='static/icons/${id}.png'>
-            <span class='pokemon'>Level: </span><span class='pokemon no-encounter'>n/a</span>
-            <span class='pokemon links exclude'><a href='javascript:excludePokemon(${id})'>Exclude</a></span>
-            <span class='pokemon links notify'><a href='javascript:notifyAboutPokemon(${id})'>Notify</a></span>
-            <span class='pokemon links remove'><a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a></span>
+            <div class='pokemon links'>
+              <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id})'>Hide</a>
+            </div>
+            <div class='pokemon links'>
+              <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id})'>Notify</a>
+            </div>
+            <div class='pokemon links'>
+              <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
+            </div>
           </div>
       </div>
       <div class='pokemon container content-right'>
@@ -584,18 +676,13 @@ function pokemonLabel(item) {
           <div class='pokemon disappear'>
             <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
           </div>
-          <div class='pokemon'>
-            CP: <span class='pokemon no-encounter'>No information</span>
+          <div class='pokemon links'>
+            <i class='fa fa-2x fa-binoculars'></i>&nbsp; <a href='javascript:scout("${encounterId}")'>Scout for IV / CP / Moves</a>
           </div>
           <div class='pokemon'>
-            Moveset: <span class='pokemon no-encounter'>No information</span>
-          </div>
-          <div class='pokemon'>
-            Weight: <span class='pokemon no-encounter'>n/a</span> | Height: <span class='pokemon no-encounter'>n/a</span>
-          </div>
-          <div>
             <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
           </div>
+          <div id='scoutInfo${encounterIdLong}' class='pokemon scoutinfo'></div>
       </div>
     </div>
   </div>`

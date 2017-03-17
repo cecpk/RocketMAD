@@ -1,8 +1,9 @@
 .pokemon.container {
   display: flex;
+  margin-bottom: 0;
 
   &.content-left {
-    width:64px;
+    width: 72px;
   }
 
   &.content-right {
@@ -13,8 +14,17 @@
 .pokemon {
   color: rgb(93,109,126);
   font-size: 11px;
-  font-weight: 500;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
+
+  &.cp {
+    display: block;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  &.big {
+    font-size: 13px;
+  }
 
   &.name {
     font-size: 13px;
@@ -54,32 +64,11 @@
 
   &.links {
     color: rgb(93,109,126);
-
-    &.exclude:before {
-      content: '\f056';
-      font-family: FontAwesome;
-      margin-right: 3px;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    &.notify:before {
-      content: '\f055';
-      font-family: FontAwesome;
-      margin-right: 3px;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    &.remove:before {
-      content: '\f057';
-      font-family: FontAwesome;
-      margin-right: 3px;
-      -webkit-font-smoothing: antialiased;
-    }
+    font-size: 12px;
+    margin-bottom: 4px;
   }
 
   &.navigate {
-    position: absolute;
-
     &.navigate:before {
       content: '\f018';
       display: inline-block;
@@ -93,7 +82,20 @@
 
   &.sprite {
     display: block;
-    height: 48px;
-    width: 48px;
+    width: 64px;
+    -webkit-filter: drop-shadow(grey 3px 3px .2em);
+    margin-bottom: 6px;
+  }
+
+  &.ball {
+    display: inline;
+    height: 12px;
+    width: 12px;
+    margin-bottom: 0;
+    vertical-align: bottom;
+  }
+
+  &.scoutinfo {
+    display: hidden;
   }
 }
