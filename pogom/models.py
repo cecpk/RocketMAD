@@ -2067,9 +2067,9 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                 })
 
             if 'pokemon' in args.wh_types:
-                if (pokemon_id in args.webhook_whitelist or
-                    (not args.webhook_whitelist and pokemon_id
-                     not in args.webhook_blacklist)):
+                if (not args.webhook_whitelist
+                        or pokemon_id in args.webhook_whitelist):
+
                     wh_poke = pokemon[p.encounter_id].copy()
                     wh_poke.update({
                         'disappear_time': calendar.timegm(
