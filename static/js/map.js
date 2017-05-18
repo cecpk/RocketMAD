@@ -100,6 +100,14 @@ var notifyText = 'disappears at <dist> (<udist>)'
 // Functions
 //
 
+function isShowAllZoom() {
+    return showAllZoomLevel > 0 && map.getZoom() >= showAllZoomLevel
+}
+
+function getExcludedPokemon() {
+    return isShowAllZoom() ? [] : excludedPokemon
+}
+
 function excludePokemon(id) { // eslint-disable-line no-unused-vars
     $selectExclude.val(
         $selectExclude.val().concat(id)
@@ -1327,7 +1335,7 @@ function clearStaleMarkers() {
 
     $.each(mapData.pokemons, function (key, value) {
         const isPokeExpired = mapData.pokemons[key]['disappear_time'] < Date.now()
-        const isPokeExcluded = excludedPokemon.indexOf(mapData.pokemons[key]['pokemon_id']) !== -1
+        const isPokeExcluded = getExcludedPokemon().indexOf(mapData.pokemons[key]['pokemon_id']) !== -1
 
         if (isPokeExpired || isPokeExcluded) {
             const oldMarker = mapData.pokemons[key].marker
@@ -1352,7 +1360,7 @@ function clearStaleMarkers() {
 
     $.each(mapData.lurePokemons, function (key, value) {
         if (mapData.lurePokemons[key]['lure_expiration'] < new Date().getTime() ||
-            excludedPokemon.indexOf(mapData.lurePokemons[key]['pokemon_id']) >= 0) {
+            getExcludedPokemon().indexOf(mapData.lurePokemons[key]['pokemon_id']) >= 0) {
             mapData.lurePokemons[key].marker.setMap(null)
             delete mapData.lurePokemons[key]
         }
@@ -1460,8 +1468,8 @@ function loadRawData() {
             'oSwLng': oSwLng,
             'oNeLat': oNeLat,
             'oNeLng': oNeLng,
-            'reids': String(reincludedPokemon),
-            'eids': String(excludedPokemon)
+            'reids': String(isShowAllZoom() ? excludedPokemon :  reincludedPokemon),
+            'eids': String(getExcludedPokemon())
         },
         dataType: 'json',
         cache: false,
@@ -1567,7 +1575,7 @@ function processPokemonChunked(pokemon, chunkSize) {
 }
 
 function processPokemon(item) {
-    const isExcludedPoke = excludedPokemon.indexOf(item['pokemon_id']) !== -1
+    const isExcludedPoke = getExcludedPokemon().indexOf(item['pokemon_id']) !== -1
     const isPokeAlive = item['disappear_time'] > Date.now()
 
     var oldMarker = null
