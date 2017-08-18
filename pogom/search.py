@@ -126,6 +126,9 @@ def status_printer(threadStatus, account_failures, logmode, hash_key,
         # all at once to reduce flicker.
         status_text = []
 
+        # Initialize to prevent UnboundLocalError
+        total_pages = 1
+
         if display_type[0] == 'workers':
 
             # Get the terminal size.
