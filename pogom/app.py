@@ -66,6 +66,7 @@ class Pogom(Flask):
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
+        self.route("/<statusname>", methods=['GET'])(self.fullmap)
 
     def render_robots_txt(self):
         return render_template('robots.txt')
@@ -163,7 +164,7 @@ class Pogom(Flask):
             return jsonify({'message': 'invalid use of api'})
         return self.get_search_control()
 
-    def fullmap(self):
+    def fullmap(self, statusname=None):
         self.heartbeat[0] = now()
         args = get_args()
         if args.on_demand_timeout > 0:
@@ -189,8 +190,16 @@ class Pogom(Flask):
             'custom_js': args.custom_js
         }
 
-        map_lat = self.current_location[0]
-        map_lng = self.current_location[1]
+        map_lat = False
+        if statusname:
+            coords = WorkerStatus.get_center_of_worker(statusname)
+            if coords:
+                map_lat = coords['lat']
+                map_lng = coords['lng']
+
+        if not map_lat:
+            map_lat = self.current_location[0]
+            map_lng = self.current_location[1]
 
         return render_template('map.html',
                                lat=map_lat,
