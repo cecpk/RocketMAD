@@ -20,13 +20,10 @@ import requests
 from datetime import datetime
 from threading import Thread
 
-from pgoapi import PGoApi
-from .fakePogoApi import FakePogoApi
-from .pgoapiwrapper import PGoApiWrapper
+from mrmime.pogoaccount import POGOAccount
 
 from .models import Token
-from .transform import jitter_location
-from .account import check_login
+from .account import account_revive, account_failed
 from .proxy import get_new_proxy
 from .utils import now
 
@@ -113,54 +110,40 @@ def captcha_solver_thread(args, account_queue, account_captchas, hash_key,
                          account['username'])
     log.info(status['message'])
 
-    if args.mock != '':
-        api = FakePogoApi(args.mock)
-    else:
-        api = PGoApiWrapper(PGoApi())
+    pgacc = POGOAccount(account['auth_service'], account['username'],
+                        account['password'])
 
     if hash_key:
         log.debug('Using key {} for solving this captcha.'.format(hash_key))
-        api.activate_hash_server(hash_key)
+        pgacc.hash_key = hash_key
 
-    proxy_url = False
     if args.proxy:
         # Try to fetch a new proxy
         proxy_num, proxy_url = get_new_proxy(args)
 
         if proxy_url:
             log.debug('Using proxy %s', proxy_url)
-            api.set_proxy({'http': proxy_url, 'https': proxy_url})
+            pgacc.proxy_url = proxy_url
 
     location = account['last_location']
 
-    if not args.no_jitter:
-        # Jitter location before uncaptcha attempt
-        location = jitter_location(location)
-
-    api.set_position(*location)
-    check_login(args, account, api, proxy_url)
+    pgacc.set_position(location[0], location[1], location[2])
+    pgacc.check_login()
 
     if not token:
         token = token_request(args, status, captcha_url)
 
-    req = api.create_request()
-    req.verify_challenge(token=token)
-    response = req.call(False)
+    verified = pgacc.req_verify_challenge(token)
 
     last_active = account['last_active']
     hold_time = (datetime.utcnow() - last_active).total_seconds()
 
-    success = response['responses']['VERIFY_CHALLENGE'].success
-    if success:
-        status['message'] = (
-            "Account {} successfully uncaptcha'd, returning to " +
-            'active duty.').format(account['username'])
+    if verified:
+        status['message'] = pgacc.last_msg + ", returning to active duty."
         log.info(status['message'])
-        account_queue.put(account)
+        account_revive(args, account_queue, account)
     else:
-        status['message'] = (
-            'Account {} failed verifyChallenge, putting back ' +
-            'in captcha queue.').format(account['username'])
+        status['message'] = pgacc.last_msg + ", putting back in captcha queue."
         log.warning(status['message'])
         account_captchas.append((status, account, captcha_url))
 
@@ -171,32 +154,23 @@ def captcha_solver_thread(args, account_queue, account_captchas, hash_key,
             'account': account['username'],
             'captcha': status['captcha'],
             'time': int(hold_time),
-            'status': 'success' if success else 'failure'
+            'status': 'success' if verified else 'failure'
         }
         wh_queue.put(('captcha', wh_message))
     # Make sure status is updated
     time.sleep(1)
 
 
-def handle_captcha(args, status, api, account, account_failures,
-                   account_captchas, whq, response_dict, step_location):
-    if 'CHECK_CHALLENGE' not in response_dict['responses']:
-        return None
-
-    captcha_url = response_dict['responses']['CHECK_CHALLENGE'].challenge_url
-
-    if len(captcha_url) > 1:
+def handle_captcha(args, status, pgacc, account, account_failures,
+                   account_captchas, whq, step_location):
+    if pgacc.has_captcha():
         status['captcha'] += 1
         if not args.captcha_solving:
             status['message'] = (
                 'Account {} has encountered a captcha. ' +
                 'Putting account away.').format(account['username'])
             log.warning(status['message'])
-            account_failures.append({
-                'account': account,
-                'last_fail_time': now(),
-                'reason': 'captcha found'
-            })
+            account_failed(args, account_failures, account, 'captcha found')
             if 'captcha' in args.wh_types:
                 wh_message = {
                     'status_name': args.status_name,
@@ -210,15 +184,11 @@ def handle_captcha(args, status, api, account, account_failures,
             return False
 
         if args.captcha_key and args.manual_captcha_timeout == 0:
-            if automatic_captcha_solve(args, status, api, captcha_url, account,
+            if automatic_captcha_solve(args, status, pgacc, pgacc.captcha_url,
                                        whq):
                 return True
             else:
-                account_failures.append({
-                    'account': account,
-                    'last_fail_time': now(),
-                    'reason': 'captcha failed to verify'
-                })
+                account_failed(args, account_failures, account, 'captcha failed to verify')
                 return False
         else:
             status['message'] = (
@@ -227,7 +197,7 @@ def handle_captcha(args, status, api, account, account_failures,
             log.warning(status['message'])
             account['last_active'] = datetime.utcnow()
             account['last_location'] = step_location
-            account_captchas.append((status, account, captcha_url))
+            account_captchas.append((status, account, pgacc.captcha_url))
             if 'captcha' in args.wh_types:
                 wh_message = {
                     'status_name': args.status_name,
@@ -244,7 +214,7 @@ def handle_captcha(args, status, api, account, account_failures,
 
 
 # Return True if captcha was succesfully solved
-def automatic_captcha_solve(args, status, api, captcha_url, account, wh_queue):
+def automatic_captcha_solve(args, status, pgacc, captcha_url, account, wh_queue):
     status['message'] = (
         'Account {} is encountering a captcha, starting 2captcha ' +
         'sequence.').format(account['username'])
@@ -278,25 +248,19 @@ def automatic_captcha_solve(args, status, api, captcha_url, account, wh_queue):
             'for {}.').format(account['username'])
         log.info(status['message'])
 
-        req = api.create_request()
-        req.verify_challenge(token=captcha_token)
-        response = req.call(False)
+        verify_succeeded = pgacc.req_verify_challenge(captcha_token)
         time_elapsed = now() - time_start
-        success = response['responses']['VERIFY_CHALLENGE'].success
-        if success:
-            status['message'] = "Account {} successfully uncaptcha'd.".format(
-                account['username'])
+        if verify_succeeded:
+            status['message'] = pgacc.last_msg
         else:
-            status['message'] = (
-                'Account {} failed verifyChallenge, putting away ' +
-                'account for now.').format(account['username'])
+            status['message'] = pgacc.last_msg + ', putting away account for now.'
         log.info(status['message'])
         if 'captcha' in args.wh_types:
-            wh_message['status'] = 'success' if success else 'failure'
+            wh_message['status'] = 'success' if verify_succeeded else 'failure'
             wh_message['time'] = time_elapsed
             wh_queue.put(('captcha', wh_message))
 
-        return success
+        return verify_succeeded
 
 
 def token_request(args, status, url):
