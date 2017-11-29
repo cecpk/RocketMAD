@@ -25,6 +25,7 @@ from cachetools import TTLCache
 from cachetools import cached
 from timeit import default_timer
 
+from pogom.gainxp import DITTO_CANDIDATES_IDS, is_ditto, gxp_spin_stops
 from .utils import (get_pokemon_name, get_pokemon_rarity, get_pokemon_types,
                     get_args, cellid, in_radius, date_secs, clock_between,
                     get_move_name, get_move_damage, get_move_energy,
@@ -32,9 +33,9 @@ from .utils import (get_pokemon_name, get_pokemon_rarity, get_pokemon_types,
 from .transform import transform_from_wgs_to_gcj, get_new_coords
 from .customLog import printPokemon
 
-from .account import check_login, setup_api, pokestop_spinnable, spin_pokestop
+from .account import pokestop_spinnable, spin_pokestop, incubate_eggs, setup_mrmime_account, \
+    encounter_pokemon_request, clear_pokemon
 from .proxy import get_new_proxy
-from .apiRequests import encounter
 
 log = logging.getLogger(__name__)
 
@@ -1846,7 +1847,7 @@ def hex_bounds(center, steps=None, radius=None):
 
 # todo: this probably shouldn't _really_ be in "models" anymore, but w/e.
 def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
-              key_scheduler, api, status, now_date, account, account_sets):
+              key_scheduler, pgacc, status, now_date, account, account_sets):
     pokemon = {}
     pokestops = {}
     gyms = {}
@@ -1867,9 +1868,9 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
 
     # Consolidate the individual lists in each cell into two lists of Pokemon
     # and a list of forts.
-    cells = map_dict['responses']['GET_MAP_OBJECTS'].map_cells
+    cells = map_dict['GET_MAP_OBJECTS'].map_cells
     # Get the level for the pokestop spin, and to send to webhook.
-    level = account['level']
+    level = pgacc.get_stats('level')
     # Use separate level indicator for our L30 encounters.
     encounter_level = level
 
@@ -1895,7 +1896,7 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
 
     now_secs = date_secs(now_date)
 
-    del map_dict['responses']['GET_MAP_OBJECTS']
+    del map_dict['GET_MAP_OBJECTS']
 
     # If there are no wild or nearby Pokemon...
     if not wild_pokemon and not nearby_pokemon:
@@ -1934,6 +1935,9 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
             # All of that is needed to make sure it's unique.
             encountered_pokemon = [
                 (p['encounter_id'], p['spawnpoint_id']) for p in query]
+
+        # Clear Pokemon box
+        clear_pokemon(pgacc)
 
         for p in wild_pokemon:
 
@@ -2025,7 +2029,7 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
             pokemon_info = False
             if args.encounter and (pokemon_id in args.enc_whitelist):
                 pokemon_info = encounter_pokemon(
-                    args, p, account, api, account_sets, status, key_scheduler)
+                    args, p, account, pgacc, account_sets, status, key_scheduler)
 
             pokemon[p.encounter_id] = {
                 'encounter_id': b64encode(str(p.encounter_id)),
@@ -2047,8 +2051,17 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                 'form': None
             }
 
+            # Catch pokemon to check for Ditto if --gain-xp enabled
+            # Original code by voxx!
+            have_balls = pgacc.inventory_balls > 0
+            if args.gain_xp and not pgacc.get_stats(
+                'level') >= 30 and pokemon_id in DITTO_CANDIDATES_IDS and have_balls:
+                if is_ditto(args, pgacc, p):
+                    pokemon[p.encounter_id]['pokemon_id'] = 132
+                    pokemon_id = 132
+                    pokemon_info = None
             # Check for Unown's alphabetic character.
-            if pokemon_id == 201:
+            elif pokemon_id == 201:
                 pokemon[p.encounter_id]['form'] = (p.pokemon_data
                                                     .pokemon_display.form)
 
@@ -2256,11 +2269,15 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                             wh_update_queue.put(('raid', wh_raid))
 
         # Let db do it's things while we try to spin.
-        if args.pokestop_spinning:
+        if args.gain_xp:
+            gxp_spin_stops(forts, pgacc, step_location)
+            incubate_eggs(pgacc)
+        elif args.pokestop_spinning or pgacc.get_stats('level', 1) == 1:
             for f in forts:
                 # Spin Pokestop with 50% chance.
                 if f.type == 1 and pokestop_spinnable(f, step_location):
-                    spin_pokestop(api, account, args, f, step_location)
+                    if spin_pokestop(pgacc, account, args, f, step_location):
+                        incubate_eggs(pgacc)
 
         # Helping out the GC.
         del forts
@@ -2352,21 +2369,21 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
     }
 
 
-def encounter_pokemon(args, pokemon, account, api, account_sets, status,
+def encounter_pokemon(args, pokemon, account, pgacc, account_sets, status,
                       key_scheduler):
     using_accountset = False
     hlvl_account = None
     pokemon_id = None
     result = False
     try:
-        hlvl_api = None
+        hlvl_pgacc = None
         pokemon_id = pokemon.pokemon_data.pokemon_id
-        scan_location = [pokemon.latitude, pokemon.longitude]
+        scan_location = [pokemon.latitude, pokemon.longitude, pgacc.altitude]
         # If the host has L30s in the regular account pool, we
         # can just use the current account.
-        if account['level'] >= 30:
+        if pgacc.get_stats('level') >= 30:
             hlvl_account = account
-            hlvl_api = api
+            hlvl_pgacc = pgacc
         else:
             # Get account to use for IV and CP scanning.
             hlvl_account = account_sets.next('30', scan_location)
@@ -2389,42 +2406,42 @@ def encounter_pokemon(args, pokemon, account, api, account_sets, status,
         # re-use an old API object if it's stored and we're
         # using an account from the AccountSet.
         if not args.no_api_store and using_accountset:
-            hlvl_api = hlvl_account.get('api', None)
+            hlvl_pgacc = hlvl_account.get('pgacc', None)
 
         # Make new API for this account if we're not using an
         # API that's already logged in.
-        if not hlvl_api:
-            hlvl_api = setup_api(args, status, hlvl_account)
+        if not hlvl_pgacc:
+            hlvl_status = {
+                'proxy_url': status['proxy_url']
+            }
+            hlvl_pgacc = setup_mrmime_account(args, hlvl_status, hlvl_account)
 
         # If the already existent API is using a proxy but
         # it's not alive anymore, we need to get a new proxy.
         elif (args.proxy and
-              (hlvl_api._session.proxies['http'] not in args.proxy)):
+              (hlvl_pgacc.proxy_url not in args.proxy)):
             proxy_idx, proxy_new = get_new_proxy(args)
-            hlvl_api.set_proxy({
-                'http': proxy_new,
-                'https': proxy_new})
-            hlvl_api._auth_provider.set_proxy({
-                'http': proxy_new,
-                'https': proxy_new})
+            hlvl_pgacc.proxy_url = proxy_new
+            hlvl_pgacc.rotate_proxy()
 
         # Hashing key.
         # TODO: Rework inefficient threading.
         if args.hash_key:
             key = key_scheduler.next()
             log.debug('Using hashing key %s for this encounter.', key)
-            hlvl_api.activate_hash_server(key)
+            hlvl_pgacc.hash_key = key
 
         # We have an API object now. If necessary, store it.
         if using_accountset and not args.no_api_store:
-            hlvl_account['api'] = hlvl_api
+            hlvl_account['pgacc'] = hlvl_pgacc
 
         # Set location.
-        hlvl_api.set_position(*scan_location)
+        hlvl_pgacc.set_position(scan_location[0], scan_location[1],
+                                scan_location[2])
 
         # Log in.
-        check_login(args, hlvl_account, hlvl_api, status['proxy_url'])
-        encounter_level = hlvl_account['level']
+        hlvl_pgacc.check_login()
+        encounter_level = hlvl_pgacc.get_stats('level')
 
         # User error -> we skip freeing the account.
         if encounter_level < 30:
@@ -2434,20 +2451,16 @@ def encounter_pokemon(args, pokemon, account, api, account_sets, status,
             return False
 
         # Encounter Pokémon.
-        encounter_result = encounter(
-            hlvl_api, hlvl_account, pokemon.encounter_id,
+        enc_responses = encounter_pokemon_request(
+            hlvl_pgacc, pokemon.encounter_id,
             pokemon.spawn_point_id, scan_location)
 
         # Handle errors.
-        if encounter_result:
-            enc_responses = encounter_result['responses']
+        if enc_responses:
             # Check for captcha.
-            captcha_url = enc_responses['CHECK_CHALLENGE'].challenge_url
-
             # Throw warning but finish parsing.
-            if len(captcha_url) > 1:
+            if hlvl_pgacc.has_captcha():
                 # Flag account.
-                hlvl_account['captcha'] = True
                 log.error('Account %s encountered a captcha.' +
                           ' Account will not be used.',
                           hlvl_account['username'])

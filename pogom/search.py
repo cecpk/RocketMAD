@@ -43,12 +43,12 @@ from cachetools import TTLCache
 from pgoapi.hash_server import HashServer
 from .models import (parse_map, GymDetails, parse_gyms, MainWorker,
                      WorkerStatus, HashKeys)
-from .utils import now, distance
+from .utils import now, distance, get_args, clear_dict_response
 from .transform import get_new_coords
-from .account import setup_api, check_login, AccountSet
+from .account import AccountSet, get_account, setup_mrmime_account, account_failed, \
+    account_revive
 from .captcha import captcha_overseer_thread, handle_captcha
 from .proxy import get_new_proxy
-from .apiRequests import gym_get_info, get_map_objects as gmo
 
 log = logging.getLogger(__name__)
 
@@ -86,6 +86,9 @@ def switch_status_printer(display_type, current_page, mainlog,
             current_page[0] = int(command)
             mainlog.handlers[0].setLevel(logging.CRITICAL)
             display_type[0] = 'workers'
+        elif command.lower() == 'a':
+            mainlog.handlers[0].setLevel(logging.CRITICAL)
+            display_type[0] = 'account_stats'
         elif command.lower() == 'f':
             mainlog.handlers[0].setLevel(logging.CRITICAL)
             display_type[0] = 'failedaccounts'
@@ -95,7 +98,7 @@ def switch_status_printer(display_type, current_page, mainlog,
 
 
 # Thread to print out the status of each worker.
-def status_printer(threadStatus, account_failures, logmode, hash_key,
+def status_printer(threadStatus, account_queue, account_captchas, account_failures, logmode, hash_key,
                    key_scheduler):
 
     if (logmode == 'logs'):
@@ -208,6 +211,13 @@ def status_printer(threadStatus, account_failures, logmode, hash_key,
                         threadStatus[item]['captcha'],
                         threadStatus[item]['message']))
 
+        elif display_type[0] == 'account_stats':
+            total_pages = print_account_stats(status_text, threadStatus,
+                                              account_queue,
+                                              account_captchas,
+                                              account_failures,
+                                              current_page)
+
         elif display_type[0] == 'failedaccounts':
             status_text.append('-----------------------------------------')
             status_text.append('Accounts on hold:')
@@ -255,13 +265,150 @@ def status_printer(threadStatus, account_failures, logmode, hash_key,
         # Print the status_text for the current screen.
         status_text.append((
             'Page {}/{}. Page number to switch pages. F to show on hold ' +
-            'accounts. H to show hash status. <ENTER> alone to switch ' +
+            'accounts. H to show hash status. A to show account stats. <ENTER> alone to switch ' +
             'between status and log view').format(current_page[0],
                                                   total_pages))
         # Clear the screen.
         os.system('cls' if os.name == 'nt' else 'clear')
         # Print status.
         print '\n'.join(status_text)
+
+
+# Print statistics about accounts
+def print_account_stats(rows, thread_status, account_queue,
+                        account_captchas, account_failures,
+                        current_page):
+    rows.append('-----------------------------------------')
+    rows.append('Mr. Mime Account Statistics:')
+    rows.append('-----------------------------------------')
+
+    args = get_args()
+
+    # Collect all accounts.
+    accounts = []
+    for item in thread_status:
+        if thread_status[item]['type'] == 'Worker':
+            worker = thread_status[item]
+            account = worker.get('account', {})
+            accounts.append(('active', account))
+    for account in list(account_queue.queue):
+        accounts.append(('spare', account))
+    for captcha_tuple in list(account_captchas):
+        account = captcha_tuple[1]
+        accounts.append(('captcha', account))
+    for acc_fail in account_failures:
+        account = acc_fail['account']
+        accounts.append(('failed', account))
+
+    # Determine maximum username length.
+    userlen = 8
+    for status, acc in accounts:
+        userlen = max(userlen, len(acc.get('username', '')))
+
+    # Print table header.
+    row_tmpl = '{:7} | {:' + str(userlen) + '} | {:4} | {:7} | {:3} | {:>8} | {:23} | {:14}' \
+                                            ' | {:>10}'
+    rows.append(row_tmpl.format('Status', 'Username', 'Warn', 'Blind', 'Lvl', 'XP', 'Enc/Thr/Cap/Spn',
+                                'Inventory', 'Walked'))
+
+    # Pagination.
+    start_line, end_line, total_pages = calc_pagination(len(accounts), 6,
+                                                        current_page)
+
+    # Print account statistics.
+    current_line = 0
+    for status, account in accounts:
+        # Skip over items that don't belong on this page.
+        current_line += 1
+        if current_line < start_line:
+            continue
+        if current_line > end_line:
+            break
+
+        # Access to the underlying POGOAccount
+        pgacc = account.get('pgacc')
+
+        # Format walked km
+        km_walked_f = pgacc.get_stats('km_walked', 'none') if pgacc else 'none'
+        if km_walked_f != 'none':
+            km_walked_str = '{:.1f} km'.format(km_walked_f)
+        else:
+            km_walked_str = ""
+
+        # Stats
+        stats_str = ''
+        if pgacc:
+            enc = pgacc.get_stats('pokemons_encountered', '?') if pgacc else '?'
+            thr = pgacc.get_stats('pokeballs_thrown', '?') if pgacc else '?'
+            cap = pgacc.get_stats('pokemons_captured', '?') if pgacc else '?'
+            spn = pgacc.get_stats('poke_stop_visits', '?') if pgacc else '?'
+            stats_str = '/'.join([str(enc), str(thr), str(cap), str(spn)])
+
+        # Inventory
+        inv_str = ''
+        if pgacc and pgacc.inventory:
+            balls = pgacc.inventory_balls
+            lures = pgacc.inventory_lures
+            total = pgacc.inventory_total
+            inv_str = '{}L/{}B/{}T'.format(lures, balls, total)
+
+        warning = pgacc.is_warned() if pgacc else None
+        warning = '' if warning is None else ('Yes' if warning else 'No')
+
+        rareless_scans = pgacc.rareless_scans if pgacc else None
+        probably_threshold = int(round(args.rareless_scans_threshold / 2))
+        if rareless_scans is None:
+            blind = ''
+        elif rareless_scans in range(0, probably_threshold):
+            blind = 'N'
+        elif rareless_scans in range(probably_threshold, args.rareless_scans_threshold):
+            blind = 'P'
+        else:
+            blind = 'Y'
+        if blind:
+            if rareless_scans >= args.rareless_scans_threshold:
+                scans = '{}+'.format(args.rareless_scans_threshold)
+            else:
+                scans = rareless_scans
+            blind = '{} ({})'.format(blind, scans)
+
+        rows.append(row_tmpl.format(
+            status,
+            account.get('username', ''),
+            warning,
+            blind,
+            pgacc.get_stats('level', '') if pgacc else '',
+            pgacc.get_stats('experience', '') if pgacc else '',
+            stats_str,
+            inv_str,
+            km_walked_str))
+
+    return total_pages
+
+
+# Helper function to calculate start and end line for paginated output
+def calc_pagination(total_rows, non_data_rows, current_page):
+    width, height = terminalsize.get_terminal_size()
+    # Title and table header is not usable space
+    usable_height = height - non_data_rows
+    # Prevent people running terminals only 6 lines high from getting a
+    # divide by zero.
+    if usable_height < 1:
+        usable_height = 1
+
+    total_pages = math.ceil(total_rows / float(usable_height))
+
+    # Prevent moving outside the valid range of pages.
+    if current_page[0] > total_pages:
+        current_page[0] = total_pages
+    if current_page[0] < 1:
+        current_page[0] = 1
+
+    # Calculate which lines to print (1-based).
+    start_line = usable_height * (current_page[0] - 1) + 1
+    end_line = start_line + usable_height - 1
+
+    return start_line, end_line, total_pages
 
 
 # The account recycler monitors failed accounts and places them back in the
@@ -397,7 +544,7 @@ def search_overseer_thread(args, new_location_queue, control_flags, heartb,
         t = Thread(
             target=status_printer,
             name='status_printer',
-            args=(threadStatus, account_failures, args.print_status,
+            args=(threadStatus, account_queue, account_captchas, account_failures, args.print_status,
                   args.hash_key, key_scheduler))
         t.daemon = True
         t.start()
@@ -791,7 +938,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
 
             # Get an account.
             stagger_thread(args)
-            account = account_queue.get()
+            account = get_account(args, account_queue, status)
             # Reset account statistics tracked per loop.
             prevStatus = WorkerStatus.get_worker(account['username'])
             if prevStatus:
@@ -806,6 +953,8 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                 })
             # New lease of life right here.
             status.update({
+                'account':
+                    account,
                 'fail':
                     0,
                 'success':
@@ -831,7 +980,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
             # for stat purposes.
             consecutive_noitems = 0
 
-            api = setup_api(args, status, account)
+            pgacc = setup_mrmime_account(args, status, account)
 
             # The forever loop for the searches.
             while True:
@@ -848,9 +997,8 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                             account['username'],
                             args.max_failures)
                     log.warning(status['message'])
-                    account_failures.append({'account': account,
-                                             'last_fail_time': now(),
-                                             'reason': 'failures'})
+                    account_failed(args, account_failures, account,
+                                   'failed more than {} times'.format(args.max_failures))
                     # Exit this loop to get a new account and have the API
                     # recreated.
                     break
@@ -865,9 +1013,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                         'accounts...').format(account['username'],
                                               args.max_empty)
                     log.warning(status['message'])
-                    account_failures.append({'account': account,
-                                             'last_fail_time': now(),
-                                             'reason': 'empty scans'})
+                    account_failed(args, account_failures, account, 'empty scans')
                     # Exit this loop to get a new account and have the API
                     # recreated.
                     break
@@ -882,7 +1028,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                             account['username'], status['proxy_url'])
                     log.warning(status['message'])
                     # Experimental, nobody did this before.
-                    account_queue.put(account)
+                    account_revive(args, account_queue, account)
                     # Exit this loop to get a new account and have the API
                     # recreated.
                     break
@@ -895,10 +1041,26 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                             'Account {} is being rotated out to rest.'.format(
                                 account['username']))
                         log.info(status['message'])
-                        account_failures.append({'account': account,
-                                                 'last_fail_time': now(),
-                                                 'reason': 'rest interval'})
+                        account_failed(args, account_failures, account, 'rest interval')
                         break
+
+                # Let account rest if it got blind (although resting won't heal it unfortunately.)
+                if pgacc.rareless_scans is not None:
+                    prev_sbanned = pgacc.shadowbanned if pgacc.shadowbanned is not None else False
+                    pgacc.shadowbanned = pgacc.rareless_scans >= args.rareless_scans_threshold
+                    if not prev_sbanned and pgacc.shadowbanned:
+                        if args.rotate_blind:
+                            status['message'] = (
+                                'Account {} has become blind ({} rareless scans). Rotating out.'.format(
+                                    account['username'], pgacc.rareless_scans))
+                            log.info(status['message'])
+                            account_failed(args, account_failures, account, 'shadowbanned')
+                            break
+                        else:
+                            log.info("Account {} has become blind ({} rareless scans).".format(account['username'],
+                                                                                               pgacc.rareless_scans))
+                    elif prev_sbanned and not pgacc.shadowbanned:
+                        log.info("Account {} can see rares again! Hooray!.".format(account['username']))
 
                 # Grab the next thing to search (when available).
                 step, step_location, appears, leaves, messages, wait = (
@@ -947,16 +1109,17 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                 # Let the api know where we intend to be for this loop.
                 # Doing this before check_login so it does not also have
                 # to be done when the auth token is refreshed.
-                api.set_position(*step_location)
+                pgacc.set_position(step_location[0], step_location[1],
+                                   step_location[2])
 
                 if args.hash_key:
                     key = key_scheduler.next()
                     log.debug('Using key {} for this scan.'.format(key))
-                    api.activate_hash_server(key)
+                    pgacc.hash_key = key
 
                 # Ok, let's get started -- check our login status.
                 status['message'] = 'Logging in...'
-                check_login(args, account, api, status['proxy_url'])
+                pgacc.check_login()
 
                 # Only run this when it's the account's first login, after
                 # check_login().
@@ -970,8 +1133,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
 
                 # Make the actual request.
                 scan_date = datetime.utcnow()
-                response_dict = gmo(
-                    api, account, step_location, args.no_jitter)
+                response_dict = pgacc.req_get_map_objects()
                 status['last_scan_date'] = datetime.utcnow()
 
                 # Record the time and the place that the worker made the
@@ -992,23 +1154,22 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                 # Got the response, check for captcha, parse it out, then send
                 # todo's to db/wh queues.
                 try:
-                    captcha = handle_captcha(args, status, api, account,
+                    captcha = handle_captcha(args, status, pgacc, account,
                                              account_failures,
                                              account_captchas, whq,
-                                             response_dict, step_location)
+                                             step_location)
                     if captcha is not None and captcha:
                         # Make another request for the same location
                         # since the previous one was captcha'd.
                         scan_date = datetime.utcnow()
-                        response_dict = gmo(
-                            api, account, step_location, args.no_jitter)
+                        response_dict = pgacc.req_get_map_objects()
                     elif captcha is not None:
                         account_queue.task_done()
                         time.sleep(3)
                         break
 
                     parsed = parse_map(args, response_dict, step_location,
-                                       dbq, whq, key_scheduler, api, status,
+                                       dbq, whq, key_scheduler, pgacc, status,
                                        scan_date, account, account_sets)
 
                     scheduler.task_done(status, parsed)
@@ -1114,21 +1275,18 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                                          gym['latitude'], gym['longitude']
                                      ]))
 
-                            response = gym_get_info(api, account,
-                                                    step_location, gym)
+                            response = gym_request(pgacc, step_location, gym)
 
                             # Make sure the gym was in range. (Sometimes the
                             # API gets cranky about gyms that are ALMOST 1km
                             # away.)
-                            if response['responses'][
-                                    'GYM_GET_INFO'].result == 2:
+                            if response['GYM_GET_INFO'].result == 2:
                                 log.warning(
                                     'Gym @ %f/%f is out of range (%.0fm), ' +
                                     'skipping.', gym['latitude'],
                                     gym['longitude'], distance)
                             else:
-                                gym_responses[gym['gym_id']] = response[
-                                    'responses']['GYM_GET_INFO']
+                                gym_responses[gym['gym_id']] = response['GYM_GET_INFO']
                             del response
                             # Increment which gym we're on for status messages.
                             current_gym += 1
@@ -1198,10 +1356,42 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                 'Exception in search_worker using account {}. Restarting ' +
                 'with fresh account. See logs for details.').format(
                     account['username'])
-            account_failures.append({'account': account,
-                                     'last_fail_time': now(),
-                                     'reason': 'exception'})
+            account_failed(args, account_failures, account, repr(e))
             time.sleep(args.scan_delay)
+
+
+def gym_request(pgacc, position, gym):
+    try:
+        log.info('Getting details for gym @ %f/%f (%fkm away)',
+                 gym['latitude'], gym['longitude'],
+                 calc_distance(position, [gym['latitude'], gym['longitude']]))
+        response = pgacc.req_gym_get_info(gym['gym_id'],
+                                          gym['latitude'],
+                                          gym['longitude'],
+                                          position[0],
+                                          position[1])
+        response = clear_dict_response(response)
+        return response
+
+    except Exception as e:
+        log.exception('Exception while downloading gym details: %s.', repr(e))
+        return False
+
+
+def calc_distance(pos1, pos2):
+    R = 6378.1  # KM radius of the earth.
+
+    dLat = math.radians(pos1[0] - pos2[0])
+    dLon = math.radians(pos1[1] - pos2[1])
+
+    a = math.sin(dLat / 2) * math.sin(dLat / 2) + \
+        math.cos(math.radians(pos1[0])) * math.cos(math.radians(pos2[0])) * \
+        math.sin(dLon / 2) * math.sin(dLon / 2)
+
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    d = R * c
+
+    return d
 
 
 def upsertKeys(keys, key_scheduler, db_updates_queue):

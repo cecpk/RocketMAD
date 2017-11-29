@@ -23,6 +23,8 @@ from requests.adapters import HTTPAdapter
 from cHaversine import haversine
 from pprint import pformat
 
+from pogom.pgpool import pgpool_request_accounts
+
 log = logging.getLogger(__name__)
 
 
@@ -91,6 +93,10 @@ def get_args():
     parser.add_argument('-w', '--workers', type=int,
                         help=('Number of search worker threads to start. ' +
                               'Defaults to the number of accounts specified.'))
+    parser.add_argument('-hw', '--highlvl-workers', type=int,
+                        default=0,
+                        help=('Load this many high level workers from PGPool. ' +
+                              'This requires --pgpool-url to be set.'))
     parser.add_argument('-asi', '--account-search-interval', type=int,
                         default=0,
                         help=('Seconds for accounts to search before ' +
@@ -499,6 +505,19 @@ def get_args():
                          help=('Show debug messages from RocketMap ' +
                                'and pgoapi.'),
                          type=int, dest='verbose')
+    parser.add_argument('-rst', '--rareless-scans-threshold',
+                        help=('Mark an account as blind/shadowbanned after '
+                              'this many scans without finding any rare '
+                              'Pokemon.'),
+                        type=int, default=10)
+    parser.add_argument('-rb', '--rotate-blind',
+                        help='Rotate out blinded accounts.',
+                        action='store_true', default=False)
+    parser.add_argument('-pgpu', '--pgpool-url', default=None,
+                        help='URL of PGPool account manager.')
+    parser.add_argument('-gxp', '--gain-xp',
+                        help='Do various things to let map accounts gain XP.',
+                        action='store_true', default=False)
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
@@ -514,7 +533,7 @@ def get_args():
         # password and auth_service arguments.
         # CSV file should have lines like "ptc,username,password",
         # "username,password" or "username".
-        if args.accountcsv is not None:
+        if args.accountcsv is not None and args.pgpool_url is None:
             # Giving num_fields something it would usually not get.
             num_fields = -1
             with open(args.accountcsv, 'r') as f:
@@ -627,108 +646,121 @@ def get_args():
 
         errors = []
 
-        num_auths = len(args.auth_service)
-        num_usernames = 0
-        num_passwords = 0
+        if args.pgpool_url is None:
+            num_auths = len(args.auth_service)
+            num_usernames = 0
+            num_passwords = 0
 
-        if len(args.username) == 0:
+            if len(args.username) == 0:
+                errors.append(
+                    'Missing `username` either as -u/--username, csv file ' +
+                    'using -ac, or in config.')
+            else:
+                num_usernames = len(args.username)
+
+            if len(args.password) == 0:
+                errors.append(
+                    'Missing `password` either as -p/--password, csv file, ' +
+                    'or in config.')
+            else:
+                num_passwords = len(args.password)
+
+            if num_auths == 0:
+                args.auth_service = ['ptc']
+
+            num_auths = len(args.auth_service)
+
+            if num_usernames > 1:
+                if num_passwords > 1 and num_usernames != num_passwords:
+                    errors.append((
+                        'The number of provided passwords ({}) must match the ' +
+                        'username count ({})').format(num_passwords,
+                                                      num_usernames))
+                if num_auths > 1 and num_usernames != num_auths:
+                    errors.append((
+                        'The number of provided auth ({}) must match the ' +
+                        'username count ({}).').format(num_auths, num_usernames))
+        elif args.workers is None:
             errors.append(
-                'Missing `username` either as -u/--username, csv file ' +
-                'using -ac, or in config.')
-        else:
-            num_usernames = len(args.username)
+                'Missing `workers` either as -w/--workers or in config. Required when using PGPool.')
 
         if args.location is None:
             errors.append(
                 'Missing `location` either as -l/--location or in config.')
-
-        if len(args.password) == 0:
-            errors.append(
-                'Missing `password` either as -p/--password, csv file, ' +
-                'or in config.')
-        else:
-            num_passwords = len(args.password)
 
         if args.step_limit is None:
             errors.append(
                 'Missing `step_limit` either as -st/--step-limit or ' +
                 'in config.')
 
-        if num_auths == 0:
-            args.auth_service = ['ptc']
-
-        num_auths = len(args.auth_service)
-
-        if num_usernames > 1:
-            if num_passwords > 1 and num_usernames != num_passwords:
-                errors.append((
-                    'The number of provided passwords ({}) must match the ' +
-                    'username count ({})').format(num_passwords,
-                                                  num_usernames))
-            if num_auths > 1 and num_usernames != num_auths:
-                errors.append((
-                    'The number of provided auth ({}) must match the ' +
-                    'username count ({}).').format(num_auths, num_usernames))
-
         if len(errors) > 0:
             parser.print_usage()
             print(sys.argv[0] + ": errors: \n - " + "\n - ".join(errors))
             sys.exit(1)
 
-        # Fill the pass/auth if set to a single value.
-        if num_passwords == 1:
-            args.password = [args.password[0]] * num_usernames
-        if num_auths == 1:
-            args.auth_service = [args.auth_service[0]] * num_usernames
-
         # Make the accounts list.
         args.accounts = []
-        for i, username in enumerate(args.username):
-            args.accounts.append({'username': username,
-                                  'password': args.password[i],
-                                  'auth_service': args.auth_service[i]})
-
-        # Prepare the L30 accounts for the account sets.
         args.accounts_L30 = []
+        if args.pgpool_url:
+            # Request initial number of workers from PGPool
+            args.pgpool_initial_accounts = pgpool_request_accounts(args, initial=True)
+            # Request L30 accounts from PGPool
+            if args.highlvl_workers > 0:
+                args.accounts_L30 = pgpool_request_accounts(args, highlvl=True, initial=True)
+        else:
+            # Fill the pass/auth if set to a single value.
+            if num_passwords == 1:
+                args.password = [args.password[0]] * num_usernames
+            if num_auths == 1:
+                args.auth_service = [args.auth_service[0]] * num_usernames
 
-        if args.high_lvl_accounts:
-            # Context processor.
-            with open(args.high_lvl_accounts, 'r') as accs:
-                for line in accs:
-                    # Make sure it's not an empty line.
-                    if not line.strip():
-                        continue
+            # Fill the accounts list.
+            args.accounts = []
+            for i, username in enumerate(args.username):
+                args.accounts.append({'username': username,
+                                      'password': args.password[i],
+                                      'auth_service': args.auth_service[i]})
 
-                    line = line.split(',')
+            # Prepare the L30 accounts for the account sets.
+            if args.high_lvl_accounts:
+                # Context processor.
+                with open(args.high_lvl_accounts, 'r') as accs:
+                    for line in accs:
+                        # Make sure it's not an empty line.
+                        if not line.strip():
+                            continue
 
-                    # We need "service, user, pass".
-                    if len(line) < 3:
-                        raise Exception('L30 account is missing a'
-                                        + ' field. Each line requires: '
-                                        + '"service,user,pass".')
+                        line = line.split(',')
 
-                    # Let's remove trailing whitespace.
-                    service = line[0].strip()
-                    username = line[1].strip()
-                    password = line[2].strip()
+                        # We need "service, user, pass".
+                        if len(line) < 3:
+                            raise Exception('L30 account is missing a'
+                                            + ' field. Each line requires: '
+                                            + '"service,user,pass".')
 
-                    hlvl_account = {
-                        'auth_service': service,
-                        'username': username,
-                        'password': password,
-                        'captcha': False
-                    }
+                        # Let's remove trailing whitespace.
+                        service = line[0].strip()
+                        username = line[1].strip()
+                        password = line[2].strip()
 
-                    args.accounts_L30.append(hlvl_account)
+                        hlvl_account = {
+                            'auth_service': service,
+                            'username': username,
+                            'password': password,
+                            'captcha': False
+                        }
+
+                        args.accounts_L30.append(hlvl_account)
 
         # Prepare the IV/CP scanning filters.
         args.enc_whitelist = []
 
         # Make max workers equal number of accounts if unspecified, and disable
         # account switching.
-        if args.workers is None:
-            args.workers = len(args.accounts)
-            args.account_search_interval = None
+        if args.pgpool_url is None:
+            if args.workers is None:
+                args.workers = len(args.accounts)
+                args.account_search_interval = None
 
         # Disable search interval if 0 specified.
         if args.account_search_interval == 0:
@@ -736,11 +768,13 @@ def get_args():
 
         # Make sure we don't have an empty account list after adding command
         # line and CSV accounts.
-        if len(args.accounts) == 0:
-            print(sys.argv[0] +
-                  ": Error: no accounts specified. Use -a, -u, and -p or " +
-                  "--accountcsv to add accounts.")
-            sys.exit(1)
+        if args.pgpool_url is None:
+            if len(args.accounts) == 0:
+                print(sys.argv[0] +
+                      ": Error: no accounts specified. Use -a, -u, and -p or " +
+                      "--accountcsv to add accounts. Or use -pgpu/--pgpool-url to " +
+                      "specify the URL of PGPool.")
+                sys.exit(1)
 
         # create an empty set
         args.ignorelist = []
@@ -924,72 +958,15 @@ def dottedQuadToNum(ip):
     return struct.unpack("!L", socket.inet_aton(ip))[0]
 
 
-# Generate random device info.
-# Original by Noctem.
-IPHONES = {'iPhone5,1': 'N41AP',
-           'iPhone5,2': 'N42AP',
-           'iPhone5,3': 'N48AP',
-           'iPhone5,4': 'N49AP',
-           'iPhone6,1': 'N51AP',
-           'iPhone6,2': 'N53AP',
-           'iPhone7,1': 'N56AP',
-           'iPhone7,2': 'N61AP',
-           'iPhone8,1': 'N71AP',
-           'iPhone8,2': 'N66AP',
-           'iPhone8,4': 'N69AP',
-           'iPhone9,1': 'D10AP',
-           'iPhone9,2': 'D11AP',
-           'iPhone9,3': 'D101AP',
-           'iPhone9,4': 'D111AP',
-           'iPhone10,1': 'D20AP',
-           'iPhone10,2': 'D21AP',
-           'iPhone10,3': 'D22AP',
-           'iPhone10,4': 'D201AP',
-           'iPhone10,5': 'D211AP',
-           'iPhone10,6': 'D221AP'}
-
-
-def generate_device_info(identifier):
-    md5 = hashlib.md5()
-    md5.update(identifier)
-    pick_hash = int(md5.hexdigest(), 16)
-
-    device_info = {'device_brand': 'Apple', 'device_model': 'iPhone',
-                   'hardware_manufacturer': 'Apple',
-                   'firmware_brand': 'iPhone OS'}
-    devices = tuple(IPHONES.keys())
-
-    ios9 = ('9.0', '9.0.1', '9.0.2', '9.1', '9.2', '9.2.1', '9.3', '9.3.1',
-            '9.3.2', '9.3.3', '9.3.4', '9.3.5')
-    # 10.0 was only for iPhone 7 and 7 Plus, and is rare.
-    ios10 = ('10.0.1', '10.0.2', '10.0.3', '10.1', '10.1.1', '10.2', '10.2.1',
-             '10.3', '10.3.1', '10.3.2', '10.3.3')
-    ios11 = ('11.0.1', '11.0.2', '11.0.3', '11.1', '11.1.1', '11.1.2')
-
-    device_pick = devices[pick_hash % len(devices)]
-    device_info['device_model_boot'] = device_pick
-    device_info['hardware_model'] = IPHONES[device_pick]
-    device_info['device_id'] = md5.hexdigest()
-
-    if device_pick in ('iPhone10,1', 'iPhone10,2', 'iPhone10,3',
-                       'iPhone10,4', 'iPhone10,5', 'iPhone10,6'):
-        # iPhone 8/8+ and X started on 11.
-        ios_pool = ios11
-    elif device_pick in ('iPhone9,1', 'iPhone9,2', 'iPhone9,3', 'iPhone9,4'):
-        # iPhone 7/7+ started on 10.
-        ios_pool = ios10 + ios11
-    elif device_pick == 'iPhone8,4':
-        # iPhone SE started on 9.3.
-        ios_pool = ('9.3', '9.3.1', '9.3.2', '9.3.3', '9.3.4', '9.3.5') \
-                   + ios10 + ios11
-    elif device_pick in ('iPhone5,1', 'iPhone5,2', 'iPhone5,3', 'iPhone5,4'):
-        # iPhone 5/5c doesn't support iOS 11.
-        ios_pool = ios9 + ios10
-    else:
-        ios_pool = ios9 + ios10 + ios11
-
-    device_info['firmware_type'] = ios_pool[pick_hash % len(ios_pool)]
-    return device_info
+def clear_dict_response(response):
+    responses = [
+        'GET_HATCHED_EGGS', 'GET_INVENTORY', 'CHECK_AWARDED_BADGES',
+        'DOWNLOAD_SETTINGS', 'GET_BUDDY_WALKED', 'GET_INBOX'
+    ]
+    for item in responses:
+        if item in response:
+            del response[item]
+    return response
 
 
 def calc_pokemon_level(cp_multiplier):

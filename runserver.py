@@ -13,6 +13,8 @@ import requests
 from distutils.version import StrictVersion
 
 from threading import Thread, Event
+
+from mrmime import init_mr_mime
 from queue import Queue
 from flask_cors import CORS
 from flask_cache_bust import init_cache_busting
@@ -206,18 +208,30 @@ def main():
     args.root_path = os.path.dirname(os.path.abspath(__file__))
     init_args(args)
 
+    # Abort if status name is not valid.
+    regexp = re.compile('^([\w\s\-.]+)$')
+    if not regexp.match(args.status_name):
+        log.critical('Status name contains illegal characters.')
+        sys.exit(1)
+
     set_log_and_verbosity(log)
+
+    # Initialize Mr. Mime library
+    mrmime_cfg = {
+        # We don't want exceptions on captchas because we handle them differently.
+        'exception_on_captcha': False,
+        'pgpool_system_id': args.status_name
+    }
+    # Don't clear PGPool URL if it's not given in config but set in MrMime config JSON
+    if args.pgpool_url:
+        mrmime_cfg['pgpool_url'] = args.pgpool_url
+    mrmime_config_file = os.path.join(os.path.dirname(__file__), 'config/mrmime_config.json')
+    init_mr_mime(config_file=mrmime_config_file, user_cfg=mrmime_cfg)
 
     # Abort if only-server and no-server are used together
     if args.only_server and args.no_server:
         log.critical(
             "You can't use no-server and only-server at the same time, silly.")
-        sys.exit(1)
-
-    # Abort if status name is not valid.
-    regexp = re.compile('^([\w\s\-.]+)$')
-    if not regexp.match(args.status_name):
-        log.critical('Status name contains illegal characters.')
         sys.exit(1)
 
     # Stop if we're just looking for a debug dump.
