@@ -43,7 +43,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 20
+db_schema_version = 21
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -450,6 +450,7 @@ class Gym(LatLongModel):
     latitude = DoubleField()
     longitude = DoubleField()
     total_cp = SmallIntegerField()
+    is_in_battle = BooleanField()
     last_modified = DateTimeField(index=True)
     last_scanned = DateTimeField(default=datetime.utcnow, index=True)
 
@@ -577,7 +578,8 @@ class Gym(LatLongModel):
                               Gym.longitude,
                               Gym.last_modified,
                               Gym.last_scanned,
-                              Gym.total_cp)
+                              Gym.total_cp,
+                              Gym.is_in_battle)
                       .join(GymDetails, JOIN.LEFT_OUTER,
                             on=(Gym.gym_id == GymDetails.gym_id))
                       .where(Gym.gym_id == id)
@@ -2221,6 +2223,8 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                         f.latitude,
                     'longitude':
                         f.longitude,
+                    'is_in_battle':
+                        f.is_in_battle,
                     'last_modified':
                         datetime.utcfromtimestamp(
                             f.last_modified_timestamp_ms / 1000.0),
@@ -3081,6 +3085,11 @@ def database_migrate(db, old_ver):
                                     null=False, default=datetime.utcnow())),
             migrator.add_column('gym', 'total_cp',
                                 SmallIntegerField(null=False, default=0)))
+
+    if old_ver < 21:
+        migrate(
+            migrator.add_column('gym', 'is_in_battle',
+                                BooleanField(null=False, default=False)))
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')

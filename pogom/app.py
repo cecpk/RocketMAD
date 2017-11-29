@@ -4,12 +4,14 @@
 import calendar
 import logging
 
-from flask import Flask, abort, jsonify, render_template, request,\
-    make_response, send_from_directory
+from flask import Flask, abort, jsonify, render_template, request, \
+    make_response, send_from_directory, send_file
 from flask.json import JSONEncoder
 from flask_compress import Compress
 from datetime import datetime
 from s2sphere import LatLng
+
+from pogom.dyn_img import get_gym_icon
 from pogom.utils import get_args
 from bisect import bisect_left
 
@@ -66,6 +68,15 @@ class Pogom(Flask):
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
+        self.route("/gym_img", methods=['GET'])(self.gym_img)
+
+    def gym_img(self):
+        team = request.args.get('team')
+        level = request.args.get('level')
+        raidlevel = request.args.get('raidlevel')
+        pkm = request.args.get('pkm')
+        is_in_battle = 'in_battle' in request.args
+        return send_file(get_gym_icon(team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
 
     def render_robots_txt(self):
         return render_template('robots.txt')

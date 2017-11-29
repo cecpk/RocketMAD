@@ -517,6 +517,8 @@ def get_args():
                         help='URL of PGPool account manager.')
     parser.add_argument('-gxp', '--gain-xp',
                         help='Do various things to let map accounts gain XP.',
+    parser.add_argument('-gen', '--generate-images',
+                        help='Use ImageMagick to generate gym images on demand.',
                         action='store_true', default=False)
     parser.set_defaults(DEBUG=False)
 
