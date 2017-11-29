@@ -70,6 +70,7 @@ class Pogom(Flask):
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/scout", methods=['GET'])(self.scout_pokemon)
+        self.route("/<statusname>", methods=['GET'])(self.fullmap)
 
     def gym_img(self):
         team = request.args.get('team')
@@ -235,7 +236,7 @@ class Pogom(Flask):
             return jsonify({'message': 'invalid use of api'})
         return self.get_search_control()
 
-    def fullmap(self):
+    def fullmap(self, statusname=None):
         self.heartbeat[0] = now()
         args = get_args()
         if args.on_demand_timeout > 0:
@@ -261,8 +262,16 @@ class Pogom(Flask):
             'custom_js': args.custom_js
         }
 
-        map_lat = self.current_location[0]
-        map_lng = self.current_location[1]
+        map_lat = False
+        if statusname:
+            coords = WorkerStatus.get_center_of_worker(statusname)
+            if coords:
+                map_lat = coords['lat']
+                map_lng = coords['lng']
+
+        if not map_lat:
+            map_lat = self.current_location[0]
+            map_lng = self.current_location[1]
 
         return render_template('map.html',
                                lat=map_lat,
