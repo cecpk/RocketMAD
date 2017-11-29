@@ -13,7 +13,7 @@
                     [-mct MANUAL_CAPTCHA_TIMEOUT] [-ed ENCOUNTER_DELAY]
                     [-ignf IGNORELIST_FILE] [-encwf ENC_WHITELIST_FILE]
                     [-nostore]
-                    [-wwht WEBHOOK_WHITELIST | -wblk WEBHOOK_BLACKLIST | -wwhtf WEBHOOK_WHITELIST_FILE | -wblkf WEBHOOK_BLACKLIST_FILE]
+                    [-wwhtf WEBHOOK_WHITELIST_FILE]
                     [-ld LOGIN_DELAY] [-lr LOGIN_RETRIES] [-mf MAX_FAILURES]
                     [-me MAX_EMPTY] [-bsr BAD_SCAN_RETRY]
                     [-msl MIN_SECONDS_LEFT] [-dc] [-H HOST] [-P PORT]
@@ -171,18 +171,9 @@
                             accounts in memory. This will increase the number of
                             logins per account, but decreases memory usage. [env
                             var: POGOMAP_NO_API_STORE]
-      -wwht WEBHOOK_WHITELIST, --webhook-whitelist WEBHOOK_WHITELIST
-                            List of Pokemon to send to webhooks. Specified as
-                            Pokemon ID. [env var: POGOMAP_WEBHOOK_WHITELIST]
-      -wblk WEBHOOK_BLACKLIST, --webhook-blacklist WEBHOOK_BLACKLIST
-                            List of Pokemon NOT to send to webhooks. Specified as
-                            Pokemon ID. [env var: POGOMAP_WEBHOOK_BLACKLIST]
       -wwhtf WEBHOOK_WHITELIST_FILE, --webhook-whitelist-file WEBHOOK_WHITELIST_FILE
-                            File containing a list of Pokemon IDs to be sent to
-                            webhooks. [env var: POGOMAP_WEBHOOK_WHITELIST_FILE]
-      -wblkf WEBHOOK_BLACKLIST_FILE, --webhook-blacklist-file WEBHOOK_BLACKLIST_FILE
-                            File containing a list of Pokemon IDs NOT to be sent
-                            towebhooks. [env var: POGOMAP_WEBHOOK_BLACKLIST_FILE]
+                            File containing a list of Pokemon IDs or names to be sent
+                            to webhooks. [env var: POGOMAP_WEBHOOK_WHITELIST_FILE]
       -ld LOGIN_DELAY, --login-delay LOGIN_DELAY
                             Time delay between each login attempt. [env var:
                             POGOMAP_LOGIN_DELAY]

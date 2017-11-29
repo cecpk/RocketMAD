@@ -18,7 +18,7 @@ from flask_cors import CORS
 from flask_cache_bust import init_cache_busting
 
 from pogom.app import Pogom
-from pogom.utils import (get_args, now, gmaps_reverse_geolocate,
+from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
                          log_resource_usage_loop, get_debug_dump_link)
 from pogom.altitude import get_gmaps_altitude
 
@@ -203,6 +203,8 @@ def main():
     sys.excepthook = handle_exception
 
     args = get_args()
+    args.root_path = os.path.dirname(os.path.abspath(__file__))
+    init_args(args)
 
     set_log_and_verbosity(log)
 
@@ -300,8 +302,6 @@ def main():
         log.info(
             'Drop and recreate is complete. Now remove -cd and restart.')
         sys.exit()
-
-    args.root_path = os.path.dirname(os.path.abspath(__file__))
 
     # Control the search status (running or not) across threads.
     control_flags = {
