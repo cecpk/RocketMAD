@@ -517,9 +517,12 @@ def get_args():
                         help='URL of PGPool account manager.')
     parser.add_argument('-gxp', '--gain-xp',
                         help='Do various things to let map accounts gain XP.',
+                        action='store_true', default=False)
     parser.add_argument('-gen', '--generate-images',
                         help='Use ImageMagick to generate gym images on demand.',
                         action='store_true', default=False)
+    parser.add_argument('-pgsu', '--pgscout-url', default=None,
+                        help='URL to query PGScout for Pokemon IV/CP.')
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
@@ -753,6 +756,15 @@ def get_args():
                         }
 
                         args.accounts_L30.append(hlvl_account)
+
+        # Normalize PGScout URL
+        if args.pgscout_url:
+            # Remove trailing slashes
+            if args.pgscout_url.endswith('/'):
+                args.pgscout_url = args.pgscout_url[:len(args.pgscout_url) - 1]
+            # Add /iv if needed
+            if not args.pgscout_url.endswith('/iv'):
+                args.pgscout_url = '{}/iv'.format(args.pgscout_url)
 
         # Prepare the IV/CP scanning filters.
         args.enc_whitelist = []

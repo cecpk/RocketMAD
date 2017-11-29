@@ -10,9 +10,9 @@ from flask.json import JSONEncoder
 from flask_compress import Compress
 from datetime import datetime
 from s2sphere import LatLng
-
 from pogom.dyn_img import get_gym_icon
-from pogom.utils import get_args
+from pogom.pgscout import scout_error, pgscout_encounter
+from pogom.utils import get_args, get_pokemon_name
 from bisect import bisect_left
 
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
@@ -69,6 +69,7 @@ class Pogom(Flask):
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
+        self.route("/scout", methods=['GET'])(self.scout_pokemon)
 
     def gym_img(self):
         team = request.args.get('team')
@@ -77,6 +78,63 @@ class Pogom(Flask):
         pkm = request.args.get('pkm')
         is_in_battle = 'in_battle' in request.args
         return send_file(get_gym_icon(team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
+
+    def scout_pokemon(self):
+        args = get_args()
+        if args.pgscout_url:
+            encounterId = request.args.get('encounter_id')
+            p = Pokemon.get(Pokemon.encounter_id == encounterId)
+            pokemon_name = get_pokemon_name(p.pokemon_id)
+            log.info(
+                u"On demand PGScouting a {} at {}, {}.".format(pokemon_name,
+                                                              p.latitude,
+                                                              p.longitude))
+            scout_result = pgscout_encounter(p)
+            if scout_result['success']:
+                self.update_scouted_pokemon(p, scout_result)
+                log.info(
+                    u"Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
+                    u" (scout level {}).".format(
+                        scout_result['iv_percent'], scout_result['level'],
+                        pokemon_name, scout_result['cp'],
+                        scout_result['scout_level']))
+            else:
+                log.warning(u"Failed PGScouting {}: {}".format(pokemon_name,
+                                                               scout_result[
+                                                                   'error']))
+        else:
+            scout_result = scout_error("PGScout URL not configured.")
+        return jsonify(scout_result)
+
+    def update_scouted_pokemon(self, p, response):
+        # Update database
+        update_data = {
+            p.encounter_id: {
+                'encounter_id': p.encounter_id,
+                'spawnpoint_id': p.spawnpoint_id,
+                'pokemon_id': p.pokemon_id,
+                'latitude': p.latitude,
+                'longitude': p.longitude,
+                'disappear_time': p.disappear_time,
+                'individual_attack': response['iv_attack'],
+                'individual_defense': response['iv_defense'],
+                'individual_stamina': response['iv_stamina'],
+                'move_1': response['move_1'],
+                'move_2': response['move_2'],
+                'height': response['height'],
+                'weight': response['weight'],
+                'gender': response['gender'],
+                'form': response.get('form', None),
+                'cp': response['cp'],
+                'cp_multiplier': response['cp_multiplier'],
+                'catch_prob_1': response['catch_prob_1'],
+                'catch_prob_2': response['catch_prob_2'],
+                'catch_prob_3': response['catch_prob_3'],
+                'rating_attack': response['rating_attack'],
+                'rating_defense': response['rating_defense']
+            }
+        }
+        self.db_updates_queue.put((Pokemon, update_data))
 
     def render_robots_txt(self):
         return render_template('robots.txt')
@@ -142,6 +200,9 @@ class Pogom(Flask):
         end = dottedQuadToNum(ip_range[1])
 
         return start <= dottedQuadToNum(ip) <= end
+
+    def set_db_updates_queue(self, db_updates_queue):
+        self.db_updates_queue = db_updates_queue
 
     def set_control_flags(self, control):
         self.control_flags = control

@@ -1165,3 +1165,40 @@ function isMobileDevice() {
     //  Basic mobile OS (not browser) detection
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 }
+
+function cssPercentageCircle(text, value, perfect_val, good_val, ok_val, meh_val) {
+    // Ring color
+    var ring_color
+    if (value == perfect_val) {
+        ring_color = 'lime'
+    } else if (value >= good_val) {
+        ring_color = 'green'
+    } else if (value >= ok_val) {
+        ring_color = 'olive'
+    } else if (value >= meh_val) {
+        ring_color = 'orange'
+    } else {
+        ring_color = 'red'
+    }
+
+    // CSS styles
+    var percentage = value * 100 / perfect_val
+    var deg = 360 * percentage / 100
+    var circle_styles
+    if (deg <= 180) {
+        circle_styles = `background-color: ${ring_color};
+            background-image: linear-gradient(${90+deg}deg, transparent 50%, Gainsboro 50%),
+                              linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
+    } else {
+        circle_styles = `background-color: ${ring_color};
+            background-image: linear-gradient(${deg-90}deg, transparent 50%, ${ring_color} 50%),
+                              linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
+    }
+
+    // HTML output
+    return `<div class="active-border" style='${circle_styles}'>
+                <div class="circle">
+                    <span class="prec" id="prec">${text}</span>
+                </div>
+            </div>`
+}
