@@ -493,6 +493,9 @@ def get_args():
                          help=('Show debug messages from RocketMap ' +
                                'and pgoapi.'),
                          type=int, dest='verbose')
+    parser.add_argument('-gen', '--generate-images',
+                        help='Use ImageMagick to generate gym images on demand.',
+                        action='store_true', default=False)
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
