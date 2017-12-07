@@ -16,7 +16,8 @@ def pgpool_request_accounts(args, count=None, highlvl=False, initial=False):
     }
 
     r = requests.get("{}/account/request".format(args.pgpool_url), params=request)
-    return r.json()
+    result = r.json()
+    return result if isinstance(result, list) else [result]
 
 
 def pgpool_release_account(account, reason):
