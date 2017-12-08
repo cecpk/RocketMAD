@@ -2074,6 +2074,14 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                 filtered += 1
                 continue
 
+            # Catch pokemon to check for Ditto if --gain-xp enabled
+            # Original code by voxx!
+            have_balls = pgacc.inventory_balls > 0
+            if args.gain_xp and not pgacc.get_stats(
+                'level') >= 30 and pokemon_id in DITTO_CANDIDATES_IDS and have_balls:
+                if is_ditto(args, pgacc, p):
+                    pokemon_id = 132
+
             printPokemon(pokemon_id, p.latitude, p.longitude,
                          disappear_time)
 
@@ -2113,17 +2121,8 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                 'rating_defense': None
             }
 
-            # Catch pokemon to check for Ditto if --gain-xp enabled
-            # Original code by voxx!
-            have_balls = pgacc.inventory_balls > 0
-            if args.gain_xp and not pgacc.get_stats(
-                'level') >= 30 and pokemon_id in DITTO_CANDIDATES_IDS and have_balls:
-                if is_ditto(args, pgacc, p):
-                    pokemon[p.encounter_id]['pokemon_id'] = 132
-                    pokemon_id = 132
-                    pokemon_info = None
             # Check for Unown's alphabetic character.
-            elif pokemon_id == 201:
+            if pokemon_id == 201:
                 pokemon[p.encounter_id]['form'] = (p.pokemon_data
                                                     .pokemon_display.form)
 
