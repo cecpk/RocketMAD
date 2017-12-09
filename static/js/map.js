@@ -612,7 +612,7 @@ function pokemonLabel(item) {
         }
 
         var iv_circle = cssPercentageCircle(`${iv.toFixed(0)}<br>%`, iv, 100, 82, 66, 51)
-        var level_circle = cssPercentageCircle(`Lvl<br>${pokemonLevel}`, pokemonLevel, 30, 25, 20, 10)
+        var level_circle = cssPercentageCircle(`Lvl<br>${pokemonLevel}`, pokemonLevel, 35, 30, 20, 10)
 
         contentstring += `
           <div class='pokemon container'>
