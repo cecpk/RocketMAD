@@ -214,8 +214,6 @@ def main():
     sys.excepthook = handle_exception
 
     args = get_args()
-    args.root_path = os.path.dirname(os.path.abspath(__file__))
-    init_args(args)
 
     # Abort if status name is not valid.
     regexp = re.compile('^([\w\s\-.]+)$')
@@ -224,6 +222,9 @@ def main():
         sys.exit(1)
 
     set_log_and_verbosity(log)
+
+    args.root_path = os.path.dirname(os.path.abspath(__file__))
+    init_args(args)
 
     # Initialize Mr. Mime library
     mrmime_cfg = {
