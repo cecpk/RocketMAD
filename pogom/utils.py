@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import sys
+from threading import Thread
+
 import configargparse
 import os
 import json
@@ -829,16 +831,46 @@ def init_args(args):
     :param args: The parsed commandline arguments
     """
 
+    watchercfg = {}
     # IV/CP scanning.
     if args.enc_whitelist_file:
-        with open(args.enc_whitelist_file) as f:
-            args.enc_whitelist = read_pokemon_ids_from_file(f)
+        watchercfg[args.enc_whitelist_file] = 'enc_whitelist'
 
     # Prepare webhook whitelist - empty list means no restrictions
     args.webhook_whitelist = []
     if args.webhook_whitelist_file:
-        with open(args.webhook_whitelist_file) as f:
-            args.webhook_whitelist = read_pokemon_ids_from_file(f)
+        watchercfg[args.webhook_whitelist_file] = 'webhook_whitelist'
+
+    t = Thread(target=watch_pokemon_lists, args=(args, watchercfg))
+    t.daemon = True
+    t.start()
+
+
+def watch_pokemon_lists(args, cfg):
+    while True:
+        for filename in cfg.iterkeys():
+            args_key = cfg[filename]
+            if file_modified(filename, args_key):
+                with open(filename) as f:
+                    setattr(args, args_key, read_pokemon_ids_from_file(f))
+                    log.info("File {} changed on disk. Re-read as {}.".format(filename, args_key))
+        time.sleep(5)
+
+
+def file_modified(filename, args_key):
+    statbuf = os.stat(filename)
+    current_mtime = statbuf.st_mtime
+
+    if not hasattr(file_modified, 'mtime'):
+        file_modified.mtime = {}
+
+    last_mtime = file_modified.mtime.get(args_key)
+
+    if current_mtime == last_mtime:
+        return False
+
+    file_modified.mtime[args_key] = current_mtime
+    return True
 
 
 def now():
