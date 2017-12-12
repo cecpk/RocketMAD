@@ -672,6 +672,9 @@ function pokemonLabel(item) {
             <div class='pokemon links'>
               <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
             </div>
+            <div class='pokemon links'>
+              <i class='fa fa-2x fa-binoculars'></i>&nbsp; <a href='javascript:scout("${encounterId}")'>Re-Scout</a>
+          </div>
           </div>
       </div>
       <div class='pokemon container content-right'>
