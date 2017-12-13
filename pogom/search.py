@@ -1362,9 +1362,6 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
 
 def gym_request(pgacc, position, gym):
     try:
-        log.info('Getting details for gym @ %f/%f (%fkm away)',
-                 gym['latitude'], gym['longitude'],
-                 calc_distance(position, [gym['latitude'], gym['longitude']]))
         response = pgacc.req_gym_get_info(gym['gym_id'],
                                           gym['latitude'],
                                           gym['longitude'],
