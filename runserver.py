@@ -94,6 +94,7 @@ def install_thread_excepthook():
             raise
         except Exception:
             exc_type, exc_value, exc_trace = sys.exc_info()
+            print repr(sys.exc_info())
 
             # Handle Flask's broken pipe when a client prematurely ends
             # the connection.
