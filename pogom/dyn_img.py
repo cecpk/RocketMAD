@@ -16,6 +16,8 @@ path_gym = os.path.join(path_images, 'gym')
 path_raid = os.path.join(path_images, 'raid')
 path_weather = os.path.join(path_images, 'weather')
 path_generated = os.path.join(path_images, 'generated')
+path_generated_gym = os.path.join(path_generated, 'gym')
+path_generated_pokemon = os.path.join(path_generated, 'pokemon')
 
 egg_images = {
     1: os.path.join(path_raid, 'egg_normal.png'),
@@ -35,14 +37,20 @@ weather_images = {
     FOG:            os.path.join(path_weather, 'weather_fog.png')
 }
 
-icon_size = 96
-badge_radius = 15
-padding = 1
+# Info about Pokemon spritesheet
+path_pokemon_spritesheet = os.path.join('static', 'icons-large-sprite.png')
+pkm_sprites_size = 80
+pkm_sprites_cols = 28
 
-badge_upper_left = (padding + badge_radius, padding + badge_radius)
-badge_upper_right = (icon_size - (padding + badge_radius), padding + badge_radius)
-badge_lower_left = (padding + badge_radius, icon_size - (padding + badge_radius))
-badge_lower_right = (icon_size - (padding + badge_radius), icon_size - (padding + badge_radius))
+# Gym icons
+gym_icon_size = 96
+gym_badge_radius = 15
+gym_badge_padding = 1
+
+badge_upper_left = (gym_badge_padding + gym_badge_radius, gym_badge_padding + gym_badge_radius)
+badge_upper_right = (gym_icon_size - (gym_badge_padding + gym_badge_radius), gym_badge_padding + gym_badge_radius)
+badge_lower_left = (gym_badge_padding + gym_badge_radius, gym_icon_size - (gym_badge_padding + gym_badge_radius))
+badge_lower_right = (gym_icon_size - (gym_badge_padding + gym_badge_radius), gym_icon_size - (gym_badge_padding + gym_badge_radius))
 
 font = os.path.join('static', 'Arial Black.ttf')
 font_pointsize = 25
@@ -76,10 +84,10 @@ def battle_indicator_boom():
 
 def battle_indicator_fist():
     # Fist Badge
-    x = icon_size - (padding + badge_radius)
-    y = icon_size / 2
+    x = gym_icon_size - (gym_badge_padding + gym_badge_radius)
+    y = gym_icon_size / 2
     return [
-        '-fill white -stroke black -draw "circle {},{} {},{}"'.format(x, y, x - badge_radius, y),
+        '-fill white -stroke black -draw "circle {},{} {},{}"'.format(x, y, x - gym_badge_radius, y),
         '-gravity east ( {} -resize 24x24 ) -geometry +4+0 -composite'.format(os.path.join(path_gym, 'fist.png'))
     ]
 
@@ -93,26 +101,26 @@ def battle_indicator_flame():
 
 def battle_indicator_swords():
     # Swords Badge
-    x = icon_size - (padding + badge_radius)
-    y = icon_size / 2
+    x = gym_icon_size - (gym_badge_padding + gym_badge_radius)
+    y = gym_icon_size / 2
     return [
-        '-fill white -stroke black -draw "circle {},{} {},{}"'.format(x, y, x - badge_radius, y),
+        '-fill white -stroke black -draw "circle {},{} {},{}"'.format(x, y, x - gym_badge_radius, y),
         '-gravity east ( {} -resize 24x24 ) -geometry +4+0 -composite'.format(os.path.join(path_gym, 'swords.png'))
     ]
 
 
 def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
-    init_image_dir()
+    init_image_dir(path_generated_gym)
     level = int(level)
 
     args = get_args()
     if not args.generate_images:
         return default_gym_image(team, level, raidlevel, pkm)
 
-    im_lines = []
+    im_lines = ['-font "{}" -pointsize {}'.format(font, font_pointsize)]
     if pkm and pkm != 'null':
         # Gym with ongoing raid
-        out_filename = os.path.join(path_generated, "{}_L{}_R{}_P{}.png".format(team, level, raidlevel, pkm))
+        out_filename = os.path.join(path_generated_gym, "{}_L{}_R{}_P{}.png".format(team, level, raidlevel, pkm))
         im_lines.extend(draw_raid_pokemon(pkm))
         im_lines.extend(draw_raid_level(raidlevel))
         if level > 0:
@@ -120,14 +128,14 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
     elif raidlevel:
         # Gym with upcoming raid (egg)
         raidlevel = int(raidlevel)
-        out_filename = os.path.join(path_generated, "{}_L{}_R{}.png".format(team, level, raidlevel))
+        out_filename = os.path.join(path_generated_gym, "{}_L{}_R{}.png".format(team, level, raidlevel))
         im_lines.extend(draw_raid_egg(raidlevel))
         im_lines.extend(draw_raid_level(raidlevel))
         if level > 0:
             im_lines.extend(draw_gym_level(level))
     elif level > 0:
         # Occupied gym
-        out_filename = os.path.join(path_generated, '{}_L{}.png'.format(team, level))
+        out_filename = os.path.join(path_generated_gym, '{}_L{}.png'.format(team, level))
         im_lines.extend(draw_gym_level(level))
     else:
         # Neutral gym
@@ -138,84 +146,77 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
         out_filename = out_filename.replace('.png', '_B.png')
         im_lines.extend(draw_battle_indicator())
 
-    if not os.path.isfile(out_filename):
-        gym_image = os.path.join('static', 'images', 'gym', '{}.png'.format(team))
-        cmd = 'convert {} -font "{}" -pointsize 25 {} {}'.format(gym_image, font, join(im_lines),
-                                                                 out_filename)
-        if os.name != 'nt':
-            cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
-        subprocess.call(cmd, shell=True)
-    return out_filename
+    gym_image = os.path.join(path_gym, '{}.png'.format(team))
+    return run_imagemagick(gym_image, im_lines, out_filename)
 
 
 def get_pokemon_icon(pkm, weather):
-    init_image_dir()
+    init_image_dir(path_generated_pokemon)
     args = get_args()
 
     im_lines = []
     # Add Pokemon icon
     if args.assets_url:
+        source = '{}/decrypted_assets/pokemon_icon_{:03d}_00.png'.format(args.assets_url, pkm)
+        target_size = 96
         im_lines.append(
             '-fuzz 0.5% -trim +repage'
             ' -scale 133x133\> -unsharp 0x1'
             ' -background none -gravity center -extent 139x139'
             ' -background black -alpha background -channel A -blur 0x1 -level 0,10%'
-            ' -adaptive-resize 96x96'
-            ' -modulate 100,110'
+            ' -adaptive-resize {size}x{size}'
+            ' -modulate 100,110'.format(size=target_size)
         )
     else:
-        im_lines.append(
-            ' -bordercolor none -border 2'
-            ' -background black -alpha background -channel A -blur 0x1 -level 0,10%'
-            ' -adaptive-resize 96x96'
-            ' -modulate 100,110'
-        )
+        # Extract pokemon icon from spritesheet
+        source = path_pokemon_spritesheet
+        target_size = pkm_sprites_size
+        pkm_idx = pkm - 1
+        x = (pkm_idx % pkm_sprites_cols) * pkm_sprites_size
+        y = (pkm_idx / pkm_sprites_cols) * pkm_sprites_size
+        im_lines.append('-crop {size}x{size}+{x}+{y} +repage'.format(size=target_size, x=x, y=y))
 
     if weather:
         weather_name = WeatherCondition.Name(int(weather))
-        out_filename = os.path.join(path_generated, "pokemon_{}_{}.png".format(pkm, weather_name))
+        out_filename = os.path.join(path_generated_pokemon, "pokemon_{}_{}.png".format(pkm, weather_name))
+        radius = 20
+        x = target_size - radius - 2
+        y = radius + 1
+        y2 = 1
         im_lines.append(
             '-gravity northeast'
-            ' -fill "#FFFD" -stroke black -draw "circle 74,21 74,1"'
-            ' -draw "image over 1,1 42,42 \'{}\'"'.format(weather_images[weather])
+            ' -fill "#FFFD" -stroke black -draw "circle {x},{y} {x},{y2}"'
+            ' -draw "image over 1,1 42,42 \'{weather_img}\'"'.format(x=x, y=y, y2=y2, weather_img=weather_images[weather])
         )
     else:
-        out_filename = os.path.join(path_generated, "pokemon_{}.png".format(pkm))
+        out_filename = os.path.join(path_generated_pokemon, "pokemon_{}.png".format(pkm))
 
-    if not os.path.isfile(out_filename):
-        if args.assets_url:
-            pokemon_image = '{}/decrypted_assets/pokemon_icon_{:03d}_00.png'.format(args.assets_url, pkm)
-        else:
-            pokemon_image = os.path.join(path_icons, '{}.png'.format(pkm))
-        cmd = 'convert {} {} {}'.format(pokemon_image, join(im_lines), out_filename)
-        if os.name != 'nt':
-            cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
-        subprocess.call(cmd, shell=True)
-    return out_filename
+    return run_imagemagick(source, im_lines, out_filename)
 
 
 def draw_gym_subject(image, size, gravity='north'):
-    lines = []
-    lines.append(
+    lines = [
         '-gravity {} ( {} -resize {}x{} ( +clone -background black -shadow 80x3+5+5 ) +swap -background none -layers merge +repage ) -geometry +0+0 -composite'.format(
-            gravity, image, size, size))
+            gravity, image, size, size)
+    ]
     return lines
 
 
 def draw_badge(pos, fill_col, text_col, text):
     (x, y) = pos
-    lines = []
-    lines.append('-fill {} -stroke black -draw "circle {},{} {},{}"'.format(fill_col, x, y, x + badge_radius, y))
-    lines.append('-gravity center -fill {} -stroke none -draw "text {},{} \'{}\'"'.format(text_col, x - 48, y - 49, text))
+    lines = [
+        '-fill {} -stroke black -draw "circle {},{} {},{}"'.format(fill_col, x, y, x + gym_badge_radius, y),
+        '-gravity center -fill {} -stroke none -draw "text {},{} \'{}\'"'.format(text_col, x - 48, y - 49, text)
+    ]
     return lines
 
 
-def init_image_dir():
-    if not os.path.isdir(path_generated):
+def init_image_dir(path):
+    if not os.path.isdir(path):
         try:
-            os.makedirs(path_generated)
-        except OSError as exc:
-            if not os.path.isdir(path_generated):
+            os.makedirs(path)
+        except OSError:
+            if not os.path.isdir(path):
                 raise
 
 def default_gym_image(team, level, raidlevel, pkm):
@@ -231,3 +232,13 @@ def default_gym_image(team, level, raidlevel, pkm):
         icon = "{}.png".format(team)
 
     return os.path.join(path, icon)
+
+
+def run_imagemagick(source, im_lines, out_filename):
+    if not os.path.isfile(out_filename):
+        cmd = 'convert {} {} {}'.format(source, join(im_lines), out_filename)
+        if os.name != 'nt':
+            cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
+        log.debug("Executing ImageMagick: {}".format(cmd))
+        subprocess.call(cmd, shell=True)
+    return out_filename
