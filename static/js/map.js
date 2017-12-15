@@ -502,15 +502,13 @@ function getDateStr(t) {
     return dateStr
 }
 
-function scout(encounterId, weather) { // eslint-disable-line no-unused-vars
+function scout(encounterId) { // eslint-disable-line no-unused-vars
     var infoEl = $('#scoutInfo' + atob(encounterId))
-    weather = weather || '0'
     $.ajax({
         url: 'scout',
         type: 'GET',
         data: {
-            'encounter_id': encounterId,
-            'weather': weather
+            'encounter_id': encounterId
         },
         dataType: 'json',
         cache: false,
@@ -701,7 +699,7 @@ function pokemonLabel(item) {
           </div>
           ${weatherBoost}
           <div class='pokemon links'>
-            <i class='fa fa-2x fa-binoculars'></i>&nbsp; <a href='javascript:scout("${encounterId}", "${weather_boosted_condition}")'>Scout for IV / CP / Moves</a>
+            <i class='fa fa-2x fa-binoculars'></i>&nbsp; <a href='javascript:scout("${encounterId}")'>Scout for IV / CP / Moves</a>
           </div>
           <div class='pokemon'>
             <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
