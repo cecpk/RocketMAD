@@ -530,6 +530,8 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-pgsu', '--pgscout-url', default=None,
                         help='URL to query PGScout for Pokemon IV/CP.')
+    parser.add_argument('-au', '--assets-url', default=None,
+                        help='Local or remote URL pointing to optional PogoAssets root directory.')
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()

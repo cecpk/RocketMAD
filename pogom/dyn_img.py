@@ -4,6 +4,8 @@ import subprocess
 import logging
 from string import join
 
+from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import *
+
 from pogom.utils import get_args
 
 log = logging.getLogger(__name__)
@@ -12,6 +14,7 @@ path_icons = os.path.join('static', 'icons')
 path_images = os.path.join('static', 'images')
 path_gym = os.path.join(path_images, 'gym')
 path_raid = os.path.join(path_images, 'raid')
+path_weather = os.path.join(path_images, 'weather')
 path_generated = os.path.join(path_images, 'generated')
 
 egg_images = {
@@ -20,6 +23,16 @@ egg_images = {
     3: os.path.join(path_raid, 'egg_rare.png'),
     4: os.path.join(path_raid, 'egg_rare.png'),
     5: os.path.join(path_raid, 'egg_legendary.png')
+}
+
+weather_images = {
+    CLEAR:          os.path.join(path_weather, 'weather_sunny.png'),
+    RAINY:          os.path.join(path_weather, 'weather_rain.png'),
+    PARTLY_CLOUDY:  os.path.join(path_weather, 'weather_partlycloudy_day.png'),
+    OVERCAST:       os.path.join(path_weather, 'weather_cloudy.png'),
+    WINDY:          os.path.join(path_weather, 'weather_windy.png'),
+    SNOW:           os.path.join(path_weather, 'weather_snow.png'),
+    FOG:            os.path.join(path_weather, 'weather_fog.png')
 }
 
 icon_size = 96
@@ -36,11 +49,11 @@ font_pointsize = 25
 
 
 def draw_raid_pokemon(pkm):
-    return draw_subject(os.path.join(path_icons, '{}.png'.format(pkm)), 64)
+    return draw_gym_subject(os.path.join(path_icons, '{}.png'.format(pkm)), 64)
 
 
 def draw_raid_egg(raidlevel):
-    return draw_subject(egg_images[raidlevel], 36, 'center')
+    return draw_gym_subject(egg_images[raidlevel], 36, 'center')
 
 
 def draw_gym_level(level):
@@ -135,7 +148,53 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
     return out_filename
 
 
-def draw_subject(image, size, gravity='north'):
+def get_pokemon_icon(pkm, weather):
+    init_image_dir()
+    args = get_args()
+
+    im_lines = []
+    # Add Pokemon icon
+    if args.assets_url:
+        im_lines.append(
+            '-fuzz 0.5% -trim +repage'
+            ' -scale 133x133\> -unsharp 0x1'
+            ' -background none -gravity center -extent 139x139'
+            ' -background black -alpha background -channel A -blur 0x1 -level 0,10%'
+            ' -adaptive-resize 96x96'
+            ' -modulate 100,110'
+        )
+    else:
+        im_lines.append(
+            ' -bordercolor none -border 2'
+            ' -background black -alpha background -channel A -blur 0x1 -level 0,10%'
+            ' -adaptive-resize 96x96'
+            ' -modulate 100,110'
+        )
+
+    if weather:
+        weather_name = WeatherCondition.Name(int(weather))
+        out_filename = os.path.join(path_generated, "pokemon_{}_{}.png".format(pkm, weather_name))
+        im_lines.append(
+            '-gravity northeast'
+            ' -fill "#FFFD" -stroke black -draw "circle 74,21 74,1"'
+            ' -draw "image over 1,1 42,42 \'{}\'"'.format(weather_images[weather])
+        )
+    else:
+        out_filename = os.path.join(path_generated, "pokemon_{}.png".format(pkm))
+
+    if not os.path.isfile(out_filename):
+        if args.assets_url:
+            pokemon_image = '{}/decrypted_assets/pokemon_icon_{:03d}_00.png'.format(args.assets_url, pkm)
+        else:
+            pokemon_image = os.path.join(path_icons, '{}.png'.format(pkm))
+        cmd = 'convert {} {} {}'.format(pokemon_image, join(im_lines), out_filename)
+        if os.name != 'nt':
+            cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
+        subprocess.call(cmd, shell=True)
+    return out_filename
+
+
+def draw_gym_subject(image, size, gravity='north'):
     lines = []
     lines.append(
         '-gravity {} ( {} -resize {}x{} ( +clone -background black -shadow 80x3+5+5 ) +swap -background none -layers merge +repage ) -geometry +0+0 -composite'.format(

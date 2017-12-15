@@ -44,7 +44,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 22
+db_schema_version = 23
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -137,6 +137,7 @@ class Pokemon(LatLongModel):
     catch_prob_3 = DoubleField(null=True)
     rating_attack = CharField(null=True, max_length=2)
     rating_defense = CharField(null=True, max_length=2)
+    weather_boosted_condition = SmallIntegerField(null=True)
     last_modified = DateTimeField(
         null=True, index=True, default=datetime.utcnow)
 
@@ -2118,8 +2119,14 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                 'catch_prob_2': None,
                 'catch_prob_3': None,
                 'rating_attack': None,
-                'rating_defense': None
+                'rating_defense': None,
+                'weather_boosted_condition' : None
             }
+
+            # Weather Pokemon Bonus
+            weather_boosted_condition = p.pokemon_data.pokemon_display.weather_boosted_condition
+            if weather_boosted_condition:
+                pokemon[p.encounter_id]['weather_boosted_condition'] = weather_boosted_condition
 
             # Check for Unown's alphabetic character.
             if pokemon_id == 201:
@@ -2173,7 +2180,8 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                         'seconds_until_despawn': seconds_until_despawn,
                         'spawn_start': start_end[0],
                         'spawn_end': start_end[1],
-                        'player_level': encounter_level
+                        'player_level': encounter_level,
+                        'weather': weather_boosted_condition
                     })
                     if wh_poke['cp_multiplier'] is not None:
                         wh_poke.update({
@@ -3182,6 +3190,12 @@ def database_migrate(db, old_ver):
         migrate(
             migrator.add_column('gym', 'is_in_battle',
                                 BooleanField(null=False, default=False)))
+
+    if old_ver < 23:
+        migrate(
+            migrator.add_column('pokemon', 'weather_boosted_condition',
+                                SmallIntegerField(null=True))
+        )
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')

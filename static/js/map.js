@@ -73,6 +73,16 @@ const cryFileTypes = ['wav', 'mp3']
 const genderType = ['♂', '♀', '⚲']
 const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '?']
 
+const weatherImages = {
+    1: 'weather_sunny.png',
+    2: 'weather_rain.png',
+    3: 'weather_partlycloudy.png',
+    4: 'weather_cloudy.png',
+    5: 'weather_windy.png',
+    6: 'weather_snow.png',
+    7: 'weather_fog.png'
+}
+
 /*
  text place holders:
  <pkm> - pokemon name
@@ -564,6 +574,7 @@ function pokemonLabel(item) {
     var ratingAttack = item['rating_attack']
     var ratingDefense = item['rating_defense']
     var encounterIdLong = atob(encounterId)
+    var weather_boosted_condition = item['weather_boosted_condition']
 
     $.each(types, function (index, type) {
         typesDisplay += getTypeSpan(type)
@@ -582,6 +593,13 @@ function pokemonLabel(item) {
     <div class='pokemon name'>
       ${name} <span class='pokemon name pokedex'><a href='http://pokemon.gameinfo.io/en/pokemon/${id}' target='_blank' title='View in Pokédex'>#${id}</a></span> ${formString} <span class='pokemon gender rarity'>${genderType[gender - 1]} ${rarityDisplay}</span> ${typesDisplay}
     </div>`
+
+    var weatherBoost = ''
+    if (weather_boosted_condition) {
+        weatherBoost = `<div class='pokemon big'>Boosted by:
+            <img src='static/images/weather/${weatherImages[weather_boosted_condition]}' style="width: 24px; vertical-align: middle;">
+            </div>`
+    }
 
     var movesetRating = ''
     if (ratingAttack !== null) {
@@ -638,6 +656,7 @@ function pokemonLabel(item) {
               <div class='pokemon disappear'>
                 <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
               </div>
+              ${weatherBoost}
               <div class='pokemon'>
                 ${iv_circle}
                 (A <span class='pokemon encounter'>${atk}</span> &nbsp;&nbsp; D <span class='pokemon encounter'>${def}</span> &nbsp;&nbsp; S <span class='pokemon encounter'>${sta}</span>)
@@ -679,6 +698,7 @@ function pokemonLabel(item) {
           <div class='pokemon disappear'>
             <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
           </div>
+          ${weatherBoost}
           <div class='pokemon links'>
             <i class='fa fa-2x fa-binoculars'></i>&nbsp; <a href='javascript:scout("${encounterId}")'>Scout for IV / CP / Moves</a>
           </div>

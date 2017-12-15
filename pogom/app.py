@@ -10,7 +10,7 @@ from flask.json import JSONEncoder
 from flask_compress import Compress
 from datetime import datetime
 from s2sphere import LatLng
-from pogom.dyn_img import get_gym_icon
+from pogom.dyn_img import get_gym_icon, get_pokemon_icon
 from pogom.pgscout import scout_error, pgscout_encounter
 from pogom.utils import get_args, get_pokemon_name
 from bisect import bisect_left
@@ -69,6 +69,7 @@ class Pogom(Flask):
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
+        self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
         self.route("/scout", methods=['GET'])(self.scout_pokemon)
         self.route("/<statusname>", methods=['GET'])(self.fullmap)
 
@@ -79,6 +80,11 @@ class Pogom(Flask):
         pkm = request.args.get('pkm')
         is_in_battle = 'in_battle' in request.args
         return send_file(get_gym_icon(team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
+
+    def pokemon_img(self):
+        pkm = int(request.args.get('pkm'))
+        weather = int(request.args.get('weather')) if 'weather' in request.args else 0
+        return send_file(get_pokemon_icon(pkm, weather), mimetype='image/png')
 
     def scout_pokemon(self):
         args = get_args()
@@ -277,6 +283,7 @@ class Pogom(Flask):
                                lat=map_lat,
                                lng=map_lng,
                                showAllZoomLevel=args.show_all_zoom_level,
+                               generateImages=str(args.generate_images).lower(),
                                gmaps_key=args.gmaps_key,
                                lang=args.locale,
                                show=visibility_flags
