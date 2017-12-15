@@ -156,8 +156,8 @@ def get_pokemon_icon(pkm, weather):
 
     im_lines = []
     # Add Pokemon icon
-    if args.assets_url:
-        source = '{}/decrypted_assets/pokemon_icon_{:03d}_00.png'.format(args.assets_url, pkm)
+    if args.pogo_assets:
+        source = '{}/decrypted_assets/pokemon_icon_{:03d}_00.png'.format(args.pogo_assets, pkm)
         target_size = 96
         im_lines.append(
             '-fuzz 0.5% -trim +repage'

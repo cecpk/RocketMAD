@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import urllib
+import urlparse
 from threading import Thread
 
 import configargparse
@@ -530,8 +532,8 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-pgsu', '--pgscout-url', default=None,
                         help='URL to query PGScout for Pokemon IV/CP.')
-    parser.add_argument('-au', '--assets-url', default=None,
-                        help='Local or remote URL pointing to optional PogoAssets root directory.')
+    parser.add_argument('-pa', '--pogo-assets', default=None,
+                        help='Directory or URL pointing to optional PogoAssets root directory.')
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
@@ -823,6 +825,11 @@ def get_args():
 
     args.locales_dir = 'static/dist/locales'
     args.data_dir = 'static/dist/data'
+
+    if args.pogo_assets and os.path.isdir(args.pogo_assets):
+        log.info("Using PogoAssets at {}".format(args.pogo_assets))
+        args.pogo_assets = urlparse.urljoin('file:', urllib.pathname2url(args.pogo_assets))
+
     return args
 
 
