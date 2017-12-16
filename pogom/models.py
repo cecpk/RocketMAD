@@ -2150,6 +2150,7 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue,
                     'catch_prob_3': scout_result['catch_prob_3'],
                     'rating_attack': scout_result['rating_attack'],
                     'rating_defense': scout_result['rating_defense'],
+                    'weather_boosted_condition': scout_result['weather_boosted_condition']
                 })
                 encounter_level = scout_result['scout_level']
             # We need to check if exist and is not false due to a request error
