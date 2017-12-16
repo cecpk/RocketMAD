@@ -84,7 +84,7 @@ const weatherImages = {
 }
 
 const weatherNames = {
-    1: 'Sunny',
+    1: 'Clear',
     2: 'Rain',
     3: 'Partly Cloudy',
     4: 'Cloudy',
