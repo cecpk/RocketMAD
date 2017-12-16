@@ -504,7 +504,6 @@ function getDateStr(t) {
 
 function scout(encounterId) { // eslint-disable-line no-unused-vars
     var infoEl = $('#scoutInfo' + atob(encounterId))
-
     $.ajax({
         url: 'scout',
         type: 'GET',
