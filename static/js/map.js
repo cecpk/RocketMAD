@@ -1578,7 +1578,6 @@ function processPokemon(item) {
 
     if (!(item['encounter_id'] in mapData.pokemons) &&
          !isExcludedPoke && isPokeAlive) {
-
     // Add marker to map and item to dict.
         const isNotifyPkmn = isNotifyPoke(item)
         if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
@@ -2390,7 +2389,7 @@ $(function () {
     $switchActiveRaidGymsOnly.on('change', function () {
         Store.set('showActiveRaidsOnly', this.checked)
         lastgyms = false
-   
+
         updateMap()
     })
 
@@ -2826,17 +2825,17 @@ $(function () {
 
     $('#bounce-switch').change(function () {
         Store.set('isBounceDisabled', this.checked)
-        location.reload();
+        location.reload()
     })
 
     $('#hideunnotified-switch').change(function () {
         Store.set('hideNotNotified', this.checked)
-        location.reload();
+        location.reload()
     })
 
     $('#popups-switch').change(function () {
         Store.set('showPopups', this.checked)
-        location.reload();
+        location.reload()
     })
 
     $('#cries-switch').change(function () {
