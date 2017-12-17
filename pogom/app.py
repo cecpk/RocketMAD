@@ -138,8 +138,7 @@ class Pogom(Flask):
                 'catch_prob_2': response['catch_prob_2'],
                 'catch_prob_3': response['catch_prob_3'],
                 'rating_attack': response['rating_attack'],
-                'rating_defense': response['rating_defense'],
-                'weather_boosted_condition': response['weather_boosted_condition']
+                'rating_defense': response['rating_defense']
             }
         }
         self.db_updates_queue.put((Pokemon, update_data))
