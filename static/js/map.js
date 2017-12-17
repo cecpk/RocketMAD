@@ -76,7 +76,7 @@ const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K
 const weatherImages = {
     1: 'weather_sunny.png',
     2: 'weather_rain.png',
-    3: 'weather_partlycloudy.png',
+    3: 'weather_partlycloudy_day.png',
     4: 'weather_cloudy.png',
     5: 'weather_windy.png',
     6: 'weather_snow.png',
@@ -514,7 +514,6 @@ function getDateStr(t) {
 
 function scout(encounterId) { // eslint-disable-line no-unused-vars
     var infoEl = $('#scoutInfo' + atob(encounterId))
-
     $.ajax({
         url: 'scout',
         type: 'GET',

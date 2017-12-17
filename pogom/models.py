@@ -1885,6 +1885,7 @@ def perform_pgscout(p):
     pkm.spawnpoint_id = p.spawn_point_id
     pkm.latitude = p.latitude
     pkm.longitude = p.longitude
+    pkm.weather_boosted_condition = p.pokemon_data.pokemon_display.weather_boosted_condition
     scout_result = pgscout_encounter(pkm)
     if scout_result['success']:
         log.info(
