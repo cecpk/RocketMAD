@@ -83,6 +83,16 @@ const weatherImages = {
     7: 'weather_fog.png'
 }
 
+const weatherNames = {
+    1: 'Clear',
+    2: 'Rain',
+    3: 'Partly Cloudy',
+    4: 'Cloudy',
+    5: 'Windy',
+    6: 'Snow',
+    7: 'Fog'
+}
+
 /*
  text place holders:
  <pkm> - pokemon name
@@ -596,7 +606,7 @@ function pokemonLabel(item) {
     var weatherBoost = ''
     if (weather_boosted_condition) {
         weatherBoost = `<div class='pokemon big'>Boosted by:
-            <img src='static/images/weather/${weatherImages[weather_boosted_condition]}' style="width: 24px; vertical-align: middle;">
+            <img src='static/images/weather/${weatherImages[weather_boosted_condition]}' style="width: 24px; vertical-align: middle;">&nbsp;${weatherNames[weather_boosted_condition]}
             </div>`
     }
 
