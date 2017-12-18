@@ -458,6 +458,9 @@ function initSidebar() {
     $('#scanned-switch').prop('checked', Store.get('showScanned'))
     $('#spawnpoints-switch').prop('checked', Store.get('showSpawnpoints'))
     $('#ranges-switch').prop('checked', Store.get('showRanges'))
+    $('#hideunnotified-switch').prop('checked', Store.get('hideNotNotified'))
+    $('#popups-switch').prop('checked', Store.get('showPopups'))
+    $('#bounce-switch').prop('checked', Store.get('isBounceDisabled'))
     $('#sound-switch').prop('checked', Store.get('playSound'))
     $('#pokemoncries').toggle(Store.get('playSound'))
     $('#cries-switch').prop('checked', Store.get('playCries'))
@@ -1690,17 +1693,17 @@ function processPokemon(item) {
 
     if (!(item['encounter_id'] in mapData.pokemons) &&
          !isExcludedPoke && isPokeAlive) {
-        // Add marker to map and item to dict.
-        if (!item.hidden) {
+    // Add marker to map and item to dict.
+        const isNotifyPkmn = isNotifyPoke(item)
+        if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
             const isBounceDisabled = Store.get('isBounceDisabled')
             const scaleByRarity = Store.get('scaleByRarity')
-            const isNotifyPkmn = isNotifyPoke(item)
 
             if (item.marker) {
                 updatePokemonMarker(item.marker, map, scaleByRarity, isNotifyPkmn)
             } else {
                 newMarker = setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity, isNotifyPkmn)
-                customizePokemonMarker(newMarker, item)
+                customizePokemonMarker(newMarker, item, !Store.get('showPopups'))
                 item.marker = newMarker
             }
 
@@ -2933,6 +2936,21 @@ $(function () {
         } else {
             criesWrapper.hide(options)
         }
+    })
+
+    $('#bounce-switch').change(function () {
+        Store.set('isBounceDisabled', this.checked)
+        location.reload()
+    })
+
+    $('#hideunnotified-switch').change(function () {
+        Store.set('hideNotNotified', this.checked)
+        location.reload()
+    })
+
+    $('#popups-switch').change(function () {
+        Store.set('showPopups', this.checked)
+        location.reload()
     })
 
     $('#cries-switch').change(function () {
