@@ -866,6 +866,10 @@ var StoreOptions = {
         default: '',
         type: StoreTypes.Number
     },
+    'remember_text_level_notify': {
+        default: '',
+        type: StoreTypes.Number
+    },
     'showRaids': {
         default: false,
         type: StoreTypes.Boolean

@@ -6,6 +6,7 @@ var $selectExclude
 var $selectPokemonNotify
 var $selectRarityNotify
 var $textPerfectionNotify
+var $textLevelNotify
 var $selectStyle
 var $selectIconSize
 var $switchOpenGymsOnly
@@ -34,6 +35,7 @@ var excludedPokemon = []
 var notifiedPokemon = []
 var notifiedRarity = []
 var notifiedMinPerfection = null
+var notifiedMinLevel = null
 
 var buffer = []
 var reincludedPokemon = []
@@ -1138,13 +1140,20 @@ function playPokemonSound(pokemonID, cryFileTypes) {
 function isNotifyPoke(poke) {
     const isOnNotifyList = notifiedPokemon.indexOf(poke['pokemon_id']) > -1 || notifiedRarity.indexOf(poke['pokemon_rarity']) > -1
     var hasHighIV = false
+    var hasHighLevel = false
+    var hasHighAttributes = false
 
-    if (poke['individual_attack'] != null) {
+    if (poke['individual_attack'] != null && poke['cp_multiplier'] !== null) {
         const perfection = getIv(poke['individual_attack'], poke['individual_defense'], poke['individual_stamina'])
+        const level = getPokemonLevel(poke['cp_multiplier'])
+
         hasHighIV = notifiedMinPerfection > 0 && perfection >= notifiedMinPerfection
+        hasHighLevel = notifiedMinLevel > 0 && level >= notifiedMinLevel
+
+        hasHighAttributes = (hasHighIV && notifiedMinLevel === 0) || (hasHighLevel && notifiedMinPerfection === 0) || hasHighLevel && hasHighIV
     }
 
-    return isOnNotifyList || hasHighIV
+    return isOnNotifyList || hasHighAttributes
 }
 
 function customizePokemonMarker(marker, item, skipNotification) {
@@ -2686,6 +2695,7 @@ $(function () {
     $selectPokemonNotify = $('#notify-pokemon')
     $selectRarityNotify = $('#notify-rarity')
     $textPerfectionNotify = $('#notify-perfection')
+    $textLevelNotify = $('#notify-level')
     var numberOfPokemon = 493
 
     // Load pokemon names and populate lists
@@ -2760,12 +2770,24 @@ $(function () {
             $textPerfectionNotify.val(notifiedMinPerfection)
             Store.set('remember_text_perfection_notify', notifiedMinPerfection)
         })
+        $textLevelNotify.on('change', function (e) {
+            notifiedMinLevel = parseInt($textLevelNotify.val(), 10)
+            if (isNaN(notifiedMinLevel) || notifiedMinLevel <= 0) {
+                notifiedMinLevel = ''
+            }
+            if (notifiedMinLevel > 40) {
+                notifiedMinLevel = 40
+            }
+            $textLevelNotify.val(notifiedMinLevel)
+            Store.set('remember_text_level_notify', notifiedMinLevel)
+        })
 
         // recall saved lists
         $selectExclude.val(Store.get('remember_select_exclude')).trigger('change')
         $selectPokemonNotify.val(Store.get('remember_select_notify')).trigger('change')
         $selectRarityNotify.val(Store.get('remember_select_rarity_notify')).trigger('change')
         $textPerfectionNotify.val(Store.get('remember_text_perfection_notify')).trigger('change')
+        $textLevelNotify.val(Store.get('remember_text_level_notify')).trigger('change')
 
         if (isTouchDevice() && isMobileDevice()) {
             $('.select2-search input').prop('readonly', true)
