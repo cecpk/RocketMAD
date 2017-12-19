@@ -578,6 +578,7 @@ class Pogom(Flask):
         return render_template('statistics.html',
                                lat=self.current_location[0],
                                lng=self.current_location[1],
+                               generateImages=str(args.generate_images).lower(),
                                gmaps_key=args.gmaps_key,
                                show=visibility_flags
                                )
