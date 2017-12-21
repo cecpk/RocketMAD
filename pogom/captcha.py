@@ -118,7 +118,7 @@ def captcha_solver_thread(args, account_queue, account_captchas, hash_key,
         pgacc.hash_key = hash_key
 
     if args.proxy:
-        # Try to fetch a new proxy
+        # Try to fetch a new proxy.
         proxy_num, proxy_url = get_new_proxy(args)
 
         if proxy_url:

@@ -1081,9 +1081,9 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                 scan_location = ScannedLocation.get_by_loc(scan_coords)
 
                 # Jitter the coords if configured.
-                if not args.no_jitter:
+                if args.jitter:
                     scan_coords = jitter_location(scan_coords)
-                    log.debug('Jittered to: %f/%f/%f', scan_coords[0],
+                    log.debug('Jittered to: %f/%f/%f.', scan_coords[0],
                               scan_coords[1], scan_coords[2])
 
                 # Too soon?
