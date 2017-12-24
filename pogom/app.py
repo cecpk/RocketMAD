@@ -96,7 +96,7 @@ class Pogom(Flask):
                 u"On demand PGScouting a {} at {}, {}.".format(pokemon_name,
                                                               p.latitude,
                                                               p.longitude))
-            scout_result = pgscout_encounter(p)
+            scout_result = pgscout_encounter(p, forced=1)
             if scout_result['success']:
                 self.update_scouted_pokemon(p, scout_result)
                 log.info(
