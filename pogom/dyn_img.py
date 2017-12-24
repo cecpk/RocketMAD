@@ -1,9 +1,12 @@
+import logging
 import os
 import subprocess
-
-import logging
 from string import join
 
+import requests
+from pgoapi.protos.pogoprotos.enums.costume_pb2 import Costume
+from pgoapi.protos.pogoprotos.enums.form_pb2 import Form
+from pgoapi.protos.pogoprotos.enums.gender_pb2 import MALE, FEMALE, Gender
 from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import *
 
 from pogom.utils import get_args
@@ -150,14 +153,15 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
     return run_imagemagick(gym_image, im_lines, out_filename)
 
 
-def get_pokemon_icon(pkm, weather):
+def get_pokemon_icon(pkm, weather=None, gender=None, form=None, costume=None):
     init_image_dir(path_generated_pokemon)
     args = get_args()
 
     im_lines = []
+
     # Add Pokemon icon
     if args.pogo_assets:
-        source = '{}/decrypted_assets/pokemon_icon_{:03d}_00.png'.format(args.pogo_assets, pkm)
+        source, target = pokemon_asset_path(args, pkm, gender, form, costume, weather)
         target_size = 96
         im_lines.append(
             '-fuzz 0.5% -trim +repage'
@@ -170,6 +174,9 @@ def get_pokemon_icon(pkm, weather):
     else:
         # Extract pokemon icon from spritesheet
         source = path_pokemon_spritesheet
+        weather_suffix = '_{}'.format(WeatherCondition.Name(weather)) if weather else ''
+        target = os.path.join(path_generated_pokemon, 'pokemon_{}{}.png'.format(pkm, weather_suffix))
+
         target_size = pkm_sprites_size
         pkm_idx = pkm - 1
         x = (pkm_idx % pkm_sprites_cols) * pkm_sprites_size
@@ -177,8 +184,6 @@ def get_pokemon_icon(pkm, weather):
         im_lines.append('-crop {size}x{size}+{x}+{y} +repage'.format(size=target_size, x=x, y=y))
 
     if weather:
-        weather_name = WeatherCondition.Name(int(weather))
-        out_filename = os.path.join(path_generated_pokemon, "pokemon_{}_{}.png".format(pkm, weather_name))
         radius = 20
         x = target_size - radius - 2
         y = radius + 1
@@ -188,10 +193,46 @@ def get_pokemon_icon(pkm, weather):
             ' -fill "#FFFD" -stroke black -draw "circle {x},{y} {x},{y2}"'
             ' -draw "image over 1,1 42,42 \'{weather_img}\'"'.format(x=x, y=y, y2=y2, weather_img=weather_images[weather])
         )
-    else:
-        out_filename = os.path.join(path_generated_pokemon, "pokemon_{}.png".format(pkm))
 
-    return run_imagemagick(source, im_lines, out_filename)
+    return run_imagemagick(source, im_lines, target)
+
+
+def pokemon_asset_path(args, pkm, gender, form, costume, weather, male_icon=False):
+    gender_suffix = gender_assets_suffix = ''
+    form_suffix = form_assets_suffix  = ''
+    costume_suffix = costume_assets_suffix = ''
+    weather_suffix = '_{}'.format(WeatherCondition.Name(weather)) if weather else ''
+
+    if gender in (MALE, FEMALE):
+        gender_assets_suffix = '_{:02d}'.format(gender - 1) if not male_icon else '_00'
+        gender_suffix = '_{}'.format(Gender.Name(gender))
+    if form:
+        form_assets_suffix = '_{:02d}'.format(form + 10)
+        form_suffix = '_{}'.format(Form.Name(form))
+    if costume:
+        costume_assets_suffix = '_{:02d}'.format(costume)
+        costume_suffix = '_{}'.format(Costume.Name(costume))
+
+    if not gender_assets_suffix and not form_assets_suffix and not costume_assets_suffix:
+        gender_assets_suffix = '_16' if pkm == 201 else '_00'
+
+    assets_basedir = os.path.join(args.pogo_assets, 'decrypted_assets')
+    assets_fullname = os.path.join(assets_basedir,
+                                   'pokemon_icon_{:03d}{}{}{}.png'.format(pkm, gender_assets_suffix, form_assets_suffix,
+                                                                    costume_assets_suffix))
+    target_name = os.path.join(path_generated_pokemon,
+                               "pkm_{}{}{}{}{}.png".format(pkm, gender_suffix, form_suffix, costume_suffix,
+                                                               weather_suffix))
+    if os.path.isfile(assets_fullname) or male_icon:
+        return assets_fullname, target_name
+    elif not male_icon:
+        return pokemon_asset_path(args, pkm, gender, form, costume, weather, male_icon=True)
+
+
+def pokemon_asset_exists(args, pkm, gender):
+    url = '{}/decrypted_assets/pokemon_icon_{:03d}_{:02d}.png'.format(args.pogo_assets, pkm, gender)
+    response = requests.head(url)
+    return response.headers.get('content-type').startswith('image')
 
 
 def draw_gym_subject(image, size, gravity='north'):
@@ -236,7 +277,7 @@ def default_gym_image(team, level, raidlevel, pkm):
 
 def run_imagemagick(source, im_lines, out_filename):
     if not os.path.isfile(out_filename):
-        cmd = 'convert {} {} {}'.format(source, join(im_lines), out_filename)
+        cmd = 'convert "{}" {} {}'.format(source, join(im_lines), out_filename)
         if os.name != 'nt':
             cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
         log.debug("Executing ImageMagick: {}".format(cmd))

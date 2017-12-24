@@ -1105,7 +1105,8 @@ function getPokemonIcon(item, sprite, displayHeight) {
     var scaledIconCenterOffset = new google.maps.Point(scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2)
 
     let weather_param = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
-    let icon_url = `pkm_img?pkm=${item['pokemon_id']}${weather_param}`
+    let form_param = item['form'] ? `&form=${item['form']}` : ''
+    let icon_url = `pkm_img?pkm=${item['pokemon_id']}&gender=${item['gender']}${form_param}${weather_param}`
 
     return {
         url: icon_url,
