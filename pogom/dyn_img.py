@@ -6,7 +6,7 @@ from string import join
 import requests
 from pgoapi.protos.pogoprotos.enums.costume_pb2 import Costume
 from pgoapi.protos.pogoprotos.enums.form_pb2 import Form
-from pgoapi.protos.pogoprotos.enums.gender_pb2 import MALE, FEMALE, Gender
+from pgoapi.protos.pogoprotos.enums.gender_pb2 import MALE, FEMALE, Gender, GENDERLESS, GENDER_UNSET
 from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import *
 
 from pogom.utils import get_args
@@ -197,18 +197,24 @@ def get_pokemon_icon(pkm, weather=None, gender=None, form=None, costume=None):
     return run_imagemagick(source, im_lines, target)
 
 
-def pokemon_asset_path(args, pkm, gender, form, costume, weather, male_icon=False):
+def pokemon_asset_path(args, pkm, gender, form, costume, weather):
     gender_suffix = gender_assets_suffix = ''
     form_suffix = form_assets_suffix  = ''
     costume_suffix = costume_assets_suffix = ''
     weather_suffix = '_{}'.format(WeatherCondition.Name(weather)) if weather else ''
 
     if gender in (MALE, FEMALE):
-        gender_assets_suffix = '_{:02d}'.format(gender - 1) if not male_icon else '_00'
+        gender_assets_suffix = '_{:02d}'.format(gender - 1)
         gender_suffix = '_{}'.format(Gender.Name(gender))
+    elif gender in (GENDER_UNSET, GENDERLESS):
+        gender_assets_suffix = '_00'
+
     if form:
+        # Form = no gender
+        gender_suffix = gender_assets_suffix = ''
         form_assets_suffix = '_{:02d}'.format(form + 10)
         form_suffix = '_{}'.format(Form.Name(form))
+
     if costume:
         costume_assets_suffix = '_{:02d}'.format(costume)
         costume_suffix = '_{}'.format(Costume.Name(costume))
@@ -223,10 +229,12 @@ def pokemon_asset_path(args, pkm, gender, form, costume, weather, male_icon=Fals
     target_name = os.path.join(path_generated_pokemon,
                                "pkm_{}{}{}{}{}.png".format(pkm, gender_suffix, form_suffix, costume_suffix,
                                                                weather_suffix))
-    if os.path.isfile(assets_fullname) or male_icon:
+    if os.path.isfile(assets_fullname):
         return assets_fullname, target_name
-    elif not male_icon:
-        return pokemon_asset_path(args, pkm, gender, form, costume, weather, male_icon=True)
+    else:
+        if gender == MALE:
+            raise Exception("Cannot find PogoAssets file {}".format(assets_fullname))
+        return pokemon_asset_path(args, pkm, MALE, form, costume, weather)
 
 
 def pokemon_asset_exists(args, pkm, gender):

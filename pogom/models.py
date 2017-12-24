@@ -48,7 +48,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 23
+db_schema_version = 24
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -136,6 +136,7 @@ class Pokemon(LatLongModel):
     height = FloatField(null=True)
     gender = SmallIntegerField(null=True)
     form = SmallIntegerField(null=True)
+    costume = SmallIntegerField(null=True)
     catch_prob_1 = DoubleField(null=True)
     catch_prob_2 = DoubleField(null=True)
     catch_prob_3 = DoubleField(null=True)
@@ -2244,6 +2245,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                 'weight': None,
                 'gender': p.pokemon_data.pokemon_display.gender,
                 'form': None,
+                'costume': p.pokemon_data.pokemon_display.costume,
                 'catch_prob_1': None,
                 'catch_prob_2': None,
                 'catch_prob_3': None,
@@ -3335,6 +3337,12 @@ def database_migrate(db, old_ver):
     if old_ver < 23:
         migrate(
             migrator.add_column('pokemon', 'weather_boosted_condition',
+                                SmallIntegerField(null=True))
+        )
+
+    if old_ver < 24:
+        migrate(
+            migrator.add_column('pokemon', 'costume',
                                 SmallIntegerField(null=True))
         )
 
