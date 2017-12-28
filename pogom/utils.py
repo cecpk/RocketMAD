@@ -533,7 +533,7 @@ def get_args():
     parser.add_argument('-pgsu', '--pgscout-url', default=None,
                         help='URL to query PGScout for Pokemon IV/CP.')
     parser.add_argument('-pa', '--pogo-assets', default=None,
-                        help='Directory or URL pointing to optional PogoAssets root directory.')
+                        help='Directory pointing to optional PogoAssets root directory.')
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
@@ -823,7 +823,6 @@ def get_args():
 
     if args.pogo_assets and os.path.isdir(args.pogo_assets):
         log.info("Using PogoAssets at {}".format(args.pogo_assets))
-        args.pogo_assets = urlparse.urljoin('file:', urllib.pathname2url(args.pogo_assets))
 
     return args
 
