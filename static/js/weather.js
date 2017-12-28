@@ -218,6 +218,9 @@ var $weatherInfo = document.querySelector('#weatherInfo')
  * Update weather icon on top bar if there is single cell on the screen
  */
 function updateMainCellWeather() {
+    if ($weatherInfo == null) {
+        return // updating the top bar is not required if it does not exist
+    }
     // remove old weather icon
     while ($weatherInfo.firstChild) {
         $weatherInfo.removeChild($weatherInfo.firstChild)
