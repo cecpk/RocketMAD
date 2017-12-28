@@ -13,8 +13,9 @@ from pogom.utils import get_args
 
 log = logging.getLogger(__name__)
 
-path_icons = os.path.join('static', 'icons')
-path_images = os.path.join('static', 'images')
+path_static = os.path.join(os.path.dirname(__file__), '..', 'static')
+path_icons = os.path.join(path_static, 'icons')
+path_images = os.path.join(path_static, 'images')
 path_gym = os.path.join(path_images, 'gym')
 path_raid = os.path.join(path_images, 'raid')
 path_weather = os.path.join(path_images, 'weather')
@@ -41,7 +42,7 @@ weather_images = {
 }
 
 # Info about Pokemon spritesheet
-path_pokemon_spritesheet = os.path.join('static', 'icons-large-sprite.png')
+path_pokemon_spritesheet = os.path.join(path_static, 'icons-large-sprite.png')
 pkm_sprites_size = 80
 pkm_sprites_cols = 28
 
@@ -55,7 +56,7 @@ badge_upper_right = (gym_icon_size - (gym_badge_padding + gym_badge_radius), gym
 badge_lower_left = (gym_badge_padding + gym_badge_radius, gym_icon_size - (gym_badge_padding + gym_badge_radius))
 badge_lower_right = (gym_icon_size - (gym_badge_padding + gym_badge_radius), gym_icon_size - (gym_badge_padding + gym_badge_radius))
 
-font = os.path.join('static', 'Arial Black.ttf')
+font = os.path.join(path_static, 'Arial Black.ttf')
 font_pointsize = 25
 
 
@@ -81,7 +82,7 @@ def draw_battle_indicator():
 
 def battle_indicator_boom():
     # BOOM! Sticker
-    return ['-gravity center ( {} -resize 84x84 ) -geometry +0+0 -composite'.format(
+    return ['-gravity center ( "{}" -resize 84x84 ) -geometry +0+0 -composite'.format(
         os.path.join(path_gym, 'boom.png'))]
 
 
@@ -91,14 +92,14 @@ def battle_indicator_fist():
     y = gym_icon_size / 2
     return [
         '-fill white -stroke black -draw "circle {},{} {},{}"'.format(x, y, x - gym_badge_radius, y),
-        '-gravity east ( {} -resize 24x24 ) -geometry +4+0 -composite'.format(os.path.join(path_gym, 'fist.png'))
+        '-gravity east ( "{}" -resize 24x24 ) -geometry +4+0 -composite'.format(os.path.join(path_gym, 'fist.png'))
     ]
 
 
 def battle_indicator_flame():
     # Flame Badge
     return [
-        '-gravity east ( {} -resize 32x32 ) -geometry +0+0 -composite'.format(os.path.join(path_gym, 'flame.png'))
+        '-gravity east ( "{}" -resize 32x32 ) -geometry +0+0 -composite'.format(os.path.join(path_gym, 'flame.png'))
     ]
 
 
@@ -108,7 +109,7 @@ def battle_indicator_swords():
     y = gym_icon_size / 2
     return [
         '-fill white -stroke black -draw "circle {},{} {},{}"'.format(x, y, x - gym_badge_radius, y),
-        '-gravity east ( {} -resize 24x24 ) -geometry +4+0 -composite'.format(os.path.join(path_gym, 'swords.png'))
+        '-gravity east ( "{}" -resize 24x24 ) -geometry +4+0 -composite'.format(os.path.join(path_gym, 'swords.png'))
     ]
 
 
@@ -165,7 +166,7 @@ def get_pokemon_icon(pkm, weather=None, gender=None, form=None, costume=None):
         target_size = 96
         im_lines.append(
             '-fuzz 0.5% -trim +repage'
-            ' -scale 133x133\> -unsharp 0x1'
+            ' -scale "133x133>" -unsharp 0x1'
             ' -background none -gravity center -extent 139x139'
             ' -background black -alpha background -channel A -blur 0x1 -level 0,10%'
             ' -adaptive-resize {size}x{size}'
@@ -237,15 +238,9 @@ def pokemon_asset_path(args, pkm, gender, form, costume, weather):
         return pokemon_asset_path(args, pkm, MALE, form, costume, weather)
 
 
-def pokemon_asset_exists(args, pkm, gender):
-    url = '{}/decrypted_assets/pokemon_icon_{:03d}_{:02d}.png'.format(args.pogo_assets, pkm, gender)
-    response = requests.head(url)
-    return response.headers.get('content-type').startswith('image')
-
-
 def draw_gym_subject(image, size, gravity='north'):
     lines = [
-        '-gravity {} ( {} -resize {}x{} ( +clone -background black -shadow 80x3+5+5 ) +swap -background none -layers merge +repage ) -geometry +0+0 -composite'.format(
+        '-gravity {} ( "{}" -resize {}x{} ( +clone -background black -shadow 80x3+5+5 ) +swap -background none -layers merge +repage ) -geometry +0+0 -composite'.format(
             gravity, image, size, size)
     ]
     return lines
@@ -268,6 +263,7 @@ def init_image_dir(path):
             if not os.path.isdir(path):
                 raise
 
+
 def default_gym_image(team, level, raidlevel, pkm):
     path = path_gym
     if pkm and pkm != 'null':
@@ -285,9 +281,9 @@ def default_gym_image(team, level, raidlevel, pkm):
 
 def run_imagemagick(source, im_lines, out_filename):
     if not os.path.isfile(out_filename):
-        cmd = 'convert "{}" {} {}'.format(source, join(im_lines), out_filename)
+        cmd = 'magick convert "{}" {} "{}"'.format(source, join(im_lines), out_filename)
         if os.name != 'nt':
             cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
-        log.debug("Executing ImageMagick: {}".format(cmd))
+        log.info("Executing ImageMagick: {}".format(cmd))
         subprocess.call(cmd, shell=True)
     return out_filename
