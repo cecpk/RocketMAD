@@ -2489,7 +2489,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
 
         # Let db do it's things while we try to spin.
         if args.gain_xp:
-            gxp_spin_stops(forts, pgacc, step_location)
+            gxp_spin_stops(forts, pgacc, scan_coords)
             incubate_eggs(pgacc)
         elif args.pokestop_spinning or pgacc.get_stats('level', 1) == 1:
             for f in forts:
