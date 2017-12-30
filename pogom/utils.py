@@ -27,6 +27,7 @@ from requests.adapters import HTTPAdapter
 from cHaversine import haversine
 from pprint import pformat
 
+from pogom import dyn_img
 from pogom.pgpool import pgpool_request_accounts
 
 log = logging.getLogger(__name__)
@@ -821,10 +822,49 @@ def get_args():
     args.locales_dir = 'static/dist/locales'
     args.data_dir = 'static/dist/data'
 
-    if args.pogo_assets and os.path.isdir(args.pogo_assets):
-        log.info("Using PogoAssets at {}".format(args.pogo_assets))
-
     return args
+
+
+def init_dynamic_images(args):
+    if args.generate_images:
+        executable = determine_imagemagick_binary()
+        if executable:
+            dyn_img.generate_images = True
+            dyn_img.imagemagick_executable = executable
+            log.info("Generating icons using ImageMagick executable '{}'.".format(executable))
+
+            if args.pogo_assets:
+                decr_assets_dir = os.path.join(args.pogo_assets, 'decrypted_assets')
+                if os.path.isdir(decr_assets_dir):
+                    log.info("Using PogoAssets repository at '{}'".format(args.pogo_assets))
+                    dyn_img.pogo_assets = args.pogo_assets
+                else:
+                    log.error("Could not find PogoAssets repository at '{}'."
+                              " Clone via 'git clone -depth 1 https://github.com/ZeChrales/PogoAssets.git'".format(args.pogo_assets))
+        else:
+            log.error("Could not find ImageMagick executable. Make sure you can execute either 'magick' (ImageMagick 7)"
+                      " or 'convert' (ImageMagick 6) from the commandline. Otherwise you cannot use --generate-images")
+            sys.exit(1)
+
+
+def is_imagemagick_binary(binary):
+    try:
+        process = subprocess.Popen([binary, '-version'], stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        return "ImageMagick" in out
+    except:
+        return False
+
+
+def determine_imagemagick_binary():
+    candidates = {
+        'magick': 'magick convert',
+        'convert': None
+    }
+    for c in candidates:
+        if is_imagemagick_binary(c):
+            return candidates[c] if candidates[c] else c
+    return None
 
 
 def init_args(args):
@@ -849,6 +889,8 @@ def init_args(args):
     t = Thread(target=watch_pokemon_lists, args=(args, watchercfg))
     t.daemon = True
     t.start()
+
+    init_dynamic_images(args)
 
 
 def watch_pokemon_lists(args, cfg):
