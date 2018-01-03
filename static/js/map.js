@@ -134,16 +134,27 @@ function getExcludedPokemon() {
     return isShowAllZoom() ? [] : excludedPokemon
 }
 
-function excludePokemon(id) { // eslint-disable-line no-unused-vars
-    $selectExclude.val(
-        $selectExclude.val().concat(id)
-    ).trigger('change')
+function toggleSelectItem($select, id) {
+    var values = $select.val()
+    var idx = values.indexOf(id.toString())
+    if (idx >= 0) {
+        values.splice(idx, 1)
+    } else {
+        values = values.concat(id)
+    }
+    $select.val(values).change()
 }
 
-function notifyAboutPokemon(id) { // eslint-disable-line no-unused-vars
-    $selectPokemonNotify.val(
-        $selectPokemonNotify.val().concat(id)
-    ).trigger('change')
+function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
+    toggleSelectItem($selectExclude, id)
+    var pkm = mapData.pokemons[encounterId]
+    pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
+}
+
+function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
+    toggleSelectItem($selectPokemonNotify, id)
+    var pkm = mapData.pokemons[encounterId]
+    pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
 }
 
 function removePokemonMarker(encounterId) { // eslint-disable-line no-unused-vars
@@ -648,6 +659,9 @@ function pokemonLabel(item) {
           </div>`
     }
 
+    var hideLabel = excludedPokemon.indexOf(id) < 0 ? "Hide" : "Unhide"
+    var notifyLabel = notifiedPokemon.indexOf(id) < 0 ? "Notify" : "Unnotify"
+
     if (cp !== null && cpMultiplier !== null) {
         var pokemonLevel = getPokemonLevel(cpMultiplier)
 
@@ -667,10 +681,10 @@ function pokemonLabel(item) {
                   CP <span class='pokemon encounter big'>${cp}</span>
                 </div>
                 <div class='pokemon links'>
-                  <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id})'>Hide</a>
+                  <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id}, "${encounterId}")'>${hideLabel}</a>
                 </div>
                 <div class='pokemon links'>
-                  <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id})'>Notify</a>
+                  <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a>
                 </div>
                 <div class='pokemon links'>
                   <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
@@ -712,10 +726,10 @@ function pokemonLabel(item) {
           <div>
             <img class='pokemon sprite' src='static/icons/${id}.png'>
             <div class='pokemon links'>
-              <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id})'>Hide</a>
+              <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id}, "${encounterId}")'>${hideLabel}</a>
             </div>
             <div class='pokemon links'>
-              <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id})'>Notify</a>
+              <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a>
             </div>
             <div class='pokemon links'>
               <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
