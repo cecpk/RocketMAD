@@ -246,10 +246,10 @@ function updateMainCellWeather() {
         var winddirection = degreesToCardinal(s2Cell.wind_direction)
         var windtext = document.createElement('span')
         windtext.textContent ? windtext.textContent = winddirection : windtext.innerText = winddirection
-        windtext.setAttribute('style', 'font-size: 10px; position: relative; left: -2px;')
+        windtext.setAttribute('style', 'font-size:8px; position:relative; left:-18px; top:4px;')
         // Wind Icon
         var windIcon = document.createElement('img')
-        windIcon.setAttribute('src', 'static/images/weather/wind_streaks.png')
+        windIcon.setAttribute('src', 'static/images/weather/icons8-windsock-filled-50.png')
         windIcon.setAttribute('style', 'height: 25px; vertical-align: middle;')
         // Make It Happen
         $weatherInfo.appendChild(weathericon)
