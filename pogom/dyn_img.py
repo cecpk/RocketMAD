@@ -33,6 +33,14 @@ egg_images = {
     5: os.path.join(path_raid, 'egg_legendary.png')
 }
 
+egg_images_assets = {
+    1: os.path.join('static_assets', 'png', 'ic_raid_egg_normal.png'),
+    2: os.path.join('static_assets', 'png', 'ic_raid_egg_normal.png'),
+    3: os.path.join('static_assets', 'png', 'ic_raid_egg_rare.png'),
+    4: os.path.join('static_assets', 'png', 'ic_raid_egg_rare.png'),
+    5: os.path.join('static_assets', 'png', 'ic_raid_egg_legendary.png'),
+}
+
 weather_images = {
     CLEAR:          os.path.join(path_weather, 'weather_sunny.png'),
     RAINY:          os.path.join(path_weather, 'weather_rain.png'),
@@ -63,11 +71,21 @@ font_pointsize = 25
 
 
 def draw_raid_pokemon(pkm):
-    return draw_gym_subject(os.path.join(path_icons, '{}.png'.format(pkm)), 64)
+    if pogo_assets:
+        pkm_path, dummy = pokemon_asset_path(int(pkm))
+        trim = True
+    else:
+        pkm_path = os.path.join(path_icons, '{}.png'.format(pkm))
+        trim = False
+    return draw_gym_subject(pkm_path, 64, trim=trim)
 
 
 def draw_raid_egg(raidlevel):
-    return draw_gym_subject(egg_images[raidlevel], 36, 'center')
+    if pogo_assets:
+        egg_path = os.path.join(pogo_assets, egg_images_assets[raidlevel])
+    else:
+        egg_path = egg_images[raidlevel]
+    return draw_gym_subject(egg_path, 36, 'center')
 
 
 def draw_gym_level(level):
@@ -198,7 +216,7 @@ def get_pokemon_icon(pkm, weather=None, gender=None, form=None, costume=None):
     return run_imagemagick(source, im_lines, target)
 
 
-def pokemon_asset_path(pkm, gender, form, costume, weather):
+def pokemon_asset_path(pkm, gender=GENDER_UNSET, form=None, costume=None, weather=None):
     gender_suffix = gender_assets_suffix = ''
     form_suffix = form_assets_suffix  = ''
     costume_suffix = costume_assets_suffix = ''
@@ -238,10 +256,11 @@ def pokemon_asset_path(pkm, gender, form, costume, weather):
         return pokemon_asset_path(pkm, MALE, form, costume, weather)
 
 
-def draw_gym_subject(image, size, gravity='north'):
+def draw_gym_subject(image, size, gravity='north', trim=False):
+    trim_cmd = ' -fuzz 0.5% -trim +repage' if trim else ''
     lines = [
-        '-gravity {} ( "{}" -resize {}x{} ( +clone -background black -shadow 80x3+5+5 ) +swap -background none -layers merge +repage ) -geometry +0+0 -composite'.format(
-            gravity, image, size, size)
+        '-gravity {} ( "{}"{} -scale {}x{} -unsharp 0x1 ( +clone -background black -shadow 80x3+5+5 ) +swap -background none -layers merge +repage ) -geometry +0+0 -composite'.format(
+            gravity, image, trim_cmd, size, size)
     ]
     return lines
 
