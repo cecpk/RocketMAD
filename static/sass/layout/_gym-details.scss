@@ -347,6 +347,7 @@
         display: block;
         height: 96px;
         width: 96px;
+        -webkit-filter: drop-shadow(grey 3px 3px .2em);
 
         &.pokemon {
           @media screen and (max-width: 480px) {
