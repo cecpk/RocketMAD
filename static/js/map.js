@@ -662,6 +662,8 @@ function pokemonLabel(item) {
     var hideLabel = excludedPokemon.indexOf(id) < 0 ? "Hide" : "Unhide"
     var notifyLabel = notifiedPokemon.indexOf(id) < 0 ? "Notify" : "Unnotify"
 
+    var pokemon_icon = get_pokemon_raw_icon_url(item)
+
     if (cp !== null && cpMultiplier !== null) {
         var pokemonLevel = getPokemonLevel(cpMultiplier)
 
@@ -676,7 +678,7 @@ function pokemonLabel(item) {
           <div class='pokemon container'>
             <div class='pokemon container content-left'>
               <div>
-                <img class='pokemon sprite' src='static/icons/${id}.png'>
+                <img class='pokemon sprite' src='${pokemon_icon}'>
                 <div class='pokemon cp big'>
                   CP <span class='pokemon encounter big'>${cp}</span>
                 </div>
@@ -724,7 +726,7 @@ function pokemonLabel(item) {
       <div class='pokemon container'>
         <div class='pokemon container content-left'>
           <div>
-            <img class='pokemon sprite' src='static/icons/${id}.png'>
+            <img class='pokemon sprite' src='${pokemon_icon}'>
             <div class='pokemon links'>
               <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id}, "${encounterId}")'>${hideLabel}</a>
             </div>
@@ -831,13 +833,12 @@ function gymLabel(gym, includeMembers = true) {
 
         if (isRaidStarted) {
             // Use Pokémon-specific image.
+            var pokemon_icon = get_pokemon_raw_icon_url(raid)
             if (raid.pokemon_id !== null) {
                 image = `
                     <div class='raid container'>
                     <div class='raid container content-left'>
-                        <div>
-                        <img class='gym sprite' src='static/icons/${raid.pokemon_id}.png'>
-                        </div>
+                        <img class='gym sprite' src='${pokemon_icon}'>
                     </div>
                     <div class='raid container content-right'>
                         <div>
@@ -897,20 +898,20 @@ function gymLabel(gym, includeMembers = true) {
                 <div class='gym info last-modified'>
                     Last Modified: ${lastModifiedStr}
                 </div>
-            </div>
-        </div>`
+            </div>`
 
 
     if (includeMembers) {
         memberStr = '<div>'
 
         gym.pokemon.forEach((member) => {
+            var pokemon_icon = generateImages ? `<img class='pokemon_icon' src='${get_pokemon_raw_icon_url(member)}'>` : `<i class='pokemon-sprite n${member.pokemon_id}'></i>`
             memberStr += `
             <span class='gym member'>
               <center>
                 <div>
                   <div>
-                    <i class='pokemon-sprite n${member.pokemon_id}'></i>
+                    ${pokemon_icon}
                   </div>
                   <div>
                     <span class='gym pokemon'>${member.pokemon_name}</span>
@@ -935,7 +936,7 @@ function gymLabel(gym, includeMembers = true) {
                 ${imageLbl}
             </center>
             ${navInfo}
-            <center>
+            <center class="gym member_list">
                 ${memberStr}
             </center>
         </div>`
@@ -1201,7 +1202,7 @@ function customizePokemonMarker(marker, item, skipNotification) {
     if (isNotifyPoke(item)) {
         if (!skipNotification) {
             playPokemonSound(item['pokemon_id'], cryFileTypes)
-            sendNotification(notifyText.fav_title, notifyText.fav_text, 'static/icons/' + item['pokemon_id'] + '.png', item['latitude'], item['longitude'])
+            sendNotification(notifyText.fav_title, notifyText.fav_text, get_pokemon_raw_icon_url(item), item['latitude'], item['longitude'])
         }
         if (marker.animationDisabled !== true) {
             marker.setAnimation(google.maps.Animation.BOUNCE)
@@ -2362,7 +2363,7 @@ function getSidebarGymMember(pokemon) {
     return `
                     <tr onclick=toggleGymPokemonDetails(this)>
                         <td width="30px">
-                            <img class="gym pokemon sprite" src="static/icons/${pokemon.pokemon_id}.png">
+                            <img class="gym pokemon sprite" src="pkm_img?raw=1&pkm=${pokemon.pokemon_id}">
                         </td>
                         <td>
                             <div class="gym pokemon" style="line-height:0.5em;">${pokemon.pokemon_name}</div>
