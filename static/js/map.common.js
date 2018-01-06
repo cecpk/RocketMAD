@@ -1255,11 +1255,14 @@ function cssPercentageCircle(text, value, perfect_val, good_val, ok_val, meh_val
 }
 
 function get_pokemon_raw_icon_url(p) {
+    if (!generateImages) {
+        return `static/icons/${p.pokemon_id}.png`
+    }
     var url = 'pkm_img?raw=1&pkm=' + p.pokemon_id
-    var props = ['gender', 'form', 'costume']
+    var props = ['gender', 'form', 'costume', 'shiny']
     for (var i = 0; i < props.length; i++) {
         var prop = props[i]
-        if (prop in p && p[prop] != null) {
+        if (prop in p && p[prop] != null && p[prop]) {
             url += '&' + prop + '=' + p[prop]
         }
     }

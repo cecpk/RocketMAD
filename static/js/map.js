@@ -905,7 +905,7 @@ function gymLabel(gym, includeMembers = true) {
         memberStr = '<div>'
 
         gym.pokemon.forEach((member) => {
-            var pokemon_icon = generateImages ? `<img class='pokemon_icon' src='${get_pokemon_raw_icon_url(member)}'>` : `<i class='pokemon-sprite n${member.pokemon_id}'></i>`
+            var pokemon_icon = generateImages ? `<img class='pokemon-icon' src='${get_pokemon_raw_icon_url(member)}'>` : `<i class='pokemon-sprite n${member.pokemon_id}'></i>`
             memberStr += `
             <span class='gym member'>
               <center>
@@ -2324,10 +2324,17 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
         } else if (result.team_id === 0) {
             pokemonHtml = ''
         } else {
+            var pokemon_icon
+            if (generateImages) {
+                result.pokemon_id = result.guard_pokemon_id
+                pokemon_icon = `<img class='guard-pokemon-icon' src='${get_pokemon_raw_icon_url(result)}'>`
+            } else {
+                pokemon_icon = `<i class="pokemon-large-sprite n${result.guard_pokemon_id}"></i>`
+            }
             pokemonHtml = `
                 <center>
                     Gym Leader:<br>
-                    <i class="pokemon-large-sprite n${result.guard_pokemon_id}"></i><br>
+                    ${pokemon_icon}<br>
                     <b>${result.guard_pokemon_name}</b>
 
                     <p style="font-size: .75em; margin: 5px;">
@@ -2359,11 +2366,11 @@ function getSidebarGymMember(pokemon) {
     var perfectPercent = getIv(pokemon.iv_attack, pokemon.iv_defense, pokemon.iv_stamina)
     var moveEnergy = Math.round(100 / pokemon.move_2_energy)
 
-
+    var pokemon_image = get_pokemon_raw_icon_url(pokemon)
     return `
                     <tr onclick=toggleGymPokemonDetails(this)>
                         <td width="30px">
-                            <img class="gym pokemon sprite" src="pkm_img?raw=1&pkm=${pokemon.pokemon_id}">
+                            <img class="gym pokemon sprite" src="${pokemon_image}">
                         </td>
                         <td>
                             <div class="gym pokemon" style="line-height:0.5em;">${pokemon.pokemon_name}</div>
@@ -2721,8 +2728,14 @@ $(function () {
         if (!state.id) {
             return state.text
         }
+        var pokemon_icon
+        if (generateImages) {
+            pokemon_icon = `<img class='pokemon-select-icon' src='${get_pokemon_raw_icon_url({'pokemon_id': state.element.value.toString()})}'>`
+        } else {
+            pokemon_icon = `<i class="pokemon-sprite n${state.element.value.toString()}"></i>`
+        }
         var $state = $(
-            '<span><i class="pokemon-sprite n' + state.element.value.toString() + '"></i> ' + state.text + '</span>'
+            `<span>${pokemon_icon} ${state.text}</span>`
         )
         return $state
     }

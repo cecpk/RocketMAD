@@ -89,10 +89,12 @@ class Pogom(Flask):
         gender = int(request.args.get('gender')) if 'gender' in request.args else None
         form = int(request.args.get('form')) if 'form' in request.args else None
         costume = int(request.args.get('costume')) if 'costume' in request.args else None
-        filename = get_pokemon_raw_icon(pkm, gender=gender, form=form,
-                                        costume=costume) if raw else get_pokemon_map_icon(pkm, weather=weather,
-                                                                                          gender=gender, form=form,
-                                                                                          costume=costume)
+        shiny = 'shiny' in request.args
+        if raw:
+            filename = get_pokemon_raw_icon(pkm, gender=gender, form=form, costume=costume, weather=weather,
+                                            shiny=shiny)
+        else:
+            filename = get_pokemon_map_icon(pkm, weather=weather, gender=gender, form=form, costume=costume)
         return send_file(filename, mimetype='image/png')
 
     def scout_pokemon(self):
