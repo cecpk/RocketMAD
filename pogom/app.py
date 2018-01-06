@@ -10,7 +10,7 @@ from flask.json import JSONEncoder
 from flask_compress import Compress
 from datetime import datetime
 from s2sphere import LatLng
-from pogom.dyn_img import get_gym_icon, get_pokemon_icon
+from pogom.dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
 from pogom.pgscout import scout_error, pgscout_encounter
 from pogom.utils import get_args, get_pokemon_name
 from bisect import bisect_left
@@ -83,12 +83,19 @@ class Pogom(Flask):
         return send_file(get_gym_icon(team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
 
     def pokemon_img(self):
+        raw = 'raw' in request.args
         pkm = int(request.args.get('pkm'))
         weather = int(request.args.get('weather')) if 'weather' in request.args else 0
         gender = int(request.args.get('gender')) if 'gender' in request.args else None
         form = int(request.args.get('form')) if 'form' in request.args else None
         costume = int(request.args.get('costume')) if 'costume' in request.args else None
-        return send_file(get_pokemon_icon(pkm, weather=weather, gender=gender, form=form, costume=costume), mimetype='image/png')
+        shiny = 'shiny' in request.args
+        if raw:
+            filename = get_pokemon_raw_icon(pkm, gender=gender, form=form, costume=costume, weather=weather,
+                                            shiny=shiny)
+        else:
+            filename = get_pokemon_map_icon(pkm, weather=weather, gender=gender, form=form, costume=costume)
+        return send_file(filename, mimetype='image/png')
 
     def scout_pokemon(self):
         args = get_args()

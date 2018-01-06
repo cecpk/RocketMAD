@@ -83,7 +83,7 @@
   &.sprite {
     display: block;
     width: 64px;
-    -webkit-filter: drop-shadow(grey 3px 3px .2em);
+    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #888);
     margin-bottom: 6px;
   }
 

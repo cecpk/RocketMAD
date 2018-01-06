@@ -48,7 +48,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 24
+db_schema_version = 25
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -463,6 +463,11 @@ class Gym(LatLongModel):
     longitude = DoubleField()
     total_cp = SmallIntegerField()
     is_in_battle = BooleanField()
+    gender = SmallIntegerField(null=True)
+    form = SmallIntegerField(null=True)
+    costume = SmallIntegerField(null=True)
+    weather_boosted_condition = SmallIntegerField(null=True)
+    shiny = BooleanField(null=True)
     last_modified = DateTimeField(index=True)
     last_scanned = DateTimeField(default=datetime.utcnow, index=True)
 
@@ -533,6 +538,11 @@ class Gym(LatLongModel):
                            GymMember.deployment_time,
                            GymMember.last_scanned,
                            GymPokemon.pokemon_id,
+                           GymPokemon.gender,
+                           GymPokemon.form,
+                           GymPokemon.costume,
+                           GymPokemon.weather_boosted_condition,
+                           GymPokemon.shiny,
                            Trainer.name.alias('trainer_name'),
                            Trainer.level.alias('trainer_level'))
                        .join(Gym, on=(GymMember.gym_id == Gym.gym_id))
@@ -585,6 +595,11 @@ class Gym(LatLongModel):
                               GymDetails.name,
                               GymDetails.description,
                               Gym.guard_pokemon_id,
+                              Gym.gender,
+                              Gym.form,
+                              Gym.costume,
+                              Gym.weather_boosted_condition,
+                              Gym.shiny,
                               Gym.slots_available,
                               Gym.latitude,
                               Gym.longitude,
@@ -616,6 +631,11 @@ class Gym(LatLongModel):
                            GymPokemon.iv_attack,
                            GymPokemon.iv_defense,
                            GymPokemon.iv_stamina,
+                           GymPokemon.gender,
+                           GymPokemon.form,
+                           GymPokemon.costume,
+                           GymPokemon.weather_boosted_condition,
+                           GymPokemon.shiny,
                            Trainer.name.alias('trainer_name'),
                            Trainer.level.alias('trainer_level'))
                    .join(Gym, on=(GymMember.gym_id == Gym.gym_id))
@@ -1775,6 +1795,11 @@ class GymPokemon(BaseModel):
     iv_defense = SmallIntegerField(null=True)
     iv_stamina = SmallIntegerField(null=True)
     iv_attack = SmallIntegerField(null=True)
+    gender = SmallIntegerField(null=True)
+    form = SmallIntegerField(null=True)
+    costume = SmallIntegerField(null=True)
+    weather_boosted_condition = SmallIntegerField(null=True)
+    shiny = BooleanField(null=True)
     last_seen = DateTimeField(default=datetime.utcnow)
 
 
@@ -2430,6 +2455,16 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                         f.owned_by_team,
                     'guard_pokemon_id':
                         f.guard_pokemon_id,
+                    'gender':
+                        f.guard_pokemon_display.gender,
+                    'form':
+                        f.guard_pokemon_display.form,
+                    'costume':
+                        f.guard_pokemon_display.costume,
+                    'weather_boosted_condition':
+                        f.guard_pokemon_display.weather_boosted_condition,
+                    'shiny':
+                        f.guard_pokemon_display.shiny,
                     'slots_available':
                         gym_display.slots_available,
                     'total_cp':
@@ -2785,6 +2820,11 @@ def parse_gyms(args, gym_responses, wh_update_queue, db_update_queue):
                 'iv_defense': pokemon.individual_defense,
                 'iv_stamina': pokemon.individual_stamina,
                 'iv_attack': pokemon.individual_attack,
+                'gender': pokemon.pokemon_display.gender,
+                'form': pokemon.pokemon_display.form,
+                'costume': pokemon.pokemon_display.costume,
+                'weather_boosted_condition': pokemon.pokemon_display.weather_boosted_condition,
+                'shiny': pokemon.pokemon_display.shiny,
                 'last_seen': datetime.utcnow(),
             }
 
@@ -3344,6 +3384,30 @@ def database_migrate(db, old_ver):
         migrate(
             migrator.add_column('pokemon', 'costume',
                                 SmallIntegerField(null=True))
+        )
+
+    if old_ver < 25:
+        migrate(
+            migrator.add_column('gympokemon', 'gender',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gympokemon', 'form',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gympokemon', 'costume',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gympokemon', 'weather_boosted_condition',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gympokemon', 'shiny',
+                                BooleanField(null=True)),
+            migrator.add_column('gym', 'gender',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gym', 'form',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gym', 'costume',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gym', 'weather_boosted_condition',
+                                SmallIntegerField(null=True)),
+            migrator.add_column('gym', 'shiny',
+                                BooleanField(null=True))
         )
 
     # Always log that we're done.

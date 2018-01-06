@@ -9,3 +9,22 @@
       display: none;
     }
   }
+
+  img.guard-pokemon-icon {
+    width: 96px;
+    height: 96px;
+    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #aaa);
+  }
+
+  img.pokemon-icon {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #aaa);
+  }
+
+  img.pokemon-select-icon {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #aaa);
+    vertical-align: bottom;
+  }
