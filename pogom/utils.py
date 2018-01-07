@@ -764,15 +764,6 @@ def get_args():
 
                         args.accounts_L30.append(hlvl_account)
 
-        # Normalize PGScout URL
-        if args.pgscout_url:
-            # Remove trailing slashes
-            if args.pgscout_url.endswith('/'):
-                args.pgscout_url = args.pgscout_url[:len(args.pgscout_url) - 1]
-            # Add /iv if needed
-            if not args.pgscout_url.endswith('/iv'):
-                args.pgscout_url = '{}/iv'.format(args.pgscout_url)
-
         # Prepare the IV/CP scanning filters.
         args.enc_whitelist = []
 
@@ -818,6 +809,15 @@ def get_args():
             args.wh_types = frozenset()
         else:
             args.wh_types = frozenset([i for i in args.wh_types])
+
+    # Normalize PGScout URL
+    if args.pgscout_url:
+        # Remove trailing slashes
+        if args.pgscout_url.endswith('/'):
+            args.pgscout_url = args.pgscout_url[:len(args.pgscout_url) - 1]
+        # Add /iv if needed
+        if not args.pgscout_url.endswith('/iv'):
+            args.pgscout_url = '{}/iv'.format(args.pgscout_url)
 
     args.locales_dir = 'static/dist/locales'
     args.data_dir = 'static/dist/data'
