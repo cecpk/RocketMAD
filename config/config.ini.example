@@ -46,7 +46,6 @@
 #db-user:                       # Required for mysql
 #db-pass:                       # Required for mysql
 #db-port:                       # Required for mysql (default=3306)
-#db-max_connections:            # Max connections (per thread) for the database. (default=5)
 #db-threads:                    # Number of db threads; increase if the db queue falls behind. (default=1)
 
 
@@ -86,7 +85,7 @@
 #min-seconds-left:              # Time that must be left on a spawn before considering it too late and skipping it. (default=0)
 #gym-info                       # Enables detailed gym info collection. (default=False)
 #pokestop-spinning              # Spin Pokestops with "50%" Chance (default=False)
-#account-max-spins              # Maximum number of Pokestop spins per hour (default=80)
+#account-max-spins:             # Maximum number of Pokestop spins per hour (default=20)
 #on-demand_timeout:             # Pause searching while web UI is inactive for this timeout (in seconds). (default=0)
 
 
@@ -96,7 +95,7 @@
 #login-delay:                   # Time delay between each login attempt. (default=6)
 #login-retries:                 # Number of times to retry the login before refreshing a thread. (default=3)
 #account-search-interval:       # Seconds for accounts to search before switching to a new account. (default=0)
-#account-rest-interval:        # Seconds for accounts to rest when they fail or are switched out. (default=7200)
+#account-rest-interval:         # Seconds for accounts to rest when they fail or are switched out. (default=7200)
 #max-failures:                  # Maximum number of failures to parse locations before an account will go into a sleep for
                                 # account-rest-interval seconds. (default 5, 0 to disable)
 #max-empty:                     # Maximum number of empty scans before an account will go into a sleep for
@@ -150,10 +149,10 @@
 
 #webhook:                       # Webhook URL e.g. http://127.0.0.1:12345 or a list for multiple webhooks
                                 # [http://127.0.0.1:1345,http://127.0.0.1:12346] (default=None)
-#wh-types:[]                    # List of events to be sent: pokemon, gym, raid, egg, tth, gym-info, pokestop, lure. (default= nothing)
+#wh-types:[]                    # List of events to be sent: pokemon, gym, raid, egg, tth, gym-info, pokestop, lure, captcha. (default= nothing)
 #wh-threads:                    # Number of webhook threads; increase if the webhook queue falls behind. (default=1)
 #wh-retries:                    # Number of times to retry sending webhook data on failure (default=5)
-#wh-timeout:                    # Timeout (in seconds) for webhook requests (default=2).
+#wh-timeout:                    # Timeout (in seconds) for webhook requests (default=1).
 #wh-concurrency:                # Async requests pool size. (default=25)
 #wh-backoff-factor:             # Factor (in seconds) by which the delay until next retry will increase. (default=0.25).
 #wh-lfu-size:                   # Webhook LFU cache max size (default=1000).
@@ -184,9 +183,9 @@
 # Misc
 ######
 
-#verbosity						          # Show debug messages from RocketMap and PGoApi. Values are 1,2,3 (default=0)
-#no-file-logs					          # Disables logging to files except for access.log. (default=False)
-#log-path						            # Defines the path logs are saved at. (default=logs/)
+#verbosity                      # Show debug messages from RocketMap and PGoApi. Values are 1,2,3 (default=0)
+#no-file-logs                   # Disables logging to files except for access.log. (default=False)
+#log-path:                      # Defines the path logs are saved at. (default=logs/)
 #no-version-check               # Disable API version check. (default=False)
 #version-check-interval:        # Interval to check API version in seconds (Default: in range [60, 300]).
 #mock:                          # Mock mode - point to a fpgo endpoint instead of using the real PogoApi,

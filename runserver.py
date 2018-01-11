@@ -8,17 +8,20 @@ import time
 import re
 import ssl
 import json
+import requests
 
 from distutils.version import StrictVersion
 
 from threading import Thread, Event
+
+from mrmime import init_mr_mime
 from queue import Queue
 from flask_cors import CORS
 from flask_cache_bust import init_cache_busting
 
-from pogom import config
 from pogom.app import Pogom
-from pogom.utils import get_args, now, gmaps_reverse_geolocate
+from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
+                         log_resource_usage_loop, get_debug_dump_link)
 from pogom.altitude import get_gmaps_altitude
 
 from pogom.models import (init_database, create_tables, drop_tables,
@@ -49,7 +52,7 @@ stdout_hdlr = logging.StreamHandler(sys.stdout)
 stdout_hdlr.setFormatter(formatter)
 log_filter = LogFilter(logging.WARNING)
 stdout_hdlr.addFilter(log_filter)
-stdout_hdlr.setLevel(logging.DEBUG)
+stdout_hdlr.setLevel(5)
 
 # Redirect messages equal or higher than WARNING to stderr
 stderr_hdlr = logging.StreamHandler(sys.stderr)
@@ -89,8 +92,18 @@ def install_thread_excepthook():
             run_old(*args, **kwargs)
         except (KeyboardInterrupt, SystemExit):
             raise
-        except:
-            sys.excepthook(*sys.exc_info())
+        except Exception:
+            exc_type, exc_value, exc_trace = sys.exc_info()
+            print repr(sys.exc_info())
+
+            # Handle Flask's broken pipe when a client prematurely ends
+            # the connection.
+            if str(exc_value) == '[Errno 32] Broken pipe':
+                pass
+            else:
+                log.critical('Unhandled patched exception (%s): "%s".',
+                             exc_type, exc_value)
+                sys.excepthook(exc_type, exc_value, exc_trace)
     Thread.run = run
 
 
@@ -159,7 +172,7 @@ def can_start_scanning(args):
     api_version_error = (
         'The installed pgoapi is out of date. Please refer to ' +
         'http://rocketmap.readthedocs.io/en/develop/common-issues/' +
-        'faq.html#i-get-an-error-about-pgooapi-version'
+        'faq.html#i-get-an-error-about-pgoapi-version'
     )
 
     # Assert pgoapi >= pgoapi_version.
@@ -173,9 +186,19 @@ def can_start_scanning(args):
         log.critical('Hash key is required for scanning. Exiting.')
         return False
 
-    # Check the PoGo api pgoapi implements against what RM is expecting
+    # Check the PoGo api pgoapi implements against what RM is expecting.
+    # Some API versions have a non-standard version int, so we map them
+    # to the correct one.
+    api_version_int = int(args.api_version.replace('.', '0'))
+    api_version_map = {
+        8302: 8300,
+        8501: 8500,
+        8705: 8700
+    }
+    mapped_version_int = api_version_map.get(api_version_int, api_version_int)
+
     try:
-        if PGoApi.get_api_version() != int(args.api_version.replace('.', '0')):
+        if PGoApi.get_api_version() != mapped_version_int:
             log.critical(api_version_error)
             return False
     except AttributeError:
@@ -202,10 +225,36 @@ def main():
 
     set_log_and_verbosity(log)
 
-    config['parse_pokemon'] = not args.no_pokemon
-    config['parse_pokestops'] = not args.no_pokestops
-    config['parse_gyms'] = not args.no_gyms
-    config['parse_raids'] = not args.no_raids
+    args.root_path = os.path.dirname(os.path.abspath(__file__))
+    init_args(args)
+
+    # Initialize Mr. Mime library
+    mrmime_cfg = {
+        # We don't want exceptions on captchas because we handle them differently.
+        'exception_on_captcha': False,
+        # MrMime shouldn't jitter
+        'jitter_gmo': False,
+        'pgpool_system_id': args.status_name
+    }
+    # Don't clear PGPool URL if it's not given in config but set in MrMime config JSON
+    if args.pgpool_url:
+        mrmime_cfg['pgpool_url'] = args.pgpool_url
+    mrmime_config_file = os.path.join(os.path.dirname(__file__), 'config/mrmime_config.json')
+    init_mr_mime(config_file=mrmime_config_file, user_cfg=mrmime_cfg)
+
+    # Abort if only-server and no-server are used together
+    if args.only_server and args.no_server:
+        log.critical(
+            "You can't use no-server and only-server at the same time, silly.")
+        sys.exit(1)
+
+    # Stop if we're just looking for a debug dump.
+    if args.dump:
+        log.info('Retrieving environment info...')
+        hastebin = get_debug_dump_link()
+        log.info('Done! Your debug link: https://hastebin.com/%s.txt',
+                 hastebin)
+        sys.exit(1)
 
     # Let's not forget to run Grunt / Only needed when running with webserver.
     if not args.no_server and not validate_assets(args):
@@ -254,9 +303,6 @@ def main():
     if args.encounter:
         log.info('Encountering pokemon enabled.')
 
-    config['LOCALE'] = args.locale
-    config['CHINA'] = args.china
-
     app = None
     if not args.no_server and not args.clear_db:
         app = Pogom(__name__,
@@ -277,7 +323,7 @@ def main():
 
     create_tables(db)
 
-    # fixing encoding on present and future tables
+    # Fix encoding on present and future tables.
     verify_table_encoding(db)
 
     if args.clear_db:
@@ -306,6 +352,8 @@ def main():
 
     # DB Updates
     db_updates_queue = Queue()
+    if app:
+        app.set_db_updates_queue(db_updates_queue)
 
     # Thread(s) to process database updates.
     for i in range(args.db_threads):
@@ -315,8 +363,8 @@ def main():
         t.daemon = True
         t.start()
 
-    # db cleaner; really only need one ever.
-    if not args.disable_clean:
+    # Database cleaner; really only need one ever.
+    if args.enable_clean:
         t = Thread(target=clean_db_loop, name='db-cleaner', args=(args,))
         t.daemon = True
         t.start()
@@ -412,8 +460,6 @@ def main():
         while search_thread.is_alive():
             time.sleep(60)
     else:
-        config['ROOT_PATH'] = app.root_path
-        config['GMAPS_KEY'] = args.gmaps_key
 
         if args.cors:
             CORS(app)
@@ -458,6 +504,11 @@ def set_log_and_verbosity(log):
 
     if args.verbose:
         log.setLevel(logging.DEBUG)
+
+        # Let's log some periodic resource usage stats.
+        t = Thread(target=log_resource_usage_loop, name='res-usage')
+        t.daemon = True
+        t.start()
     else:
         log.setLevel(logging.INFO)
 
@@ -467,17 +518,26 @@ def set_log_and_verbosity(log):
     logging.getLogger('pgoapi.pgoapi').setLevel(logging.WARNING)
     logging.getLogger('pgoapi.rpc_api').setLevel(logging.INFO)
     logging.getLogger('werkzeug').setLevel(logging.ERROR)
+    logging.getLogger('pogom.apiRequests').setLevel(logging.INFO)
+
+    # This sneaky one calls log.warning() on every retry.
+    urllib3_logger = logging.getLogger(requests.packages.urllib3.__package__)
+    urllib3_logger.setLevel(logging.ERROR)
 
     # Turn these back up if debugging.
-    if args.verbose == 2:
+    if args.verbose >= 2:
         logging.getLogger('pgoapi').setLevel(logging.DEBUG)
         logging.getLogger('pgoapi.pgoapi').setLevel(logging.DEBUG)
         logging.getLogger('requests').setLevel(logging.DEBUG)
-    elif args.verbose >= 3:
+        urllib3_logger.setLevel(logging.INFO)
+
+    if args.verbose >= 3:
         logging.getLogger('peewee').setLevel(logging.DEBUG)
         logging.getLogger('rpc_api').setLevel(logging.DEBUG)
         logging.getLogger('pgoapi.rpc_api').setLevel(logging.DEBUG)
         logging.getLogger('werkzeug').setLevel(logging.DEBUG)
+        logging.addLevelName(5, 'TRACE')
+        logging.getLogger('pogom.apiRequests').setLevel(5)
 
     # Web access logs.
     if args.access_logs:

@@ -47,6 +47,7 @@
         <h1><a href="./">RocketMap<img class='rocket icon' src='static/images/rocket.png'></a></h1>
         <a href="#stats" id="statsToggle" class="statsNav" style="float: right;"><span class="label">Stats</span></a>
         <a href="status" target="_blank" style="float: right;"><span class="label">Status</span></a>
+        <span id="weatherInfo" style="float: right; vertical-align: middle;"></span>
       </header>
       <!-- NAV -->
       <nav id="nav">
@@ -75,7 +76,7 @@
                 <span class="switch-handle"></span>
                 </label>
               </div>
-            </div>            
+            </div>
             <div id="raids-filter-wrapper" style="display:none">
               <div class="form-control switch-container" id="raid-active-gym-wrapper">
                 <h3>Show Active Raids only</h3>
@@ -188,7 +189,7 @@
                 </select>
               </div>
             </div>
-              {% endif %}			  
+              {% endif %}
               {% if show.pokestops %}
             <div class="form-control switch-container">
               <h3>Pokéstops</h3>
@@ -247,6 +248,37 @@
               </label>
             </div>
               {% endif %}
+
+            <div class="form-control switch-container">
+                <h3>Weather</h3>
+                <div class="onoffswitch">
+                    <input id="weather-cells-switch" type="checkbox" name="ranges-switch" class="onoffswitch-checkbox">
+                    <label class="onoffswitch-label" for="weather-cells-switch">
+                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-control switch-container">
+                <h3>Weather Grid</h3>
+                <div class="onoffswitch">
+                    <input id="s2cells-switch" type="checkbox" name="ranges-switch" class="onoffswitch-checkbox">
+                    <label class="onoffswitch-label" for="s2cells-switch">
+                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-control switch-container">
+                <h3>Weather Alerts</h3>
+                <div class="onoffswitch">
+                    <input id="weather-alerts-switch" type="checkbox" name="ranges-switch" class="onoffswitch-checkbox">
+                    <label class="onoffswitch-label" for="weather-alerts-switch">
+                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                        <span class="switch-handle"></span>
+                    </label>
+                </div>
+            </div>
           </div>
 
           <h3><i class="fa fa-location-arrow fa-fw"></i>Location &amp; Search Settings</h3>
@@ -353,7 +385,43 @@
                 <input id="notify-perfection" type="text" name="notify-perfection" placeholder="Minimum perfection %"/>
               </label>
             </div>
+            <div class="form-control">
+              <label for="notify-level">
+                <h3>Notify of Level</h3>
+                <input id="notify-level" type="text" name="notify-level" placeholder="Minimum level"/>
+              </label>
+            </div>
               {% endif %}
+            <div class="form-control switch-container">
+              <h3>Hide unnotified pokemon</h3>
+              <div class="onoffswitch">
+                <input id="hideunnotified-switch" type="checkbox" name="hideunnotified-switch" class="onoffswitch-checkbox" checked>
+                <label class="onoffswitch-label" for="hideunnotified-switch">
+                  <span class="switch-label" data-on="On" data-off="Off"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
+            <div class="form-control switch-container">
+              <h3>Show browser popups</h3>
+              <div class="onoffswitch">
+                <input id="popups-switch" type="checkbox" name="popups-switch" class="onoffswitch-checkbox" checked>
+                <label class="onoffswitch-label" for="popups-switch">
+                  <span class="switch-label" data-on="On" data-off="Off"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
+            <div class="form-control switch-container">
+              <h3>Disable bouncing</h3>
+              <div class="onoffswitch">
+                <input id="bounce-switch" type="checkbox" name="bounce-switch" class="onoffswitch-checkbox" checked>
+                <label class="onoffswitch-label" for="bounce-switch">
+                  <span class="switch-label" data-on="On" data-off="Off"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
             <div class="form-control switch-container">
               <h3>Notify with sound</h3>
               <div class="onoffswitch">
@@ -381,6 +449,13 @@
             <div class="form-control switch-container">
               <h3>Map Style</h3>
               <select id="map-style"></select>
+            </div>
+            <div class="form-control switch-container">
+              <h3>Map Service Provider</h3>
+              <select name="map-service-provider" id="map-service-provider">
+                <option value="googlemaps">Google Maps</option>
+                <option value="applemaps">Apple Maps</option>
+              </select>
             </div>
             <div class="form-control switch-container">
               <h3>Icon Size</h3>
@@ -444,29 +519,34 @@
       <div id="map"></div>
       <div class="fab" id="scan-here" style="display:none"></div>
     </div>
-    <!-- Scripts -->
+    <!-- Load JS libs before custom scripts. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.4/push.min.js"></script>
     <script src="{{ url_for('static', filename='dist/js/vendor/markerclusterer.min.js').lstrip('/') }}"></script>
-    <script src="{{ url_for('static', filename='dist/js/app.min.js').lstrip('/') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsts/1.5.0/jsts.min.js"></script>
     <script>
       var centerLat = {{lat}};
       var centerLng = {{lng}};
       var showConfig = {{show|tojson|safe}};
+      var showAllZoomLevel = {{showAllZoomLevel}};
+      var generateImages = {{generateImages}};
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="{{ url_for('static', filename='dist/js/app.min.js').lstrip('/') }}"></script>
     <script src="{{ url_for('static', filename='dist/js/map.common.min.js').lstrip('/') }}"></script>
-    <script src="{{ url_for('static', filename='dist/js/map.min.js').lstrip('/') }}"></script>
-    <script src="{{ url_for('static', filename='dist/js/stats.min.js').lstrip('/') }}"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key={{ gmaps_key }}&amp;callback=initMap&amp;libraries=places,geometry"></script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
-    <!-- Custom JS -->
+    <!-- Load custom JS before map.js so it can change Store defaults. -->
       {% if show.custom_js %}
     <script src="{{ url_for('static', filename='dist/js/custom.min.js').lstrip('/') }}"></script>
       {% endif %}
+    <script src="{{ url_for('static', filename='dist/js/map.min.js').lstrip('/') }}"></script>
+    <script src="{{ url_for('static', filename='dist/js/stats.min.js').lstrip('/') }}"></script>
+    <script src="{{ url_for('static', filename='dist/js/weather.min.js').lstrip('/') }}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key={{ gmaps_key }}&amp;callback=initMap&amp;libraries=places,geometry"></script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
   </body>
 </html>

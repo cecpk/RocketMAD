@@ -866,6 +866,10 @@ var StoreOptions = {
         default: '',
         type: StoreTypes.Number
     },
+    'remember_text_level_notify': {
+        default: '',
+        type: StoreTypes.Number
+    },
     'showRaids': {
         default: false,
         type: StoreTypes.Boolean
@@ -934,6 +938,26 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showWeatherCells': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showS2Cells': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showWeatherAlerts': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'hideNotNotified': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showPopups': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'playSound': {
         default: false,
         type: StoreTypes.Boolean
@@ -978,6 +1002,18 @@ var StoreOptions = {
         default: 0,
         type: StoreTypes.Number
     },
+    'scaleByRarity': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'upscalePokemon': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'upscaledPokemon': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'searchMarkerStyle': {
         default: 'pokesition',
         type: StoreTypes.String
@@ -1009,6 +1045,14 @@ var StoreOptions = {
     'processPokemonIntervalMs': {
         default: 100,
         type: StoreTypes.Number
+    },
+    'mapServiceProvider': {
+        default: 'googlemaps',
+        type: StoreTypes.String
+    },
+    'isBounceDisabled': {
+        default: false,
+        type: StoreTypes.Boolean
     }
 }
 
@@ -1047,7 +1091,32 @@ var mapData = {
     pokestops: {},
     lurePokemons: {},
     scanned: {},
-    spawnpoints: {}
+    spawnpoints: {},
+    weather: {},
+    s2cells: {},
+    weatherAlerts: {}
+}
+
+function getPokemonIcon(item, sprite, displayHeight) {
+    displayHeight = Math.max(displayHeight, 3)
+    var scale = displayHeight / sprite.iconHeight
+    var scaledIconSize = new google.maps.Size(scale * sprite.iconWidth, scale * sprite.iconHeight)
+    var scaledIconOffset = new google.maps.Point(0, 0)
+    var scaledIconCenterOffset = new google.maps.Point(scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2)
+
+    let gender_param = item['gender'] ? `&gender=${item['gender']}` : ''
+    let form_param = item['form'] ? `&form=${item['form']}` : ''
+    let costume_param = item['costume'] ? `&costume=${item['costume']}` : ''
+    let weather_param = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
+    let icon_url = `pkm_img?pkm=${item['pokemon_id']}${gender_param}${form_param}${costume_param}${weather_param}`
+
+    return {
+        url: icon_url,
+        size: scaledIconSize,
+        scaledSize: scaledIconSize,
+        origin: scaledIconOffset,
+        anchor: scaledIconCenterOffset
+    }
 }
 
 function getGoogleSprite(index, sprite, displayHeight) {
@@ -1070,15 +1139,20 @@ function getGoogleSprite(index, sprite, displayHeight) {
     }
 }
 
-function setupPokemonMarkerDetails(item, map, scaleByRarity = true) {
+function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
     const pokemonIndex = item['pokemon_id'] - 1
     const sprite = pokemonSprites
 
     var markerDetails = {
         sprite: sprite
     }
-
     var iconSize = (map.getZoom() - 3) * (map.getZoom() - 3) * 0.2 + Store.get('iconSizeModifier')
+    rarityValue = 2
+
+    if (Store.get('upscalePokemon')) {
+        const upscaledPokemon = Store.get('upscaledPokemon')
+        var rarityValue = isNotifyPkmn || (upscaledPokemon.indexOf(item['pokemon_id']) !== -1) ? 29 : 2
+    }
 
     if (scaleByRarity) {
         const rarityValues = {
@@ -1087,8 +1161,6 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true) {
             'legendary': 50
         }
 
-        var rarityValue = isNotifyPoke(item) ? 29 : 2
-
         if (item.hasOwnProperty('pokemon_rarity')) {
             const pokemonRarity = item['pokemon_rarity'].toLowerCase()
 
@@ -1096,20 +1168,21 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true) {
                 rarityValue = rarityValues[pokemonRarity]
             }
         }
-
-        markerDetails.rarityValue = rarityValue
-        iconSize += rarityValue
     }
 
-    markerDetails.icon = getGoogleSprite(pokemonIndex, sprite, iconSize)
+    iconSize += rarityValue
+    markerDetails.rarityValue = rarityValue
+    markerDetails.icon = generateImages
+        ? getPokemonIcon(item, sprite, iconSize)
+        : getGoogleSprite(pokemonIndex, sprite, iconSize)
     markerDetails.iconSize = iconSize
 
     return markerDetails
 }
 
-function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true) {
+function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true, isNotifyPkmn = false) {
     // Scale icon size up with the map exponentially, also size with rarity.
-    const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity)
+    const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
     const icon = markerDetails.icon
 
     var marker = new google.maps.Marker({
@@ -1125,9 +1198,9 @@ function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true) {
     return marker
 }
 
-function updatePokemonMarker(item, map, scaleByRarity = true) {
+function updatePokemonMarker(item, map, scaleByRarity = true, isNotifyPkmn = false) {
     // Scale icon size up with the map exponentially, also size with rarity.
-    const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity)
+    const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
     const icon = markerDetails.icon
     const marker = item.marker
 
@@ -1142,4 +1215,56 @@ function isTouchDevice() {
 function isMobileDevice() {
     //  Basic mobile OS (not browser) detection
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+}
+
+function cssPercentageCircle(text, value, perfect_val, good_val, ok_val, meh_val) {
+    // Ring color
+    var ring_color
+    if (value == perfect_val) {
+        ring_color = 'lime'
+    } else if (value >= good_val) {
+        ring_color = 'green'
+    } else if (value >= ok_val) {
+        ring_color = 'olive'
+    } else if (value >= meh_val) {
+        ring_color = 'orange'
+    } else {
+        ring_color = 'red'
+    }
+
+    // CSS styles
+    var percentage = value * 100 / perfect_val
+    var deg = 360 * percentage / 100
+    var circle_styles
+    if (deg <= 180) {
+        circle_styles = `background-color: ${ring_color};
+            background-image: linear-gradient(${90+deg}deg, transparent 50%, Gainsboro 50%),
+                              linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
+    } else {
+        circle_styles = `background-color: ${ring_color};
+            background-image: linear-gradient(${deg-90}deg, transparent 50%, ${ring_color} 50%),
+                              linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
+    }
+
+    // HTML output
+    return `<div class="active-border" style='${circle_styles}'>
+                <div class="circle">
+                    <span class="prec" id="prec">${text}</span>
+                </div>
+            </div>`
+}
+
+function get_pokemon_raw_icon_url(p) {
+    if (!generateImages) {
+        return `static/icons/${p.pokemon_id}.png`
+    }
+    var url = 'pkm_img?raw=1&pkm=' + p.pokemon_id
+    var props = ['gender', 'form', 'costume', 'shiny']
+    for (var i = 0; i < props.length; i++) {
+        var prop = props[i]
+        if (prop in p && p[prop] != null && p[prop]) {
+            url += '&' + prop + '=' + p[prop]
+        }
+    }
+    return url
 }

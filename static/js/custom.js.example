@@ -1,8 +1,14 @@
 $(function () {
     'use strict'
 
+    // Marker cluster might have loaded before custom.js.
+    const isMarkerClusterLoaded = typeof window.markerCluster !== 'undefined' && !!window.markerCluster
 
     /* Settings. */
+
+    const scaleByRarity = true // Enable scaling by rarity. Default: true.
+    const upscalePokemon = false // Enable upscaling of certain Pokemon (upscaledPokemon and notify list). Default: false.
+    const upscaledPokemon = [] // Add Pokémon IDs separated by commas (e.g. [1, 2, 3]) to upscale icons.
 
     // Google Analytics property ID. Leave empty to disable.
     // Looks like 'UA-XXXXX-Y'.
@@ -65,8 +71,11 @@ $(function () {
     Store.set('clusterGridSize', clusterGridSize)
     Store.set('processPokemonChunkSize', processPokemonChunkSize)
     Store.set('processPokemonIntervalMs', processPokemonIntervalMs)
+    Store.set('scaleByRarity', scaleByRarity)
+    Store.set('upscalePokemon', upscalePokemon)
+    Store.set('upscaledPokemon', upscaledPokemon)
 
-    if (typeof window.orientation !== "undefined" || isMobileDevice()) {
+    if (typeof window.orientation !== 'undefined' || isMobileDevice()) {
         Store.set('maxClusterZoomLevel', maxClusterZoomLevelMobile)
         Store.set('clusterZoomOnClick', clusterZoomOnClickMobile)
         Store.set('clusterGridSize', clusterGridSizeMobile)
@@ -74,6 +83,10 @@ $(function () {
 
     if (disableClusters) {
         Store.set('maxClusterZoomLevel', -1)
+
+        if (isMarkerClusterLoaded) {
+            window.markerCluster.setMaxZoom(-1)
+        }
     }
 
     // Google Analytics.

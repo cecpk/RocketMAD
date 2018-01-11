@@ -8,6 +8,10 @@
     justify-content: center;
   }
 
+  &.member_list {
+    padding-right: 4px;
+  }
+
   &.member {
     display: inline-block;
     margin-left: 1px;
@@ -25,6 +29,7 @@
     height: 64px;
     width: 64px;
     margin: 5px 0px 5px 0px;
+    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #888);
   }
 
   &.info {

@@ -2,25 +2,33 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import urllib
+import urlparse
+from threading import Thread
+
 import configargparse
 import os
-import math
 import json
 import logging
 import random
 import time
 import socket
 import struct
-import requests
 import hashlib
+import psutil
+import subprocess
+import requests
 
 from s2sphere import CellId, LatLng
 from geopy.geocoders import GoogleV3
 from requests_futures.sessions import FuturesSession
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
+from cHaversine import haversine
+from pprint import pformat
 
-from . import config
+from pogom import dyn_img
+from pogom.pgpool import pgpool_request_accounts
 
 log = logging.getLogger(__name__)
 
@@ -28,6 +36,24 @@ log = logging.getLogger(__name__)
 def parse_unicode(bytestring):
     decoded_string = bytestring.decode(sys.getfilesystemencoding())
     return decoded_string
+
+
+def read_pokemon_ids_from_file(f):
+    pokemon_ids = set()
+    for name in f:
+        name = name.strip()
+        # Lines starting with # or - mean: skip this Pokemon
+        if name[0] in ('#', '-'):
+            continue
+        try:
+            # Pokemon can be given as Pokedex ID
+            pid = int(name)
+        except ValueError:
+            # Perform the usual name -> ID lookup
+            pid = get_pokemon_id(unicode(name, 'utf-8'))
+        if pid and not pid == -1:
+            pokemon_ids.add(pid)
+    return sorted(pokemon_ids)
 
 
 def memoize(function):
@@ -57,6 +83,8 @@ def get_args():
         auto_env_var_prefix='POGOMAP_')
     parser.add_argument('-cf', '--config',
                         is_config_file=True, help='Set configuration file')
+    parser.add_argument('-scf', '--shared-config',
+                        is_config_file=True, help='Set a shared config')
     parser.add_argument('-a', '--auth-service', type=str.lower,
                         action='append', default=[],
                         help=('Auth Services, either one for all accounts ' +
@@ -70,6 +98,10 @@ def get_args():
     parser.add_argument('-w', '--workers', type=int,
                         help=('Number of search worker threads to start. ' +
                               'Defaults to the number of accounts specified.'))
+    parser.add_argument('-hw', '--highlvl-workers', type=int,
+                        default=0,
+                        help=('Load this many high level workers from PGPool. ' +
+                              'This requires --pgpool-url to be set.'))
     parser.add_argument('-asi', '--account-search-interval', type=int,
                         default=0,
                         help=('Seconds for accounts to search before ' +
@@ -80,11 +112,11 @@ def get_args():
                               'or are switched out.'))
     parser.add_argument('-ac', '--accountcsv',
                         help=('Load accounts from CSV file containing ' +
-                              '"auth_service,username,passwd" lines.'))
+                              '"auth_service,username,password" lines.'))
     parser.add_argument('-hlvl', '--high-lvl-accounts',
                         help=('Load high level accounts from CSV file '
                               + ' containing '
-                              + '"auth_service,username,passwd"'
+                              + '"auth_service,username,password"'
                               + ' lines.'))
     parser.add_argument('-bh', '--beehive',
                         help=('Use beehive configuration for multiple ' +
@@ -112,9 +144,9 @@ def get_args():
                               ' rather than only once, and store results in' +
                               ' the database.'),
                         action='store_true', default=False)
-    parser.add_argument('-nj', '--no-jitter',
-                        help=("Don't apply random -9m to +9m jitter to " +
-                              "location."),
+    parser.add_argument('-j', '--jitter',
+                        help=('Apply random -5m to +5m jitter to ' +
+                              'location.'),
                         action='store_true', default=False)
     parser.add_argument('-al', '--access-logs',
                         help=("Write web logs to access.log."),
@@ -172,7 +204,7 @@ def get_args():
                         'webhooks or saved to the DB.')
     parser.add_argument('-encwf', '--enc-whitelist-file',
                         default='', help='File containing a list of '
-                        'Pokemon IDs to encounter for'
+                        'Pokemon IDs or names to encounter for'
                         ' IV/CP scanning. One line per ID.')
     parser.add_argument('-nostore', '--no-api-store',
                         help=("Don't store the API objects used by the high"
@@ -184,22 +216,10 @@ def get_args():
                         help=('Number of times to retry an API request.'),
                         type=int, default=3)
     webhook_list = parser.add_mutually_exclusive_group()
-    webhook_list.add_argument('-wwht', '--webhook-whitelist',
-                              action='append', default=[],
-                              help=('List of Pokemon to send to '
-                                    'webhooks. Specified as Pokemon ID.'))
-    webhook_list.add_argument('-wblk', '--webhook-blacklist',
-                              action='append', default=[],
-                              help=('List of Pokemon NOT to send to '
-                                    'webhooks. Specified as Pokemon ID.'))
     webhook_list.add_argument('-wwhtf', '--webhook-whitelist-file',
                               default='', help='File containing a list of '
-                                               'Pokemon IDs to be sent to '
-                                               'webhooks.')
-    webhook_list.add_argument('-wblkf', '--webhook-blacklist-file',
-                              default='', help='File containing a list of '
-                                               'Pokemon IDs NOT to be sent to'
-                                               'webhooks.')
+                                               'Pokemon IDs or names to be '
+                                               'sent to webhooks.')
     parser.add_argument('-ld', '--login-delay',
                         help='Time delay between each login attempt.',
                         type=float, default=6)
@@ -237,9 +257,8 @@ def get_args():
     parser.add_argument('-P', '--port', type=int,
                         help='Set web server listening port.', default=5000)
     parser.add_argument('-L', '--locale',
-                        help=('Locale for Pokemon names (default: {}, check ' +
-                              '{} for more).').format(config['LOCALE'],
-                                                      config['LOCALES_DIR']),
+                        help=('Locale for Pokemon names (check' +
+                              ' static/dist/locales for more).'),
                         default='en')
     parser.add_argument('-c', '--china',
                         help='Coordinates transformer for China.',
@@ -312,7 +331,7 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-ams', '--account-max-spins',
                         help='Maximum number of Pokestop spins per hour.',
-                        type=int, default=80)
+                        type=int, default=20)
     parser.add_argument('-kph', '--kph',
                         help=('Set a maximum speed in km/hour for scanner ' +
                               'movement.'),
@@ -378,9 +397,6 @@ def get_args():
     parser.add_argument('--db-host', help='IP or hostname for the database.')
     parser.add_argument(
         '--db-port', help='Port for the database.', type=int, default=3306)
-    parser.add_argument('--db-max_connections',
-                        help='Max connections (per thread) for the database.',
-                        type=int, default=5)
     parser.add_argument('--db-threads',
                         help=('Number of db threads; increase if the db ' +
                               'queue falls behind.'),
@@ -392,14 +408,14 @@ def get_args():
                         help=('Get all details about gyms (causes an ' +
                               'additional API hit for every gym).'),
                         action='store_true', default=False)
-    parser.add_argument('--disable-clean', help='Disable clean db loop.',
+    parser.add_argument('-DC', '--enable-clean', help='Enable DB cleaner.',
                         action='store_true', default=False)
     parser.add_argument(
         '--wh-types',
         help=('Defines the type of messages to send to webhooks.'),
         choices=[
             'pokemon', 'gym', 'raid', 'egg', 'tth', 'gym-info',
-            'pokestop', 'lure'
+            'pokestop', 'lure', 'captcha'
         ],
         action='append',
         default=[])
@@ -471,8 +487,25 @@ def get_args():
                         help=('Enables the use of X-FORWARDED-FOR headers ' +
                               'to identify the IP of clients connecting ' +
                               'through these trusted proxies.'))
-    parser.add_argument('--api-version', default='0.69.1',
+    parser.add_argument('--api-version', default='0.87.5',
                         help=('API version currently in use.'))
+    parser.add_argument('--no-file-logs',
+                        help=('Disable logging to files. ' +
+                              'Does not disable --access-logs.'),
+                        action='store_true', default=False)
+    parser.add_argument('--log-path',
+                        help=('Defines directory to save log files to.'),
+                        default='logs/')
+    parser.add_argument('--dump',
+                        help=('Dump censored debug info about the ' +
+                              'environment and auto-upload to ' +
+                              'hastebin.com.'),
+                        action='store_true', default=False)
+    parser.add_argument('-sazl', '--show-all-zoom-level',
+                        help=('Show all Pokemon, even excluded, at this map '
+                              'zoom level. Set to 0 to disable this feature. '
+                              'Set to 19 or higher for nice results.'),
+                        type=int, default=0)
     verbose = parser.add_mutually_exclusive_group()
     verbose.add_argument('-v',
                          help=('Show debug messages from RocketMap ' +
@@ -482,13 +515,26 @@ def get_args():
                          help=('Show debug messages from RocketMap ' +
                                'and pgoapi.'),
                          type=int, dest='verbose')
-    parser.add_argument('--no-file-logs',
-                        help=('Disable logging to files. ' +
-                              'Does not disable --access-logs.'),
+    parser.add_argument('-rst', '--rareless-scans-threshold',
+                        help=('Mark an account as blind/shadowbanned after '
+                              'this many scans without finding any rare '
+                              'Pokemon.'),
+                        type=int, default=10)
+    parser.add_argument('-rb', '--rotate-blind',
+                        help='Rotate out blinded accounts.',
                         action='store_true', default=False)
-    parser.add_argument('--log-path',
-                        help=('Defines directory to save log files to.'),
-                        default='logs/')
+    parser.add_argument('-pgpu', '--pgpool-url', default=None,
+                        help='URL of PGPool account manager.')
+    parser.add_argument('-gxp', '--gain-xp',
+                        help='Do various things to let map accounts gain XP.',
+                        action='store_true', default=False)
+    parser.add_argument('-gen', '--generate-images',
+                        help='Use ImageMagick to generate dynamic icons on demand.',
+                        action='store_true', default=False)
+    parser.add_argument('-pgsu', '--pgscout-url', default=None,
+                        help='URL to query PGScout for Pokemon IV/CP.')
+    parser.add_argument('-pa', '--pogo-assets', default=None,
+                        help='Directory pointing to optional PogoAssets root directory.')
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
@@ -504,7 +550,7 @@ def get_args():
         # password and auth_service arguments.
         # CSV file should have lines like "ptc,username,password",
         # "username,password" or "username".
-        if args.accountcsv is not None:
+        if args.accountcsv is not None and args.pgpool_url is None:
             # Giving num_fields something it would usually not get.
             num_fields = -1
             with open(args.accountcsv, 'r') as f:
@@ -523,7 +569,8 @@ def get_args():
                     csv_input.append('<username>,<password>')
                     csv_input.append('<ptc/google>,<username>,<password>')
 
-                    # If the number of fields is differend this is not a CSV.
+                    # If the number of fields is different,
+                    # then this is not a CSV.
                     if num_fields != line.count(',') + 1:
                         print(sys.argv[0] +
                               ": Error parsing CSV file on line " + str(num) +
@@ -571,7 +618,7 @@ def get_args():
 
                     # If the number of fields is three then assume this is
                     # "ptc,username,password". As requested.
-                    if num_fields == 3:
+                    if num_fields >= 3:
                         # If field 0 is not ptc or google something is wrong!
                         if (fields[0].lower() == 'ptc' or
                                 fields[0].lower() == 'google'):
@@ -593,12 +640,6 @@ def get_args():
                         else:
                             field_error = 'password'
 
-                    if num_fields > 3:
-                        print(('Too many fields in accounts file: max ' +
-                               'supported are 3 fields. ' +
-                               'Found {} fields').format(num_fields))
-                        sys.exit(1)
-
                     # If something is wrong display error.
                     if field_error != '':
                         type_error = 'empty!'
@@ -617,113 +658,121 @@ def get_args():
 
         errors = []
 
-        num_auths = len(args.auth_service)
-        num_usernames = 0
-        num_passwords = 0
+        if args.pgpool_url is None:
+            num_auths = len(args.auth_service)
+            num_usernames = 0
+            num_passwords = 0
 
-        if len(args.username) == 0:
+            if len(args.username) == 0:
+                errors.append(
+                    'Missing `username` either as -u/--username, csv file ' +
+                    'using -ac, or in config.')
+            else:
+                num_usernames = len(args.username)
+
+            if len(args.password) == 0:
+                errors.append(
+                    'Missing `password` either as -p/--password, csv file, ' +
+                    'or in config.')
+            else:
+                num_passwords = len(args.password)
+
+            if num_auths == 0:
+                args.auth_service = ['ptc']
+
+            num_auths = len(args.auth_service)
+
+            if num_usernames > 1:
+                if num_passwords > 1 and num_usernames != num_passwords:
+                    errors.append((
+                        'The number of provided passwords ({}) must match the ' +
+                        'username count ({})').format(num_passwords,
+                                                      num_usernames))
+                if num_auths > 1 and num_usernames != num_auths:
+                    errors.append((
+                        'The number of provided auth ({}) must match the ' +
+                        'username count ({}).').format(num_auths, num_usernames))
+        elif args.workers is None:
             errors.append(
-                'Missing `username` either as -u/--username, csv file ' +
-                'using -ac, or in config.')
-        else:
-            num_usernames = len(args.username)
+                'Missing `workers` either as -w/--workers or in config. Required when using PGPool.')
 
         if args.location is None:
             errors.append(
                 'Missing `location` either as -l/--location or in config.')
-
-        if len(args.password) == 0:
-            errors.append(
-                'Missing `password` either as -p/--password, csv file, ' +
-                'or in config.')
-        else:
-            num_passwords = len(args.password)
 
         if args.step_limit is None:
             errors.append(
                 'Missing `step_limit` either as -st/--step-limit or ' +
                 'in config.')
 
-        if num_auths == 0:
-            args.auth_service = ['ptc']
-
-        num_auths = len(args.auth_service)
-
-        if num_usernames > 1:
-            if num_passwords > 1 and num_usernames != num_passwords:
-                errors.append((
-                    'The number of provided passwords ({}) must match the ' +
-                    'username count ({})').format(num_passwords,
-                                                  num_usernames))
-            if num_auths > 1 and num_usernames != num_auths:
-                errors.append((
-                    'The number of provided auth ({}) must match the ' +
-                    'username count ({}).').format(num_auths, num_usernames))
-
         if len(errors) > 0:
             parser.print_usage()
             print(sys.argv[0] + ": errors: \n - " + "\n - ".join(errors))
             sys.exit(1)
 
-        # Fill the pass/auth if set to a single value.
-        if num_passwords == 1:
-            args.password = [args.password[0]] * num_usernames
-        if num_auths == 1:
-            args.auth_service = [args.auth_service[0]] * num_usernames
-
         # Make the accounts list.
         args.accounts = []
-        for i, username in enumerate(args.username):
-            args.accounts.append({'username': username,
-                                  'password': args.password[i],
-                                  'auth_service': args.auth_service[i]})
-
-        # Prepare the L30 accounts for the account sets.
         args.accounts_L30 = []
+        if args.pgpool_url:
+            # Request initial number of workers from PGPool
+            args.pgpool_initial_accounts = pgpool_request_accounts(args, initial=True)
+            # Request L30 accounts from PGPool
+            if args.highlvl_workers > 0:
+                args.accounts_L30 = pgpool_request_accounts(args, highlvl=True, initial=True)
+        else:
+            # Fill the pass/auth if set to a single value.
+            if num_passwords == 1:
+                args.password = [args.password[0]] * num_usernames
+            if num_auths == 1:
+                args.auth_service = [args.auth_service[0]] * num_usernames
 
-        if args.high_lvl_accounts:
-            # Context processor.
-            with open(args.high_lvl_accounts, 'r') as accs:
-                for line in accs:
-                    # Make sure it's not an empty line.
-                    if not line.strip():
-                        continue
+            # Fill the accounts list.
+            args.accounts = []
+            for i, username in enumerate(args.username):
+                args.accounts.append({'username': username,
+                                      'password': args.password[i],
+                                      'auth_service': args.auth_service[i]})
 
-                    line = line.split(',')
+            # Prepare the L30 accounts for the account sets.
+            if args.high_lvl_accounts:
+                # Context processor.
+                with open(args.high_lvl_accounts, 'r') as accs:
+                    for line in accs:
+                        # Make sure it's not an empty line.
+                        if not line.strip():
+                            continue
 
-                    # We need "service, user, pass".
-                    if len(line) < 3:
-                        raise Exception('L30 account is missing a'
-                                        + ' field. Each line requires: '
-                                        + '"service,user,pass".')
+                        line = line.split(',')
 
-                    # Let's remove trailing whitespace.
-                    service = line[0].strip()
-                    username = line[1].strip()
-                    password = line[2].strip()
+                        # We need "service, username, password".
+                        if len(line) < 3:
+                            raise Exception('L30 account is missing a'
+                                            + ' field. Each line requires: '
+                                            + '"service,user,pass".')
 
-                    hlvl_account = {
-                        'auth_service': service,
-                        'username': username,
-                        'password': password,
-                        'captcha': False
-                    }
+                        # Let's remove trailing whitespace.
+                        service = line[0].strip()
+                        username = line[1].strip()
+                        password = line[2].strip()
 
-                    args.accounts_L30.append(hlvl_account)
+                        hlvl_account = {
+                            'auth_service': service,
+                            'username': username,
+                            'password': password,
+                            'captcha': False
+                        }
+
+                        args.accounts_L30.append(hlvl_account)
 
         # Prepare the IV/CP scanning filters.
         args.enc_whitelist = []
 
-        # IV/CP scanning.
-        if args.enc_whitelist_file:
-            with open(args.enc_whitelist_file) as f:
-                args.enc_whitelist = frozenset([int(l.strip()) for l in f])
-
         # Make max workers equal number of accounts if unspecified, and disable
         # account switching.
-        if args.workers is None:
-            args.workers = len(args.accounts)
-            args.account_search_interval = None
+        if args.pgpool_url is None:
+            if args.workers is None:
+                args.workers = len(args.accounts)
+                args.account_search_interval = None
 
         # Disable search interval if 0 specified.
         if args.account_search_interval == 0:
@@ -731,25 +780,13 @@ def get_args():
 
         # Make sure we don't have an empty account list after adding command
         # line and CSV accounts.
-        if len(args.accounts) == 0:
-            print(sys.argv[0] +
-                  ": Error: no accounts specified. Use -a, -u, and -p or " +
-                  "--accountcsv to add accounts.")
-            sys.exit(1)
-
-        if args.webhook_whitelist_file:
-            with open(args.webhook_whitelist_file) as f:
-                args.webhook_whitelist = frozenset(
-                    [int(p_id.strip()) for p_id in f])
-        elif args.webhook_blacklist_file:
-            with open(args.webhook_blacklist_file) as f:
-                args.webhook_blacklist = frozenset(
-                    [int(p_id.strip()) for p_id in f])
-        else:
-            args.webhook_blacklist = frozenset(
-                [int(i) for i in args.webhook_blacklist])
-            args.webhook_whitelist = frozenset(
-                [int(i) for i in args.webhook_whitelist])
+        if args.pgpool_url is None:
+            if len(args.accounts) == 0:
+                print(sys.argv[0] +
+                      ": Error: no accounts specified. Use -a, -u, and -p or " +
+                      "--accountcsv to add accounts. Or use -pgpu/--pgpool-url to " +
+                      "specify the URL of PGPool.")
+                sys.exit(1)
 
         # create an empty set
         args.ignorelist = []
@@ -773,7 +810,104 @@ def get_args():
         else:
             args.wh_types = frozenset([i for i in args.wh_types])
 
+    # Normalize PGScout URL
+    if args.pgscout_url:
+        # Remove trailing slashes
+        if args.pgscout_url.endswith('/'):
+            args.pgscout_url = args.pgscout_url[:len(args.pgscout_url) - 1]
+        # Add /iv if needed
+        if not args.pgscout_url.endswith('/iv'):
+            args.pgscout_url = '{}/iv'.format(args.pgscout_url)
+
+    args.locales_dir = 'static/dist/locales'
+    args.data_dir = 'static/dist/data'
+
     return args
+
+
+def init_dynamic_images(args):
+    if args.generate_images:
+        executable = determine_imagemagick_binary()
+        if executable:
+            dyn_img.generate_images = True
+            dyn_img.imagemagick_executable = executable
+            log.info("Generating icons using ImageMagick executable '{}'.".format(executable))
+
+            if args.pogo_assets:
+                decr_assets_dir = os.path.join(args.pogo_assets, 'decrypted_assets')
+                if os.path.isdir(decr_assets_dir):
+                    log.info("Using PogoAssets repository at '{}'".format(args.pogo_assets))
+                    dyn_img.pogo_assets = args.pogo_assets
+                else:
+                    log.error("Could not find PogoAssets repository at '{}'."
+                              " Clone via 'git clone -depth 1 https://github.com/ZeChrales/PogoAssets.git'".format(args.pogo_assets))
+        else:
+            log.error("Could not find ImageMagick executable. Make sure you can execute either 'magick' (ImageMagick 7)"
+                      " or 'convert' (ImageMagick 6) from the commandline. Otherwise you cannot use --generate-images")
+            sys.exit(1)
+
+
+def is_imagemagick_binary(binary):
+    try:
+        process = subprocess.Popen([binary, '-version'], stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        return "ImageMagick" in out
+    except:
+        return False
+
+
+def determine_imagemagick_binary():
+    candidates = {
+        'magick': 'magick convert',
+        'convert': None
+    }
+    for c in candidates:
+        if is_imagemagick_binary(c):
+            return candidates[c] if candidates[c] else c
+    return None
+
+
+def init_args(args):
+    """
+    Initialize commandline arguments after parsing. Some things need to happen after parsing.
+
+    :param args: The parsed commandline arguments
+    """
+
+    watchercfg = {}
+    # IV/CP scanning.
+    if args.enc_whitelist_file:
+        log.info("Watching encounter whitelist file {} for changes.".format(args.enc_whitelist_file))
+        watchercfg['enc_whitelist'] = (args.enc_whitelist_file, None)
+
+    # Prepare webhook whitelist - empty list means no restrictions
+    args.webhook_whitelist = []
+    if args.webhook_whitelist_file:
+        log.info("Watching webhook whitelist file {} for changes.".format(args.webhook_whitelist_file))
+        watchercfg['webhook_whitelist'] = (args.webhook_whitelist_file, None)
+
+    t = Thread(target=watch_pokemon_lists, args=(args, watchercfg))
+    t.daemon = True
+    t.start()
+
+    init_dynamic_images(args)
+
+
+def watch_pokemon_lists(args, cfg):
+    while True:
+        for args_key in cfg:
+            filename, tstamp = cfg[args_key]
+
+            statbuf = os.stat(filename)
+            current_mtime = statbuf.st_mtime
+
+            if current_mtime != tstamp:
+                with open(filename) as f:
+                    setattr(args, args_key, read_pokemon_ids_from_file(f))
+                    log.info("File {} changed on disk. Re-read as {}.".format(filename, args_key))
+                cfg[args_key] = (filename, current_mtime)
+
+        time.sleep(5)
 
 
 def now():
@@ -803,51 +937,47 @@ def cellid(loc):
     return CellId.from_lat_lng(LatLng.from_degrees(loc[0], loc[1])).to_token()
 
 
-# Return equirectangular approximation distance in km.
-def equi_rect_distance(loc1, loc2):
-    R = 6371  # Radius of the earth in km.
-    lat1 = math.radians(loc1[0])
-    lat2 = math.radians(loc2[0])
-    x = (math.radians(loc2[1]) - math.radians(loc1[1])
-         ) * math.cos(0.5 * (lat2 + lat1))
-    y = lat2 - lat1
-    return R * math.sqrt(x * x + y * y)
+# Return approximate distance in meters.
+def distance(pos1, pos2):
+    return haversine((tuple(pos1))[0:2], (tuple(pos2))[0:2])
 
 
-# Return True if distance between two locs is less than distance in km.
-def in_radius(loc1, loc2, distance):
-    return equi_rect_distance(loc1, loc2) < distance
+# Return True if distance between two locs is less than distance in meters.
+def in_radius(loc1, loc2, radius):
+    return distance(loc1, loc2) < radius
 
 
 def i8ln(word):
-    if config['LOCALE'] == "en":
-        return word
     if not hasattr(i8ln, 'dictionary'):
+        args = get_args()
         file_path = os.path.join(
-            config['ROOT_PATH'],
-            config['LOCALES_DIR'],
-            '{}.min.json'.format(config['LOCALE']))
+            args.root_path,
+            args.locales_dir,
+            '{}.min.json'.format(args.locale))
         if os.path.isfile(file_path):
             with open(file_path, 'r') as f:
                 i8ln.dictionary = json.loads(f.read())
         else:
-            log.warning(
-                'Skipping translations - unable to find locale file: %s',
-                file_path)
-            return word
+            # If locale file is not found we set an empty dict to avoid
+            # checking the file every time, we skip the warning for English as
+            # it is not expected to exist.
+            if not args.locale == 'en':
+                log.warning(
+                    'Skipping translations - unable to find locale file: %s',
+                    file_path)
+            i8ln.dictionary = {}
     if word in i8ln.dictionary:
         return i8ln.dictionary[word]
     else:
-        log.debug('Unable to find translation for "%s" in locale %s!',
-                  word, config['LOCALE'])
         return word
 
 
 def get_pokemon_data(pokemon_id):
     if not hasattr(get_pokemon_data, 'pokemon'):
+        args = get_args()
         file_path = os.path.join(
-            config['ROOT_PATH'],
-            config['DATA_DIR'],
+            args.root_path,
+            args.data_dir,
             'pokemon.min.json')
 
         with open(file_path, 'r') as f:
@@ -884,9 +1014,10 @@ def get_pokemon_types(pokemon_id):
 
 def get_moves_data(move_id):
     if not hasattr(get_moves_data, 'moves'):
+        args = get_args()
         file_path = os.path.join(
-            config['ROOT_PATH'],
-            config['DATA_DIR'],
+            args.root_path,
+            args.data_dir,
             'moves.min.json')
 
         with open(file_path, 'r') as f:
@@ -908,92 +1039,21 @@ def get_move_energy(move_id):
 
 def get_move_type(move_id):
     move_type = get_moves_data(move_id)['type']
-    return {"type": i8ln(move_type), "type_en": move_type}
+    return {'type': i8ln(move_type), 'type_en': move_type}
 
 
 def dottedQuadToNum(ip):
     return struct.unpack("!L", socket.inet_aton(ip))[0]
 
 
-def get_blacklist():
-    try:
-        url = 'https://blist.devkat.org/blacklist.json'
-        blacklist = requests.get(url, timeout=5).json()
-        log.debug('Entries in blacklist: %s.', len(blacklist))
-        return blacklist
-    except (requests.exceptions.RequestException, IndexError, KeyError):
-        log.error('Unable to retrieve blacklist, setting to empty.')
-        return []
-
-
-# Generate random device info.
-# Original by Noctem.
-IPHONES = {'iPhone5,1': 'N41AP',
-           'iPhone5,2': 'N42AP',
-           'iPhone5,3': 'N48AP',
-           'iPhone5,4': 'N49AP',
-           'iPhone6,1': 'N51AP',
-           'iPhone6,2': 'N53AP',
-           'iPhone7,1': 'N56AP',
-           'iPhone7,2': 'N61AP',
-           'iPhone8,1': 'N71AP',
-           'iPhone8,2': 'N66AP',
-           'iPhone8,4': 'N69AP',
-           'iPhone9,1': 'D10AP',
-           'iPhone9,2': 'D11AP',
-           'iPhone9,3': 'D101AP',
-           'iPhone9,4': 'D111AP'}
-
-
-def generate_device_info(identifier):
-    md5 = hashlib.md5()
-    md5.update(identifier)
-    pick_hash = int(md5.hexdigest(), 16)
-
-    device_info = {'device_brand': 'Apple', 'device_model': 'iPhone',
-                   'hardware_manufacturer': 'Apple',
-                   'firmware_brand': 'iPhone OS'}
-    devices = tuple(IPHONES.keys())
-
-    ios8 = ('8.0', '8.0.1', '8.0.2', '8.1', '8.1.1', '8.1.2', '8.1.3', '8.2',
-            '8.3', '8.4', '8.4.1')
-    ios9 = ('9.0', '9.0.1', '9.0.2', '9.1', '9.2', '9.2.1', '9.3', '9.3.1',
-            '9.3.2', '9.3.3', '9.3.4', '9.3.5')
-    # 10.0 was only for iPhone 7 and 7 Plus, and is rare.
-    ios10 = ('10.0.1', '10.0.2', '10.0.3', '10.1', '10.1.1', '10.2', '10.2.1',
-             '10.3', '10.3.1', '10.3.2', '10.3.3')
-
-    device_pick = devices[pick_hash % len(devices)]
-    device_info['device_model_boot'] = device_pick
-    device_info['hardware_model'] = IPHONES[device_pick]
-    device_info['device_id'] = md5.hexdigest()
-
-    if device_pick in ('iPhone9,1', 'iPhone9,2', 'iPhone9,3', 'iPhone9,4'):
-        ios_pool = ios10
-    elif device_pick in ('iPhone8,1', 'iPhone8,2'):
-        ios_pool = ios9 + ios10
-    elif device_pick == 'iPhone8,4':
-        # iPhone SE started on 9.3.
-        ios_pool = ('9.3', '9.3.1', '9.3.2', '9.3.3', '9.3.4', '9.3.5') + ios10
-    else:
-        ios_pool = ios8 + ios9 + ios10
-
-    device_info['firmware_type'] = ios_pool[pick_hash % len(ios_pool)]
-    return device_info
-
-
 def clear_dict_response(response):
-    del response['envelope'].platform_returns[:]
-    if 'responses' not in response:
-        return response
     responses = [
         'GET_HATCHED_EGGS', 'GET_INVENTORY', 'CHECK_AWARDED_BADGES',
         'DOWNLOAD_SETTINGS', 'GET_BUDDY_WALKED', 'GET_INBOX'
     ]
     for item in responses:
-        if item in response['responses']:
-            del response['responses'][item]
-
+        if item in response:
+            del response[item]
     return response
 
 
@@ -1082,3 +1142,235 @@ def get_async_requests_session(num_retries, backoff_factor, pool_size,
                                           pool_maxsize=pool_size))
 
     return session
+
+
+# Get common usage stats.
+def resource_usage():
+    platform = sys.platform
+    proc = psutil.Process()
+
+    with proc.oneshot():
+        cpu_usage = psutil.cpu_times_percent()
+        mem_usage = psutil.virtual_memory()
+        net_usage = psutil.net_io_counters()
+
+        usage = {
+            'platform': platform,
+            'PID': proc.pid,
+            'MEM': {
+                'total': mem_usage.total,
+                'available': mem_usage.available,
+                'used': mem_usage.used,
+                'free': mem_usage.free,
+                'percent_used': mem_usage.percent,
+                'process_percent_used': proc.memory_percent()
+            },
+            'CPU': {
+                'user': cpu_usage.user,
+                'system': cpu_usage.system,
+                'idle': cpu_usage.idle,
+                'process_percent_used': proc.cpu_percent(interval=1)
+            },
+            'NET': {
+                'bytes_sent': net_usage.bytes_sent,
+                'bytes_recv': net_usage.bytes_recv,
+                'packets_sent': net_usage.packets_sent,
+                'packets_recv': net_usage.packets_recv,
+                'errin': net_usage.errin,
+                'errout': net_usage.errout,
+                'dropin': net_usage.dropin,
+                'dropout': net_usage.dropout
+            },
+            'connections': {
+                'ipv4': len(proc.connections('inet4')),
+                'ipv6': len(proc.connections('inet6'))
+            },
+            'thread_count': proc.num_threads(),
+            'process_count': len(psutil.pids())
+        }
+
+        # Linux only.
+        if platform == 'linux' or platform == 'linux2':
+            usage['sensors'] = {
+                'temperatures': psutil.sensors_temperatures(),
+                'fans': psutil.sensors_fans()
+            }
+            usage['connections']['unix'] = len(proc.connections('unix'))
+            usage['num_handles'] = proc.num_fds()
+        elif platform == 'win32':
+            usage['num_handles'] = proc.num_handles()
+
+    return usage
+
+
+# Log resource usage to any logger.
+def log_resource_usage(log_method):
+    usage = resource_usage()
+    log_method('Resource usage: %s.', usage)
+
+
+# Generic method to support periodic background tasks. Thread sleep could be
+# replaced by a tiny sleep, and time measuring, but we're using sleep() for
+# now to keep resource overhead to an absolute minimum.
+def periodic_loop(f, loop_delay_ms):
+    while True:
+        # Do the thing.
+        f()
+        # zZz :bed:
+        time.sleep(loop_delay_ms / 1000)
+
+
+# Periodically log resource usage every 'loop_delay_ms' ms.
+def log_resource_usage_loop(loop_delay_ms=60000):
+    # Helper method to log to specific log level.
+    def log_resource_usage_to_debug():
+        log_resource_usage(log.debug)
+
+    periodic_loop(log_resource_usage_to_debug, loop_delay_ms)
+
+
+# Return shell call output as string, replacing any errors with the
+# error's string representation.
+def check_output_catch(command):
+    try:
+        result = subprocess.check_output(command,
+                                         stderr=subprocess.STDOUT,
+                                         shell=True)
+    except Exception as ex:
+        result = 'ERROR: ' + ex.output.replace(os.linesep, ' ')
+    finally:
+        return result.strip()
+
+
+# Automatically censor all necessary fields. Lists will return
+# their length, all other items will return 'censored_tag'.
+def _censor_args_namespace(args, censored_tag):
+    fields_to_censor = [
+        'accounts',
+        'accounts_L30',
+        'username',
+        'password',
+        'auth_service',
+        'proxy',
+        'webhooks',
+        'webhook_blacklist',
+        'webhook_whitelist',
+        'config',
+        'accountcsv',
+        'high_lvl_accounts',
+        'geofence_file',
+        'geofence_excluded_file',
+        'ignorelist_file',
+        'enc_whitelist_file',
+        'webhook_whitelist_file',
+        'webhook_blacklist_file',
+        'db',
+        'proxy_file',
+        'log_path',
+        'encrypt_lib',
+        'ssl_certificate',
+        'ssl_privatekey',
+        'location',
+        'captcha_key',
+        'captcha_dsk',
+        'manual_captcha_domain',
+        'host',
+        'port',
+        'gmaps_key',
+        'db_name',
+        'db_user',
+        'db_pass',
+        'db_host',
+        'db_port',
+        'status_name',
+        'status_page_password',
+        'hash_key',
+        'trusted_proxies'
+    ]
+
+    for field in fields_to_censor:
+        # Do we have the field?
+        if field in args:
+            value = args[field]
+
+            # Replace with length of list or censored tag.
+            if isinstance(value, list):
+                args[field] = len(value)
+            else:
+                args[field] = censored_tag
+
+    return args
+
+
+# Get censored debug info about the environment we're running in.
+def get_censored_debug_info():
+    CENSORED_TAG = '<censored>'
+    args = _censor_args_namespace(vars(get_args()), CENSORED_TAG)
+
+    # Get git status.
+    status = check_output_catch('git status')
+    log = check_output_catch('git log -1')
+    remotes = check_output_catch('git remote -v')
+
+    # Python, pip, node, npm.
+    python = sys.version.replace(os.linesep, ' ').strip()
+    pip = check_output_catch('pip -V')
+    node = check_output_catch('node -v')
+    npm = check_output_catch('npm -v')
+
+    return {
+        'args': args,
+        'git': {
+            'status': status,
+            'log': log,
+            'remotes': remotes
+        },
+        'versions': {
+            'python': python,
+            'pip': pip,
+            'node': node,
+            'npm': npm
+        }
+    }
+
+
+# Post a string of text to a hasteb.in and retrieve the URL.
+def upload_to_hastebin(text):
+    log.info('Uploading info to hastebin.com...')
+    response = requests.post('https://hastebin.com/documents', data=text)
+    return response.json()['key']
+
+
+# Get censored debug info & auto-upload to hasteb.in.
+def get_debug_dump_link():
+    debug = get_censored_debug_info()
+    args = debug['args']
+    git = debug['git']
+    versions = debug['versions']
+
+    # Format debug info for text upload.
+    result = '''#######################
+### RocketMap debug ###
+#######################
+
+## Versions:
+'''
+
+    # Versions first, for readability.
+    result += '- Python: ' + versions['python'] + '\n'
+    result += '- pip: ' + versions['pip'] + '\n'
+    result += '- Node.js: ' + versions['node'] + '\n'
+    result += '- npm: ' + versions['npm'] + '\n'
+
+    # Next up is git.
+    result += '\n\n' + '## Git:' + '\n'
+    result += git['status'] + '\n'
+    result += '\n\n' + git['remotes'] + '\n'
+    result += '\n\n' + git['log'] + '\n'
+
+    # And finally, our censored args.
+    result += '\n\n' + '## Settings:' + '\n'
+    result += pformat(args, width=1)
+
+    # Upload to hasteb.in.
+    return upload_to_hastebin(result)

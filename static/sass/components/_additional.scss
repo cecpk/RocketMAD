@@ -1,0 +1,25 @@
+/* Percentage Circles */
+
+  .prec{
+    top: 2px;
+    position: relative;
+    font-weight: 900;
+  }
+
+  .circle{
+    position: relative;
+    top: 4px;
+    left: 4px;
+    text-align: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+    background-color: white;
+  }
+
+  .active-border{
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+  }
