@@ -86,7 +86,7 @@ def captcha_overseer_thread(args, account_queue, account_captchas,
 
                         t = Thread(target=captcha_solver_thread,
                                    name='captcha-solver-{}'.format(solverId),
-                                   args=(args, account_queue, account_captchas,
+                                   args=(args, account_queue, account_captchas, account,
                                          hash_key, wh_queue))
                         t.daemon = True
                         t.start()
