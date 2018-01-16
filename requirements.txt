@@ -15,7 +15,7 @@ flask-cors==2.1.2
 flask-compress==1.3.0
 LatLon==1.0.1
 git+https://github.com/michikrug/pgoapi.git@update-ptc-login#egg=pgoapi
-git+https://github.com/sLoPPydrive/MrMime.git#egg=MrMime
+git+https://github.com/dikkedeur/MrMime.git#egg=MrMime
 xxhash
 sphinx==1.4.5
 sphinx-autobuild==0.6.0
