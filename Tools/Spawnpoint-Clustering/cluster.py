@@ -20,7 +20,7 @@ class Spawnpoint(object):
     def serialize(self):
         obj = dict()
 
-        if self.spawnpoint_id != None:
+        if self.spawnpoint_id is not None:
             obj['spawnpoint_id'] = self.spawnpoint_id
         obj['latitude'] = self.position[0]
         obj['longitude'] = self.position[1]
@@ -97,8 +97,7 @@ def check_cluster(spawnpoint, cluster, radius, time_threshold):
     
 def cluster(spawnpoints, radius, time_threshold):
   clusters = []
-  diameter = 2 * radius
-  
+
   for p in spawnpoints:
     if len(clusters) == 0:
       clusters.append(Spawncluster(p))
