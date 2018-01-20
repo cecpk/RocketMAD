@@ -333,9 +333,12 @@
       -whr WH_RETRIES, --wh-retries WH_RETRIES
                             Number of times to retry sending webhook data on
                             failure. [env var: POGOMAP_WH_RETRIES]
-      -wht WH_TIMEOUT, --wh-timeout WH_TIMEOUT
-                            Timeout (in seconds) for webhook requests. [env var:
-                            POGOMAP_WH_TIMEOUT]
+      -whct WH_CONNECT_TIMEOUT, --wh-connect-timeout WH_CONNECT_TIMEOUT
+                            Connect timeout (in seconds) for webhook requests.
+                            [env var: POGOMAP_WH_CONNECT_TIMEOUT]
+      -whrt WH_READ_TIMEOUT, --wh-read-timeout WH_READ_TIMEOUT
+                            Read timeout (in seconds) for webhook requests.
+                            [env var: POGOMAP_WH_READ_TIMEOUT]
       -whbf WH_BACKOFF_FACTOR, --wh-backoff-factor WH_BACKOFF_FACTOR
                             Factor (in seconds) by which the delay until next
                             retry will increase. [env var:
