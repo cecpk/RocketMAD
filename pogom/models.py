@@ -2337,7 +2337,8 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                         'spawn_start': start_end[0],
                         'spawn_end': start_end[1],
                         'player_level': encounter_level,
-                        'weather': weather_boosted_condition
+                        'weather': weather_boosted_condition,
+                        's2_cell_id': s2_cell_id
                     })
                     if wh_poke['cp_multiplier'] is not None:
                         wh_poke.update({
@@ -2520,7 +2521,8 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                                 'start': raid_info.raid_battle_ms / 1000,
                                 'end': raid_info.raid_end_ms / 1000,
                                 'latitude': f.latitude,
-                                'longitude': f.longitude
+                                'longitude': f.longitude,
+                                's2_cell_id': s2_cell_id
                             })
                             wh_update_queue.put(('raid', wh_raid))
 
