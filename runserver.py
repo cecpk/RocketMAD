@@ -208,14 +208,11 @@ def can_start_scanning(args):
     return True
 
 
-def startup_db(app, clear_db, db_type, db):
+def startup_db(app, clear_db, db):
     db = init_database(app)
     if clear_db:
         log.info('Clearing database')
-        if db_type == 'mysql':
             drop_tables(db)
-        elif os.path.isfile(db):
-            os.remove(db)
 
     verify_database_schema(db)
 
@@ -336,7 +333,9 @@ def main():
                               os.path.abspath(__file__)).decode('utf8'))
         app.before_request(app.validate_request)
         app.set_current_location(position)
-    db = startup_db(app, args.clear_db, args.db_type, args.db)
+        
+    db = startup_db(app, args.clear_db, args.db)
+
 
     # Control the search status (running or not) across threads.
     control_flags = {
