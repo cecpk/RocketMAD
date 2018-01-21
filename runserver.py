@@ -314,10 +314,7 @@ def main():
     db = init_database(app)
     if args.clear_db:
         log.info('Clearing database')
-        if args.db_type == 'mysql':
-            drop_tables(db)
-        elif os.path.isfile(args.db):
-            os.remove(args.db)
+        drop_tables(db)
 
     verify_database_schema(db)
 

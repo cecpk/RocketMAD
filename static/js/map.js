@@ -541,7 +541,7 @@ function getDateStr(t) {
 }
 
 function scout(encounterId) { // eslint-disable-line no-unused-vars
-    var infoEl = $('#scoutInfo' + atob(encounterId))
+    var infoEl = $('#scoutInfo' + encounterId)
     $.ajax({
         url: 'scout',
         type: 'GET',
@@ -610,7 +610,7 @@ function pokemonLabel(item) {
     var prob3 = item['catch_prob_3']
     var ratingAttack = item['rating_attack']
     var ratingDefense = item['rating_defense']
-    var encounterIdLong = atob(encounterId)
+    var encounterIdLong = encounterId
     var weather_boosted_condition = item['weather_boosted_condition']
 
     $.each(types, function (index, type) {
