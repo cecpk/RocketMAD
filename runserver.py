@@ -208,11 +208,11 @@ def can_start_scanning(args):
     return True
 
 
-def startup_db(app, clear_db, db):
+def startup_db(app, clear_db):
     db = init_database(app)
     if clear_db:
         log.info('Clearing database')
-            drop_tables(db)
+        drop_tables(db)
 
     verify_database_schema(db)
 
@@ -334,7 +334,7 @@ def main():
         app.before_request(app.validate_request)
         app.set_current_location(position)
         
-    db = startup_db(app, args.clear_db, args.db)
+    db = startup_db(app, args.clear_db)
 
 
     # Control the search status (running or not) across threads.
