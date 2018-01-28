@@ -295,8 +295,6 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
                         action='store_true', default=False)
-    parser.add_argument('-D', '--db', help='Database filename for SQLite.',
-                        default='pogom.db')
     parser.add_argument('-cd', '--clear-db',
                         help=('Deletes the existing database before ' +
                               'starting the Webserver.'),
@@ -321,7 +319,11 @@ def get_args():
                         help=('Use spawnpoint scanning (instead of hex ' +
                               'grid). Scans in a circle based on step_limit ' +
                               'when on DB.'),
-                        nargs='?', const='nofile', default=False)
+                        action='store_true', default=False)
+    parser.add_argument('-ssct', '--ss-cluster-time',
+                        help=('Time threshold in seconds for spawn point ' +
+                              'clustering (0 to disable).'),
+                        type=int, default=0)
     parser.add_argument('-speed', '--speed-scan',
                         help=('Use speed scanning to identify spawn points ' +
                               'and then scan closest spawns.'),
@@ -344,10 +346,6 @@ def get_args():
                         help=('Change duration for lures set on pokestops. ' +
                               'This is useful for events that extend lure ' +
                               'duration.'), type=int, default=30)
-    parser.add_argument('--dump-spawnpoints',
-                        help=('Dump the spawnpoints from the db to json ' +
-                              '(only for use with -ss).'),
-                        action='store_true', default=False)
     parser.add_argument('-pd', '--purge-data',
                         help=('Clear Pokemon from database this many hours ' +
                               'after they disappear (0 to disable).'),
@@ -388,22 +386,32 @@ def get_args():
                         help=('Enable proxy rotation with account changing ' +
                               'for search threads (none/round/random).'),
                         type=str, default='round')
-    parser.add_argument('--db-type',
-                        help='Type of database to be used (default: sqlite).',
-                        default='sqlite')
-    parser.add_argument('--db-name', help='Name of the database to be used.')
-    parser.add_argument('--db-user', help='Username for the database.')
-    parser.add_argument('--db-pass', help='Password for the database.')
-    parser.add_argument('--db-host', help='IP or hostname for the database.')
+    group = parser.add_argument_group('Database')
+    group.add_argument(
+        '--db-name', help='Name of the database to be used.', required=True)
+    group.add_argument(
+        '--db-user', help='Username for the database.', required=True)
+    group.add_argument(
+        '--db-pass', help='Password for the database.', required=True)
+    group.add_argument(
+        '--db-host',
+        help='IP or hostname for the database.',
+        default='127.0.0.1')
+    group.add_argument(
+         '--db-port', help='Port for the database.', type=int, default=3306)
+    group.add_argument(
+        '--db-threads',
+        help=('Number of db threads; increase if the db ' +
+              'queue falls behind.'),
+        type=int,
+        default=1)
     parser.add_argument(
-        '--db-port', help='Port for the database.', type=int, default=3306)
-    parser.add_argument('--db-threads',
-                        help=('Number of db threads; increase if the db ' +
-                              'queue falls behind.'),
-                        type=int, default=1)
-    parser.add_argument('-wh', '--webhook',
-                        help='Define URL(s) to POST webhook information to.',
-                        default=None, dest='webhooks', action='append')
+        '-wh',
+        '--webhook',
+        help='Define URL(s) to POST webhook information to.',
+        default=None,
+        dest='webhooks',
+        action='append')
     parser.add_argument('-gi', '--gym-info',
                         help=('Get all details about gyms (causes an ' +
                               'additional API hit for every gym).'),
@@ -430,8 +438,13 @@ def get_args():
                         help=('Number of times to retry sending webhook ' +
                               'data on failure.'),
                         type=int, default=3)
-    parser.add_argument('-wht', '--wh-timeout',
-                        help='Timeout (in seconds) for webhook requests.',
+    parser.add_argument('-whct', '--wh-connect-timeout',
+                         help=('Connect timeout (in seconds) for webhook' +
+						 ' requests.'),
+                        type=float, default=1.0)
+    parser.add_argument('-whrt', '--wh-read-timeout',
+                        help=('Read timeout (in seconds) for webhook' +
+						'requests.'),
                         type=float, default=1.0)
     parser.add_argument('-whbf', '--wh-backoff-factor',
                         help=('Factor (in seconds) by which the delay ' +
@@ -487,7 +500,7 @@ def get_args():
                         help=('Enables the use of X-FORWARDED-FOR headers ' +
                               'to identify the IP of clients connecting ' +
                               'through these trusted proxies.'))
-    parser.add_argument('--api-version', default='0.87.5',
+    parser.add_argument('--api-version', default='0.89.1',
                         help=('API version currently in use.'))
     parser.add_argument('--no-file-logs',
                         help=('Disable logging to files. ' +
@@ -934,7 +947,9 @@ def clock_between(start, test, end):
 
 # Return the s2sphere cellid token from a location.
 def cellid(loc):
-    return CellId.from_lat_lng(LatLng.from_degrees(loc[0], loc[1])).to_token()
+    return int(
+        CellId.from_lat_lng(LatLng.from_degrees(loc[0], loc[1])).to_token(),
+        16)
 
 
 # Return approximate distance in meters.

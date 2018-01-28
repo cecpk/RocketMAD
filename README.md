@@ -1,4 +1,4 @@
-
+  
 # RocketMap
 
 ![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg) ![License](https://img.shields.io/github/license/RocketMap/RocketMap.svg) [![Build Status](https://travis-ci.org/RocketMap/RocketMap.svg?branch=develop)](https://travis-ci.org/RocketMap/RocketMap)
@@ -16,7 +16,7 @@ Live visualization of all the Pokémon (with option to show gyms, raids and Pok�
 * Filters
 * Independent worker threads (many can be used simultaneously to quickly generate a livemap of a huge geographical area)
 * Localization (en, fr, pt_br, de, ru, ko, ja, zh_tw, zh_cn, zh_hk)
-* DB storage (sqlite or mysql) of all found Pokémon
+* DB storage (mysql) of all found Pokémon
 * Incredibly fast, efficient searching algorithm (compared to everything else available)
 
 ## Information
