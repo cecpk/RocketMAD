@@ -1,0 +1,10 @@
+{
+  "goman_proxy_support": false,
+  "goman_hashing_rate_limit": "",
+  "goman_hashing_max_rpm_count": "",
+  "full_login_flow": true,
+  "download_assets_and_items": false,
+  "debug_log": false,
+  "log_file": "",
+  "pgpool_update_interval": 120
+}
