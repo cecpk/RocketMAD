@@ -20,7 +20,7 @@ from flask_cache_bust import init_cache_busting
 
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
-                         log_resource_usage_loop, get_debug_dump_link)
+                         log_resource_usage_loop, get_debug_dump_link),
                          dynamic_rarity_refresher)
 from pogom.altitude import get_gmaps_altitude
 
