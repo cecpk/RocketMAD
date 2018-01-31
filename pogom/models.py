@@ -2302,6 +2302,8 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                 if (not args.webhook_whitelist
                         or pokemon_id in args.webhook_whitelist):
 
+                    current_weather = weather[s2_cell_id]['gameplay_weather'] \
+                        if weather and s2_cell_id in weather else None
                     wh_poke = pokemon[p.encounter_id].copy()
                     wh_poke.update({
                         'disappear_time': calendar.timegm(
@@ -2313,7 +2315,8 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                         'spawn_start': start_end[0],
                         'spawn_end': start_end[1],
                         'player_level': encounter_level,
-                        'weather': weather_boosted_condition,
+                        'weather': current_weather,
+                        'boosted_weather': weather_boosted_condition,
                         's2_cell_id': s2_cell_id
                     })
                     if wh_poke['cp_multiplier'] is not None:
@@ -2489,6 +2492,9 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                                 raids[f.id]['pokemon_id'] is None) or (
                                     'raid' in args.wh_types and
                                     raids[f.id]['pokemon_id'] is not None):
+
+                            current_weather = weather[s2_cell_id]['gameplay_weather'] \
+                                if weather and s2_cell_id in weather else None
                             wh_raid = raids[f.id].copy()
                             wh_raid.update({
                                 'gym_id': b64_gym_id,
@@ -2498,6 +2504,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                                 'end': raid_info.raid_end_ms / 1000,
                                 'latitude': f.latitude,
                                 'longitude': f.longitude,
+                                'weather': current_weather,
                                 's2_cell_id': s2_cell_id
                             })
                             wh_update_queue.put(('raid', wh_raid))
