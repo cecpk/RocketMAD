@@ -60,5 +60,7 @@
     "skel": true,
     "setupPokemonMarker": true,
     "updatePokemonMarker": true
+    "getPokemonRarity": true,
+    "updatePokemonRarities": true
   }
 }
