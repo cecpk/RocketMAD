@@ -1446,7 +1446,7 @@ def dynamic_rarity_refresher():
                                                                 poke['count'])
  
         # Save to file.
-            with open(rarities_path, 'w') as outfile:
+        with open(rarities_path, 'w') as outfile:
             json.dump(rarities, outfile)
  
         duration = default_timer() - start
