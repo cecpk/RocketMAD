@@ -798,7 +798,6 @@ function gymLabel(gym, includeMembers = true) {
     const lastScannedStr = getDateStr(gym.last_scanned)
     const lastModifiedStr = getDateStr(gym.last_modified)
     const slotsString = gym.slots_available ? (gym.slots_available === 1 ? '1 Free Slot' : `${gym.slots_available} Free Slots`) : 'No Free Slots'
-    const teamColor = ['85,85,85,1', '0,134,255,1', '255,26,26,1', '255,159,25,1']
     const teamName = gymTypes[gym.team_id]
     const isUpcomingRaid = raid != null && Date.now() < raid.start
     const isRaidStarted = isOngoingRaid(raid)
@@ -813,8 +812,8 @@ function gymLabel(gym, includeMembers = true) {
     const gymPoints = gym.total_cp
     const titleText = gym.name ? gym.name : (gym.team_id === 0 ? teamName : 'Team ' + teamName)
     const title = `
-      <div class='gym name' style='color:rgba(${teamColor[gym.team_id]})'>
-        ${titleText}
+      <div class='gym name'>
+        <span class='team ${gymTypes[gym.team_id].toLowerCase()}'>${titleText}</span>
       </div>`
 
     if (gym.team_id !== 0) {
@@ -2365,16 +2364,25 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
 function getSidebarGymMember(pokemon) {
     var perfectPercent = getIv(pokemon.iv_attack, pokemon.iv_defense, pokemon.iv_stamina)
     var moveEnergy = Math.round(100 / pokemon.move_2_energy)
-
-    var pokemon_image = get_pokemon_raw_icon_url(pokemon)
+	const motivationZone = ['Good', 'Average', 'Bad']
+	const motivationPercentage = (pokemon.cp_decayed / pokemon.pokemon_cp) * 100
+	var colorIdx = 0
+	if (motivationPercentage <= 46.66) {
+		colorIdx = 2
+	} else if ((motivationPercentage > 46.66) && (motivationPercentage < 73.33)) {
+		colorIdx = 1
+	}
+   var pokemon_image = get_pokemon_raw_icon_url(pokemon)
     return `
                     <tr onclick=toggleGymPokemonDetails(this)>
                         <td width="30px">
                             <img class="gym pokemon sprite" src="${pokemon_image}">
                         </td>
                         <td>
-                            <div class="gym pokemon" style="line-height:0.5em;">${pokemon.pokemon_name}</div>
-                            <div><img class="gym pokemon motivation heart" src="static/images/gym/Heart.png"> <span class="gym pokemon motivation">${pokemon.cp_decayed}</span></div>
+                            <div class="gym pokemon" style="line-height:1em;"><span class="gym pokemon name">${pokemon.pokemon_name}</span></div>
+                            <div>
+								<span class="gym pokemon motivation decayed zone ${motivationZone[colorIdx].toLowerCase()}">${pokemon.cp_decayed}</span>
+							</div>
                         </td>
                         <td width="190" align="center">
                             <div class="gym pokemon" style="line-height:1em;">${pokemon.trainer_name} (${pokemon.trainer_level})</div>
