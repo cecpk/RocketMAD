@@ -2372,6 +2372,17 @@ function getSidebarGymMember(pokemon) {
 	} else if ((motivationPercentage > 46.66) && (motivationPercentage < 73.33)) {
 		colorIdx = 1
 	}
+	// Skip getDateStr() so we can re-use the moment.js object.
+	var relativeTime = 'Unknown'
+	var absoluteTime = ''
+	
+	if (pokemon.deployment_time) {
+		let deploymentTime = moment(pokemon.deployment_time)
+		relativeTime = deploymentTime.fromNow()
+		// Append as string so we show nothing when the time is Unknown.
+		absoluteTime = '<div class="gym pokemon">(' + deploymentTime.format('Do MMM HH:mm') + ')</div>'
+	}
+	
    var pokemon_image = get_pokemon_raw_icon_url(pokemon)
     return `
                     <tr onclick=toggleGymPokemonDetails(this)>
@@ -2379,14 +2390,15 @@ function getSidebarGymMember(pokemon) {
                             <img class="gym pokemon sprite" src="${pokemon_image}">
                         </td>
                         <td>
-                            <div class="gym pokemon" style="line-height:1em;"><span class="gym pokemon name">${pokemon.pokemon_name}</span></div>
+                            <div class="gym pokemon"><span class="gym pokemon name">${pokemon.pokemon_name}</span></div>
                             <div>
 								<span class="gym pokemon motivation decayed zone ${motivationZone[colorIdx].toLowerCase()}">${pokemon.cp_decayed}</span>
 							</div>
                         </td>
                         <td width="190" align="center">
-                            <div class="gym pokemon" style="line-height:1em;">${pokemon.trainer_name} (${pokemon.trainer_level})</div>
-                            <div class="gym pokemon">Deployed ${getDateStr(pokemon.deployment_time)}</div>
+                            <div class="gym pokemon">${pokemon.trainer_name} (${pokemon.trainer_level})</div>
+                            <div class="gym pokemon">Deployed ${relativeTime}</div>
+							${absoluteTime}
                         </td>
                         <td width="10">
                             <!--<a href="#" onclick="toggleGymPokemonDetails(this)">-->
