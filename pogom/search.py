@@ -200,7 +200,7 @@ def status_printer(threadStatus, account_queue, account_captchas, account_failur
 
                     status_text.append(status.format(
                         item,
-                        time.strftime('%H:%M',
+                        time.strftime('%d/%m at %H:%M',
                                       time.localtime(
                                           threadStatus[item]['starttime'])),
                         threadStatus[item]['username'],
