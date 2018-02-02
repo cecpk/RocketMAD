@@ -5,6 +5,22 @@
 # When your configuration is done, rename this file by removing the ".example" extension
 # A different config-files can be included directly in processes by "--config-file" or "-cf" and path
 
+# PGTools
+#########
+
+#pgpool-url:                    # Address of PGPool to load accounts from and/or update their details. Required for PGPool.
+                                # e.g. http://127.0.0.1:4242 (default=None)
+#pgscout-url:                   # Address of PGScout to perform encounters. Required for PGScout. 
+                                # e.g. http://127.0.0.1:4243 (default=None)
+#rareless-scans-threshold:      # Mark an account as shadowbanned after this many rareless scans. PGPool required. (default=10)
+#rotate-blind                   # Rotate out shadowbanned accounts. PGPool required.
+
+# Fork features
+###############
+
+#gain-xp                        # Do various things to let map accounts gain XP and detect Ditto.
+#pogo-assets:                   # Directory pointing to optional PogoAssets root directory. (default=None)
+#generate-images                # Use ImageMagick to generate dynamic icons on demand.
 
 # Required settings
 ###################
