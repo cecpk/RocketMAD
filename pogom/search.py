@@ -180,7 +180,7 @@ def status_printer(threadStatus, account_queue, account_captchas, account_failur
                             str(threadStatus[item]['proxy_display'])))
 
             # How pretty.
-            status = '{:10} | {:5} | {:' + str(userlen) + '} | {:' + str(
+            status = '{:10} | {:14} | {:' + str(userlen) + '} | {:' + str(
                 proxylen) + '} | {:7} | {:6} | {:5} | {:7} | {:8} | {:10}'
 
             # Print the worker status.
