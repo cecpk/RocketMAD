@@ -1579,6 +1579,7 @@ function showInBoundsMarkers(markers, type) {
 }
 
 function loadRawData() {
+    var userAuthCode = localStorage.getItem("userAuthCode");
     var loadPokemon = Store.get('showPokemon')
     var loadGyms = (Store.get('showGyms') || Store.get('showRaids'))
     var loadPokestops = Store.get('showPokestops')
@@ -1601,6 +1602,7 @@ function loadRawData() {
         url: 'raw_data',
         type: 'GET',
         data: {
+            'userAuthCode': userAuthCode,
             'timestamp': timestamp,
             'pokemon': loadPokemon,
             'lastpokemon': lastpokemon,
@@ -1656,6 +1658,11 @@ function loadRawData() {
                 'showMethod': 'fadeIn',
                 'hideMethod': 'fadeOut'
             }
+        },
+        success: function(data) {
+          if (data.auth_redirect) {
+            window.location = data.auth_redirect;
+          }
         },
         complete: function () {
             rawDataIsLoading = false

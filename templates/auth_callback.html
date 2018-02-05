@@ -1,0 +1,5 @@
+<script>
+  const code = location.search.split('?code=')[1]
+  localStorage.setItem("userAuthCode", code);
+  window.location = "/";
+</script>

@@ -177,6 +177,14 @@
 #manual-captcha-timeout:        # Maximum time captchas will wait for manual captcha solving.
                                 # On timeout, if enabled, 2Captcha will be used to solve captcha. (default=0)
 
+# User Auth Settings
+################
+
+user-auth-service:              # Force end users to auth to an external service. Suppoerted: Discord
+uas-client-id:                  # OAuth2 Client ID. Client should have auth callback url of <yourserverurl>/auth_callback
+uas-client-secret:              # OAuth2 Client Secret
+uas-discord-required-guild      # User must be in this discord guild (server) to access map. Specify guild ID
+uas-discord-guild-invite        # Invite link if user is not in above guild
 
 # Misc
 ######

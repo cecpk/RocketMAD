@@ -548,6 +548,16 @@ def get_args():
                         help='URL to query PGScout for Pokemon IV/CP.')
     parser.add_argument('-pa', '--pogo-assets', default=None,
                         help='Directory pointing to optional PogoAssets root directory.')
+    parser.add_argument('-uas', '--user-auth-service', default=None,
+                        help='Force end users to auth to an external service.')
+    parser.add_argument('-uascid', '--uas-client-id', default=None,
+                        help='Client ID for user external authentication.')
+    parser.add_argument('-uascs', '--uas-client-secret', default=None,
+                        help='Client Secret for user external authentication.')
+    parser.add_argument('-uasrdg', '--uas-discord-required-guild', default=None,
+                        help='Required Discord Guild for user external authentication.')
+    parser.add_argument('-uasdgi', '--uas-discord-guild-invite', default=None,
+                        help='Required Discord Guild for user external authentication.')
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
