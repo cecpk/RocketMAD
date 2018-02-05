@@ -596,7 +596,7 @@ class Gym(LatLongModel):
                    .join(Trainer, on=(GymPokemon.trainer_name == Trainer.name))
                    .where(GymMember.gym_id == id)
                    .where(GymMember.last_scanned > Gym.last_modified)
-                   .order_by(GymMember.cp_decayed.desc())
+                   .order_by(GymMember.deployment_time.desc())
                    .distinct()
                    .dicts())
 
@@ -2007,7 +2007,8 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
     if not wild_pokemon and not nearby_pokemon:
         # ...and there are no gyms/pokestops then it's unusable/bad.
         if not forts:
-            log.warning('Bad scan. Parsing found absolutely nothing.')
+            log.warning('Bad scan. Parsing found absolutely nothing'
+                        + ' using account %s.', account['username'])
             log.info('Common causes: captchas or IP bans.')
         elif not args.no_pokemon:
             # When gym scanning we'll go over the speed limit
@@ -2641,10 +2642,13 @@ def encounter_pokemon(args, pokemon, account, pgacc, account_sets, status,
                 result = pokemon_info
 
     except Exception as e:
-        log.exception('There was an error encountering Pokemon ID %s with ' +
-                      'account %s: %s.',
+        # Account may not be selected yet.
+        if hlvl_account:
+            log.warning('Exception occured during encounter with'
+                        ' high-level account %s.',
+                        hlvl_account['username'])
+        log.exception('There was an error encountering Pokemon ID %s: %s.',
                       pokemon_id,
-                      hlvl_account['username'],
                       e)
 
     # We're done with the encounter. If it's from an

@@ -21,6 +21,7 @@ var $selectLuredPokestopsOnly
 var $selectSearchIconMarker
 var $selectLocationIconMarker
 var $switchGymSidebar
+var $selectExcludeRarity
 
 const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
 var idToPokemon = {}
@@ -32,6 +33,9 @@ var searchMarkerStyles
 
 var timestamp
 var excludedPokemon = []
+var excludedPokemonByRarity = []
+var excludedRarity
+
 var notifiedPokemon = []
 var notifiedRarity = []
 var notifiedMinPerfection = null
@@ -103,6 +107,16 @@ const alertTexts = {
     1: 'Moderate',
     2: 'Extreme',
 }
+
+const excludedRaritiesList = [
+  [],
+  [i8ln('Common')],
+  [i8ln('Common'), i8ln('Uncommon')],
+  [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare')],
+  [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare')],
+  [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare')]
+]
+
 
 /*
  text place holders:
@@ -523,7 +537,7 @@ function getTypeSpan(type) {
 function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
     var url = ''
     if (Store.get('mapServiceProvider') === 'googlemaps') {
-        url = 'https://www.google.com/maps/?daddr=' + lat + ',' + lng
+        url = 'http://maps.google.com/maps?q=' + lat + ',' + lng
         window.open(url, '_blank')
     } else if (Store.get('mapServiceProvider') === 'applemaps') {
         url = 'https://maps.apple.com/maps?daddr=' + lat + ',' + lng
@@ -798,7 +812,6 @@ function gymLabel(gym, includeMembers = true) {
     const lastScannedStr = getDateStr(gym.last_scanned)
     const lastModifiedStr = getDateStr(gym.last_modified)
     const slotsString = gym.slots_available ? (gym.slots_available === 1 ? '1 Free Slot' : `${gym.slots_available} Free Slots`) : 'No Free Slots'
-    const teamColor = ['85,85,85,1', '0,134,255,1', '255,26,26,1', '255,159,25,1']
     const teamName = gymTypes[gym.team_id]
     const isUpcomingRaid = raid != null && Date.now() < raid.start
     const isRaidStarted = isOngoingRaid(raid)
@@ -813,8 +826,8 @@ function gymLabel(gym, includeMembers = true) {
     const gymPoints = gym.total_cp
     const titleText = gym.name ? gym.name : (gym.team_id === 0 ? teamName : 'Team ' + teamName)
     const title = `
-      <div class='gym name' style='color:rgba(${teamColor[gym.team_id]})'>
-        ${titleText}
+      <div class='gym name'>
+        <span class='team ${gymTypes[gym.team_id].toLowerCase()}'>${titleText}</span>
       </div>`
 
     if (gym.team_id !== 0) {
@@ -1479,12 +1492,25 @@ function addListeners(marker) {
 function clearStaleMarkers() {
     const oldPokeMarkers = []
 
-    $.each(mapData.pokemons, function (key, value) {
-        const isPokeExpired = mapData.pokemons[key]['disappear_time'] < Date.now()
-        const isPokeExcluded = getExcludedPokemon().indexOf(mapData.pokemons[key]['pokemon_id']) !== -1
+    $.each(mapData.pokemons, function (key, pokemon) {
+		const pokemonId = pokemon['pokemon_id']
+		const isPokeExpired = pokemon['disappear_time'] < Date.now()
+		const isPokeExcluded = getExcludedPokemon().indexOf(pokemonId) !== -1
 
-        if (isPokeExpired || isPokeExcluded) {
-            const oldMarker = mapData.pokemons[key].marker
+		const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
+        const excludedRarity = excludedRaritiesList[excludedRarityOption]
+        const hasRarity = pokemon.hasOwnProperty('pokemon_rarity')
+        // Not beautiful code with null as fallback, but it's more readable than a one-liner.
+        const rarity = hasRarity ? pokemon['pokemon_rarity'] : null
+        const isRarityExcluded = (hasRarity && excludedRarity.indexOf(rarity) !== -1)
+		
+        if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
+            const oldMarker = pokemon.marker
+			const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(pokemonId) !== -1
+			
+			if (isRarityExcluded && !isPokeExcludedByRarity) {
+				excludedPokemonByRarity.push(pokemonId)
+			}
 
             if (oldMarker.rangeCircle) {
                 oldMarker.rangeCircle.setMap(null)
@@ -1504,18 +1530,18 @@ function clearStaleMarkers() {
 
     markerCluster.removeMarkers(oldPokeMarkers, true)
 
-    $.each(mapData.lurePokemons, function (key, value) {
-        if (mapData.lurePokemons[key]['lure_expiration'] < new Date().getTime() ||
-            getExcludedPokemon().indexOf(mapData.lurePokemons[key]['pokemon_id']) >= 0) {
-            mapData.lurePokemons[key].marker.setMap(null)
+    $.each(mapData.lurePokemons, function (key, lurePokemon) {
+        if (lurePokemon['lure_expiration'] < new Date().getTime() ||
+			getExcludedPokemon().indexOf(lurePokemon['pokemon_id']) >= 0) {
+            lurePokemon.marker.setMap(null)
             delete mapData.lurePokemons[key]
         }
     })
 
-    $.each(mapData.scanned, function (key, value) {
+    $.each(mapData.scanned, function (key, scanned) {
         // If older than 15mins remove
-        if (mapData.scanned[key]['last_modified'] < (new Date().getTime() - 15 * 60 * 1000)) {
-            mapData.scanned[key].marker.setMap(null)
+        if (scanned['last_modified'] < (new Date().getTime() - 15 * 60 * 1000)) {
+            scanned.marker.setMap(null)
             delete mapData.scanned[key]
         }
     })
@@ -1731,14 +1757,23 @@ function processPokemonChunked(pokemon, chunkSize) {
 }
 
 function processPokemon(item) {
-    const isExcludedPoke = getExcludedPokemon().indexOf(item['pokemon_id']) !== -1
+    const isPokeExcluded = getExcludedPokemon().indexOf(item['pokemon_id']) !== -1
     const isPokeAlive = item['disappear_time'] > Date.now()
 
+	// Limit choice to our options [0, 5].
+    const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
+    const excludedRarity = excludedRaritiesList[excludedRarityOption]
+    const hasRarity = item.hasOwnProperty('pokemon_rarity')
+    // Not beautiful code with null as fallback, but it's more readable than a one-liner.
+    const rarity = hasRarity ? item['pokemon_rarity'].toLowerCase() : null
+    const isRarityExcluded = (hasRarity && excludedRarity.indexOf(rarity) !== -1)
+    const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
+	
     var oldMarker = null
     var newMarker = null
 
     if (!(item['encounter_id'] in mapData.pokemons) &&
-         !isExcludedPoke && isPokeAlive) {
+         !isPokeExcluded && !isRarityExcluded  && isPokeAlive) {
     // Add marker to map and item to dict.
         const isNotifyPkmn = isNotifyPoke(item)
         if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
@@ -1757,7 +1792,9 @@ function processPokemon(item) {
         } else {
             oldMarker = item.marker
         }
-    }
+    } else if (isRarityExcluded && !isPokeExcludedByRarity) {
+		excludedPokemonByRarity.push(item['pokemon_id'])
+	}
 
     return [newMarker, oldMarker]
 }
@@ -2365,20 +2402,41 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
 function getSidebarGymMember(pokemon) {
     var perfectPercent = getIv(pokemon.iv_attack, pokemon.iv_defense, pokemon.iv_stamina)
     var moveEnergy = Math.round(100 / pokemon.move_2_energy)
-
-    var pokemon_image = get_pokemon_raw_icon_url(pokemon)
+	const motivationZone = ['Good', 'Average', 'Bad']
+	const motivationPercentage = (pokemon.cp_decayed / pokemon.pokemon_cp) * 100
+	var colorIdx = 0
+	if (motivationPercentage <= 46.66) {
+		colorIdx = 2
+	} else if ((motivationPercentage > 46.66) && (motivationPercentage < 73.33)) {
+		colorIdx = 1
+	}
+	// Skip getDateStr() so we can re-use the moment.js object.
+	var relativeTime = 'Unknown'
+	var absoluteTime = ''
+	
+	if (pokemon.deployment_time) {
+		let deploymentTime = moment(pokemon.deployment_time)
+		relativeTime = deploymentTime.fromNow()
+		// Append as string so we show nothing when the time is Unknown.
+		absoluteTime = '<div class="gym pokemon">(' + deploymentTime.format('Do MMM HH:mm') + ')</div>'
+	}
+	
+   var pokemon_image = get_pokemon_raw_icon_url(pokemon)
     return `
                     <tr onclick=toggleGymPokemonDetails(this)>
                         <td width="30px">
                             <img class="gym pokemon sprite" src="${pokemon_image}">
                         </td>
                         <td>
-                            <div class="gym pokemon" style="line-height:0.5em;">${pokemon.pokemon_name}</div>
-                            <div><img class="gym pokemon motivation heart" src="static/images/gym/Heart.png"> <span class="gym pokemon motivation">${pokemon.cp_decayed}</span></div>
+                            <div class="gym pokemon"><span class="gym pokemon name">${pokemon.pokemon_name}</span></div>
+                            <div>
+								<span class="gym pokemon motivation decayed zone ${motivationZone[colorIdx].toLowerCase()}">${pokemon.cp_decayed}</span>
+							</div>
                         </td>
                         <td width="190" align="center">
-                            <div class="gym pokemon" style="line-height:1em;">${pokemon.trainer_name} (${pokemon.trainer_level})</div>
-                            <div class="gym pokemon">Deployed ${getDateStr(pokemon.deployment_time)}</div>
+                            <div class="gym pokemon">${pokemon.trainer_name} (${pokemon.trainer_level})</div>
+                            <div class="gym pokemon">Deployed ${relativeTime}</div>
+							${absoluteTime}
                         </td>
                         <td width="10">
                             <!--<a href="#" onclick="toggleGymPokemonDetails(this)">-->
@@ -2677,6 +2735,18 @@ $(function () {
         updateMap()
     })
 
+	$selectExcludeRarity = $('#exclude-rarity')
+
+    $selectExcludeRarity.select2({
+        placeholder: 'None',
+        minimumResultsForSearch: Infinity
+    })
+
+    $selectExcludeRarity.on('change', function () {
+        Store.set('excludedRarity', this.value)
+        updateMap()
+    })
+	
     $selectSearchIconMarker = $('#iconmarker-style')
     $selectLocationIconMarker = $('#locationmarker-style')
 
@@ -2749,6 +2819,7 @@ $(function () {
     })
 
     $selectExclude = $('#exclude-pokemon')
+	$selectExcludeRarity = $('#exclude-rarity')
     $selectPokemonNotify = $('#notify-pokemon')
     $selectRarityNotify = $('#notify-rarity')
     $textPerfectionNotify = $('#notify-perfection')
@@ -2808,6 +2879,13 @@ $(function () {
             clearStaleMarkers()
             Store.set('remember_select_exclude', excludedPokemon)
         })
+		$selectExcludeRarity.on('change', function (e) {
+            excludedRarity = $selectExcludeRarity.val()
+            reincludedPokemon = reincludedPokemon.concat(excludedPokemonByRarity)
+            excludedPokemonByRarity = []
+            clearStaleMarkers()
+            Store.set('excludedRarity', excludedRarity)
+        })
         $selectPokemonNotify.on('change', function (e) {
             notifiedPokemon = $selectPokemonNotify.val().map(Number)
             Store.set('remember_select_notify', notifiedPokemon)
@@ -2841,6 +2919,7 @@ $(function () {
 
         // recall saved lists
         $selectExclude.val(Store.get('remember_select_exclude')).trigger('change')
+		$selectExcludeRarity.val(Store.get('excludedRarity')).trigger('change')
         $selectPokemonNotify.val(Store.get('remember_select_notify')).trigger('change')
         $selectRarityNotify.val(Store.get('remember_select_rarity_notify')).trigger('change')
         $textPerfectionNotify.val(Store.get('remember_text_perfection_notify')).trigger('change')
