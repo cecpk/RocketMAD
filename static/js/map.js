@@ -127,7 +127,7 @@ const excludedRaritiesList = [
  <sta> - stamnia as number
  <lvl> - level as number
  */
-var notifyIvTitle = '<pkm> <prc>% (<atk>/<def>/<sta>) (L<lvl>)'
+var notifyIvTitle = '<pkm> <prc>% (<atk>/<def>/<sta>) L<lvl>'
 var notifyNoIvTitle = '<pkm>'
 
 /*
@@ -1132,8 +1132,9 @@ function getTimeUntil(time) {
 function getNotifyText(item) {
     var iv = getIv(item['individual_attack'], item['individual_defense'], item['individual_stamina'])
     var find = ['<prc>', '<pkm>', '<atk>', '<def>', '<sta>', '<lvl>']
+    iv = Math.round(iv)
     var pokemonlevel = (item['cp_multiplier'] !== null) ? getPokemonLevel(item['cp_multiplier']) : 0
-    var replace = [((iv) ? iv.toFixed(1) : ''), item['pokemon_name'], item['individual_attack'],
+    var replace = [((iv) ? iv : ''), item['pokemon_name'], item['individual_attack'],
         item['individual_defense'], item['individual_stamina'], pokemonlevel]
     var ntitle = repArray(((iv) ? notifyIvTitle : notifyNoIvTitle), find, replace)
     var dist = moment(item['disappear_time']).format('HH:mm:ss')
