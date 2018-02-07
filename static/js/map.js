@@ -1501,7 +1501,7 @@ function clearStaleMarkers() {
 		const pokemonId = pokemon['pokemon_id']
 		const isPokeExpired = pokemon['disappear_time'] < Date.now()
 		const isPokeExcluded = getExcludedPokemon().indexOf(pokemonId) !== -1
-    const pokemonRarity = getPokemonRarity(pokemon['pokemon_id']).toLowerCase()
+        const pokemonRarity = getPokemonRarity(pokemon['pokemon_id']).toLowerCase()
     
 		const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
         const excludedRarity = excludedRaritiesList[excludedRarityOption]
