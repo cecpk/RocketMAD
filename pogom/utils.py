@@ -1389,3 +1389,15 @@ def get_debug_dump_link():
 
     # Upload to hasteb.in.
     return upload_to_hastebin(result)
+
+# Translate peewee model class attribute to database column name.
+def peewee_attr_to_col(cls, field):
+    field_column = getattr(cls, field)
+
+    # Only try to do it on populated fields.
+    if field_column is not None:
+        field_column = field_column.db_column
+    else:
+        field_column = field
+
+    return field_column    
