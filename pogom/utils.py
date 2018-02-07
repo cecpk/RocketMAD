@@ -1459,3 +1459,14 @@ def dynamic_rarity_refresher():
                     refresh_time_sec / 60)
         time.sleep(refresh_time_sec)
 
+# Translate peewee model class attribute to database column name.
+def peewee_attr_to_col(cls, field):
+    field_column = getattr(cls, field)
+
+    # Only try to do it on populated fields.
+    if field_column is not None:
+        field_column = field_column.db_column
+    else:
+        field_column = field
+
+    return field_column    
