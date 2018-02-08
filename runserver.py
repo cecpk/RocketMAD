@@ -20,8 +20,7 @@ from flask_cache_bust import init_cache_busting
 
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
-                         log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher)
+                         log_resource_usage_loop, get_debug_dump_link)
 from pogom.altitude import get_gmaps_altitude
 
 from pogom.models import (init_database, create_tables, drop_tables,
@@ -448,15 +447,6 @@ def main():
         while search_thread.is_alive():
             time.sleep(60)
     else:
-        # Dynamic rarity.
-        if args.rarity_update_frequency:
-            t = Thread(target=dynamic_rarity_refresher,
-                       name='dynamic-rarity')
-            t.daemon = True
-            t.start()
-            log.info('Dynamic rarity is enabled.')
-        else:
-            log.info('Dynamic rarity is disabled.')
 
         if args.cors:
             CORS(app)
