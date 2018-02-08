@@ -1770,7 +1770,7 @@ function processPokemon(item) {
     const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
     const excludedRarity = excludedRaritiesList[excludedRarityOption]
     const pokemonRarity = getPokemonRarity(item['pokemon_id'])
-    const isRarityExcluded = (hasRarity && excludedRarity.indexOf(pokemonRarity) !== -1)
+    const isRarityExcluded = (excludedRarity.indexOf(pokemonRarity) !== -1)
     const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
 	
     var oldMarker = null
