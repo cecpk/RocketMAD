@@ -1501,14 +1501,11 @@ function clearStaleMarkers() {
 		const pokemonId = pokemon['pokemon_id']
 		const isPokeExpired = pokemon['disappear_time'] < Date.now()
 		const isPokeExcluded = getExcludedPokemon().indexOf(pokemonId) !== -1
-        const pokemonRarity = getPokemonRarity(pokemon['pokemon_id']).toLowerCase()
-    
+		// Limit choice to our options [0, 5].
 		const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
         const excludedRarity = excludedRaritiesList[excludedRarityOption]
-        const hasRarity = pokemon.hasOwnProperty('pokemon_rarity')
-        // Not beautiful code with null as fallback, but it's more readable than a one-liner.
-        const rarity = hasRarity ? pokemon['pokemon_rarity'] : null
-        const isRarityExcluded = (hasRarity && excludedRarity.indexOf(rarity) !== -1)
+		const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
+        const isRarityExcluded = excludedRarity.indexOf(pokemonRarity) !== -1
 		
         if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
             const oldMarker = pokemon.marker

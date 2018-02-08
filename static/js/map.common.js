@@ -1137,7 +1137,7 @@ function updatePokemonRarities() {
 
 function getPokemonRarity(pokemonId) {
     if (pokemonRarities.hasOwnProperty(pokemonId)) {
-        return pokemonRarities[pokemonId]
+        return i8ln(pokemonRarities[pokemonId])
     }
 
     return ''
