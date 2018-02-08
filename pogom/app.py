@@ -5,22 +5,22 @@ import calendar
 import logging
 import gc
 
+from datetime import datetime
+from s2sphere import LatLng
+from bisect import bisect_left
 from flask import Flask, abort, jsonify, render_template, request, \
     make_response, send_from_directory, send_file
 from flask.json import JSONEncoder
 from flask_compress import Compress
-from datetime import datetime
-from s2sphere import LatLng
 from pogom.dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
 from pogom.pgscout import scout_error, pgscout_encounter
-from pogom.utils import get_args, get_pokemon_name
-from bisect import bisect_left
+
 
 from pogom.weather import get_weather_cells, get_s2_coverage, get_weather_alerts
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
                      MainWorker, WorkerStatus, Token, HashKeys,
                      SpawnPoint)
-from .utils import (get_pokemon_name, get_pokemon_types, get_pokemon_rarity,
+from .utils import (get_args, get_pokemon_name, get_pokemon_types,
                     now, dottedQuadToNum)
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
@@ -38,7 +38,6 @@ def convert_pokemon_list(pokemon):
     pokemon_result = []
     for p in pokemon:
         p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
-        p['pokemon_rarity'] = get_pokemon_rarity(p['pokemon_id'])
         p['pokemon_types'] = get_pokemon_types(p['pokemon_id'])
         p['encounter_id'] = str(p['encounter_id'])
         if args.china:
@@ -284,8 +283,7 @@ class Pogom(Flask):
         if args.on_demand_timeout > 0:
             self.control_flags['on_demand'].clear()
 
-        search_display = True if (args.search_control and
-                                  args.on_demand_timeout <= 0) else False
+        search_display = (args.search_control and args.on_demand_timeout <= 0)
 
         scan_display = False if (args.only_server or args.fixed_location or
                                  args.spawnpoint_scanning) else True

@@ -321,8 +321,20 @@ function initMap() { // eslint-disable-line no-unused-vars
         }, 500)
     })
 
-    searchMarker = createSearchMarker()
-    locationMarker = createLocationMarker()
+    const showSearchMarker = Store.get('showSearchMarker')
+    const showLocationMarker = Store.get('showLocationMarker')
+	const isLocationMarkerMovable = Store.get('isLocationMarkerMovable')
+	
+    if (showSearchMarker) {
+        // Whether marker is draggable or not is set in createSearchMarker().
+        searchMarker = createSearchMarker()
+    }
+
+    if (showLocationMarker) {
+        locationMarker = createLocationMarker()
+        locationMarker.setDraggable(isLocationMarkerMovable)
+    }
+
     createMyLocationButton()
     initSidebar()
 
@@ -342,6 +354,10 @@ function initMap() { // eslint-disable-line no-unused-vars
 }
 
 function updateLocationMarker(style) {
+	// Don't do anything if it's disabled.
+    if (!locationMarker) {
+        return
+    }
     if (style in searchMarkerStyles) {
         var url = searchMarkerStyles[style].icon
         if (url) {
@@ -354,7 +370,7 @@ function updateLocationMarker(style) {
         }
         Store.set('locationMarkerStyle', style)
     }
-
+	// Return value is currently unused.
     return locationMarker
 }
 
@@ -396,6 +412,13 @@ function createLocationMarker() {
 
 function updateSearchMarker(style) {
     if (style in searchMarkerStyles) {
+		Store.set('searchMarkerStyle', style)
+
+        // If it's disabled, stop.
+        if (!searchMarker) {
+            return
+        }
+
         var url = searchMarkerStyles[style].icon
         if (url) {
             searchMarker.setIcon({
@@ -405,13 +428,13 @@ function updateSearchMarker(style) {
         } else {
             searchMarker.setIcon(url)
         }
-        Store.set('searchMarkerStyle', style)
     }
 
     return searchMarker
 }
 
 function createSearchMarker() {
+	const isSearchMarkerMovable = Store.get('isSearchMarkerMovable')
     var searchMarker = new google.maps.Marker({ // need to keep reference.
         position: {
             lat: centerLat,
@@ -419,7 +442,7 @@ function createSearchMarker() {
         },
         map: map,
         animation: google.maps.Animation.DROP,
-        draggable: !Store.get('lockMarker'),
+        draggable: !Store.get('lockMarker') && isSearchMarkerMovable,
         icon: null,
         optimized: false,
         zIndex: google.maps.Marker.MAX_ZINDEX + 1
@@ -602,8 +625,9 @@ function scout(encounterId) { // eslint-disable-line no-unused-vars
 }
 
 function pokemonLabel(item) {
+    const pokemonRarity = getPokemonRarity(item['pokemon_id'])
     var name = item['pokemon_name']
-    var rarityDisplay = item['pokemon_rarity'] ? '(' + item['pokemon_rarity'] + ')' : ''
+    var rarityDisplay = pokemonRarity ? '(' + pokemonRarity + ')' : ''
     var types = item['pokemon_types']
     var typesDisplay = ''
     var encounterId = item['encounter_id']
@@ -1213,7 +1237,9 @@ function playPokemonSound(pokemonID, cryFileTypes) {
     }
 }
 
+
 function isNotifyPerfectionPoke(poke) {
+
     var hasHighIV = false
     var hasHighLevel = false
     var hasHighAttributes = false
@@ -1552,13 +1578,11 @@ function clearStaleMarkers() {
 		const pokemonId = pokemon['pokemon_id']
 		const isPokeExpired = pokemon['disappear_time'] < Date.now()
 		const isPokeExcluded = getExcludedPokemon().indexOf(pokemonId) !== -1
-
+		// Limit choice to our options [0, 5].
 		const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
         const excludedRarity = excludedRaritiesList[excludedRarityOption]
-        const hasRarity = pokemon.hasOwnProperty('pokemon_rarity')
-        // Not beautiful code with null as fallback, but it's more readable than a one-liner.
-        const rarity = hasRarity ? pokemon['pokemon_rarity'] : null
-        const isRarityExcluded = (hasRarity && excludedRarity.indexOf(rarity) !== -1)
+		const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
+        const isRarityExcluded = excludedRarity.indexOf(pokemonRarity) !== -1
 		
         if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
             const oldMarker = pokemon.marker
@@ -1819,10 +1843,8 @@ function processPokemon(item) {
 	// Limit choice to our options [0, 5].
     const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
     const excludedRarity = excludedRaritiesList[excludedRarityOption]
-    const hasRarity = item.hasOwnProperty('pokemon_rarity')
-    // Not beautiful code with null as fallback, but it's more readable than a one-liner.
-    const rarity = hasRarity ? item['pokemon_rarity'].toLowerCase() : null
-    const isRarityExcluded = (hasRarity && excludedRarity.indexOf(rarity) !== -1)
+    const pokemonRarity = getPokemonRarity(item['pokemon_id'])
+    const isRarityExcluded = (excludedRarity.indexOf(pokemonRarity) !== -1)
     const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
 	
     var oldMarker = null
@@ -2268,7 +2290,9 @@ function centerMapOnLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-            locationMarker.setPosition(latlng)
+			if (locationMarker) {
+				locationMarker.setPosition(latlng)
+			}
             map.setCenter(latlng)
             Store.set('followMyLocationPosition', {
                 lat: position.coords.latitude,
@@ -2287,7 +2311,9 @@ function changeLocation(lat, lng) {
     var loc = new google.maps.LatLng(lat, lng)
     changeSearchLocation(lat, lng).done(function () {
         map.setCenter(loc)
-        searchMarker.setPosition(loc)
+		if (searchMarker) {
+			searchMarker.setPosition(loc)
+		}
     })
 }
 
@@ -2337,7 +2363,7 @@ function updateGeoLocation() {
             var center = new google.maps.LatLng(lat, lng)
 
             if (Store.get('geoLocate')) {
-                // the search function makes any small movements cause a loop. Need to increase resolution
+                // The search function makes any small movements cause a loop. Need to increase resolution.
                 if ((typeof searchMarker !== 'undefined') && (getPointDistance(searchMarker.getPosition(), center) > 40)) {
                     $.post('next_loc?lat=' + lat + '&lon=' + lng).done(function () {
                         map.panTo(center)
@@ -2604,8 +2630,16 @@ $(function () {
 })
 
 $(function () {
+   /* TODO: Some items are being loaded asynchronously, but synchronous code
+    * depends on it. Restructure to make sure these "loading" tasks are
+    * completed before continuing. Right now it "works" because the first
+    * map update is scheduled after 5s. */
+
     // populate Navbar Style menu
     $selectStyle = $('#map-style')
+
+    // Load dynamic rarity.
+    updatePokemonRarities()
 
     // Load Stylenames, translate entries, and populate lists
     $.getJSON('static/dist/data/mapstyle.min.json').done(function (data) {
@@ -3218,7 +3252,9 @@ $(function () {
 
     $('#lock-marker-switch').change(function () {
         Store.set('lockMarker', this.checked)
-        searchMarker.setDraggable(!this.checked)
+		if (searchMarker) {
+			searchMarker.setDraggable(!this.checked)
+		}
     })
 
     $('#search-switch').change(function () {
@@ -3235,7 +3271,16 @@ $(function () {
         } else {
             Store.set('followMyLocation', this.checked)
         }
-        locationMarker.setDraggable(!this.checked)
+        if (locationMarker) {
+            if (this.checked) {
+                // Follow our position programatically, so no dragging.
+                locationMarker.setDraggable(false)
+            } else {
+                // Go back to default non-follow.
+                const isMarkerMovable = Store.get('isLocationMarkerMovable')
+                locationMarker.setDraggable(isMarkerMovable)
+            }
+        }
     })
 
     $('#scan-here-switch').change(function () {
