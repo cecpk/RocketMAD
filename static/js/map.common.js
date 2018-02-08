@@ -1123,26 +1123,6 @@ function getPokemonIcon(item, sprite, displayHeight) {
     }
 }
 
-// Populated by a JSON request.
-var pokemonRarities = {}
-
-function updatePokemonRarities() {
-    $.getJSON('static/dist/data/rarity.json').done(function (data) {
-        pokemonRarities = data
-    }).fail(function () {
-        // Could be disabled/removed.
-        console.log("Couldn't load dynamic rarity JSON.")
-    })
-}
-
-function getPokemonRarity(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
-        return pokemonRarities[pokemonId]
-    }
-
-    return ''
-}
-
 function getGoogleSprite(index, sprite, displayHeight) {
     displayHeight = Math.max(displayHeight, 3)
     var scale = displayHeight / sprite.iconHeight
@@ -1185,10 +1165,12 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn
             'legendary': 50
         }
 
-        const pokemonRarity = getPokemonRarity(item['pokemon_id']).toLowerCase()
-        if (rarityValues.hasOwnProperty(pokemonRarity)) {
-            rarityValue = rarityValues[pokemonRarity] 
-            
+        if (item.hasOwnProperty('pokemon_rarity')) {
+            const pokemonRarity = item['pokemon_rarity'].toLowerCase()
+
+            if (rarityValues.hasOwnProperty(pokemonRarity)) {
+                rarityValue = rarityValues[pokemonRarity]
+            }
         }
     }
 
