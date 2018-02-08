@@ -22,7 +22,8 @@ from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
                      SpawnPoint)
 from .utils import (get_pokemon_name, get_pokemon_types, get_pokemon_rarity,
                     now, dottedQuadToNum)
-from .client_auth import redirect_client_to_auth, valid_client_auth, valid_discord_guild, redirect_to_discord_guild_invite
+from .client_auth import (redirect_client_to_auth, valid_client_auth, valid_discord_guild,
+                          redirect_to_discord_guild_invite, valid_discord_guild_role)
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
@@ -353,8 +354,11 @@ class Pogom(Flask):
         if args.user_auth_service == "Discord":
           if not valid_client_auth(request, self.user_auth_code_cache, args):
             return redirect_client_to_auth(request.url_root, args)
-          if not valid_discord_guild(request, self.user_auth_code_cache, args):
-            return redirect_to_discord_guild_invite(args)
+          if args.uas_discord_required_guild:
+            if not valid_discord_guild(request, self.user_auth_code_cache, args):
+              return redirect_to_discord_guild_invite(args)
+            if args.uas_discord_required_roles and not valid_discord_guild_role(request, self.user_auth_code_cache, args):
+              return redirect_to_discord_guild_invite(args)
         # Request time of this request.
         d['timestamp'] = datetime.utcnow()
 

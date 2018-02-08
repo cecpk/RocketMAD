@@ -554,10 +554,16 @@ def get_args():
                         help='Client ID for user external authentication.')
     parser.add_argument('-uascs', '--uas-client-secret', default=None,
                         help='Client Secret for user external authentication.')
-    parser.add_argument('-uasrdg', '--uas-discord-required-guild', default=None,
+    parser.add_argument('-uasho', '--uas-host-override', default=None,
+                        help='Host override for user external authentication.')
+    parser.add_argument('-uasdrg', '--uas-discord-required-guild', default=None,
                         help='Required Discord Guild for user external authentication.')
     parser.add_argument('-uasdgi', '--uas-discord-guild-invite', default=None,
                         help='Required Discord Guild for user external authentication.')
+    parser.add_argument('-uasdrr', '--uas-discord-required-roles', default=None,
+                        help='Required Discord Guild Roles for user external authentication.')
+    parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
+                        help='Discord Bot Token for user external authentication.')
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
