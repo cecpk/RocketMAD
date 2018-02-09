@@ -310,7 +310,10 @@ def default_gym_image(team, level, raidlevel, pkm):
         icon = "{}_{}.png".format(team, level)
     else:
         icon = "{}.png".format(team)
-
+    if(os.path.isfile(os.path.join(path,icon))):
+        return os.path.join(path, icon)
+    else:
+        icon = "{}_{}_unknown.png".format(team, raidlevel)
     return os.path.join(path, icon)
 
 
