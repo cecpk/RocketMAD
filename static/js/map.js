@@ -1254,7 +1254,7 @@ function isNotifyPerfectionPoke(poke) {
         hasHighAttributes = (hasHighIV && !(notifiedMinLevel > 0)) || (hasHighLevel && !(notifiedMinPerfection > 0)) || hasHighLevel && hasHighIV
     }
 
-    return hasHighIV
+    return hasHighAttributes
 }
 
 function isNotifyPoke(poke) {
