@@ -38,3 +38,20 @@ def pgscout_encounter(p, forced=False):
 
     return r.json() if r.status_code == 200 else scout_error(
         "Got error {} from scout service.".format(r.status_code))
+		
+def perform_lure(p):
+    args = get_args()
+    # Assemble request
+    params = {
+        'pokestop_id': p["pokestop_id"],
+        'latitude': p["latitude"],
+        'longitude': p["longitude"]
+    }
+    try:
+        r = requests.get(args.lure_url, params=params)
+    except:
+        return scout_error(
+            "Exception on request: {}".format(repr(sys.exc_info()[1])))
+
+    return r.json() if r.status_code == 200 else scout_error(
+        "Got error {} from service.".format(r.status_code))
