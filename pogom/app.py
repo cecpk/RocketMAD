@@ -153,13 +153,14 @@ class Pogom(Flask):
         args = get_args()
         if args.lure_url:
             lat = request.args.get('latitude')
-            long = request.args.get('longitude')
+            lng = request.args.get('longitude')
             log.info(
             u"On demand luring a stop at lat = {}, long = {}.".format(lat,
-                                              long))
-            stops = Pokestop.get_stop_by_cord(lat, long)
+                                              lng))
+            stops = Pokestop.get_stop_by_cord(lat, lng)
             if len(stops) > 1:
                 log.info("Error, more than one stop returned")
+                return None
             else:
                 p = stops[0]
             log.info(
