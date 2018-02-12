@@ -13,7 +13,7 @@ from flask import Flask, abort, jsonify, render_template, request, \
 from flask.json import JSONEncoder
 from flask_compress import Compress
 from pogom.dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
-from pogom.pgscout import scout_error, pgscout_encounter
+from pogom.pgscout import scout_error, pgscout_encounter, perform_lure
 
 
 from pogom.weather import get_weather_cells, get_s2_coverage, get_weather_alerts
@@ -96,6 +96,7 @@ class Pogom(Flask):
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
         self.route("/scout", methods=['GET'])(self.scout_pokemon)
+        self.route("/lure", methods=['GET'])(self.scout_lure)
         self.route("/<statusname>", methods=['GET'])(self.fullmap)
 
     def gym_img(self):
@@ -146,6 +147,35 @@ class Pogom(Flask):
                                                                    'error']))
         else:
             scout_result = scout_error("PGScout URL not configured.")
+        return jsonify(scout_result)
+
+    def scout_lure(self):
+        args = get_args()
+        if args.lure_url:
+            lat = request.args.get('latitude')
+            long = request.args.get('longitude')
+            log.info(
+            u"On demand luring a stop at lat = {}, long = {}.".format(lat,
+                                              long))
+            stops = Pokestop.get_stop_by_cord(lat, long)
+            if len(stops) > 1:
+                log.info("Error, more than one stop returned")
+            else:
+                p = stops[0]
+            log.info(
+                u"On demand luring a stop {} at {}, {}.".format(p["pokestop_id"],
+                                                              p["latitude"],
+                                                              p["longitude"]))
+            scout_result = perform_lure(p)
+            if scout_result['success']:
+                log.info(
+                    u"Successfully lured pokestop_id {} at {}, {}".format(
+                        p["pokestop_id"], p["latitude"],
+                        p["longitude"]))
+            else:
+                log.warning(u"Failed luring {} at {},{}".format(p["pokestop_id"], p["latitude"], p["longitude"]))
+        else:
+            scout_result = scout_error("URL not configured.")
         return jsonify(scout_result)
 
     def update_scouted_pokemon(self, p, response):
