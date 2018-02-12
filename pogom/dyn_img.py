@@ -252,6 +252,18 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET, form=None, cos
     if not gender_assets_suffix and not form_assets_suffix and not costume_assets_suffix:
         gender_assets_suffix = '_16' if pkm == 201 else '_00' if pkm > 0 else ''
 
+
+    #Castform
+    if pkm == 351:
+        gender_assets_suffix = '_11'
+        if weather:
+            if weather == 0:
+                gender_assets_suffix = '_12'
+            elif weather == 1:
+                gender_assets_suffix = '_13'
+            elif weather == 2:
+                gender_assets_suffix = '_14'
+
     assets_basedir = os.path.join(pogo_assets, 'decrypted_assets')
     assets_fullname = os.path.join(assets_basedir,
                                    'pokemon_icon_{:03d}{}{}{}{}.png'.format(pkm, gender_assets_suffix, form_assets_suffix,
