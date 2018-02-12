@@ -257,11 +257,11 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET, form=None, cos
     if pkm == 351:
         gender_assets_suffix = '_11'
         if weather:
-            if weather == 0:
+            if weather == 1:
                 gender_assets_suffix = '_12'
-            elif weather == 1:
-                gender_assets_suffix = '_13'
             elif weather == 2:
+                gender_assets_suffix = '_13'
+            elif (weather == 6) or (weather == 7):
                 gender_assets_suffix = '_14'
 
     assets_basedir = os.path.join(pogo_assets, 'decrypted_assets')
