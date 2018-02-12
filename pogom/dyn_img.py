@@ -239,8 +239,8 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET, form=None, cos
     elif gender in (GENDER_UNSET, GENDERLESS):
         gender_assets_suffix = '_00' if pkm > 0 else ''
 
-    if form:
-        # Form = no gender
+    if form and pkm == 201:
+        # Unown = no gender
         gender_suffix = gender_assets_suffix = ''
         form_assets_suffix = '_{:02d}'.format(form + 10)
         form_suffix = '_{}'.format(Form.Name(form))
@@ -254,15 +254,11 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET, form=None, cos
 
 
     #Castform
-    if pkm == 351:
-        gender_assets_suffix = '_11'
-        if weather:
-            if weather == 1:
-                gender_assets_suffix = '_12'
-            elif weather == 2:
-                gender_assets_suffix = '_13'
-            elif (weather == 6) or (weather == 7):
-                gender_assets_suffix = '_14'
+    if form and pkm == 351:
+        gender_suffix = gender_assets_suffix = ''
+        gender_suffix = '_{}'.format(Gender.Name(gender))
+        form_assets_suffix = '_{:02d}'.format(form)
+        form_suffix = '_{}'.format(Form.Name(form))
 
     assets_basedir = os.path.join(pogo_assets, 'decrypted_assets')
     assets_fullname = os.path.join(assets_basedir,
