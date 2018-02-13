@@ -257,7 +257,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET, form=None, cos
     if form and pkm == 351:
         gender_suffix = gender_assets_suffix = ''
         gender_suffix = '_{}'.format(Gender.Name(gender))
-        form_assets_suffix = '_{:02d}'.format(form)
+        form_assets_suffix = '_{:02d}'.format(form - 18)
         form_suffix = '_{}'.format(Form.Name(form))
 
     assets_basedir = os.path.join(pogo_assets, 'decrypted_assets')
