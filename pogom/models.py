@@ -2263,7 +2263,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
             #Check for costform skin
             if pokemon_id == 351:
                 pokemon[p.encounter_id]['form'] = (p.pokemon_data
-                                                    .pokemon_display.form).pokemon_display.form
+                                                    .pokemon_display.form)
 
             # Updating Pokemon data from PGScout result
             if scout_result and scout_result['success']:
