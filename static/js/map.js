@@ -1239,19 +1239,25 @@ function playPokemonSound(pokemonID, cryFileTypes) {
 
 
 function isNotifyPerfectionPoke(poke) {
-
-    var hasHighIV = false
-    var hasHighLevel = false
     var hasHighAttributes = false
+    var hasHighIV = false
 
-    if (poke['individual_attack'] != null && poke['cp_multiplier'] !== null) {
+    // Notify for IV.
+    if (poke['individual_attack'] != null) {
         const perfection = getIv(poke['individual_attack'], poke['individual_defense'], poke['individual_stamina'])
-        const level = getPokemonLevel(poke['cp_multiplier'])
-
         hasHighIV = notifiedMinPerfection > 0 && perfection >= notifiedMinPerfection
-        hasHighLevel = notifiedMinLevel > 0 && level >= notifiedMinLevel
+        const shouldNotifyForIV = (hasHighIV && notifiedMinLevel <= 0)
 
-        hasHighAttributes = (hasHighIV && !(notifiedMinLevel > 0)) || (hasHighLevel && !(notifiedMinPerfection > 0)) || hasHighLevel && hasHighIV
+        hasHighAttributes = shouldNotifyForIV
+    }
+
+    // Or notify for level. If IV filter is enabled, this is an AND relation.
+    if (poke['cp_multiplier'] !== null) {
+        const level = getPokemonLevel(poke['cp_multiplier'])
+        const hasHighLevel = notifiedMinLevel > 0 && level >= notifiedMinLevel
+        const shouldNotifyForLevel = (hasHighLevel && (hasHighIV || notifiedMinPerfection <= 0))
+
+        hasHighAttributes = hasHighAttributes || shouldNotifyForLevel
     }
 
     return hasHighAttributes
