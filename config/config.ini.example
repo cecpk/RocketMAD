@@ -199,17 +199,19 @@
 # https://discordapp.com/developers/applications/me and add a redrect uri to your the application in this format: https://mysrv.com/auth_callback.
 # If you get an error on the discord page when authenticating, and the redirect_uri in the url doesn't match your servers actual web address
 # override it by specifying uas-host-override, e.g. https://mysrv.com/
-# To require a user to be in your guild (server) to gain access, specify the required guild and an invite url to send them to if they are not.
+# To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
+# they are not in any of the required guilds.
 # To require a user be in specific roles in the guild to gain access, add a bot to the application at the above developer application page,
 # then add that bot to your guild (server) using this link: https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot
+# Note that the required-roles feature requires a configuration with a single required guild.
 
 #user-auth-service:              # Force end users to auth to an external service. Supported: Discord
 #uas-client-id:                  # OAuth2 Client ID.
 #uas-client-secret:              # OAuth2 Client Secret. Client should have auth callback url of <yourserverurl>/auth_callback
 #uas-host-override               # override auth redirect host.
-#uas-discord-required-guild      # (Optional) If guild ID specified, user must be in this discord guild (server) to access map.
-#uas-discord-guild-invite        # Invite link to redirect user to if user is not in above guild
-#uas-discord-required-roles      # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below.
+#uas-discord-required-guilds     # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated if multiple.
+#uas-discord-guild-invite        # Invite link to redirect user to if user is not in above guild(s)
+#uas-discord-required-roles      # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
 #uas-discord-bot-token           # Token for bot with access to your guild. Only required for required-roles feature
 
 # Misc

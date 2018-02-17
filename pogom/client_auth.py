@@ -36,7 +36,7 @@ def valid_client_auth(request, user_auth_code_cache, args):
     log.debug("oauth expired")
     del user_auth_code_cache[userAuthCode]
     return False
-  if args.uas_discord_required_guild:
+  if args.uas_discord_required_guilds:
     if not user_auth_code_cache[userAuthCode].get('guilds', False):
       user_auth_code_cache[userAuthCode]['guilds'] = get_user_guilds(user_auth_code_cache[userAuthCode]['access_token'])
       if not user_auth_code_cache[userAuthCode]['guilds']:
@@ -53,8 +53,9 @@ def valid_client_auth(request, user_auth_code_cache, args):
 def valid_discord_guild(request, user_auth_code_cache, args):
   userAuthCode = request.args.get('userAuthCode')
   guilds = user_auth_code_cache.get(userAuthCode)['guilds']
+  required_guilds = args.uas_discord_required_guilds.split(',')
   for g in guilds:
-    if g['id'] == args.uas_discord_required_guild:
+    if g['id'] in required_guilds:
       return True
   log.debug("User not in required discord guild.")
   del user_auth_code_cache[userAuthCode]['guilds']
@@ -124,7 +125,7 @@ def get_user_guild_roles(auth_token, args):
   headers = {
     'Authorization': 'Bot ' + args.uas_discord_bot_token
   }
-  r = requests.get('https://discordapp.com/api/v6/guilds/' + args.uas_discord_required_guild + '/members/' + user_id, headers=headers)
+  r = requests.get('https://discordapp.com/api/v6/guilds/' + args.uas_discord_required_guilds.split(',')[0] + '/members/' + user_id, headers=headers)
   try:
     r.raise_for_status()
   except:
