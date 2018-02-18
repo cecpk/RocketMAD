@@ -12,22 +12,19 @@ from requests.exceptions import HTTPError
 log = logging.getLogger(__name__)
 log.setLevel('INFO')
 
-def redirect_client_to_auth(url_root, args):
+def redirect_client_to_auth(host, args):
   d = {}
-  host = args.uas_host_override
-  if not host:
-    host = url_root
   d['auth_redirect'] = 'https://discordapp.com/api/oauth2/authorize?client_id=' + args.uas_client_id + '&redirect_uri=' + urllib.quote(host + 'auth_callback') + '&response_type=code&scope=identify%20guilds'
   return jsonify(d)
 
-def valid_client_auth(request, user_auth_code_cache, args):
+def valid_client_auth(request, host, user_auth_code_cache, args):
   userAuthCode = request.args.get('userAuthCode')
   if not userAuthCode:
     log.debug("no userAuthCode")
     return False
   oauth_response = user_auth_code_cache.get(userAuthCode, False)
   if not oauth_response:
-    oauth_response = exchange_code(userAuthCode, request.url_root, args)
+    oauth_response = exchange_code(userAuthCode, host, args)
     if (not oauth_response):
       return False
     user_auth_code_cache[userAuthCode] = oauth_response
@@ -77,20 +74,18 @@ def redirect_to_discord_guild_invite(args):
   d['auth_redirect'] = args.uas_discord_guild_invite
   return jsonify(d)
 
-def exchange_code(code, url_root, args):
+def exchange_code(code, host, args):
   data = {
     'client_id': args.uas_client_id,
     'client_secret': args.uas_client_secret,
     'grant_type': 'authorization_code',
     'code': code,
-    'redirect_uri': url_root + "auth_callback"
+    'redirect_uri': host + "auth_callback"
   }
   headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
   }
   r = requests.post('%s/oauth2/token' % 'https://discordapp.com/api/v6', data, headers)
-  if r.status_code == 401:
-    return False
   try:
     r.raise_for_status()
   except HTTPError:

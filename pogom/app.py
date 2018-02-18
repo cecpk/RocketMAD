@@ -381,8 +381,11 @@ class Pogom(Flask):
         d = {}
 
         if args.user_auth_service == "Discord":
-          if not valid_client_auth(request, self.user_auth_code_cache, args):
-            return redirect_client_to_auth(request.url_root, args)
+          host = args.uas_host_override
+          if not host:
+            host = request.url_root
+          if not valid_client_auth(request, host, self.user_auth_code_cache, args):
+            return redirect_client_to_auth(host, args)
           if args.uas_discord_required_guilds:
             if not valid_discord_guild(request, self.user_auth_code_cache, args):
               return redirect_to_discord_guild_invite(args)
