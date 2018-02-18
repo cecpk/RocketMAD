@@ -351,6 +351,19 @@ class Pokestop(LatLongModel):
         indexes = ((('latitude', 'longitude'), False),)
 
     @staticmethod
+    def get_stop_by_cord(lat, long):
+        query = Pokestop.select(Pokestop.pokestop_id, Pokestop.latitude, Pokestop.longitude)
+        query = (query
+                     .where(((Pokestop.latitude == lat) & (Pokestop.longitude == long))).dicts())
+        pokestops = []
+        for p in query:
+            if args.china:
+                p['latitude'], p['longitude'] = \
+                    transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
+            pokestops.append(p)
+        return pokestops
+
+    @staticmethod
     def get_stops(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
                   oSwLng=None, oNeLat=None, oNeLng=None, lured=False):
 
@@ -2245,6 +2258,10 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
 
             # Check for Unown's alphabetic character.
             if pokemon_id == 201:
+                pokemon[p.encounter_id]['form'] = (p.pokemon_data
+                                                    .pokemon_display.form)
+            #Check for costform skin
+            if pokemon_id == 351:
                 pokemon[p.encounter_id]['form'] = (p.pokemon_data
                                                     .pokemon_display.form)
 
