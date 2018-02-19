@@ -18,6 +18,8 @@ from queue import Queue
 from flask_cors import CORS
 from flask_cache_bust import init_cache_busting
 
+from colorlog import ColoredFormatter
+
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
                          log_resource_usage_loop, get_debug_dump_link,
@@ -44,8 +46,29 @@ class LogFilter(logging.Filter):
 
 
 # Moved here so logger is configured at load time.
-formatter = logging.Formatter(
-    '%(asctime)s [%(threadName)18s][%(module)14s][%(levelname)8s] %(message)s')
+console = logging.StreamHandler()
+args = get_args()
+if not (args.verbose):
+    console.setLevel(logging.INFO)
+
+formatter = ColoredFormatter(
+    #'%(asctime)s [%(threadName)16s][%(levelname)8s] %(message)s',
+
+    '%(log_color)s [%(asctime)s] [%(threadName)16s] [%(module)14s] [%(name)14s] [%(levelname)8s] %(message)s',
+    datefmt='%m-%d %H:%M:%S',
+    reset=True,
+    log_colors={
+        'DEBUG': 'purple',
+        'INFO': 'cyan',
+        'WARNING': 'yellow',
+        'ERROR': 'red',
+        'CRITICAL': 'red,bg_white',
+    },
+    secondary_log_colors={},
+    style='%'
+    )
+
+console.setFormatter(formatter)
 
 # Redirect messages lower than WARNING to stdout
 stdout_hdlr = logging.StreamHandler(sys.stdout)
