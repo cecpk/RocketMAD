@@ -22,8 +22,7 @@ from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
                      SpawnPoint)
 from .utils import (get_args, get_pokemon_name, get_pokemon_types,
                     now, dottedQuadToNum)
-from .client_auth import (redirect_client_to_auth, valid_client_auth, valid_discord_guild,
-                          redirect_to_discord_guild_invite, valid_discord_guild_role)
+from .client_auth import check_auth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
@@ -380,17 +379,9 @@ class Pogom(Flask):
             self.control_flags['on_demand'].clear()
         d = {}
 
-        if args.user_auth_service == "Discord":
-          host = args.uas_host_override
-          if not host:
-            host = request.url_root
-          if not valid_client_auth(request, host, self.user_auth_code_cache, args):
-            return redirect_client_to_auth(host, args)
-          if args.uas_discord_required_guilds:
-            if not valid_discord_guild(request, self.user_auth_code_cache, args):
-              return redirect_to_discord_guild_invite(args)
-            if args.uas_discord_required_roles and not valid_discord_guild_role(request, self.user_auth_code_cache, args):
-              return redirect_to_discord_guild_invite(args)
+        auth_redirect = check_auth(args, request, self.user_auth_code_cache)
+        if (auth_redirect):
+          return auth_redirect
         # Request time of this request.
         d['timestamp'] = datetime.utcnow()
 

@@ -12,6 +12,20 @@ from requests.exceptions import HTTPError
 log = logging.getLogger(__name__)
 log.setLevel('INFO')
 
+def check_auth(args, request, user_auth_code_cache):
+  if args.user_auth_service == "Discord":
+    host = args.uas_host_override
+    if not host:
+      host = request.url_root
+    if not valid_client_auth(request, host, user_auth_code_cache, args):
+      return redirect_client_to_auth(host, args)
+    if args.uas_discord_required_guilds:
+      if not valid_discord_guild(request, user_auth_code_cache, args):
+        return redirect_to_discord_guild_invite(args)
+      if args.uas_discord_required_roles and not valid_discord_guild_role(request, user_auth_code_cache, args):
+        return redirect_to_discord_guild_invite(args)
+  return False
+
 def redirect_client_to_auth(host, args):
   d = {}
   d['auth_redirect'] = 'https://discordapp.com/api/oauth2/authorize?client_id=' + args.uas_client_id + '&redirect_uri=' + urllib.quote(host + 'auth_callback') + '&response_type=code&scope=identify%20guilds'
