@@ -236,6 +236,16 @@ A `pokemon` event is sent every time RocketMap detects that a Pokémon has spawn
 | `height`                | The Pokémon's height<sup>2</sup>                                      |      `""` |
 | `player_level`          | The level of the account that found the Pokémon                       |       `2` |
 | `verified`              | Whether the TTH for the spawn has been identified                     |    `true` |
+| `rating_attack`             | Rating attack of the monster.                                         |    `A` |
+| `rating_defense`             | Rating defense of the monster.                                        |    `X` |
+| `catch_prob_1`            | Probability to catch the monster with a pokeball.                     |    `0.5` |
+| `catch_prob_2`           | Probability to catch the monster with a greatball.                    |    `0.6` |
+| `catch_prob_3`           | Probability to catch the monster with an ultraball.                   |   `0.7`  |
+| `atk_grade`             | Rating attack of the monster.                                         |    `A` |
+| `def_grade`             | Rating defense of the monster.                                        |    `X` |
+| `base_catch`            | Probability to catch the monster with a pokeball.                     |    `0.5` |
+| `great_catch`           | Probability to catch the monster with a greatball.                    |    `0.6` |
+| `ultra_catch`           | Probability to catch the monster with an ultraball.                   |   `0.7`  |
 
 1. Pokémon genders are represented by the values:
 

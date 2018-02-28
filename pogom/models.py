@@ -2304,6 +2304,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
 
                     current_weather = weather[s2_cell_id]['gameplay_weather'] \
                         if weather and s2_cell_id in weather else None
+
                     wh_poke = pokemon[p.encounter_id].copy()
                     wh_poke.update({
                         'disappear_time': calendar.timegm(
@@ -2317,7 +2318,12 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
                         'player_level': encounter_level,
                         'weather': current_weather,
                         'boosted_weather': weather_boosted_condition,
-                        's2_cell_id': s2_cell_id
+                        's2_cell_id': s2_cell_id,
+                        'base_catch': pokemon[p.encounter_id]['catch_prob_1'],
+                        'great_catch': pokemon[p.encounter_id]['catch_prob_2'],
+                        'ultra_catch': pokemon[p.encounter_id]['catch_prob_3'],
+                        'atk_grade': pokemon[p.encounter_id]['rating_attack'],
+                        'def_grade': pokemon[p.encounter_id]['rating_defense']
                     })
                     if wh_poke['cp_multiplier'] is not None:
                         wh_poke.update({
