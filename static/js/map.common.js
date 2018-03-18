@@ -1077,7 +1077,15 @@ var StoreOptions = {
     'isSearchMarkerMovable': {
         default: false,
         type: StoreTypes.Boolean
-    }		      
+    },
+    'showMedalRattata': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showMedalMagikarp': {
+        default: true,
+        type: StoreTypes.Boolean
+    }
 }
 
 var Store = {

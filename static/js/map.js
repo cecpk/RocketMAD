@@ -530,7 +530,8 @@ function initSidebar() {
     $('#weather-cells-switch').prop('checked', Store.get('showWeatherCells'))
     $('#s2cells-switch').prop('checked', Store.get('showS2Cells'))
     $('#weather-alerts-switch').prop('checked', Store.get('showWeatherAlerts'))
-
+    $('#medal-rattata-switch').prop('checked', Store.get('showMedalRattata'))
+    $('#medal-magikarp-switch').prop('checked', Store.get('showMedalMagikarp'))
     // Only create the Autocomplete element if it's enabled in template.
     var elSearchBox = document.getElementById('next-location')
 
@@ -1239,6 +1240,9 @@ function playPokemonSound(pokemonID, cryFileTypes) {
 
 
 function isNotifyPerfectionPoke(poke) {
+
+    var baseHeight = (poke['pokemon_id'] === 19) ? 0.30 : 0.90
+    var baseWeight = (poke['pokemon_id'] === 129) ? 3.50 : 10.00
     var hasHighAttributes = false
     var hasHighIV = false
 
@@ -1260,7 +1264,38 @@ function isNotifyPerfectionPoke(poke) {
         hasHighAttributes = hasHighAttributes || shouldNotifyForLevel
     }
 
+    if (Store.get('showMedalMagikarp') && poke['pokemon_id']==129) {
+
+        var MedalMagikarp = false
+        var baseHeight = (poke['pokemon_id'] === 19) ? 0.30 : 0.90
+        var baseWeight = (poke['pokemon_id'] === 129) ? 3.50 : 10.00
+        var ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
+
+        if (ratio > 2.5) {
+            MedalMagikarp = true
+            hasHighAttributes = hasHighAttributes || MedalMagikarp
+        }
+    }
+
+    if (Store.get('showMedalRattata') && poke['pokemon_id']==19) {
+
+        var MedalRattata = false
+        var ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
+
+        if (ratio < 1.5) {
+            MedalRattata = true
+            hasHighAttributes = hasHighAttributes || MedalRattata
+        }
+    }
+
     return hasHighAttributes
+}
+
+function sizeRatio(height, weight, baseHeight, baseWeight) {
+    var heightRatio = height / baseHeight
+    var weightRatio = weight / baseWeight
+
+    return heightRatio + weightRatio
 }
 
 function isNotifyPoke(poke) {
@@ -3252,6 +3287,17 @@ $(function () {
     $('#cries-switch').change(function () {
         Store.set('playCries', this.checked)
     })
+
+    $('#medal-rattata-switch').change(function () {
+        Store.set('showMedalRattata', this.checked)
+        updateMap()
+    })
+
+    $('#medal-magikarp-switch').change(function () {
+        Store.set('showMedalMagikarp', this.checked)
+        updateMap()
+    })
+
 
     $('#geoloc-switch').change(function () {
         $('#next-location').prop('disabled', this.checked)
