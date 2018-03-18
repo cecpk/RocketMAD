@@ -530,7 +530,8 @@ function initSidebar() {
     $('#weather-cells-switch').prop('checked', Store.get('showWeatherCells'))
     $('#s2cells-switch').prop('checked', Store.get('showS2Cells'))
     $('#weather-alerts-switch').prop('checked', Store.get('showWeatherAlerts'))
-
+    $('#prio-notify-switch').prop('checked', Store.get('prioNotify'))
+    
     // Only create the Autocomplete element if it's enabled in template.
     var elSearchBox = document.getElementById('next-location')
 
@@ -1589,8 +1590,9 @@ function clearStaleMarkers() {
         const excludedRarity = excludedRaritiesList[excludedRarityOption]
 		const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
         const isRarityExcluded = excludedRarity.indexOf(pokemonRarity) !== -1
-		
-        if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
+	const isNotifyPkmn = isNotifyPoke(pokemon)
+
+        if (isPokeExpired || (isPokeExcluded && !isNotifyPkmn) || (isRarityExcluded && !isNotifyPkmn)) {		
             const oldMarker = pokemon.marker
 			const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(pokemonId) !== -1
 			
@@ -1701,6 +1703,7 @@ function loadRawData() {
     var loadWeather = Store.get('showWeatherCells')
     var loadS2Cells = Store.get('showS2Cells')
     var loadWeatherAlerts = Store.get('showWeatherAlerts')
+    var prionotifyactiv = Store.get('prioNotify')
 
     var bounds = map.getBounds()
     var swPoint = bounds.getSouthWest()
@@ -1739,7 +1742,8 @@ function loadRawData() {
             'oNeLat': oNeLat,
             'oNeLng': oNeLng,
             'reids': String(isShowAllZoom() ? excludedPokemon :  reincludedPokemon),
-            'eids': String(getExcludedPokemon())
+            'eids': String(getExcludedPokemon()),
+            'prionotify': prionotifyactiv
         },
         dataType: 'json',
         cache: false,
@@ -1859,12 +1863,14 @@ function processPokemon(item) {
     const pokemonRarity = getPokemonRarity(item['pokemon_id'])
     const isRarityExcluded = (excludedRarity.indexOf(pokemonRarity) !== -1)
     const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
-	
+    const isNotifyPkmn = isNotifyPoke(item)
+
+    var prionotifyactiv = Store.get('prioNotify')
     var oldMarker = null
     var newMarker = null
 
-    if (!(item['encounter_id'] in mapData.pokemons) &&
-         !isPokeExcluded && !isRarityExcluded  && isPokeAlive) {
+    if ((!(item['encounter_id'] in mapData.pokemons) &&
+         !isPokeExcluded && !isRarityExcluded  && isPokeAlive) || (!(item['encounter_id'] in mapData.pokemons) && isNotifyPkmn && prionotifyactiv)) {
     // Add marker to map and item to dict.
         const isNotifyPkmn = isNotifyPoke(item)
         if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
@@ -3236,6 +3242,11 @@ $(function () {
 
     $('#bounce-switch').change(function () {
         Store.set('isBounceDisabled', this.checked)
+        location.reload()
+    })
+
+    $('#prio-notify-switch').change(function () {
+        Store.set('prioNotify', this.checked)
         location.reload()
     })
 
