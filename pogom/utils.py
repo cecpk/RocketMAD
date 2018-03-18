@@ -348,10 +348,6 @@ def get_args():
                         help=('Change duration for lures set on pokestops. ' +
                               'This is useful for events that extend lure ' +
                               'duration.'), type=int, default=30)
-    parser.add_argument('-pd', '--purge-data',
-                        help=('Clear Pokemon from database this many hours ' +
-                              'after they disappear (0 to disable).'),
-                        type=int, default=0)
     parser.add_argument('-px', '--proxy',
                         help='Proxy url (e.g. socks5://127.0.0.1:9050)',
                         action='append')
@@ -407,6 +403,35 @@ def get_args():
               'queue falls behind.'),
         type=int,
         default=1)
+    group = parser.add_argument_group('Database Cleanup')
+    group.add_argument('-DC', '--db-cleanup',
+                       help='Enable regular database cleanup thread.',
+                       action='store_true', default=False)
+    group.add_argument('-DCw', '--db-cleanup-worker',
+                       help=('Clear worker status from database after X ' +
+                             'minutes of inactivity. ' +
+                             'Default: 30, 0 to disable.'),
+                       type=int, default=30)
+    group.add_argument('-DCp', '--db-cleanup-pokemon',
+                       help=('Clear pokemon from database X hours ' +
+                             'after they disappeared. ' +
+                             'Default: 0, 0 to disable.'),
+                       type=int, default=0)
+    group.add_argument('-DCg', '--db-cleanup-gym',
+                       help=('Clear gym details from database X hours ' +
+                             'after last gym scan. ' +
+                             'Default: 8, 0 to disable.'),
+                       type=int, default=8)
+    group.add_argument('-DCs', '--db-cleanup-spawnpoint',
+                       help=('Clear spawnpoint from database X hours ' +
+                             'after last valid scan. ' +
+                             'Default: 720, 0 to disable.'),
+                       type=int, default=720)
+    group.add_argument('-DCf', '--db-cleanup-forts',
+                       help=('Clear gyms and pokestops from database X hours ' +
+                             'after last valid scan. ' +
+                             'Default: 0, 0 to disable.'),
+                       type=int, default=0)
     parser.add_argument(
         '-wh',
         '--webhook',
@@ -417,8 +442,6 @@ def get_args():
     parser.add_argument('-gi', '--gym-info',
                         help=('Get all details about gyms (causes an ' +
                               'additional API hit for every gym).'),
-                        action='store_true', default=False)
-    parser.add_argument('-DC', '--enable-clean', help='Enable DB cleaner.',
                         action='store_true', default=False)
     parser.add_argument(
         '--wh-types',
@@ -476,8 +499,6 @@ def get_args():
     parser.add_argument('-sn', '--status-name', default=str(os.getpid()),
                         help=('Enable status page database update using ' +
                               'STATUS_NAME as main worker name.'))
-    parser.add_argument('-spp', '--status-page-password', default=None,
-                        help='Set the status page password.')
     parser.add_argument('-hk', '--hash-key', default=None, action='append',
                         help='Key for hash server')
     parser.add_argument('-novc', '--no-version-check', action='store_true',
@@ -579,6 +600,13 @@ def get_args():
                               ' should be updated. Decimals allowed.' +
                               ' Default: 0. 0 to disable.'),
                         type=float, default=0)
+    statusp = parser.add_argument_group('Status Page')
+    statusp.add_argument('-SPp', '--status-page-password', default=None,
+                         help='Set the status page password.')
+    statusp.add_argument('-SPf', '--status-page-filter',
+                         help=('Filter worker status that are inactive for ' +
+                               'X minutes. Default: 30, 0 to disable.'),
+                         type=int, default=30)
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
@@ -1416,7 +1444,7 @@ def get_debug_dump_link():
     # Upload to hasteb.in.
     return upload_to_hastebin(result)
 
- 
+
 def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     spawn_group = 'Common'
 
@@ -1444,35 +1472,35 @@ def dynamic_rarity_refresher():
     args = get_args()
     hours = args.rarity_hours
     root_path = args.root_path
- 
+
     rarities_path = os.path.join(root_path, 'static/dist/data/rarity.json')
     update_frequency_mins = args.rarity_update_frequency
     refresh_time_sec = update_frequency_mins * 60
- 
+
     while True:
         log.info('Updating dynamic rarity...')
- 
+
         start = default_timer()
         db_rarities = Pokemon.get_spawn_counts(hours)
         total = db_rarities['total']
         pokemon = db_rarities['pokemon']
- 
+
         # Store as an easy lookup table for front-end.
         rarities = {}
- 
+
         for poke in pokemon:
             rarities[poke['pokemon_id']] = get_pokemon_rarity(total,
                                                                 poke['count'])
- 
+
         # Save to file.
         with open(rarities_path, 'w') as outfile:
             json.dump(rarities, outfile)
- 
+
         duration = default_timer() - start
         log.info('Updated dynamic rarity. It took %.2fs for %d entries.',
                     duration,
                     total)
- 
+
         # Wait x seconds before next refresh.
         log.debug('Waiting %d minutes before next dynamic rarity update.',
                     refresh_time_sec / 60)
@@ -1488,4 +1516,4 @@ def peewee_attr_to_col(cls, field):
     else:
         field_column = field
 
-    return field_column    
+    return field_column
