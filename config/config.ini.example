@@ -124,7 +124,7 @@
 #high-lvl-accounts:             # File containing a list high level accounts, in the format "auth_service,username,password"
 #enc-whitelist-file:            # File containing a list of Pokemon IDs to encounter for IV/CPs. Requires L30 or higher accounts in --high-lvl-accounts.
 #hlvl-kph:                      # Set a maximum speed in km/hour for high level account scanning. 0 to disable. (default=25)
-
+#medalpokemon                   # Show notify for tiny rattata and big magikarp on map
 
 # Webserver settings
 ####################
@@ -140,6 +140,8 @@
 #encrypt-lib:                   # Path to encrypt lib to be used instead of the shipped ones.
 #display-in-console             # Display Found Pokemon in Console.
 #disable-blacklist              # Disable the global anti-scraper IP blacklist.
+#rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
+#rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
 
 
 # Proxy settings
@@ -162,11 +164,11 @@
 ##################
 
 #webhook:                       # Webhook URL e.g. http://127.0.0.1:12345 or a list for multiple webhooks
-                                # [http://127.0.0.1:1345,http://127.0.0.1:12346] (default=None)
+                                # e.g. [http://127.0.0.1:1345,http://127.0.0.1:12346] (default=None)
 #wh-types:[]                    # List of events to be sent: pokemon, gym, raid, egg, tth, gym-info, pokestop, lure, captcha. (default= nothing)
 #wh-threads:                    # Number of webhook threads; increase if the webhook queue falls behind. (default=1)
 #wh-retries:                    # Number of times to retry sending webhook data on failure (default=5)
-#wh-connect-timeout:                    # Timeout (in seconds) for webhook requests (default=1).
+#wh-connect-timeout:            # Timeout (in seconds) for webhook requests (default=1).
 #wh-concurrency:                # Async requests pool size. (default=25)
 #wh-backoff-factor:             # Factor (in seconds) by which the delay until next retry will increase. (default=0.25).
 #wh-lfu-size:                   # Webhook LFU cache max size (default=1000).
@@ -205,14 +207,14 @@
 # then add that bot to your guild (server) using this link: https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot
 # Note that the required-roles feature requires a configuration with a single required guild.
 
-#user-auth-service:              # Force end users to auth to an external service. Supported: Discord
-#uas-client-id:                  # OAuth2 Client ID.
-#uas-client-secret:              # OAuth2 Client Secret. Client should have auth callback url of <yourserverurl>/auth_callback
-#uas-host-override               # override auth redirect host.
-#uas-discord-required-guilds     # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated if multiple.
-#uas-discord-guild-invite        # Invite link to redirect user to if user is not in above guild(s)
-#uas-discord-required-roles      # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
-#uas-discord-bot-token           # Token for bot with access to your guild. Only required for required-roles feature
+#user-auth-service:             # Force end users to auth to an external service. Supported: Discord
+#uas-client-id:                 # OAuth2 Client ID.
+#uas-client-secret:             # OAuth2 Client Secret. Client should have auth callback url of <yourserverurl>/auth_callback
+#uas-host-override              # override auth redirect host.
+#uas-discord-required-guilds    # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated if multiple.
+#uas-discord-guild-invite       # Invite link to redirect user to if user is not in above guild(s)
+#uas-discord-required-roles     # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
+#uas-discord-bot-token          # Token for bot with access to your guild. Only required for required-roles feature
 
 # Misc
 ######
@@ -223,4 +225,4 @@
 #no-version-check               # Disable API version check. (default=False)
 #version-check-interval:        # Interval to check API version in seconds (Default: in range [60, 300]).
 #mock:                          # Mock mode - point to a fpgo endpoint instead of using the real PogoApi,
-                                # ec: http://127.0.0.1:9090 (default='')
+                                # e.g: http://127.0.0.1:9090 (default='')

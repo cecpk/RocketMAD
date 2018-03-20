@@ -530,6 +530,9 @@ function initSidebar() {
     $('#weather-cells-switch').prop('checked', Store.get('showWeatherCells'))
     $('#s2cells-switch').prop('checked', Store.get('showS2Cells'))
     $('#weather-alerts-switch').prop('checked', Store.get('showWeatherAlerts'))
+    $('#prio-notify-switch').prop('checked', Store.get('prioNotify'))
+    $('#medal-rattata-switch').prop('checked', Store.get('showMedalRattata'))
+    $('#medal-magikarp-switch').prop('checked', Store.get('showMedalMagikarp'))
 
     // Only create the Autocomplete element if it's enabled in template.
     var elSearchBox = document.getElementById('next-location')
@@ -1240,21 +1243,63 @@ function playPokemonSound(pokemonID, cryFileTypes) {
 
 function isNotifyPerfectionPoke(poke) {
 
-    var hasHighIV = false
-    var hasHighLevel = false
     var hasHighAttributes = false
+    var hasHighIV = false
 
-    if (poke['individual_attack'] != null && poke['cp_multiplier'] !== null) {
+    // Notify for IV.
+    if (poke['individual_attack'] != null) {
         const perfection = getIv(poke['individual_attack'], poke['individual_defense'], poke['individual_stamina'])
-        const level = getPokemonLevel(poke['cp_multiplier'])
-
         hasHighIV = notifiedMinPerfection > 0 && perfection >= notifiedMinPerfection
-        hasHighLevel = notifiedMinLevel > 0 && level >= notifiedMinLevel
+        const shouldNotifyForIV = (hasHighIV && notifiedMinLevel <= 0)
 
-        hasHighAttributes = (hasHighIV && !(notifiedMinLevel > 0)) || (hasHighLevel && !(notifiedMinPerfection > 0)) || hasHighLevel && hasHighIV
+        hasHighAttributes = shouldNotifyForIV
     }
 
-    return hasHighIV
+    // Or notify for level. If IV filter is enabled, this is an AND relation.
+    if (poke['cp_multiplier'] !== null) {
+        const level = getPokemonLevel(poke['cp_multiplier'])
+        const hasHighLevel = notifiedMinLevel > 0 && level >= notifiedMinLevel
+        const shouldNotifyForLevel = (hasHighLevel && (hasHighIV || notifiedMinPerfection <= 0))
+
+        hasHighAttributes = hasHighAttributes || shouldNotifyForLevel
+    }
+
+    if (Store.get('showMedalMagikarp') && poke['pokemon_id']==129) {
+
+        var baseHeight = 0.90
+        var baseWeight = 10.00
+
+        var MedalMagikarp = false
+        var ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
+
+        if (ratio > 2.5) {
+            MedalMagikarp = true
+            hasHighAttributes = hasHighAttributes || MedalMagikarp
+        }
+    }
+
+    if (Store.get('showMedalRattata') && poke['pokemon_id']==19) {
+
+        var baseHeight = 0.30
+        var baseWeight = 3.50
+
+        var MedalRattata = false
+        var ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
+
+        if (ratio < 1.5) {
+            MedalRattata = true
+            hasHighAttributes = hasHighAttributes || MedalRattata
+        }
+    }
+
+    return hasHighAttributes
+}
+
+function sizeRatio(height, weight, baseHeight, baseWeight) {
+    var heightRatio = height / baseHeight
+    var weightRatio = weight / baseWeight
+
+    return heightRatio + weightRatio
 }
 
 function isNotifyPoke(poke) {
@@ -1583,8 +1628,9 @@ function clearStaleMarkers() {
         const excludedRarity = excludedRaritiesList[excludedRarityOption]
 		const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
         const isRarityExcluded = excludedRarity.indexOf(pokemonRarity) !== -1
-		
-        if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
+	const isNotifyPkmn = isNotifyPoke(pokemon)
+
+        if (isPokeExpired || (isPokeExcluded && !isNotifyPkmn) || (isRarityExcluded && !isNotifyPkmn)) {		
             const oldMarker = pokemon.marker
 			const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(pokemonId) !== -1
 			
@@ -1695,6 +1741,7 @@ function loadRawData() {
     var loadWeather = Store.get('showWeatherCells')
     var loadS2Cells = Store.get('showS2Cells')
     var loadWeatherAlerts = Store.get('showWeatherAlerts')
+    var prionotifyactiv = Store.get('prioNotify')
 
     var bounds = map.getBounds()
     var swPoint = bounds.getSouthWest()
@@ -1733,7 +1780,8 @@ function loadRawData() {
             'oNeLat': oNeLat,
             'oNeLng': oNeLng,
             'reids': String(isShowAllZoom() ? excludedPokemon :  reincludedPokemon),
-            'eids': String(getExcludedPokemon())
+            'eids': String(getExcludedPokemon()),
+            'prionotify': prionotifyactiv
         },
         dataType: 'json',
         cache: false,
@@ -1853,12 +1901,14 @@ function processPokemon(item) {
     const pokemonRarity = getPokemonRarity(item['pokemon_id'])
     const isRarityExcluded = (excludedRarity.indexOf(pokemonRarity) !== -1)
     const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
-	
+    const isNotifyPkmn = isNotifyPoke(item)
+
+    var prionotifyactiv = Store.get('prioNotify')
     var oldMarker = null
     var newMarker = null
 
-    if (!(item['encounter_id'] in mapData.pokemons) &&
-         !isPokeExcluded && !isRarityExcluded  && isPokeAlive) {
+    if ((!(item['encounter_id'] in mapData.pokemons) &&
+         !isPokeExcluded && !isRarityExcluded  && isPokeAlive) || (!(item['encounter_id'] in mapData.pokemons) && isNotifyPkmn && prionotifyactiv)) {
     // Add marker to map and item to dict.
         const isNotifyPkmn = isNotifyPoke(item)
         if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
@@ -3233,6 +3283,11 @@ $(function () {
         location.reload()
     })
 
+    $('#prio-notify-switch').change(function () {
+        Store.set('prioNotify', this.checked)
+        location.reload()
+    })
+
     $('#hideunnotified-switch').change(function () {
         Store.set('hideNotNotified', this.checked)
         location.reload()
@@ -3246,6 +3301,17 @@ $(function () {
     $('#cries-switch').change(function () {
         Store.set('playCries', this.checked)
     })
+
+    $('#medal-rattata-switch').change(function () {
+        Store.set('showMedalRattata', this.checked)
+        updateMap()
+    })
+
+    $('#medal-magikarp-switch').change(function () {
+        Store.set('showMedalMagikarp', this.checked)
+        updateMap()
+    })
+
 
     $('#geoloc-switch').change(function () {
         $('#next-location').prop('disabled', this.checked)

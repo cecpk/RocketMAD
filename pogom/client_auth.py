@@ -64,7 +64,7 @@ def valid_client_auth(request, host, user_auth_code_cache, args):
 def valid_discord_guild(request, user_auth_code_cache, args):
   userAuthCode = request.args.get('userAuthCode')
   guilds = user_auth_code_cache.get(userAuthCode)['guilds']
-  required_guilds = args.uas_discord_required_guilds.split(',')
+  required_guilds = [x.strip() for x in args.uas_discord_required_guilds.split(',')]
   for g in guilds:
     if g['id'] in required_guilds:
       return True
@@ -75,14 +75,14 @@ def valid_discord_guild(request, user_auth_code_cache, args):
 def valid_discord_guild_role(request, user_auth_code_cache, args):
   userAuthCode = request.args.get('userAuthCode')
   userRoles = user_auth_code_cache.get(userAuthCode)['roles']
-  requiredRoles = args.uas_discord_required_roles.split(',')
+  requiredRoles = [x.strip() for x in args.uas_discord_required_roles.split(',')]
   for r in userRoles:
     if r in requiredRoles:
       return True
   log.debug("User not in required discord guild role.")
   del user_auth_code_cache[userAuthCode]['roles']
   return False
-  
+
 def redirect_to_discord_guild_invite(args):
   d = {}
   d['auth_redirect'] = args.uas_discord_guild_invite
@@ -118,7 +118,7 @@ def get_user_guilds(auth_token):
     log.debug('' + str(r.status_code) + ' returned from guild list attempt: ' + r.text)
     return False
   return r.json()
-    
+
 
 def get_user_guild_roles(auth_token, args):
   headers = {
@@ -134,11 +134,11 @@ def get_user_guild_roles(auth_token, args):
   headers = {
     'Authorization': 'Bot ' + args.uas_discord_bot_token
   }
-  r = requests.get('https://discordapp.com/api/v6/guilds/' + args.uas_discord_required_guilds.split(',')[0] + '/members/' + user_id, headers=headers)
+  r = requests.get('https://discordapp.com/api/v6/guilds/' + args.uas_discord_required_guilds.split(',')[0].strip() + '/members/' + user_id, headers=headers)
   try:
     r.raise_for_status()
   except:
     log.debug('' + str(r.status_code) + ' returned from Discord guild member attempt: ' + r.text)
     return False
   return r.json()['roles']
-    
+

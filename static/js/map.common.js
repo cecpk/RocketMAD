@@ -858,6 +858,10 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'prioNotify': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'remember_select_rarity_notify': {
         default: [], // Common, Uncommon, Rare, Very Rare, Ultra Rare
         type: StoreTypes.JSON
@@ -1077,7 +1081,15 @@ var StoreOptions = {
     'isSearchMarkerMovable': {
         default: false,
         type: StoreTypes.Boolean
-    }		      
+    },
+    'showMedalRattata': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showMedalMagikarp': {
+        default: false,
+        type: StoreTypes.Boolean
+    }
 }
 
 var Store = {
