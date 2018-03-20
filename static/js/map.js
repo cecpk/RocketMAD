@@ -1267,7 +1267,7 @@ function isNotifyPerfectionPoke(poke) {
     if (Store.get('showMedalMagikarp') && poke['pokemon_id']==129) {
 
         var baseHeight = 0.90
-        var baseWeight = 3.50
+        var baseWeight = 10.00
 
         var MedalMagikarp = false
         var ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
@@ -1281,7 +1281,7 @@ function isNotifyPerfectionPoke(poke) {
     if (Store.get('showMedalRattata') && poke['pokemon_id']==19) {
 
         var baseHeight = 0.30
-        var baseWeight = 10.00
+        var baseWeight = 3.50
 
         var MedalRattata = false
         var ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
