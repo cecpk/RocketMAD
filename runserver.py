@@ -321,7 +321,7 @@ def main():
     # Let's not forget to run Grunt / Only needed when running with webserver.
     if not args.no_server and not validate_assets(args):
         sys.exit(1)
- 
+
     if args.no_version_check and not args.only_server:
         log.warning('You are running RocketMap in No Version Check mode. '
                     "If you don't know what you're doing, this mode "
@@ -368,7 +368,7 @@ def main():
                               os.path.abspath(__file__)).decode('utf8'))
         app.before_request(app.validate_request)
         app.set_current_location(position)
-        
+
     db = startup_db(app, args.clear_db)
 
 
@@ -405,7 +405,7 @@ def main():
         t.start()
 
     # Database cleaner; really only need one ever.
-    if args.enable_clean:
+    if args.db_cleanup:
         t = Thread(target=clean_db_loop, name='db-cleaner', args=(args,))
         t.daemon = True
         t.start()
