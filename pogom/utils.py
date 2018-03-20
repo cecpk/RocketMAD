@@ -600,6 +600,10 @@ def get_args():
                               ' should be updated. Decimals allowed.' +
                               ' Default: 0. 0 to disable.'),
                         type=float, default=0)
+    parser.add_argument('-Rfn', '--rarity-filename', type=str,
+                        help=('Filename of rarity json for different databases (without .json)' +
+                              'Default: rarity'),
+                        default='rarity')
     statusp = parser.add_argument_group('Status Page')
     statusp.add_argument('-SPp', '--status-page-password', default=None,
                          help='Set the status page password.')
@@ -607,6 +611,7 @@ def get_args():
                          help=('Filter worker status that are inactive for ' +
                                'X minutes. Default: 30, 0 to disable.'),
                          type=int, default=30)
+
     parser.set_defaults(DEBUG=False)
 
     args = parser.parse_args()
@@ -1473,7 +1478,9 @@ def dynamic_rarity_refresher():
     hours = args.rarity_hours
     root_path = args.root_path
 
-    rarities_path = os.path.join(root_path, 'static/dist/data/rarity.json')
+ 
+    rarities_path = os.path.join(root_path, 'static/dist/data/' + args.rarity_filename + '.json')
+
     update_frequency_mins = args.rarity_update_frequency
     refresh_time_sec = update_frequency_mins * 60
 

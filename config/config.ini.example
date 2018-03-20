@@ -142,6 +142,8 @@
 #disable-blacklist              # Disable the global anti-scraper IP blacklist.
 #rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
 #rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
+#rarity-filename:               # Name of the JSON File for dynamic rarity. Using two different RM Databases with two instances out of the same folter. Default (if empty): rarity
+
 
 
 # Proxy settings

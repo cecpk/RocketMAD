@@ -359,7 +359,8 @@ class Pogom(Flask):
                                generateImages=str(args.generate_images).lower(),
                                gmaps_key=args.gmaps_key,
                                lang=args.locale,
-                               show=visibility_flags
+                               show=visibility_flags,
+                               rarityFileName=args.rarity_filename
                                )
 
     def raw_data(self):
