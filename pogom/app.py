@@ -490,7 +490,7 @@ class Pogom(Flask):
                                 oNeLat=oNeLat,
                                 oNeLng=oNeLng)))
 
-	    if request.args.get('prionotify') == 'false':
+        if request.args.get('prionotify') == 'false':
             if request.args.get('reids'):
                 reids = [int(x) for x in request.args.get('reids').split(',')]
                 d['pokemons'] = d['pokemons'] + (
