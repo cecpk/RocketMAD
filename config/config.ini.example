@@ -101,6 +101,8 @@
 #pokestop-spinning              # Spin Pokestops with "50%" Chance (default=False)
 #account-max-spins:             # Maximum number of Pokestop spins per hour (default=20)
 #on-demand_timeout:             # Pause searching while web UI is inactive for this timeout (in seconds). (default=0)
+#ignorelist-file                # File containing a list of Pokemon IDs to ignore, one line per ID. Spawnpoints will be saved,
+                                # but ignored Pokemon won't be encountered, sent to webhooks or saved to the DB.
 
 
 # Account rotation
