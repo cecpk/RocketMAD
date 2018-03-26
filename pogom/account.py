@@ -282,7 +282,7 @@ def clear_inventory(pgacc):
             clear_response = clear_inventory_response['RECYCLE_INVENTORY_ITEM']
             clear_result = clear_response.result
             if clear_result is 1:
-                log.info('Clearing %s %ss succeeded.', item_count,
+                log.info('Clearing %s %ss succeeded.', drop_count,
                          item_name)
             elif clear_result is 2:
                 log.debug('Not enough items to clear, parsing failed.')
