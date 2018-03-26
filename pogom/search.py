@@ -45,8 +45,9 @@ from .models import (parse_map, GymDetails, parse_gyms, MainWorker,
                      WorkerStatus, HashKeys, ScannedLocation)
 from .utils import now, distance, get_args, clear_dict_response
 from .transform import get_new_coords
-from .account import AccountSet, get_account, setup_mrmime_account, account_failed, \
-    account_revive
+from .account import (AccountSet, get_account,
+                      setup_mrmime_account, account_failed,
+                      account_revive)
 from .captcha import captcha_overseer_thread, handle_captcha
 from .proxy import get_new_proxy
 from .transform import jitter_location
@@ -99,8 +100,8 @@ def switch_status_printer(display_type, current_page, mainlog,
 
 
 # Thread to print out the status of each worker.
-def status_printer(threadStatus, account_queue, account_captchas, account_failures, logmode, hash_key,
-                   key_scheduler):
+def status_printer(threadStatus, account_queue, account_captchas,
+                   account_failures, logmode, hash_key, key_scheduler):
 
     if (logmode == 'logs'):
         display_type = ['logs']
@@ -266,7 +267,8 @@ def status_printer(threadStatus, account_queue, account_captchas, account_failur
         # Print the status_text for the current screen.
         status_text.append((
             'Page {}/{}. Page number to switch pages. F to show on hold ' +
-            'accounts. H to show hash status. A to show account stats. <ENTER> alone to switch ' +
+            'accounts. H to show hash status. A to show account stats. ' +
+            '<ENTER> alone to switch ' +
             'between status and log view').format(current_page[0],
                                                   total_pages))
         # Clear the screen.
@@ -307,9 +309,10 @@ def print_account_stats(rows, thread_status, account_queue,
         userlen = max(userlen, len(acc.get('username', '')))
 
     # Print table header.
-    row_tmpl = '{:7} | {:' + str(userlen) + '} | {:4} | {:7} | {:3} | {:>8} | {:23} | {:14}' \
-                                            ' | {:>10}'
-    rows.append(row_tmpl.format('Status', 'Username', 'Warn', 'Blind', 'Lvl', 'XP', 'Enc/Thr/Cap/Spn',
+    row_tmpl = ('{:7} | {:' + str(userlen) + '} | {:4} | {:7} | {:3} |' +
+                ' {:>8} | {:23} | {:14} | {:>10}')
+    rows.append(row_tmpl.format('Status', 'Username', 'Warn',
+                                'Blind', 'Lvl', 'XP', 'Enc/Thr/Cap/Spn',
                                 'Inventory', 'Walked'))
 
     # Pagination.
@@ -339,7 +342,8 @@ def print_account_stats(rows, thread_status, account_queue,
         # Stats
         stats_str = ''
         if pgacc:
-            enc = pgacc.get_stats('pokemons_encountered', '?') if pgacc else '?'
+            enc = pgacc.get_stats('pokemons_encountered',
+                                  '?') if pgacc else '?'
             thr = pgacc.get_stats('pokeballs_thrown', '?') if pgacc else '?'
             cap = pgacc.get_stats('pokemons_captured', '?') if pgacc else '?'
             spn = pgacc.get_stats('poke_stop_visits', '?') if pgacc else '?'
@@ -362,7 +366,8 @@ def print_account_stats(rows, thread_status, account_queue,
             blind = ''
         elif rareless_scans in range(0, probably_threshold):
             blind = 'N'
-        elif rareless_scans in range(probably_threshold, args.rareless_scans_threshold):
+        elif rareless_scans in range(probably_threshold,
+                                     args.rareless_scans_threshold):
             blind = 'P'
         else:
             blind = 'Y'
@@ -554,7 +559,8 @@ def search_overseer_thread(args, new_location_queue, control_flags, heartb,
         t = Thread(
             target=status_printer,
             name='status_printer',
-            args=(threadStatus, account_queue, account_captchas, account_failures, args.print_status,
+            args=(threadStatus, account_queue, account_captchas,
+                  account_failures, args.print_status,
                   args.hash_key, key_scheduler))
         t.daemon = True
         t.start()
@@ -829,7 +835,7 @@ def update_total_stats(threadStatus, last_account_status):
     busy_count = 0
     current_accounts = Set()
     for tstatus in threadStatus.itervalues():
-        if tstatus.get('type', '') =='Worker':
+        if tstatus.get('type', '') == 'Worker':
 
             is_active = tstatus.get('active', False)
             if is_active:
@@ -1022,7 +1028,8 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                             args.max_failures)
                     log.warning(status['message'])
                     account_failed(args, account_failures, account,
-                                   'failed more than {} times'.format(args.max_failures))
+                                   'failed more than {} times'.format(
+                                       args.max_failures))
                     # Exit this loop to get a new account and have the API
                     # recreated.
                     break
@@ -1037,7 +1044,8 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                         'accounts...').format(account['username'],
                                               args.max_empty)
                     log.warning(status['message'])
-                    account_failed(args, account_failures, account, 'empty scans')
+                    account_failed(args, account_failures,
+                                   account, 'empty scans')
                     # Exit this loop to get a new account and have the API
                     # recreated.
                     break
@@ -1065,26 +1073,38 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                             'Account {} is being rotated out to rest.'.format(
                                 account['username']))
                         log.info(status['message'])
-                        account_failed(args, account_failures, account, 'rest interval')
+                        account_failed(args, account_failures,
+                                       account, 'rest interval')
                         break
 
-                # Let account rest if it got blind (although resting won't heal it unfortunately.)
+                # Let account rest if it got blind
+                # (although resting won't heal it unfortunately.)
                 if pgacc.rareless_scans is not None:
-                    prev_sbanned = pgacc.shadowbanned if pgacc.shadowbanned is not None else False
-                    pgacc.shadowbanned = pgacc.rareless_scans >= args.rareless_scans_threshold
+                    prev_sbanned = (pgacc.shadowbanned
+                                    if pgacc.shadowbanned is not None
+                                    else False)
+                    pgacc.shadowbanned = (
+                        pgacc.rareless_scans >= args.rareless_scans_threshold)
                     if not prev_sbanned and pgacc.shadowbanned:
                         if args.rotate_blind:
                             status['message'] = (
-                                'Account {} has become blind ({} rareless scans). Rotating out.'.format(
+                                ('Account {} has become blind ({} ' +
+                                 'rareless scans). Rotating out.').format(
                                     account['username'], pgacc.rareless_scans))
                             log.info(status['message'])
-                            account_failed(args, account_failures, account, 'shadowbanned')
+                            account_failed(args, account_failures,
+                                           account, 'shadowbanned')
                             break
                         else:
-                            log.info("Account {} has become blind ({} rareless scans).".format(account['username'],
-                                                                                               pgacc.rareless_scans))
+                            log.info(
+                                ('Account {} has become ' +
+                                 'blind ({} rareless scans).')
+                                .format(account['username'],
+                                        pgacc.rareless_scans))
                     elif prev_sbanned and not pgacc.shadowbanned:
-                        log.info("Account {} can see rares again! Hooray!.".format(account['username']))
+                        log.info(
+                            "Account {} can see rares again! Hooray!.".format(
+                                account['username']))
 
                 # Grab the next thing to search (when available).
                 step, scan_coords, appears, leaves, messages, wait = (
@@ -1322,7 +1342,8 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                                     'skipping.', gym['latitude'],
                                     gym['longitude'], distance)
                             else:
-                                gym_responses[gym['gym_id']] = response['GYM_GET_INFO']
+                                gym_responses[gym['gym_id']] = (
+                                    response['GYM_GET_INFO'])
                             del response
                             # Increment which gym we're on for status messages.
                             current_gym += 1

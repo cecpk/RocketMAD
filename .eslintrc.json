@@ -34,7 +34,7 @@
     "MarkerClusterer": true,
     "isNotifyPoke": true,
     "isTouchDevice": true,
-    "isMobileDevice": true,
+    "isMobileDevice": true,    
 
     "noLabelsStyle": true,
     "darkStyle": true,
@@ -54,7 +54,8 @@
     "centerLng": true,
     "clusterImagePath": true,
     "showConfig": true,
-
+    "rarityFileName": true,
+    
     "pageLoaded": true,
     "countMarkers": true,
     "skel": true,
@@ -64,6 +65,8 @@
     "updatePokemonLabel": true,
     "updatePokemonLabels": true,
     "getPokemonRarity": true,
-    "updatePokemonRarities": true
+    "updatePokemonRarities": true,
+    "generateImages": true
+
   }
 }

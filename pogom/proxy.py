@@ -323,6 +323,7 @@ def initialize_proxies(args):
     else:
         log.info('Periodical proxies refresh disabled.')
 
+
 # Background handler for completed proxy check requests.
 # Currently doesn't do anything.
 def __proxy_check_completed(sess, resp):

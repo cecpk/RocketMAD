@@ -86,8 +86,8 @@ def captcha_overseer_thread(args, account_queue, account_captchas,
 
                         t = Thread(target=captcha_solver_thread,
                                    name='captcha-solver-{}'.format(solverId),
-                                   args=(args, account_queue, account_captchas, account,
-                                         hash_key, wh_queue))
+                                   args=(args, account_queue, account_captchas,
+                                         account, hash_key, wh_queue))
                         t.daemon = True
                         t.start()
 
@@ -188,7 +188,8 @@ def handle_captcha(args, status, pgacc, account, account_failures,
                                        whq):
                 return True
             else:
-                account_failed(args, account_failures, account, 'captcha failed to verify')
+                account_failed(args, account_failures, account,
+                               'captcha failed to verify')
                 return False
         else:
             status['message'] = (
@@ -214,7 +215,8 @@ def handle_captcha(args, status, pgacc, account, account_failures,
 
 
 # Return True if captcha was succesfully solved
-def automatic_captcha_solve(args, status, pgacc, captcha_url, account, wh_queue):
+def automatic_captcha_solve(args, status, pgacc,
+                            captcha_url, account, wh_queue):
     status['message'] = (
         'Account {} is encountering a captcha, starting 2captcha ' +
         'sequence.').format(account['username'])
@@ -253,7 +255,8 @@ def automatic_captcha_solve(args, status, pgacc, captcha_url, account, wh_queue)
         if verify_succeeded:
             status['message'] = pgacc.last_msg
         else:
-            status['message'] = pgacc.last_msg + ', putting away account for now.'
+            status['message'] = (pgacc.last_msg +
+                                 ', putting away account for now.')
         log.info(status['message'])
         if 'captcha' in args.wh_types:
             wh_message['status'] = 'success' if verify_succeeded else 'failure'

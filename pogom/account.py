@@ -28,19 +28,23 @@ def get_account(args, account_queue, status):
     if args.pgpool_url:
         if args.pgpool_initial_accounts:
             account = args.pgpool_initial_accounts.pop()
-            log.info("Picked account {} from initial PGPool account list.".format(account['username']))
+            log.info("Picked account {} from initial PGPool account list."
+                     .format(account['username']))
         else:
             account = None
             while not account:
                 accounts = pgpool_request_accounts(args, count=1)
                 if not accounts:
-                    msg = "Could not request account from PGPool (none left?). Retrying in 30 seconds."
+                    msg = (
+                        "Could not request account from PGPool (none left?)."
+                        "Retrying in 30 seconds.")
                     status['message'] = msg
                     log.warning(msg)
                     time.sleep(30)
                 else:
                     account = accounts[0]
-            log.info("Successfully requested account {} from PGPool.".format(account['username']))
+            log.info("Successfully requested account {} from PGPool.".format(
+                account['username']))
         return {
             'username': account['username'],
             'password': account['password'],
@@ -77,8 +81,10 @@ def setup_mrmime_account(args, status, account):
 
     # Initialize POGOAccount from PGPool info
     if 'pgpool_account' in account:
-        pgacc.rareless_scans = account['pgpool_account'].get('rareless_scans', 0)
-        pgacc.shadowbanned = account['pgpool_account'].get('shadowbanned', False)
+        pgacc.rareless_scans = account['pgpool_account'].get('rareless_scans',
+                                                             0)
+        pgacc.shadowbanned = account['pgpool_account'].get('shadowbanned',
+                                                           False)
         del account['pgpool_account']
 
     account['pgacc'] = pgacc
@@ -126,14 +132,17 @@ def reset_account(account):
 
 def log_hatched_egg(pgacc, hatched_egg):
     p = hatched_egg['hatched_pokemon']
-    iv = float(p.individual_attack + p.individual_defense + p.individual_stamina) / 45 * 100
+    iv = float(
+        p.individual_attack + p.individual_defense +
+        p.individual_stamina) / 45 * 100
     pname = get_pokemon_name(p.pokemon_id)
     km = hatched_egg['egg_km_walked']
     xp = hatched_egg['experience_awarded']
     candy = hatched_egg['candy_awarded']
     dust = hatched_egg['stardust_awarded']
     pgacc.log_info(
-        u"Hatched {:.1f}% {} from {}km egg for {} XP, {} candy, {} dust.".format(iv, pname, km, xp, candy, dust))
+        (u"Hatched {:.1f}% {} from {}km egg for {} XP, {} candy, {} dust.")
+        .format(iv, pname, km, xp, candy, dust))
 
 
 def can_spin(account, max_h_spins):
@@ -304,16 +313,18 @@ def incubate_eggs(pgacc):
                          egg['id'], egg['km_target'], incubator['id'])
                 pgacc.incubators.remove(incubator)
             else:
-                log.warning('Failed to put egg on incubator #%s.', incubator['id'])
+                log.warning('Failed to put egg on incubator #%s.',
+                            incubator['id'])
 
 
 def spin_pokestop_request(pgacc, fort, step_location):
     try:
-        return pgacc.seq_spin_pokestop(fort.id,
-                                     fort.latitude,
-                                     fort.longitude,
-                                     step_location[0],
-                                     step_location[1])
+        return pgacc.seq_spin_pokestop(
+            fort.id,
+            fort.latitude,
+            fort.longitude,
+            step_location[0],
+            step_location[1])
     except Exception as e:
         log.exception('Exception while spinning Pokestop: %s.', e)
         return False
@@ -362,7 +373,8 @@ def request_release_pokemon(pgacc, pokemon_id, release_ids=None):
 
 def parse_level_up_rewards(pgacc):
     try:
-        result = pgacc.req_level_up_rewards(pgacc.get_stats('level'))['LEVEL_UP_REWARDS'].result
+        result = pgacc.req_level_up_rewards(
+            pgacc.get_stats('level'))['LEVEL_UP_REWARDS'].result
         if result is 1:
             log.info('Account %s collected its level up rewards.',
                      pgacc.username)

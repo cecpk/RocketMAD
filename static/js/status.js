@@ -184,7 +184,7 @@ function processHashKeys(i, hashkey) {
 }
 
 function parseResult(result) {
-	addTotalStats(result)
+    addTotalStats(result)
     if (showInstances) {
         $.each(result.main_workers, processMainWorker)
     }
@@ -234,7 +234,7 @@ function addTotalStats(result) {
     mainWorkers = 0
     elapsedTotal = 0
     elapsedSecs = 0
-	elapsedHours = 0
+    elapsedHours = 0
     successPerHour = 0
     failsPerHour = 0
     emptyPerHour = 0

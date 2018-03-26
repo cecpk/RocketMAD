@@ -8,11 +8,15 @@ log = logging.getLogger(__name__)
 
 
 def get_weather_cells(swLat, swLng, neLat, neLng):
-    return get_weather_cels(Weather.get_weather_by_location(swLat, swLng, neLat, neLng, False))
+    return get_weather_cels(
+        Weather.get_weather_by_location(
+            swLat, swLng, neLat, neLng, False))
 
 
 def get_weather_alerts(swLat, swLng, neLat, neLng):
-    return get_weather_cels(Weather.get_weather_by_location(swLat, swLng, neLat, neLng, True))
+    return get_weather_cels(
+        Weather.get_weather_by_location(
+            swLat, swLng, neLat, neLng, True))
 
 
 def get_weather_cels(db_weathers):
@@ -34,7 +38,8 @@ def get_cell_from_string(str_id):
     raw_id = long(str_id)
     if raw_id < 0:  # overflow
         cell_id = s2sphere.CellId(raw_id)
-        return s2sphere.Cell.from_face_pos_level(cell_id.face(), cell_id.pos(), 10)
+        return s2sphere.Cell.from_face_pos_level(
+            cell_id.face(), cell_id.pos(), 10)
     else:
         return s2sphere.Cell(s2sphere.CellId(raw_id))
 

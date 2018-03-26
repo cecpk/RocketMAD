@@ -8,15 +8,18 @@ import gc
 from datetime import datetime
 from s2sphere import LatLng
 from bisect import bisect_left
-from flask import Flask, abort, jsonify, render_template, request, \
-    make_response, send_from_directory, send_file
+from flask import (Flask, abort, jsonify, render_template,
+                   request, make_response,
+                   send_from_directory, send_file)
 from flask.json import JSONEncoder
 from flask_compress import Compress
-from pogom.dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
+from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
+                           get_pokemon_raw_icon)
 from pogom.pgscout import scout_error, pgscout_encounter, perform_lure
 
 
-from pogom.weather import get_weather_cells, get_s2_coverage, get_weather_alerts
+from pogom.weather import (get_weather_cells,
+                           get_s2_coverage, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
                      MainWorker, WorkerStatus, Token, HashKeys,
                      SpawnPoint)
@@ -109,21 +112,29 @@ class Pogom(Flask):
         raidlevel = request.args.get('raidlevel')
         pkm = request.args.get('pkm')
         is_in_battle = 'in_battle' in request.args
-        return send_file(get_gym_icon(team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
+        return send_file(get_gym_icon(
+            team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
 
     def pokemon_img(self):
         raw = 'raw' in request.args
         pkm = int(request.args.get('pkm'))
-        weather = int(request.args.get('weather')) if 'weather' in request.args else 0
-        gender = int(request.args.get('gender')) if 'gender' in request.args else None
-        form = int(request.args.get('form')) if 'form' in request.args else None
-        costume = int(request.args.get('costume')) if 'costume' in request.args else None
+        weather = int(
+            request.args.get('weather')) if 'weather' in request.args else 0
+        gender = int(
+            request.args.get('gender')) if 'gender' in request.args else None
+        form = int(
+            request.args.get('form')) if 'form' in request.args else None
+        costume = int(
+            request.args.get('costume')) if 'costume' in request.args else None
         shiny = 'shiny' in request.args
         if raw:
-            filename = get_pokemon_raw_icon(pkm, gender=gender, form=form, costume=costume, weather=weather,
-                                            shiny=shiny)
+            filename = get_pokemon_raw_icon(
+                pkm, gender=gender, form=form,
+                costume=costume, weather=weather, shiny=shiny)
         else:
-            filename = get_pokemon_map_icon(pkm, weather=weather, gender=gender, form=form, costume=costume)
+            filename = get_pokemon_map_icon(
+                pkm, weather=weather,
+                gender=gender, form=form, costume=costume)
         return send_file(filename, mimetype='image/png')
 
     def scout_pokemon(self):
@@ -133,9 +144,10 @@ class Pogom(Flask):
             p = Pokemon.get(Pokemon.encounter_id == encounterId)
             pokemon_name = get_pokemon_name(p.pokemon_id)
             log.info(
-                u"On demand PGScouting a {} at {}, {}.".format(pokemon_name,
-                                                              p.latitude,
-                                                              p.longitude))
+                u"On demand PGScouting a {} at {}, {}.".format(
+                    pokemon_name,
+                    p.latitude,
+                    p.longitude))
             scout_result = pgscout_encounter(p, forced=1)
             if scout_result['success']:
                 self.update_scouted_pokemon(p, scout_result)
@@ -159,8 +171,8 @@ class Pogom(Flask):
             lat = request.args.get('latitude')
             lng = request.args.get('longitude')
             log.info(
-            u"On demand luring a stop at lat = {}, long = {}.".format(lat,
-                                              lng))
+                u"On demand luring a stop at lat = {}, long = {}.".format(lat,
+                                                                          lng))
             stops = Pokestop.get_stop_by_cord(lat, lng)
             if len(stops) > 1:
                 log.info("Error, more than one stop returned")
@@ -168,9 +180,10 @@ class Pogom(Flask):
             else:
                 p = stops[0]
             log.info(
-                u"On demand luring a stop {} at {}, {}.".format(p["pokestop_id"],
-                                                              p["latitude"],
-                                                              p["longitude"]))
+                u"On demand luring a stop {} at {}, {}.".format(
+                    p["pokestop_id"],
+                    p["latitude"],
+                    p["longitude"]))
             scout_result = perform_lure(p)
             if scout_result['success']:
                 log.info(
@@ -178,7 +191,10 @@ class Pogom(Flask):
                         p["pokestop_id"], p["latitude"],
                         p["longitude"]))
             else:
-                log.warning(u"Failed luring {} at {},{}".format(p["pokestop_id"], p["latitude"], p["longitude"]))
+                log.warning(u"Failed luring {} at {},{}".format(
+                    p["pokestop_id"],
+                    p["latitude"],
+                    p["longitude"]))
         else:
             scout_result = scout_error("URL not configured.")
         return jsonify(scout_result)
@@ -315,7 +331,6 @@ class Pogom(Flask):
     def auth_callback(self, statusname=None):
         return render_template('auth_callback.html')
 
-
     def fullmap(self, statusname=None):
         self.heartbeat[0] = now()
         args = get_args()
@@ -352,16 +367,16 @@ class Pogom(Flask):
             map_lat = self.current_location[0]
             map_lng = self.current_location[1]
 
-        return render_template('map.html',
-                               lat=map_lat,
-                               lng=map_lng,
-                               showAllZoomLevel=args.show_all_zoom_level,
-                               generateImages=str(args.generate_images).lower(),
-                               gmaps_key=args.gmaps_key,
-                               lang=args.locale,
-                               show=visibility_flags,
-                               rarityFileName=args.rarity_filename
-                               )
+        return render_template(
+            'map.html',
+            lat=map_lat,
+            lng=map_lng,
+            showAllZoomLevel=args.show_all_zoom_level,
+            generateImages=str(args.generate_images).lower(),
+            gmaps_key=args.gmaps_key,
+            lang=args.locale,
+            show=visibility_flags,
+            rarityFileName=args.rarity_filename)
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.
@@ -382,7 +397,7 @@ class Pogom(Flask):
 
         auth_redirect = check_auth(args, request, self.user_auth_code_cache)
         if (auth_redirect):
-          return auth_redirect
+            return auth_redirect
         # Request time of this request.
         d['timestamp'] = datetime.utcnow()
 
@@ -449,18 +464,17 @@ class Pogom(Flask):
 
         if (request.args.get('pokemon', 'true') == 'true' and
                 not args.no_pokemon):
-
             # Exclude ids of Pokemon that are hidden.
             eids = []
             request_eids = request.args.get('eids')
             if request_eids:
                 eids = {int(i) for i in request_eids.split(',')}
-
             if request.args.get('ids'):
                 request_ids = request.args.get('ids').split(',')
                 ids = [int(x) for x in request_ids if int(x) not in eids]
                 d['pokemons'] = convert_pokemon_list(
-                    Pokemon.get_active_by_id(ids, swLat, swLng, neLat, neLng))
+                    Pokemon.get_active_by_id(
+                        ids, swLat, swLng, neLat, neLng))
             elif lastpokemon != 'true':
                 # If this is first request since switch on, load
                 # all pokemon on screen.
@@ -496,7 +510,7 @@ class Pogom(Flask):
                 d['pokemons'] = d['pokemons'] + (
                     convert_pokemon_list(
                         Pokemon.get_active_by_id(reids, swLat, swLng, neLat,
-                                            neLng)))
+                                                 neLng)))
                 d['reids'] = reids
 
         if (request.args.get('pokestops', 'true') == 'true' and
@@ -583,7 +597,6 @@ class Pogom(Flask):
                 else:
                     d['main_workers'] = MainWorker.get_all()
                     d['workers'] = WorkerStatus.get_all()
-
 
         if request.args.get('weather', 'false') == 'true':
             d['weather'] = get_weather_cells(swLat, swLng, neLat, neLng)
@@ -683,13 +696,13 @@ class Pogom(Flask):
             'custom_js': args.custom_js
         }
 
-        return render_template('statistics.html',
-                               lat=self.current_location[0],
-                               lng=self.current_location[1],
-                               generateImages=str(args.generate_images).lower(),
-                               gmaps_key=args.gmaps_key,
-                               show=visibility_flags
-                               )
+        return render_template(
+            'statistics.html',
+            lat=self.current_location[0],
+            lng=self.current_location[1],
+            generateImages=str(args.generate_images).lower(),
+            gmaps_key=args.gmaps_key,
+            show=visibility_flags)
 
     def get_gymdata(self):
         gym_id = request.args.get('id')

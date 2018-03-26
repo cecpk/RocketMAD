@@ -15,7 +15,8 @@ def pgpool_request_accounts(args, count=None, highlvl=False, initial=False):
         'include_already_assigned': initial
     }
 
-    r = requests.get("{}/account/request".format(args.pgpool_url), params=request)
+    r = requests.get("{}/account/request".format(
+        args.pgpool_url), params=request)
     result = r.json()
     return result if isinstance(result, list) else [result]
 
@@ -24,4 +25,6 @@ def pgpool_release_account(account, reason):
     if 'pgacc' in account:
         account['pgacc'].update_pgpool(release=True, reason=reason)
     else:
-        log.error("Could not release account {} to PGPool. No POGOAccount found!".format(account['username']))
+        log.error(
+            ("Could not release account {} to PGPool. No POGOAccount found!")
+            .format(account['username']))

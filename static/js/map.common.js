@@ -1,3 +1,4 @@
+/*global i8ln*/
 /* eslint no-unused-vars: "off" */
 
 var noLabelsStyle = [{
@@ -874,7 +875,7 @@ var StoreOptions = {
         default: '',
         type: StoreTypes.Number
     },
-	'excludedRarity': {
+    'excludedRarity': {
         default: 0, // 0: none, 1: <=Common, 2: <=Uncommon, 3: <=Rare, 4: <=Very Rare, 5: <=Ultra Rare
         type: StoreTypes.Number
     },
@@ -926,7 +927,7 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-	'showPokemonStats': {
+    'showPokemonStats': {
         default: true,
         type: StoreTypes.Boolean
     },
@@ -1081,7 +1082,7 @@ var StoreOptions = {
     'isSearchMarkerMovable': {
         default: false,
         type: StoreTypes.Boolean
-    }		      
+    }
 }
 
 var Store = {
@@ -1132,14 +1133,14 @@ function getPokemonIcon(item, sprite, displayHeight) {
     var scaledIconOffset = new google.maps.Point(0, 0)
     var scaledIconCenterOffset = new google.maps.Point(scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2)
 
-    let gender_param = item['gender'] ? `&gender=${item['gender']}` : ''
-    let form_param = item['form'] ? `&form=${item['form']}` : ''
-    let costume_param = item['costume'] ? `&costume=${item['costume']}` : ''
-    let weather_param = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
-    let icon_url = `pkm_img?pkm=${item['pokemon_id']}${gender_param}${form_param}${costume_param}${weather_param}`
+    let genderParam = item['gender'] ? `&gender=${item['gender']}` : ''
+    let formParam = item['form'] ? `&form=${item['form']}` : ''
+    let costumeParam = item['costume'] ? `&costume=${item['costume']}` : ''
+    let weatherParam = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
+    let iconUrl = `pkm_img?pkm=${item['pokemon_id']}${genderParam}${formParam}${costumeParam}${weatherParam}`
 
     return {
-        url: icon_url,
+        url: iconUrl,
         size: scaledIconSize,
         scaledSize: scaledIconSize,
         origin: scaledIconOffset,
@@ -1211,8 +1212,7 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn
 
         const pokemonRarity = getPokemonRarity(item['pokemon_id']).toLowerCase()
         if (rarityValues.hasOwnProperty(pokemonRarity)) {
-            rarityValue = rarityValues[pokemonRarity] 
-            
+            rarityValue = rarityValues[pokemonRarity]
         }
     }
 
@@ -1278,44 +1278,44 @@ function isMobileDevice() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 }
 
-function cssPercentageCircle(text, value, perfect_val, good_val, ok_val, meh_val) {
+function cssPercentageCircle(text, value, perfectVal, goodVal, okVal, mehVal) {
     // Ring color
-    var ring_color
-    if (value == perfect_val) {
-        ring_color = 'lime'
-    } else if (value >= good_val) {
-        ring_color = 'green'
-    } else if (value >= ok_val) {
-        ring_color = 'olive'
-    } else if (value >= meh_val) {
-        ring_color = 'orange'
+    var ringColor
+    if (value === perfectVal) {
+        ringColor = 'lime'
+    } else if (value >= goodVal) {
+        ringColor = 'green'
+    } else if (value >= okVal) {
+        ringColor = 'olive'
+    } else if (value >= mehVal) {
+        ringColor = 'orange'
     } else {
-        ring_color = 'red'
+        ringColor = 'red'
     }
 
     // CSS styles
-    var percentage = value * 100 / perfect_val
+    var percentage = value * 100 / perfectVal
     var deg = 360 * percentage / 100
-    var circle_styles
+    var circleStyles
     if (deg <= 180) {
-        circle_styles = `background-color: ${ring_color};
-            background-image: linear-gradient(${90+deg}deg, transparent 50%, Gainsboro 50%),
+        circleStyles = `background-color: ${ringColor};
+            background-image: linear-gradient(${90 + deg}deg, transparent 50%, Gainsboro 50%),
                               linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
     } else {
-        circle_styles = `background-color: ${ring_color};
-            background-image: linear-gradient(${deg-90}deg, transparent 50%, ${ring_color} 50%),
+        circleStyles = `background-color: ${ringColor};
+            background-image: linear-gradient(${deg - 90}deg, transparent 50%, ${ringColor} 50%),
                               linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
     }
 
     // HTML output
-    return `<div class="active-border" style='${circle_styles}'>
+    return `<div class="active-border" style='${circleStyles}'>
                 <div class="circle">
                     <span class="prec" id="prec">${text}</span>
                 </div>
             </div>`
 }
 
-function get_pokemon_raw_icon_url(p) {
+function getPokemonRawIconUrl(p) {
     if (!generateImages) {
         return `static/icons/${p.pokemon_id}.png`
     }
