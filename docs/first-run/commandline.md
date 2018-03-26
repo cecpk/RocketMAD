@@ -45,7 +45,8 @@
                     [-novc] [-vci VERSION_CHECK_INTERVAL]
                     [-odt ON_DEMAND_TIMEOUT] [--disable-blacklist] [--disable-blacklist]
                     [-tp TRUSTED_PROXIES] [--api-version API_VERSION]
-                    [--no-file-logs] [--log-path LOG_PATH] [--dump] [-exg] [-exg]
+                    [--no-file-logs] [--log-path LOG_PATH] 
+                    [--log-filename LOG_FILENAME] [--dump] [-exg]
 
                     [-v | --verbosity VERBOSE] [-Rh RARITY_HOURS]
                     [-Rf RARITY_UPDATE_FREQUENCY]
@@ -388,6 +389,12 @@ environment variables which override config file values which override defaults.
                             logs. [env var: POGOMAP_NO_FILE_LOGS]
       --log-path LOG_PATH   Defines directory to save log files to.
                             [env var: POGOMAP_LOG_PATH]
+      --log-filename LOG_FILENAME
+                            Defines the log filename to be saved. Allows date
+                            formatting, and replaces <SN> with the instance's
+                            status name. Read the python time module docs for
+                            details. Default: %Y%m%d_%H%M_<SN>.log. [env var:
+                            POGOMAP_LOG_FILENAME]
       --dump                Dump censored debug info about the environment and
                             auto-upload to hastebin.com. [env var: POGOMAP_DUMP]
       -v                    Show debug messages from RocketMap and pgoapi. Can be
