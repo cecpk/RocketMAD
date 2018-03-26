@@ -1355,9 +1355,10 @@ def check_output_catch(command):
         return result.strip()
 
 
-# Automatically censor all necessary fields. Lists will return
-# their length, all other items will return 'censored_tag'.
-def _censor_args_namespace(args, censored_tag):
+# Automatically censor all necessary fields. Lists will return their
+# length, all other items will return 'empty_tag' if they're empty
+# or 'censored_tag' if not.
+def _censor_args_namespace(args, censored_tag, empty_tag):
     fields_to_censor = [
         'accounts',
         'accounts_L30',
@@ -1399,7 +1400,10 @@ def _censor_args_namespace(args, censored_tag):
         'status_name',
         'status_page_password',
         'hash_key',
-        'trusted_proxies'
+        'trusted_proxies',
+        'data_dir',
+        'locales_dir',
+        'shared_config'
     ]
 
     for field in fields_to_censor:
@@ -1411,7 +1415,10 @@ def _censor_args_namespace(args, censored_tag):
             if isinstance(value, list):
                 args[field] = len(value)
             else:
-                args[field] = censored_tag
+                if args[field]:
+                    args[field] = censored_tag
+                else:
+                    args[field] = empty_tag
 
     return args
 
@@ -1419,7 +1426,8 @@ def _censor_args_namespace(args, censored_tag):
 # Get censored debug info about the environment we're running in.
 def get_censored_debug_info():
     CENSORED_TAG = '<censored>'
-    args = _censor_args_namespace(vars(get_args()), CENSORED_TAG)
+    EMPTY_TAG = '<empty>'
+    args = _censor_args_namespace(vars(get_args()), CENSORED_TAG, EMPTY_TAG)
 
     # Get git status.
     status = check_output_catch('git status')
