@@ -1165,7 +1165,15 @@ function getPokemonRarity(pokemonId) {
         return i8ln(pokemonRarities[pokemonId])
     }
 
-    return ''
+    return i8ln('New Spawn')
+}
+
+function getPokemonRarityNoi8(pokemonId) {
+    if (pokemonRarities.hasOwnProperty(pokemonId)) {
+        return pokemonRarities[pokemonId]
+    }
+
+    return 'New Spawn'
 }
 
 function getGoogleSprite(index, sprite, displayHeight) {
@@ -1205,12 +1213,13 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn
 
     if (scaleByRarity) {
         const rarityValues = {
+            'new spawn': 40,
             'very rare': 30,
             'ultra rare': 40,
             'legendary': 50
         }
 
-        const pokemonRarity = getPokemonRarity(item['pokemon_id']).toLowerCase()
+        const pokemonRarity = getPokemonRarityNoi8(item['pokemon_id']).toLowerCase()
         if (rarityValues.hasOwnProperty(pokemonRarity)) {
             rarityValue = rarityValues[pokemonRarity]
         }
