@@ -225,6 +225,17 @@ function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
     window.location.reload()
 }
 
+function loadDefaultImages() {
+    var ep = Store.get('remember_select_exclude')
+    var en = Store.get('remember_select_notify')
+    $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite').each(function () {
+ if (ep.indexOf($(this).data('value')) !== -1) {
+            $(this).addClass('active')
+        }
+    })
+}
+
+
 function initMap() { // eslint-disable-line no-unused-vars
     map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -2939,10 +2950,12 @@ $(function () {
         })
 
         $selectLocationIconMarker.val(Store.get('locationMarkerStyle')).trigger('change')
+ loadDefaultImages()
     })
 })
 
 $(function () {
+
     moment.locale(language)
     function formatState(state) {
         if (!state.id) {
@@ -2968,17 +2981,19 @@ $(function () {
         moves = data
     })
 
+
     $selectExclude = $('#exclude-pokemon')
     $selectExcludeRarity = $('#exclude-rarity')
     $selectPokemonNotify = $('#notify-pokemon')
     $selectRarityNotify = $('#notify-rarity')
     $textPerfectionNotify = $('#notify-perfection')
     $textLevelNotify = $('#notify-level')
-    var numberOfPokemon = 493
+    var numberOfPokemon = 384
 
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         var pokeList = []
+var pokemonIcon
 
         $.each(data, function (key, value) {
             if (key > numberOfPokemon) {
@@ -2989,6 +3004,13 @@ $(function () {
                 id: key,
                 text: i8ln(value['name']) + ' - #' + key
             })
+        if (generateImages) {
+            pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id':key})}'>`
+        } else {
+            pokemonIcon = `<i class="pokemon-sprite n${key}"></i>`
+        }
+          $('.list').append('<div class=pokemon-icon-sprite data-value=' + key +'>' + pokemonIcon + '<br>' + key + '</div>')
+        
             value['name'] = i8ln(value['name'])
             value['rarity'] = i8ln(value['rarity'])
             $.each(value['types'], function (key, pokemonType) {
@@ -3002,11 +3024,6 @@ $(function () {
         })
 
         // setup the filter lists
-        $selectExclude.select2({
-            placeholder: i8ln('Select Pokémon'),
-            data: pokeList,
-            templateResult: formatState
-        })
         $selectPokemonNotify.select2({
             placeholder: i8ln('Select Pokémon'),
             data: pokeList,
@@ -3018,18 +3035,39 @@ $(function () {
             templateResult: formatState
         })
 
+$('.list').on('click', '.pokemon-icon-sprite', function() {
+var img = $(this)
+var select = $(this).parent().parent().find('input')
+var value = select.val().split(',')
+var id = img.data('value').toString()
+if (img.hasClass('active')) {
+select.val(value.filter(function (elem) {
+                return elem !== id
+            }).join(',')).trigger('change')
+            img.removeClass('active')
+        } else {
+select.val((value.concat(id).join(','))).trigger('change')
+            img.addClass('active')
+        }
+
+    })
+$('.list').parent().find('.select2').hide()
+    loadDefaultImages()
+
         // setup list change behavior now that we have the list to work from
-        $selectExclude.on('change', function (e) {
+$selectExclude.on('change', function (e) {
             buffer = excludedPokemon
-            excludedPokemon = $selectExclude.val().map(Number)
+            excludedPokemon = $selectExclude.val().split(',').map(Number).sort(function (a, b) {
+                return parseInt(a) - parseInt(b)
+            })
             buffer = buffer.filter(function (e) {
                 return this.indexOf(e) < 0
             }, excludedPokemon)
-            reincludedPokemon = reincludedPokemon.concat(buffer)
+            reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
             clearStaleMarkers()
             Store.set('remember_select_exclude', excludedPokemon)
-        })
-        $selectExcludeRarity.on('change', function (e) {
+        })        
+$selectExcludeRarity.on('change', function (e) {
             excludedRarity = $selectExcludeRarity.val()
             reincludedPokemon = reincludedPokemon.concat(excludedPokemonByRarity)
             excludedPokemonByRarity = []
@@ -3087,6 +3125,7 @@ $(function () {
     window.setInterval(updateGeoLocation, 1000)
 
     createUpdateWorker()
+
 
     // Wipe off/restore map icons when switches are toggled
     function buildSwitchChangeListener(data, dataType, storageKey) {
@@ -3170,6 +3209,8 @@ $(function () {
     }
 
     // Setup UI element interactions
+
+
     $('#gyms-switch').change(function () {
         var options = {
             'duration': 500
@@ -3385,4 +3426,6 @@ $(function () {
             null
         ]
     }).order([1, 'asc'])
+
+
 })

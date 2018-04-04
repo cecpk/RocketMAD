@@ -54,6 +54,7 @@
         <div id="nav-accordion">
           <h3><i class="fa fa-map-marker fa-fw"></i>Marker Settings</h3>
           <div>
+
               {% if show.pokemons %}
             <div class="form-control switch-container">
               <h3>Pokémon</h3>
@@ -239,11 +240,12 @@
               </div>
             </div>
               {% if show.pokemons %}
-            <div class="form-control">
+            <div class="form-control hide-select-2">
+<h3>Hide Pokémon</h3>
               <label for="exclude-pokemon">
-              <h3>Hide Pokémon</h3>
-              <div style="max-height:165px;overflow-y:auto">
-                <select id="exclude-pokemon" multiple="multiple"></select>
+              <div class=pokemon-container>
+                <input id="exclude-pokemon" type="text" readonly="true" style="display: none;" >
+                <div class="list"></div>
               </div>
               </label>
 			  </div>
