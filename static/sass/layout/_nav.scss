@@ -159,8 +159,8 @@
   }
   label[for="exclude-pokemon"]{
     .list .active {
-      border: 1px solid red;
-      background: rgba(255, 0, 0, 0.4);
+      border: 1px solid #D3D3D3;
+      background: rgba(211, 211, 211, 0.4);
     }
   }
   label[for="exclude-min-iv"]{
@@ -187,12 +187,15 @@
     border-radius: 4px;
     padding: 4px;
     .pokemon-icon-sprite{
-      border:1px solid #FFF;
       width: calc( 33% - 2px);
-      margin-bottom: 5px;
+      margin-bottom: 1px;
       margin-left: 1px;
       margin-right: 1px;
+      border: 1px solid #D3D3D3;
     }
   }
+.pokemon-select-icon {
+    margin-top: 2px;
 
+  }
   }
