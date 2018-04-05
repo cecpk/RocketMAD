@@ -2990,6 +2990,8 @@ $(function () {
     $textLevelNotify = $('#notify-level')
     var numberOfPokemon = 384
 
+    $('.list').append( '<input type="text" id="search"  placeholder="Search for Pokemon.."> ')
+
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         var pokeList = []
@@ -3009,7 +3011,7 @@ var pokemonIcon
         } else {
             pokemonIcon = `<i class="pokemon-sprite n${key}"></i>`
         }
-          $('.list').append('<div class=pokemon-icon-sprite data-value=' + key +'>' + pokemonIcon + '<br>' + key + '</div>')
+          $('.list').append('<div class=pokemon-icon-sprite data-pkm=' +  i8ln(value['name']) + '  data-value=' + key +'><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name'])+ '</div></div>')
         
             value['name'] = i8ln(value['name'])
             value['rarity'] = i8ln(value['rarity'])
@@ -3037,7 +3039,7 @@ var pokemonIcon
 
 $('.list').on('click', '.pokemon-icon-sprite', function() {
 var img = $(this)
-var select = $(this).parent().parent().find('input')
+var select = $(this).parent().parent().find('input[id$=pokemon]')
 var value = select.val().split(',')
 var id = img.data('value').toString()
 if (img.hasClass('active')) {
@@ -3052,7 +3054,28 @@ select.val((value.concat(id).join(','))).trigger('change')
 
     })
 $('.list').parent().find('.select2').hide()
-    loadDefaultImages()
+
+$('#search').keyup(function() {
+
+var searchtext = $(this).val().toString()
+
+ $('.pokemon-icon-sprite').each(function () {
+ if (searchtext === "" ) {
+
+      $(this).show()
+} else {
+ if ($(this).data('pkm').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) {
+            $(this).show()
+        } else {
+             $(this).hide()
+}
+}
+    })
+
+
+})
+
+loadDefaultImages()
 
         // setup list change behavior now that we have the list to work from
 $selectExclude.on('change', function (e) {
