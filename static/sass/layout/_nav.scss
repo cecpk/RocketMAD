@@ -205,4 +205,18 @@ input#search {
     font-size: smaller;
 }
 
+label a {
+    width: calc(50% - 2px);
+    float: left;
+    background: #ffffff;
+    text-align: center;
+    padding: 5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-left: 1px;
+}
+
   }

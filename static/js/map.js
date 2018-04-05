@@ -171,7 +171,12 @@ function toggleSelectItem($select, id) {
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    toggleSelectItem($selectExclude, id)
+
+    $selectExclude.val(
+        $selectExclude.val().split(',').concat(id).join(',')
+    ).trigger('change')
+    $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').addClass('active')
+
     var pkm = mapData.pokemons[encounterId]
     pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
 }
@@ -2995,7 +3000,7 @@ $(function () {
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         var pokeList = []
-var pokemonIcon
+        var pokemonIcon
 
         $.each(data, function (key, value) {
             if (key > numberOfPokemon) {
@@ -3076,6 +3081,22 @@ var searchtext = $(this).val().toString()
 })
 
 loadDefaultImages()
+
+    $('.select-all').on('click', function (e) {
+        e.preventDefault()
+        var parent = $(this).parent()
+        parent.find('.list .pokemon-icon-sprite').addClass('active')
+        parent.find('input[id$=pokemon]').val(Array.from(Array(numberOfPokemon + 1).keys()).slice(1).join(',')).trigger('change')
+    })
+
+    $('.hide-all').on('click', function (e) {
+        e.preventDefault()
+        var parent = $(this).parent()
+        parent.find('.list .pokemon-icon-sprite').removeClass('active')
+        parent.find('input[id$=pokemon]').val('').trigger('change')
+    })
+
+
 
         // setup list change behavior now that we have the list to work from
 $selectExclude.on('change', function (e) {
