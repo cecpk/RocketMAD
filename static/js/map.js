@@ -171,7 +171,6 @@ function toggleSelectItem($select, id) {
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-
     $selectExclude.val(
         $selectExclude.val().split(',').concat(id).join(',')
     ).trigger('change')
@@ -182,7 +181,6 @@ function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
 }
 
 function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-
     $selectPokemonNotify.val(
         $selectPokemonNotify.val().split(',').concat(id).join(',')
     ).trigger('change')
@@ -239,16 +237,14 @@ function loadDefaultImages() {
     var en = Store.get('remember_select_notify')
     $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite').each(function () {
         if (ep.indexOf($(this).data('value')) !== -1) {
-        $(this).addClass('active')
-    }
+            $(this).addClass('active')
+        }
     })
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').each(function () {
         if (en.indexOf($(this).data('value')) !== -1) {
-        $(this).addClass('active')
+            $(this).addClass('active')
         }
     })
-
-
 }
 
 
@@ -3022,12 +3018,12 @@ $(function () {
                 id: key,
                 text: i8ln(value['name']) + ' - #' + key
             })
-        if (generateImages) {
-            pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id':key})}'>`
-        } else {
-            pokemonIcon = `<i class="pokemon-sprite n${key}"></i>`
-        }
-        $('.list').append('<div class=pokemon-icon-sprite data-pkm=' + i8ln(value['name']) + '  data-value=' + key +'><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name'])+ '</div></div>')
+            if (generateImages) {
+                pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id':key})}'>`
+            } else {
+                pokemonIcon = `<i class="pokemon-sprite n${key}"></i>`
+            }
+            $('.list').append('<div class=pokemon-icon-sprite data-pkm=' + i8ln(value['name']) + '  data-value=' + key +'><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name'])+ '</div></div>')
             value['name'] = i8ln(value['name'])
             value['rarity'] = i8ln(value['rarity'])
             $.each(value['types'], function (key, pokemonType) {
@@ -3040,7 +3036,6 @@ $(function () {
             idToPokemon[key] = value
         })
 
-        // setup the filter lists
         $selectRarityNotify.select2({
             placeholder: i8ln('Select Rarity'),
             data: [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare'), i8ln('New Spawn')],
@@ -3086,7 +3081,6 @@ $(function () {
             parent.find('.list .pokemon-icon-sprite').addClass('active')
             parent.find('input[id$=pokemon]').val(Array.from(Array(numberOfPokemon + 1).keys()).slice(1).join(',')).trigger('change')
         })
-
         $('.hide-all').on('click', function (e) {
             e.preventDefault()
             var parent = $(this).parent()
