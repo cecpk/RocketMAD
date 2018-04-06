@@ -182,7 +182,11 @@ function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
 }
 
 function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    toggleSelectItem($selectPokemonNotify, id)
+    
+    $selectNotify.val(
+        $selectNotify.val().split(',').concat(id).join(',')
+    ).trigger('change')
+    $('label[for="notify-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').addClass('active')
     var pkm = mapData.pokemons[encounterId]
     pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
 }
@@ -234,10 +238,17 @@ function loadDefaultImages() {
     var ep = Store.get('remember_select_exclude')
     var en = Store.get('remember_select_notify')
     $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite').each(function () {
- if (ep.indexOf($(this).data('value')) !== -1) {
+    if (ep.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
         }
     })
+    $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').each(function () {
+    if (en.indexOf($(this).data('value')) !== -1) {
+            $(this).addClass('active')
+        }
+    })
+
+
 }
 
 
@@ -2995,7 +3006,7 @@ $(function () {
     $textLevelNotify = $('#notify-level')
     var numberOfPokemon = 384
 
-    $('.list').append( '<input type="text" id="search"  placeholder="Search for Pokemon.."> ')
+    $('.list').before('<input type="search" class="search" placeholder="Search for Pokemon or ID..">')
 
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
@@ -3016,8 +3027,7 @@ $(function () {
         } else {
             pokemonIcon = `<i class="pokemon-sprite n${key}"></i>`
         }
-          $('.list').append('<div class=pokemon-icon-sprite data-pkm=' +  i8ln(value['name']) + '  data-value=' + key +'><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name'])+ '</div></div>')
-        
+        $('.list').append('<div class=pokemon-icon-sprite data-pkm=' +  i8ln(value['name']) + '  data-value=' + key +'><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name'])+ '</div></div>')
             value['name'] = i8ln(value['name'])
             value['rarity'] = i8ln(value['rarity'])
             $.each(value['types'], function (key, pokemonType) {
@@ -3031,11 +3041,6 @@ $(function () {
         })
 
         // setup the filter lists
-        $selectPokemonNotify.select2({
-            placeholder: i8ln('Select Pokémon'),
-            data: pokeList,
-            templateResult: formatState
-        })
         $selectRarityNotify.select2({
             placeholder: i8ln('Select Rarity'),
             data: [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare'), i8ln('New Spawn')],
@@ -3058,18 +3063,18 @@ select.val((value.concat(id).join(','))).trigger('change')
         }
 
     })
-$('.list').parent().find('.select2').hide()
 
-$('#search').keyup(function() {
+$('.search').on('input', function() {
 
 var searchtext = $(this).val().toString()
 
- $('.pokemon-icon-sprite').each(function () {
+
+ $(this).next('.list').find('.pokemon-icon-sprite').each(function () {
  if (searchtext === "" ) {
 
       $(this).show()
 } else {
- if ($(this).data('pkm').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) {
+ if (($(this).data('pkm').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('value').toString() === searchtext.toString())) {
             $(this).show()
         } else {
              $(this).hide()
@@ -3099,7 +3104,7 @@ loadDefaultImages()
 
 
         // setup list change behavior now that we have the list to work from
-$selectExclude.on('change', function (e) {
+        $selectExclude.on('change', function (e) {
             buffer = excludedPokemon
             excludedPokemon = $selectExclude.val().split(',').map(Number).sort(function (a, b) {
                 return parseInt(a) - parseInt(b)
@@ -3111,7 +3116,7 @@ $selectExclude.on('change', function (e) {
             clearStaleMarkers()
             Store.set('remember_select_exclude', excludedPokemon)
         })        
-$selectExcludeRarity.on('change', function (e) {
+        $selectExcludeRarity.on('change', function (e) {
             excludedRarity = $selectExcludeRarity.val()
             reincludedPokemon = reincludedPokemon.concat(excludedPokemonByRarity)
             excludedPokemonByRarity = []
@@ -3119,7 +3124,15 @@ $selectExcludeRarity.on('change', function (e) {
             Store.set('excludedRarity', excludedRarity)
         })
         $selectPokemonNotify.on('change', function (e) {
-            notifiedPokemon = $selectPokemonNotify.val().map(Number)
+            buffer = notifiedPokemon
+            notifiedPokemon = $selectPokemonNotify.val().split(',').map(Number).sort(function (a, b) {
+                return parseInt(a) - parseInt(b)
+            })
+            buffer = buffer.filter(function (e) {
+                return this.indexOf(e) < 0
+            }, notifiedPokemon)
+            reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
+            clearStaleMarkers()
             Store.set('remember_select_notify', notifiedPokemon)
         })
         $selectRarityNotify.on('change', function (e) {

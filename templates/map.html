@@ -240,16 +240,16 @@
               </div>
             </div>
               {% if show.pokemons %}
-            <div class="form-control hide-select-2">
-<h3>Hide Pokémon</h3>
+            <div class="form-control">
+            <h3>Hide Pokémon</h3>
               <label for="exclude-pokemon">
               <div class=pokemon-container>
                 <input id="exclude-pokemon" type="text" readonly="true" style="display:none;" >
                 <div class="list"></div>
               </div>
-<a href="#" class="select-all">All</a><a href="#" class="hide-all">None</a>
+              <a href="#" class="select-all">Hide all</a><a href="#" class="hide-all">Show all</a>
               </label>
-			  </div>
+            </div>
             <div class="form-control switch-container" id="exclude-rarity-wrapper">
               <h3>Exclude Rarity</h3>
               <select name="exclude-rarity" id="exclude-rarity">
@@ -390,11 +390,13 @@
           <h3><i class="fa fa-bullhorn fa-fw"></i>Notification Settings</h3>
           <div>
             <div class="form-control">
+            <h3>Notify of Pokémon</h3>
               <label for="notify-pokemon">
-                <h3>Notify of Pokémon</h3>
-                <div style="max-height:165px;overflow-y:auto">
-                  <select id="notify-pokemon" multiple="multiple"></select>
-                </div>
+              <div class=pokemon-container>
+                <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
+                <div class="list"></div>
+              </div>
+              <a href="#" class="select-all">Notify all</a><a href="#" class="hide-all">Notify none</a>
               </label>
             </div>
             <div class="form-control">

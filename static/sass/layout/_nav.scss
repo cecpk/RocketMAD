@@ -152,7 +152,7 @@
     }
   }
   label[for="notify-pokemon"]{
-    .active{
+    .list .active{
       border: 1px solid #0089ff;
       background: rgba(0, 114, 255, 0.4);
     }
@@ -163,19 +163,13 @@
       background: rgba(211, 211, 211, 0.4);
     }
   }
-  label[for="exclude-min-iv"]{
-    .list .active {
-      border: 1px solid #12940a;
-      background: rgba(45, 234, 11, 0.4);
-    }
-  }
 
 .list {
     align-items: center;
     text-align:center;
     max-width: 100%;
     overflow: auto;
-    height: 250px;
+    height: 290px;
     border: 1px solid #aaa;
     border-radius: 4px;
     padding: 4px;
@@ -193,12 +187,17 @@
 
   }
 
-input#search {
+.search {
     margin-bottom: 5px;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 0 10px;
+    width: 100%;
 }
 
 #pkid_list {
-    font-size: smaller;
+    font-size: xx-small;
 }
 
 #pkname_list {
@@ -211,7 +210,6 @@ label a {
     background: #ffffff;
     text-align: center;
     padding: 5px;
-    text-transform: uppercase;
     text-decoration: none;
     border: 1px solid #aaa;
     border-radius: 4px;
