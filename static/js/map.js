@@ -3073,13 +3073,14 @@ $(function () {
             })
         })
 
-        loadDefaultImages()
+
+             loadDefaultImages()
 
         $('.select-all').on('click', function (e) {
-            e.preventDefault()
-            var parent = $(this).parent()
-            parent.find('.list .pokemon-icon-sprite').addClass('active')
-            parent.find('input[id$=pokemon]').val(Array.from(Array(numberOfPokemon + 1).keys()).slice(1).join(',')).trigger('change')
+             e.preventDefault()
+             var parent = $(this).parent()
+             parent.find('.list .pokemon-icon-sprite').addClass('active')
+                    parent.find('input[id$=pokemon]').val(Array.from(Array(numberOfPokemon + 1).keys()).slice(1).join(',')).trigger('change')
         })
         $('.hide-all').on('click', function (e) {
             e.preventDefault()
