@@ -2965,9 +2965,7 @@ $(function () {
         loadDefaultImages()
     })
 })
-
 $(function () {
-
     moment.locale(language)
     function formatState(state) {
         if (!state.id) {
@@ -2984,11 +2982,9 @@ $(function () {
         )
         return $state
     }
-
     if (Store.get('startAtUserLocation') && getParameterByName('lat') == null && getParameterByName('lon') == null) {
         centerMapOnLocation()
     }
-
     $.getJSON('static/dist/data/moves.min.json').done(function (data) {
         moves = data
     })
@@ -3001,12 +2997,13 @@ $(function () {
     $textLevelNotify = $('#notify-level')
     var numberOfPokemon = 384
 
-    $('.list').before('<input type="search" class="search" placeholder="Search for Pokemon or ID..">')
+    $('.list').before('<input type="search" class="search" placeholder="Search for Name, ID or Type...">')
 
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         var pokeList = []
         var pokemonIcon
+        var typestring = []
 
         $.each(data, function (key, value) {
             if (key > numberOfPokemon) {
@@ -3018,11 +3015,10 @@ $(function () {
                 text: i8ln(value['name']) + ' - #' + key
             })
             if (generateImages) {
-                pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id':key})}'>`
+                pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': key})}'>`
             } else {
                 pokemonIcon = `<i class="pokemon-sprite n${key}"></i>`
             }
-            $('.list').append('<div class=pokemon-icon-sprite data-pkm=' + i8ln(value['name']) + '  data-value=' + key +'><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name'])+ '</div></div>')
             value['name'] = i8ln(value['name'])
             value['rarity'] = i8ln(value['rarity'])
             $.each(value['types'], function (key, pokemonType) {
@@ -3030,8 +3026,10 @@ $(function () {
                     'type': i8ln(pokemonType['type']),
                     'color': pokemonType['color']
                 })
+                typestring[key] = i8ln(pokemonType['type'])
             })
             value['types'] = _types
+            $('.list').append('<div class=pokemon-icon-sprite data-pkm=' + i8ln(value['name']) + ' data-value=' + key + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name']) + '</div></div>')
             idToPokemon[key] = value
         })
 
@@ -3042,49 +3040,49 @@ $(function () {
         })
 
         $('.list').on('click', '.pokemon-icon-sprite', function() {
-           var img = $(this)
-           var select = $(this).parent().parent().find('input[id$=pokemon]')
-           var value = select.val().split(',')
-           var id = img.data('value').toString()
-           if (img.hasClass('active')) {
-               select.val(value.filter(function (elem) {
-               return elem !== id
-               }).join(',')).trigger('change')
-               img.removeClass('active')
-           } else {
-               select.val((value.concat(id).join(','))).trigger('change')
-               img.addClass('active')
-           }
+            var img = $(this)
+            var select = $(this).parent().parent().find('input[id$=pokemon]')
+            var value = select.val().split(',')
+            var id = img.data('value').toString()
+            if (img.hasClass('active')) {
+                select.val(value.filter(function (elem) {
+                    return elem !== id
+                }).join(',')).trigger('change')
+                img.removeClass('active')
+            } else {
+                select.val((value.concat(id).join(','))).trigger('change')
+                img.addClass('active')
+            }
         })
 
-        $('.search').on('input', function() {
+        $('.search').on('input', function () {
             var searchtext = $(this).val().toString()
             $(this).next('.list').find('.pokemon-icon-sprite').each(function () {
-            if (searchtext === "" ) {
-                $(this).show()
-            } else {
-                if (($(this).data('pkm').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('value').toString() === searchtext.toString())) {
+                if (searchtext === "" ) {
                     $(this).show()
                 } else {
-                    $(this).hide()
+                    if (($(this).data('pkm').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('type1').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('type2').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('value').toString() === searchtext.toString())) {
+                        $(this).show()
+                    } else {
+                        $(this).hide()
+                    }
                 }
-            }
             })
         })
 
 
-             loadDefaultImages()
+        loadDefaultImages()
 
         $('.select-all').on('click', function (e) {
-             e.preventDefault()
-             var parent = $(this).parent()
-             parent.find('.list .pokemon-icon-sprite').addClass('active')
-                    parent.find('input[id$=pokemon]').val(Array.from(Array(numberOfPokemon + 1).keys()).slice(1).join(',')).trigger('change')
+            e.preventDefault()
+            var parent = $(this).parent()
+            parent.find('.list .pokemon-icon-sprite:visible').addClass('active')
+            parent.find('input[id$=pokemon]').val(Array.from(Array(numberOfPokemon + 1).keys()).slice(1).join(',')).trigger('change')
         })
         $('.hide-all').on('click', function (e) {
             e.preventDefault()
             var parent = $(this).parent()
-            parent.find('.list .pokemon-icon-sprite').removeClass('active')
+            parent.find('.list .pokemon-icon-sprite:visible').removeClass('active')
             parent.find('input[id$=pokemon]').val('').trigger('change')
         })
         $selectExclude.on('change', function (e) {
