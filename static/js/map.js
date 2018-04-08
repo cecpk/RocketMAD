@@ -3039,7 +3039,7 @@ $(function () {
             templateResult: formatState
         })
 
-        $('.list').on('click', '.pokemon-icon-sprite', function() {
+        $('.list').on('click', '.pokemon-icon-sprite', function () {
             var img = $(this)
             var select = $(this).parent().parent().find('input[id$=pokemon]')
             var value = select.val().split(',')
@@ -3058,7 +3058,7 @@ $(function () {
         $('.search').on('input', function () {
             var searchtext = $(this).val().toString()
             $(this).next('.list').find('.pokemon-icon-sprite').each(function () {
-                if (searchtext === "" ) {
+                if (searchtext === '' ) {
                     $(this).show()
                 } else {
                     if (($(this).data('pkm').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('type1').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('type2').toLowerCase().indexOf(searchtext.toLowerCase()) !== -1) || ($(this).data('value').toString() === searchtext.toString())) {
