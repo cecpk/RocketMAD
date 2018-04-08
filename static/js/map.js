@@ -2993,7 +2993,6 @@ $(function () {
         moves = data
     })
 
-
     $selectExclude = $('#exclude-pokemon')
     $selectExcludeRarity = $('#exclude-rarity')
     $selectPokemonNotify = $('#notify-pokemon')
@@ -3467,6 +3466,4 @@ $(function () {
             null
         ]
     }).order([1, 'asc'])
-
-
 })
