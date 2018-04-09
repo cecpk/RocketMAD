@@ -20,10 +20,7 @@ Live visualization of all the Pok√©mon (with option to show gyms, raids and Pok√
 * Incredibly fast, efficient searching algorithm (compared to everything else available)
 
 ## Information
-* [Discord](https://discord.gg/rocketmap) for general support
-* [Documentation](https://rocketmap.readthedocs.io/) for installation and usage docs
-* [vote.devkat.org](http://vote.devkat.org) to request new features
-* [Github Issues](https://github.com/RocketMap/RocketMap/issues) for reporting bugs (not for support!)
+* [Github Issues](https://github.com/SenorKarlos/RocketMap/issues) for reporting bugs (not for support!)
 
 ## Installation
 
