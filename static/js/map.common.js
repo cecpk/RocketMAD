@@ -1090,6 +1090,30 @@ var StoreOptions = {
     'showMedalMagikarp': {
         default: false,
         type: StoreTypes.Boolean
+    },
+    'rarityCommon': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'rarityUncommon': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'rarityRare': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'rarityVeryRare': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'rarityUltraRare': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'rarityNewSpawn': {
+        default: 1,
+        type: StoreTypes.Number
     }
 }
 

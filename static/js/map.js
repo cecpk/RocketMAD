@@ -2545,7 +2545,6 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
                     Gym Leader:<br>
                     ${pokemonIcon}<br>
                     <b>${result.guard_pokemon_name}</b>
-
                     <p style="font-size: .75em; margin: 5px;">
                         No additional gym information is available for this gym. Make sure you are collecting <a href="https://rocketmap.readthedocs.io/en/develop/extras/gyminfo.html">detailed gym info.</a>
                         If you have detailed gym info collection running, this gym's Pokemon information may be out of date.
@@ -2990,6 +2989,45 @@ $(function () {
         return $state
     }
 
+    function formatRarityState(state) {
+        if (!state.id) {
+            return state.text
+        }
+        var pokemonId
+        switch (state.element.value.toString()) {
+            case i8ln('Common'):
+                pokemonId = Store.get('rarityCommon')
+                break
+            case i8ln('Uncommon'):
+                pokemonId = Store.get('rarityUncommon')
+                break
+            case i8ln('Rare'):
+                pokemonId = Store.get('rarityRare')
+                break
+            case i8ln('Very Rare'):
+                pokemonId = Store.get('rarityVeryRare')
+                break
+            case i8ln('Ultra Rare'):
+                pokemonId = Store.get('rarityUltraRare')
+                break
+            case i8ln('New Spawn'):
+                pokemonId = Store.get('rarityNewSpawn')
+                break
+            default:
+                pokemonId = 1
+        }
+        var pokemonIcon
+        if (generateImages) {
+            pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': pokemonId})}'>`
+        } else {
+            pokemonIcon = `<i class="pokemon-sprite n${pokemonId}"></i>`
+        }
+        var $state = $(
+            `<span>${pokemonIcon} ${state.text}</span>`
+        )
+        return $state
+    }
+
     if (Store.get('startAtUserLocation') && getParameterByName('lat') == null && getParameterByName('lon') == null) {
         centerMapOnLocation()
     }
@@ -3045,7 +3083,7 @@ $(function () {
         $selectRarityNotify.select2({
             placeholder: i8ln('Select Rarity'),
             data: [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare'), i8ln('New Spawn')],
-            templateResult: formatState
+            templateResult: formatRarityState
         })
 
         // setup list change behavior now that we have the list to work from

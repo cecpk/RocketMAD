@@ -2,7 +2,7 @@ $(function () {
     'use strict'
 
     /* Settings. */
-	const showSearchMarker = true // Show a marker on the map's scan location. Default: false.
+    const showSearchMarker = true // Show a marker on the map's scan location. Default: false.
     const isSearchMarkerMovable = false // Let the user move the scan location marker around. Doesn't do anything without --no-fixed-location. Default: false.
     const showLocationMarker = true // Show a marker on the visitor's location. Default: false.
     const isLocationMarkerMovable = false // Let the user move the visitor marker around. Default: false.
@@ -42,11 +42,19 @@ $(function () {
     const clusterGridSize = 60 // Default: 60.
     const clusterGridSizeMobile = 60 // Default: 60.
 
+    // Rarities Sprites
+    const rarityCommon = 12 // Default: 1. 
+    const rarityUncommon = 20 // Default: 1. 
+    const rarityRare = 100 // Default: 1. 
+    const rarityVeryRare = 147 // Default: 1. 
+    const rarityUltraRare = 149 // Default: 1. 
+    const rarityNewSpawn = 151 // Default: 1. 
+
     // Process Pokémon in chunks to improve responsiveness.
     const processPokemonChunkSize = 100 // Default: 100
     const processPokemonIntervalMs = 100 // Default: 100ms
-	const processPokemonChunkSizeMobile = 100 // Default: 100.
-	const processPokemonIntervalMsMobile = 100 // Default: 100ms.
+    const processPokemonChunkSizeMobile = 100 // Default: 100.
+    const processPokemonIntervalMsMobile = 100 // Default: 100ms.
 
     /* Feature detection. */
 
@@ -77,16 +85,24 @@ $(function () {
     Store.set('scaleByRarity', scaleByRarity)
     Store.set('upscalePokemon', upscalePokemon)
     Store.set('upscaledPokemon', upscaledPokemon)
-	Store.set('showSearchMarker', showSearchMarker)
-	Store.set('isSearchMarkerMovable', isSearchMarkerMovable)
+    Store.set('showSearchMarker', showSearchMarker)
+    Store.set('isSearchMarkerMovable', isSearchMarkerMovable)
     Store.set('showLocationMarker', showLocationMarker)
     Store.set('isLocationMarkerMovable', isLocationMarkerMovable)
+
+    // Set rarities sprites
+    Store.set('rarityCommon', rarityCommon)
+    Store.set('rarityUncommon', rarityUncommon)
+    Store.set('rarityRare', rarityRare)
+    Store.set('rarityVeryRare', rarityVeryRare)
+    Store.set('rarityUltraRare', rarityUltraRare)
+    Store.set('rarityNewSpawn', rarityNewSpawn)
 	
     if (typeof window.orientation !== 'undefined' || isMobileDevice()) {
         Store.set('maxClusterZoomLevel', maxClusterZoomLevelMobile)
         Store.set('clusterZoomOnClick', clusterZoomOnClickMobile)
         Store.set('clusterGridSize', clusterGridSizeMobile)
-		Store.set('processPokemonChunkSize', processPokemonChunkSizeMobile)
+        Store.set('processPokemonChunkSize', processPokemonChunkSizeMobile)
         Store.set('processPokemonIntervalMs', processPokemonIntervalMsMobile)
     }
 
