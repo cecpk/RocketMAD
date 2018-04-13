@@ -1082,7 +1082,12 @@ var StoreOptions = {
     'isSearchMarkerMovable': {
         default: false,
         type: StoreTypes.Boolean
+    },
+    'hidepresets': {
+        default: "",
+        type: StoreTypes.JSON
     }
+
 }
 
 var Store = {

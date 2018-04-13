@@ -169,15 +169,11 @@
     text-align:center;
     max-width: 100%;
     overflow: auto;
-    height: 290px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    padding: 4px;
+    height: 200px;
     .pokemon-icon-sprite{
-      width: calc( 33% - 2px);
+      width: 32%;
       margin-bottom: 1px;
-      margin-left: 1px;
-      margin-right: 1px;
+      margin-left: 3px;
       border: 1px solid #D3D3D3;
       float: left;
     }
@@ -191,7 +187,6 @@
     margin-bottom: 5px;
     background-color: #fff;
     border: 1px solid #aaa;
-    border-radius: 4px;
     padding: 0 10px;
     width: 100%;
 }
@@ -205,16 +200,74 @@
 }
 
 label a {
-    width: calc(50% - 2px);
+    width: 100%;
     float: left;
     background: #ffffff;
     text-align: center;
-    padding: 5px;
     text-decoration: none;
     border: 1px solid #aaa;
     border-radius: 4px;
     margin-top: 5px;
-    margin-left: 1px;
+}
+
+#tabs{
+      padding:0;
+      border:0;
+      &:after{
+        display: table;
+        content: "";
+        clear: both;
+      }
+      .ui-tabs-nav{
+        background: transparent;
+        border: 0;
+        padding: 0;
+        li{
+          width: 50%;
+          box-sizing: border-box;
+          margin:0;
+          border-right:1px solid #fff;
+          &:last-child{
+            border-right-color:#c5c5c5;
+          }
+          &:focus{
+
+          }
+          a{
+            padding: 0.5em 0.1em;
+            text-align: center;
+            width: 100%;
+          }
+        }
+      }
+    }
+.pokemon-container {
+    border: 1px solid #c5c5c5;
+    padding: 1px;
+    overflow: hidden;
+    min-height: 300px;
+}
+.ui-tabs .ui-tabs-panel {
+    padding: 0 !important;
+}
+
+.exclude_templates {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+    overflow: auto;
+    height: 200px;
+    .hidepreset {
+    width: 100%;
+    margin-bottom: 1px;
+    border: 1px solid #d3d3d3;
+    }
+    .hidepreset.active {
+    background: rgba(211,211,211,.4);
+    }
+    .hideicon {
+    margin-bottom: 5px;
+    }
 }
 
   }
