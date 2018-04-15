@@ -1084,7 +1084,7 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'hidepresets': {
-        default: "",
+        default: '',
         type: StoreTypes.JSON
     }
 
