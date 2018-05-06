@@ -1,4 +1,4 @@
-/*global showAllZoomLevel cssPercentageCircle getS2CellBounds processWeather processS2Cell processWeatherAlerts updateMainCellWeather getPokemonRawIconUrl*/
+_/*global showAllZoomLevel cssPercentageCircle getS2CellBounds processWeather processS2Cell processWeatherAlerts updateMainCellWeather getPokemonRawIconUrl*/
 /* eslint no-unused-vars: "off" */
 //
 // Global map.js variables
@@ -3082,9 +3082,7 @@ $(function () {
         } else {
             pokemonIcon = `<i class="pokemon-sprite n${iconid}"></i>`
         }
-
         $('.exclude_templates').append('<div class="hidepreset" data-key=' + key + '><div class="hideicon">' + pokemonIcon + '</div><div class="hidetext">' + value['Name'] + '</div></div>')
-
     })
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
@@ -3142,7 +3140,7 @@ $(function () {
         })
 
         $('.exclude_templates').on('click', '.hidepreset', function () {
-            const hidepresets  = Store.get('hidepresets')
+            const hidepresets = Store.get('hidepresets')
             var img = $(this)
             var id = img.data('key').toString()
             $('.hidepreset').removeClass('active')
@@ -3166,7 +3164,7 @@ $(function () {
                 foundpokemon = filterpokemon(pokeSearchList, searchtext.replace(/\s/g, ''))
             }
 
-            $.each(foundpokemon, function(i, item) {
+            $.each(foundpokemon, function (i, item) {
                 parent.next('.list').find('.pokemon-icon-sprite[data-value="' + foundpokemon[i] + '"]').show()
             })
             foundpokemon = []
@@ -3184,7 +3182,7 @@ $(function () {
             pokeselectlist.addClass('active')
             $('.hidepreset').removeClass('active')
 
-            $.each(pokeselectlist, function(i, item) {
+            $.each(pokeselectlist, function (i, item) {
                 var pokemonicon = $(this)
                 selectlist.push(pokemonicon.data('value'))
             })
@@ -3201,7 +3199,7 @@ $(function () {
             pokeselectlist.addClass('active')
             $('.hidepreset').removeClass('active')
 
-            $.each(pokeselectlist, function(i, item) {
+            $.each(pokeselectlist, function (i, item) {
                 var pokemonicon = $(this)
                 selectlist.push(pokemonicon.data('value'))
             })
@@ -3304,11 +3302,11 @@ $(function () {
     function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
 
     function filterpokemon(pokemonarray, searchtext) {
-        if (searchtext.substring(0,1) === '-') { searchtext = 'allpokemon, ' + searchtext }
+        if (searchtext.substring(0, 1) === '-') { searchtext = 'allpokemon,' + searchtext }
         var searchsplit = searchtext.split(',')
         var foundpokemon = []
         var operator = 'add'
-        $.each(searchsplit, function(k, searchstring) {
+        $.each(searchsplit, function (k, searchstring) {
             if (searchstring.substring(0, 1) === '+') {
                 searchstring = searchstring.substring(1)
                 operator = 'add'
@@ -3326,15 +3324,15 @@ $(function () {
                 }
             } else if (searchstring.length > 0 && searchstring !== '-' && searchstring !== '+') {
 
-                 $.each(pokemonarray, function (i, item) {
-                     if ((item['pkm'].toLowerCase().indexOf(searchstring.toLowerCase()) !== -1) || (i8ln(item['type1'].toLowerCase()).indexOf(i8ln(searchstring).toLowerCase()) !== -1) || (i8ln(item['type2'].toLowerCase()).indexOf(i8ln(searchstring).toLowerCase()) !== -1) || (item['gen'].toString() === searchstring.toLowerCase()) || (item['value'].toString() === searchstring.toString()) || (item['allpokemon'].toString() === searchstring.toString())) {
-                         if (operator === 'add') {
-                             foundpokemon.push(item['value'])
-                         } else {
-                             delete foundpokemon[foundpokemon.indexOf(item['value'])]
-                         }
-                     }
-                 })
+                $.each(pokemonarray, function (i, item) {
+                    if ((item['pkm'].toLowerCase().indexOf(searchstring.toLowerCase()) !== -1) || (i8ln(item['type1'].toLowerCase()).indexOf(i8ln(searchstring).toLowerCase()) !== -1) || (i8ln(item['type2'].toLowerCase()).indexOf(i8ln(searchstring).toLowerCase()) !== -1) || (item['gen'].toString() === searchstring.toLowerCase()) || (item['value'].toString() === searchstring.toString()) || (item['allpokemon'].toString() === searchstring.toString())) {
+                        if (operator === 'add') {
+                            foundpokemon.push(item['value'])
+                        } else {
+                            delete foundpokemon[foundpokemon.indexOf(item['value'])]
+                        }
+                    }
+                })
              }
         })
         return foundpokemon
