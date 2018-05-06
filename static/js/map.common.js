@@ -1086,6 +1086,7 @@ var StoreOptions = {
     'hidepresets': {
         default: "",
         type: StoreTypes.JSON
+    },
     'showMedalRattata': {
         default: false,
         type: StoreTypes.Boolean
