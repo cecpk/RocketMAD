@@ -1,4 +1,4 @@
-_/*global showAllZoomLevel cssPercentageCircle getS2CellBounds processWeather processS2Cell processWeatherAlerts updateMainCellWeather getPokemonRawIconUrl*/
+/*global showAllZoomLevel cssPercentageCircle getS2CellBounds processWeather processS2Cell processWeatherAlerts updateMainCellWeather getPokemonRawIconUrl*/
 /* eslint no-unused-vars: "off" */
 //
 // Global map.js variables
@@ -3323,7 +3323,6 @@ $(function () {
                     delete foundpokemon[foundpokemon.indexOf(searchstring)]
                 }
             } else if (searchstring.length > 0 && searchstring !== '-' && searchstring !== '+') {
-
                 $.each(pokemonarray, function (i, item) {
                     if ((item['pkm'].toLowerCase().indexOf(searchstring.toLowerCase()) !== -1) || (i8ln(item['type1'].toLowerCase()).indexOf(i8ln(searchstring).toLowerCase()) !== -1) || (i8ln(item['type2'].toLowerCase()).indexOf(i8ln(searchstring).toLowerCase()) !== -1) || (item['gen'].toString() === searchstring.toLowerCase()) || (item['value'].toString() === searchstring.toString()) || (item['allpokemon'].toString() === searchstring.toString())) {
                         if (operator === 'add') {
