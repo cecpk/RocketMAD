@@ -252,21 +252,28 @@ label a {
 }
 
 .exclude_templates {
-    align-items: center;
-    text-align: center;
     max-width: 100%;
     overflow: auto;
-    height: 200px;
+    height: 290px;
     .hidepreset {
     width: 100%;
     margin-bottom: 1px;
     border: 1px solid #d3d3d3;
+    display: table;
     }
     .hidepreset.active {
     background: rgba(211,211,211,.4);
     }
     .hideicon {
-    margin-bottom: 5px;
+    margin: 5px;
+    float: left;
+    padding-right: 10px;
+    }
+    .hidetext {
+    float: left;
+    text-align: center;
+    display: table;
+    margin: 10px;
     }
 }
 
