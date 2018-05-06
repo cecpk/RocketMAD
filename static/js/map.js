@@ -3332,7 +3332,7 @@ $(function () {
                         }
                     }
                 })
-             }
+            }
         })
         return foundpokemon
     }
