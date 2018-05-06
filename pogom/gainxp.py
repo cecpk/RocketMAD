@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 DROP_BALLS = 50
 
 # These Pokemon could be Dittos
-DITTO_CANDIDATES_IDS = [16, 19, 41, 161, 163, 193]
+DITTO_CANDIDATES_IDS = [16, 19, 41, 92, 161, 163, 193, 263, 293, 316]
 
 DITTO_POKEDEX_ID = 132
 
