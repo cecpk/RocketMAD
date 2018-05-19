@@ -326,9 +326,9 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
             log.warning("Cannot find PogoAssets file {}".format(
                 assets_fullname))
             # Dummy Pokemon icon
-            return os.path.join(
-                assets_basedir, 'pokemon_icon_000.png'),
-        os.path.join(target_path, 'pkm_000.png')
+            return (
+                os.path.join(assets_basedir, 'pokemon_icon_000.png'),
+                os.path.join(target_path, 'pkm_000.png'))
         return pokemon_asset_path(pkm, classifier=classifier,
                                   gender=MALE, form=form,
                                   costume=costume, weather=weather,

@@ -560,6 +560,9 @@ function initSidebar() {
     $('#s2cells-switch').prop('checked', Store.get('showS2Cells'))
     $('#weather-alerts-switch').prop('checked', Store.get('showWeatherAlerts'))
     $('#prio-notify-switch').prop('checked', Store.get('prioNotify'))
+    $('#medal-rattata-switch').prop('checked', Store.get('showMedalRattata'))
+    $('#medal-magikarp-switch').prop('checked', Store.get('showMedalMagikarp'))
+
 
     // Only create the Autocomplete element if it's enabled in template.
     var elSearchBox = document.getElementById('next-location')
@@ -1275,10 +1278,12 @@ function playPokemonSound(pokemonID, cryFileTypes) {
     }
 }
 
-
 function isNotifyPerfectionPoke(poke) {
     var hasHighAttributes = false
     var hasHighIV = false
+    var baseHeight = 0
+    var baseWeight = 0
+    var ratio = 0
 
     // Notify for IV.
     if (poke['individual_attack'] != null) {
@@ -1298,7 +1303,32 @@ function isNotifyPerfectionPoke(poke) {
         hasHighAttributes = hasHighAttributes || shouldNotifyForLevel
     }
 
+    if (poke['cp_multiplier'] !== null) {
+        if (Store.get('showMedalMagikarp') && poke['pokemon_id'] === 129) {
+            baseHeight = 0.90
+            baseWeight = 10.00
+            ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
+            if (ratio > 2.5) {
+                hasHighAttributes = true
+            }
+        } else if (Store.get('showMedalRattata') && poke['pokemon_id'] === 19) {
+            baseHeight = 0.30
+            baseWeight = 3.50
+            ratio = sizeRatio(poke['height'], poke['weight'], baseHeight, baseWeight)
+            if (ratio < 1.5) {
+                hasHighAttributes = true
+            }
+        }
+    }
+
     return hasHighAttributes
+}
+
+function sizeRatio(height, weight, baseHeight, baseWeight) {
+    var heightRatio = height / baseHeight
+    var weightRatio = weight / baseWeight
+
+    return heightRatio + weightRatio
 }
 
 function isNotifyPoke(poke) {
@@ -2515,7 +2545,6 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
                     Gym Leader:<br>
                     ${pokemonIcon}<br>
                     <b>${result.guard_pokemon_name}</b>
-
                     <p style="font-size: .75em; margin: 5px;">
                         No additional gym information is available for this gym. Make sure you are collecting <a href="https://rocketmap.readthedocs.io/en/develop/extras/gyminfo.html">detailed gym info.</a>
                         If you have detailed gym info collection running, this gym's Pokemon information may be out of date.
@@ -2960,6 +2989,45 @@ $(function () {
         return $state
     }
 
+    function formatRarityState(state) {
+        if (!state.id) {
+            return state.text
+        }
+        var pokemonId
+        switch (state.element.value.toString()) {
+            case i8ln('Common'):
+                pokemonId = Store.get('rarityCommon')
+                break
+            case i8ln('Uncommon'):
+                pokemonId = Store.get('rarityUncommon')
+                break
+            case i8ln('Rare'):
+                pokemonId = Store.get('rarityRare')
+                break
+            case i8ln('Very Rare'):
+                pokemonId = Store.get('rarityVeryRare')
+                break
+            case i8ln('Ultra Rare'):
+                pokemonId = Store.get('rarityUltraRare')
+                break
+            case i8ln('New Spawn'):
+                pokemonId = Store.get('rarityNewSpawn')
+                break
+            default:
+                pokemonId = 1
+        }
+        var pokemonIcon
+        if (generateImages) {
+            pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': pokemonId})}'>`
+        } else {
+            pokemonIcon = `<i class="pokemon-sprite n${pokemonId}"></i>`
+        }
+        var $state = $(
+            `<span>${pokemonIcon} ${state.text}</span>`
+        )
+        return $state
+    }
+
     if (Store.get('startAtUserLocation') && getParameterByName('lat') == null && getParameterByName('lon') == null) {
         centerMapOnLocation()
     }
@@ -3015,7 +3083,7 @@ $(function () {
         $selectRarityNotify.select2({
             placeholder: i8ln('Select Rarity'),
             data: [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare'), i8ln('New Spawn')],
-            templateResult: formatState
+            templateResult: formatRarityState
         })
 
         // setup list change behavior now that we have the list to work from
@@ -3305,6 +3373,17 @@ $(function () {
     $('#cries-switch').change(function () {
         Store.set('playCries', this.checked)
     })
+
+    $('#medal-rattata-switch').change(function () {
+        Store.set('showMedalRattata', this.checked)
+        updateMap()
+    })
+
+    $('#medal-magikarp-switch').change(function () {
+        Store.set('showMedalMagikarp', this.checked)
+        updateMap()
+    })
+
 
     $('#geoloc-switch').change(function () {
         $('#next-location').prop('disabled', this.checked)
