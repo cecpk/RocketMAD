@@ -25,6 +25,6 @@ script:
   - nosetests
 
 ignore:
-  - static/js/HeadLayer.js
-  - static/js/MarkerCluster.js
-  - static/js/bouncemarker.js
+  - "static/js/HeadLayer.js"
+  - "static/js/MarkerCluster.js"
+  - "static/js/bouncemarker.js"
