@@ -14,7 +14,18 @@
 }
 
 #location_map{
+    top: 0px;
+    width: 100%;
+    bottom: 0px;
+    height: 100%; 
+}
+
+#map {
     height: 100%;
+}
+
+.my-leaflet-map-container img {
+    max-height: none;
 }
 
 #times_list{

@@ -290,7 +290,7 @@ def get_args():
                         default=True)
     parser.add_argument('-k', '--gmaps-key',
                         help='Google Maps Javascript API Key.',
-                        required=True)
+                        required=False)
     parser.add_argument('--skip-empty',
                         help=('Enables skipping of empty cells in normal ' +
                               'scans - requires previously populated ' +
