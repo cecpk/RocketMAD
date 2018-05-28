@@ -108,7 +108,7 @@ function deleteObsoleteWeatherAlerts(newAlerts) {
  */
 function safeDelMarker(item) {
     if (item.marker) {
-        item.marker.setMap(null)
+        markersnotify.removeLayer(item.marker)
     }
 }
 
@@ -149,15 +149,15 @@ function getWeatherImageUrl(item, dark = true) {
 function setupWeatherMarker(item) {
     var imageUrl = getWeatherImageUrl(item)
 
-    var image = {
-        url: imageUrl,
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(32, 32)
-    }
-    return new google.maps.Marker({
-        position: item.center,
-        icon: image
+    var image = new L.Icon ({
+        iconUrl: imageUrl,
+        iconAnchor: [32, 32],
+        iconSize: [32, 32]
     })
+
+    var weatherMarker = L.marker([item['latitude'], item['longitude']], {icon: image})
+    markersnotify.addLayer(weatherMarker)
+    return weatherMarker
 }
 
 
@@ -167,14 +167,15 @@ function setupWeatherMarker(item) {
  * @returns {google.maps.Polygon}
  */
 function setupS2CellPolygon(item) {
-    return new google.maps.Polygon({
-        paths: item.vertices,
-        strokeColor: '#000000',
-        strokeOpacity: 0.8,
-        strokeWeight: 1,
+    var s2CellPolygon = L.polygon(item.vertices, {
+        color: '#000000',
+        opacity: 0.8,
+        weight: 1,
         fillOpacity: 0,
         fillColor: '#00ff00'
     })
+    markersnotify.addLayer(s2CellPolygon)
+    return s2CellPolygon
 }
 
 
@@ -205,7 +206,7 @@ function createCellAlert(item) {
  * @returns {google.maps.LatLngBounds}
  */
 function getS2CellBounds(s2Cell) {
-    var bounds = new google.maps.LatLngBounds()
+    var bounds = new L.LatLngBounds()
     // iterate over the vertices
     $.each(s2Cell.vertices, function (i, latLng) {
         // extend the bounds
@@ -290,10 +291,10 @@ function getMainS2Cell() {
 
     var bounds = map.getBounds()
     var viewportPath = [
-        {'lat': bounds.getNorthEast().lat(), 'lng': bounds.getNorthEast().lng()},
-        {'lat': bounds.getNorthEast().lat(), 'lng': bounds.getSouthWest().lng()},
-        {'lat': bounds.getSouthWest().lat(), 'lng': bounds.getSouthWest().lng()},
-        {'lat': bounds.getSouthWest().lat(), 'lng': bounds.getNorthEast().lng()}
+        {'lat': bounds.getNorthEast().lat, 'lng': bounds.getNorthEast().lng},
+        {'lat': bounds.getNorthEast().lat, 'lng': bounds.getSouthWest().lng},
+        {'lat': bounds.getSouthWest().lat, 'lng': bounds.getSouthWest().lng},
+        {'lat': bounds.getSouthWest().lat, 'lng': bounds.getNorthEast().lng}
     ]
     var jstsViewport = createJstsPolygon(geometryFactory, viewportPath)
     var viewportArea = jstsViewport.getArea()

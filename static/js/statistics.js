@@ -1,6 +1,8 @@
 /*global getPokemonRawIconUrl*/
 /* Main stats page */
 var rawDataIsLoading = false
+var mapstat
+var markers
 
 function loadRawData() {
     return $.ajax({
@@ -238,16 +240,16 @@ function closeTimes() {
 }
 
 function addListeners(marker) { // eslint-disable-line no-unused-vars
-    marker.addListener('click', function () {
+    marker.on('click', function () {
         showTimes(marker)
         detailsPersist = true
     })
 
-    marker.addListener('mouseover', function () {
+    marker.on('mouseover', function () {
         showTimes(marker)
     })
 
-    marker.addListener('mouseout', function () {
+    marker.on('mouseout', function () {
         if (!detailsPersist) {
             $('#times_list').hide()
         }
@@ -257,124 +259,49 @@ function addListeners(marker) { // eslint-disable-line no-unused-vars
 }
 
 // Override map.js initMap
-function initMap() {
-    map = new google.maps.Map(document.getElementById('location_map'), {
-        zoom: 16,
-        center: {
-            lat: centerLat,
-            lng: centerLng
-        },
-        fullscreenControl: false,
-        streetViewControl: false,
-        mapTypeControl: true,
-        clickableIcons: false,
-        mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-            position: google.maps.ControlPosition.RIGHT_TOP,
-            mapTypeIds: [
-                google.maps.MapTypeId.ROADMAP,
-                google.maps.MapTypeId.SATELLITE,
-                google.maps.MapTypeId.HYBRID,
-                'nolabels_style',
-                'dark_style',
-                'style_light2',
-                'style_pgo',
-                'dark_style_nl',
-                'style_light2_nl',
-                'style_pgo_nl',
-                'style_pgo_day',
-                'style_pgo_night',
-                'style_pgo_dynamic'
-            ]
-        }
-    })
+function initStat() {
 
-    var styleNoLabels = new google.maps.StyledMapType(noLabelsStyle, {
-        name: 'No Labels'
-    })
-    map.mapTypes.set('nolabels_style', styleNoLabels)
+mapstat = L.map('location_map', {
+     center: [centerLat, centerLng],
+     zoom: 16,
+     zoomControl: true,
+     maxZoom: 18
+ })
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+ }).addTo(mapstat);
 
-    var styleDark = new google.maps.StyledMapType(darkStyle, {
-        name: 'Dark'
-    })
-    map.mapTypes.set('dark_style', styleDark)
-
-    var styleLight2 = new google.maps.StyledMapType(light2Style, {
-        name: 'Light2'
-    })
-    map.mapTypes.set('style_light2', styleLight2)
-
-    var stylePgo = new google.maps.StyledMapType(pGoStyle, {
-        name: 'RocketMap'
-    })
-    map.mapTypes.set('style_pgo', stylePgo)
-
-    var styleDarkNl = new google.maps.StyledMapType(darkStyleNoLabels, {
-        name: 'Dark (No Labels)'
-    })
-    map.mapTypes.set('dark_style_nl', styleDarkNl)
-
-    var styleLight2Nl = new google.maps.StyledMapType(light2StyleNoLabels, {
-        name: 'Light2 (No Labels)'
-    })
-    map.mapTypes.set('style_light2_nl', styleLight2Nl)
-
-    var stylePgoNl = new google.maps.StyledMapType(pGoStyleNoLabels, {
-        name: 'RocketMap (No Labels)'
-    })
-    map.mapTypes.set('style_pgo_nl', stylePgoNl)
-
-    var stylePgoDay = new google.maps.StyledMapType(pGoStyleDay, {
-        name: 'RocketMap Day'
-    })
-    map.mapTypes.set('style_pgo_day', stylePgoDay)
-
-    var stylePgoNight = new google.maps.StyledMapType(pGoStyleNight, {
-        name: 'RocketMap Night'
-    })
-    map.mapTypes.set('style_pgo_night', stylePgoNight)
-
-    // dynamic map style chooses stylePgoDay or stylePgoNight depending on client time
-    var currentDate = new Date()
-    var currentHour = currentDate.getHours()
-    var stylePgoDynamic = (currentHour >= 6 && currentHour < 19) ? stylePgoDay : stylePgoNight
-    map.mapTypes.set('style_pgo_dynamic', stylePgoDynamic)
-
-    map.addListener('maptypeid_changed', function (s) {
-        Store.set('map_style', this.mapTypeId)
-    })
-
-    map.setMapTypeId(Store.get('map_style'))
-
-    mapLoaded = true
-
-    google.maps.event.addListener(map, 'zoom_changed', function () {
+markers = L.layerGroup().addTo(mapstat)
+mapLoaded = true
+    mapstat.on('zoom', function () {
         redrawAppearances(mapData.appearances)
     })
 }
 
 function resetMap() {
     $.each(mapData.appearances, function (key, value) {
-        mapData.appearances[key].marker.setMap(null)
+        markers.clearLayers()
         delete mapData.appearances[key]
     })
 
     heatmapPoints = []
     if (heatmap) {
-        heatmap.setMap(null)
+        // heatmapstat.setMap(null)
     }
 }
 
 function showOverlay(id) {
     // Only load google maps once, and only if requested
     if (!mapLoaded) {
-        initMap()
+        initStat()
     }
     resetMap()
     pokemonid = id
     $('#location_details').show()
     location.hash = 'overlay_' + pokemonid
     updateDetails()
+
+setTimeout(function(){ mapstat.invalidateSize()}, 400);
 
     return false
 }
@@ -397,12 +324,12 @@ function processAppearance(i, item) {
             item['marker'].setMap(null)
         }
         item['marker'] = setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity, isNotifyPkmn)
-        item['marker'].setMap(map)
+        markers.addLayer(item['marker'])
         addListeners(item['marker'])
         item['marker'].spawnpointId = spawnpointId
         mapData.appearances[spawnpointId] = item
     }
-    heatmapPoints.push({location: new google.maps.LatLng(item['latitude'], item['longitude']), weight: parseFloat(item['count'])})
+    heatmapPoints.push([item['latitude'] , item['longitude'] , parseFloat(item['count'])])
 }
 
 function redrawAppearances(appearances) {
@@ -413,9 +340,9 @@ function redrawAppearances(appearances) {
             const scaleByRarity = false   // ..nor this..
             const isNotifyPkmn = false    // ..and especially not this.
 
-            item['marker'].setMap(null)
+            // item['marker'].setMap(null)
             const newMarker = setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity, isNotifyPkmn)
-            newMarker.setMap(map)
+            markers.addLayer(newMarker)
             addListeners(newMarker)
             newMarker.spawnpointId = item['spawnpoint_id']
             appearances[key].marker = newMarker
@@ -455,13 +382,10 @@ function updateDetails() {
     loadDetails().done(function (result) {
         $.each(result.appearances, processAppearance)
         if (heatmap) {
-            heatmap.setMap(null)
+            // heatmap.setMap(null)
         }
-        heatmap = new google.maps.visualization.HeatmapLayer({
-            data: heatmapPoints,
-            map: map,
-            radius: 50
-        })
+    heatmap = new L.heatLayer(heatmapPoints, {radius: 50}).addTo(markers)
+
     }).fail(function () {
         // Wait for next retry.
         setTimeout(updateDetails, 1000)

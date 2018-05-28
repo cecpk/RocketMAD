@@ -94,7 +94,6 @@
             <div class="content">
                 <div id="times_list" style="display: none;"></div>
                 <div id="location_map">
-                    <script src="https://maps.googleapis.com/maps/api/js?key={{ gmaps_key }}&amp;libraries=visualization"></script>
                 </div>
             </div>
         </div>
@@ -116,5 +115,10 @@
       {% endif %}
     <script src="{{ url_for('static', filename='dist/js/app.min.js').lstrip('/') }}"></script>
     <script src="{{ url_for('static', filename='dist/js/statistics.min.js').lstrip('/') }}"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+    <script src="{{ url_for('static', filename='dist/js/mapprovider/osm.min.js').lstrip('/') }}"></script>
+
+    <script src="{{ url_for('static', filename='dist/js/HeatLayer.min.js').lstrip('/') }}"></script>
 </body>
 </html>
