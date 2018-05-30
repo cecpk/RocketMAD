@@ -229,34 +229,53 @@ function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
 
 function initMap() { // eslint-disable-line no-unused-vars
 
- map = L.map('map', {
-     center: [Number(getParameterByName('lat')) || centerLat, Number(getParameterByName('lon')) || centerLng],
-     zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
-     maxZoom: 18,
-     zoomControl: false
- })
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    map = L.map('map', {
+        center: [Number(getParameterByName('lat')) || centerLat, Number(getParameterByName('lon')) || centerLng],
+        zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
+        maxZoom: 18,
+        zoomControl: false
+    })
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
- }).addTo(map);
+    }).addTo(map);
 
-markers = L.markerClusterGroup({
-disableClusteringAtZoom: Store.get('maxClusterZoomLevel'),
+    markers = L.markerClusterGroup({
+        disableClusteringAtZoom: Store.get('maxClusterZoomLevel'),
         spiderfyOnMaxZoom: false,
-zoomToBoundsOnClick: Store.get('clusterZoomOnClick'),
+        zoomToBoundsOnClick: Store.get('clusterZoomOnClick'),
         showCoverageOnHover: false,
-removeOutsideVisibleBounds:true,
-maxClusterRadius: Store.get('clusterGridSize'),
- })
+        removeOutsideVisibleBounds:true,
+        maxClusterRadius: Store.get('clusterGridSize'),
+    })
+
+    L.control.zoom({
+        position:'bottomright'
+    }).addTo(map);
+
+    map.addLayer(markers)
+    markersnotify = L.layerGroup().addTo(map)
+
+    if (showConfig.fixed_display) {
+
+        var GeoSearchControl = window.GeoSearch.GeoSearchControl
+        var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
+        var provider = new OpenStreetMapProvider();
+
+        const search = new GeoSearchControl({
+            provider: provider,
+            position: 'bottomright',
+            autoClose: true,
+            keepResult: false,
+            showMarker: false
+        });
+
+        map.addControl(search)
 
 
-L.control.zoom({
-     position:'bottomright'
-}).addTo(map);
-
-
-
-map.addLayer(markers)
-markersnotify = L.layerGroup().addTo(map)
+        map.on('geosearch/showlocation', function(e)  {
+                changeLocation(e.location.y, e.location.x)
+        })
+    }
 
     map.on('zoom', function () {
         if (storeZoom === true) {
@@ -297,7 +316,6 @@ markersnotify = L.layerGroup().addTo(map)
     createMyLocationButton()
     initSidebar()
 
-
     $('#scan-here').on('click', function () {
         var loc = map.getCenter()
         changeLocation(loc.lat(), loc.lng())
@@ -311,10 +329,7 @@ markersnotify = L.layerGroup().addTo(map)
     if (Push._agents.chrome.isSupported()) {
         createServiceWorkerReceiver()
     }
-
-
 }
-
 
 function updateLocationMarker(style) {
     // Don't do anything if it's disabled.
@@ -1407,7 +1422,7 @@ function getColorBySpawnTime(value) {
 
   hue = Math.round(hue / 5) * 5
 
-  return colourConversion.hsvToHex(hue, 1.0, 1.0);
+  return colourConversion.hsvToHex(hue, 1.0, 1.0)
 }
 
 var colourConversion = (function() {
@@ -1420,8 +1435,8 @@ var colourConversion = (function() {
       console.log("{colourConverion.hsvToHex} illegal input")
       return "#000000"
     }
-    let rgbArray = hsvToRgb(hue, sat, val);
-    return rgbArrayToHexString(rgbArray);
+    let rgbArray = hsvToRgb(hue, sat, val)
+    return rgbArrayToHexString(rgbArray)
   }
 
   function rgbArrayToHexString(rgbArray)
@@ -1429,19 +1444,19 @@ var colourConversion = (function() {
     let hexString = "#";
     for (var i = 0; i < rgbArray.length; i++)
     {
-      let hexOfNumber = rgbArray[i].toString(16);
+      let hexOfNumber = rgbArray[i].toString(16)
       if (hexOfNumber.length == 1)
       {
-        hexOfNumber = "0" + hexOfNumber;
+        hexOfNumber = "0" + hexOfNumber
       }
-      hexString += hexOfNumber;
+      hexString += hexOfNumber
     }
 
     if (hexString.length != 7)
     {
       console.log("Hexstring not complete for colours...")
     }
-    return hexString;
+    return hexString
   }
 
   function mod(n, m) {
@@ -1455,37 +1470,37 @@ var colourConversion = (function() {
     https://de.wikipedia.org/wiki/HSV-Farbraum#Umrechnung_HSV_in_RGB
   */
   function hsvToRgb(hue, sat, val) {
-    let hder = Math.floor(hue / 60);
-    let f = hue / 60 - hder;
-    let p = val * (1 - sat);
-    let q = val * (1 - sat * f);
-    let t = val * (1 - sat * (1 - f));
+    let hder = Math.floor(hue / 60)
+    let f = hue / 60 - hder
+    let p = val * (1 - sat)
+    let q = val * (1 - sat * f)
+    let t = val * (1 - sat * (1 - f))
     var rgb
     if (sat == 0) {
-      rgb = [val, val, val];
+      rgb = [val, val, val]
     } else if (hder == 0 || hder == 6) {
-      rgb = [val, t, p];
+      rgb = [val, t, p]
     } else if (hder == 1) {
-      rgb = [q, val, p];
+      rgb = [q, val, p]
     } else if (hder == 2) {
-      rgb = [p, val, t];
+      rgb = [p, val, t]
     } else if (hder == 3) {
-      rgb = [p, q, val];
+      rgb = [p, q, val]
     } else if (hder == 4) {
-      rgb = [t, p, val];
+      rgb = [t, p, val]
     } else if (hder == 5) {
-      rgb = [val, p, q];
+      rgb = [val, p, q]
     } else {
       console.log("Failed converting HSV to RGB")
     }
     for(var i = 0; i < rgb.length; i++)
     {
-      rgb[i] = Math.round(rgb[i] * 255);
+      rgb[i] = Math.round(rgb[i] * 255)
     }
-    return rgb;
+    return rgb
   }
-  return self;
-})();
+  return self
+})()
 
 function changeSpawnIcon(color, zoom) {
     var urlColor = ''
@@ -1525,7 +1540,7 @@ function spawnPointIndex(color) {
 }
 
 function rgbToHex(r, g, b) {
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
 }
 
 function setupSpawnpointMarker(item) {

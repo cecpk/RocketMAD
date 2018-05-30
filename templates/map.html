@@ -619,11 +619,14 @@
     <script src="{{ url_for('static', filename='dist/js/weather.min.js').lstrip('/') }}"></script>
     <script async src='https://www.google-analytics.com/analytics.js'> </script>
 
-<script>
-$( document ).ready(function() {
-initMap()
-})
-</script>
-
+      {% if show.fixed_display %}
+<link  href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet" />
+<script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
+      {% endif %}
+    <script>
+    $( document ).ready(function() {
+        initMap()
+    })
+    </script>
   </body>
 </html>

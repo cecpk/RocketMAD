@@ -298,10 +298,9 @@ function showOverlay(id) {
     resetMap()
     pokemonid = id
     $('#location_details').show()
-    location.hash = 'overlay_' + pokemonid
     updateDetails()
 
-setTimeout(function(){ mapstat.invalidateSize()}, 400);
+    setTimeout(function(){ mapstat.invalidateSize()}, 400);
 
     return false
 }
@@ -384,7 +383,7 @@ function updateDetails() {
         if (heatmap) {
             // heatmap.setMap(null)
         }
-    heatmap = new L.heatLayer(heatmapPoints, {radius: 50}).addTo(markers)
+        setTimeout(function(){ addHeadmap(heatmapPoints)}, 1000);
 
     }).fail(function () {
         // Wait for next retry.
@@ -392,6 +391,8 @@ function updateDetails() {
     })
 }
 
-if (location.href.match(/overlay_[0-9]+/g)) {
-    showOverlay(location.href.replace(/^.*overlay_([0-9]+).*$/, '$1'))
+function addHeadmap(headmapdata) {
+
+    heatmap = new L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
+    return false
 }
