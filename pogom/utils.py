@@ -1180,6 +1180,18 @@ def calc_pokemon_level(cp_multiplier):
     return pokemon_level
 
 
+def get_pos_by_name(location_name):
+    geolocator = Nominatim()
+    loc = geolocator.geocode(location_name, timeout=10)
+    if not loc:
+        return None
+
+    log.info("Location for '%s' found: %s", location_name, loc.address)
+    log.info('Coordinates (lat/long/alt) for location: %s %s %s', loc.latitude, loc.longitude, loc.altitude)
+
+    return (loc.latitude, loc.longitude, loc.altitude)
+
+
 @memoize
 def gmaps_reverse_geolocate(locale, location):
     # Find the reverse geolocation

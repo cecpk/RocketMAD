@@ -206,7 +206,7 @@ class Pokemon(LatLongModel):
             query = (Pokemon
                      .select()
                      .where((Pokemon.pokemon_id << ids) &
-                            (Pokemon.disappear_time >  datetime.utcnow()))
+                            (Pokemon.disappear_time > datetime.utcnow()))
                      .dicts())
         else:
             query = (Pokemon

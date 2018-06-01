@@ -1332,15 +1332,16 @@ function setupGymMarker(item) {
 function updateGymMarker(item, marker) {
     let raidLevel = getRaidLevel(item.raid)
     let markerImage = ''
+    var zIndexOffset
     if (item.raid && isOngoingRaid(item.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
         markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item) + '&raidlevel=' + item['raid']['level'] + '&pkm=' + item['raid']['pokemon_id']
-        marker.zIndexOffset=1000
+        zIndexOffset = 100
     } else if (item.raid && item.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
         markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item) + '&raidlevel=' + item['raid']['level']
-        marker.zIndexOffset=20
+        zIndexOffset = 20
     } else {
         markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item)
-        marker.zIndexOffset=10
+        zIndexOffset = 10
     }
     if (item['is_in_battle']) {
         markerImage += '&in_battle=1'
@@ -1350,6 +1351,7 @@ function updateGymMarker(item, marker) {
             iconSize: [48, 48]
     })
     marker.setIcon(GymIcon)
+    marker.setZIndexOffset = zIndexOffset
     if (!Store.get('useGymSidebar')) { marker.bindPopup(gymLabel(item)) }
     return marker
 }

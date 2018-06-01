@@ -20,6 +20,8 @@ from flask_cache_bust import init_cache_busting
 
 from colorlog import ColoredFormatter
 
+from pogom.utils import (get_pos_by_name)
+
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
                          log_resource_usage_loop, get_debug_dump_link,
@@ -262,7 +264,7 @@ def extract_coordinates(location):
         position = (float(res.group(1)), float(res.group(2)), 0)
     else:
         log.debug('Looking up coordinates in API')
-        position = util.get_pos_by_name(location)
+        position = get_pos_by_name(location)
 
     if position is None or not any(position):
         log.error("Location not found: '{}'".format(location))
@@ -340,7 +342,7 @@ def main():
         log.debug('Local altitude is: %sm.', altitude)
         position = (position[0], position[1], altitude)
     else:
-        if status == 'REQUEST_DENIED':
+        if results == 'REQUEST_DENIED':
             log.error(
                 'OSM API Elevation request was denied.')
             sys.exit()

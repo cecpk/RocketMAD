@@ -187,7 +187,6 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
     if is_in_battle:
         out_filename = out_filename.replace('.png', '_B.png')
         im_lines.extend(draw_battle_indicator())
-
     gym_image = os.path.join(path_gym, '{}.png'.format(team))
     return run_imagemagick(gym_image, im_lines, out_filename)
 
@@ -337,11 +336,11 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
 
 def draw_gym_subject(image, size, gravity='north', trim=False):
     trim_cmd = ' -fuzz 0.5% -trim +repage' if trim else ''
-    lines = [
-        '-gravity {} ( "{}"{} -scale {}x{} -unsharp 0x1 ( +clone ' +
+    lines = [ 
+        '-gravity {} ( "{}"{} -scale {}x{} -unsharp 0x1 ( +clone '.format(
+            gravity, image, trim_cmd, size, size),
         '-background black -shadow 80x3+5+5 ) +swap -background ' +
-        'none -layers merge +repage ) -geometry +0+0 -composite'.format(
-            gravity, image, trim_cmd, size, size)
+        'none -layers merge +repage ) -geometry +0+0 -composite'
     ]
     return lines
 
@@ -351,9 +350,10 @@ def draw_badge(pos, fill_col, text_col, text):
     lines = [
         '-fill {} -stroke black -draw "circle {},{} {},{}"'.format(
             fill_col, x, y, x + gym_badge_radius, y),
-        '-gravity center -fill {} -stroke none ' +
+        '-gravity center -fill {} -stroke none '.format(
+            text_col),
         '-draw "text {},{} \'{}\'"'.format(
-            text_col, x - 48, y - 49, text)
+            x - 48, y - 49, text)
     ]
     return lines
 
