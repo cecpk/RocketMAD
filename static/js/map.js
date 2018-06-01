@@ -69,10 +69,11 @@ var oSwLat
 var oSwLng
 var oNeLat
 var oNeLng
+
+var L
 var map
 var markers
 var markersnotify
-
 
 var lastpokestops
 var lastgyms

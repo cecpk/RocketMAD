@@ -23,8 +23,3 @@ script:
   - npm run build
   - npm run lint
   - nosetests
-
-ignore:
-  - "static/js/HeadLayer.js"
-  - "static/js/MarkerCluster.js"
-  - "static/js/bouncemarker.js"

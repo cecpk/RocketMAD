@@ -334,20 +334,18 @@ def main():
 
     position = extract_coordinates(args.location)
     # Use the latitude and longitude to get the local altitude from Google.
-    (altitude, status) = get_gmaps_altitude(position[0], position[1],
-                                            args.gmaps_key)
+    (altitude, results) = get_gmaps_altitude(position[0], position[1])
+
     if altitude is not None:
         log.debug('Local altitude is: %sm.', altitude)
         position = (position[0], position[1], altitude)
     else:
         if status == 'REQUEST_DENIED':
             log.error(
-                'Google API Elevation request was denied. You probably ' +
-                'forgot to enable elevation api in https://console.' +
-                'developers.google.com/apis/api/elevation_backend/')
+                'OSM API Elevation request was denied.')
             sys.exit()
         else:
-            log.error('Unable to retrieve altitude from Google APIs' +
+            log.error('Unable to retrieve altitude from OSM APIs' +
                       'setting to 0')
 
     log.info('Parsed location is: %.4f/%.4f/%.4f (lat/lng/alt).',
@@ -452,7 +450,6 @@ def main():
         args.player_locale = PlayerLocale.get_locale(args.location)
         if not args.player_locale:
             args.player_locale = gmaps_reverse_geolocate(
-                args.gmaps_key,
                 args.locale,
                 str(position[0]) + ', ' + str(position[1]))
             db_player_locale = {

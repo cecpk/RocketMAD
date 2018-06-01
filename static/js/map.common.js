@@ -1,8 +1,6 @@
 /*global i8ln*/
 /* eslint no-unused-vars: "off" */
-
 function pokemonSprites(pokemonID) {
-
     var sprite = {
         columns: 28,
         iconWidth: 80,
@@ -382,14 +380,14 @@ function getPokemonIcon(item, sprite, displayHeight) {
     var scaledIconOffset = [0, 0]
     var scaledIconCenterOffset = [scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2]
 
-    let gender_param = item['gender'] ? `&gender=${item['gender']}` : ''
-    let form_param = item['form'] ? `&form=${item['form']}` : ''
-    let costume_param = item['costume'] ? `&costume=${item['costume']}` : ''
-    let weather_param = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
-    let icon_url = `pkm_img?pkm=${item['pokemon_id']}${gender_param}${form_param}${costume_param}${weather_param}`
+    let genderParam = item['gender'] ? `&gender=${item['gender']}` : ''
+    let formParam = item['form'] ? `&form=${item['form']}` : ''
+    let costumeParam = item['costume'] ? `&costume=${item['costume']}` : ''
+    let weatherParam = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
+    let iconUrl = `pkm_img?pkm=${item['pokemon_id']}${genderParam}${formParam}${costumeParam}${weatherParam}`
 
     return {
-        iconUrl: icon_url,
+        iconUrl: iconUrl,
         iconSize: scaledIconSize,
         iconAnchor: scaledIconCenterOffset
     }
@@ -460,7 +458,7 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn
 
     if (scaleByRarity) {
         const rarityValues = {
-'rare': 20,
+            'new spawn': 40,
             'very rare': 30,
             'ultra rare': 40,
             'legendary': 50
@@ -483,42 +481,13 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn
     return markerDetails
 }
 
-
-function getPokemonIcon(item, sprite, displayHeight) {
-    displayHeight = Math.max(displayHeight, 3)
-    var scale = displayHeight / sprite.iconHeight
-    var scaledIconSize = [scale * sprite.iconWidth, scale * sprite.iconHeigt]
-    var scaledIconOffset = [0, 0]
-    var scaledIconCenterOffset = [scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2]
-
-    let gender_param = item['gender'] ? `&gender=${item['gender']}` : ''
-    let form_param = item['form'] ? `&form=${item['form']}` : ''
-    let costume_param = item['costume'] ? `&costume=${item['costume']}` : ''
-    let weather_param = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
-    let icon_url = `pkm_img?pkm=${item['pokemon_id']}${gender_param}${form_param}${costume_param}${weather_param}`
-
-    return {
-        iconUrl: icon_url,
-        iconSize: scaledIconSize,
-        iconAnchor: scaledIconCenterOffset
-    }
-}
-
-
 function updatePokemonMarker(item, map, scaleByRarity = true, isNotifyPkmn = false) {
     // Scale icon size up with the map exponentially, also size with rarity.
     const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
     const icon = L.icon(markerDetails.icon)
     const marker = item.marker
-    if (marker.isBouncing()) {
-        var _startbounce = true
-        marker.stopBouncing()
-    }
+
     marker.setIcon(icon)
-    if (_startbounce) {
-        _startbounce = false
-        // marker.bounce()
-    }
 }
 
 function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true, isNotifyPkmn = false) {
