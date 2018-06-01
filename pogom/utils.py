@@ -1187,7 +1187,8 @@ def get_pos_by_name(location_name):
         return None
 
     log.info("Location for '%s' found: %s", location_name, loc.address)
-    log.info('Coordinates (lat/long/alt) for location: %s %s %s', loc.latitude, loc.longitude, loc.altitude)
+    log.info('Coordinates (lat/long/alt) for location: %s %s %s', loc.latitude,
+             loc.longitude, loc.altitude)
 
     return (loc.latitude, loc.longitude, loc.altitude)
 

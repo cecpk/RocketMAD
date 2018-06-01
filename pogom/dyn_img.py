@@ -336,7 +336,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
 
 def draw_gym_subject(image, size, gravity='north', trim=False):
     trim_cmd = ' -fuzz 0.5% -trim +repage' if trim else ''
-    lines = [ 
+    lines = [
         '-gravity {} ( "{}"{} -scale {}x{} -unsharp 0x1 ( +clone '.format(
             gravity, image, trim_cmd, size, size),
         '-background black -shadow 80x3+5+5 ) +swap -background ' +

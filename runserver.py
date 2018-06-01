@@ -20,12 +20,10 @@ from flask_cache_bust import init_cache_busting
 
 from colorlog import ColoredFormatter
 
-from pogom.utils import (get_pos_by_name)
-
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
                          log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher)
+                         dynamic_rarity_refresher, get_pos_by_name)
 from pogom.altitude import get_gmaps_altitude
 
 from pogom.models import (init_database, create_tables, drop_tables,
@@ -91,7 +89,7 @@ log.addHandler(stderr_hdlr)
 # Assert pgoapi is installed.
 try:
     import pgoapi
-    from pgoapi import PGoApi, utilities as util
+    from pgoapi import PGoApi
 except ImportError:
     log.critical(
         "It seems `pgoapi` is not installed. Try running " +
