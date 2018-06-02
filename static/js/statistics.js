@@ -1,9 +1,9 @@
-/*global getPokemonRawIconUrl*/
+/*global getPokemonRawIconUrl, L*/
 /* Main stats page */
 var rawDataIsLoading = false
 var mapstat
 var markers
-var L
+
 function loadRawData() {
     return $.ajax({
         url: 'raw_data',
@@ -259,7 +259,6 @@ function addListeners(marker) { // eslint-disable-line no-unused-vars
 }
 // Override map.js initMap
 function initStat() {
-
     mapstat = L.map('location_map', {
         center: [centerLat, centerLng],
         zoom: 16,
@@ -392,7 +391,7 @@ function updateDetails() {
 }
 
 function addHeadmap(headmapdata) {
-    heatmap = new L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
+    heatmap = NEW L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
     return false
 }
 

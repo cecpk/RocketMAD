@@ -268,7 +268,7 @@ function initMap() { // eslint-disable-line no-unused-vars
 
         map.addControl(search)
 
-        map.on('geosearch/showlocation', function(e) {
+        map.on('geosearch/showlocation', function (e) {
             changeLocation(e.location.y, e.location.x)
         })
     }
@@ -1284,7 +1284,6 @@ function customizePokemonMarker(marker, item, skipNotification) {
 }
 
 function setupGymMarker(item) {
-
     var marker = L.marker([item['latitude'], item['longitude']])
     markers.addLayer(marker)
     updateGymMarker(item, marker)
@@ -1377,7 +1376,6 @@ function getColorByDate(value) {
 }
 
 function setupScannedMarker(item) {
-
     var rangeCircleOpts = {
         clickable: false,
         center: [item['latitude'], item['longitude']],
@@ -1426,9 +1424,9 @@ var colourConversion = (function () {
             console.log('{colourConverion.hsvToHex} illegal input')
             return '#000000'
         }
-    let rgbArray = hsvToRgb(hue, sat, val)
-    return rgbArrayToHexString(rgbArray)
-}
+        let rgbArray = hsvToRgb(hue, sat, val)
+        return rgbArrayToHexString(rgbArray)
+    }
 
 function rgbArrayToHexString(rgbArray) {
     let hexString = '#'
@@ -1447,38 +1445,38 @@ function rgbArrayToHexString(rgbArray) {
 }
 
     function mod(n, m) {
-    return ((n % m) + m) % m
+        return ((n % m) + m) % m
 }
 
     function hsvToRgb(hue, sat, val) {
-    let hder = Math.floor(hue / 60)
-    let f = hue / 60 - hder
-    let p = val * (1 - sat)
-    let q = val * (1 - sat * f)
-    let t = val * (1 - sat * (1 - f))
-    var rgb
-    if (sat === 0) {
-        rgb = [val, val, val]
-    } else if (hder === 0 || hder === 6) {
-        rgb = [val, t, p]
-    } else if (hder === 1) {
-        rgb = [q, val, p]
-    } else if (hder === 2) {
-        rgb = [p, val, t]
-    } else if (hder === 3) {
-        rgb = [p, q, val]
-    } else if (hder === 4) {
-        rgb = [t, p, val]
-    } else if (hder === 5) {
-        rgb = [val, p, q]
-    } else {
-        console.log('Failed converting HSV to RGB')
+        let hder = Math.floor(hue / 60)
+        let f = hue / 60 - hder
+        let p = val * (1 - sat)
+        let q = val * (1 - sat * f)
+        let t = val * (1 - sat * (1 - f))
+        var rgb
+        if (sat === 0) {
+            rgb = [val, val, val]
+        } else if (hder === 0 || hder === 6) {
+            rgb = [val, t, p]
+        } else if (hder === 1) {
+            rgb = [q, val, p]
+        } else if (hder === 2) {
+            rgb = [p, val, t]
+        } else if (hder === 3) {
+            rgb = [p, q, val]
+        } else if (hder === 4) {
+            rgb = [t, p, val]
+        } else if (hder === 5) {
+            rgb = [val, p, q]
+        } else {
+            console.log('Failed converting HSV to RGB')
+        }
+        for (var i = 0; i < rgb.length; i++) {
+            rgb[i] = Math.round(rgb[i] * 255)
+        }
+        return rgb
     }
-    for (var i = 0; i < rgb.length; i++) {
-        rgb[i] = Math.round(rgb[i] * 255)
-    }
-    return rgb
-}
     return self
 })()
 
@@ -1572,7 +1570,7 @@ function addListeners(marker) {
         })
     }
 
-    marker.on('mouseout', function() {
+    marker.on('mouseout', function () {
         if (!marker.persist) {
             marker.closePopup()
         }
@@ -1654,7 +1652,7 @@ function showInBoundsMarkers(markersInput, type) {
             } else if (type === 's2cell') {
                 if (map.getBounds().intersects(getS2CellBounds(item))) {
                     show = true
-                 }
+                }
             }
         }
         // Marker has an associated range.
@@ -1676,7 +1674,6 @@ function showInBoundsMarkers(markersInput, type) {
                 }
             }
         }
-
     })
 }
 
@@ -1810,18 +1807,18 @@ function processPokemonChunked(pokemon, chunkSize) {
         const oldMarker = _markers[1]
         const isNotifyPkmn = isNotifyPoke(poke)
 
-            if (newMarker) {
-                if (isNotifyPkmn) {
-                    markersnotify.addLayer(newMarker)
-                } else {
-                    markers.addLayer(newMarker)
-                }
+        if (newMarker) {
+            if (isNotifyPkmn) {
+                markersnotify.addLayer(newMarker)
+            } else {
+                markers.addLayer(newMarker)
             }
+        }
 
-            if (oldMarker) {
-                markers.removeLayer(oldMarker)
-                markersnotify.removeLayer(oldMarker)
-            }
+        if (oldMarker) {
+            markers.removeLayer(oldMarker)
+            markersnotify.removeLayer(oldMarker)
+        }
     })
 
     if (pokemon.length > 0) {
@@ -1847,7 +1844,6 @@ function processPokemon(item) {
     var newMarker = null
     if ((!(item['encounter_id'] in mapData.pokemons) &&
          !isPokeExcluded && !isRarityExcluded && isPokeAlive) || (!(item['encounter_id'] in mapData.pokemons) && isNotifyPkmn && prionotifyactiv)) {
-    
     // Add marker to map and item to dict.
         const isNotifyPkmn = isNotifyPoke(item)
         if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
@@ -2042,10 +2038,9 @@ function updateScanned() {
 
     $.each(mapData.scanned, function (key, value) {
         if (map.getBounds().contains(value.marker.getLatLng())) {
-                var color = getColorByDate(value['last_modified'])
-                value.marker.setStyle({color: color, fillColor: color})
+            var color = getColorByDate(value['last_modified'])
+            value.marker.setStyle({color: color, fillColor: color})
         }
-
     })
 }
 
@@ -2070,14 +2065,12 @@ function updateSpawnPoints() {
         return false
     }
 
-        $.each(mapData.spawnpoints, function (key, value) {
-            if (map.getBounds().contains(value.marker.getLatLng())) {
-                var hue = getColorBySpawnTime(value['appear_time'])
-                value.marker.setStyle({color: hue, fillColor: hue})
-             }
-        })
-
-
+    $.each(mapData.spawnpoints, function (key, value) {
+        if (map.getBounds().contains(value.marker.getLatLng())) {
+            var hue = getColorBySpawnTime(value['appear_time'])
+            value.marker.setStyle({color: hue, fillColor: hue})
+        }
+    })
 }
 
 function updateMap() {
@@ -2231,7 +2224,6 @@ function sendToastrPokemonNotification(title, text, icon, lat, lon) {
 }
 
 function createMyLocationButton() {
-
     var _locationMarker = L.control({position: 'bottomright'})
     var locationContainer
 
@@ -2289,8 +2281,7 @@ function centerMapOnLocation() {
     }, 500)
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-
-           var latlng = new L.LatLng (position.coords.latitude, position.coords.longitude)
+            var latlng = new L.LatLng(position.coords.latitude, position.coords.longitude)
             if (locationMarker) {
                 locationMarker.setLatLng(latlng)
             }
