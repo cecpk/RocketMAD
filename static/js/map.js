@@ -238,15 +238,14 @@ function initMap() { // eslint-disable-line no-unused-vars
     })
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    }).addTo(map)
 
     markers = L.markerClusterGroup({
         disableClusteringAtZoom: Store.get('maxClusterZoomLevel'),
         spiderfyOnMaxZoom: false,
         zoomToBoundsOnClick: Store.get('clusterZoomOnClick'),
         showCoverageOnHover: false,
-        removeOutsideVisibleBounds:true,
-        maxClusterRadius: Store.get('clusterGridSize'),
+        maxClusterRadius: Store.get('clusterGridSize')
     })
 
     L.control.zoom({
@@ -260,7 +259,7 @@ function initMap() { // eslint-disable-line no-unused-vars
 
         var GeoSearchControl = window.GeoSearch.GeoSearchControl
         var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
-        var provider = new OpenStreetMapProvider();
+        var provider = new OpenStreetMapProvider()
 
         const search = new GeoSearchControl({
             provider: provider,
@@ -268,13 +267,13 @@ function initMap() { // eslint-disable-line no-unused-vars
             autoClose: true,
             keepResult: false,
             showMarker: false
-        });
+        })
 
         map.addControl(search)
 
 
-        map.on('geosearch/showlocation', function(e)  {
-                changeLocation(e.location.y, e.location.x)
+        map.on('geosearch/showlocation', function(e) {
+            changeLocation(e.location.y, e.location.x)
         })
     }
 
@@ -340,7 +339,7 @@ function updateLocationMarker(style) {
     if (style in searchMarkerStyles) {
         var url = searchMarkerStyles[style].icon
         if (url) {
-            var locationIcon = L.icon ({
+            var locationIcon = L.icon({
                 iconUrl: url,
                 iconSize: [24, 24]
             })
@@ -400,7 +399,7 @@ function updateSearchMarker(style) {
 
 function createSearchMarker() {
     const isSearchMarkerMovable = Store.get('isSearchMarkerMovable')
-    var searchMarker = L.marker([centerLat, centerLng], {draggable: !Store.get('lockMarker') && isSearchMarkerMovable}).addTo(markersnotify).bindPopup('<div><b>Search Location</b></div>');
+    var searchMarker = L.marker([centerLat, centerLng], {draggable: !Store.get('lockMarker') && isSearchMarkerMovable}).addTo(markersnotify).bindPopup('<div><b>Search Location</b></div>')
     addListeners(searchMarker)
     var oldLocation = null
     searchMarker.on('dragstart', function () {
@@ -1023,7 +1022,7 @@ function addRangeCircle(marker, map, type, teamId) {
     var markerPos = marker.getLatLng()
     var lat = markerPos.lat
     var lng = markerPos.lng
-    var circleCenter = L.latLng(lat, lng);
+    var circleCenter = L.latLng(lat, lng)
     var gymColors = ['#999999', '#0051CF', '#FF260E', '#FECC23'] // 'Uncontested', 'Mystic', 'Valor', 'Instinct']
     var teamColor = gymColors[0]
     if (teamId) teamColor = gymColors[teamId]
@@ -1260,11 +1259,11 @@ function getNotifyPerfectionPokemons(pokemonList) {
 function customizePokemonMarker(marker, item, skipNotification) {
     var notifyText = getNotifyText(item)
     marker.setBouncingOptions({
-        bounceHeight : 20,   // height of the bouncing
-        bounceSpeed  : 80,   // bouncing speed coefficient
+        bounceHeight: 20,   // height of the bouncing
+        bounceSpeed: 80,   // bouncing speed coefficient
         elastic: false,
-        shadowAngle: null,
-    });
+        shadowAngle: null
+    })
     marker.on('mouseover', function () {
         this.stopBouncing()
         this.animationDisabled = true
@@ -1299,7 +1298,7 @@ function setupGymMarker(item) {
 
 
     if (Store.get('useGymSidebar')) {
-        marker.on('click', function() {
+        marker.on('click', function () {
             var gymSidebar = document.querySelector('#gym-details')
             if (gymSidebar.getAttribute('data-id') === item['gym_id'] && gymSidebar.classList.contains('visible')) {
                 gymSidebar.classList.remove('visible')
@@ -1310,18 +1309,18 @@ function setupGymMarker(item) {
         })
     } else {
         if (!isMobileDevice() && !isTouchDevice()) {
-            marker.on('mouseover', function() {
+            marker.on('mouseover', function () {
                 marker.openPopup()
                 clearSelection()
                 updateLabelDiffTime()
             })
         }
 
-       marker.on('mouseout', function() {
-                marker.closePopup()
-                clearSelection()
-                updateLabelDiffTime()
-            })
+        marker.on('mouseout', function () {
+            marker.closePopup()
+            clearSelection()
+            updateLabelDiffTime()
+        })
 
 
     }
@@ -1346,9 +1345,9 @@ function updateGymMarker(item, marker) {
     if (item['is_in_battle']) {
         markerImage += '&in_battle=1'
     }
-    var GymIcon = new L.Icon ({
-            iconUrl: markerImage,
-            iconSize: [48, 48]
+    var GymIcon = new L.Icon({
+        iconUrl: markerImage,
+        iconSize: [48, 48]
     })
     marker.setIcon(GymIcon)
     marker.setZIndexOffset = zIndexOffset
@@ -1364,7 +1363,7 @@ function setupPokestopMarker(item) {
     })
 
     var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 5}).bindPopup(pokestopLabel(item['lure_expiration'], item['latitude'], item['longitude']))
-    markers.addLayer(marker);
+    markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
         marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')
     }
@@ -1398,107 +1397,94 @@ function setupScannedMarker(item) {
         strokeOpacity: 0.5
     }
 
-    var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts);
+    var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts)
     markersnotify.addLayer(circle)
     return circle
 }
 
 function getColorBySpawnTime(value) {
-  var now = new Date()
-  var seconds = now.getMinutes() * 60 + now.getSeconds()
+    var now = new Date()
+    var seconds = now.getMinutes() * 60 + now.getSeconds()
 
-  // account for hour roll-over
-  if (seconds < 900 && value > 2700) {
-    seconds += 3600
-  } else if (seconds > 2700 && value < 900) {
-    value += 3600
-  }
+    // account for hour roll-over
+    if (seconds < 900 && value > 2700) {
+        seconds += 3600
+    } else if (seconds > 2700 && value < 900) {
+        value += 3600
+    }
 
-  var diff = (seconds - value)
-  //hue, 100% saturation, 50% lightness
-  var hue = 275 // light purple when spawn is neither about to spawn nor active
-  if (diff >= 0 && diff <= 1800) { // green to red over 30 minutes of active spawn
-    hue = (1 - (diff / 60 / 30)) * 120
-  } else if (diff < 0 && diff > -300) { // light blue to dark blue over 5 minutes til spawn
-    hue = ((1 - (-diff / 60 / 5)) * 50) + 200
-  }
+    var diff = (seconds - value)
+    // hue, 100% saturation, 50% lightness
+    var hue = 275 // light purple when spawn is neither about to spawn nor active
+    if (diff >= 0 && diff <= 1800) { // green to red over 30 minutes of active spawn
+        hue = (1 - (diff / 60 / 30)) * 120
+    } else if (diff < 0 && diff > -300) { // light blue to dark blue over 5 minutes til spawn
+        hue = ((1 - (-diff / 60 / 5)) * 50) + 200
+    }
 
-  hue = Math.round(hue / 5) * 5
+    hue = Math.round(hue / 5) * 5
 
-  return colourConversion.hsvToHex(hue, 1.0, 1.0)
+    return colourConversion.hsvToHex(hue, 1.0, 1.0)
 }
 
-var colourConversion = (function() {
-  var self = {};
+var colourConversion = (function () {
+    var self = {}
 
-  self.hsvToHex = function(hue, sat, val)
-  {
-    if (hue > 360 || hue < 0 || sat > 1 || sat < 0 || val > 1 || val < 0)
-    {
-      console.log("{colourConverion.hsvToHex} illegal input")
-      return "#000000"
-    }
+    self.hsvToHex = function (hue, sat, val) {
+        if (hue > 360 || hue < 0 || sat > 1 || sat < 0 || val > 1 || val < 0) {
+            console.log("{colourConverion.hsvToHex} illegal input")
+            return "#000000"
+        }
     let rgbArray = hsvToRgb(hue, sat, val)
     return rgbArrayToHexString(rgbArray)
-  }
+}
 
-  function rgbArrayToHexString(rgbArray)
-  {
+function rgbArrayToHexString(rgbArray) {
     let hexString = "#";
-    for (var i = 0; i < rgbArray.length; i++)
-    {
-      let hexOfNumber = rgbArray[i].toString(16)
-      if (hexOfNumber.length == 1)
-      {
-        hexOfNumber = "0" + hexOfNumber
-      }
-      hexString += hexOfNumber
+    for (var i = 0; i < rgbArray.length; i++) {
+        let hexOfNumber = rgbArray[i].toString(16)
+        if (hexOfNumber.length == 1) {
+            hexOfNumber = "0" + hexOfNumber
+        }
+        hexString += hexOfNumber
     }
 
-    if (hexString.length != 7)
-    {
-      console.log("Hexstring not complete for colours...")
+    if (hexString.length != 7) {
+        console.log("Hexstring not complete for colours...")
     }
     return hexString
-  }
+    }
 
-  function mod(n, m) {
+function mod(n, m) {
     return ((n % m) + m) % m;
-  }
+}
 
-  /*
-    hue, saturation, value to RGB
-    takes H element of [0, 360], S and V element of [0, 1]
-    returns array [r, g, b] with elements of [0, 255] each
-    https://de.wikipedia.org/wiki/HSV-Farbraum#Umrechnung_HSV_in_RGB
-  */
-  function hsvToRgb(hue, sat, val) {
+function hsvToRgb(hue, sat, val) {
     let hder = Math.floor(hue / 60)
     let f = hue / 60 - hder
     let p = val * (1 - sat)
     let q = val * (1 - sat * f)
     let t = val * (1 - sat * (1 - f))
     var rgb
-    if (sat == 0) {
-      rgb = [val, val, val]
-    } else if (hder == 0 || hder == 6) {
-      rgb = [val, t, p]
-    } else if (hder == 1) {
-      rgb = [q, val, p]
-    } else if (hder == 2) {
-      rgb = [p, val, t]
-    } else if (hder == 3) {
-      rgb = [p, q, val]
-    } else if (hder == 4) {
-      rgb = [t, p, val]
-    } else if (hder == 5) {
-      rgb = [val, p, q]
+    if (sat === 0) {
+        rgb = [val, val, val]
+    } else if (hder === 0 || hder === 6) {
+        rgb = [val, t, p]
+    } else if (hder === 1) {
+        rgb = [q, val, p]
+    } else if (hder === 2) {
+        rgb = [p, val, t]
+    } else if (hder === 3) {
+        rgb = [p, q, val]
+    } else if (hder === 4) {
+        rgb = [t, p, val]
+    } else if (hder === 5) {
+        rgb = [val, p, q]
     } else {
-      console.log("Failed converting HSV to RGB")
+        console.log("Failed converting HSV to RGB")
     }
-    for(var i = 0; i < rgb.length; i++)
-    {
-      rgb[i] = Math.round(rgb[i] * 255)
+    for (var i = 0; i < rgb.length; i++) {
+        rgb[i] = Math.round(rgb[i] * 255)
     }
     return rgb
   }
@@ -1547,21 +1533,21 @@ function rgbToHex(r, g, b) {
 }
 
 function setupSpawnpointMarker(item) {
-        var hue = getColorBySpawnTime(item.appear_time)
-        var rangeCircleOpts = {
-            radius: 4, // meters
-            weight: 1,
-            color: hue,
-            opacity: 1,
-            center: [item['latitude'], item['longitude']],
-            fillColor: hue,
-            fillOpacity: 1
-        }
+    var hue = getColorBySpawnTime(item.appear_time)
+    var rangeCircleOpts = {
+        radius: 4, // meters
+        weight: 1,
+        color: hue,
+        opacity: 1,
+        center: [item['latitude'], item['longitude']],
+        fillColor: hue,
+        fillOpacity: 1
+    }
 
-        var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts).bindPopup(spawnpointLabel(item));
-        addListeners(circle)
-        markersnotify.addLayer(circle)
-        return circle
+    var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts).bindPopup(spawnpointLabel(item))
+    addListeners(circle)
+    markersnotify.addLayer(circle)
+    return circle
 }
 
 function clearSelection() {
@@ -1663,9 +1649,9 @@ function clearStaleMarkers() {
     })
 }
 
-function showInBoundsMarkers(markers_input, type) {
-    $.each(markers_input, function (key, value) {
-        const item = markers_input[key]
+function showInBoundsMarkers(markersInput, type) {
+    $.each(markersInput, function (key, value) {
+        const item = markersInput[key]
         const marker = item.marker
         var show = false
 
@@ -2125,7 +2111,7 @@ function updateMap() {
         clearStaleMarkers()
 
         // We're done processing. Redraw.
-        markers.refreshClusters();
+        markers.refreshClusters()
 
         updateScanned()
         updateSpawnPoints()
@@ -2192,7 +2178,6 @@ function getPointDistance(latlng1, latlng2) {
     var point1 = new OpenLayers.Geometry.Point(latlng1.lon, latlng1.lat)
     var point2 = new OpenLayers.Geometry.Point(latlng2.lon, latlng2.lat)
     return point1.distanceTo(point2)
-
 }
 
 function sendNotification(title, text, icon, lat, lon) {
@@ -2259,7 +2244,7 @@ function createMyLocationButton() {
     var locationContainer
 
     _locationMarker.onAdd = function (map) {
-        locationContainer = L.DomUtil.create('div','_locationMarker');
+        locationContainer = L.DomUtil.create('div', '_locationMarker')
 
         var locationButton = document.createElement('button')
         locationButton.style.backgroundColor = '#fff'
@@ -2290,7 +2275,7 @@ function createMyLocationButton() {
         return locationContainer
     }
 
-    _locationMarker.addTo(map);
+    _locationMarker.addTo(map)
     locationContainer.index = 1
 
     map.on('dragend', function () {
@@ -2346,7 +2331,7 @@ function changeSearchLocation(lat, lng) {
 }
 
 function centerMap(lat, lng, zoom) {
-    var loc =  new L.LatLng(lat, lng)
+    var loc = new L.LatLng(lat, lng)
 
     map.panTo(loc)
 

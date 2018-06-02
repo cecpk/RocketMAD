@@ -3,7 +3,7 @@
 var rawDataIsLoading = false
 var mapstat
 var markers
-
+var L
 function loadRawData() {
     return $.ajax({
         url: 'raw_data',
@@ -143,7 +143,7 @@ var pokemonid = 0
 var mapLoaded = false
 var detailsPersist = false
 var map = null
-var Heatmap = null
+var heatmap = null
 var heatmapPoints = []
 var msPerMinute = 60000
 var spawnTimeMinutes = 15
@@ -270,7 +270,7 @@ function initStat() {
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(mapstat);
+    }).addTo(mapstat)
 
     markers = L.layerGroup().addTo(mapstat)
     mapLoaded = true
@@ -302,7 +302,7 @@ function showOverlay(id) {
     location.hash = 'overlay_' + pokemonid
     updateDetails()
 
-    setTimeout( function() { mapstat.invalidateSize() }, 400)
+    setTimeout( function () { mapstat.invalidateSize() }, 400)
 
     return false
 }
@@ -385,8 +385,7 @@ function updateDetails() {
         if (heatmap) {
             // heatmap.setMap(null)
         }
-        setTimeout( function() { addHeadmap(heatmapPoints) }, 1000)
-
+        setTimeout(function () {addHeadmap(heatmapPoints)}, 1000)
     }).fail(function () {
         // Wait for next retry.
         setTimeout(updateDetails, 1000)
@@ -394,7 +393,7 @@ function updateDetails() {
 }
 
 function addHeadmap(headmapdata) {
-    Heatmap = new L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
+    heatmap = new L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
     return false
 }
 

@@ -8,6 +8,9 @@
  * @param item weather cell data
  * @returns {boolean}
  */
+var L
+var markersnotify
+
 function processWeather(i, item) {
     if (!Store.get('showWeatherCells') || item.gameplay_weather == null) {
         return false
@@ -149,7 +152,7 @@ function getWeatherImageUrl(item, dark = true) {
 function setupWeatherMarker(item) {
     var imageUrl = getWeatherImageUrl(item)
 
-    var image = new L.Icon ({
+    var image = new L.Icon({
         iconUrl: imageUrl,
         iconAnchor: [32, 32],
         iconSize: [32, 32]
