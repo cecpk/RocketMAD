@@ -143,7 +143,7 @@ var pokemonid = 0
 var mapLoaded = false
 var detailsPersist = false
 var map = null
-var heatmap = null
+var Heatmap = null
 var heatmapPoints = []
 var msPerMinute = 60000
 var spawnTimeMinutes = 15
@@ -261,18 +261,19 @@ function addListeners(marker) { // eslint-disable-line no-unused-vars
 // Override map.js initMap
 function initStat() {
 
-mapstat = L.map('location_map', {
-     center: [centerLat, centerLng],
-     zoom: 16,
-     zoomControl: true,
-     maxZoom: 18
- })
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
- }).addTo(mapstat);
+    mapstat = L.map('location_map', {
+        center: [centerLat, centerLng],
+        zoom: 16,
+        zoomControl: true,
+        maxZoom: 18
+    })
 
-markers = L.layerGroup().addTo(mapstat)
-mapLoaded = true
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(mapstat);
+
+    markers = L.layerGroup().addTo(mapstat)
+    mapLoaded = true
     mapstat.on('zoom', function () {
         redrawAppearances(mapData.appearances)
     })
@@ -298,9 +299,10 @@ function showOverlay(id) {
     resetMap()
     pokemonid = id
     $('#location_details').show()
+    location.hash = 'overlay_' + pokemonid
     updateDetails()
 
-    setTimeout(function(){ mapstat.invalidateSize()}, 400);
+    setTimeout( function() { mapstat.invalidateSize() }, 400)
 
     return false
 }
@@ -328,7 +330,7 @@ function processAppearance(i, item) {
         item['marker'].spawnpointId = spawnpointId
         mapData.appearances[spawnpointId] = item
     }
-    heatmapPoints.push([item['latitude'] , item['longitude'] , parseFloat(item['count'])])
+    heatmapPoints.push([item['latitude'], item['longitude'], parseFloat(item['count'])])
 }
 
 function redrawAppearances(appearances) {
@@ -383,7 +385,7 @@ function updateDetails() {
         if (heatmap) {
             // heatmap.setMap(null)
         }
-        setTimeout(function(){ addHeadmap(heatmapPoints)}, 1000);
+        setTimeout( function() { addHeadmap(heatmapPoints) }, 1000)
 
     }).fail(function () {
         // Wait for next retry.
@@ -392,7 +394,10 @@ function updateDetails() {
 }
 
 function addHeadmap(headmapdata) {
-
-    heatmap = new L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
+    Heatmap = new L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
     return false
+}
+
+if (location.href.match(/overlay_[0-9]+/g)) {
+    showOverlay(location.href.replace(/^.*overlay_([0-9]+).*$/, '$1'))
 }
