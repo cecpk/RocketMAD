@@ -71,6 +71,7 @@ var oNeLng
 
 var L
 var map
+var marker
 var markers
 var markersnotify
 
@@ -1428,25 +1429,24 @@ var colourConversion = (function () {
         return rgbArrayToHexString(rgbArray)
     }
 
-function rgbArrayToHexString(rgbArray) {
-    let hexString = '#'
-    for (var i = 0; i < rgbArray.length; i++) {
-        let hexOfNumber = rgbArray[i].toString(16)
-        if (hexOfNumber.length === 1) {
-            hexOfNumber = '0' + hexOfNumber
+    function rgbArrayToHexString(rgbArray) {
+        let hexString = '#'
+        for (var i = 0; i < rgbArray.length; i++) {
+            let hexOfNumber = rgbArray[i].toString(16)
+            if (hexOfNumber.length === 1) {
+                hexOfNumber = '0' + hexOfNumber
+            }
+            hexString += hexOfNumber
         }
-        hexString += hexOfNumber
+        if (hexString.length !== 7) {
+            console.log('Hexstring not complete for colours...')
+        }
+        return hexString
     }
-
-    if (hexString.length !== 7) {
-        console.log('Hexstring not complete for colours...')
-    }
-    return hexString
-}
 
     function mod(n, m) {
         return ((n % m) + m) % m
-}
+    }
 
     function hsvToRgb(hue, sat, val) {
         let hder = Math.floor(hue / 60)

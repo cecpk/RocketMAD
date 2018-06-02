@@ -1,4 +1,4 @@
-/*global i8ln, L, marker, markersnotify*/
+/*global i8ln, L, markers, markersnotify*/
 /* eslint no-unused-vars: "off" */
 function pokemonSprites(pokemonID) {
     var sprite = {
