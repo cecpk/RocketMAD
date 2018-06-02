@@ -257,7 +257,6 @@ function addListeners(marker) { // eslint-disable-line no-unused-vars
 
     return marker
 }
-
 // Override map.js initMap
 function initStat() {
 
@@ -302,7 +301,7 @@ function showOverlay(id) {
     location.hash = 'overlay_' + pokemonid
     updateDetails()
 
-    setTimeout( function () { mapstat.invalidateSize() }, 400)
+    setTimeout(function () { mapstat.invalidateSize() }, 400)
 
     return false
 }
@@ -385,7 +384,7 @@ function updateDetails() {
         if (heatmap) {
             // heatmap.setMap(null)
         }
-        setTimeout(function () {addHeadmap(heatmapPoints)}, 1000)
+        setTimeout(function () { addHeadmap(heatmapPoints) }, 1000)
     }).fail(function () {
         // Wait for next retry.
         setTimeout(updateDetails, 1000)

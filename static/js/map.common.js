@@ -1,5 +1,9 @@
 /*global i8ln*/
 /* eslint no-unused-vars: "off" */
+var L
+var markers
+var markersnotify
+
 function pokemonSprites(pokemonID) {
     var sprite = {
         columns: 28,
@@ -494,9 +498,9 @@ function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true, i
     const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
     const icon = L.icon(markerDetails.icon)
     if (!isNotifyPkmn) {
-        var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 100 + markerDetails.rarityValue}).addTo(markers)
+        marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 100 + markerDetails.rarityValue}).addTo(markers)
     } else {
-        var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 1000 + markerDetails.rarityValue}).addTo(markersnotify)
+        marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 1000 + markerDetails.rarityValue}).addTo(markersnotify)
     }
     return marker
 }

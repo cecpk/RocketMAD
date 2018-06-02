@@ -359,7 +359,7 @@ function createLocationMarker() {
     var lat = ('lat' in position) ? position.lat : centerLat
     var lng = ('lng' in position) ? position.lng : centerLng
 
-    var locationMarker = L.marker([lat, lng]).addTo(markersnotify).bindPopup('<div><b>My Location</b></div>');
+    var locationMarker = L.marker([lat, lng]).addTo(markersnotify).bindPopup('<div><b>My Location</b></div>')
     addListeners(locationMarker)
 
     locationMarker.on('dragend', function () {
@@ -1432,34 +1432,34 @@ var colourConversion = (function () {
 
     self.hsvToHex = function (hue, sat, val) {
         if (hue > 360 || hue < 0 || sat > 1 || sat < 0 || val > 1 || val < 0) {
-            console.log("{colourConverion.hsvToHex} illegal input")
-            return "#000000"
+            console.log('{colourConverion.hsvToHex} illegal input')
+            return '#000000'
         }
     let rgbArray = hsvToRgb(hue, sat, val)
     return rgbArrayToHexString(rgbArray)
 }
 
 function rgbArrayToHexString(rgbArray) {
-    let hexString = "#";
+    let hexString = '#'
     for (var i = 0; i < rgbArray.length; i++) {
         let hexOfNumber = rgbArray[i].toString(16)
-        if (hexOfNumber.length == 1) {
-            hexOfNumber = "0" + hexOfNumber
+        if (hexOfNumber.length === 1) {
+            hexOfNumber = '0' + hexOfNumber
         }
         hexString += hexOfNumber
     }
 
-    if (hexString.length != 7) {
-        console.log("Hexstring not complete for colours...")
+    if (hexString.length !== 7) {
+        console.log('Hexstring not complete for colours...')
     }
     return hexString
-    }
-
-function mod(n, m) {
-    return ((n % m) + m) % m;
 }
 
-function hsvToRgb(hue, sat, val) {
+    function mod(n, m) {
+    return ((n % m) + m) % m
+}
+
+    function hsvToRgb(hue, sat, val) {
     let hder = Math.floor(hue / 60)
     let f = hue / 60 - hder
     let p = val * (1 - sat)
@@ -1481,14 +1481,14 @@ function hsvToRgb(hue, sat, val) {
     } else if (hder === 5) {
         rgb = [val, p, q]
     } else {
-        console.log("Failed converting HSV to RGB")
+        console.log('Failed converting HSV to RGB')
     }
     for (var i = 0; i < rgb.length; i++) {
         rgb[i] = Math.round(rgb[i] * 255)
     }
     return rgb
-  }
-  return self
+}
+    return self
 })()
 
 function changeSpawnIcon(color, zoom) {
@@ -1505,7 +1505,7 @@ function changeSpawnIcon(color, zoom) {
         newSize = minimumSize
     }
 
-    var newIcon = L.icon ({
+    var newIcon = L.icon({
         iconUrl: urlColor,
         iconSize: [newSize, newSize],
         iconAnchor: [newSize / 2, newSize / 2]
@@ -1529,7 +1529,7 @@ function spawnPointIndex(color) {
 }
 
 function rgbToHex(r, g, b) {
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
 }
 
 function setupSpawnpointMarker(item) {
@@ -1559,7 +1559,7 @@ function clearSelection() {
 }
 
 function addListeners(marker) {
-   marker.on('click', function() {
+    marker.on('click', function () {
         if (!marker.infoWindowIsOpen) {
             marker.openPopup()
             clearSelection()
@@ -1574,7 +1574,7 @@ function addListeners(marker) {
     })
 
     if (!isMobileDevice() && !isTouchDevice()) {
-        marker.on('mouseover', function() {
+        marker.on('mouseover', function () {
             marker.openPopup()
             clearSelection()
             updateLabelDiffTime()
@@ -2240,7 +2240,7 @@ function sendToastrPokemonNotification(title, text, icon, lat, lon) {
 
 function createMyLocationButton() {
 
-    var _locationMarker = L.control({position: 'bottomright'});
+    var _locationMarker = L.control({position: 'bottomright'})
     var locationContainer
 
     _locationMarker.onAdd = function (map) {
