@@ -71,7 +71,6 @@ var oNeLng
 
 var L
 var map
-var marker
 var markers
 var markersnotify
 
