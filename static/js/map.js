@@ -73,6 +73,7 @@ var L
 var map
 var markers
 var markersnotify
+var _oldlayer = 'stylemapnik'
 
 var lastpokestops
 var lastgyms
@@ -80,7 +81,7 @@ var lastpokemon
 var lastslocs
 var lastspawns
 
-var selectedStyle = 'light'
+var selectedStyle = 'stylemapnik'
 
 var updateWorker
 var lastUpdateTime
@@ -325,6 +326,18 @@ function initMap() { // eslint-disable-line no-unused-vars
     if (Push._agents.chrome.isSupported()) {
         createServiceWorkerReceiver()
     }
+}
+
+var stylemapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
+var styleblackandwhite = L.tileLayer('https://korona.geog.uni-heidelberg.de/tiles/roadsg/x={x}&y={y}&z={z}', {attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
+var styletopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
+var stylesatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'})
+var stylewikipedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'})
+
+function setTitleLayer(layername) {
+    map.removeLayer(window[_oldlayer])
+    map.addLayer(window[layername])
+    _oldlayer = layername
 }
 
 function updateLocationMarker(style) {
@@ -2652,7 +2665,8 @@ $(function () {
         // setup the list change behavior
         $selectStyle.on('change', function (e) {
             selectedStyle = $selectStyle.val()
-            // map.setMapTypeId(selectedStyle)
+            console.log(selectedStyle)
+setTitleLayer(selectedStyle)
             Store.set('map_style', selectedStyle)
         })
 

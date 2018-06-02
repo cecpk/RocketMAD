@@ -63,7 +63,7 @@ var StoreTypes = {
 // set the default parameters for you map here
 var StoreOptions = {
     'map_style': {
-        default: 'roadmap', // roadmap, satellite, hybrid, nolabels_style, dark_style, style_light2, style_pgo, dark_style_nl, style_pgo_day, style_pgo_night, style_pgo_dynamic
+        default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikipedia
         type: StoreTypes.String
     },
     'remember_select_exclude': {
@@ -458,10 +458,10 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn
 
     if (scaleByRarity) {
         const rarityValues = {
-            'new spawn': 40,
-            'very rare': 30,
-            'ultra rare': 40,
-            'legendary': 50
+            'new spawn': 20,
+            'very rare': 20,
+            'ultra rare': 25,
+            'legendary': 30
         }
 
         const pokemonRarity = getPokemonRarity(item['pokemon_id']).toLowerCase()

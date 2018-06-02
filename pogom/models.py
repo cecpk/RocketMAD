@@ -167,7 +167,7 @@ class Pokemon(LatLongModel):
             query = (query
                      .where(((Pokemon.last_modified >
                               datetime.utcfromtimestamp(timestamp / 1000)) &
-                             (Pokemon.disappear_time < now_date)) &
+                             (Pokemon.disappear_time > now_date)) &
                             ((Pokemon.latitude >= swLat) &
                              (Pokemon.longitude >= swLng) &
                              (Pokemon.latitude <= neLat) &
