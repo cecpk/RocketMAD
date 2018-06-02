@@ -1,4 +1,3 @@
-
 /*global showAllZoomLevel cssPercentageCircle getS2CellBounds processWeather processS2Cell processWeatherAlerts updateMainCellWeather getPokemonRawIconUrl*/
 /* eslint no-unused-vars: "off" */
 //
@@ -229,7 +228,6 @@ function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
 }
 
 function initMap() { // eslint-disable-line no-unused-vars
-
     map = L.map('map', {
         center: [Number(getParameterByName('lat')) || centerLat, Number(getParameterByName('lon')) || centerLng],
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
@@ -249,14 +247,13 @@ function initMap() { // eslint-disable-line no-unused-vars
     })
 
     L.control.zoom({
-        position:'bottomright'
-    }).addTo(map);
+        position: 'bottomright'
+    }).addTo(map)
 
     map.addLayer(markers)
     markersnotify = L.layerGroup().addTo(map)
 
     if (showConfig.fixed_display) {
-
         var GeoSearchControl = window.GeoSearch.GeoSearchControl
         var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
         var provider = new OpenStreetMapProvider()
@@ -270,7 +267,6 @@ function initMap() { // eslint-disable-line no-unused-vars
         })
 
         map.addControl(search)
-
 
         map.on('geosearch/showlocation', function(e) {
             changeLocation(e.location.y, e.location.x)
@@ -384,7 +380,7 @@ function updateSearchMarker(style) {
 
         var url = searchMarkerStyles[style].icon
         if (url) {
-            var SearchIcon = L.icon ({
+            var SearchIcon = L.icon({
                 iconUrl: url,
                 iconSize: [24, 24]
             })
@@ -1296,7 +1292,6 @@ function setupGymMarker(item) {
         marker.rangeCircle = addRangeCircle(marker, map, 'gym', item['team_id'])
     }
 
-
     if (Store.get('useGymSidebar')) {
         marker.on('click', function () {
             var gymSidebar = document.querySelector('#gym-details')
@@ -1315,16 +1310,12 @@ function setupGymMarker(item) {
                 updateLabelDiffTime()
             })
         }
-
         marker.on('mouseout', function () {
             marker.closePopup()
             clearSelection()
             updateLabelDiffTime()
         })
-
-
     }
-
     return marker
 }
 
@@ -2175,6 +2166,7 @@ var updateLabelDiffTime = function () {
 }
 
 function getPointDistance(latlng1, latlng2) {
+    var OpenLayers
     var point1 = new OpenLayers.Geometry.Point(latlng1.lon, latlng1.lat)
     var point2 = new OpenLayers.Geometry.Point(latlng2.lon, latlng2.lat)
     return point1.distanceTo(point2)
