@@ -391,7 +391,7 @@ function updateDetails() {
 }
 
 function addHeadmap(headmapdata) {
-    heatmap = new L.heatLayer(headmapdata, {radius: 50}).addTo(markers)
+    heatmap = new L.HeatLayer(headmapdata, {radius: 50}).addTo(markers)
     return false
 }
 
