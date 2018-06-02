@@ -34,7 +34,7 @@ def pgscout_encounter(p, forced=False):
         r = requests.get(args.pgscout_url, params=params)
     except Exception:
         return scout_error(
-            "Exception on scout: {}".format(repr(sys.exc_info()[1])))
+            "Exception on scout")
 
     return r.json() if r.status_code == 200 else scout_error(
         "Got error {} from scout service.".format(r.status_code))
@@ -52,7 +52,7 @@ def perform_lure(p):
         r = requests.get(args.lure_url, params=params)
     except Exception:
         return scout_error(
-            "Exception on request: {}".format(repr(sys.exc_info()[1])))
+            "Exception on request")
 
     return r.json() if r.status_code == 200 else scout_error(
         "Got error {} from service.".format(r.status_code))

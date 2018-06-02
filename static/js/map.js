@@ -2665,8 +2665,7 @@ $(function () {
         // setup the list change behavior
         $selectStyle.on('change', function (e) {
             selectedStyle = $selectStyle.val()
-            console.log(selectedStyle)
-setTitleLayer(selectedStyle)
+            setTitleLayer(selectedStyle)
             Store.set('map_style', selectedStyle)
         })
 
