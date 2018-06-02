@@ -493,12 +493,13 @@ function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true, i
     // Scale icon size up with the map exponentially, also size with rarity.
     const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
     const icon = L.icon(markerDetails.icon)
+    var pokemonMarker
     if (!isNotifyPkmn) {
-        var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 100 + markerDetails.rarityValue}).addTo(markers)
+        pokemonMarker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 100 + markerDetails.rarityValue}).addTo(markers)
     } else {
-        var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 1000 + markerDetails.rarityValue}).addTo(markersnotify)
+        pokemonMarker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 1000 + markerDetails.rarityValue}).addTo(markersnotify)
     }
-    return marker
+    return pokemonMarker
 }
 
 
