@@ -339,7 +339,7 @@ class Pogom(Flask):
 
         search_display = (args.search_control and args.on_demand_timeout <= 0)
 
-        scan_display = True if (args.only_server or args.fixed_location or
+        scan_display = False if (args.only_server or args.fixed_location or
                                 args.spawnpoint_scanning) else True
 
         visibility_flags = {

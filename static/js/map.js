@@ -235,16 +235,16 @@ function initMap() { // eslint-disable-line no-unused-vars
         maxZoom: 18,
         zoomControl: false
     })
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map)
+
+    setTitleLayer(Store.get('map_style'))
 
     markers = L.markerClusterGroup({
         disableClusteringAtZoom: Store.get('maxClusterZoomLevel'),
         spiderfyOnMaxZoom: false,
         zoomToBoundsOnClick: Store.get('clusterZoomOnClick'),
         showCoverageOnHover: false,
-        maxClusterRadius: Store.get('clusterGridSize')
+        maxClusterRadius: Store.get('clusterGridSize'),
+        removeOutsideVisibleBounds: true
     })
 
     L.control.zoom({
@@ -335,7 +335,7 @@ var stylesatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/se
 var stylewikipedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'})
 
 function setTitleLayer(layername) {
-    map.removeLayer(window[_oldlayer])
+    if (map.hasLayer(window[_oldlayer])) { map.removeLayer(window[_oldlayer]) }
     map.addLayer(window[layername])
     _oldlayer = layername
 }
