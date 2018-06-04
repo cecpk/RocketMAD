@@ -54,6 +54,7 @@ html, body {
   cursor: pointer;
   margin-left: -15px;
   bottom: 1.5em;
+  z-index: 1000;
   &.disabled {
     opacity: 0.5;
   }
