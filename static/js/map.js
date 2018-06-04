@@ -354,9 +354,9 @@ function updateLocationMarker(style) {
             })
             locationMarker.setIcon(locationIcon)
         } else {
-            locationMarker.setIcon(url)
+            var locationIcon = new L.Icon.Default()
+            locationMarker.setIcon(locationIcon)
         }
-
         Store.set('locationMarkerStyle', style)
     }
     // Return value is currently unused.
@@ -2877,8 +2877,9 @@ $(function () {
         })
 
         $selectLocationIconMarker.on('change', function (e) {
-            Store.set('locationMarkerStyle', this.value)
-            updateLocationMarker(this.value)
+            var locStyle = this.value
+            Store.set('locationMarkerStyle', locStyle)
+            setTimeout(function () { updateLocationMarker(locStyle) }, 500)
         })
 
         $selectLocationIconMarker.val(Store.get('locationMarkerStyle')).trigger('change')
