@@ -15,6 +15,126 @@ $(function () {
     // Looks like 'UA-XXXXX-Y'.
     const analyticsKey = ''
 
+    // Hide Presets
+
+    const hidepresets= [
+     {
+       PokemonID: 149,
+       Name: "only Dragon",
+       Searchstring: ['Dragon'],
+       Invert: true
+     },
+     {
+       PokemonID: 230,
+       Name: "only Water",
+       Searchstring: ['Water'],
+       Invert: true
+     },
+     {
+       PokemonID: 208,
+       Name: "only Steel",
+       Searchstring: ['Steel'],
+       Invert: true
+     },
+     {
+       PokemonID: 25,
+       Name: "only Electric",
+       Searchstring: ['Electric'],
+       Invert: true
+     },
+     {
+       PokemonID: 4,
+       Name: "only Fire",
+       Searchstring: ['Fire'],
+       Invert: true
+     },
+     {
+       PokemonID: 198,
+       Name: "only Dark",
+       Searchstring: ['Dark'],
+       Invert: true
+     },
+     {
+       PokemonID: 10,
+       Name: "only Bug",
+       Searchstring: ['Bug'],
+       Invert: true
+     },
+     {
+       PokemonID: 16,
+       Name: "only Normal",
+       Searchstring: ['Normal'],
+       Invert: true
+     },
+     {
+       PokemonID: 66,
+       Name: "only Fight",
+       Searchstring: ['Fighting'],
+       Invert: true
+     },
+     {
+       PokemonID: 92,
+       Name: "only Ghost",
+       Searchstring: ['Ghost'],
+       Invert: true
+     },
+     {
+       PokemonID: 63,
+       Name: "only Psychic",
+       Searchstring: ['Psychic'],
+       Invert: true
+     },
+     {
+       PokemonID: 12,
+       Name: "only Flying",
+       Searchstring: ['Flying'],
+       Invert: true
+     },
+     {
+       PokemonID: 1,
+       Name: "only Grass",
+       Searchstring: ['Grass'],
+       Invert: true
+     },
+     {
+       PokemonID: 29,
+       Name: "only Poison",
+       Searchstring: ['Poison'],
+       Invert: true
+     },
+     {
+       PokemonID: 35,
+       Name: "only Fairy",
+       Searchstring: ['Fairy'],
+       Invert: true
+     },
+     {
+       PokemonID: 364,
+       Name: "only Ice",
+       Searchstring: ['Ice'],
+       Invert: true
+     },
+     {
+       PokemonID: 1,
+       Name: "Generation 1",
+       Searchstring: ['gen1'],
+       Invert: true
+     },
+     {
+       PokemonID: 152,
+       Name: "Generation 2",
+       Searchstring: ['gen2'],
+       Invert: true
+     },
+     {
+       PokemonID: 252,
+       Name: "Generation 3",
+       Searchstring: ['gen3'],
+       Invert: true
+     }
+    ]
+
+
     // MOTD.
     const motdEnabled = false
     const motdTitle = 'MOTD'
@@ -89,6 +209,7 @@ $(function () {
     Store.set('isSearchMarkerMovable', isSearchMarkerMovable)
     Store.set('showLocationMarker', showLocationMarker)
     Store.set('isLocationMarkerMovable', isLocationMarkerMovable)
+    Store.set('hidepresets', hidepresets)
 
     // Set rarities sprites
     Store.set('rarityCommon', rarityCommon)

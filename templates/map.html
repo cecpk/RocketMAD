@@ -54,6 +54,7 @@
         <div id="nav-accordion">
           <h3><i class="fa fa-map-marker fa-fw"></i>Marker Settings</h3>
           <div>
+
               {% if show.pokemons %}
             <div class="form-control switch-container">
               <h3>Pokémon</h3>
@@ -239,14 +240,36 @@
               </div>
             </div>
               {% if show.pokemons %}
-            <div class="form-control">
-              <label for="exclude-pokemon">
-              <h3>Hide Pokémon</h3>
-              <div style="max-height:165px;overflow-y:auto">
-                <select id="exclude-pokemon" multiple="multiple"></select>
+            <div class="form-control switch-container">
+            <div class="hidefilteractiv" style="color:black; font-weight: bold; font-size: x-small;">*** No active Filter ***</div>
+            <div id="tabs">
+             <ul>
+              <li><a href="#tabs-1">Hide Pokemon</a></li>
+              <li><a href="#tabs-2">Hide Presets</a></li>            
+             </ul>
+              <div id="tabs-1">
+               <div class="form-control">
+                <label for="exclude-pokemon">
+                 <div class=pokemon-container>
+                  <input id="exclude-pokemon" type="text" readonly="true" style="display:none;" >
+                  <div class="list"></div>
+                  <a href="#" class="select-all" style="display:none;">Hide filtered</a><a href="#" class="select-reverse" style="display:none;">Hide not filtered</a>
+                  <a href="#" class="hide-all">Show all</a>
+                 </div>
+                </label>
+               </div>
               </div>
-              </label>
-			  </div>
+              <div id="tabs-2">
+               <div class="form-control">
+                <label for="exclude-pokemon">
+                 <div class=pokemon-container>
+                   <div class="exclude_templates"></div>
+                  </div>
+                </label>
+               </div>
+              </div>
+            </div>
+            </div>
             <div class="form-control switch-container" id="exclude-rarity-wrapper">
               <h3>Exclude Rarity</h3>
               <select name="exclude-rarity" id="exclude-rarity">
@@ -387,12 +410,14 @@
           <h3><i class="fa fa-bullhorn fa-fw"></i>Notification Settings</h3>
           <div>
             <div class="form-control">
+            <h3>Notify of Pokémon</h3>
               <label for="notify-pokemon">
-                <h3>Notify of Pokémon</h3>
-                <div style="max-height:165px;overflow-y:auto">
-                  <select id="notify-pokemon" multiple="multiple"></select>
-                </div>
-              </label>
+              <div class=pokemon-container>
+                <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
+                <div class="list"></div>
+                <a href="#" class="select-all">Notify selection</a><a href="#" class="hide-all">Notify none</a>
+               </div>
+               </label>
             </div>
             <div class="form-control">
               <label for="notify-rarity">
