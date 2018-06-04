@@ -345,16 +345,17 @@ function updateLocationMarker(style) {
     if (!locationMarker) {
         return
     }
+    var locationIcon
     if (style in searchMarkerStyles) {
         var url = searchMarkerStyles[style].icon
         if (url) {
-            var locationIcon = L.icon({
+            locationIcon = L.icon({
                 iconUrl: url,
                 iconSize: [24, 24]
             })
             locationMarker.setIcon(locationIcon)
         } else {
-            var locationIcon = new L.Icon.Default()
+            locationIcon = new L.Icon.Default()
             locationMarker.setIcon(locationIcon)
         }
         Store.set('locationMarkerStyle', style)
