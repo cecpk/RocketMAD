@@ -178,21 +178,11 @@ function toggleSelectItem($select, id) {
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $selectExclude.val(
-        $selectExclude.val().split(',').concat(id).join(',')
-    ).trigger('change')
-    $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').addClass('active')
-
-    var pkm = mapData.pokemons[encounterId]
+    $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
 }
 
 function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $selectPokemonNotify.val(
-        $selectPokemonNotify.val().split(',').concat(id).join(',')
-    ).trigger('change')
-    $('label[for="notify-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').addClass('active')
-    var pkm = mapData.pokemons[encounterId]
-    pkm.marker._popup.setContent(pokemonLabel(pkm))
+    $('label[for="notify-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
 }
 
 function removePokemonMarker(encounterId) { // eslint-disable-line no-unused-vars
@@ -1621,8 +1611,6 @@ function addListeners(marker) {
 }
 
 function clearStaleMarkers() {
-    const oldPokeMarkers = []
-
     $.each(mapData.pokemons, function (key, pokemon) {
         const pokemonId = pokemon['pokemon_id']
         const isPokeExpired = pokemon['disappear_time'] < Date.now()
@@ -1633,33 +1621,29 @@ function clearStaleMarkers() {
         const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
         const isRarityExcluded = excludedRarity.indexOf(pokemonRarity) !== -1
         const isNotifyPkmn = isNotifyPoke(pokemon)
+        var prionotifyactiv = Store.get('prioNotify')
 
-        if (isPokeExpired || (isPokeExcluded && !isNotifyPkmn) || (isRarityExcluded && !isNotifyPkmn)) {
-            const oldMarker = pokemon.marker
-            const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(pokemonId) !== -1
+        if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
+            if ((isNotifyPkmn && !prionotifyactiv) || (!isNotifyPkmn)) {
+                const oldMarker = pokemon.marker
+                const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(pokemonId) !== -1
 
-            if (isRarityExcluded && !isPokeExcludedByRarity) {
-                excludedPokemonByRarity.push(pokemonId)
+                if (isRarityExcluded && !isPokeExcludedByRarity) {
+                    excludedPokemonByRarity.push(pokemonId)
+                }
+
+                if (oldMarker.rangeCircle) {
+                    markers.removeLayer(oldMarker.rangeCircle)
+                    markersnotify.removeLayer(oldMarker.rangeCircle)
+                    delete oldMarker.rangeCircle
+                }
+
+                markers.removeLayer(oldMarker)
+                markersnotify.removeLayer(oldMarker)
+                delete mapData.pokemons[key]
             }
-
-            if (oldMarker.rangeCircle) {
-                markers.removeLayer(oldMarker.rangeCircle)
-                markersnotify.removeLayer(oldMarker.rangeCircle)
-                delete oldMarker.rangeCircle
-            }
-
-            // If it was a Pokémon w/ notification it won't be in a cluster,
-            // but that doesn't matter because the MarkerClusterer will check
-            // for it itself.
-            oldPokeMarkers.push(oldMarker)
-            markers.removeLayer(oldMarker)
-            markersnotify.removeLayer(oldMarker)
-            delete mapData.pokemons[key]
         }
     })
-
-    markers.removeLayer(oldPokeMarkers)
-    markersnotify.removeLayer(oldPokeMarkers)
 
     $.each(mapData.lurePokemons, function (key, lurePokemon) {
         if (lurePokemon['lure_expiration'] < new Date().getTime() ||
