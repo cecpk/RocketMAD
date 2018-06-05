@@ -333,13 +333,16 @@ function initMap() { // eslint-disable-line no-unused-vars
 
     $('#scan-here').on('click', function () {
         var loc = map.getCenter()
-        changeLocation(loc.lat(), loc.lng())
+        changeLocation(loc.lat, loc.lng)
 
         if (!$('#search-switch').checked) {
             $('#search-switch').prop('checked', true)
             searchControl('on')
         }
     })
+
+    $('#tabs_marker').tabs()
+    $('#tabs_notify').tabs()
 
     if (Push._agents.chrome.isSupported()) {
         createServiceWorkerReceiver()
@@ -2183,11 +2186,24 @@ var updateLabelDiffTime = function () {
     })
 }
 
-function getPointDistance(latlng1, latlng2) {
-    var OpenLayers
-    var point1 = new OpenLayers.Geometry.Point(latlng1.lon, latlng1.lat)
-    var point2 = new OpenLayers.Geometry.Point(latlng2.lon, latlng2.lat)
-    return point1.distanceTo(point2)
+function getPointDistance(origin, destination) {
+    // return distance in meters
+    var lon1 = toRadian(origin[1]),
+        lat1 = toRadian(origin[0]),
+        lon2 = toRadian(destination[1]),
+        lat2 = toRadian(destination[0])
+
+    var deltaLat = lat2 - lat1
+    var deltaLon = lon2 - lon1
+
+    var a = Math.pow(Math.sin(deltaLat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon/2), 2)
+    var c = 2 * Math.asin(Math.sqrt(a))
+    var EARTH_RADIUS = 6371
+    return c * EARTH_RADIUS * 1000
+}
+
+function toRadian(degree) {
+    return degree*Math.PI/180
 }
 
 function sendNotification(title, text, icon, lat, lon) {
@@ -2316,7 +2332,6 @@ function centerMapOnLocation() {
                 lng: position.coords.longitude
             })
             clearInterval(animationInterval)
-            currentLocation.style.backgroundPosition = '-160px 0px'
         })
     } else {
         clearInterval(animationInterval)
@@ -2381,7 +2396,7 @@ function updateGeoLocation() {
 
             if (Store.get('geoLocate')) {
                 // The search function makes any small movements cause a loop. Need to increase resolution.
-                if ((typeof searchMarker !== 'undefined') && (getPointDistance(searchMarker.getPosition(), center) > 40)) {
+                if ((typeof searchMarker !== 'undefined') && (getPointDistance(searchMarker.getLatLng(), center) > 40)) {
                     $.post('next_loc?lat=' + lat + '&lon=' + lng).done(function () {
                         map.panTo(center)
                         searchMarker.setLatLng(center)
@@ -2389,7 +2404,7 @@ function updateGeoLocation() {
                 }
             }
             if (Store.get('followMyLocation')) {
-                if ((typeof locationMarker !== 'undefined') && (getPointDistance(locationMarker.getPosition(), center) >= 5)) {
+                if ((typeof locationMarker !== 'undefined') && (getPointDistance(locationMarker.getLatLng(), center) >= 5)) {
                     map.panTo(center)
                     locationMarker.setLatLng(center)
                     Store.set('followMyLocationPosition', {
@@ -3188,7 +3203,6 @@ $(function () {
             $('.select2-search input').prop('readonly', true)
         }
         $selectExcludeRarity.val(Store.get('excludedRarity')).trigger('change')
-        $('#tabs').tabs()
     })
 
     // run interval timers to regularly update map, rarity and timediffs
@@ -3560,6 +3574,8 @@ $(function () {
             heightStyle: 'content'
         })
     }
+
+
 
     // Initialize dataTable in statistics sidebar
     //   - turn off sorting for the 'icon' column
