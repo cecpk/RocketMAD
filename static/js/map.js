@@ -241,8 +241,8 @@ function loadDefaultImages() {
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').each(function () {
         if (en.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
-            $('.priofilteractiv').css('color', 'red')
-            $('.priofilteractiv').text('*** active Filter  ***')
+            $('.notifyfilteractiv').css('color', 'red')
+            $('.notifyfilteractiv').text('*** active Filter  ***')
         }
     })
 }
@@ -3165,12 +3165,12 @@ $(function () {
             }, notifiedPokemon)
             reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
             clearStaleMarkers()
-            if (excludedPokemon.length === 1) {
-                $('.priofilteractiv').text('*** No active Filter ***')
-                $('.priofilteractiv').css('color', 'black')
+            if (notifiedPokemon.length === 1) {
+                $('.notifyfilteractiv').text('*** No active Filter ***')
+                $('.notifyfilteractiv').css('color', 'black')
             } else {
-                $('.priofilteractiv').text('*** active Filter ***')
-                $('.priofilteractiv').css('color', 'red')
+                $('.notifyfilteractiv').text('*** active Filter ***')
+                $('.notifyfilteractiv').css('color', 'red')
             }
             Store.set('remember_select_notify', notifiedPokemon)
         })
