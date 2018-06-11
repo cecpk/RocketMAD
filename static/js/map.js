@@ -1339,7 +1339,7 @@ function setupGymMarker(item) {
                 showGymDetails(item['gym_id'])
             }
         })
-    } else {
+
         if (!isMobileDevice() && !isTouchDevice()) {
             marker.on('mouseover', function () {
                 marker.openPopup()
@@ -1347,12 +1347,16 @@ function setupGymMarker(item) {
                 updateLabelDiffTime()
             })
         }
+
         marker.on('mouseout', function () {
             marker.closePopup()
             clearSelection()
             updateLabelDiffTime()
         })
+    } else {
+        addListeners(marker)
     }
+
     return marker
 }
 
@@ -1390,12 +1394,12 @@ function setupPokestopMarker(item) {
         iconSize: [32, 32]
     })
 
-    var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 5}).bindPopup(pokestopLabel(item['lure_expiration'], item['latitude'], item['longitude']))
+    var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2}).bindPopup(pokestopLabel(item['lure_expiration'], item['latitude'], item['longitude']))
     markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
         marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')
     }
-
+    addListeners(marker)
     return marker
 }
 
