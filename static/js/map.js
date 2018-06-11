@@ -172,22 +172,11 @@ function toggleSelectItem($select, id) {
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $selectExclude.val(
-        $selectExclude.val().split(',').concat(id).join(',')
-    ).trigger('change')
-    $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').addClass('active')
-
-    var pkm = mapData.pokemons[encounterId]
-    pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
+    $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
 }
 
 function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $selectPokemonNotify.val(
-        $selectPokemonNotify.val().split(',').concat(id).join(',')
-    ).trigger('change')
-    $('label[for="notify-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').addClass('active')
-    var pkm = mapData.pokemons[encounterId]
-    pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
+    $('label[for="notify-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
 }
 
 function removePokemonMarker(encounterId) { // eslint-disable-line no-unused-vars
@@ -1686,28 +1675,31 @@ function clearStaleMarkers() {
         const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
         const isRarityExcluded = excludedRarity.indexOf(pokemonRarity) !== -1
         const isNotifyPkmn = isNotifyPoke(pokemon)
+        var prionotifyactiv = Store.get('prioNotify')
 
-        if (isPokeExpired || (isPokeExcluded && !isNotifyPkmn) || (isRarityExcluded && !isNotifyPkmn)) {
-            const oldMarker = pokemon.marker
-            const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(pokemonId) !== -1
+        if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
+            if ((isNotifyPkmn && !prionotifyactiv) || (!isNotifyPkmn)) {
+                const oldMarker = pokemon.marker
+                const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(pokemonId) !== -1
 
-            if (isRarityExcluded && !isPokeExcludedByRarity) {
-                excludedPokemonByRarity.push(pokemonId)
+                if (isRarityExcluded && !isPokeExcludedByRarity) {
+                    excludedPokemonByRarity.push(pokemonId)
+                }
+
+                if (oldMarker.rangeCircle) {
+                    oldMarker.rangeCircle.setMap(null)
+                    delete oldMarker.rangeCircle
+                }
+
+                // If it was a Pokémon w/ notification it won't be in a cluster,
+                // but that doesn't matter because the MarkerClusterer will check
+                // for it itself.
+                oldPokeMarkers.push(oldMarker)
+                oldMarker.setMap(null)
+                delete mapData.pokemons[key]
+                // Overwrite method to avoid all timing issues with libraries.
+                oldMarker.setMap = function () {}
             }
-
-            if (oldMarker.rangeCircle) {
-                oldMarker.rangeCircle.setMap(null)
-                delete oldMarker.rangeCircle
-            }
-
-            // If it was a Pokémon w/ notification it won't be in a cluster,
-            // but that doesn't matter because the MarkerClusterer will check
-            // for it itself.
-            oldPokeMarkers.push(oldMarker)
-            oldMarker.setMap(null)
-            delete mapData.pokemons[key]
-            // Overwrite method to avoid all timing issues with libraries.
-            oldMarker.setMap = function () {}
         }
     })
 
