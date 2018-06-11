@@ -241,6 +241,8 @@ function loadDefaultImages() {
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').each(function () {
         if (en.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
+            $('.priofilteractiv').css('color', 'red')
+            $('.priofilteractiv').text('*** active Filter  ***')
         }
     })
 }
@@ -3163,6 +3165,13 @@ $(function () {
             }, notifiedPokemon)
             reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
             clearStaleMarkers()
+            if (excludedPokemon.length === 1) {
+                $('.priofilteractiv').text('*** No active Filter ***')
+                $('.priofilteractiv').css('color', 'black')
+            } else {
+                $('.priofilteractiv').text('*** active Filter ***')
+                $('.priofilteractiv').css('color', 'red')
+            }
             Store.set('remember_select_notify', notifiedPokemon)
         })
         $selectRarityNotify.on('change', function (e) {
