@@ -23,7 +23,7 @@ from colorlog import ColoredFormatter
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
                          log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher)
+                         dynamic_rarity_refresher, get_pos_by_name)
 from pogom.altitude import get_gmaps_altitude
 
 from pogom.models import (init_database, create_tables, drop_tables,
@@ -89,7 +89,7 @@ log.addHandler(stderr_hdlr)
 # Assert pgoapi is installed.
 try:
     import pgoapi
-    from pgoapi import PGoApi, utilities as util
+    from pgoapi import PGoApi
 except ImportError:
     log.critical(
         "It seems `pgoapi` is not installed. Try running " +
@@ -262,7 +262,7 @@ def extract_coordinates(location):
         position = (float(res.group(1)), float(res.group(2)), 0)
     else:
         log.debug('Looking up coordinates in API')
-        position = util.get_pos_by_name(location)
+        position = get_pos_by_name(location)
 
     if position is None or not any(position):
         log.error("Location not found: '{}'".format(location))
@@ -334,20 +334,18 @@ def main():
 
     position = extract_coordinates(args.location)
     # Use the latitude and longitude to get the local altitude from Google.
-    (altitude, status) = get_gmaps_altitude(position[0], position[1],
-                                            args.gmaps_key)
+    (altitude, results) = get_gmaps_altitude(position[0], position[1])
+
     if altitude is not None:
         log.debug('Local altitude is: %sm.', altitude)
         position = (position[0], position[1], altitude)
     else:
-        if status == 'REQUEST_DENIED':
+        if results == 'REQUEST_DENIED':
             log.error(
-                'Google API Elevation request was denied. You probably ' +
-                'forgot to enable elevation api in https://console.' +
-                'developers.google.com/apis/api/elevation_backend/')
+                'OSM API Elevation request was denied.')
             sys.exit()
         else:
-            log.error('Unable to retrieve altitude from Google APIs' +
+            log.error('Unable to retrieve altitude from OSM APIs' +
                       'setting to 0')
 
     log.info('Parsed location is: %.4f/%.4f/%.4f (lat/lng/alt).',
@@ -452,7 +450,6 @@ def main():
         args.player_locale = PlayerLocale.get_locale(args.location)
         if not args.player_locale:
             args.player_locale = gmaps_reverse_geolocate(
-                args.gmaps_key,
                 args.locale,
                 str(position[0]) + ', ' + str(position[1]))
             db_player_locale = {

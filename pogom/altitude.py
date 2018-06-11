@@ -12,20 +12,20 @@ log = logging.getLogger(__name__)
 fallback_altitude = None
 
 
-def get_gmaps_altitude(lat, lng, gmaps_key):
+def get_gmaps_altitude(lat, lng):
     try:
         r_session = requests.Session()
         response = r_session.get((
-            'https://maps.googleapis.com/maps/api/elevation/json?' +
-            'locations={},{}&key={}').format(lat, lng, gmaps_key),
-            timeout=5)
+            'https://api.open-elevation.com/api/v1/lookup?' +
+            'locations={},{}').format(lat, lng),
+            timeout=30)
         response = response.json()
-        status = response['status']
+        status = response['results']
         results = response.get('results', [])
         result = results[0] if results else {}
         altitude = result.get('elevation', None)
     except Exception as e:
-        log.exception('Unable to retrieve altitude from Google APIs: %s.', e)
+        log.exception('Unable to retrieve altitude from OSM APIs: %s.', e)
         status = 'UNKNOWN_ERROR'
         altitude = None
 
@@ -50,8 +50,7 @@ def get_fallback_altitude(args, loc):
 
     # Only query if it's not set, and if it didn't fail already.
     if fallback_altitude is None and fallback_altitude != -1:
-        (fallback_altitude, status) = get_gmaps_altitude(loc[0], loc[1],
-                                                         args.gmaps_key)
+        (fallback_altitude, status) = get_gmaps_altitude(loc[0], loc[1])
 
     # Failed, don't try again.
     if fallback_altitude is None:
@@ -66,7 +65,7 @@ def cached_get_altitude(args, loc):
     altitude = LocationAltitude.get_nearby_altitude(loc)
 
     if altitude is None:
-        (altitude, status) = get_gmaps_altitude(loc[0], loc[1], args.gmaps_key)
+        (altitude, status) = get_gmaps_altitude(loc[0], loc[1])
         if altitude is not None and altitude != -1:
             LocationAltitude.save_altitude(loc, altitude)
 

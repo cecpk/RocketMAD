@@ -17,7 +17,7 @@
     left: 0;
     visibility: hidden;
     width: 20.50em;
-    z-index: 500;
+    z-index: 1001;
     h3 {
       font-size: 18px;
       font-family: 'Open Sans', sans-serif;
@@ -210,7 +210,7 @@ label a {
     margin-top: 5px;
 }
 
-#tabs{
+#tabs_marker, #tabs_notify{
       padding:0;
       border:0;
       &:after{
@@ -222,10 +222,14 @@ label a {
         background: transparent;
         border: 0;
         padding: 0;
+        display: flex;
         li{
-          width: 50%;
           box-sizing: border-box;
           margin:0;
+    flex: 1;
+    display: flex;
+    /* If placed in a small width sidebar or something like that disabling nowrap will fix the overflow issue */
+    white-space: normal;
           border-right:1px solid #fff;
           &:last-child{
             border-right-color:#c5c5c5;
@@ -234,6 +238,9 @@ label a {
 
           }
           a{
+    flex: 1;
+    /* If you want to align tab titles center */
+    text-align: center;
             padding: 0.5em 0.1em;
             text-align: center;
             width: 100%;
@@ -247,6 +254,15 @@ label a {
     overflow: hidden;
     min-height: 300px;
 }
+
+.notify-container{
+    border: 1px solid #c5c5c5;
+    padding: 1px;
+    overflow: hidden;
+    min-height: 300px;
+    padding-top: 10px;
+}
+
 .ui-tabs .ui-tabs-panel {
     padding: 0 !important;
 }

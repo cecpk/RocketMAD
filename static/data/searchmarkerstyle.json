@@ -11,8 +11,8 @@
     "name": "Compass",
     "icon": "static/images/markers/compass.png"
   },
-  "google": {
-    "name": "Default Google Marker",
+  "osm": {
+    "name": "Default OSM Marker",
     "icon": null
   },
   "female": {

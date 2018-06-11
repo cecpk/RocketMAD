@@ -17,7 +17,7 @@ import subprocess
 import requests
 
 from s2sphere import CellId, LatLng
-from geopy.geocoders import GoogleV3
+from geopy.geocoders import Nominatim
 from requests_futures.sessions import FuturesSession
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
@@ -288,9 +288,6 @@ def get_args():
                         'search bar for use in shared maps.',
                         action='store_false', dest='fixed_location',
                         default=True)
-    parser.add_argument('-k', '--gmaps-key',
-                        help='Google Maps Javascript API Key.',
-                        required=True)
     parser.add_argument('--skip-empty',
                         help=('Enables skipping of empty cells in normal ' +
                               'scans - requires previously populated ' +
@@ -1183,10 +1180,23 @@ def calc_pokemon_level(cp_multiplier):
     return pokemon_level
 
 
+def get_pos_by_name(location_name):
+    geolocator = Nominatim()
+    loc = geolocator.geocode(location_name, timeout=10)
+    if not loc:
+        return None
+
+    log.info("Location for '%s' found: %s", location_name, loc.address)
+    log.info('Coordinates (lat/long/alt) for location: %s %s %s', loc.latitude,
+             loc.longitude, loc.altitude)
+
+    return (loc.latitude, loc.longitude, loc.altitude)
+
+
 @memoize
-def gmaps_reverse_geolocate(gmaps_key, locale, location):
+def gmaps_reverse_geolocate(locale, location):
     # Find the reverse geolocation
-    geolocator = GoogleV3(api_key=gmaps_key)
+    geolocator = Nominatim()
 
     player_locale = {
         'country': 'US',
@@ -1216,11 +1226,8 @@ def gmaps_reverse_geolocate(gmaps_key, locale, location):
                 'timezone': str(timezone)
             })
         except Exception as e:
-            log.exception('Exception on Google Timezone API. '
-                          + 'Please check that you have Google Timezone API'
-                          + ' enabled for your API key'
-                          + ' (https://developers.google.com/maps/'
-                          + 'documentation/timezone/intro): %s.', e)
+            log.exception('Exception on  Timezone API. '
+                          + 'Please check that you have Timezone API', e)
     except Exception as e:
         log.exception('Exception while obtaining player locale: %s.'
                       + ' Using default locale.', e)
