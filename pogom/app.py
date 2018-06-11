@@ -374,7 +374,6 @@ class Pogom(Flask):
             lng=map_lng,
             showAllZoomLevel=args.show_all_zoom_level,
             generateImages=str(args.generate_images).lower(),
-            gmaps_key=args.gmaps_key,
             lang=args.locale,
             show=visibility_flags,
             rarityFileName=args.rarity_filename)
@@ -701,7 +700,6 @@ class Pogom(Flask):
             lat=self.current_location[0],
             lng=self.current_location[1],
             generateImages=str(args.generate_images).lower(),
-            gmaps_key=args.gmaps_key,
             show=visibility_flags)
 
     def get_gymdata(self):
