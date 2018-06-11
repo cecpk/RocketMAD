@@ -421,7 +421,8 @@ function updateSearchMarker(style) {
             })
             searchMarker.setIcon(SearchIcon)
         } else {
-            searchMarker.setIcon(url)
+            SearchIcon = new L.Icon.Default()
+            searchMarker.setIcon(SearchIcon)
         }
     }
 
@@ -2188,11 +2189,10 @@ var updateLabelDiffTime = function () {
 
 function getPointDistance(origin, destination) {
     // return distance in meters
-    var lon1 = toRadian(origin[1])
-    var lat1 = toRadian(origin[0])
-    var lon2 = toRadian(destination[1])
-    var lat2 = toRadian(destination[0])
-
+    var lon1 = toRadian(origin.lng)
+    var lat1 = toRadian(origin.lat)
+    var lon2 = toRadian(destination.lng)
+    var lat2 = toRadian(destination.lat)
     var deltaLat = lat2 - lat1
     var deltaLon = lon2 - lon1
 
