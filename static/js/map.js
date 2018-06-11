@@ -2389,7 +2389,7 @@ function i8ln(word) {
 
 function updateGeoLocation() {
     if (navigator.geolocation && (Store.get('geoLocate') || Store.get('followMyLocation'))) {
- navigator.geolocation.getCurrentPosition(function (position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             var lat = position.coords.latitude
             var lng = position.coords.longitude
             var center = new L.LatLng(lat, lng)
@@ -2407,7 +2407,6 @@ function updateGeoLocation() {
                 if ((typeof locationMarker !== 'undefined') && (getPointDistance(locationMarker.getLatLng(), center) >= 5)) {
                     map.panTo(center)
                     locationMarker.setLatLng(center)
-
                     Store.set('followMyLocationPosition', {
                         lat: lat,
                         lng: lng
