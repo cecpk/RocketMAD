@@ -514,11 +514,11 @@ function initSidebar() {
     $('#medal-rattata-switch').prop('checked', Store.get('showMedalRattata'))
     $('#medal-magikarp-switch').prop('checked', Store.get('showMedalMagikarp'))
 
-    $("select").each(
-        function(id, element) {
+    $('select').each(
+        function (id, element) {
             $(element).select2()
         }
-    );
+    )
 
 
     if ($('#search-switch').length) {
