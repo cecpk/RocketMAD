@@ -229,10 +229,6 @@ $(function () {
 
     if (disableClusters) {
         Store.set('maxClusterZoomLevel', -1)
-
-        if (isMarkerClusterLoaded) {
-            window.markerCluster.setMaxZoom(-1)
-        }
     }
 
     // Google Analytics.
