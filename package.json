@@ -29,7 +29,8 @@
     "grunt-unused": "latest",
     "grunt-usemin": "latest",
     "grunt-zip": "^0.17.1",
-    "jit-grunt": "^0.10.0"
+    "jit-grunt": "^0.10.0",
+    "node-sass": "^4.9.0"
   },
   "scripts": {
     "build": "grunt build",
