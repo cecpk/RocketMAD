@@ -1,5 +1,4 @@
 module.exports = function (grunt) {
-
     // load plugins as needed instead of up front
     require('jit-grunt')(grunt, {
         unzip: 'grunt-zip'
@@ -10,7 +9,6 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
         sass: {
             dist: {
                 files: {

@@ -25,7 +25,7 @@
     "grunt-legacssy": "latest",
     "grunt-minjson": "latest",
     "grunt-newer": "^1.2.0",
-    "grunt-sass": "latest",
+    "grunt-sass": "^2.1.0",
     "grunt-unused": "latest",
     "grunt-usemin": "latest",
     "grunt-zip": "^0.17.1",
