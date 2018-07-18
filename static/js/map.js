@@ -520,6 +520,9 @@ function initSidebar() {
         }
     )
 
+    $('select').select2({
+        minimumResultsForSearch: -1
+    })
 
     if ($('#search-switch').length) {
         updateSearchStatus()
