@@ -13,6 +13,7 @@ install:
   - pip install flake8
   - pip install -r requirements.txt
   - npm install
+  - npm install -g grunt-cli
   - npm rebuild node-sass
 
 # Script steps, if erroring, will fail the build but not stop the build process.
