@@ -302,7 +302,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
         form_assets_suffix = '_{:02d}'.format(form - 18)
         form_suffix = '_{}'.format(Form.Name(form))
 
-    assets_basedir = os.path.join(pogo_assets, 'decrypted_assets')
+    assets_basedir = os.path.join(pogo_assets, 'pokemon_icon')
     assets_fullname = os.path.join(assets_basedir,
                                    'pokemon_icon_{:03d}{}{}{}{}.png'.format(
                                        pkm, gender_assets_suffix,
