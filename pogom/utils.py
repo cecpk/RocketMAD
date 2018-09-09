@@ -940,7 +940,7 @@ def init_dynamic_images(args):
 
             if args.pogo_assets:
                 decr_assets_dir = os.path.join(args.pogo_assets,
-                                               'decrypted_assets')
+                                               'pokemon_icons')
                 if os.path.isdir(decr_assets_dir):
                     log.info("Using PogoAssets repository at '{}'".format(
                         args.pogo_assets))
