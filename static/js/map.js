@@ -822,7 +822,8 @@ function isOngoingRaid(raid) {
 }
 
 function isValidRaid(raid) {
-    return raid && Date.now() < raid.end && Date.now() > raid.spawn
+    return raid && Date.now() < raid.end 
+    // && Date.now() > raid.spawn
 }
 
 function isGymSatisfiesRaidMinMaxFilter(raid) {
