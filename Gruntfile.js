@@ -1,4 +1,5 @@
 module.exports = function (grunt) {
+    const sass = require('node-sass')
     // load plugins as needed instead of up front
     require('jit-grunt')(grunt, {
         unzip: 'grunt-zip'
@@ -10,6 +11,9 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         sass: {
+            options: {
+                implementation: sass
+            },
             dist: {
                 files: {
                     'static/dist/css/app.built.css': 'static/sass/main.scss',
