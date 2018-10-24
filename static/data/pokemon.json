@@ -5296,6 +5296,15 @@
     ],
     "name": "Regigigas"
   },
+  "487": {
+    "types": [
+      {
+      "type": "Ghost",
+      "color": "#705898"
+      }
+    ],
+    "name": "Giratina"
+  },
   "488": {
     "types": [
       {
