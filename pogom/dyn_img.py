@@ -281,6 +281,10 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
         gender_suffix = gender_assets_suffix = ''
         form_assets_suffix = '_{:02d}'.format(form + 10)
         form_suffix = '_{}'.format(Form.Name(form))
+    
+    if pkm == 487:
+        # Giratina - no _00 Asset File
+        form_suffix = '_{}'.format('11')
 
     if costume:
         costume_assets_suffix = '_{:02d}'.format(costume)
