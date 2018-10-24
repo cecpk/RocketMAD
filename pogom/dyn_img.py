@@ -299,7 +299,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
         
     if pkm == 487:
         # Giratina - no _00 Asset File
-        gender_assets_suffix = '_{:02d}'.format('11')
+        gender_assets_suffix = '_{:02d}'.format(11)
 
     # Castform
     if form and pkm == 351:
