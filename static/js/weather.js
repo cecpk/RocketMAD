@@ -25,7 +25,7 @@ function processWeather(i, item) {
         mapData.weather[s2CellId] = item
     } else if (itemOld.gameplay_weather !== item.gameplay_weather ||
         itemOld.severity !== item.severity) { // if weather changed
-        itemOld.marker.setMap(null)
+        markersnotify.removeLayer(itemOld)
         item.marker = setupWeatherMarker(item)
         mapData.weather[s2CellId] = item
     }
@@ -80,7 +80,7 @@ function processWeatherAlert(i, item) {
         item.marker = createCellAlert(item)
         mapData.weatherAlerts[s2CellId] = item
     } else if (itemOld.severity !== item.severity) {
-        itemOld.marker.setMap(null)
+        markersnotify.removeLayer(itemOld)
         item.marker = createCellAlert(item)
         mapData.weatherAlerts[s2CellId] = item
     }

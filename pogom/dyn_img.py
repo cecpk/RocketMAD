@@ -281,8 +281,6 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
         gender_suffix = gender_assets_suffix = ''
         form_assets_suffix = '_{:02d}'.format(form + 10)
         form_suffix = '_{}'.format(Form.Name(form))
-    
-
 
     if costume:
         costume_assets_suffix = '_{:02d}'.format(costume)
@@ -296,7 +294,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
         gender_assets_suffix = ('_16' if pkm == 201
                                 else '_00' if pkm > 0
                                 else '')
-        
+
     if pkm == 487:
         # Giratina - no _00 Asset File
         gender_assets_suffix = '_{:02d}'.format(11)
@@ -324,6 +322,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
                                    pkm, gender_suffix, form_suffix,
                                    costume_suffix,
                                    weather_suffix, shiny_suffix))
+    print assets_fullname
     if os.path.isfile(assets_fullname):
         return assets_fullname, target_name
     else:

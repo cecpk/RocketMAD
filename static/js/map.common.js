@@ -469,7 +469,7 @@ function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn
             'legendary': 30
         }
 
-        const pokemonRarity = getPokemonRarity(item['pokemon_id']).toLowerCase()
+        const pokemonRarity = getPokemonRarity_noi8(item['pokemon_id']).toLowerCase()
         if (rarityValues.hasOwnProperty(pokemonRarity)) {
             rarityValue = rarityValues[pokemonRarity]
         }
