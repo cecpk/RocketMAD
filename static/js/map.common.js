@@ -7,7 +7,7 @@ function pokemonSprites(pokemonID) {
         iconHeight: 80,
         spriteWidth: 2240,
         spriteHeight: 1440,
-        filename: 'static/icons/' + pokemonID + '.png',
+        filename: 'static/icons/' + (pokemonID+1) + '.png',
         name: 'High-Res'
     }
 
