@@ -3048,7 +3048,7 @@ $(function () {
 
         $selectRarityNotify.select2({
             placeholder: i8ln('Select Rarity'),
-            data: ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn'],
+            data: [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare'), i8ln('New Spawn')],
             templateResult: formatRarityState
         })
 
