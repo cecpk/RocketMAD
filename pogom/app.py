@@ -22,7 +22,7 @@ from pogom.weather import (get_weather_cells,
                            get_s2_coverage, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
                      MainWorker, WorkerStatus, Token, HashKeys,
-                     SpawnPoint)
+                     SpawnPoint, Trs_Quest)
 from .utils import (get_args, get_pokemon_name, get_pokemon_types,
                     now, dottedQuadToNum)
 from .client_auth import check_auth
@@ -526,6 +526,8 @@ class Pogom(Flask):
                                            oSwLat=oSwLat, oSwLng=oSwLng,
                                            oNeLat=oNeLat, oNeLng=oNeLng,
                                            lured=luredonly))
+                                           
+        #d['quests'] = Trs_Quest.get_quests()
 
         if request.args.get('gyms', 'true') == 'true' and not args.no_gyms:
             if lastgyms != 'true':

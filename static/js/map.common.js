@@ -7,7 +7,7 @@ function pokemonSprites(pokemonID) {
         iconHeight: 80,
         spriteWidth: 2240,
         spriteHeight: 1440,
-        filename: 'static/icons/' + (pokemonID+1) + '.png',
+        filename: 'static/icons/' + (pokemonID) + '.png',
         name: 'High-Res'
     }
 
@@ -447,7 +447,7 @@ function getGoogleSprite(index, sprite, displayHeight) {
 }
 
 function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
-    const pokemonIndex = item['pokemon_id'] - 1
+    const pokemonIndex = item['pokemon_id']
     const sprite = pokemonSprites(pokemonIndex)
 
     var markerDetails = {

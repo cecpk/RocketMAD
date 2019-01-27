@@ -26,6 +26,7 @@ from timeit import default_timer
 
 from pogom.gainxp import DITTO_CANDIDATES_IDS, is_ditto, gxp_spin_stops
 from pogom.pgscout import pgscout_encounter
+from .questGen import generate_quest
 from .utils import (get_pokemon_name, get_pokemon_types,
                     get_args, cellid, in_radius, date_secs, clock_between,
                     get_move_name, get_move_damage, get_move_energy,
@@ -350,6 +351,8 @@ class Pokestop(LatLongModel):
     enabled = BooleanField()
     latitude = DoubleField()
     longitude = DoubleField()
+    name = Utf8mb4CharField(max_length=200)
+    image = Utf8mb4CharField(max_length=200)
     last_modified = DateTimeField(index=True)
     lure_expiration = DateTimeField(null=True, index=True)
     active_fort_modifier = SmallIntegerField(null=True, index=True)
@@ -372,6 +375,7 @@ class Pokestop(LatLongModel):
                 p['latitude'], p['longitude'] = \
                     transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
             pokestops.append(p)
+        
         return pokestops
 
     @staticmethod
@@ -381,7 +385,15 @@ class Pokestop(LatLongModel):
         query = Pokestop.select(Pokestop.active_fort_modifier,
                                 Pokestop.enabled, Pokestop.latitude,
                                 Pokestop.longitude, Pokestop.last_modified,
-                                Pokestop.lure_expiration, Pokestop.pokestop_id)
+                                Pokestop.lure_expiration, Pokestop.pokestop_id,
+                                Trs_Quest.quest_type, Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
+                                Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id, Trs_Quest.quest_item_amount,
+                                Trs_Quest.quest_target, Trs_Quest.quest_timestamp, Pokestop.name, Pokestop.image)
+                                
+        query = (query
+                 .join(Trs_Quest, JOIN.LEFT_OUTER,
+                       on=(Pokestop.pokestop_id == Trs_Quest.GUID))
+                 )
 
         if not (swLat and swLng and neLat and neLng):
             query = (query
@@ -440,6 +452,7 @@ class Pokestop(LatLongModel):
                             (Pokestop.longitude <= neLng))
                      .dicts())
 
+
         # Performance:  disable the garbage collector prior to creating a
         # (potentially) large dict with append().
         gc.disable()
@@ -449,12 +462,21 @@ class Pokestop(LatLongModel):
             if args.china:
                 p['latitude'], p['longitude'] = \
                     transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
+            p['quest_raw'] = generate_quest(p)
             pokestops.append(p)
-
+            
         # Re-enable the GC.
         gc.enable()
 
         return pokestops
+     
+    @staticmethod   
+    def get_quest(GUID):
+        query = (Trs_Quest
+                    .select()
+                    .where(GUID=GUID)
+                .dicts())
+        return list(query)
 
 
 class Gym(LatLongModel):
@@ -737,6 +759,25 @@ class LocationAltitude(LatLongModel):
         InsertQuery(
             LocationAltitude,
             rows=[LocationAltitude.new_loc(loc, altitude)]).upsert().execute()
+
+
+class Trs_Quest(BaseModel):
+    GUID = Utf8mb4CharField(primary_key=True, max_length=50, index=True)
+    quest_condition = Utf8mb4CharField(max_length=500)
+    quest_type = Utf8mb4CharField(max_length=3)
+    quest_stardust = Utf8mb4CharField(max_length=4)
+    quest_pokemon_id = Utf8mb4CharField(max_length=4)
+    quest_reward_type = Utf8mb4CharField(max_length=3)
+    quest_item_id = Utf8mb4CharField(max_length=3)
+    quest_item_amount = Utf8mb4CharField(max_length=2)
+    quest_target = Utf8mb4CharField(max_length=3)
+    quest_timestamp = FloatField()
+    
+    @staticmethod
+    def get_quests():
+        query = (Trs_Quest
+                    .select())
+        return list(query)
 
 
 class PlayerLocale(BaseModel):
@@ -1993,6 +2034,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
               account_sets):
     pokemon = {}
     pokestops = {}
+    quests = {}
     gyms = {}
     raids = {}
     skipped = 0
