@@ -1441,8 +1441,8 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 		}
 		if (generateImages) {
 			image = `pkm_img?pkm=${quest_pokemon_id}${formParam}`
-			size = [50, 50]
-			anchor = [40, 30]
+			size = [30, 30]
+			anchor = [30, 30]
 		} else {
 			image = pokemonSprites(quest_pokemon_id).filename
 			size = [30, 30]

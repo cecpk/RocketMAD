@@ -1,4 +1,5 @@
 import logging
+import os
 import json
 from datetime import datetime
 import sys
@@ -81,11 +82,13 @@ def questreward(quest_reward_type):
         return False
     
 def questtype(quest_type):
-    with open('pogom/quest/types.json') as f:
+    script_dir = os.path.dirname(__file__)
+    with open(script_dir + '/quest/types.json') as f:
         items = json.load(f)
     return (items[str(quest_type)]['text'])
     
 def rewarditem(itemid):
-    with open('pogom/quest/items.json') as f:
+    script_dir = os.path.dirname(__file__)
+    with open(script_dir + '/quest/items.json') as f:
         items = json.load(f)
     return (items[str(itemid)]['name'])
