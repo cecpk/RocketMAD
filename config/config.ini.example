@@ -22,16 +22,6 @@
 #pogo-assets:                   # Directory pointing to optional PogoAssets root directory. (default=None)
 #generate-images                # Use ImageMagick to generate dynamic icons on demand.
 
-# Required settings
-###################
-
-#gmaps-key:                     # Your Google Maps API key
-#auth-service:                  # ptc (default) or google
-#username:                      # Usernames, one per account. (default=[])
-#password:                      # Passwords, either single one for all accounts or one per account. (default=[])
-#hash-key:                      # Key for hash server (default=None)
-
-
 # Common settings
 #################
 
@@ -201,18 +191,6 @@
 #stats-log-timer                # In log view, list per hr stats every X seconds
 #status-name:                   # Enables writing status updates to the database - if you use multiple processes, each needs a unique value. (default=None)
 
-
-# Captcha Solving
-#################
-
-#captcha-key:                   # 2Captcha API key.
-#captcha-dsk:                   # PokemonGo captcha data-sitekey. Don't change this if not explicitly needed due to recent changes.
-                                # (default="6LeeTScTAAAAADqvhqVMhPpr_vB9D364Ia-1dSgK")
-#manual-captcha-domain:         # Enables the option to manual solve Captcha.
-                                # Enter domain where captcha tokens will be sent. (default="http://127.0.0.1:5000")
-#manual-captcha-refresh:        # Time available before captcha page refreshes. (default=30)
-#manual-captcha-timeout:        # Maximum time captchas will wait for manual captcha solving.
-                                # On timeout, if enabled, 2Captcha will be used to solve captcha. (default=0)
 
 # User Auth Settings
 ################
