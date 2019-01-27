@@ -1781,7 +1781,7 @@ function loadRawData() {
     var loadPokestops = Store.get('showPokestops')
     var loadScanned = Store.get('showScanned')
     var loadSpawnpoints = Store.get('showSpawnpoints')
-    var loadLuredOnly = Boolean(Store.get('showLuredPokestopsOnly'))
+    var loadLuredOnly = Store.get('showLuredPokestopsOnly')
     var loadWeather = Store.get('showWeatherCells')
     var loadS2Cells = Store.get('showS2Cells')
     var loadWeatherAlerts = Store.get('showWeatherAlerts')
