@@ -424,10 +424,12 @@ class Pogom(Flask):
         lastpokemon = request.args.get('lastpokemon')
         lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
-
-        if request.args.get('luredonly', 'true') == 'true':
+        
+        if request.args.get('luredonly') == '0':
+            luredonly = False
+        elif request.args.get('luredonly') == '1':
             luredonly = True
-        else:
+        elif request.args.get('luredonly') == '2':
             luredonly = False
 
         # Current switch settings saved for next request.

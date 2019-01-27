@@ -1405,7 +1405,7 @@ function updateGymMarker(item, marker) {
 }
 
 function setupPokestopMarker(item) {
-	
+
 	var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])	
     var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2}).bindPopup(pokestopLabel(item['lure_expiration'], item['latitude'], item['longitude'], item['quest_raw'], item['quest_type']))
     markers.addLayer(marker)
@@ -1421,6 +1421,11 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 	var image
 	var size
 	var anchor
+	
+	if (quest_reward_type_raw == null) {
+		quest_reward_type_raw == '0'
+	}
+	
 	switch(quest_reward_type_raw) {
 		
 	case '2':
@@ -1970,9 +1975,12 @@ function processPokestop(i, item) {
         return false
     }
 
-    if (Store.get('showLuredPokestopsOnly') && !item['lure_expiration']) {
+    if (Store.get('showLuredPokestopsOnly') == 1 && !item['lure_expiration']) {
         return true
-    }
+	}
+    //if (Store.get('showLuredPokestopsOnly') == 2 && !item['quest_raw']) {
+    //    return true
+		//}
 
     if (!mapData.pokestops[item['pokestop_id']]) { // new pokestop, add marker to map and item to dict
         if (item.marker && item.marker.rangeCircle) {
@@ -2017,9 +2025,25 @@ function updatePokestops() {
     })
 
     // remove unlured stops if show lured only is selected
-    if (Store.get('showLuredPokestopsOnly')) {
+    if (Store.get('showLuredPokestopsOnly') == 1) {
         $.each(mapData.pokestops, function (key, value) {
             if (!value['lure_expiration']) {
+                removeStops.push(key)
+            }
+        })
+        $.each(removeStops, function (key, value) {
+            if (mapData.pokestops[value] && mapData.pokestops[value].marker) {
+                if (mapData.pokestops[value].marker.rangeCircle) {
+                    markers.removeLayer(mapData.pokestops[value].marker.rangeCircle)
+                }
+                markers.removeLayer(mapData.pokestops[value].marker)
+                delete mapData.pokestops[key]
+            }
+        })
+    }
+    if (Store.get('showLuredPokestopsOnly') == 2) {
+        $.each(mapData.pokestops, function (key, value) {
+            if (!value['quest_raw']['is_quest']) {
                 removeStops.push(key)
             }
         })

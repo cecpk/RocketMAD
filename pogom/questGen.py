@@ -62,11 +62,10 @@ def generate_quest(quest):
             quest_raw = ({ 
                 'quest_type_raw': quest_type, 'quest_type': quest_type_text, 'item_amount': item_amount, 'item_type': item_type, 
                 'quest_target': quest_target, 'timestamp': timestamp, 'pokemon_id': pokemon_id, 'item_id': item_id,
-                'quest_reward_type': quest_reward_type, 'quest_reward_type_raw': quest_reward_type_raw})
+                'quest_reward_type': quest_reward_type, 'quest_reward_type_raw': quest_reward_type_raw, 'is_quest': True})
                 
         else:
-            quest_raw = ({ 
-                })
+            quest_raw = ({'is_quest': False})
                 
         return quest_raw
     
