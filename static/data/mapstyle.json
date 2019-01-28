@@ -3,5 +3,7 @@
   "styleblackandwhite": "Black and White",
   "styletopo": "ToPo Map",
   "stylesatellite": "Satellite",
-  "stylewikipedia": "Wikipedia"
+  "stylewikipedia": "Wikipedia",
+  "stylecartodbdark": "Dark",
+  "stylecartodbdarknolabels": "Dark (No Labels)"
 }
