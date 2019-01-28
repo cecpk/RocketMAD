@@ -2,6 +2,8 @@ import logging
 import os
 import json
 from datetime import datetime
+import calendar
+from .utils import get_pokemon_name
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -11,7 +13,7 @@ log = logging.getLogger(__name__)
 def generate_quest(quest):
     
         if quest['quest_timestamp']:
-            ts_db = datetime.utcfromtimestamp(quest['quest_timestamp']).strftime("%Y-%m-%d")
+            ts_db = datetime.fromtimestamp(quest['quest_timestamp']).strftime("%Y-%m-%d")
             ts_now = datetime.today().strftime('%Y-%m-%d')
             if ts_db == ts_now:
                 quest_acc = True
@@ -37,6 +39,7 @@ def generate_quest(quest):
                 item_type = str(rewarditem(quest['quest_item_id']))
                 quest_target = str(quest['quest_target'])
                 pokemon_id = "0"
+                pokemon_name = ""
                 if '{0}' in quest_type:
                     quest_type_text = quest_type.replace('{0}', str(quest['quest_target']))
                     quest_target = str(quest['quest_target'])
@@ -47,6 +50,7 @@ def generate_quest(quest):
                 item_id = "000"
                 quest_target = str(quest['quest_target'])
                 pokemon_id = "0"
+                pokemon_name = ""
                 if '{0}' in quest_type:
                     quest_type_text = quest_type.replace('{0}', str(quest['quest_target']))
                     quest_target = str(quest['quest_target'])
@@ -55,6 +59,7 @@ def generate_quest(quest):
                 item_type = "Pokemon"
                 item_id = "000"
                 pokemon_id = str(quest['quest_pokemon_id'])
+                pokemon_name = get_pokemon_name(pokemon_id)
                 if '{0}' in quest_type:
                     quest_type_text = quest_type.replace('{0}', str(quest['quest_target']))
                     quest_target = str(quest['quest_target'])
@@ -63,7 +68,7 @@ def generate_quest(quest):
             quest_raw = ({ 
                 'quest_type_raw': quest_type, 'quest_type': quest_type_text, 'item_amount': item_amount, 'item_type': item_type, 
                 'quest_target': quest_target, 'timestamp': timestamp, 'pokemon_id': pokemon_id, 'item_id': item_id,
-                'quest_reward_type': quest_reward_type, 'quest_reward_type_raw': quest_reward_type_raw, 'is_quest': True})
+                'quest_reward_type': quest_reward_type, 'quest_reward_type_raw': quest_reward_type_raw, 'is_quest': True, 'quest_pokemon_name': pokemon_name})
                 
         else:
             quest_raw = ({'is_quest': False})

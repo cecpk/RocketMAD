@@ -1000,8 +1000,40 @@ function gymLabel(gym, includeMembers = true) {
 function pokestopLabel(expireTime, latitude, longitude, quest, questtype) {
     var str
 	var questtext = ""
+	console.log(quest)
 	if (questtype) {
-		questtext = '<center>' + quest['quest_type'] + '</center>'
+		
+		switch(quest['quest_reward_type_raw']) {
+			
+		case '2':
+			var image = 'static/quest/reward_' + quest['item_id'] + '_1.png'
+			var rewardtext = quest['item_type'] + '<br>Pieces: ' + quest['item_amount']
+			var width = 40
+			break
+		case '3':
+			var image = 'static/quest/reward_stardust.png'
+			var rewardtext = quest['item_type'] + '<br>Amount: ' + quest['item_amount']
+			var width = 40
+			break
+		case '7':
+			var pokemon_id = quest['pokemon_id']
+			if (generateImages) {
+				image = `pkm_img?pkm=${pokemon_id}`
+			} else {
+				image = pokemonSprites(quest['pokemon_id']).filename
+
+			}
+			var rewardtext = quest['quest_pokemon_name']
+			var width = 40
+			break
+		}
+
+		var questtext = quest['quest_type']
+		
+		questtext = '<center><br><b>' + questtext + '</b><br><img src=' + image + ' width=' + width + '><br>' + rewardtext + '</center>'
+		
+		//questtext = '<center>' + quest['quest_type'] + '</center>'
+		
 	}
     if (expireTime) {
         str = `
@@ -1446,11 +1478,11 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 		}
 		if (generateImages) {
 			image = `pkm_img?pkm=${quest_pokemon_id}${formParam}`
-			size = [30, 30]
+			size = [35, 35]
 			anchor = [30, 30]
 		} else {
 			image = pokemonSprites(quest_pokemon_id).filename
-			size = [30, 30]
+			size = [40, 40]
 			anchor = [30, 30]
 		}
 		break
