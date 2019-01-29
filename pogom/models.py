@@ -3927,6 +3927,16 @@ def database_migrate(db, old_ver):
         db.execute_sql('ALTER TABLE `spawnpoint` '
                        'ADD CONSTRAINT CONSTRAINT_4 CHECK ' +
                        '(`latest_seen` <= 3600);')
+    if old_ver < 30:
+        # Add new column 'image' to pokestop table
+        db.execute_sql('ALTER TABLE `pokestop` '
+                       'ADD COLUMN `name2` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci' AFTER `image`;')
+    
+        # Add new column 'name to pokestop table
+        db.execute_sql('ALTER TABLE `pokestop` '
+                       'ADD COLUMN `name2` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci' AFTER `image`;')
+
+
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
