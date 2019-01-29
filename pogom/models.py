@@ -3930,11 +3930,11 @@ def database_migrate(db, old_ver):
     if old_ver < 30:
         # Add new column 'image' to pokestop table
         db.execute_sql('ALTER TABLE `pokestop` '
-                       'ADD COLUMN `name2` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci' AFTER `image`;')
+                       'ADD COLUMN `image` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci';')
     
-        # Add new column 'name to pokestop table
+        # Add new column 'name' to pokestop table
         db.execute_sql('ALTER TABLE `pokestop` '
-                       'ADD COLUMN `name2` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci' AFTER `image`;')
+                       'ADD COLUMN `name` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci';')
 
 
 
