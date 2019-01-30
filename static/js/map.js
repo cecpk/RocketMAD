@@ -1007,12 +1007,12 @@ function pokestopLabel(expireTime, latitude, longitude, quest, questtype) {
 			
 		case '2':
 			var image = 'static/quest/reward_' + quest['item_id'] + '_1.png'
-			var rewardtext = quest['item_type'] + '<br>Pieces: ' + quest['item_amount']
+			var rewardtext = i8ln(quest['item_type']) + '<br>' + i8ln('Pieces') +': ' + quest['item_amount']
 			var width = 40
 			break
 		case '3':
 			var image = 'static/quest/reward_stardust.png'
-			var rewardtext = quest['item_type'] + '<br>Amount: ' + quest['item_amount']
+			var rewardtext = i8ln(quest['item_type']) + '<br>' + i8ln('Amount') +': ' + quest['item_amount']
 			var width = 40
 			break
 		case '7':
