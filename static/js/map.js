@@ -1001,7 +1001,7 @@ function pokestopLabel(expireTime, latitude, longitude, quest, questtype) {
     var str
 	var questtext = ""
 	console.log(quest)
-	if (questtype) {
+	if (quest['is_quest']) {
 		
 		switch(quest['quest_reward_type_raw']) {
 			
@@ -1024,11 +1024,12 @@ function pokestopLabel(expireTime, latitude, longitude, quest, questtype) {
 
 			}
 			var rewardtext = quest['quest_pokemon_name']
-			var width = 40
+                        var width = 40
 			break
 		}
 
-		var questtext = quest['quest_type']
+		var questtext = i8ln(quest['quest_type_raw'])
+                questtext = questtext.replace('{0}', quest['quest_target'])
 		
 		questtext = '<center><br><b>' + questtext + '</b><br><img src=' + image + ' width=' + width + '><br>' + rewardtext + '</center>'
 		
@@ -1438,7 +1439,7 @@ function updateGymMarker(item, marker) {
 
 function setupPokestopMarker(item) {
 
-	var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])	
+    var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])	
     var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2}).bindPopup(pokestopLabel(item['lure_expiration'], item['latitude'], item['longitude'], item['quest_raw'], item['quest_type']))
     markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
