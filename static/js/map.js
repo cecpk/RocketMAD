@@ -997,7 +997,7 @@ function gymLabel(gym, includeMembers = true) {
         </div>`
 }
 
-function pokestopLabel(expireTime, latitude, longitude, quest, questtype) {
+function pokestopLabel(expireTime, latitude, longitude, pokestopName, quest, questtype) {
     var str
 	var questtext = ""
 	console.log(quest)
@@ -1040,7 +1040,7 @@ function pokestopLabel(expireTime, latitude, longitude, quest, questtype) {
         str = `
             <div>
               <div class='pokestop lure'>
-                Lured Pokéstop
+                ${pokestopName}
               </div>
               <div class='pokestop-expire'>
                   <span class='label-countdown' disappears-at='${expireTime}'>00m00s</span> left (${moment(expireTime).format('HH:mm')})
@@ -1057,7 +1057,7 @@ function pokestopLabel(expireTime, latitude, longitude, quest, questtype) {
         str = `
             <div>
               <div class='pokestop nolure'>
-                Pokéstop
+                ${pokestopName}
               </div>
               <div>
                 <img class='pokestop sprite' src='static/images/pokestop//Pokestop.png'>
@@ -1440,7 +1440,16 @@ function updateGymMarker(item, marker) {
 function setupPokestopMarker(item) {
 
     var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])	
-    var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2}).bindPopup(pokestopLabel(item['lure_expiration'], item['latitude'], item['longitude'], item['quest_raw'], item['quest_type']))
+    var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2}).bindPopup(
+        pokestopLabel(
+            item['lure_expiration'], 
+            item['latitude'], 
+            item['longitude'], 
+            item['name'],
+            item['quest_raw'], 
+            item['quest_type']
+            )
+        )
     markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
         marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')
