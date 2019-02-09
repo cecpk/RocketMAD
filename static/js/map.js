@@ -998,23 +998,32 @@ function gymLabel(gym, includeMembers = true) {
 }
 
 function pokestopLabel(pokestop) {
-    let pokestopPopup = ''
     let questText = ''
     let pokestopImg = ''
+    let pokestopExpiration = ''
     const expireTime = pokestop.lure_expiration
-    const latitude = pokestop.longitude
+    const latitude = pokestop.latitude
     const longitude = pokestop.longitude
-    const pokestopName = pokestop.name
-    const quest = pokestop.quest_raw
     const luredClass = expireTime ? 'lure' : 'nolure'
     const pokestopNavigation = `
+      <div class="pokestop">
         <a href='#!' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps' class='pokestop navigate ${luredClass}'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a>
+      </div>
     `
+
+    if (expireTime) {
+        pokestopExpiration = `
+          <div class='pokestop-expire'>
+            <span class='label-countdown' disappears-at='${expireTime}'>00m00s</span> left (${moment(expireTime).format('HH:mm')})
+          </div>
+        `
+    }
 
     if (typeof pokestop.image !== 'undefined' && pokestop.image !== null) {
         pokestopImg = `<img class='pokestop imgcircle ${luredClass}' src='${pokestop.image}'>`
     }
 
+    const quest = pokestop.quest_raw
     if (quest['is_quest']) {
         let image = ''
         let rewardText = ''
@@ -1046,44 +1055,20 @@ function pokestopLabel(pokestop) {
         questText = '<center><br><b>' + quest['quest_task'] + '</b><br><img src=' + image + ' width=' + width + '><br>' + rewardText + '</center>'
     }
 
-    if (expireTime) {
-        pokestopPopup = `
-            <div>
-              <div class='pokestop ${luredClass}'>
-                ${pokestopName}
-              </div>
-              <div class='pokestop-expire'>
-                  <span class='label-countdown' disappears-at='${expireTime}'>00m00s</span> left (${moment(expireTime).format('HH:mm')})
-              </div>
-              <div>
-                ${pokestopImg}
-              </div>
-              <div>
-                ${questText}
-              </div>
-                ${pokestopNavigation}
-            </div>
-          </div>`
-    } else {
-        pokestopPopup = `
-            <div>
-              <div class='pokestop ${luredClass}'>
-                ${pokestopName}
-              </div>
-              <div>
-                ${pokestopImg}
-              </div>
-              <div>
-                ${questText}
-              </div>
-              <div>
-                ${pokestopNavigation}
-              </div>
-            </div>
-          </div>`
-    }
-
-    return pokestopPopup
+    return `
+      <div>
+        <div class='pokestop ${luredClass}'>
+          ${pokestop.name}
+        </div>
+        ${pokestopExpiration}
+        <div>
+          ${pokestopImg}
+        </div>
+        <div>
+          ${questText}
+        </div>
+        ${pokestopNavigation}
+      </div>`
 }
 
 function formatSpawnTime(seconds) {
