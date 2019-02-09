@@ -388,7 +388,7 @@ class Pokestop(LatLongModel):
         query = Pokestop.select(Pokestop.active_fort_modifier,
                                 Pokestop.enabled, Pokestop.latitude,
                                 Pokestop.longitude, Pokestop.last_modified,
-                                Pokestop.lure_expiration, Pokestop.pokestop_id, 
+                                Pokestop.lure_expiration, Pokestop.pokestop_id, Trs_Quest.quest_task,
                                 Trs_Quest.quest_type, Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
                                 Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id, Trs_Quest.quest_item_amount,
                                 Trs_Quest.quest_target, Trs_Quest.quest_timestamp, Pokestop.name, Pokestop.image)
@@ -770,6 +770,8 @@ class LocationAltitude(LatLongModel):
 class Trs_Quest(BaseModel):
     GUID = Utf8mb4CharField(primary_key=True, max_length=50, index=True)
     quest_condition = Utf8mb4CharField(max_length=500)
+    quest_reward = Utf8mb4CharField(max_length=1000)
+    quest_task = Utf8mb4CharField(max_length=500)
     quest_type = Utf8mb4CharField(max_length=3)
     quest_stardust = Utf8mb4CharField(max_length=4)
     quest_pokemon_id = Utf8mb4CharField(max_length=4)
@@ -778,7 +780,7 @@ class Trs_Quest(BaseModel):
     quest_item_amount = Utf8mb4CharField(max_length=2)
     quest_target = Utf8mb4CharField(max_length=3)
     quest_timestamp = FloatField()
-    
+
     @staticmethod
     def get_quests():
         query = (Trs_Quest

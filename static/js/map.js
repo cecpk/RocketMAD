@@ -997,10 +997,10 @@ function gymLabel(gym, includeMembers = true) {
         </div>`
 }
 
-function pokestopLabel(expireTime, latitude, longitude, pokestopName, quest, questtype) {
+function pokestopLabel(expireTime, latitude, longitude, pokestopName, quest) {
     var str
 	var questtext = ""
-	console.log(quest)
+
 	if (quest['is_quest']) {
 		
 		switch(quest['quest_reward_type_raw']) {
@@ -1028,13 +1028,12 @@ function pokestopLabel(expireTime, latitude, longitude, pokestopName, quest, que
 			break
 		}
 
-		var questtext = i8ln(quest['quest_type_raw'])
-                questtext = questtext.replace('{0}', quest['quest_target'])
+		questtext = quest['quest_task'];
 		
 		questtext = '<center><br><b>' + questtext + '</b><br><img src=' + image + ' width=' + width + '><br>' + rewardtext + '</center>'
 		
 		//questtext = '<center>' + quest['quest_type'] + '</center>'
-		
+
 	}
     if (expireTime) {
         str = `
@@ -1446,8 +1445,7 @@ function setupPokestopMarker(item) {
             item['latitude'], 
             item['longitude'], 
             item['name'],
-            item['quest_raw'], 
-            item['quest_type']
+            item['quest_raw']
             )
         )
     markers.addLayer(marker)
