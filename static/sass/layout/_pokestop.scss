@@ -2,7 +2,6 @@
   font-size: 14px;
   font-weight: 900;
   text-align: center;
-  text-decoration: underline;
 
   &.lure {
     color: rgb(249,53,133);
@@ -66,7 +65,7 @@
   }
 }
 
-a.pokestop:link {
+a.pokestop:link, a.pokestop:visited {
   font-size: 11px;
   font-weight: 500;
 
