@@ -2,16 +2,7 @@
   font-size: 14px;
   font-weight: 900;
   text-align: center;
-
-  &.lure {
-    color: rgb(249,53,133);
-    margin-bottom: 5px;
-  }
-
-  &.nolure {
-    color: rgb(54,198,255);
-    margin-bottom: 5px;
-  }
+  margin-bottom: 5px;
 
   &.navigate {
     color: rgb(93,109,126);
@@ -38,11 +29,11 @@
     margin: auto;
 
     &.lure {
-      border: 3px solid rgba(249, 53, 133, 1);
+      border: 3px solid rgb(249, 53, 133);
     }
 
     &.nolure {
-      border: 3px solid rgba(54, 198, 255, 1);
+      border: 3px solid rgb(54, 198, 255);
     }
   }
 }
