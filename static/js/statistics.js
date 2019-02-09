@@ -10,7 +10,7 @@ function loadRawData() {
         url: 'raw_data',
         type: 'GET',
         data: {
-	    'userAuthCode': userAuthCode,
+	        'userAuthCode': userAuthCode,
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
