@@ -38,6 +38,18 @@
   }
 }
 
+.pokestop-quest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+
+  &__reward {
+    display: flex;
+    align-items: center;
+  }
+}
+
 .pokestop-expire {
   color: rgb(249,53,133);
   font-size: 14px;
