@@ -997,46 +997,55 @@ function gymLabel(gym, includeMembers = true) {
         </div>`
 }
 
-function pokestopLabel(expireTime, latitude, longitude, pokestopName, quest) {
-    var str
-	var questtext = ""
+function pokestopLabel(pokestop) {
+    let pokestopPopup = ''
+    let questText = ''
+    let pokestopImg = ''
+    const expireTime = pokestop.lure_expiration
+    const latitude = pokestop.longitude
+    const longitude = pokestop.longitude
+    const pokestopName = pokestop.name
+    const quest = pokestop.quest_raw
 
-	if (quest['is_quest']) {
-		
-		switch(quest['quest_reward_type_raw']) {
-			
-		case '2':
-			var image = 'static/quest/reward_' + quest['item_id'] + '_1.png'
-			var rewardtext = i8ln(quest['item_type']) + '<br>' + i8ln('Pieces') +': ' + quest['item_amount']
-			var width = 40
-			break
-		case '3':
-			var image = 'static/quest/reward_stardust.png'
-			var rewardtext = i8ln(quest['item_type']) + '<br>' + i8ln('Amount') +': ' + quest['item_amount']
-			var width = 40
-			break
-		case '7':
-			var pokemon_id = quest['pokemon_id']
-			if (generateImages) {
-				image = `pkm_img?pkm=${pokemon_id}`
-			} else {
-				image = pokemonSprites(quest['pokemon_id']).filename
+    if (typeof pokestop.image !== 'undefined' && pokestop.image !== null && expireTime) {
+        pokestopImg += `<img class='pokestop imgcircle lure' src='${pokestop.image}'>`
+    } else if (typeof pokestop.image !== 'undefined' && pokestop.image !== null) {
+        pokestopImg += `<img class='pokestop imgcircle nolure' src='${pokestop.image}'>`
+    }
 
-			}
-			var rewardtext = quest['quest_pokemon_name']
-                        var width = 40
-			break
-		}
+    if (quest['is_quest']) {
+        let image = ''
+        let rewardText = ''
+        let width = 40
 
-		questtext = quest['quest_task'];
-		
-		questtext = '<center><br><b>' + questtext + '</b><br><img src=' + image + ' width=' + width + '><br>' + rewardtext + '</center>'
-		
-		//questtext = '<center>' + quest['quest_type'] + '</center>'
+        switch (quest['quest_reward_type_raw']) {
+            case '2':
+                image = 'static/quest/reward_' + quest['item_id'] + '_1.png'
+                rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
+                width = 40
+                break
+            case '3':
+                image = 'static/quest/reward_stardust.png'
+                rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
+                width = 40
+                break
+            case '7':
+                const pokemonId = quest['pokemon_id']
+                if (generateImages) {
+                    image = `pkm_img?pkm=${pokemonId}`
+                } else {
+                    image = pokemonSprites(quest['pokemon_id']).filename
+                }
+                rewardText = quest['quest_pokemon_name']
+                width = 40
+                break
+        }
 
-	}
+        questText = '<center><br><b>' + quest['quest_task'] + '</b><br><img src=' + image + ' width=' + width + '><br>' + rewardText + '</center>'
+    }
+
     if (expireTime) {
-        str = `
+        pokestopPopup = `
             <div>
               <div class='pokestop lure'>
                 ${pokestopName}
@@ -1045,33 +1054,36 @@ function pokestopLabel(expireTime, latitude, longitude, pokestopName, quest) {
                   <span class='label-countdown' disappears-at='${expireTime}'>00m00s</span> left (${moment(expireTime).format('HH:mm')})
               </div>
               <div>
-                <img class='pokestop sprite' src='static/images/pokestop//PokestopLured.png'>
+                ${pokestopImg}
               </div>
               <div>
-                <span class='pokestop navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'; class='pokestop lure'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
+                ${questText}
+              </div>
+              <div>
+                <div class='pokestop navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'; class='pokestop lure'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></div>
               </div>
             </div>
           </div>`
     } else {
-        str = `
+        pokestopPopup = `
             <div>
               <div class='pokestop nolure'>
                 ${pokestopName}
               </div>
               <div>
-                <img class='pokestop sprite' src='static/images/pokestop//Pokestop.png'>
+                ${pokestopImg}
               </div>
               <div>
-                ${questtext}
+                ${questText}
               </div>
               <div>
-                <span class='pokestop navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'; class='pokestop nolure'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
+                <div class='pokestop navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'; class='pokestop nolure'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></div>
               </div>
             </div>
           </div>`
     }
 
-    return str
+    return pokestopPopup
 }
 
 function formatSpawnTime(seconds) {
@@ -1439,15 +1451,9 @@ function updateGymMarker(item, marker) {
 function setupPokestopMarker(item) {
 
     var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])	
-    var marker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2}).bindPopup(
-        pokestopLabel(
-            item['lure_expiration'], 
-            item['latitude'], 
-            item['longitude'], 
-            item['name'],
-            item['quest_raw']
-            )
-        )
+    var marker = L
+        .marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2})
+        .bindPopup(pokestopLabel(item))
     markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
         marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')

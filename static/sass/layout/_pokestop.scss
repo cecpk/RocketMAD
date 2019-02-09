@@ -29,6 +29,23 @@
       -webkit-font-smoothing: antialiased;
     }
   }
+
+  &.imgcircle {
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+    display: block;
+    border-radius: 50px;
+    margin: auto;
+
+    &.lure {
+      border: 3px solid rgba(249, 53, 133, 1);
+    }
+
+    &.nolure {
+      border: 3px solid rgba(54, 198, 255, 1);
+    }
+  }
 }
 
 .pokestop-expire {
