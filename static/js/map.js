@@ -1006,11 +1006,13 @@ function pokestopLabel(pokestop) {
     const longitude = pokestop.longitude
     const pokestopName = pokestop.name
     const quest = pokestop.quest_raw
+    const luredClass = expireTime ? 'lure' : 'nolure'
+    const pokestopNavigation = `
+        <a href='#!' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps' class='pokestop navigate ${luredClass}'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a>
+    `
 
-    if (typeof pokestop.image !== 'undefined' && pokestop.image !== null && expireTime) {
-        pokestopImg += `<img class='pokestop imgcircle lure' src='${pokestop.image}'>`
-    } else if (typeof pokestop.image !== 'undefined' && pokestop.image !== null) {
-        pokestopImg += `<img class='pokestop imgcircle nolure' src='${pokestop.image}'>`
+    if (typeof pokestop.image !== 'undefined' && pokestop.image !== null) {
+        pokestopImg = `<img class='pokestop imgcircle ${luredClass}' src='${pokestop.image}'>`
     }
 
     if (quest['is_quest']) {
@@ -1047,7 +1049,7 @@ function pokestopLabel(pokestop) {
     if (expireTime) {
         pokestopPopup = `
             <div>
-              <div class='pokestop lure'>
+              <div class='pokestop ${luredClass}'>
                 ${pokestopName}
               </div>
               <div class='pokestop-expire'>
@@ -1059,15 +1061,13 @@ function pokestopLabel(pokestop) {
               <div>
                 ${questText}
               </div>
-              <div>
-                <div class='pokestop navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'; class='pokestop lure'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></div>
-              </div>
+                ${pokestopNavigation}
             </div>
           </div>`
     } else {
         pokestopPopup = `
             <div>
-              <div class='pokestop nolure'>
+              <div class='pokestop ${luredClass}'>
                 ${pokestopName}
               </div>
               <div>
@@ -1077,7 +1077,7 @@ function pokestopLabel(pokestop) {
                 ${questText}
               </div>
               <div>
-                <div class='pokestop navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'; class='pokestop nolure'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></div>
+                ${pokestopNavigation}
               </div>
             </div>
           </div>`
