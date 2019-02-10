@@ -3035,7 +3035,7 @@ $(function () {
             $.each(value['types'], function (key, pokemonType) {
                 typestring[key] = i8ln(pokemonType['type'])
                 if (key < 1) {
-                    typestring[key+1] = i8ln(pokemonType['type']
+                    typestring[key+1] = i8ln(pokemonType['type'])
                 }
             })
             value['gen'] = getPokemonGen(key)
