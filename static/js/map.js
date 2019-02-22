@@ -1054,11 +1054,11 @@ function pokestopLabel(pokestop) {
 
         questText = `
           <div class="pokestop-quest">
-            <div class="pokestop-quest__task">${quest['quest_task']}</div>
             <div class="pokestop-quest__reward">
               <div class="pokestop-quest__reward-image"><img src="${image}" width="${width}" /></div>
               <div class="pokestop-quest__reward-text">${rewardText}</div>
             </div>
+            <div class="pokestop-quest__task">${quest['quest_task']}</div>
           </div>`
     }
 
