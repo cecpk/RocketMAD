@@ -44,6 +44,10 @@
   align-items: center;
   margin-top: 7px;
 
+  &__task {
+    text-align: center;
+  }
+
   &__reward {
     display: flex;
     align-items: center;
