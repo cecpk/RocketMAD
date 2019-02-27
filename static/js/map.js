@@ -999,7 +999,7 @@ function gymLabel(gym, includeMembers = true) {
 
 function pokestopLabel(pokestop) {
     let questText = ''
-    let pokestopImg = ''
+    let pokestopImg = '<img class=\'pokestop sprite\' src=\'static/images/pokestop/Pokestop.png\'>'
     let pokestopExpiration = ''
     const expireTime = pokestop.lure_expiration
     const latitude = pokestop.latitude
@@ -1010,6 +1010,7 @@ function pokestopLabel(pokestop) {
         <a href='#!' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps' class='pokestop navigate ${luredClass}'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a>
       </div>
     `
+    const pokestopName = pokestop.name ? pokestop.name : 'Pokéstop'
 
     if (expireTime) {
         pokestopExpiration = `
@@ -1019,7 +1020,7 @@ function pokestopLabel(pokestop) {
         `
     }
 
-    if (typeof pokestop.image !== 'undefined' && pokestop.image !== null) {
+    if (typeof pokestop.image !== 'undefined' && pokestop.image !== null && pokestop.image !== '') {
         pokestopImg = `<img class='pokestop imgcircle ${luredClass}' src='${pokestop.image}'>`
     }
 
@@ -1065,7 +1066,7 @@ function pokestopLabel(pokestop) {
     return `
       <div>
         <div class='pokestop ${luredClass}'>
-          ${pokestop.name}
+          ${pokestopName}
         </div>
         ${pokestopExpiration}
         <div>
