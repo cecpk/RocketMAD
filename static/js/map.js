@@ -3034,6 +3034,9 @@ $(function () {
             value['name'] = i8ln(value['name'])
             $.each(value['types'], function (key, pokemonType) {
                 typestring[key] = i8ln(pokemonType['type'])
+                if (key < 1) {
+                    typestring[key+1] = i8ln(pokemonType['type'])
+                }
             })
             value['gen'] = getPokemonGen(key)
             $('.list').append('<div class=pokemon-icon-sprite data-gen=gen' + value['gen'] + ' data-pkm=' + i8ln(value['name']) + ' data-value=' + key + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name']) + '</div></div>')
