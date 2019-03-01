@@ -425,6 +425,7 @@ class Pogom(Flask):
         lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
         
+        luredonly = False
         if request.args.get('luredonly') == '0':
             luredonly = False
         elif request.args.get('luredonly') == '1':
