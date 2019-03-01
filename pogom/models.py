@@ -51,7 +51,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 29
+db_schema_version = 30
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -351,8 +351,8 @@ class Pokestop(LatLongModel):
     enabled = BooleanField()
     latitude = DoubleField()
     longitude = DoubleField()
-    name = Utf8mb4CharField(max_length=200)
-    image = Utf8mb4CharField(max_length=200)
+    name = Utf8mb4CharField(null=True, default=NULL, max_length=128)
+    image = Utf8mb4CharField(null=True, default=NULL, max_length=255)
     last_modified = DateTimeField(index=True)
     lure_expiration = DateTimeField(null=True, index=True)
     active_fort_modifier = SmallIntegerField(null=True, index=True)
@@ -3927,6 +3927,16 @@ def database_migrate(db, old_ver):
         db.execute_sql('ALTER TABLE `spawnpoint` '
                        'ADD CONSTRAINT CONSTRAINT_4 CHECK ' +
                        '(`latest_seen` <= 3600);')
+    if old_ver < 30:
+        # Add new column 'image' to pokestop table
+        db.execute_sql('ALTER TABLE `pokestop` '
+                       'ADD COLUMN `image` VARCHAR(255) NULL DEFAULT NULL COLLATE "utf8mb4_unicode_ci";')
+    
+        # Add new column 'name' to pokestop table
+        db.execute_sql('ALTER TABLE `pokestop` '
+                       'ADD COLUMN `name` VARCHAR(128) NULL DEFAULT NULL COLLATE "utf8mb4_unicode_ci";')
+
+
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
