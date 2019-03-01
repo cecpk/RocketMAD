@@ -51,7 +51,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 30
+db_schema_version = 29
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -3927,16 +3927,6 @@ def database_migrate(db, old_ver):
         db.execute_sql('ALTER TABLE `spawnpoint` '
                        'ADD CONSTRAINT CONSTRAINT_4 CHECK ' +
                        '(`latest_seen` <= 3600);')
-    if old_ver < 30:
-        # Add new column 'image' to pokestop table
-        db.execute_sql('ALTER TABLE `pokestop` '
-                       'ADD COLUMN `image` VARCHAR(255) NULL DEFAULT NULL COLLATE "utf8mb4_unicode_ci";')
-    
-        # Add new column 'name' to pokestop table
-        db.execute_sql('ALTER TABLE `pokestop` '
-                       'ADD COLUMN `name` VARCHAR(128) NULL DEFAULT NULL COLLATE "utf8mb4_unicode_ci";')
-
-
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
