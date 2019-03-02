@@ -2013,6 +2013,16 @@ function processPokestop(i, item) {
     if (Store.get('showLuredPokestopsOnly') == 1 && !item['lure_expiration']) {
         return true
 	}
+    if (Store.get('showLuredPokestopsOnly') == 3){
+	return false
+	}
+    if (Store.get('showLuredPokestopsOnly') == 4){
+        return false
+        }
+    if (Store.get('showLuredPokestopsOnly') == 5){
+        return false
+        }
+
     //if (Store.get('showLuredPokestopsOnly') == 2 && !item['quest_raw']) {
     //    return true
 		//}
@@ -2081,6 +2091,46 @@ function updatePokestops() {
             if (!value['quest_raw']['is_quest']) {
                 removeStops.push(key)
             }
+        })
+        $.each(removeStops, function (key, value) {
+            if (mapData.pokestops[value] && mapData.pokestops[value].marker) {
+                if (mapData.pokestops[value].marker.rangeCircle) {
+                    markers.removeLayer(mapData.pokestops[value].marker.rangeCircle)
+                }
+                markers.removeLayer(mapData.pokestops[value].marker)
+                delete mapData.pokestops[key]
+            }
+        })
+    }
+    if (Store.get('showLuredPokestopsOnly') == 3) {
+        $.each(mapData.pokestops, function (key, value) {
+	    if (!value['quest_raw']['item_type']){
+		removeStops.push(key)
+	    }
+            else if (value['quest_raw']['item_type'] !== "Rare Candy") {
+                removeStops.push(key)
+            }
+	
+        })
+        $.each(removeStops, function (key, value) {
+            if (mapData.pokestops[value] && mapData.pokestops[value].marker) {
+                if (mapData.pokestops[value].marker.rangeCircle) {
+                    markers.removeLayer(mapData.pokestops[value].marker.rangeCircle)
+                }
+                markers.removeLayer(mapData.pokestops[value].marker)
+                delete mapData.pokestops[key]
+            }
+        })
+    }
+    if (Store.get('showLuredPokestopsOnly') == 4) {
+        $.each(mapData.pokestops, function (key, value) {
+            if (!value['quest_raw']['item_type']){
+                removeStops.push(key)
+            }
+            else if (value['quest_raw']['item_type'] !== "Silver Pinap") {
+                removeStops.push(key)
+            }
+
         })
         $.each(removeStops, function (key, value) {
             if (mapData.pokestops[value] && mapData.pokestops[value].marker) {

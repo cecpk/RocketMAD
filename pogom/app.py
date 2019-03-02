@@ -432,6 +432,11 @@ class Pogom(Flask):
             luredonly = True
         elif request.args.get('luredonly') == '2':
             luredonly = False
+        elif request.args.get('luredonly') == '3':
+            luredonly = False
+        elif request.args.get('luredonly') == '4':
+            luredonly = False
+
 
         # Current switch settings saved for next request.
         if request.args.get('gyms', 'true') == 'true':
