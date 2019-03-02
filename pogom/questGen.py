@@ -11,7 +11,6 @@ log = logging.getLogger(__name__)
 
 
 def generate_quest(quest):
-    
         if quest['quest_timestamp']:
             ts_db = datetime.fromtimestamp(quest['quest_timestamp']).strftime("%Y-%m-%d")
             ts_now = datetime.today().strftime('%Y-%m-%d')
@@ -66,9 +65,12 @@ def generate_quest(quest):
 
         
             quest_raw = ({ 
-                'quest_type_raw': quest_type, 'quest_type': quest_type_text, 'item_amount': item_amount, 'item_type': item_type, 
-                'quest_target': quest_target, 'timestamp': timestamp, 'pokemon_id': pokemon_id, 'item_id': item_id,
-                'quest_reward_type': quest_reward_type, 'quest_reward_type_raw': quest_reward_type_raw, 'is_quest': True, 'quest_pokemon_name': pokemon_name})
+                'quest_type_raw': quest_type, 'quest_type': quest_type_text, 'item_amount': item_amount,
+                'item_type': item_type, 'quest_target': quest_target, 'timestamp': timestamp, 'pokemon_id': pokemon_id,
+                'item_id': item_id, 'quest_reward_type': quest_reward_type,
+                'quest_reward_type_raw': quest_reward_type_raw, 'is_quest': True,
+                'quest_pokemon_name': pokemon_name, 'quest_task': quest['quest_task']
+            })
                 
         else:
             quest_raw = ({'is_quest': False})
