@@ -22,7 +22,7 @@ from pogom.weather import (get_weather_cells,
                            get_s2_coverage, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
                      MainWorker, WorkerStatus, Token, HashKeys,
-                     SpawnPoint)
+                     SpawnPoint, Trs_Quest)
 from .utils import (get_args, get_pokemon_name, get_pokemon_types,
                     now, dottedQuadToNum)
 from .client_auth import check_auth
@@ -424,11 +424,19 @@ class Pogom(Flask):
         lastpokemon = request.args.get('lastpokemon')
         lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
-
-        if request.args.get('luredonly', 'true') == 'true':
-            luredonly = True
-        else:
+        
+        luredonly = False
+        if request.args.get('luredonly') == '0':
             luredonly = False
+        elif request.args.get('luredonly') == '1':
+            luredonly = True
+        elif request.args.get('luredonly') == '2':
+            luredonly = False
+        elif request.args.get('luredonly') == '3':
+            luredonly = False
+        elif request.args.get('luredonly') == '4':
+            luredonly = False
+
 
         # Current switch settings saved for next request.
         if request.args.get('gyms', 'true') == 'true':
@@ -526,6 +534,8 @@ class Pogom(Flask):
                                            oSwLat=oSwLat, oSwLng=oSwLng,
                                            oNeLat=oNeLat, oNeLng=oNeLng,
                                            lured=luredonly))
+                                           
+        #d['quests'] = Trs_Quest.get_quests()
 
         if request.args.get('gyms', 'true') == 'true' and not args.no_gyms:
             if lastgyms != 'true':

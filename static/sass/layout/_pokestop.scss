@@ -2,17 +2,7 @@
   font-size: 14px;
   font-weight: 900;
   text-align: center;
-  text-decoration: underline;
-
-  &.lure {
-    color: rgb(249,53,133);
-    margin-bottom: 5px;
-  }
-
-  &.nolure {
-    color: rgb(54,198,255);
-    margin-bottom: 5px;
-  }
+  margin-bottom: 5px;
 
   &.navigate {
     color: rgb(93,109,126);
@@ -28,6 +18,39 @@
       width: 16px;
       -webkit-font-smoothing: antialiased;
     }
+  }
+
+  &.imgcircle {
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+    display: block;
+    border-radius: 50px;
+    margin: auto;
+
+    &.lure {
+      border: 3px solid rgb(249, 53, 133);
+    }
+
+    &.nolure {
+      border: 3px solid rgb(54, 198, 255);
+    }
+  }
+}
+
+.pokestop-quest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7px;
+
+  &__task {
+    text-align: center;
+  }
+
+  &__reward {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -49,7 +72,7 @@
   }
 }
 
-a.pokestop:link {
+a.pokestop:link, a.pokestop:visited {
   font-size: 11px;
   font-weight: 500;
 

@@ -18,7 +18,7 @@ def get_gmaps_altitude(lat, lng):
         response = r_session.get((
             'https://api.open-elevation.com/api/v1/lookup?' +
             'locations={},{}').format(lat, lng),
-            timeout=30)
+            timeout=2)
         response = response.json()
         status = response['results']
         results = response.get('results', [])

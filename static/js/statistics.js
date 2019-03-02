@@ -5,10 +5,12 @@ var mapstat
 var markers
 
 function loadRawData() {
+    var userAuthCode = localStorage.getItem('userAuthCode')
     return $.ajax({
         url: 'raw_data',
         type: 'GET',
         data: {
+	        'userAuthCode': userAuthCode,
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
@@ -151,10 +153,12 @@ var spawnTimeMs = msPerMinute * spawnTimeMinutes
 mapData.appearances = {}
 
 function loadDetails() {
+    var userAuthCode = localStorage.getItem('userAuthCode')
     return $.ajax({
         url: 'raw_data',
         type: 'GET',
         data: {
+            'userAuthCode': userAuthCode,
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
@@ -199,10 +203,12 @@ function loadDetails() {
 }
 
 function loadAppearancesTimes(pokemonId, spawnpointId) {
+    var userAuthCode = localStorage.getItem('userAuthCode')
     return $.ajax({
         url: 'raw_data',
         type: 'GET',
         data: {
+            'userAuthCode': userAuthCode,
             'pokemon': false,
             'pokestops': false,
             'gyms': false,

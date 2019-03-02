@@ -30,6 +30,7 @@ static/rarity.json
 *.bat
 *.sh
 *.log
+.DS_Store
 !docs/make.bat
 !Tools/Easy-Setup/easy-setup.sh
 !Tools/Easy-Setup/setup.bat
