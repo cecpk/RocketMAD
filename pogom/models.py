@@ -1349,8 +1349,8 @@ class SpawnPoint(LatLongModel):
                 key = sp['id']
                 sp['links'] = 'hh??'
                 sp['kind'] = 'hhss'
-                sp['earliest_unseen'] = int(int(sp['earliest_unseen'][:2])*60
-                    + int(sp['earliest_unseen'][-2:]))
+                sp['earliest_unseen'] = (int(sp['earliest_unseen'].split(':')[0]) * 60
+                    + int(sp['earliest_unseen'].split(':')[1]))
                 sp['latest_seen'] = sp['earliest_unseen']
                 appear_time, disappear_time = SpawnPoint.start_end(sp)
                 spawnpoints[key] = sp
