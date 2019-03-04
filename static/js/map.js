@@ -515,6 +515,7 @@ function initSidebar() {
     $('#prio-notify-switch').prop('checked', Store.get('prioNotify'))
     $('#medal-rattata-switch').prop('checked', Store.get('showMedalRattata'))
     $('#medal-magikarp-switch').prop('checked', Store.get('showMedalMagikarp'))
+	$('#s2-cells-switch').prop('checked', Store.get('enableS2Cells'))
 
     $('select').each(
         function (id, element) {
@@ -3557,6 +3558,957 @@ $(function () {
         $('#min-level-gyms-filter-switch').trigger('change')
         $('#max-level-gyms-filter-switch').trigger('change')
     }
+	
+	// use own namespace for plugin
+window.s2cells = function() {};
+function setupS2Cells() {
+    /// S2 Geometry functions
+    // the regional scoreboard is based on a level 6 S2 Cell
+    // - https://docs.google.com/presentation/d/1Hl4KapfAENAOf4gv-pSngKwvS_jwNVHRPZTTDzXXn6Q/view?pli=1#slide=id.i22
+    // at the time of writing there's no actual API for the intel map to retrieve scoreboard data,
+    // but it's still useful to plot the score cells on the intel map
+
+
+    // the S2 geometry is based on projecting the earth sphere onto a cube, with some scaling of face coordinates to
+    // keep things close to approximate equal area for adjacent cells
+    // to convert a lat,lng into a cell id:
+    // - convert lat,lng to x,y,z
+    // - convert x,y,z into face,u,v
+    // - u,v scaled to s,t with quadratic formula
+    // - s,t converted to integer i,j offsets
+    // - i,j converted to a position along a Hubbert space-filling curve
+    // - combine face,position to get the cell id
+
+    //NOTE: compared to the google S2 geometry library, we vary from their code in the following ways
+    // - cell IDs: they combine face and the hilbert curve position into a single 64 bit number. this gives efficient space
+    //             and speed. javascript doesn't have appropriate data types, and speed is not cricical, so we use
+    //             as [face,[bitpair,bitpair,...]] instead
+    // - i,j: they always use 30 bits, adjusting as needed. we use 0 to (1<<level)-1 instead
+    //        (so GetSizeIJ for a cell is always 1)
+
+    (function() {
+
+      window.S2 = {};
+
+
+      var LatLngToXYZ = function(latLng) {
+        var d2r = Math.PI/180.0;
+
+        var phi = latLng.lat*d2r;
+        var theta = latLng.lng*d2r;
+
+        var cosphi = Math.cos(phi);
+
+        return [Math.cos(theta)*cosphi, Math.sin(theta)*cosphi, Math.sin(phi)];
+      };
+
+      var XYZToLatLng = function(xyz) {
+        var r2d = 180.0/Math.PI;
+
+        var lat = Math.atan2(xyz[2], Math.sqrt(xyz[0]*xyz[0]+xyz[1]*xyz[1]));
+        var lng = Math.atan2(xyz[1], xyz[0]);
+
+        return L.latLng(lat*r2d, lng*r2d);
+      };
+
+      var largestAbsComponent = function(xyz) {
+        var temp = [Math.abs(xyz[0]), Math.abs(xyz[1]), Math.abs(xyz[2])];
+
+        if (temp[0] > temp[1]) {
+          if (temp[0] > temp[2]) {
+            return 0;
+          } else {
+            return 2;
+          }
+        } else {
+          if (temp[1] > temp[2]) {
+            return 1;
+          } else {
+            return 2;
+          }
+        }
+
+      };
+
+      var faceXYZToUV = function(face,xyz) {
+        var u,v;
+
+        switch (face) {
+          case 0: u =  xyz[1]/xyz[0]; v =  xyz[2]/xyz[0]; break;
+          case 1: u = -xyz[0]/xyz[1]; v =  xyz[2]/xyz[1]; break;
+          case 2: u = -xyz[0]/xyz[2]; v = -xyz[1]/xyz[2]; break;
+          case 3: u =  xyz[2]/xyz[0]; v =  xyz[1]/xyz[0]; break;
+          case 4: u =  xyz[2]/xyz[1]; v = -xyz[0]/xyz[1]; break;
+          case 5: u = -xyz[1]/xyz[2]; v = -xyz[0]/xyz[2]; break;
+          default: throw {error: 'Invalid face'};
+        }
+
+        return [u,v];
+      };
+
+
+
+
+      var XYZToFaceUV = function(xyz) {
+        var face = largestAbsComponent(xyz);
+
+        if (xyz[face] < 0) {
+          face += 3;
+        }
+
+        uv = faceXYZToUV (face,xyz);
+
+        return [face, uv];
+      };
+
+      var FaceUVToXYZ = function(face,uv) {
+        var u = uv[0];
+        var v = uv[1];
+
+        switch (face) {
+          case 0: return [ 1, u, v];
+          case 1: return [-u, 1, v];
+          case 2: return [-u,-v, 1];
+          case 3: return [-1,-v,-u];
+          case 4: return [ v,-1,-u];
+          case 5: return [ v, u,-1];
+          default: throw {error: 'Invalid face'};
+        }
+      };
+
+
+      var STToUV = function(st) {
+        var singleSTtoUV = function(st) {
+          if (st >= 0.5) {
+            return (1/3.0) * (4*st*st - 1);
+          } else {
+            return (1/3.0) * (1 - (4*(1-st)*(1-st)));
+          }
+        };
+
+        return [singleSTtoUV(st[0]), singleSTtoUV(st[1])];
+      };
+
+
+
+      var UVToST = function(uv) {
+        var singleUVtoST = function(uv) {
+          if (uv >= 0) {
+            return 0.5 * Math.sqrt (1 + 3*uv);
+          } else {
+            return 1 - 0.5 * Math.sqrt (1 - 3*uv);
+          }
+        };
+
+        return [singleUVtoST(uv[0]), singleUVtoST(uv[1])];
+      };
+
+
+      var STToIJ = function(st,order) {
+        var maxSize = (1<<order);
+
+        var singleSTtoIJ = function(st) {
+          var ij = Math.floor(st * maxSize);
+          return Math.max(0, Math.min(maxSize-1, ij));
+        };
+
+        return [singleSTtoIJ(st[0]), singleSTtoIJ(st[1])];
+      };
+
+
+      var IJToST = function(ij,order,offsets) {
+        var maxSize = (1<<order);
+
+        return [
+          (ij[0]+offsets[0])/maxSize,
+          (ij[1]+offsets[1])/maxSize
+        ];
+      };
+
+      // hilbert space-filling curve
+      // based on http://blog.notdot.net/2009/11/Damn-Cool-Algorithms-Spatial-indexing-with-Quadtrees-and-Hilbert-Curves
+      // note: rather then calculating the final integer hilbert position, we just return the list of quads
+      // this ensures no precision issues whth large orders (S3 cell IDs use up to 30), and is more
+      // convenient for pulling out the individual bits as needed later
+      var pointToHilbertQuadList = function(x,y,order) {
+        var hilbertMap = {
+          'a': [ [0,'d'], [1,'a'], [3,'b'], [2,'a'] ],
+          'b': [ [2,'b'], [1,'b'], [3,'a'], [0,'c'] ],
+          'c': [ [2,'c'], [3,'d'], [1,'c'], [0,'b'] ],
+          'd': [ [0,'a'], [3,'c'], [1,'d'], [2,'d'] ]
+        };
+
+        var currentSquare='a';
+        var positions = [];
+
+        for (var i=order-1; i>=0; i--) {
+
+          var mask = 1<<i;
+
+          var quad_x = x&mask ? 1 : 0;
+          var quad_y = y&mask ? 1 : 0;
+
+          var t = hilbertMap[currentSquare][quad_x*2+quad_y];
+
+          positions.push(t[0]);
+
+          currentSquare = t[1];
+        }
+
+        return positions;
+      };
+
+
+
+
+      // S2Cell class
+
+      S2.S2Cell = function(){};
+
+      //static method to construct
+      S2.S2Cell.FromLatLng = function(latLng,level) {
+
+        var xyz = LatLngToXYZ(latLng);
+
+        var faceuv = XYZToFaceUV(xyz);
+        var st = UVToST(faceuv[1]);
+
+        var ij = STToIJ(st,level);
+
+        return S2.S2Cell.FromFaceIJ (faceuv[0], ij, level);
+      };
+
+      S2.S2Cell.FromFaceIJ = function(face,ij,level) {
+        var cell = new S2.S2Cell();
+        cell.face = face;
+        cell.ij = ij;
+        cell.level = level;
+
+        return cell;
+      };
+
+
+      S2.S2Cell.prototype.toString = function() {
+        return 'F'+this.face+'ij['+this.ij[0]+','+this.ij[1]+']@'+this.level;
+      };
+
+      S2.S2Cell.prototype.getLatLng = function() {
+        var st = IJToST(this.ij,this.level, [0.5,0.5]);
+        var uv = STToUV(st);
+        var xyz = FaceUVToXYZ(this.face, uv);
+
+        return XYZToLatLng(xyz);
+      };
+
+      S2.S2Cell.prototype.getCornerLatLngs = function() {
+        var result = [];
+        var offsets = [
+          [ 0.0, 0.0 ],
+          [ 0.0, 1.0 ],
+          [ 1.0, 1.0 ],
+          [ 1.0, 0.0 ]
+        ];
+
+        for (var i=0; i<4; i++) {
+          var st = IJToST(this.ij, this.level, offsets[i]);
+          var uv = STToUV(st);
+          var xyz = FaceUVToXYZ(this.face, uv);
+
+          result.push ( XYZToLatLng(xyz) );
+        }
+        return result;
+      };
+
+
+      S2.S2Cell.prototype.getFaceAndQuads = function() {
+        var quads = pointToHilbertQuadList(this.ij[0], this.ij[1], this.level);
+
+        return [this.face,quads];
+      };
+
+      S2.S2Cell.prototype.getNeighbors = function() {
+
+        var fromFaceIJWrap = function(face,ij,level) {
+          var maxSize = (1<<level);
+          if (ij[0]>=0 && ij[1]>=0 && ij[0]<maxSize && ij[1]<maxSize) {
+            // no wrapping out of bounds
+            return S2.S2Cell.FromFaceIJ(face,ij,level);
+          } else {
+            // the new i,j are out of range.
+            // with the assumption that they're only a little past the borders we can just take the points as
+            // just beyond the cube face, project to XYZ, then re-create FaceUV from the XYZ vector
+
+            var st = IJToST(ij,level,[0.5,0.5]);
+            var uv = STToUV(st);
+            var xyz = FaceUVToXYZ(face,uv);
+            var faceuv = XYZToFaceUV(xyz);
+            face = faceuv[0];
+            uv = faceuv[1];
+            st = UVToST(uv);
+            ij = STToIJ(st,level);
+            return S2.S2Cell.FromFaceIJ (face, ij, level);
+          }
+        };
+
+        var face = this.face;
+        var i = this.ij[0];
+        var j = this.ij[1];
+        var level = this.level;
+
+
+        return [
+          fromFaceIJWrap(face, [i-1,j], level),
+          fromFaceIJWrap(face, [i,j-1], level),
+          fromFaceIJWrap(face, [i+1,j], level),
+          fromFaceIJWrap(face, [i,j+1], level)
+        ];
+
+      };
+
+
+    })();
+
+
+    window.s2cells.regionLayer = L.layerGroup().addTo(map);
+	
+	
+	
+
+    //addLayerGroup('S2 Cells', window.s2cells.regionLayer, true);
+
+    map.on('moveend', window.s2cells.update);
+
+    //addHook('search', window.s2cells.search);
+
+    window.s2cells.update();
+
+  };
+
+  // rot and d2xy from Wikipedia
+  window.s2cells.rot = function(n, x, y, rx, ry) {
+    if(ry == 0) {
+      if(rx == 1) {
+        x = n-1 - x;
+        y = n-1 - y;
+      }
+
+      return [y, x];
+    }
+    return [x, y];
+  }
+  window.s2cells.d2xy = function(n, d) {
+    var rx, ry, s, t = d, xy = [0, 0];
+    for(s=1; s<n; s*=2) {
+      rx = 1 & (t/2);
+      ry = 1 & (t ^ rx);
+      xy = window.s2cells.rot(s, xy[0], xy[1], rx, ry);
+      xy[0] += s * rx;
+      xy[1] += s * ry;
+      t /= 4;
+    }
+    return xy;
+  };
+
+  window.s2cells.update = function() {
+
+	console.log("update");
+    window.s2cells.regionLayer.clearLayers();
+	
+    var bounds = map.getBounds();
+
+    var seenCells = {};
+
+    var drawCellAndNeighbors = function(cell, color) {
+      var cellStr = cell.toString();
+
+      if (!seenCells[cellStr]) {
+        // cell not visited - flag it as visited now
+        seenCells[cellStr] = true;
+
+        // is it on the screen?
+        var corners = cell.getCornerLatLngs();
+        var cellBounds = L.latLngBounds([corners[0],corners[1]]).extend(corners[2]).extend(corners[3]);
+		
+	
+		
+        if (cellBounds.intersects(bounds)) {
+          // on screen - draw it
+          window.s2cells.drawCell(cell, color);
+
+          // and recurse to our neighbors
+          var neighbors = cell.getNeighbors();
+          for (var i=0; i<neighbors.length; i++) {
+            drawCellAndNeighbors(neighbors[i], color);
+          }
+        }
+      }
+
+    };
+
+    // centre cell
+    var center = map.getCenter();
+    var zoom = map.getZoom();
+
+	
+    if (zoom >= 19) {
+      var cell = S2.S2Cell.FromLatLng ( center, 20 );
+		
+      drawCellAndNeighbors(cell, 'yellow');
+    }
+
+    if (zoom >= 16) {
+      var cell = S2.S2Cell.FromLatLng ( center, 17 );
+		
+      drawCellAndNeighbors(cell, 'red');
+    }
+
+    if (zoom >= 14) {
+      var cell = S2.S2Cell.FromLatLng ( center, 14 );
+
+      drawCellAndNeighbors(cell, 'purple');
+    }
+
+    if (zoom >= 12) {
+      var cell = S2.S2Cell.FromLatLng ( center, 12 );
+
+      drawCellAndNeighbors(cell, 'blue');
+    }
+
+
+    // the six cube side boundaries. we cheat by hard-coding the coords as it's simple enough
+    var latLngs = [ [45,-180], [35.264389682754654,-135], [35.264389682754654,-45], [35.264389682754654,45], [35.264389682754654,135], [45,180]];
+
+    var globalCellOptions = {color: 'red', weight: 7, opacity: 0.5, clickable: false };
+
+    for (var i=0; i<latLngs.length-1; i++) {
+      // the geodesic line code can't handle a line/polyline spanning more than (or close to?) 180 degrees, so we draw
+      // each segment as a separate line
+      var poly1 = L.geodesic ( [[latLngs[i], latLngs[i+1]]], globalCellOptions );
+      window.s2cells.regionLayer.addLayer(poly1);
+
+      //southern mirror of the above
+      var poly2 = L.geodesic ( [[[-latLngs[i][0],latLngs[i][1]], [-latLngs[i+1][0], latLngs[i+1][1]]]], globalCellOptions );
+      window.s2cells.regionLayer.addLayer(poly2);
+    }
+
+    // and the north-south lines. no need for geodesic here
+    for (var i=-135; i<=135; i+=90) {
+      var poly = L.polyline ( [[35.264389682754654,i], [-35.264389682754654,i]], globalCellOptions );
+      window.s2cells.regionLayer.addLayer(poly);
+    }
+  }
+
+  window.s2cells.drawCell = function(cell, color) {
+
+    //TODO: move to function - then call for all cells on screen
+
+    // corner points
+    var corners = cell.getCornerLatLngs();
+    // center point
+    var center = cell.getLatLng();
+
+    // the level 6 cells have noticible errors with non-geodesic lines - and the larger level 4 cells are worse
+    // NOTE: we only draw two of the edges. as we draw all cells on screen, the other two edges will either be drawn
+    // from the other cell, or be off screen so we don't care
+    var region = L.geodesic([[corners[0],corners[1],corners[2]]], {fill: false, color: color, opacity: 0.75, weight: 5*3/(cell.level-9), clickable: false});
+
+    window.s2cells.regionLayer.addLayer(region);
+
+    // move the label if we're at a high enough zoom level and it's off screen
+    if (map.getZoom() >= 9) {
+      var namebounds = map.getBounds().pad(-0.1); // pad 10% inside the screen bounds
+      if (!namebounds.contains(center)) {
+        // name is off-screen. pull it in so it's inside the bounds
+        var newlat = Math.max(Math.min(center.lat, namebounds.getNorth()), namebounds.getSouth());
+        var newlng = Math.max(Math.min(center.lng, namebounds.getEast()), namebounds.getWest());
+
+        var newpos = L.latLng(newlat,newlng);
+
+        // ensure the new position is still within the same cell
+        var newposcell = S2.S2Cell.FromLatLng ( newpos, 6 );
+        if ( newposcell.toString() == cell.toString() ) {
+          center=newpos;
+        }
+        // else we leave the name where it was - offscreen
+      }
+    }
+};
+
+/** Extend Number object with method to convert numeric degrees to radians */
+if (typeof Number.prototype.toRadians === "undefined") {
+  Number.prototype.toRadians = function() {
+    return this * Math.PI / 180;
+  };
+}
+
+/** Extend Number object with method to convert radians to numeric (signed) degrees */
+if (typeof Number.prototype.toDegrees === "undefined") {
+  Number.prototype.toDegrees = function() {
+    return this * 180 / Math.PI;
+  };
+}
+
+var INTERSECT_LNG = 179.999; // Lng used for intersection and wrap around on map edges
+
+L.Geodesic = L.Polyline.extend({
+  options: {
+    color: "blue",
+    steps: 10,
+    dash: 1,
+    wrap: true
+  },
+
+  initialize: function(latlngs, options) {
+    this.options = this._merge_options(this.options, options);
+    this.options.dash = Math.max(1e-3, Math.min(1, parseFloat(this.options.dash) || 1));
+    this.datum = {};
+    this.datum.ellipsoid = {
+        a: 6378137,
+        b: 6356752.3142,
+        f: 1 / 298.257223563
+      }; // WGS-84
+    this._latlngs = this._generate_Geodesic(latlngs);
+    L.Polyline.prototype.initialize.call(this, this._latlngs, this.options);
+  },
+
+  setLatLngs: function(latlngs) {
+    this._latlngs = this._generate_Geodesic(latlngs);
+    L.Polyline.prototype.setLatLngs.call(this, this._latlngs);
+  },
+
+  /**
+   * Calculates some statistic values of current geodesic multipolyline
+   * @returns (Object} Object with several properties (e.g. overall distance)
+   */
+  getStats: function() {
+    let obj = {
+        distance: 0,
+        points: 0,
+        polygons: this._latlngs.length
+      }, poly, points;
+
+    for (poly = 0; poly < this._latlngs.length; poly++) {
+      obj.points += this._latlngs[poly].length;
+      for (points = 0; points < (this._latlngs[poly].length - 1); points++) {
+        obj.distance += this._vincenty_inverse(this._latlngs[poly][points],
+          this._latlngs[poly][points + 1]).distance;
+      }
+    }
+    return obj;
+  },
+
+
+  /**
+   * Creates geodesic lines from geoJson. Replaces all current features of this instance.
+   * Supports LineString, MultiLineString and Polygon
+   * @param {Object} geojson - geosjon as object.
+   */
+  geoJson: function(geojson) {
+
+    let normalized = L.GeoJSON.asFeature(geojson);
+    let features = normalized.type === "FeatureCollection" ? normalized.features : [
+      normalized
+    ];
+    this._latlngs = [];
+    for (let feature of features) {
+      let geometry = feature.type === "Feature" ? feature.geometry :
+        feature,
+        coords = geometry.coordinates;
+
+      switch (geometry.type) {
+        case "LineString":
+          this._latlngs.push(this._generate_Geodesic([L.GeoJSON.coordsToLatLngs(
+            coords, 0)]));
+          break;
+        case "MultiLineString":
+        case "Polygon":
+          this._latlngs.push(this._generate_Geodesic(L.GeoJSON.coordsToLatLngs(
+            coords, 1)));
+          break;
+        case "Point":
+        case "MultiPoint":
+          console.log("Dude, points can't be drawn as geodesic lines...");
+          break;
+        default:
+          console.log("Drawing " + geometry.type +
+            " as a geodesic is not supported. Skipping...");
+      }
+    }
+    L.Polyline.prototype.setLatLngs.call(this, this._latlngs);
+  },
+
+  /**
+   * Creates a great circle. Replaces all current lines.
+   * @param {Object} center - geographic position
+   * @param {number} radius - radius of the circle in metres
+   */
+  createCircle: function(center, radius) {
+    let polylineIndex = 0;
+    let prev = {
+      lat: 0,
+      lng: 0,
+      brg: 0
+    };
+    let step;
+
+    this._latlngs = [];
+    this._latlngs[polylineIndex] = [];
+
+    let direct = this._vincenty_direct(L.latLng(center), 0, radius, this.options
+      .wrap);
+    prev = L.latLng(direct.lat, direct.lng);
+    this._latlngs[polylineIndex].push(prev);
+    for (step = 1; step <= this.options.steps;) {
+      direct = this._vincenty_direct(L.latLng(center), 360 / this.options
+        .steps * step, radius, this.options.wrap);
+      let gp = L.latLng(direct.lat, direct.lng);
+      if (Math.abs(gp.lng - prev.lng) > 180) {
+        let inverse = this._vincenty_inverse(prev, gp);
+        let sec = this._intersection(prev, inverse.initialBearing, {
+          lat: -89,
+          lng: ((gp.lng - prev.lng) > 0) ? -INTERSECT_LNG : INTERSECT_LNG
+        }, 0);
+        if (sec) {
+          this._latlngs[polylineIndex].push(L.latLng(sec.lat, sec.lng));
+          polylineIndex++;
+          this._latlngs[polylineIndex] = [];
+          prev = L.latLng(sec.lat, -sec.lng);
+          this._latlngs[polylineIndex].push(prev);
+        } else {
+          polylineIndex++;
+          this._latlngs[polylineIndex] = [];
+          this._latlngs[polylineIndex].push(gp);
+          prev = gp;
+          step++;
+        }
+      } else {
+        this._latlngs[polylineIndex].push(gp);
+        prev = gp;
+        step++;
+      }
+    }
+
+    L.Polyline.prototype.setLatLngs.call(this, this._latlngs);
+  },
+
+  /**
+   * Creates a geodesic Polyline from given coordinates
+   * Note: dashed lines are under work
+   * @param {Object} latlngs - One or more polylines as an array. See Leaflet doc about Polyline
+   * @returns (Object} An array of arrays of geographical points.
+   */
+  _generate_Geodesic: function(latlngs) {
+    let _geo = [], _geocnt = 0;
+
+    for (let poly = 0; poly < latlngs.length; poly++) {
+      _geo[_geocnt] = [];
+      let prev = L.latLng(latlngs[poly][0]);
+      for (let points = 0; points < (latlngs[poly].length - 1); points++) {
+        // use prev, so that wrapping behaves correctly
+        let pointA = prev;
+        let pointB = L.latLng(latlngs[poly][points + 1]);
+        if (pointA.equals(pointB)) {
+          continue;
+        }
+        let inverse = this._vincenty_inverse(pointA, pointB);
+        _geo[_geocnt].push(prev);
+        for (let s = 1; s <= this.options.steps;) {
+          let distance = inverse.distance / this.options.steps;
+          // dashed lines don't go the full distance between the points
+          let dist_mult = s - 1 + this.options.dash;
+          let direct = this._vincenty_direct(pointA, inverse.initialBearing, distance*dist_mult, this.options.wrap);
+          let gp = L.latLng(direct.lat, direct.lng);
+          if (Math.abs(gp.lng - prev.lng) > 180) {
+            let sec = this._intersection(pointA, inverse.initialBearing, {
+              lat: -89,
+              lng: ((gp.lng - prev.lng) > 0) ? -INTERSECT_LNG : INTERSECT_LNG
+            }, 0);
+            if (sec) {
+              _geo[_geocnt].push(L.latLng(sec.lat, sec.lng));
+              _geocnt++;
+              _geo[_geocnt] = [];
+              prev = L.latLng(sec.lat, -sec.lng);
+              _geo[_geocnt].push(prev);
+            } else {
+              _geocnt++;
+              _geo[_geocnt] = [];
+              _geo[_geocnt].push(gp);
+              prev = gp;
+              s++;
+            }  
+          } else {
+            _geo[_geocnt].push(gp);
+            // Dashed lines start a new line
+            if (this.options.dash < 1){
+                _geocnt++;
+                // go full distance this time, to get starting point for next line
+                let direct_full = this._vincenty_direct(pointA, inverse.initialBearing, distance*s, this.options.wrap);
+                _geo[_geocnt] = [];
+                prev = L.latLng(direct_full.lat, direct_full.lng);
+                _geo[_geocnt].push(prev);
+            }
+            else prev = gp;
+            s++;
+          }
+        }
+      }
+      _geocnt++;
+    }
+    return _geo;
+  },
+
+  /**
+   * Vincenty direct calculation.
+   * based on the work of Chris Veness (https://github.com/chrisveness/geodesy)
+   *
+   * @private
+   * @param {number} initialBearing - Initial bearing in degrees from north.
+   * @param {number} distance - Distance along bearing in metres.
+   * @returns (Object} Object including point (destination point), finalBearing.
+   */
+
+  _vincenty_direct: function(p1, initialBearing, distance, wrap) {
+    var φ1 = p1.lat.toRadians(),
+      λ1 = p1.lng.toRadians();
+    var α1 = initialBearing.toRadians();
+    var s = distance;
+
+    var a = this.datum.ellipsoid.a,
+      b = this.datum.ellipsoid.b,
+      f = this.datum.ellipsoid.f;
+
+    var sinα1 = Math.sin(α1);
+    var cosα1 = Math.cos(α1);
+
+    var tanU1 = (1 - f) * Math.tan(φ1),
+      cosU1 = 1 / Math.sqrt((1 + tanU1 * tanU1)),
+      sinU1 = tanU1 * cosU1;
+    var σ1 = Math.atan2(tanU1, cosα1);
+    var sinα = cosU1 * sinα1;
+    var cosSqα = 1 - sinα * sinα;
+    var uSq = cosSqα * (a * a - b * b) / (b * b);
+    var A = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 *
+      uSq)));
+    var B = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
+
+    var σ = s / (b * A),
+      σʹ, iterations = 0;
+    var sinσ, cosσ;
+    var cos2σM;
+    do {
+      cos2σM = Math.cos(2 * σ1 + σ);
+      sinσ = Math.sin(σ);
+      cosσ = Math.cos(σ);
+      var Δσ = B * sinσ * (cos2σM + B / 4 * (cosσ * (-1 + 2 * cos2σM *
+          cos2σM) -
+        B / 6 * cos2σM * (-3 + 4 * sinσ * sinσ) * (-3 + 4 * cos2σM *
+          cos2σM)));
+      σʹ = σ;
+      σ = s / (b * A) + Δσ;
+    } while (Math.abs(σ - σʹ) > 1e-12 && ++iterations);
+
+    var x = sinU1 * sinσ - cosU1 * cosσ * cosα1;
+    var φ2 = Math.atan2(sinU1 * cosσ + cosU1 * sinσ * cosα1, (1 - f) *
+      Math.sqrt(sinα * sinα + x * x));
+    var λ = Math.atan2(sinσ * sinα1, cosU1 * cosσ - sinU1 * sinσ * cosα1);
+    var C = f / 16 * cosSqα * (4 + f * (4 - 3 * cosSqα));
+    var L = λ - (1 - C) * f * sinα *
+      (σ + C * sinσ * (cos2σM + C * cosσ * (-1 + 2 * cos2σM * cos2σM)));
+
+    var λ2;
+    if (wrap) {
+      λ2 = (λ1 + L + 3 * Math.PI) % (2 * Math.PI) - Math.PI; // normalise to -180...+180
+    } else {
+      λ2 = (λ1 + L); // do not normalize
+    }
+
+    var revAz = Math.atan2(sinα, -x);
+
+    return {
+      lat: φ2.toDegrees(),
+      lng: λ2.toDegrees(),
+      finalBearing: revAz.toDegrees()
+    };
+  },
+
+  /**
+   * Vincenty inverse calculation.
+   * based on the work of Chris Veness (https://github.com/chrisveness/geodesy)
+   *
+   * @private
+   * @param {LatLng} p1 - Latitude/longitude of start point.
+   * @param {LatLng} p2 - Latitude/longitude of destination point.
+   * @returns {Object} Object including distance, initialBearing, finalBearing.
+   * @throws {Error} If formula failed to converge.
+   */
+  _vincenty_inverse: function(p1, p2) {
+    var φ1 = p1.lat.toRadians(),
+      λ1 = p1.lng.toRadians();
+    var φ2 = p2.lat.toRadians(),
+      λ2 = p2.lng.toRadians();
+
+    var a = this.datum.ellipsoid.a,
+      b = this.datum.ellipsoid.b,
+      f = this.datum.ellipsoid.f;
+
+    var L = λ2 - λ1;
+    var tanU1 = (1 - f) * Math.tan(φ1),
+      cosU1 = 1 / Math.sqrt((1 + tanU1 * tanU1)),
+      sinU1 = tanU1 * cosU1;
+    var tanU2 = (1 - f) * Math.tan(φ2),
+      cosU2 = 1 / Math.sqrt((1 + tanU2 * tanU2)),
+      sinU2 = tanU2 * cosU2;
+
+    var λ = L,
+      λʹ, iterations = 0;
+    var cosSqα, sinσ, cos2σM, cosσ, σ, sinλ, cosλ;
+    do {
+      sinλ = Math.sin(λ);
+      cosλ = Math.cos(λ);
+      var sinSqσ = (cosU2 * sinλ) * (cosU2 * sinλ) + (cosU1 * sinU2 -
+        sinU1 * cosU2 * cosλ) * (cosU1 * sinU2 - sinU1 * cosU2 * cosλ);
+      sinσ = Math.sqrt(sinSqσ);
+      if (sinσ == 0) return 0; // co-incident points
+      cosσ = sinU1 * sinU2 + cosU1 * cosU2 * cosλ;
+      σ = Math.atan2(sinσ, cosσ);
+      var sinα = cosU1 * cosU2 * sinλ / sinσ;
+      cosSqα = 1 - sinα * sinα;
+      cos2σM = cosσ - 2 * sinU1 * sinU2 / cosSqα;
+      if (isNaN(cos2σM)) cos2σM = 0; // equatorial line: cosSqα=0 (§6)
+      var C = f / 16 * cosSqα * (4 + f * (4 - 3 * cosSqα));
+      λʹ = λ;
+      λ = L + (1 - C) * f * sinα * (σ + C * sinσ * (cos2σM + C * cosσ * (-
+        1 + 2 * cos2σM * cos2σM)));
+    } while (Math.abs(λ - λʹ) > 1e-12 && ++iterations < 100);
+    if (iterations >= 100) {
+      console.log("Formula failed to converge. Altering target position.");
+      return this._vincenty_inverse(p1, {
+          lat: p2.lat,
+          lng: p2.lng - 0.01
+        });
+        //  throw new Error('Formula failed to converge');
+    }
+
+    var uSq = cosSqα * (a * a - b * b) / (b * b);
+    var A = 1 + uSq / 16384 * (4096 + uSq * (-768 + uSq * (320 - 175 *
+      uSq)));
+    var B = uSq / 1024 * (256 + uSq * (-128 + uSq * (74 - 47 * uSq)));
+    var Δσ = B * sinσ * (cos2σM + B / 4 * (cosσ * (-1 + 2 * cos2σM *
+        cos2σM) -
+      B / 6 * cos2σM * (-3 + 4 * sinσ * sinσ) * (-3 + 4 * cos2σM *
+        cos2σM)));
+
+    var s = b * A * (σ - Δσ);
+
+    var fwdAz = Math.atan2(cosU2 * sinλ, cosU1 * sinU2 - sinU1 * cosU2 *
+      cosλ);
+    var revAz = Math.atan2(cosU1 * sinλ, -sinU1 * cosU2 + cosU1 * sinU2 *
+      cosλ);
+
+    s = Number(s.toFixed(3)); // round to 1mm precision
+    return {
+      distance: s,
+      initialBearing: fwdAz.toDegrees(),
+      finalBearing: revAz.toDegrees()
+    };
+  },
+
+
+  /**
+   * Returns the point of intersection of two paths defined by point and bearing.
+   * based on the work of Chris Veness (https://github.com/chrisveness/geodesy)
+   *
+   * @param {LatLon} p1 - First point.
+   * @param {number} brng1 - Initial bearing from first point.
+   * @param {LatLon} p2 - Second point.
+   * @param {number} brng2 - Initial bearing from second point.
+   * @returns {Object} containing lat/lng information of intersection.
+   *
+   * @example
+   * var p1 = LatLon(51.8853, 0.2545), brng1 = 108.55;
+   * var p2 = LatLon(49.0034, 2.5735), brng2 = 32.44;
+   * var pInt = LatLon.intersection(p1, brng1, p2, brng2); // pInt.toString(): 50.9078°N, 4.5084°E
+   */
+  _intersection: function(p1, brng1, p2, brng2) {
+    // see http://williams.best.vwh.net/avform.htm#Intersection
+
+    var φ1 = p1.lat.toRadians(),
+      λ1 = p1.lng.toRadians();
+    var φ2 = p2.lat.toRadians(),
+      λ2 = p2.lng.toRadians();
+    var θ13 = Number(brng1).toRadians(),
+      θ23 = Number(brng2).toRadians();
+    var Δφ = φ2 - φ1,
+      Δλ = λ2 - λ1;
+
+    var δ12 = 2 * Math.asin(Math.sqrt(Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ /
+        2)));
+    if (δ12 == 0) return null;
+
+    // initial/final bearings between points
+    var θ1 = Math.acos((Math.sin(φ2) - Math.sin(φ1) * Math.cos(δ12)) /
+      (Math.sin(δ12) * Math.cos(φ1)));
+    if (isNaN(θ1)) θ1 = 0; // protect against rounding
+    var θ2 = Math.acos((Math.sin(φ1) - Math.sin(φ2) * Math.cos(δ12)) /
+      (Math.sin(δ12) * Math.cos(φ2)));
+    var θ12, θ21;
+    if (Math.sin(λ2 - λ1) > 0) {
+      θ12 = θ1;
+      θ21 = 2 * Math.PI - θ2;
+    } else {
+      θ12 = 2 * Math.PI - θ1;
+      θ21 = θ2;
+    }
+
+    var α1 = (θ13 - θ12 + Math.PI) % (2 * Math.PI) - Math.PI; // angle 2-1-3
+    var α2 = (θ21 - θ23 + Math.PI) % (2 * Math.PI) - Math.PI; // angle 1-2-3
+
+    if (Math.sin(α1) == 0 && Math.sin(α2) == 0) return null; // infinite intersections
+    if (Math.sin(α1) * Math.sin(α2) < 0) return null; // ambiguous intersection
+
+    //α1 = Math.abs(α1);
+    //α2 = Math.abs(α2);
+    // ... Ed Williams takes abs of α1/α2, but seems to break calculation?
+
+    var α3 = Math.acos(-Math.cos(α1) * Math.cos(α2) +
+      Math.sin(α1) * Math.sin(α2) * Math.cos(δ12));
+    var δ13 = Math.atan2(Math.sin(δ12) * Math.sin(α1) * Math.sin(α2),
+      Math.cos(α2) + Math.cos(α1) * Math.cos(α3));
+    var φ3 = Math.asin(Math.sin(φ1) * Math.cos(δ13) +
+      Math.cos(φ1) * Math.sin(δ13) * Math.cos(θ13));
+    var Δλ13 = Math.atan2(Math.sin(θ13) * Math.sin(δ13) * Math.cos(φ1),
+      Math.cos(δ13) - Math.sin(φ1) * Math.sin(φ3));
+    var λ3 = λ1 + Δλ13;
+    λ3 = (λ3 + 3 * Math.PI) % (2 * Math.PI) - Math.PI; // normalise to -180..+180º
+
+    return {
+      lat: φ3.toDegrees(),
+      lng: λ3.toDegrees()
+    };
+  },
+
+  /**
+   * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+   * @param obj1
+   * @param obj2
+   * @returns obj3 a new object based on obj1 and obj2
+   */
+  _merge_options: function(obj1, obj2) {
+    let obj3 = {};
+    for (let attrname in obj1) {
+      obj3[attrname] = obj1[attrname];
+    }
+    for (let attrname in obj2) {
+      obj3[attrname] = obj2[attrname];
+    }
+    return obj3;
+  }
+});
+
+L.geodesic = function(latlngs, options) {
+  return new L.Geodesic(latlngs, options);
+};
 
     // Setup UI element interactions
 
@@ -3642,6 +4594,11 @@ $(function () {
 
     $('#weather-alerts-switch').change(function () {
         buildSwitchChangeListener(mapData, ['weatherAlerts'], 'showWeatherAlerts').bind(this)()
+    })
+	
+	$('#s2-cells-switch').change(function () {
+        console.log("Toggle S2 Cells")
+		setupS2Cells()
     })
 
 

@@ -178,6 +178,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+	'enableS2Cells': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'hideNotNotified': {
         default: false,
         type: StoreTypes.Boolean
