@@ -113,7 +113,7 @@ class Pogom(Flask):
         pkm = request.args.get('pkm')
         is_in_battle = 'in_battle' in request.args
 
-        if (level < 0 or level > 6 or raidlevel < 0 or raidlevel > 5):
+        if (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or int(raidlevel) > 5):
             return abort(416)
 
         return send_file(get_gym_icon(
