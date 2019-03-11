@@ -12,6 +12,7 @@ var $textLevelNotify
 var $selectStyle
 var $selectIconSize
 var $switchOpenGymsOnly
+var $switchGymInBattle
 var $switchActiveRaidGymsOnly
 var $switchRaidMinLevel
 var $switchRaidMaxLevel
@@ -484,6 +485,7 @@ function initSidebar() {
     $('#raid-max-level-only-switch').val(Store.get('showRaidMaxLevel'))
     $('#raids-filter-wrapper').toggle(Store.get('showRaids'))
     $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
+    $('#gym-in-battle-switch').prop('checked', Store.get('showGymInBattle'))
     $('#min-level-gyms-filter-switch').val(Store.get('minGymLevel'))
     $('#max-level-gyms-filter-switch').val(Store.get('maxGymLevel'))
     $('#last-update-gyms-switch').val(Store.get('showLastUpdatedGymsOnly'))
@@ -2199,6 +2201,13 @@ function processGym(i, item) {
         return true
     }
 
+    if (Store.get('showGymInBattle')) {
+        if (!item.is_in_battle) {
+            removeGymFromMap(item['gym_id'])
+            return true
+        }
+    }
+
     if (Store.get('showLastUpdatedGymsOnly')) {
         var now = new Date()
         if ((Store.get('showLastUpdatedGymsOnly') * 3600 * 1000) + item.last_scanned < now.getTime()) {
@@ -2921,6 +2930,14 @@ $(function () {
         updateMap()
     })
 
+    $switchGymInBattle = $('#gym-in-battle-switch')
+
+    $switchGymInBattle.on('change', function () {
+        Store.set('showGymInBattle', this.checked)
+        lastgyms = false
+        updateMap()
+    })
+
     $switchActiveRaidGymsOnly = $('#raid-active-gym-switch')
 
     $switchActiveRaidGymsOnly.on('change', function () {
@@ -3547,9 +3564,11 @@ $(function () {
         Store.set('minGymLevel', 0)
         Store.set('maxGymLevel', 6)
         Store.set('showOpenGymsOnly', false)
+        Store.set('showGymInBattle', false)
 
         $('#team-gyms-only-switch').val(Store.get('showTeamGymsOnly'))
         $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
+        $('#gym-in-battle-switch').prop('checked', Store.get('showGymInBattle'))
         $('#min-level-gyms-filter-switch').val(Store.get('minGymLevel'))
         $('#max-level-gyms-filter-switch').val(Store.get('maxGymLevel'))
 
