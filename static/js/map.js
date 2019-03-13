@@ -862,6 +862,7 @@ function gymLabel(gym, includeMembers = true) {
     const isUpcomingRaid = raid != null && Date.now() < raid.start
     const isRaidStarted = isOngoingRaid(raid)
     const isRaidFilterOn = Store.get('showRaids')
+    const gymImage = gym.url.url
 
     var subtitle = ''
     var image = ''
@@ -916,6 +917,9 @@ function gymLabel(gym, includeMembers = true) {
                     </div>
                 `
             }
+        } else if (gymImage !== '') {
+            image = `<img class='gym sprite' src='${gymImage}'>`
+        
         } else {
             let gymUrl = `gym_img?team=${gymTypes[gym.team_id]}&level=${getGymLevel(gym)}&raidlevel=${raid.level}`
             if (gym.is_in_battle) {
@@ -933,6 +937,9 @@ function gymLabel(gym, includeMembers = true) {
                   Raid in <span class='raid countdown label-countdown' disappears-at='${raid.start}'></span> (${moment(raid.start).format('HH:mm')})
                 </div>`
         }
+    } else if (gymImage !== '') {
+        image = `<img class='gym sprite' src='${gymImage}'>`
+
     } else {
         let gymUrl = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
         if (gym.is_in_battle) {
@@ -940,7 +947,6 @@ function gymLabel(gym, includeMembers = true) {
         }
         image = `<img class='gym sprite' src='${gymUrl}'>`
     }
-
 
     navInfo = `
             <div class='gym container'>
