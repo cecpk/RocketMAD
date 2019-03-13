@@ -491,6 +491,7 @@ class Gym(LatLongModel):
     guard_pokemon_id = SmallIntegerField()
     slots_available = SmallIntegerField()
     enabled = BooleanField()
+	park = BooleanField()
     latitude = DoubleField()
     longitude = DoubleField()
     total_cp = SmallIntegerField()
@@ -638,7 +639,8 @@ class Gym(LatLongModel):
                               Gym.last_modified,
                               Gym.last_scanned,
                               Gym.total_cp,
-                              Gym.is_in_battle)
+                              Gym.is_in_battle,
+							  Gym.park)
                       .join(GymDetails, JOIN.LEFT_OUTER,
                             on=(Gym.gym_id == GymDetails.gym_id))
                       .where(Gym.gym_id == id)

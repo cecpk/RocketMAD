@@ -82,6 +82,12 @@
       width: 12px;
       vertical-align: middle;
     }
+	&.park {
+      display: block;
+      height: 12px;
+      width: 48px;
+      filter: drop-shadow(0px 0px 0px #000) drop-shadow(1px 1px 1px #888);
+	}
   }
 
   &.pokemon {
