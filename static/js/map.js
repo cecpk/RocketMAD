@@ -2961,6 +2961,8 @@ $(function () {
 
     $switchParkRaidGymsOnly.on('change', function () {
         Store.set('showParkRaidsOnly', this.checked)
+        lastgyms = false
+        updateMap()
     })
   
     $switchGymInBattle = $('#gym-in-battle-switch')
