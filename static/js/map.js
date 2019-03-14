@@ -3582,10 +3582,12 @@ $(function () {
         Store.set('maxGymLevel', 6)
         Store.set('showOpenGymsOnly', false)
         Store.set('showParkGymsOnly', false)
+        Store.set('showParkRaidsOnly', false)
 
         $('#team-gyms-only-switch').val(Store.get('showTeamGymsOnly'))
         $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
         $('#park-gyms-only-switch').prop('checked', Store.get('showParkGymsOnly'))
+        $('#raid-park-gym-switch').prop('checked', Store.get('showParkRaidsOnly'))
         $('#min-level-gyms-filter-switch').val(Store.get('minGymLevel'))
         $('#max-level-gyms-filter-switch').val(Store.get('maxGymLevel'))
 
