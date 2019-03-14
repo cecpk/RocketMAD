@@ -1372,53 +1372,57 @@ class SpawnPoint(LatLongModel):
                         oSwLat=None, oSwLng=None, oNeLat=None, oNeLng=None):
         spawnpoints = {}
         with SpawnPoint.database().execution_context():
-            query = (SpawnPoint.select(
-                SpawnPoint.latitude, SpawnPoint.longitude, SpawnPoint.id,
-                SpawnPoint.links, SpawnPoint.kind, SpawnPoint.latest_seen,
-                SpawnPoint.earliest_unseen, ScannedLocation.done)
-                     .join(ScanSpawnPoint).join(ScannedLocation).dicts())
+            query = (trs_spawn.select(
+                trs_spawn.latitude, trs_spawn.longitude,
+                trs_spawn.spawnpoint.alias('id'),
+                trs_spawn.calc_endminsec.alias('latest_seen'),
+                trs_spawn.calc_endminsec.alias('earliest_unseen')).dicts())
 
             if timestamp > 0:
                 query = (
-                    query.where(((SpawnPoint.last_scanned >
+                    query.where(((trs_spawn.last_scanned >
                                   datetime.utcfromtimestamp(timestamp / 1000)))
-                                & ((SpawnPoint.latitude >= swLat) &
-                                   (SpawnPoint.longitude >= swLng) &
-                                   (SpawnPoint.latitude <= neLat) &
-                                   (SpawnPoint.longitude <= neLng))).dicts())
+                                & ((trs_spawn.latitude >= swLat) &
+                                   (trs_spawn.longitude >= swLng) &
+                                   (trs_spawn.latitude <= neLat) &
+                                   (trs_spawn.longitude <= neLng))).dicts())
             elif oSwLat and oSwLng and oNeLat and oNeLng:
                 # Send spawnpoints in view but exclude those within old
                 # boundaries. Only send newly uncovered spawnpoints.
                 query = (query
-                         .where((((SpawnPoint.latitude >= swLat) &
-                                  (SpawnPoint.longitude >= swLng) &
-                                  (SpawnPoint.latitude <= neLat) &
-                                  (SpawnPoint.longitude <= neLng))) &
-                                ~((SpawnPoint.latitude >= oSwLat) &
-                                  (SpawnPoint.longitude >= oSwLng) &
-                                  (SpawnPoint.latitude <= oNeLat) &
-                                  (SpawnPoint.longitude <= oNeLng)))
+                         .where((((trs_spawn.latitude >= swLat) &
+                                  (trs_spawn.longitude >= swLng) &
+                                  (trs_spawn.latitude <= neLat) &
+                                  (trs_spawn.longitude <= neLng))) &
+                                ~((trs_spawn.latitude >= oSwLat) &
+                                  (trs_spawn.longitude >= oSwLng) &
+                                  (trs_spawn.latitude <= oNeLat) &
+                                  (trs_spawn.longitude <= oNeLng)))
                          .dicts())
             elif swLat and swLng and neLat and neLng:
                 query = (query
-                         .where((SpawnPoint.latitude <= neLat) &
-                                (SpawnPoint.latitude >= swLat) &
-                                (SpawnPoint.longitude >= swLng) &
-                                (SpawnPoint.longitude <= neLng)))
+                         .where((trs_spawn.latitude <= neLat) &
+                                (trs_spawn.latitude >= swLat) &
+                                (trs_spawn.longitude >= swLng) &
+                                (trs_spawn.longitude <= neLng)))
+
+            query = (query.where(trs_spawn.calc_endminsec.is_null(False)))
 
             queryDict = query.dicts()
             for sp in queryDict:
                 key = sp['id']
+                sp['links'] = 'hh??'
+                sp['kind'] = 'hhss'
+                sp['earliest_unseen'] = (int(sp['earliest_unseen'].split(':')[0]) * 60
+                    + int(sp['earliest_unseen'].split(':')[1]))
+                sp['latest_seen'] = sp['earliest_unseen']
                 appear_time, disappear_time = SpawnPoint.start_end(sp)
                 spawnpoints[key] = sp
                 spawnpoints[key]['disappear_time'] = disappear_time
                 spawnpoints[key]['appear_time'] = appear_time
-                if not SpawnPoint.tth_found(sp) or not sp['done']:
-                    spawnpoints[key]['uncertain'] = True
 
         # Helping out the GC.
         for sp in spawnpoints.values():
-            del sp['done']
             del sp['kind']
             del sp['links']
             del sp['latest_seen']
@@ -1824,6 +1828,24 @@ class SpawnpointDetectionData(BaseModel):
         sp['earliest_unseen'] = now_secs
 
         return True
+
+
+class trs_spawn(BaseModel):
+     spawnpoint = Utf8mb4CharField(primary_key=True, max_length=16, index=True)
+     latitude = DoubleField()
+     longitude = DoubleField()
+     spawndef = IntegerField()
+     earliest_unseen = IntegerField()
+     last_scanned = DateTimeField(null=True)
+     first_detection = DateTimeField(default=datetime.utcnow)
+     last_non_scanned = DateTimeField(null=True)
+     calc_endminsec = Utf8mb4CharField(null=True)
+
+     @staticmethod
+     def get_trsspawn():
+         query = (trs_spawn
+                     .select())
+         return list(query)
 
 
 class Versions(BaseModel):

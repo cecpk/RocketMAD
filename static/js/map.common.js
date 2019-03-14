@@ -130,6 +130,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showGymInBattle': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showTeamGymsOnly': {
         default: 0,
         type: StoreTypes.Number
