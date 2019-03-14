@@ -2976,6 +2976,8 @@ $(function () {
 
     $switchParkRaidGymsOnly.on('change', function () {
         Store.set('showParkRaidsOnly', this.checked)
+        lastgyms = false
+        updateMap()
     })
   
     $switchGymInBattle = $('#gym-in-battle-switch')
@@ -3620,9 +3622,6 @@ $(function () {
         $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
         $('#park-gyms-only-switch').prop('checked', Store.get('showParkGymsOnly'))
         $('#raid-park-gym-switch').prop('checked', Store.get('showParkRaidsOnly'))
-
-        $('#team-gyms-only-switch').val(Store.get('showTeamGymsOnly'))
-        $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
         $('#gym-in-battle-switch').prop('checked', Store.get('showGymInBattle'))
         $('#min-level-gyms-filter-switch').val(Store.get('minGymLevel'))
         $('#max-level-gyms-filter-switch').val(Store.get('maxGymLevel'))
