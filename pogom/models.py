@@ -491,7 +491,7 @@ class Gym(LatLongModel):
     guard_pokemon_id = SmallIntegerField()
     slots_available = SmallIntegerField()
     enabled = BooleanField()
-	park = BooleanField()
+    park = BooleanField()
     latitude = DoubleField()
     longitude = DoubleField()
     total_cp = SmallIntegerField()
@@ -557,6 +557,7 @@ class Gym(LatLongModel):
         gym_ids = []
         for g in results:
             g['name'] = None
+            g['url'] = None
             g['pokemon'] = []
             g['raid'] = None
             gyms[g['gym_id']] = g
@@ -595,12 +596,14 @@ class Gym(LatLongModel):
             details = (GymDetails
                        .select(
                            GymDetails.gym_id,
-                           GymDetails.name)
+                           GymDetails.name,
+                           GymDetails.url,)
                        .where(GymDetails.gym_id << gym_ids)
                        .dicts())
 
             for d in details:
                 gyms[d['gym_id']]['name'] = d['name']
+                gyms[d['gym_id']]['url'] = d
 
             raids = (Raid
                      .select()
@@ -626,6 +629,7 @@ class Gym(LatLongModel):
                       .select(Gym.gym_id,
                               Gym.team_id,
                               GymDetails.name,
+                              GymDetails.url,
                               GymDetails.description,
                               Gym.guard_pokemon_id,
                               Gym.gender,
@@ -707,6 +711,20 @@ class Gym(LatLongModel):
             pass
 
         return result
+
+    @staticmethod
+    def set_gyms_in_park(gyms, park):
+        gym_ids = [gym['gym_id'] for gym in gyms]
+        Gym.update(park=park).where(Gym.gym_id << gym_ids).execute()
+
+    @staticmethod
+    def get_gyms_park(id):
+        with Gym.database().execution_context():
+            gym_by_id = Gym.select(Gym.park).where(
+                Gym.gym_id == id).dicts()
+            if gym_by_id:
+                return gym_by_id[0]['park']
+        return False
 
 
 class Raid(BaseModel):
