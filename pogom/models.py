@@ -557,6 +557,7 @@ class Gym(LatLongModel):
         gym_ids = []
         for g in results:
             g['name'] = None
+            g['url'] = None
             g['pokemon'] = []
             g['raid'] = None
             gyms[g['gym_id']] = g
@@ -595,12 +596,14 @@ class Gym(LatLongModel):
             details = (GymDetails
                        .select(
                            GymDetails.gym_id,
-                           GymDetails.name)
+                           GymDetails.name,
+                           GymDetails.url,)
                        .where(GymDetails.gym_id << gym_ids)
                        .dicts())
 
             for d in details:
                 gyms[d['gym_id']]['name'] = d['name']
+                gyms[d['gym_id']]['url'] = d
 
             raids = (Raid
                      .select()
@@ -626,6 +629,7 @@ class Gym(LatLongModel):
                       .select(Gym.gym_id,
                               Gym.team_id,
                               GymDetails.name,
+                              GymDetails.url,
                               GymDetails.description,
                               Gym.guard_pokemon_id,
                               Gym.gender,
