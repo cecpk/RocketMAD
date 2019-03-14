@@ -1830,5 +1830,93 @@
         "duration": 1300,
         "energy": 20,
         "dps": 3.8
+    },
+    "292": {
+        "name": "Weather Ball Fire",
+        "type": "Fire",
+        "damage": 60,
+        "duration": 1600,
+        "energy": 33,
+        "dps": 37.5
+    },
+    "293": {
+        "name": "Weather Ball Ice",
+        "type": "Ice",
+        "damage": 60,
+        "duration": 1600,
+        "energy": 33,
+        "dps": 37.5
+    },
+    "294": {
+        "name": "Weather Ball Rock",
+        "type": "Rock",
+        "damage": 60,
+        "duration": 1600,
+        "energy": 33,
+        "dps": 37.5
+    },
+    "295": {
+        "name": "Weather Ball Water",
+        "type": "Water",
+        "damage": 60,
+        "duration": 1600,
+        "energy": 33,
+        "dps": 37.5
+    },
+    "296": {
+        "name": "Frenzy Plant",
+        "type": "Grass",
+        "damage": 100,
+        "duration": 2600,
+        "energy": 50,
+        "dps": 38.5
+    },
+    "297": {
+        "name": "Smack Down",
+        "type": "Rock",
+        "damage": 16,
+        "duration": 1200,
+        "energy": 8,
+        "dps": 13.3
+    },
+    "298": {
+        "name": "Blast Burn",
+        "type": "Fire",
+        "damage": 110,
+        "duration": 3300,
+        "energy": 50,
+        "dps": 33.3
+    },
+    "299": {
+        "name": "Hydro Cannon",
+        "type": "Water",
+        "damage": 90,
+        "duration": 1900,
+        "energy": 50,
+        "dps": 47.4
+    },
+    "300": {
+        "name": "Last Resort",
+        "type": "Normal",
+        "damage": 90,
+        "duration": 2900,
+        "energy": 50,
+        "dps": 31.0
+    },
+    "301": {
+        "name": "Meteor Mash",
+        "type": "Steel",
+        "damage": 100,
+        "duration": 2600,
+        "energy": 50,
+        "dps": 38.5
+    },
+    "319": {
+        "name": "Power-Up Punch",
+        "type": "Fighting",
+        "damage": 50,
+        "duration": 2000,
+        "energy": 33,
+        "dps": 25.0
     }
 }
