@@ -98,6 +98,10 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'showParkRaidsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showActiveRaidsOnly': {
         default: false,
         type: StoreTypes.Boolean
@@ -118,7 +122,15 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showParkGymsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showOpenGymsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showGymInBattle': {
         default: false,
         type: StoreTypes.Boolean
     },

@@ -112,8 +112,17 @@ class Pogom(Flask):
         raidlevel = request.args.get('raidlevel')
         pkm = request.args.get('pkm')
         is_in_battle = 'in_battle' in request.args
-        return send_file(get_gym_icon(
-            team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
+
+        if (level == None or raidlevel == None):
+            return send_file(get_gym_icon(
+                team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
+        
+        elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or int(raidlevel) > 5):
+            return abort(416)
+        
+        else:
+            return send_file(get_gym_icon(
+                team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
 
     def pokemon_img(self):
         raw = 'raw' in request.args
@@ -127,6 +136,7 @@ class Pogom(Flask):
         costume = int(
             request.args.get('costume')) if 'costume' in request.args else None
         shiny = 'shiny' in request.args
+
         if raw:
             filename = get_pokemon_raw_icon(
                 pkm, gender=gender, form=form,

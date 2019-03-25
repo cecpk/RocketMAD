@@ -1868,8 +1868,8 @@
         "type": "Grass",
         "damage": 100,
         "duration": 2600,
-        "energy": 100,
-        "dps": 38.4
+        "energy": 50,
+        "dps": 38.5
     },
     "297": {
         "name": "Smack Down",
@@ -1884,7 +1884,7 @@
         "type": "Fire",
         "damage": 110,
         "duration": 3300,
-        "energy": 100,
+        "energy": 50,
         "dps": 33.3
     },
     "299": {
@@ -1892,24 +1892,24 @@
         "type": "Water",
         "damage": 90,
         "duration": 1900,
-        "energy": 100,
+        "energy": 50,
         "dps": 47.4
     },
     "300": {
         "name": "Last Resort",
         "type": "Normal",
         "damage": 90,
-        "duration": 2700,
-        "energy": 100,
-        "dps": 31
+        "duration": 2900,
+        "energy": 50,
+        "dps": 31.0
     },
     "301": {
         "name": "Meteor Mash",
         "type": "Steel",
         "damage": 100,
         "duration": 2600,
-        "energy": 100,
-        "dps": 38.4
+        "energy": 50,
+        "dps": 38.5
     },
     "302": {
         "name": "Skull Bash",
