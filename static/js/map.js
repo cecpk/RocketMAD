@@ -2148,6 +2148,29 @@ function updatePokestops() {
             }
         })
     }
+	if (Store.get('showLuredPokestopsOnly') == 5) {
+        $.each(mapData.pokestops, function (key, value) {
+            if (!value['quest_raw']['item_type']){
+                removeStops.push(key)
+            }
+			else if (!value['quest_raw']['pokemon_id']){
+                removeStops.push(key)
+            }
+            else if (value['quest_raw']['item_type'] !== "Pokemon" || value['quest_raw']['pokemon_id'] !== "327") {
+                removeStops.push(key)
+            }
+
+        })
+        $.each(removeStops, function (key, value) {
+            if (mapData.pokestops[value] && mapData.pokestops[value].marker) {
+                if (mapData.pokestops[value].marker.rangeCircle) {
+                    markers.removeLayer(mapData.pokestops[value].marker.rangeCircle)
+                }
+                markers.removeLayer(mapData.pokestops[value].marker)
+                delete mapData.pokestops[key]
+            }
+        })
+    }
 }
 
 function processGym(i, item) {
