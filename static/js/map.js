@@ -847,18 +847,31 @@ function gymLabel(gym, includeMembers = true) {
     var raidStr = ''
     if (raid && raid.end > Date.now()) {
         if (raid.pokemon_id !== null) {
-            let pMove1 = (moves[raid['move_1']] !== undefined) ? i8ln(moves[raid['move_1']]['name']) : 'unknown'
-            let pMove2 = (moves[raid['move_2']] !== undefined) ? i8ln(moves[raid['move_2']]['name']) : 'unknown'
+            let firstMoveName = 'unknown';
+            let secondMoveName = 'unknown';
+            let firstMoveType = '';
+            let secondMoveType = '';
+
+            if (raid['move_1'] in moves) {
+                firstMoveName = i8ln(moves[raid['move_1']]['name']);
+                firstMoveType = moves[raid['move_1']]['type'];
+            }
+
+            if (raid['move_2'] in moves) {
+                secondMoveName = i8ln(moves[raid['move_2']]['name']);
+                secondMoveType = moves[raid['move_2']]['type'];
+            }
 
             raidStr += `
-                    <div class='move'>
-                      <span class='name'>${pMove1}</span><span class='type ${moves[raid['move_1']]['type'].toLowerCase()}'>${i8ln(moves[raid['move_1']]['type'])}</span>
-                    </div>
-                    <div class='move'>
-                      <span class='name'>${pMove2}</span><span class='type ${moves[raid['move_2']]['type'].toLowerCase()}'>${i8ln(moves[raid['move_2']]['type'])}</span>
-                    </div>`
+                <div class='move'>
+                  <span class='name'>${firstMoveName}</span><span class='type ${firstMoveType.toLowerCase()}'>${i8ln(firstMoveType)}</span>
+                </div>
+                <div class='move'>
+                  <span class='name'>${secondMoveName}</span><span class='type ${secondMoveType.toLowerCase()}'>${i8ln(secondMoveType)}</span>
+                </div>`
         }
     }
+
     const lastScannedStr = getDateStr(gym.last_scanned)
     const lastModifiedStr = getDateStr(gym.last_modified)
     const slotsString = gym.slots_available ? (gym.slots_available === 1 ? '1 Free Slot' : `${gym.slots_available} Free Slots`) : 'No Free Slots'
