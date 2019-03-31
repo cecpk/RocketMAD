@@ -3526,6 +3526,12 @@ def drop_tables(db):
         db.execute_sql('SET FOREIGN_KEY_CHECKS=1;')
 
 
+def does_column_exist(db, table_name, column_name):
+    columns = db.get_columns(table_name)
+
+    return any(column.name == column_name for column in columns)
+
+
 def verify_table_encoding(db):
     with db.execution_context():
 
@@ -3975,13 +3981,14 @@ def database_migrate(db, old_ver):
                        '(`latest_seen` <= 3600);')
 
     if old_ver < 30:
-        migrate(
-            migrator.add_column(
-                'gym',
-                'is_ex_raid_eligible',
-                BooleanField(null=False, default=0)
+        if not does_column_exist(db, 'gym', 'is_ex_raid_eligible'):
+            migrate(
+                migrator.add_column(
+                    'gym',
+                    'is_ex_raid_eligible',
+                    BooleanField(null=False, default=0)
+                )
             )
-        )
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
