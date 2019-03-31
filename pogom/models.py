@@ -3981,6 +3981,7 @@ def database_migrate(db, old_ver):
                        '(`latest_seen` <= 3600);')
 
     if old_ver < 30:
+        # Column might already exist if created by MAD
         if not does_column_exist(db, 'gym', 'is_ex_raid_eligible'):
             migrate(
                 migrator.add_column(
