@@ -881,7 +881,7 @@ function gymLabel(gym, includeMembers = true) {
     const isRaidFilterOn = Store.get('showRaids')
     const gymImage = gym.url.url
 
-    var park = ''
+    var exRaidTag = ''
 	var subtitle = ''
     var image = ''
     var imageLbl = ''
@@ -905,10 +905,10 @@ function gymLabel(gym, includeMembers = true) {
         </div>`
     }
 
-    if (gym.park == 1) {
-        park = `
-        <div class='gym info park'>
-            <img class='gym info park' src='static/images/gym/exraidgym.png'>
+    if (gym.is_ex_raid_eligible) {
+        exRaidTag = `
+        <div class='gym info ex-raid-tag'>
+            <img class='gym info ex-raid-tag' src='static/images/gym/exraidgym.png'>
         </div>`
     }
 
@@ -944,7 +944,6 @@ function gymLabel(gym, includeMembers = true) {
             }
         } else if (gymImage !== '') {
             image = `<img class='gym sprite' src='${gymImage}'>`
-        
         } else {
             let gymUrl = `gym_img?team=${gymTypes[gym.team_id]}&level=${getGymLevel(gym)}&raidlevel=${raid.level}`
             if (gym.is_in_battle) {
@@ -1021,7 +1020,7 @@ function gymLabel(gym, includeMembers = true) {
         <div>
             <center>
                 ${title}
-                ${park}
+                ${exRaidTag}
                 ${subtitle}
                 ${image}
                 ${imageLbl}
