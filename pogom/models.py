@@ -51,7 +51,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 29
+db_schema_version = 30
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -491,7 +491,7 @@ class Gym(LatLongModel):
     guard_pokemon_id = SmallIntegerField()
     slots_available = SmallIntegerField()
     enabled = BooleanField()
-    park = BooleanField()
+    is_ex_raid_eligible = BooleanField()
     latitude = DoubleField()
     longitude = DoubleField()
     total_cp = SmallIntegerField()
@@ -644,7 +644,7 @@ class Gym(LatLongModel):
                               Gym.last_scanned,
                               Gym.total_cp,
                               Gym.is_in_battle,
-							  Gym.park)
+                              Gym.is_ex_raid_eligible)
                       .join(GymDetails, JOIN.LEFT_OUTER,
                             on=(Gym.gym_id == GymDetails.gym_id))
                       .where(Gym.gym_id == id)
@@ -713,17 +713,19 @@ class Gym(LatLongModel):
         return result
 
     @staticmethod
-    def set_gyms_in_park(gyms, park):
+    def mark_gyms_as_ex_raid_eligible(gyms, is_ex_raid_eligible):
         gym_ids = [gym['gym_id'] for gym in gyms]
-        Gym.update(park=park).where(Gym.gym_id << gym_ids).execute()
+        Gym.update(is_ex_raid_eligible=is_ex_raid_eligible)\
+            .where(Gym.gym_id << gym_ids)\
+            .execute()
 
     @staticmethod
-    def get_gyms_park(id):
+    def is_gym_ex_raid_eligible(id):
         with Gym.database().execution_context():
-            gym_by_id = Gym.select(Gym.park).where(
+            gym_by_id = Gym.select(Gym.is_ex_raid_eligible).where(
                 Gym.gym_id == id).dicts()
             if gym_by_id:
-                return gym_by_id[0]['park']
+                return gym_by_id[0]['is_ex_raid_eligible']
         return False
 
 
@@ -3524,6 +3526,12 @@ def drop_tables(db):
         db.execute_sql('SET FOREIGN_KEY_CHECKS=1;')
 
 
+def does_column_exist(db, table_name, column_name):
+    columns = db.get_columns(table_name)
+
+    return any(column.name == column_name for column in columns)
+
+
 def verify_table_encoding(db):
     with db.execution_context():
 
@@ -3971,6 +3979,17 @@ def database_migrate(db, old_ver):
         db.execute_sql('ALTER TABLE `spawnpoint` '
                        'ADD CONSTRAINT CONSTRAINT_4 CHECK ' +
                        '(`latest_seen` <= 3600);')
+
+    if old_ver < 30:
+        # Column might already exist if created by MAD
+        if not does_column_exist(db, 'gym', 'is_ex_raid_eligible'):
+            migrate(
+                migrator.add_column(
+                    'gym',
+                    'is_ex_raid_eligible',
+                    BooleanField(null=False, default=0)
+                )
+            )
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
