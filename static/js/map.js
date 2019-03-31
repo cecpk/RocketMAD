@@ -881,7 +881,8 @@ function gymLabel(gym, includeMembers = true) {
     const isRaidFilterOn = Store.get('showRaids')
     const gymImage = gym.url.url
 
-    var subtitle = ''
+    var park = ''
+	var subtitle = ''
     var image = ''
     var imageLbl = ''
     var navInfo = ''
@@ -901,6 +902,13 @@ function gymLabel(gym, includeMembers = true) {
             <span class='gym info strength'>
               Strength: ${gymPoints} (${slotsString})
             </span>
+        </div>`
+    }
+
+    if (gym.park == 1) {
+        park = `
+        <div class='gym info park'>
+            <img class='gym info park' src='static/images/gym/exraidgym.png'>
         </div>`
     }
 
@@ -1013,6 +1021,7 @@ function gymLabel(gym, includeMembers = true) {
         <div>
             <center>
                 ${title}
+                ${park}
                 ${subtitle}
                 ${image}
                 ${imageLbl}
