@@ -2230,9 +2230,9 @@ function processGym(i, item) {
             return true
         }
     }
-     
+
     if (Store.get('showParkGymsOnly')) {
-        if (!item.park) {
+        if (!item.is_ex_raid_eligible) {
             removeGymFromMap(item['gym_id'])
             return true
         }
@@ -2243,9 +2243,9 @@ function processGym(i, item) {
             removeGymFromMap(item['gym_id'])
             return true
         }
-        
+
         if (Store.get('showParkRaidsOnly')) {
-            if (!item.park) {
+            if (!item.is_ex_raid_eligible) {
                 removeGymFromMap(item['gym_id'])
                 return true
             }
