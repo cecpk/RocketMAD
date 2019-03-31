@@ -879,7 +879,7 @@ function gymLabel(gym, includeMembers = true) {
     const isUpcomingRaid = raid != null && Date.now() < raid.start
     const isRaidStarted = isOngoingRaid(raid)
     const isRaidFilterOn = Store.get('showRaids')
-    const gymImage = gym.url.url
+    const gymImage = gym.url
 
     var exRaidTag = ''
 	var subtitle = ''
