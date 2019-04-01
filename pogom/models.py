@@ -603,7 +603,7 @@ class Gym(LatLongModel):
 
             for d in details:
                 gyms[d['gym_id']]['name'] = d['name']
-                gyms[d['gym_id']]['url'] = d
+                gyms[d['gym_id']]['url'] = d['url']
 
             raids = (Raid
                      .select()
