@@ -223,9 +223,11 @@ def draw_battle_indicator():
 
 def battle_indicator_boom():
     # BOOM! Sticker
-    return [('-gravity center ( "{}" -resize 84x84 ) ' +
-             '-geometry +0+0 -composite').format(
-        os.path.join(path_gym, 'boom.png'))]
+    return [
+        '-gravity center ( "{}" -resize 84x84 ) '.format(
+            os.path.join(path_gym, 'boom.png')),
+        '-geometry +0+0 -composite'
+    ]
 
 
 def battle_indicator_fist():
@@ -235,16 +237,18 @@ def battle_indicator_fist():
     return [
         '-fill white -stroke black -draw "circle {},{} {},{}"'.format(
             x, y, x - gym_badge_radius, y),
-        '-gravity east ( "{}" -resize 24x24 ) -geometry ' +
-        '+4+0 -composite'.format(os.path.join(path_gym, 'fist.png'))
+        '-gravity east ( "{}" -resize 24x24 ) -geometry+4+0 '.format(
+            os.path.join(path_gym, 'fist.png')),
+        '-composite'
     ]
 
 
 def battle_indicator_flame():
     # Flame Badge
     return [
-        '-gravity east ( "{}" -resize 32x32 ) -geometry ' +
-        '+0+0 -composite'.format(os.path.join(path_gym, 'flame.png'))
+        '-gravity east ( "{}" -resize 32x32 )  -geometry +0+0 '.format(
+            os.path.join(path_gym, 'flame.png')),
+        '-composite'
     ]
 
 
@@ -255,8 +259,9 @@ def battle_indicator_swords():
     return [
         '-fill white -stroke black -draw "circle {},{} {},{}"'.format(
             x, y, x - gym_badge_radius, y),
-        '-gravity east ( "{}" -resize 24x24 ) -geometry +4+0 ' +
-        '-composite'.format(os.path.join(path_gym, 'swords.png'))
+        '-gravity east ( "{}" -resize 24x24 ) -geometry +4+0 '.format(
+            os.path.join(path_gym, 'swords.png')),
+        '-composite'
     ]
 
 
