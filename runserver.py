@@ -24,7 +24,6 @@ from pogom.app import Pogom
 from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
                          log_resource_usage_loop, get_debug_dump_link,
                          dynamic_rarity_refresher, get_pos_by_name)
-from pogom.altitude import get_gmaps_altitude
 
 from pogom.models import (init_database, create_tables, drop_tables,
                           PlayerLocale, db_updater, clean_db_loop,
@@ -333,20 +332,6 @@ def main():
                     'You have been warned.')
 
     position = extract_coordinates(args.location)
-    # Use the latitude and longitude to get the local altitude from Google.
-    (altitude, results) = get_gmaps_altitude(position[0], position[1])
-
-    if altitude is not None:
-        log.debug('Local altitude is: %sm.', altitude)
-        position = (position[0], position[1], altitude)
-    else:
-        if results == 'REQUEST_DENIED':
-            log.error(
-                'OSM API Elevation request was denied.')
-            sys.exit()
-        else:
-            log.error('Unable to retrieve altitude from OSM APIs' +
-                      'setting to 0')
 
     log.info('Parsed location is: %.4f/%.4f/%.4f (lat/lng/alt).',
              position[0], position[1], position[2])
