@@ -1369,30 +1369,40 @@ function setupGymMarker(item) {
     return marker
 }
 
-function updateGymMarker(item, marker) {
-    let raidLevel = getRaidLevel(item.raid)
+function updateGymMarker(gym, marker) {
+    let raidLevel = getRaidLevel(gym.raid)
     let markerImage = ''
     var zIndexOffset
-    if (item.raid && isOngoingRaid(item.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
-        markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item) + '&raidlevel=' + item['raid']['level'] + '&pkm=' + item['raid']['pokemon_id']
+
+    if (gym.raid && isOngoingRaid(gym.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+        markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level'] + '&pkm=' + gym['raid']['pokemon_id']
+        if (gym.raid.form) {
+            markerImage += '&form=' + gym.raid.form
+        }
         zIndexOffset = 100
-    } else if (item.raid && item.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
-        markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item) + '&raidlevel=' + item['raid']['level']
+    } else if (gym.raid && gym.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+        markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level']
         zIndexOffset = 20
     } else {
-        markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item)
+        markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym)
         zIndexOffset = 10
     }
-    if (item['is_in_battle']) {
-        markerImage += '&in_battle=1'
+
+    if (gym['is_in_battle']) {
+            markerImage += '&in_battle=1'
     }
+
     var GymIcon = new L.Icon({
         iconUrl: markerImage,
         iconSize: [48, 48]
     })
     marker.setIcon(GymIcon)
     marker.setZIndexOffset = zIndexOffset
-    if (!Store.get('useGymSidebar')) { marker.bindPopup(gymLabel(item)) }
+
+    if (!Store.get('useGymSidebar')) {
+        marker.bindPopup(gymLabel(gym))
+    }
+
     return marker
 }
 
