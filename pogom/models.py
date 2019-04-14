@@ -51,7 +51,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 30
+db_schema_version = 31
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -740,6 +740,8 @@ class Raid(BaseModel):
     move_1 = SmallIntegerField(null=True)
     move_2 = SmallIntegerField(null=True)
     last_scanned = DateTimeField(default=datetime.utcnow, index=True)
+    form = SmallIntegerField(null=True)
+    is_exclusive = BooleanField(null=True)
 
 
 class LocationAltitude(LatLongModel):
@@ -3988,6 +3990,27 @@ def database_migrate(db, old_ver):
                     'gym',
                     'is_ex_raid_eligible',
                     BooleanField(null=False, default=0)
+                )
+            )
+
+    if old_ver < 31:
+        # Column might already exist if created by MAD
+        if not does_column_exist(db, 'raid', 'form'):
+            migrate(
+                migrator.add_column(
+                    'raid',
+                    'form',
+                    SmallIntegerField(null=True)
+                )
+            )
+
+        # Column might already exist if created by MAD
+        if not does_column_exist(db, 'raid', 'is_exclusive'):
+            migrate(
+                migrator.add_column(
+                    'raid',
+                    'is_exclusive',
+                    BooleanField(null=True)
                 )
             )
 
