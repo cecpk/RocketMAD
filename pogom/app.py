@@ -116,14 +116,14 @@ class Pogom(Flask):
 
         if (level == None or raidlevel == None):
             return send_file(get_gym_icon(
-                team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
+                team, level, raidlevel, pkm, is_in_battle, form), mimetype='image/png')
 
         elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or int(raidlevel) > 5):
             return abort(416)
 
         else:
             return send_file(get_gym_icon(
-                team, level, raidlevel, pkm, form, is_in_battle), mimetype='image/png')
+                team, level, raidlevel, pkm, is_in_battle, form), mimetype='image/png')
 
     def pokemon_img(self):
         raw = 'raw' in request.args

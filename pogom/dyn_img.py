@@ -149,7 +149,7 @@ def get_pokemon_map_icon(pkm, weather=None, gender=None,
     return run_imagemagick(source, im_lines, target)
 
 
-def get_gym_icon(team, level, raidlevel, pkm, form, is_in_battle):
+def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form):
     level = int(level)
 
     if not generate_images:
