@@ -840,6 +840,12 @@ function gymLabel(gym, includeMembers = true) {
             // Use Pokémon-specific image.
             var pokemonIcon = getPokemonRawIconUrl(raid)
             if (raid.pokemon_id !== null) {
+                let pokemonName = raid.pokemon_name;
+
+                if (raid.form && 'forms' in idToPokemon[raid['pokemon_id']] && raid.form in idToPokemon[raid['pokemon_id']].forms) {
+                    pokemonName = i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].name);
+                }
+
                 image = `
                     <div class='raid container'>
                     <div class='raid container content-left'>
@@ -848,7 +854,7 @@ function gymLabel(gym, includeMembers = true) {
                     <div class='raid container content-right'>
                         <div>
                         <div class='raid pokemon'>
-                            ${raid['pokemon_name']} <a href='http://pokemon.gameinfo.io/en/pokemon/${raid['pokemon_id']}' target='_blank' title='View in Pokédex'>#${raid['pokemon_id']}</a> | CP: ${raid['cp']}
+                            ${pokemonName} <a href='http://pokemon.gameinfo.io/en/pokemon/${raid['pokemon_id']}' target='_blank' title='View in Pokédex'>#${raid['pokemon_id']}</a> | CP: ${raid['cp']}
                     </div>
                         ${raidStr}
                     </div>
