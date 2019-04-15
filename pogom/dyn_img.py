@@ -11,6 +11,8 @@ from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import (
     WeatherCondition, CLEAR, RAINY,
     PARTLY_CLOUDY, OVERCAST, WINDY, SNOW, FOG)
 
+from pogom.utils import get_pokemon_data
+
 log = logging.getLogger(__name__)
 
 # Will be set during config parsing
@@ -147,7 +149,7 @@ def get_pokemon_map_icon(pkm, weather=None, gender=None,
     return run_imagemagick(source, im_lines, target)
 
 
-def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
+def get_gym_icon(team, level, raidlevel, pkm, form, is_in_battle):
     level = int(level)
 
     if not generate_images:
@@ -156,10 +158,12 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
     im_lines = ['-font "{}" -pointsize {}'.format(font, font_pointsize)]
     if pkm and pkm != 'null':
         # Gym with ongoing raid
+        form_extension = "_F{}".format(form) if form else ""
         out_filename = os.path.join(
             path_generated_gym,
-            "{}_L{}_R{}_P{}.png".format(team, level, raidlevel, pkm))
-        im_lines.extend(draw_raid_pokemon(pkm))
+            "{}_L{}_R{}_P{}{}.png".format(team, level, raidlevel, pkm, form_extension)
+        )
+        im_lines.extend(draw_raid_pokemon(pkm, form))
         im_lines.extend(draw_raid_level(raidlevel))
         if level > 0:
             im_lines.extend(draw_gym_level(level))
@@ -191,9 +195,9 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle):
     return run_imagemagick(gym_image, im_lines, out_filename)
 
 
-def draw_raid_pokemon(pkm):
+def draw_raid_pokemon(pkm, form):
     if pogo_assets:
-        pkm_path, dummy = pokemon_asset_path(int(pkm))
+        pkm_path, dummy = pokemon_asset_path(int(pkm), form=form)
         trim = True
     else:
         pkm_path = os.path.join(path_icons, '{}.png'.format(pkm))
@@ -281,12 +285,6 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
     elif gender in (GENDER_UNSET, GENDERLESS):
         gender_assets_suffix = '_00' if pkm > 0 else ''
 
-    if form and pkm == 201:
-        # Unown = no gender
-        gender_suffix = gender_assets_suffix = ''
-        form_assets_suffix = '_{:02d}'.format(form + 10)
-        form_suffix = '_{}'.format(Form.Name(form))
-
     if costume:
         costume_assets_suffix = '_{:02d}'.format(costume)
         costume_suffix = '_{}'.format(Costume.Name(costume))
@@ -300,20 +298,18 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
                                 else '_00' if pkm > 0
                                 else '')
 
-    if pkm == 487:
-        # Giratina - no _00 Asset File
-        gender_assets_suffix = '_{:02d}'.format(11)
+    pokemon_data = get_pokemon_data(pkm)
+    forms = pokemon_data.get('forms', {})
 
-    if pkm == 327:
-        # Spinda - no _00 Asset File
-        gender_assets_suffix = '_{:02d}'.format(11)
+    if forms:
+        # default value is first form
+        form_data = forms.values()[0]
+        if form and str(form) in forms:
+            form_data = forms[str(form)]
 
-    # Castform
-    if form and pkm == 351:
-        gender_suffix = gender_assets_suffix = ''
-        gender_suffix = '_{}'.format(Gender.Name(gender))
-        form_assets_suffix = '_{:02d}'.format(form - 18)
-        form_suffix = '_{}'.format(Form.Name(form))
+        asset_id = form_data['assetId']
+        gender_assets_suffix = '_' + asset_id
+        form_suffix = '_' + asset_id
 
     assets_basedir = os.path.join(pogo_assets, 'pokemon_icons')
     assets_fullname = os.path.join(assets_basedir,

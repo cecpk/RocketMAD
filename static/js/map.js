@@ -3199,7 +3199,7 @@ $(function () {
     $selectRarityNotify = $('#notify-rarity')
     $textPerfectionNotify = $('#notify-perfection')
     $textLevelNotify = $('#notify-level')
-    var numberOfPokemon = 492
+    var numberOfPokemon = 493
 
     $('.list').before('<input type="search" class="search" placeholder="Search for Name, ID or Type...">')
     const hidepresets = Store.get('hidepresets')

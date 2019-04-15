@@ -16,6 +16,7 @@ import psutil
 import subprocess
 import requests
 
+from collections import OrderedDict
 from s2sphere import CellId, LatLng
 from geopy.geocoders import Nominatim
 from requests_futures.sessions import FuturesSession
@@ -26,7 +27,7 @@ from pprint import pformat
 from time import strftime
 from timeit import default_timer
 
-from pogom import dyn_img
+import dyn_img
 from pogom.pgpool import pgpool_request_accounts
 
 log = logging.getLogger(__name__)
@@ -1100,7 +1101,7 @@ def get_pokemon_data(pokemon_id):
             'pokemon.min.json')
 
         with open(file_path, 'r') as f:
-            get_pokemon_data.pokemon = json.loads(f.read())
+            get_pokemon_data.pokemon = json.loads(f.read(), object_pairs_hook=OrderedDict)
     return get_pokemon_data.pokemon[str(pokemon_id)]
 
 
