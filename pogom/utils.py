@@ -626,6 +626,8 @@ def get_args():
                          help=('Filter worker status that are inactive for ' +
                                'X minutes. Default: 30, 0 to disable.'),
                          type=int, default=30)
+    parser.add_argument('-M', '--madmin', help='MADmin server URI.',
+                        default=None)
 
     parser.set_defaults(DEBUG=False)
 
