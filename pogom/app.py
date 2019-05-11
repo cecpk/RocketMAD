@@ -364,7 +364,8 @@ class Pogom(Flask):
             'fixed_display': not args.fixed_location,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,
-            'medalpokemon': args.medalpokemon
+            'medalpokemon': args.medalpokemon,
+            'madmin': args.madmin
         }
 
         map_lat = False

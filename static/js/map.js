@@ -320,6 +320,12 @@ function initMap() { // eslint-disable-line no-unused-vars
         }, 500)
     })
 
+    if (madminUri) {
+        $('#madmin').each(function() {
+            $(this).attr('src', madminUri);
+        });
+    }
+
     const showSearchMarker = Store.get('showSearchMarker')
     const showLocationMarker = Store.get('showLocationMarker')
     const isLocationMarkerMovable = Store.get('isLocationMarkerMovable')
@@ -1478,7 +1484,7 @@ function updateGymMarker(item, marker) {
 
 function setupPokestopMarker(item) {
 
-    var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])	
+    var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])
     var marker = L
         .marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2})
         .bindPopup(pokestopLabel(item))
@@ -1495,13 +1501,13 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 	var image
 	var size
 	var anchor
-	
+
 	if (quest_reward_type_raw == null) {
 		quest_reward_type_raw == '0'
 	}
-	
+
 	switch(quest_reward_type_raw) {
-		
+
 	case '2':
 		image = 'static/quest/reward_' + quest_item_id + '_1.png'
 		size = [30, 30]
@@ -1529,10 +1535,10 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 		}
 		break
 	}
-	
+
 	var imagename = quest_reward_type_raw ? 'PokestopQuest' : 'Pokestop'
 	var imagename = lure ? 'PokestopLured' : imagename
-	
+
 	var icon =  L.icon({
         iconUrl: 'static/images/pokestop/' + imagename + '.png',
         iconSize: [32, 32],
@@ -1540,7 +1546,7 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 		shadowSize: size,
 		shadowAnchor: anchor
 	})
-	
+
 	return icon;
 }
 
@@ -2149,7 +2155,7 @@ function updatePokestops() {
             else if (value['quest_raw']['item_type'] !== "Rare Candy") {
                 removeStops.push(key)
             }
-	
+
         })
         $.each(removeStops, function (key, value) {
             if (mapData.pokestops[value] && mapData.pokestops[value].marker) {
@@ -3014,7 +3020,7 @@ $(function () {
         lastgyms = false
         updateMap()
     })
-  
+
     $switchGymInBattle = $('#gym-in-battle-switch')
 
     $switchGymInBattle.on('change', function () {
