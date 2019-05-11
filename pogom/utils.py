@@ -604,6 +604,8 @@ def get_args():
     parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
                         help=('Discord Bot Token for user ' +
                               'external authentication.'))
+    parser.add_argument('-mu', '--madmin-uri', help='MADmin server URI.',
+                        default=None)
     rarity = parser.add_argument_group('Dynamic Rarity')
     rarity.add_argument('-Rh', '--rarity-hours',
                         help=('Number of hours of Pokemon data to use' +
@@ -626,8 +628,6 @@ def get_args():
                          help=('Filter worker status that are inactive for ' +
                                'X minutes. Default: 30, 0 to disable.'),
                          type=int, default=30)
-    parser.add_argument('-M', '--madmin', help='MADmin server URI.',
-                        default=None)
 
     parser.set_defaults(DEBUG=False)
 
