@@ -190,7 +190,7 @@
 
 #stats-log-timer                # In log view, list per hr stats every X seconds
 #status-name:                   # Enables writing status updates to the database - if you use multiple processes, each needs a unique value. (default=None)
-#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001 (default=None)
+#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
 
 
 # User Auth Settings
