@@ -388,7 +388,7 @@ class Pogom(Flask):
             lang=args.locale,
             show=visibility_flags,
             rarityFileName=args.rarity_filename,
-            madminUri=args.madmin)
+            madminUri=args.madmin_uri)
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.
