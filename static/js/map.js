@@ -320,7 +320,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         }, 500)
     })
 
-    if (madmin) {
+    if (showConfig.madmin) {
         $('#madmin').each(function() {
             $(this).attr('href', madminUri);
         });
