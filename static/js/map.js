@@ -644,8 +644,6 @@ function pokemonLabel(item) {
         typesDisplay += getTypeSpan(type)
     })
 
-    var details = ''
-
     var contentstring = ''
     var formString = ''
 
@@ -719,9 +717,6 @@ function pokemonLabel(item) {
                 <div class='pokemon links'>
                   <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
                 </div>
-                <div class='pokemon links'>
-                  <i class='fa fa-lg fa-fw fa-binoculars'></i> <a href='javascript:scout("${encounterId}")'>Scout</a>
-                </div>
               </div>
           </div>
           <div class='pokemon container content-right'>
@@ -749,38 +744,6 @@ function pokemonLabel(item) {
           </div>
         </div>
       </div>`
-    } else if (!showStats && cp !== null && cpMultiplier !== null) {
-        contentstring += `
-            <div class='pokemon container'>
-                <div class='pokemon container content-left'>
-                    <div>
-                        <img class='pokemon sprite' src='${pokemonIcon}'>
-                        <div class='pokemon cp big'>
-                          GEN: <span class='pokemon encounter big'>${gen}</span>
-                        </div>
-                        <div class='pokemon links'>
-                          <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id}, "${encounterId}")'>${hideLabel}</a>
-                        </div>
-                        <div class='pokemon links'>
-                          <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a>
-                        </div>
-                        <div class='pokemon links'>
-                          <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
-                        </div>
-                    </div>
-                </div>
-                <div class='pokemon container content-right'>
-                    <div>
-                        <div class='pokemon disappear'>
-                            <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
-                        </div>
-                        <div class='pokemon'>
-                            <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
-                        </div>
-                        <div id='scoutInfo${encounterIdLong}' class='pokemon scoutinfo'></div>
-                    </div>
-                </div>
-            </div>`
     } else {
         contentstring += `
               <div class='pokemon container'>
@@ -807,9 +770,6 @@ function pokemonLabel(item) {
                     <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
                   </div>
                   ${weatherBoost}
-                  <div class='pokemon links'>
-                    <i class='fa fa-2x fa-binoculars'></i>&nbsp; <a href='javascript:scout("${encounterId}")'>Scout for IV / CP / Moves</a>
-                  </div>
                   <div class='pokemon'>
                     <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
                   </div>
@@ -818,9 +778,6 @@ function pokemonLabel(item) {
             </div>
         </div>`
     }
-
-    contentstring += `
-      ${details}`
 
     return contentstring
 }
@@ -1478,7 +1435,7 @@ function updateGymMarker(item, marker) {
 
 function setupPokestopMarker(item) {
 
-    var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])	
+    var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])
     var marker = L
         .marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2})
         .bindPopup(pokestopLabel(item))
@@ -1495,13 +1452,13 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 	var image
 	var size
 	var anchor
-	
+
 	if (quest_reward_type_raw == null) {
 		quest_reward_type_raw == '0'
 	}
-	
+
 	switch(quest_reward_type_raw) {
-		
+
 	case '2':
 		image = 'static/quest/reward_' + quest_item_id + '_1.png'
 		size = [30, 30]
@@ -1529,10 +1486,10 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 		}
 		break
 	}
-	
+
 	var imagename = quest_reward_type_raw ? 'PokestopQuest' : 'Pokestop'
 	var imagename = lure ? 'PokestopLured' : imagename
-	
+
 	var icon =  L.icon({
         iconUrl: 'static/images/pokestop/' + imagename + '.png',
         iconSize: [32, 32],
@@ -1540,7 +1497,7 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 		shadowSize: size,
 		shadowAnchor: anchor
 	})
-	
+
 	return icon;
 }
 
@@ -2149,7 +2106,7 @@ function updatePokestops() {
             else if (value['quest_raw']['item_type'] !== "Rare Candy") {
                 removeStops.push(key)
             }
-	
+
         })
         $.each(removeStops, function (key, value) {
             if (mapData.pokestops[value] && mapData.pokestops[value].marker) {
@@ -3014,7 +2971,7 @@ $(function () {
         lastgyms = false
         updateMap()
     })
-  
+
     $switchGymInBattle = $('#gym-in-battle-switch')
 
     $switchGymInBattle.on('change', function () {
