@@ -634,8 +634,6 @@ function pokemonLabel(item) {
     var prob1 = item['catch_prob_1']
     var prob2 = item['catch_prob_2']
     var prob3 = item['catch_prob_3']
-    var ratingAttack = item['rating_attack']
-    var ratingDefense = item['rating_defense']
     var encounterIdLong = encounterId
     var weatherBoostedCondition = item['weather_boosted_condition']
     var gen = getPokemonGen(id)
@@ -661,16 +659,6 @@ function pokemonLabel(item) {
         weatherBoost = `<div class='pokemon big'>Boosted by:
             <img src='static/images/weather/${weatherImages[weatherBoostedCondition]}' style="width: 24px; vertical-align: middle;">&nbsp;${weatherNames[weatherBoostedCondition]}
             </div>`
-    }
-
-    var movesetRating = ''
-    if (ratingAttack !== null) {
-        movesetRating = `
-          <div class='pokemon'>
-            Moveset Rating:
-            Attack <span class='pokemon encounter'>${ratingAttack}</span> |
-            Defense <span class='pokemon encounter'>${ratingDefense}</span>
-          </div>`
     }
 
     var catchProbs = ''
@@ -733,7 +721,6 @@ function pokemonLabel(item) {
               <div class='pokemon'>
                 Moveset: <span class='pokemon encounter'>${pMove1}</span> / <span class='pokemon encounter'>${pMove2}</span>
               </div>
-              ${movesetRating}
               <div class='pokemon'>
                 Weight: ${weight.toFixed(2)}kg | Height: ${height.toFixed(2)}m
               </div>
