@@ -320,12 +320,6 @@ function initMap() { // eslint-disable-line no-unused-vars
         }, 500)
     })
 
-    if (showConfig.madmin) {
-        $('#madmin').each(function() {
-            $(this).attr('href', madminUrl);
-        });
-    }
-
     const showSearchMarker = Store.get('showSearchMarker')
     const showLocationMarker = Store.get('showLocationMarker')
     const isLocationMarkerMovable = Store.get('isLocationMarkerMovable')
