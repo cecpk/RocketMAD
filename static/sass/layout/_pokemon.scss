@@ -3,7 +3,7 @@
   margin-bottom: 0;
 
   &.content-left {
-    width: 72px;
+    margin-right: 19px;
   }
 
   &.content-right {
@@ -11,28 +11,74 @@
   }
 }
 
-.pokemon {
-  color: rgb(93,109,126);
-  font-size: 11px;
-  margin-bottom: 2px;
+.pokemon.container-iv-cp {
+  display: flex;
+  text-align: center;
+  margin-bottom: 0;
+
+  &.iv {
+    margin-right: 19px;
+  }
 
   &.cp {
-    display: block;
-    text-align: center;
-    margin-bottom: 5px;
+    float: left;
+  }
+}
+
+.pokemon {
+  font-family: "Open Sans",sans-serif;
+  font-size: 11px;
+  a:link, a:visited {
+    color: #444;
+    text-decoration: none;
+  }
+
+  a:hover, a:active {
+    text-decoration: underline;
   }
 
   &.big {
     font-size: 13px;
   }
 
-  &.name {
-    font-size: 13px;
+  &.bold {
     font-weight: 900;
+  }
 
-    &.pokedex {
-      font-size: 12px;
+  &.gen {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  &.title {
+    font-weight: 900;
+    display: inline-block;
+
+    &.name-gender-pokedex {
+      font-size: 14px;
+      margin-right: 12px;
+      margin-bottom: 13px;
     }
+
+    &.rarity {
+      font-size: 12px;
+      margin-right: 5px;
+    }
+
+    &.weather {
+      vertical-align: middle;
+    }
+  }
+
+  &.type {
+    border-radius: 4px;
+    color: white;
+    padding: 2px 5px;
+    text-transform: uppercase;
+    font-size: 10px;
+    text-align: center;
+    margin-bottom: 2px;
   }
 
   &.encounter {
@@ -43,23 +89,15 @@
     font-weight: 300;
   }
 
-  &.gender.rarity {
-    font-size: 11px;
+  &.stats {
+    margin-bottom: 5px;
   }
 
   &.disappear {
     font-size: 14px;
     font-weight: 900;
-    margin: 10px 0px 10px 0px;
-
-    &:before {
-      content: '\f017';
-      display: inline-block;
-      font-family: FontAwesome;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
+    margin-bottom: 13px;
+    white-space: nowrap;
   }
 
   &.links {
@@ -83,7 +121,6 @@
   &.sprite {
     display: block;
     width: 64px;
-    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #888);
     margin-bottom: 6px;
   }
 

@@ -540,10 +540,6 @@ function initSidebar() {
     $('#pokemon-icon-size').val(Store.get('iconSizeModifier'))
 }
 
-function getTypeSpan(type) {
-    return `<span style='padding: 2px 5px; text-transform: uppercase; color: white; margin-right: 2px; border-radius: 4px; font-size: 0.6em; vertical-align: middle; background-color: ${type['color']}'>${type['type']}</span>`
-}
-
 function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
     var url = ''
     if (Store.get('mapServiceProvider') === 'googlemaps') {
@@ -639,7 +635,7 @@ function pokemonLabel(item) {
     var gen = getPokemonGen(id)
 
     $.each(types, function (index, type) {
-        typesDisplay += getTypeSpan(type)
+        typesDisplay += `<div class='pokemon type' style='background-color: ${type['color']};'>${type['type']}</div>`
     })
 
     var contentstring = ''
@@ -649,33 +645,25 @@ function pokemonLabel(item) {
         formString += `(${unownForm[item['form']]})`
     }
 
-    contentstring += `
-    <div class='pokemon name'>
-      ${name} <span class='pokemon name pokedex'><a href='http://pokemon.gameinfo.io/en/pokemon/${id}' target='_blank' title='View in Pokédex'>#${id}</a></span> ${formString} <span class='pokemon gender rarity'>${genderType[gender - 1]} ${rarityDisplay}</span> ${typesDisplay}
-    </div>`
+    if (id === 29 || id === 32) {
+        name = name.slice(0, -1)
+    }
 
     var weatherBoost = ''
     if (weatherBoostedCondition) {
-        weatherBoost = `<div class='pokemon big'>Boosted by:
-            <img src='static/images/weather/${weatherImages[weatherBoostedCondition]}' style="width: 24px; vertical-align: middle;">&nbsp;${weatherNames[weatherBoostedCondition]}
-            </div>`
-    }
-
-    var catchProbs = ''
-    if (prob1 !== null) {
-        catchProbs = `
-          <div class='pokemon'>
-            Probs:
-            <img class='pokemon ball' src='static/images/markers/pokeball.png'> ${(prob1 * 100).toFixed(1)}%
-            <img class='pokemon ball' src='static/images/markers/greatball.png'> ${(prob2 * 100).toFixed(1)}%
-            <img class='pokemon ball' src='static/images/markers/ultraball.png'> ${(prob3 * 100).toFixed(1)}%
-          </div>`
+        weatherBoost = `<img class='pokemon title weather' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
     }
 
     var hideLabel = excludedPokemon.indexOf(id) < 0 ? 'Hide' : 'Unhide'
     var notifyLabel = notifiedPokemon.indexOf(id) < 0 ? 'Notify' : 'Unnotify'
 
     var pokemonIcon = getPokemonRawIconUrl(item)
+
+    contentstring += `
+    <div class='pokemon title'>
+      <span class='pokemon title name-gender-pokedex'><a href='http://pokemon.gameinfo.io/en/pokemon/${id}' target='_blank' title='View in Pokédex'>${name} ${genderType[gender - 1]} #${id}</a></span>${formString}<span class='pokemon title rarity'>${rarityDisplay}</span>
+    </div>
+    ${weatherBoost}`
 
     if (showStats && cp !== null && cpMultiplier !== null) {
         var pokemonLevel = getPokemonLevel(cpMultiplier)
@@ -684,26 +672,28 @@ function pokemonLabel(item) {
             var iv = getIv(atk, def, sta)
         }
 
-        var ivCircle = cssPercentageCircle(`${iv.toFixed(0)}<br>%`, iv, 100, 82, 66, 51)
-        var levelCircle = cssPercentageCircle(`Lvl<br>${pokemonLevel}`, pokemonLevel, 35, 30, 20, 10)
+        var ivCircle = cssPercentageCircle(`${iv.toFixed(0)}%`, iv, 100, 82, 66, 51)
+        var levelCircle = cssPercentageCircle(`L${pokemonLevel}`, pokemonLevel, 35, 30, 20, 10)
+
+        var catchProbs = ''
+        if (prob1 !== null) {
+            catchProbs = `
+              <div class='pokemon'>
+                Probs:
+                <img class='pokemon ball' src='static/images/markers/pokeball.png'> <span class='pokemon bold'>${(prob1 * 100).toFixed(1)}%</span>
+                <img class='pokemon ball' src='static/images/markers/greatball.png'> <span class='pokemon bold'>${(prob2 * 100).toFixed(1)}%</span>
+                <img class='pokemon ball' src='static/images/markers/ultraball.png'> <span class='pokemon bold'>${(prob3 * 100).toFixed(1)}%</span>
+              </div>`
+        }
 
         contentstring += `
             <div class='pokemon container'>
             <div class='pokemon container content-left'>
               <div>
                 <img class='pokemon sprite' src='${pokemonIcon}'>
-                <div class='pokemon cp big'>
-                  CP <span class='pokemon encounter big'>${cp}</span><br>
-                  GEN: <span class='pokemon encounter big'>${gen}</span>
-                </div>
-                <div class='pokemon links'>
-                  <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id}, "${encounterId}")'>${hideLabel}</a>
-                </div>
-                <div class='pokemon links'>
-                  <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a>
-                </div>
-                <div class='pokemon links'>
-                  <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
+                ${typesDisplay}
+                <div class='pokemon gen'>
+                  Gen: <span class='pokemon bold'>${gen}</span>
                 </div>
               </div>
           </div>
@@ -712,19 +702,33 @@ function pokemonLabel(item) {
               <div class='pokemon disappear'>
                 <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
               </div>
-              ${weatherBoost}
-              <div class='pokemon'>
-                ${ivCircle}
-                (A <span class='pokemon encounter'>${atk}</span> &nbsp;&nbsp; D <span class='pokemon encounter'>${def}</span> &nbsp;&nbsp; S <span class='pokemon encounter'>${sta}</span>)
-                ${levelCircle}
+              <div class='pokemon stats'>
+                <div class='pokemon container-iv-cp'>
+                  <div class='pokemon container-iv-cp iv'>
+                    <div>
+                      A<span class='pokemon bold'>${atk}</span> / D<span class='pokemon bold'>${def}</span> / S<span class='pokemon bold'>${sta}</span>
+                      <div>
+                        ${ivCircle}
+                      </div>
+                    </div>
+                  </div>
+                  <div class='pokemon container-iv-cp cp'>
+                    <div>
+                      CP: <span class='pokemon bold'>${cp}</span>
+                      <div>
+                      ${levelCircle}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class='pokemon'>
+                  Moves: <span class='pokemon bold'>${pMove1}</span> / <span class='pokemon bold'>${pMove2}</span>
+                </div>
+                <div class='pokemon'>
+                  Weight: <span class='pokemon bold'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon bold'>${height.toFixed(2)}m</span>
+                </div>
+                ${catchProbs}
               </div>
-              <div class='pokemon'>
-                Moveset: <span class='pokemon encounter'>${pMove1}</span> / <span class='pokemon encounter'>${pMove2}</span>
-              </div>
-              <div class='pokemon'>
-                Weight: ${weight.toFixed(2)}kg | Height: ${height.toFixed(2)}m
-              </div>
-              ${catchProbs}
               <div class='pokemon'>
                 <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
               </div>
@@ -737,17 +741,9 @@ function pokemonLabel(item) {
                 <div class='pokemon container content-left'>
                   <div>
                     <img class='pokemon sprite' src='${pokemonIcon}'>
-                    <div class='pokemon cp big'>
-                      GEN: <span class='pokemon encounter big'>${gen}</span>
-                    </div>
-                    <div class='pokemon links'>
-                      <i class='fa fa-lg fa-fw fa-eye-slash'></i> <a href='javascript:excludePokemon(${id}, "${encounterId}")'>${hideLabel}</a>
-                    </div>
-                    <div class='pokemon links'>
-                      <i class='fa fa-lg fa-fw fa-bullhorn'></i> <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a>
-                    </div>
-                    <div class='pokemon links'>
-                      <i class='fa fa-lg fa-fw fa-trash-o'></i> <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
+                    ${typesDisplay}
+                    <div class='pokemon gen'>
+                      Gen: <span class='pokemon gen bold'>${gen}</span>
                     </div>
                   </div>
               </div>
@@ -756,11 +752,9 @@ function pokemonLabel(item) {
                   <div class='pokemon disappear'>
                     <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
                   </div>
-                  ${weatherBoost}
                   <div class='pokemon'>
                     <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
                   </div>
-                  <div id='scoutInfo${encounterIdLong}' class='pokemon scoutinfo'></div>
               </div>
             </div>
         </div>`
