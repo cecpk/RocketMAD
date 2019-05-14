@@ -545,41 +545,18 @@ function isMobileDevice() {
     return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
 }
 
-function cssPercentageCircle(text, value, perfectVal, goodVal, okVal, mehVal) {
-    // Ring color
-    var ringColor
+function getPercentageCssColor(value, perfectVal, goodVal, okVal, mehVal) {
     if (value === perfectVal) {
-        ringColor = 'lime'
+        return 'lime'
     } else if (value >= goodVal) {
-        ringColor = 'green'
+        return 'green'
     } else if (value >= okVal) {
-        ringColor = 'olive'
+        return 'olive'
     } else if (value >= mehVal) {
-        ringColor = 'orange'
+        return 'orange'
     } else {
-        ringColor = 'red'
+        return 'red'
     }
-
-    // CSS styles
-    var percentage = value * 100 / perfectVal
-    var deg = 360 * percentage / 100
-    var circleStyles
-    if (deg <= 180) {
-        circleStyles = `background-color: ${ringColor};
-            background-image: linear-gradient(${90 + deg}deg, transparent 50%, Gainsboro 50%),
-                              linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
-    } else {
-        circleStyles = `background-color: ${ringColor};
-            background-image: linear-gradient(${deg - 90}deg, transparent 50%, ${ringColor} 50%),
-                              linear-gradient(90deg, Gainsboro 50%, transparent 50%)');`
-    }
-
-    // HTML output
-    return `<div class="active-border" style='${circleStyles}'>
-                <div class="circle">
-                    <span class="prec" id="prec">${text}</span>
-                </div>
-            </div>`
 }
 
 function getPokemonRawIconUrl(p) {

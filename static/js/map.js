@@ -607,9 +607,7 @@ function scout(encounterId) { // eslint-disable-line no-unused-vars
 function pokemonLabel(item) {
     const pokemonRarity = getPokemonRarity(item['pokemon_id'])
     var name = item['pokemon_name']
-    var rarityDisplay = pokemonRarity ? '(' + pokemonRarity + ')' : ''
     var types = item['pokemon_types']
-    var typesDisplay = ''
     var encounterId = item['encounter_id']
     var id = item['pokemon_id']
     var latitude = item['latitude']
@@ -618,147 +616,126 @@ function pokemonLabel(item) {
     var atk = item['individual_attack']
     var def = item['individual_defense']
     var sta = item['individual_stamina']
-    var pMove1 = (moves[item['move_1']] !== undefined) ? i8ln(moves[item['move_1']]['name']) : 'gen/unknown'
-    var pMove2 = (moves[item['move_2']] !== undefined) ? i8ln(moves[item['move_2']]['name']) : 'gen/unknown'
+    var move1 = (moves[item['move_1']] !== undefined) ? i8ln(moves[item['move_1']]['name']) : 'gen/unknown'
+    var move2 = (moves[item['move_2']] !== undefined) ? i8ln(moves[item['move_2']]['name']) : 'gen/unknown'
     var weight = item['weight']
     var height = item['height']
     var gender = item['gender']
     var form = item['form']
     var cp = item['cp']
     var cpMultiplier = item['cp_multiplier']
-    const showStats = Store.get('showPokemonStats')
     var prob1 = item['catch_prob_1']
     var prob2 = item['catch_prob_2']
     var prob3 = item['catch_prob_3']
-    var encounterIdLong = encounterId
     var weatherBoostedCondition = item['weather_boosted_condition']
+
+    var pokemonIcon = getPokemonRawIconUrl(item)
     var gen = getPokemonGen(id)
+    const showStats = Store.get('showPokemonStats')
 
-    $.each(types, function (index, type) {
-        typesDisplay += `<div class='pokemon type' style='background-color: ${type['color']};'>${type['type']}</div>`
-    })
-
-    var contentstring = ''
-    var formString = ''
-
-    if (id === 201 && form !== null && form > 0) {
-        formString += `(${unownForm[item['form']]})`
-    }
+    var formDisplay = ''
+    var rarityDisplay = pokemonRarity ? '(' + pokemonRarity + ')' : ''
+    var weatherBoostDisplay = ''
+    var typesDisplay = ''
+    var statsDisplay = ''
+    var catchProbsDisplay = ''
 
     if (id === 29 || id === 32) {
         name = name.slice(0, -1)
     }
 
-    var weatherBoost = ''
-    if (weatherBoostedCondition) {
-        weatherBoost = `<img class='pokemon title weather' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
+    if (id === 201 && form !== null && form > 0) {
+        formDisplay += `(${unownForm[item['form']]})`
     }
 
-    var hideLabel = excludedPokemon.indexOf(id) < 0 ? 'Hide' : 'Unhide'
-    var notifyLabel = notifiedPokemon.indexOf(id) < 0 ? 'Notify' : 'Unnotify'
+    if (weatherBoostedCondition) {
+        weatherBoostDisplay = `<img class='pokemon title weather' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
+    }
 
-    var pokemonIcon = getPokemonRawIconUrl(item)
-
-    contentstring += `
-    <div class='pokemon title'>
-      <span class='pokemon title name-gender-pokedex'><a href='http://pokemon.gameinfo.io/en/pokemon/${id}' target='_blank' title='View in Pokédex'>${name} ${genderType[gender - 1]} #${id}</a></span>${formString}<span class='pokemon title rarity'>${rarityDisplay}</span>
-    </div>
-    ${weatherBoost}`
+    typesDisplay = `<div class='pokemon types'>`
+    $.each(types, function (index, type) {
+        typesDisplay += `<div class='pokemon type' style='background-color: ${type['color']};'>${type['type']}</div>`
+    })
+    typesDisplay += `</div>`
 
     if (showStats && cp !== null && cpMultiplier !== null) {
-        var pokemonLevel = getPokemonLevel(cpMultiplier)
+      var iv = 0
+      if (atk !== null && def !== null && sta !== null) {
+          iv = getIv(atk, def, sta)
+      }
 
-        if (atk !== null && def !== null && sta !== null) {
-            var iv = getIv(atk, def, sta)
-        }
+      var ivColor = getPercentageCssColor(iv, 100, 82, 66, 51)
 
-        var ivCircle = cssPercentageCircle(`${iv.toFixed(0)}%`, iv, 100, 82, 66, 51)
-        var levelCircle = cssPercentageCircle(`L${pokemonLevel}`, pokemonLevel, 35, 30, 20, 10)
+      var level = getPokemonLevel(cpMultiplier)
 
-        var catchProbs = ''
-        if (prob1 !== null) {
-            catchProbs = `
-              <div class='pokemon'>
-                Probs:
-                <img class='pokemon ball' src='static/images/markers/pokeball.png'> <span class='pokemon bold'>${(prob1 * 100).toFixed(1)}%</span>
-                <img class='pokemon ball' src='static/images/markers/greatball.png'> <span class='pokemon bold'>${(prob2 * 100).toFixed(1)}%</span>
-                <img class='pokemon ball' src='static/images/markers/ultraball.png'> <span class='pokemon bold'>${(prob3 * 100).toFixed(1)}%</span>
-              </div>`
-        }
-
-        contentstring += `
-            <div class='pokemon container'>
-            <div class='pokemon container content-left'>
-              <div>
-                <img class='pokemon sprite' src='${pokemonIcon}'>
-                ${typesDisplay}
-                <div class='pokemon gen'>
-                  Gen: <span class='pokemon bold'>${gen}</span>
-                </div>
-              </div>
+      statsDisplay = `
+          <div class='pokemon iv'>
+            IV: <span class='pokemon bold' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon bold'>${atk}</span> / D<span class='pokemon bold'>${def}</span> / S<span class='pokemon bold'>${sta}</span>)
           </div>
-          <div class='pokemon container content-right'>
-            <div>
-              <div class='pokemon disappear'>
-                <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
-              </div>
-              <div class='pokemon stats'>
-                <div class='pokemon container-iv-cp'>
-                  <div class='pokemon container-iv-cp iv'>
-                    <div>
-                      A<span class='pokemon bold'>${atk}</span> / D<span class='pokemon bold'>${def}</span> / S<span class='pokemon bold'>${sta}</span>
-                      <div>
-                        ${ivCircle}
-                      </div>
-                    </div>
-                  </div>
-                  <div class='pokemon container-iv-cp cp'>
-                    <div>
-                      CP: <span class='pokemon bold'>${cp}</span>
-                      <div>
-                      ${levelCircle}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class='pokemon'>
-                  Moves: <span class='pokemon bold'>${pMove1}</span> / <span class='pokemon bold'>${pMove2}</span>
-                </div>
-                <div class='pokemon'>
-                  Weight: <span class='pokemon bold'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon bold'>${height.toFixed(2)}m</span>
-                </div>
-                ${catchProbs}
-              </div>
-              <div class='pokemon'>
-                <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
-              </div>
+          <div class='pokemon cp-level'>
+            CP: <span class='pokemon bold'>${cp}</span> | Level: <span class='pokemon bold'>${level}</span>
+          </div>
+          <div class='pokemon moves'>
+           Moves: <span class='pokemon bold'>${move1}</span> / <span class='pokemon bold'>${move2}</span>
+          </div>`
+
+      if (weight !== null && height !== null) {
+        statsDisplay += `
+            <div class='pokemon weight-height'>
+              Weight: <span class='pokemon bold'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon bold'>${height.toFixed(2)}m</span>
+            </div>`
+      }
+
+      if (prob1 !== null && prob2 !== null && prob3 !== null) {
+        catchProbsDisplay = `
+            <div class='pokemon probs'>
+              Probs:
+              <img class='pokemon ball' src='static/images/markers/pokeball.png'> <span class='pokemon bold'>${(prob1 * 100).toFixed(0)}%</span>
+              <img class='pokemon ball' src='static/images/markers/greatball.png'> <span class='pokemon bold'>${(prob2 * 100).toFixed(0)}%</span>
+              <img class='pokemon ball' src='static/images/markers/ultraball.png'> <span class='pokemon bold'>${(prob3 * 100).toFixed(0)}%</span>
+            </div>`
+      }
+    }
+
+    var mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
+    
+    var notifyLabel = notifiedPokemon.indexOf(id) < 0 ? 'Notify' : 'Unnotify'
+
+    var contentstring = `
+    <div class='pokemon title'>
+      <span class='pokemon title name-gender-pokedex'>
+        <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>${name} ${genderType[gender - 1]} #${id}</a>
+      </span>
+      ${formDisplay}
+      <span class='pokemon title rarity'>${rarityDisplay}</span>
+    </div>
+    ${weatherBoostDisplay}
+    <div class='pokemon container'>
+      <div class='pokemon container content-left'>
+        <div>
+          <img class='pokemon sprite' src='${pokemonIcon}'>
+          ${typesDisplay}
+          <div class='pokemon gen'>
+            Gen: <span class='pokemon gen bold'>${gen}</span>
           </div>
         </div>
-      </div>`
-    } else {
-        contentstring += `
-              <div class='pokemon container'>
-                <div class='pokemon container content-left'>
-                  <div>
-                    <img class='pokemon sprite' src='${pokemonIcon}'>
-                    ${typesDisplay}
-                    <div class='pokemon gen'>
-                      Gen: <span class='pokemon gen bold'>${gen}</span>
-                    </div>
-                  </div>
-              </div>
-              <div class='pokemon container content-right'>
-                <div>
-                  <div class='pokemon disappear'>
-                    <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
-                  </div>
-                  <div class='pokemon'>
-                    <span class='pokemon navigate'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a></span>
-                  </div>
-              </div>
-            </div>
-        </div>`
-    }
+      </div>
+      <div class='pokemon container content-right'>
+        <div>
+          <div class='pokemon disappear'>
+            <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
+          </div>
+          ${statsDisplay}
+          ${catchProbsDisplay}
+          <div class='pokemon map'>
+            <span class='pokemon map'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in ${mapLabel} Maps'>${mapLabel} Maps</a></span>
+          </div>
+          <a href='javascript:excludePokemon(${id}, "${encounterId}")'>Hide</a> |
+          <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a> |
+          <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
+        </div>
+      </div>
+    </div>`
 
     return contentstring
 }

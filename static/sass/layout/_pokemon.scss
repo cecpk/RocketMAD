@@ -1,54 +1,27 @@
-.pokemon.container {
-  display: flex;
-  margin-bottom: 0;
-
-  &.content-left {
-    margin-right: 19px;
-  }
-
-  &.content-right {
-    float: left;
-  }
-}
-
-.pokemon.container-iv-cp {
-  display: flex;
-  text-align: center;
-  margin-bottom: 0;
-
-  &.iv {
-    margin-right: 19px;
-  }
-
-  &.cp {
-    float: left;
-  }
-}
-
 .pokemon {
   font-family: "Open Sans",sans-serif;
   font-size: 11px;
-  a:link, a:visited {
+
+  &.container {
+    display: flex;
+    margin-bottom: 0;
+
+    &.content-left {
+      margin-right: 19px;
+    }
+  }
+
+  &.a:link, &.a:visited {
     color: #444;
     text-decoration: none;
   }
 
-  a:hover, a:active {
+  &.a:hover, &.a:active {
     text-decoration: underline;
-  }
-
-  &.big {
-    font-size: 13px;
   }
 
   &.bold {
     font-weight: 900;
-  }
-
-  &.gen {
-    font-size: 12px;
-    text-align: center;
-    margin-top: 5px;
   }
 
   &.title {
@@ -62,7 +35,7 @@
     }
 
     &.rarity {
-      font-size: 12px;
+      font-size: 13px;
       margin-right: 5px;
     }
 
@@ -71,26 +44,27 @@
     }
   }
 
+  &.sprite {
+    display: block;
+    width: 64px;
+    margin-bottom: 13px;
+  }
+
   &.type {
     border-radius: 4px;
     color: white;
     padding: 2px 5px;
     text-transform: uppercase;
     font-size: 10px;
+    font-weight: 900;
     text-align: center;
     margin-bottom: 2px;
   }
 
-  &.encounter {
-    font-weight: 900;
-  }
-
-  &.no-encounter {
-    font-weight: 300;
-  }
-
-  &.stats {
-    margin-bottom: 5px;
+  &.gen {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 6px;
   }
 
   &.disappear {
@@ -100,28 +74,8 @@
     white-space: nowrap;
   }
 
-  &.links {
-    color: rgb(93,109,126);
-    font-size: 12px;
-    margin-bottom: 4px;
-  }
-
-  &.navigate {
-    &.navigate:before {
-      content: '\f018';
-      display: inline-block;
-      font-family: FontAwesome;
-      margin: 1px 3px 0px 0px;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
-  }
-
-  &.sprite {
-    display: block;
-    width: 64px;
-    margin-bottom: 6px;
+  &.cp-level, &.probs, &.weight-height, &.types {
+    margin-bottom: 13px;
   }
 
   &.ball {
@@ -130,9 +84,5 @@
     width: 12px;
     margin-bottom: 0;
     vertical-align: bottom;
-  }
-
-  &.scoutinfo {
-    display: hidden;
   }
 }
