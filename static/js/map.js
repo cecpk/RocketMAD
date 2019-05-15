@@ -634,7 +634,8 @@ function pokemonLabel(item) {
     const showStats = Store.get('showPokemonStats')
 
     var formDisplay = ''
-    var rarityDisplay = pokemonRarity ? '(' + pokemonRarity + ')' : ''
+    var rarityDisplay = ''
+    var titleStyleDisplay = ''
     var weatherBoostDisplay = ''
     var typesDisplay = ''
     var statsDisplay = ''
@@ -648,8 +649,16 @@ function pokemonLabel(item) {
         formDisplay += `(${unownForm[item['form']]})`
     }
 
+    if (pokemonRarity) {
+      rarityDisplay = `
+         <div class='pokemon rarity bold'>
+           ${pokemonRarity}
+         </div>`
+    }
+
     if (weatherBoostedCondition) {
         weatherBoostDisplay = `<img class='pokemon title weather' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
+        titleStyleDisplay = `style='margin-bottom: 8px;'`
     }
 
     typesDisplay = `<div class='pokemon types'>`
@@ -698,18 +707,13 @@ function pokemonLabel(item) {
     }
 
     var mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
-    
+
     var notifyLabel = notifiedPokemon.indexOf(id) < 0 ? 'Notify' : 'Unnotify'
 
     var contentstring = `
-    <div class='pokemon title'>
-      <span class='pokemon title name-gender-pokedex'>
-        <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>${name} ${genderType[gender - 1]} #${id}</a>
-      </span>
-      ${formDisplay}
-      <span class='pokemon title rarity'>${rarityDisplay}</span>
+    <div class='pokemon title' ${titleStyleDisplay}>
+      ${name} ${genderType[gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a>${formDisplay}${weatherBoostDisplay}
     </div>
-    ${weatherBoostDisplay}
     <div class='pokemon container'>
       <div class='pokemon container content-left'>
         <div>
@@ -718,6 +722,7 @@ function pokemonLabel(item) {
           <div class='pokemon gen'>
             Gen: <span class='pokemon gen bold'>${gen}</span>
           </div>
+          ${rarityDisplay}
         </div>
       </div>
       <div class='pokemon container content-right'>
@@ -727,8 +732,8 @@ function pokemonLabel(item) {
           </div>
           ${statsDisplay}
           ${catchProbsDisplay}
-          <div class='pokemon map'>
-            <span class='pokemon map'><a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in ${mapLabel} Maps'>${mapLabel} Maps</a></span>
+          <div class='pokemon coords'>
+            <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in ${mapLabel} Maps'>${latitude.toFixed(7)}, ${longitude.toFixed(7)}</a>
           </div>
           <a href='javascript:excludePokemon(${id}, "${encounterId}")'>Hide</a> |
           <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a> |
