@@ -651,7 +651,7 @@ function pokemonLabel(item) {
 
     if (pokemonRarity) {
       rarityDisplay = `
-         <div class='pokemon rarity bold'>
+         <div class='pokemon rarity'>
            ${pokemonRarity}
          </div>`
     }
@@ -678,20 +678,20 @@ function pokemonLabel(item) {
       var level = getPokemonLevel(cpMultiplier)
 
       statsDisplay = `
-          <div class='pokemon iv'>
-            IV: <span class='pokemon bold' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon bold'>${atk}</span> / D<span class='pokemon bold'>${def}</span> / S<span class='pokemon bold'>${sta}</span>)
+          <div>
+            IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon encounter'>${atk}</span> / D<span class='pokemon encounter'>${def}</span> / S<span class='pokemon encounter'>${sta}</span>)
           </div>
           <div class='pokemon cp-level'>
-            CP: <span class='pokemon bold'>${cp}</span> | Level: <span class='pokemon bold'>${level}</span>
+            CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
           </div>
-          <div class='pokemon moves'>
-           Moves: <span class='pokemon bold'>${move1}</span> / <span class='pokemon bold'>${move2}</span>
+          <div>
+           Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
           </div>`
 
       if (weight !== null && height !== null) {
         statsDisplay += `
             <div class='pokemon weight-height'>
-              Weight: <span class='pokemon bold'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon bold'>${height.toFixed(2)}m</span>
+              Weight: <span class='pokemon encounter'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon encounter'>${height.toFixed(2)}m</span>
             </div>`
       }
 
@@ -699,9 +699,9 @@ function pokemonLabel(item) {
         catchProbsDisplay = `
             <div class='pokemon probs'>
               Probs:
-              <img class='pokemon ball' src='static/images/markers/pokeball.png'> <span class='pokemon bold'>${(prob1 * 100).toFixed(0)}%</span>
-              <img class='pokemon ball' src='static/images/markers/greatball.png'> <span class='pokemon bold'>${(prob2 * 100).toFixed(0)}%</span>
-              <img class='pokemon ball' src='static/images/markers/ultraball.png'> <span class='pokemon bold'>${(prob3 * 100).toFixed(0)}%</span>
+              <img class='pokemon ball' src='static/images/markers/pokeball.png'> <span class='pokemon encounter'>${(prob1 * 100).toFixed(0)}%</span>
+              <img class='pokemon ball' src='static/images/markers/greatball.png'> <span class='pokemon encounter'>${(prob2 * 100).toFixed(0)}%</span>
+              <img class='pokemon ball' src='static/images/markers/ultraball.png'> <span class='pokemon encounter'>${(prob3 * 100).toFixed(0)}%</span>
             </div>`
       }
     }
@@ -719,8 +719,8 @@ function pokemonLabel(item) {
         <div>
           <img class='pokemon sprite' src='${pokemonIcon}'>
           ${typesDisplay}
-          <div class='pokemon gen'>
-            Gen: <span class='pokemon gen bold'>${gen}</span>
+          <div class='pokemon'>
+            Gen: <span class='pokemon gen'>${gen}</span>
           </div>
           ${rarityDisplay}
         </div>
