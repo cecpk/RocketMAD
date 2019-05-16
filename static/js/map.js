@@ -719,7 +719,7 @@ function pokemonLabel(item) {
         <div>
           <img class='pokemon sprite' src='${pokemonIcon}'>
           ${typesDisplay}
-          <div class='pokemon'>
+          <div>
             Gen: <span class='pokemon gen'>${gen}</span>
           </div>
           ${rarityDisplay}
