@@ -604,6 +604,8 @@ def get_args():
     parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
                         help=('Discord Bot Token for user ' +
                               'external authentication.'))
+    parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
+                        default=None)
     rarity = parser.add_argument_group('Dynamic Rarity')
     rarity.add_argument('-Rh', '--rarity-hours',
                         help=('Number of hours of Pokemon data to use' +

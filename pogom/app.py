@@ -116,10 +116,10 @@ class Pogom(Flask):
         if (level == None or raidlevel == None):
             return send_file(get_gym_icon(
                 team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
-        
+
         elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or int(raidlevel) > 5):
             return abort(416)
-        
+
         else:
             return send_file(get_gym_icon(
                 team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
@@ -364,7 +364,8 @@ class Pogom(Flask):
             'fixed_display': not args.fixed_location,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,
-            'medalpokemon': args.medalpokemon
+            'medalpokemon': args.medalpokemon,
+            'madmin': args.madmin_url is not None
         }
 
         map_lat = False
@@ -386,7 +387,8 @@ class Pogom(Flask):
             generateImages=str(args.generate_images).lower(),
             lang=args.locale,
             show=visibility_flags,
-            rarityFileName=args.rarity_filename)
+            rarityFileName=args.rarity_filename,
+            madminUrl=args.madmin_url)
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.
@@ -434,7 +436,7 @@ class Pogom(Flask):
         lastpokemon = request.args.get('lastpokemon')
         lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
-        
+
         luredonly = False
         if request.args.get('luredonly') == '0':
             luredonly = False
@@ -544,7 +546,7 @@ class Pogom(Flask):
                                            oSwLat=oSwLat, oSwLng=oSwLng,
                                            oNeLat=oNeLat, oNeLng=oNeLng,
                                            lured=luredonly))
-                                           
+
         #d['quests'] = Trs_Quest.get_quests()
 
         if request.args.get('gyms', 'true') == 'true' and not args.no_gyms:

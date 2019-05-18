@@ -10,7 +10,7 @@
 
 #pgpool-url:                    # Address of PGPool to load accounts from and/or update their details. Required for PGPool.
                                 # e.g. http://127.0.0.1:4242 (default=None)
-#pgscout-url:                   # Address of PGScout to perform encounters. Required for PGScout. 
+#pgscout-url:                   # Address of PGScout to perform encounters. Required for PGScout.
                                 # e.g. http://127.0.0.1:4243/iv (default=None)
 #rareless-scans-threshold:      # Mark an account as shadowbanned after this many rareless scans. PGPool required. (default=10)
 #rotate-blind                   # Rotate out shadowbanned accounts. PGPool required.
@@ -190,6 +190,7 @@
 
 #stats-log-timer                # In log view, list per hr stats every X seconds
 #status-name:                   # Enables writing status updates to the database - if you use multiple processes, each needs a unique value. (default=None)
+#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
 
 
 # User Auth Settings

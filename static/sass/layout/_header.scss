@@ -73,7 +73,7 @@
         margin-left: 0.5em;
       }
 
-      &[href="status"] {
+      &#madmin {
         @include icon('\f059');
         -webkit-tap-highlight-color: rgba(0,0,0,0);
 
@@ -82,7 +82,7 @@
         }
       }
 
-      & + a[href="status"]:last-child {
+      & + #madmin:last-child {
         padding-left: 1.25em;
         margin-left: 0.5em;
       }
