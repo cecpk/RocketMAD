@@ -645,8 +645,8 @@ function pokemonLabel(item) {
         name = name.slice(0, -1)
     }
 
-    if (id === 201 && form !== null && form > 0) {
-        formDisplay += `(${unownForm[item['form']]})`
+    if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
+        formDisplay += ` (${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 
     if (pokemonRarity) {
@@ -840,10 +840,10 @@ function gymLabel(gym, includeMembers = true) {
             // Use Pokémon-specific image.
             var pokemonIcon = getPokemonRawIconUrl(raid)
             if (raid.pokemon_id !== null) {
-                let pokemonName = raid.pokemon_name;
+                let pokemonName = i8ln(raid.pokemon_name);
 
                 if (raid.form && 'forms' in idToPokemon[raid['pokemon_id']] && raid.form in idToPokemon[raid['pokemon_id']].forms) {
-                    pokemonName = i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].name);
+                    pokemonName += ` (${i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].formName)})`;
                 }
 
                 image = `

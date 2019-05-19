@@ -217,11 +217,13 @@
       "45": {
         "id": "RATTATA",
         "name": "Rattata",
+        "formName": "",
         "assetId": "00"
       },
       "46": {
         "id": "RATTATA_ALOLA",
         "name": "Rattata Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -238,11 +240,13 @@
       "47": {
         "id": "RATICATE",
         "name": "Raticate",
+        "formName": "",
         "assetId": "00"
       },
       "48": {
         "id": "RATICATE_ALOLA",
         "name": "Raticate Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -312,11 +316,13 @@
       "49": {
         "id": "RAICHU",
         "name": "Raichu",
+        "formName": "",
         "assetId": "00"
       },
       "50": {
         "id": "RAICHU_ALOLA",
         "name": "Raichu Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -333,11 +339,13 @@
       "51": {
         "id": "SANDSHREW",
         "name": "Sandshrew",
+        "formName": "",
         "assetId": "00"
       },
       "52": {
         "id": "SANDSHREW_ALOLA",
         "name": "Sandshrew Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -354,11 +362,13 @@
       "53": {
         "id": "SANDSLASH",
         "name": "Sandslash",
+        "formName": "",
         "assetId": "00"
       },
       "54": {
         "id": "SANDSLASH_ALOLA",
         "name": "Sandslash Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -455,11 +465,13 @@
       "55": {
         "id": "VULPIX",
         "name": "Vulpix",
+        "formName": "",
         "assetId": "00"
       },
       "56": {
         "id": "VULPIX_ALOLA",
         "name": "Vulpix Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -476,11 +488,13 @@
       "57": {
         "id": "NINETALES",
         "name": "Ninetales",
+        "formName": "",
         "assetId": "00"
       },
       "58": {
         "id": "NINETALES_ALOLA",
         "name": "Ninetales Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -640,11 +654,13 @@
       "59": {
         "id": "DIGLETT",
         "name": "Diglett",
+        "formName": "",
         "assetId": "00"
       },
       "60": {
         "id": "DIGLETT_ALOLA",
         "name": "Diglett Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -661,11 +677,13 @@
       "61": {
         "id": "DUGTRIO",
         "name": "Dugtrio",
+        "formName": "",
         "assetId": "00"
       },
       "62": {
         "id": "DUGTRIO_ALOLA",
         "name": "Dugtrio Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -682,11 +700,13 @@
       "63": {
         "id": "MEOWTH",
         "name": "Meowth",
+        "formName": "",
         "assetId": "00"
       },
       "64": {
         "id": "MEOWTH_ALOLA",
         "name": "Meowth Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -703,11 +723,13 @@
       "65": {
         "id": "PERSIAN",
         "name": "Persian",
+        "formName": "",
         "assetId": "00"
       },
       "66": {
         "id": "PERSIAN_ALOLA",
         "name": "Persian Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -932,11 +954,13 @@
       "67": {
         "id": "GEODUDE",
         "name": "Geodude",
+        "formName": "",
         "assetId": "00"
       },
       "68": {
         "id": "GEODUDE_ALOLA",
         "name": "Geodude Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -957,11 +981,13 @@
       "69": {
         "id": "GRAVELER",
         "name": "Graveler",
+        "formName": "",
         "assetId": "00"
       },
       "70": {
         "id": "GRAVELER_ALOLA",
         "name": "Graveler Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -982,11 +1008,13 @@
       "71": {
         "id": "GOLEM",
         "name": "Golem",
+        "formName": "",
         "assetId": "00"
       },
       "72": {
         "id": "GOLEM_ALOLA",
         "name": "Golem Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -1134,11 +1162,13 @@
       "73": {
         "id": "GRIMER",
         "name": "Grimer",
+        "formName": "",
         "assetId": "00"
       },
       "74": {
         "id": "GRIMER_ALOLA",
         "name": "Grimer Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -1155,11 +1185,13 @@
       "75": {
         "id": "MUK",
         "name": "Muk",
+        "formName": "",
         "assetId": "00"
       },
       "76": {
         "id": "MUK_ALOLA",
         "name": "Muk Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -1321,11 +1353,13 @@
       "77": {
         "id": "EXEGGUTOR",
         "name": "Exeggutor",
+        "formName": "",
         "assetId": "00"
       },
       "78": {
         "id": "EXEGGUTOR_ALOLA",
         "name": "Exeggutor Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -1351,11 +1385,13 @@
       "79": {
         "id": "MAROWAK",
         "name": "Marowak",
+        "formName": "",
         "assetId": "00"
       },
       "80": {
         "id": "MAROWAK_ALOLA",
         "name": "Marowak Alola",
+        "formName": "Alola",
         "assetId": "61"
       }
     }
@@ -2387,141 +2423,169 @@
       "1": {
         "id": "UNOWN_A",
         "name": "Unown A",
+        "formName": "A",
         "assetId": "11"
       },
       "2": {
         "id": "UNOWN_B",
         "name": "Unown B",
+        "formName": "B",
         "assetId": "12"
       },
       "3": {
         "id": "UNOWN_C",
         "name": "Unown C",
+        "formName": "C",
         "assetId": "13"
       },
       "4": {
         "id": "UNOWN_D",
         "name": "Unown D",
+        "formName": "D",
         "assetId": "14"
       },
       "5": {
         "id": "UNOWN_E",
         "name": "Unown E",
+        "formName": "E",
         "assetId": "15"
       },
       "6": {
         "id": "UNOWN_F",
         "name": "Unown F",
+        "formName": "F",
         "assetId": "16"
       },
       "7": {
         "id": "UNOWN_G",
         "name": "Unown G",
+        "formName": "G",
         "assetId": "17"
       },
       "8": {
         "id": "UNOWN_H",
         "name": "Unown H",
+        "formName": "H",
         "assetId": "18"
       },
       "9": {
         "id": "UNOWN_I",
         "name": "Unown I",
+        "formName": "I",
         "assetId": "19"
       },
       "10": {
         "id": "UNOWN_J",
         "name": "Unown J",
+        "formName": "J",
         "assetId": "20"
       },
       "11": {
         "id": "UNOWN_K",
         "name": "Unown K",
+        "formName": "K",
         "assetId": "21"
       },
       "12": {
         "id": "UNOWN_L",
         "name": "Unown L",
+        "formName": "L",
         "assetId": "22"
       },
       "13": {
         "id": "UNOWN_M",
         "name": "Unown M",
+        "formName": "M",
         "assetId": "23"
       },
       "14": {
         "id": "UNOWN_N",
         "name": "Unown N",
+        "formName": "N",
         "assetId": "24"
       },
       "15": {
         "id": "UNOWN_O",
         "name": "Unown O",
+        "formName": "O",
         "assetId": "25"
       },
       "16": {
         "id": "UNOWN_P",
         "name": "Unown P",
+        "formName": "P",
         "assetId": "26"
       },
       "17": {
         "id": "UNOWN_Q",
         "name": "Unown Q",
+        "formName": "Q",
         "assetId": "27"
       },
       "18": {
         "id": "UNOWN_R",
         "name": "Unown R",
+        "formName": "R",
         "assetId": "28"
       },
       "19": {
         "id": "UNOWN_S",
         "name": "Unown S",
+        "formName": "S",
         "assetId": "29"
       },
       "20": {
         "id": "UNOWN_T",
         "name": "Unown T",
+        "formName": "T",
         "assetId": "30"
       },
       "21": {
         "id": "UNOWN_U",
         "name": "Unown U",
+        "formName": "U",
         "assetId": "31"
       },
       "22": {
         "id": "UNOWN_V",
         "name": "Unown V",
+        "formName": "V",
         "assetId": "32"
       },
       "23": {
         "id": "UNOWN_W",
         "name": "Unown W",
+        "formName": "W",
         "assetId": "33"
       },
       "24": {
         "id": "UNOWN_X",
         "name": "Unown X",
+        "formName": "X",
         "assetId": "34"
       },
       "25": {
         "id": "UNOWN_Y",
         "name": "Unown Y",
+        "formName": "Y",
         "assetId": "35"
       },
       "26": {
         "id": "UNOWN_Z",
         "name": "Unown Z",
+        "formName": "Z",
         "assetId": "36"
       },
       "27": {
         "id": "UNOWN_EXCLAMATION_POINT",
         "name": "Unown Exclamation Point",
+        "formName": "!",
         "assetId": "37"
       },
       "28": {
         "id": "UNOWN_QUESTION_MARK",
         "name": "Unown Question Mark",
+        "formName": "?",
         "assetId": "38"
       }
     }
@@ -3915,46 +3979,55 @@
       "37": {
         "id": "SPINDA_00",
         "name": "Spinda 00",
+        "formName": "00",
         "assetId": "11"
       },
       "38": {
         "id": "SPINDA_01",
         "name": "Spinda 01",
+        "formName": "01",
         "assetId": "12"
       },
       "39": {
         "id": "SPINDA_02",
         "name": "Spinda 02",
+        "formName": "02",
         "assetId": "13"
       },
       "40": {
         "id": "SPINDA_03",
         "name": "Spinda 03",
+        "formName": "03",
         "assetId": "14"
       },
       "41": {
         "id": "SPINDA_04",
         "name": "Spinda 04",
+        "formName": "04",
         "assetId": "15"
       },
       "42": {
         "id": "SPINDA_05",
         "name": "Spinda 05",
+        "formName": "05",
         "assetId": "16"
       },
       "43": {
         "id": "SPINDA_06",
         "name": "Spinda 06",
+        "formName": "06",
         "assetId": "17"
       },
       "44": {
         "id": "SPINDA_07",
         "name": "Spinda 07",
+        "formName": "07",
         "assetId": "18"
       },
       "121": {
         "id": "SPINDA_08",
         "name": "Spinda 08",
+        "formName": "08",
         "assetId": "19"
       }
     }
@@ -4242,21 +4315,25 @@
       "29": {
         "id": "CASTFORM",
         "name": "Castform",
+        "formName": "",
         "assetId": "11"
       },
       "30": {
         "id": "CASTFORM_SUNNY",
         "name": "Castform Sunny",
+        "formName": "Sunny",
         "assetId": "12"
       },
       "31": {
         "id": "CASTFORM_RAINY",
         "name": "Castform Rainy",
+        "formName": "Rainy",
         "assetId": "13"
       },
       "32": {
         "id": "CASTFORM_SNOWY",
         "name": "Castform Snowy",
+        "formName": "Snowy",
         "assetId": "14"
       }
     }
@@ -4631,21 +4708,25 @@
       "33": {
         "id": "DEOXYS",
         "name": "Deoxys",
+        "formName": "",
         "assetId": "11"
       },
       "34": {
         "id": "DEOXYS_ATTACK",
         "name": "Deoxys Attack",
+        "formName": "Attack",
         "assetId": "12"
       },
       "35": {
         "id": "DEOXYS_DEFENSE",
         "name": "Deoxys Defense",
+        "formName": "Defense",
         "assetId": "13"
       },
       "36": {
         "id": "DEOXYS_SPEED",
         "name": "Deoxys Speed",
+        "formName": "Speed",
         "assetId": "14"
       }
     }
@@ -4935,16 +5016,19 @@
       "118": {
         "id": "BURMY_PLANT",
         "name": "Burmy Plant",
+        "formName": "Plant",
         "assetId": "11"
       },
       "119": {
         "id": "BURMY_SANDY",
         "name": "Burmy Sandy",
+        "formName": "Sandy",
         "assetId": "12"
       },
       "120": {
         "id": "BURMY_TRASH",
         "name": "Burmy Trash",
+        "formName": "Trash",
         "assetId": "13"
       }
     }
@@ -4965,16 +5049,19 @@
       "87": {
         "id": "WORMADAM_PLANT",
         "name": "Wormadam Plant",
+        "formName": "Plant",
         "assetId": "11"
       },
       "88": {
         "id": "WORMADAM_SANDY",
         "name": "Wormadam Sandy",
+        "formName": "Sandy",
         "assetId": "12"
       },
       "89": {
         "id": "WORMADAM_TRASH",
         "name": "Wormadam Trash",
+        "formName": "Trash",
         "assetId": "13"
       }
     }
@@ -5066,11 +5153,13 @@
       "94": {
         "id": "CHERRIM_OVERCAST",
         "name": "Cherrim Overcast",
+        "formName": "Overcast",
         "assetId": "11"
       },
       "95": {
         "id": "CHERRIM_SUNNY",
         "name": "Cherrim Sunny",
+        "formName": "Sunny",
         "assetId": "12"
       }
     }
@@ -5087,11 +5176,13 @@
       "96": {
         "id": "SHELLOS_WEST_SEA",
         "name": "Shellos West Sea",
+        "formName": "West Sea",
         "assetId": "11"
       },
       "97": {
         "id": "SHELLOS_EAST_SEA",
         "name": "Shellos East Sea",
+        "formName": "East Sea",
         "assetId": "12"
       }
     }
@@ -5112,11 +5203,13 @@
       "98": {
         "id": "GASTRODON_WEST_SEA",
         "name": "Gastrodon West Sea",
+        "formName": "West Sea",
         "assetId": "11"
       },
       "99": {
         "id": "GASTRODON_EAST_SEA",
         "name": "Gastrodon East Sea",
+        "formName": "East Sea",
         "assetId": "12"
       }
     }
@@ -5756,31 +5849,37 @@
       "81": {
         "id": "ROTOM",
         "name": "Rotom",
+        "formName": "",
         "assetId": "00"
       },
       "82": {
         "id": "ROTOM_FROST",
         "name": "Rotom Frost",
+        "formName": "Frost",
         "assetId": "14"
       },
       "83": {
         "id": "ROTOM_FAN",
         "name": "Rotom Fan",
+        "formName": "Fan",
         "assetId": "15"
       },
       "84": {
         "id": "ROTOM_MOW",
         "name": "Rotom Mow",
+        "formName": "Mow",
         "assetId": "16"
       },
       "85": {
         "id": "ROTOM_WASH",
         "name": "Rotom Wash",
+        "formName": "Wash",
         "assetId": "13"
       },
       "86": {
         "id": "ROTOM_HEAT",
         "name": "Rotom Heat",
+        "formName": "Heat",
         "assetId": "12"
       }
     }
@@ -5872,11 +5971,13 @@
       "90": {
         "id": "GIRATINA_ALTERED",
         "name": "Giratina Altered",
+        "formName": "Altered",
         "assetId": "11"
       },
       "91": {
         "id": "GIRATINA_ORIGIN",
         "name": "Giratina Origin",
+        "formName": "Origin",
         "assetId": "12"
       }
     }
@@ -5933,11 +6034,13 @@
       "92": {
         "id": "SHAYMIN_SKY",
         "name": "Shaymin Sky",
+        "formName": "Sky",
         "assetId": "12"
       },
       "93": {
         "id": "SHAYMIN_LAND",
         "name": "Shaymin Land",
+        "formName": "Land",
         "assetId": "11"
       }
     }
@@ -5954,91 +6057,109 @@
       "100": {
         "id": "ARCEUS",
         "name": "Arceus",
+        "formName": "",
         "assetId": "00"
       },
       "101": {
         "id": "ARCEUS_FIGHTING",
         "name": "Arceus Fighting",
+        "formName": "Fighting",
         "assetId": "12"
       },
       "102": {
         "id": "ARCEUS_FLYING",
         "name": "Arceus Flying",
+        "formName": "Flying",
         "assetId": "13"
       },
       "103": {
         "id": "ARCEUS_POISON",
         "name": "Arceus Poison",
+        "formName": "Poison",
         "assetId": "14"
       },
       "104": {
         "id": "ARCEUS_GROUND",
         "name": "Arceus Ground",
+        "formName": "Ground",
         "assetId": "15"
       },
       "105": {
         "id": "ARCEUS_ROCK",
         "name": "Arceus Rock",
+        "formName": "Rock",
         "assetId": "16"
       },
       "106": {
         "id": "ARCEUS_BUG",
         "name": "Arceus Bug",
+        "formName": "Bug",
         "assetId": "17"
       },
       "107": {
         "id": "ARCEUS_GHOST",
         "name": "Arceus Ghost",
+        "formName": "Ghost",
         "assetId": "18"
       },
       "108": {
         "id": "ARCEUS_STEEL",
         "name": "Arceus Steel",
+        "formName": "Steel",
         "assetId": "19"
       },
       "109": {
         "id": "ARCEUS_FIRE",
         "name": "Arceus Fire",
+        "formName": "Fire",
         "assetId": "20"
       },
       "110": {
         "id": "ARCEUS_WATER",
         "name": "Arceus Water",
+        "formName": "Water",
         "assetId": "21"
       },
       "111": {
         "id": "ARCEUS_GRASS",
         "name": "Arceus Grass",
+        "formName": "Grass",
         "assetId": "22"
       },
       "112": {
         "id": "ARCEUS_ELECTRIC",
         "name": "Arceus Electric",
+        "formName": "Electric",
         "assetId": "23"
       },
       "113": {
         "id": "ARCEUS_PSYCHIC",
         "name": "Arceus Psychic",
+        "formName": "Psychic",
         "assetId": "24"
       },
       "114": {
         "id": "ARCEUS_ICE",
         "name": "Arceus Ice",
+        "formName": "Ice",
         "assetId": "25"
       },
       "115": {
         "id": "ARCEUS_DRAGON",
         "name": "Arceus Dragon",
+        "formName": "Dragon",
         "assetId": "26"
       },
       "116": {
         "id": "ARCEUS_DARK",
         "name": "Arceus Dark",
+        "formName": "Dark",
         "assetId": "27"
       },
       "117": {
         "id": "ARCEUS_FAIRY",
         "name": "Arceus Fairy",
+        "formName": "Fairy",
         "assetId": "28"
       }
     }
