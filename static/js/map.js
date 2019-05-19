@@ -645,8 +645,8 @@ function pokemonLabel(item) {
         name = name.slice(0, -1)
     }
 
-    if (id === 201 && form !== null && form > 0) {
-        formDisplay += `(${unownForm[item['form']]})`
+    if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
+        formDisplay += ` (${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 
     if (pokemonRarity) {
@@ -840,6 +840,12 @@ function gymLabel(gym, includeMembers = true) {
             // Use Pokémon-specific image.
             var pokemonIcon = getPokemonRawIconUrl(raid)
             if (raid.pokemon_id !== null) {
+                let pokemonName = i8ln(raid.pokemon_name);
+
+                if (raid.form && 'forms' in idToPokemon[raid['pokemon_id']] && raid.form in idToPokemon[raid['pokemon_id']].forms) {
+                    pokemonName += ` (${i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].formName)})`;
+                }
+
                 image = `
                     <div class='raid container'>
                     <div class='raid container content-left'>
@@ -848,7 +854,7 @@ function gymLabel(gym, includeMembers = true) {
                     <div class='raid container content-right'>
                         <div>
                         <div class='raid pokemon'>
-                            ${raid['pokemon_name']} <a href='http://pokemon.gameinfo.io/en/pokemon/${raid['pokemon_id']}' target='_blank' title='View in Pokédex'>#${raid['pokemon_id']}</a> | CP: ${raid['cp']}
+                            ${pokemonName} <a href='http://pokemon.gameinfo.io/en/pokemon/${raid['pokemon_id']}' target='_blank' title='View in Pokédex'>#${raid['pokemon_id']}</a> | CP: ${raid['cp']}
                     </div>
                         ${raidStr}
                     </div>
@@ -1369,30 +1375,40 @@ function setupGymMarker(item) {
     return marker
 }
 
-function updateGymMarker(item, marker) {
-    let raidLevel = getRaidLevel(item.raid)
+function updateGymMarker(gym, marker) {
+    let raidLevel = getRaidLevel(gym.raid)
     let markerImage = ''
     var zIndexOffset
-    if (item.raid && isOngoingRaid(item.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
-        markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item) + '&raidlevel=' + item['raid']['level'] + '&pkm=' + item['raid']['pokemon_id']
+
+    if (gym.raid && isOngoingRaid(gym.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+        markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level'] + '&pkm=' + gym['raid']['pokemon_id']
+        if (gym.raid.form) {
+            markerImage += '&form=' + gym.raid.form
+        }
         zIndexOffset = 100
-    } else if (item.raid && item.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
-        markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item) + '&raidlevel=' + item['raid']['level']
+    } else if (gym.raid && gym.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+        markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level']
         zIndexOffset = 20
     } else {
-        markerImage = 'gym_img?team=' + gymTypes[item.team_id] + '&level=' + getGymLevel(item)
+        markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym)
         zIndexOffset = 10
     }
-    if (item['is_in_battle']) {
-        markerImage += '&in_battle=1'
+
+    if (gym['is_in_battle']) {
+            markerImage += '&in_battle=1'
     }
+
     var GymIcon = new L.Icon({
         iconUrl: markerImage,
         iconSize: [48, 48]
     })
     marker.setIcon(GymIcon)
     marker.setZIndexOffset = zIndexOffset
-    if (!Store.get('useGymSidebar')) { marker.bindPopup(gymLabel(item)) }
+
+    if (!Store.get('useGymSidebar')) {
+        marker.bindPopup(gymLabel(gym))
+    }
+
     return marker
 }
 
@@ -3189,7 +3205,7 @@ $(function () {
     $selectRarityNotify = $('#notify-rarity')
     $textPerfectionNotify = $('#notify-perfection')
     $textLevelNotify = $('#notify-level')
-    var numberOfPokemon = 492
+    var numberOfPokemon = 493
 
     $('.list').before('<input type="search" class="search" placeholder="Search for Name, ID or Type...">')
     const hidepresets = Store.get('hidepresets')
