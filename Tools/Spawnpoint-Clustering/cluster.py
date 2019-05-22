@@ -128,21 +128,21 @@ def main(args):
 
     spawnpoints = [Spawnpoint(x) for x in rows]
       
-    print 'Processing', len(spawnpoints), 'spawnpoints...'
+    print('Processing', len(spawnpoints), 'spawnpoints...')
 
     start_time = time.time()
     clusters = cluster(spawnpoints, radius, time_threshold)
     end_time = time.time()
 
-    print 'Completed in {:.2f} seconds.'.format(end_time - start_time)
-    print len(clusters), 'clusters found.'
-    print '{:.2f}% compression achieved.'.format(100.0 * len(clusters) / len(spawnpoints))
+    print('Completed in {:.2f} seconds.'.format(end_time - start_time))
+    print(len(clusters), 'clusters found.')
+    print('{:.2f}% compression achieved.'.format(100.0 * len(clusters) / len(spawnpoints)))
     
     try:
         for c in clusters:
             test(c, radius, time_threshold)
     except AssertionError:
-        print 'error: something\'s seriously broken.'
+        print('error: something\'s seriously broken.')
         raise
 
     # clusters.sort(key=lambda x: len(x))

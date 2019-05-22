@@ -16,7 +16,7 @@ from threading import Thread, Event
 from mrmime import init_mr_mime
 from queue import Queue
 from flask_cors import CORS
-from flask_cache_bust import init_cache_busting
+from flask_cachebuster import CacheBuster
 
 from colorlog import ColoredFormatter
 
@@ -115,7 +115,7 @@ def install_thread_excepthook():
             raise
         except Exception:
             exc_type, exc_value, exc_trace = sys.exc_info()
-            print repr(sys.exc_info())
+            print(repr(sys.exc_info()))
 
             # Handle Flask's broken pipe when a client prematurely ends
             # the connection.
@@ -350,7 +350,7 @@ def main():
     if not args.no_server and not args.clear_db:
         app = Pogom(__name__,
                     root_path=os.path.dirname(
-                              os.path.abspath(__file__)).decode('utf8'))
+                              os.path.abspath(__file__)))
         app.before_request(app.validate_request)
         app.set_current_location(position)
 
@@ -363,7 +363,7 @@ def main():
       'search_control': Event()
     }
 
-    for flag in control_flags.values():
+    for flag in list(control_flags.values()):
         flag.clear()
 
     if args.on_demand_timeout > 0:
@@ -479,7 +479,8 @@ def main():
             CORS(app)
 
         # No more stale JS.
-        init_cache_busting(app)
+        cache_buster = CacheBuster()
+        cache_buster.init_app(app)
 
         app.set_control_flags(control_flags)
         app.set_heartbeat_control(heartbeat)

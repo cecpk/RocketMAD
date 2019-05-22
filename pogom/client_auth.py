@@ -3,7 +3,7 @@
 
 import logging
 import requests
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import datetime
 
 from flask import jsonify
@@ -35,7 +35,7 @@ def redirect_client_to_auth(host, args):
     d['auth_redirect'] = (
         'https://discordapp.com/api/oauth2/authorize?client_id=' +
         args.uas_client_id + '&redirect_uri=' +
-        urllib.quote(host + 'auth_callback') +
+        urllib.parse.quote(host + 'auth_callback') +
         '&response_type=code&scope=identify%20guilds')
     return jsonify(d)
 

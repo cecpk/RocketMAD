@@ -155,7 +155,7 @@ class Pogom(Flask):
             p = Pokemon.get(Pokemon.encounter_id == encounterId)
             pokemon_name = get_pokemon_name(p.pokemon_id)
             log.info(
-                u"On demand PGScouting a {} at {}, {}.".format(
+                "On demand PGScouting a {} at {}, {}.".format(
                     pokemon_name,
                     p.latitude,
                     p.longitude))
@@ -163,13 +163,13 @@ class Pogom(Flask):
             if scout_result['success']:
                 self.update_scouted_pokemon(p, scout_result)
                 log.info(
-                    u"Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
-                    u" (scout level {}).".format(
+                    "Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
+                    " (scout level {}).".format(
                         scout_result['iv_percent'], scout_result['level'],
                         pokemon_name, scout_result['cp'],
                         scout_result['scout_level']))
             else:
-                log.warning(u"Failed PGScouting {}: {}".format(pokemon_name,
+                log.warning("Failed PGScouting {}: {}".format(pokemon_name,
                                                                scout_result[
                                                                    'error']))
         else:
@@ -182,7 +182,7 @@ class Pogom(Flask):
             lat = request.args.get('latitude')
             lng = request.args.get('longitude')
             log.info(
-                u"On demand luring a stop at lat = {}, long = {}.".format(lat,
+                "On demand luring a stop at lat = {}, long = {}.".format(lat,
                                                                           lng))
             stops = Pokestop.get_stop_by_cord(lat, lng)
             if len(stops) > 1:
@@ -191,18 +191,18 @@ class Pogom(Flask):
             else:
                 p = stops[0]
             log.info(
-                u"On demand luring a stop {} at {}, {}.".format(
+                "On demand luring a stop {} at {}, {}.".format(
                     p["pokestop_id"],
                     p["latitude"],
                     p["longitude"]))
             scout_result = perform_lure(p)
             if scout_result['success']:
                 log.info(
-                    u"Successfully lured pokestop_id {} at {}, {}".format(
+                    "Successfully lured pokestop_id {} at {}, {}".format(
                         p["pokestop_id"], p["latitude"],
                         p["longitude"]))
             else:
-                log.warning(u"Failed luring {} at {},{}".format(
+                log.warning("Failed luring {} at {},{}".format(
                     p["pokestop_id"],
                     p["latitude"],
                     p["longitude"]))
@@ -297,7 +297,7 @@ class Pogom(Flask):
             return False
 
         # Get the nearest IP range
-        pos = max(bisect_left(self.blacklist_keys, ip) - 1, 0)
+        pos = max(bisect_left(self.blacklist_keys, dottedQuadToNum(ip)) - 1, 0)
         ip_range = self.blacklist[pos]
 
         start = dottedQuadToNum(ip_range[0])
@@ -450,7 +450,6 @@ class Pogom(Flask):
         elif request.args.get('luredonly') == '4':
             luredonly = False
 
-
         # Current switch settings saved for next request.
         if request.args.get('gyms', 'true') == 'true':
             d['lastgyms'] = request.args.get('gyms', 'true')
@@ -467,15 +466,17 @@ class Pogom(Flask):
         if request.args.get('spawnpoints', 'false') == 'true':
             d['lastspawns'] = request.args.get('spawnpoints', 'false')
 
-        # If old coords are not equal to current coords we have moved/zoomed!
-        if (oSwLng < swLng and oSwLat < swLat and
-                oNeLat > neLat and oNeLng > neLng):
-            newArea = False  # We zoomed in no new area uncovered.
-        elif not (oSwLat == swLat and oSwLng == swLng and
-                  oNeLat == neLat and oNeLng == neLng):
-            newArea = True
-        else:
-            newArea = False
+        if (oSwLat is not None and oSwLng is not None
+                and oNeLat is not None and oNeLng is not None):
+            # If old coords are not equal to current coords we have moved/zoomed!
+            if (oSwLng < swLng and oSwLat < swLat and
+                    oNeLat > neLat and oNeLng > neLng):
+                newArea = False  # We zoomed in no new area uncovered.
+            elif not (oSwLat == swLat and oSwLng == swLng and
+                      oNeLat == neLat and oNeLng == neLng):
+                newArea = True
+            else:
+                newArea = False
 
         # Pass current coords as old coords.
         d['oSwLat'] = swLat

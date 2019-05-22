@@ -25,15 +25,14 @@ import traceback
 import random
 import time
 import requests
-import schedulers
-import terminalsize
+from . import schedulers
+from . import terminalsize
 import timeit
 import threading
 
 from datetime import datetime
 from threading import Thread, Lock
 from queue import Queue, Empty
-from sets import Set
 from collections import deque
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
@@ -68,7 +67,7 @@ def switch_status_printer(display_type, current_page, mainlog,
 
     while True:
         # Wait for the user to press a key.
-        command = raw_input()
+        command = input()
 
         if command == '':
             # Switch between logging and display.
@@ -78,7 +77,7 @@ def switch_status_printer(display_type, current_page, mainlog,
                 display_type[0] = 'logs'
                 # If logs are going slowly, sometimes it's hard to tell you
                 # switched.  Make it clear.
-                print 'Showing logs...'
+                print('Showing logs...')
             elif display_type[0] == 'logs':
                 # Enable display, disable on screen logging (except for
                 # critical messages).
@@ -274,7 +273,7 @@ def status_printer(threadStatus, account_queue, account_captchas,
         # Clear the screen.
         os.system('cls' if os.name == 'nt' else 'clear')
         # Print status.
-        print '\n'.join(status_text)
+        print('\n'.join(status_text))
 
 
 # Print statistics about accounts
@@ -459,7 +458,7 @@ def worker_status_db_thread(threads_status, name, db_updates_queue):
     while True:
         workers = {}
         overseer = None
-        for status in threads_status.values():
+        for status in list(threads_status.values()):
             if status['type'] == 'Overseer':
                 overseer = {
                     'worker_name': name,
@@ -834,7 +833,7 @@ def update_total_stats(threadStatus, last_account_status):
     active_count = 0
     busy_count = 0
     current_accounts = Set()
-    for tstatus in threadStatus.itervalues():
+    for tstatus in threadStatus.values():
         if tstatus.get('type', '') == 'Worker':
 
             is_active = tstatus.get('active', False)
@@ -868,7 +867,7 @@ def update_total_stats(threadStatus, last_account_status):
 
     # Remove last status for accounts that workers
     # are not using anymore
-    for username in last_account_status.keys():
+    for username in list(last_account_status.keys()):
         if username not in current_accounts:
             del last_account_status[username]
 
@@ -1168,7 +1167,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                                    scan_coords[2])
 
                 if args.hash_key:
-                    key = key_scheduler.next()
+                    key = next(key_scheduler)
                     log.debug('Using key {} for this scan.'.format(key))
                     pgacc.hash_key = key
 
@@ -1262,7 +1261,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                 if args.gym_info and parsed:
                     # Build a list of gyms to update.
                     gyms_to_update = {}
-                    for gym in parsed['gyms'].values():
+                    for gym in list(parsed['gyms'].values()):
                         with gym_cache_lock:
                             if gym['gym_id'] in gym_cache:
                                 log.debug(
@@ -1316,7 +1315,7 @@ def search_worker_thread(args, account_queue, account_sets, account_failures,
                                 scan_coords[1])
                         log.debug(status['message'])
 
-                        for gym in gyms_to_update.values():
+                        for gym in list(gyms_to_update.values()):
                             time.sleep(random.random() + 2)
                             status['message'] = (
                                 'Getting details for gym {} of {} for ' +
@@ -1453,7 +1452,7 @@ def upsertKeys(keys, key_scheduler, db_updates_queue):
     # Keep highest peak value stored.
     hashkeys = {}
     stored_peaks = HashKeys.get_stored_peaks()
-    for key, instance in key_scheduler.keys.iteritems():
+    for key, instance in key_scheduler.keys.items():
         hashkeys[key] = instance
         hashkeys[key]['key'] = key
 
@@ -1562,7 +1561,7 @@ def get_api_version(args):
 
 
 def is_paused(control_flags):
-    for flag in control_flags.values():
+    for flag in list(control_flags.values()):
         if flag.is_set():
             return True
     return False

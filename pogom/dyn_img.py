@@ -1,7 +1,6 @@
 import logging
 import os
 import subprocess
-from string import join
 
 from pgoapi.protos.pogoprotos.enums.costume_pb2 import Costume
 from pgoapi.protos.pogoprotos.enums.form_pb2 import Form
@@ -303,7 +302,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
 
     if forms:
         # default value is first form
-        form_data = forms.values()[0]
+        form_data = list(forms.values())[0]
         if form and str(form) in forms:
             form_data = forms[str(form)]
 
@@ -327,7 +326,6 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
                                    pkm, gender_suffix, form_suffix,
                                    costume_suffix,
                                    weather_suffix, shiny_suffix))
-    print assets_fullname
     if os.path.isfile(assets_fullname):
         return assets_fullname, target_name
     else:
@@ -401,7 +399,7 @@ def run_imagemagick(source, im_lines, out_filename):
         init_image_dir(os.path.split(out_filename)[0])
 
         cmd = '{} "{}" {} "{}"'.format(
-            imagemagick_executable, source, join(im_lines), out_filename)
+            imagemagick_executable, source, " ".join(im_lines), out_filename)
         if os.name != 'nt':
             cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
         log.info("Generating icon '{}'".format(out_filename))

@@ -48,7 +48,7 @@ def captcha_overseer_thread(args, account_queue, account_captchas,
             for i in range(0, solvers):
                 hash_key = None
                 if args.hash_key:
-                    hash_key = key_scheduler.next()
+                    hash_key = next(key_scheduler)
 
                 t = Thread(target=captcha_solver_thread,
                            name='captcha-solver-{}'.format(solverId),
@@ -82,7 +82,7 @@ def captcha_overseer_thread(args, account_queue, account_captchas,
                                   account['username'], hold_time,
                                   args.manual_captcha_timeout)
                         if args.hash_key:
-                            hash_key = key_scheduler.next()
+                            hash_key = next(key_scheduler)
 
                         t = Thread(target=captcha_solver_thread,
                                    name='captcha-solver-{}'.format(solverId),

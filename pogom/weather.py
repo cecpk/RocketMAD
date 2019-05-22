@@ -35,7 +35,7 @@ def get_weather_cels(db_weathers):
 
 # workaround due a bug in POGOprotos
 def get_cell_from_string(str_id):
-    raw_id = long(str_id)
+    raw_id = int(str_id)
     if raw_id < 0:  # overflow
         cell_id = s2sphere.CellId(raw_id)
         return s2sphere.Cell.from_face_pos_level(
