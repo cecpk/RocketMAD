@@ -959,9 +959,9 @@ def init_dynamic_images(args):
 def is_imagemagick_binary(binary):
     try:
         process = subprocess.Popen([binary, '-version'],
-                                   stdout=subprocess.PIPE, encoding='utf8')
+                                   stdout=subprocess.PIPE)
         out, err = process.communicate()
-        return "ImageMagick" in out
+        return "ImageMagick" in out.decode('utf8')
     except Exception as e:
         print(e)
         return False
