@@ -198,6 +198,7 @@ function removePokemonMarker(encounterId) { // eslint-disable-line no-unused-var
         mapData.pokemons[encounterId].marker.infoWindowIsOpen = false
     }
     markers.removeLayer(mapData.pokemons[encounterId].marker)
+    mapData.pokemon[encounter_id].marker.stopBouncing()
     markersnotify.removeLayer(mapData.pokemons[encounterId].marker)
 }
 
@@ -1993,6 +1994,7 @@ function processPokemonChunked(pokemon, chunkSize) {
 
         if (oldMarker) {
             markers.removeLayer(oldMarker)
+            oldMarker.stopBouncing()
             markersnotify.removeLayer(oldMarker)
         }
     })
@@ -2027,6 +2029,7 @@ function processPokemon(item) {
             const scaleByRarity = Store.get('scaleByRarity')
             if (item.marker) {
                 markers.removeLayer(item)
+                item.stopBouncing()
                 markersnotify.removeLayer(item)
             }
             newMarker = setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity, isNotifyPkmn)
@@ -3605,6 +3608,7 @@ $(function () {
                     // If the type was "pokemons".
                     if (oldPokeMarkers.length > 0) {
                         markers.removeLayer(oldPokeMarkers)
+                        oldPokeMarkers.stopBouncing()
                         markersnotify.removeLayer(oldPokeMarkers)
                     }
                     if (storageKey !== 'showRanges') data[dType] = {}
