@@ -10,9 +10,9 @@ import time
 import math
 
 import s2sphere
-from peewee import (Insert, Check, CompositeKey, ForeignKeyField,
+from peewee import (Check, CompositeKey, ForeignKeyField,
                     SmallIntegerField, IntegerField, CharField, DoubleField,
-                    BooleanField, DateTimeField, fn, Delete, FloatField,
+                    BooleanField, DateTimeField, fn, FloatField,
                     TextField, BigIntegerField, PrimaryKeyField,
                     JOIN, OperationalError, __exception_wrapper__)
 from playhouse.flask_utils import FlaskDB
@@ -42,7 +42,7 @@ from pgoapi.protos.pogoprotos.map.weather.gameplay_weather_pb2 import (
 from pgoapi.protos.pogoprotos.map.weather.weather_alert_pb2 import (
     WeatherAlert)
 from pgoapi.protos.pogoprotos.networking.responses\
-         .get_map_objects_response_pb2 import GetMapObjectsResponse
+    .get_map_objects_response_pb2 import GetMapObjectsResponse
 from functools import reduce
 
 log = logging.getLogger(__name__)
@@ -271,15 +271,14 @@ class Pokemon(LatLongModel):
         # and should use the disappear_time index and hopefully
         # improve performance
         pokemon_count_query = (Pokemon
-                               .select((Pokemon.pokemon_id+0).alias(
-                                           'pokemon_id'),
-                                       fn.COUNT((Pokemon.pokemon_id+0)).alias(
-                                           'count'),
-                                       fn.MAX(Pokemon.disappear_time).alias(
-                                           'lastappeared')
-                                       )
+                               .select((Pokemon.pokemon_id + 0).alias(
+                                   'pokemon_id'),
+                                   fn.COUNT((Pokemon.pokemon_id + 0)).alias(
+                                       'count'),
+                                   fn.MAX(Pokemon.disappear_time).alias(
+                                       'lastappeared'))
                                .where(Pokemon.disappear_time > timediff)
-                               .group_by((Pokemon.pokemon_id+0))
+                               .group_by((Pokemon.pokemon_id + 0))
                                .alias('counttable')
                                )
         query = (Pokemon
@@ -802,8 +801,7 @@ class LocationAltitude(LatLongModel):
 
     @staticmethod
     def save_altitude(loc, altitude):
-        Insert(
-            LocationAltitude,
+        LocationAltitude.insert(
             rows=[LocationAltitude.new_loc(loc, altitude)]).upsert().execute()
 
 
@@ -3395,7 +3393,7 @@ def bulk_upsert(cls, data, db):
     # placeholders for VALUES(%s, %s, ...) so we can use executemany().
     # We use peewee's Insert to retrieve the fields because it
     # takes care of peewee's internals (e.g. required default fields).
-    query = Insert(cls, rows=[rows[0]])
+    query = cls.insert(rows=[rows[0]])
     # Take the first row. We need to call _iter_rows() for peewee internals.
     # Using next() for a single item is not considered "pythonic".
     first_row = {}
@@ -3588,12 +3586,12 @@ def verify_database_schema(db):
             # Versions table doesn't exist, but there are tables. This must
             # mean the user is coming from a database that existed before we
             # started tracking the schema version. Perform a full upgrade.
-            Insert(Versions, {Versions.key: 'schema_version',
-                              Versions.val: 0}).execute()
+            Versions.insert({Versions.key: 'schema_version',
+                             Versions.val: 0}).execute()
             database_migrate(db, 0)
         else:
-            Insert(Versions, {Versions.key: 'schema_version',
-                              Versions.val: db_schema_version}).execute()
+            Versions.insert({Versions.key: 'schema_version',
+                             Versions.val: db_schema_version}).execute()
 
     else:
         db_ver = Versions.get(Versions.key == 'schema_version').val

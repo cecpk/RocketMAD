@@ -267,10 +267,6 @@ def get_args():
                               'of using the real PogoApi, ec: ' +
                               'http://127.0.0.1:9090'),
                         default='')
-    parser.add_argument('-ns', '--no-server',
-                        help=('No-Server Mode. Starts the searcher but not ' +
-                              'the Webserver.'),
-                        action='store_true', default=False)
     parser.add_argument('-os', '--only-server',
                         help=('Server-Only Mode. Starts only the Webserver ' +
                               'without the searcher.'),
@@ -1189,48 +1185,6 @@ def get_pos_by_name(location_name):
              loc.longitude, loc.altitude)
 
     return (loc.latitude, loc.longitude, loc.altitude)
-
-
-@memoize
-def gmaps_reverse_geolocate(locale, location):
-    # Find the reverse geolocation
-    geolocator = Nominatim()
-
-    player_locale = {
-        'country': 'US',
-        'language': locale,
-        'timezone': 'America/Denver'
-    }
-
-    try:
-        reverse = geolocator.reverse(location)
-        address = reverse[-1].raw['address_components']
-        country_code = 'US'
-
-        # Find country component.
-        for component in address:
-            # Look for country.
-            component_is_country = any([t == 'country'
-                                        for t in component.get('types', [])])
-
-            if component_is_country:
-                country_code = component['short_name']
-                break
-
-        try:
-            timezone = geolocator.timezone(location)
-            player_locale.update({
-                'country': country_code,
-                'timezone': str(timezone)
-            })
-        except Exception as e:
-            log.exception('Exception on  Timezone API. '
-                          + 'Please check that you have Timezone API', e)
-    except Exception as e:
-        log.exception('Exception while obtaining player locale: %s.'
-                      + ' Using default locale.', e)
-
-    return player_locale
 
 
 # Setting up a persistent session that is re-used by multiple requests can
