@@ -1,8 +1,3 @@
-/* Gym-Details */
-
-
-
-
   #gym-details {
     @include vendor('transform', 'translateX(25em)');
     @include vendor('transition', ('transform #{_duration(stats)} ease', 'box-shadow #{_duration(stats)} ease', 'visibility #{_duration(stats)}'));
@@ -320,11 +315,10 @@
       @media screen and (max-width: 320px) {
         font-size: 9px !important;
       }
-      color: rgb(93,109,126);
       font-size: 14px;
 
       &.container {
-        display: grid;
+        display: flex;
         justify-content: center;
       }
 
@@ -336,7 +330,6 @@
         font-size: 16px;
         font-weight: 900;
         margin-bottom: -5px;
-        text-decoration: underline;
       }
 
       &.sprite {
@@ -401,10 +394,10 @@
         }
       }
 
-      &.pokemon {		  
+      &.pokemon {
         font-size: 12px;
 		line-height: 1rem;
-		
+
         &.motivation.decayed:before {
 			content: '\f004';
 			display: inline-block;
@@ -412,7 +405,7 @@
 			width: 24px;
 			-webkit-font-smoothing: antialiased;
 		}
-		
+
 		&.motivation.decayed {
 			@media screen and (max-width: 480px) {
 				font-size: 9px !important;
@@ -462,7 +455,6 @@
       @media screen and (max-width: 320px) {
         font-size: 9px !important;
       }
-      color: rgb(93,109,126);
       font-size: 14px;
       font-weight: 900;
       @media screen and (max-width: 480px) {
