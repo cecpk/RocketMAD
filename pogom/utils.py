@@ -959,7 +959,6 @@ def is_imagemagick_binary(binary):
         out, err = process.communicate()
         return "ImageMagick" in out.decode('utf8')
     except Exception as e:
-        print(e)
         return False
 
 
