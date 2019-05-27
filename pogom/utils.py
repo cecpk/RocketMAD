@@ -19,7 +19,7 @@ import requests
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
 from geopy.geocoders import Nominatim
-from requests_futures.sessions import FuturesSession
+from requests import Session
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from cHaversine import haversine
@@ -27,15 +27,10 @@ from pprint import pformat
 from time import strftime
 from timeit import default_timer
 
-import dyn_img
+from . import dyn_img
 from pogom.pgpool import pgpool_request_accounts
 
 log = logging.getLogger(__name__)
-
-
-def parse_unicode(bytestring):
-    decoded_string = bytestring.decode(sys.getfilesystemencoding())
-    return decoded_string
 
 
 def read_pokemon_ids_from_file(f):
@@ -50,7 +45,7 @@ def read_pokemon_ids_from_file(f):
             pid = int(name)
         except ValueError:
             # Perform the usual name -> ID lookup
-            pid = get_pokemon_id(unicode(name, 'utf-8'))
+            pid = get_pokemon_id(str(name, 'utf-8'))
         if pid and not pid == -1:
             pokemon_ids.add(pid)
     return sorted(pokemon_ids)
@@ -130,7 +125,7 @@ def get_args():
                               'number of workers per hive. Default value ' +
                               'is 1.'),
                         type=int, default=1)
-    parser.add_argument('-l', '--location', type=parse_unicode,
+    parser.add_argument('-l', '--location',
                         help='Location, can be an address or coordinates.')
     # Default based on the average elevation of cities around the world.
     # Source: https://www.wikiwand.com/en/List_of_cities_by_elevation
@@ -272,10 +267,6 @@ def get_args():
                               'of using the real PogoApi, ec: ' +
                               'http://127.0.0.1:9090'),
                         default='')
-    parser.add_argument('-ns', '--no-server',
-                        help=('No-Server Mode. Starts the searcher but not ' +
-                              'the Webserver.'),
-                        action='store_true', default=False)
     parser.add_argument('-os', '--only-server',
                         help=('Server-Only Mode. Starts only the Webserver ' +
                               'without the searcher.'),
@@ -642,8 +633,8 @@ def get_args():
     if args.only_server:
         if args.location is None:
             parser.print_usage()
-            print(sys.argv[0] +
-                  ": error: arguments -l/--location is required.")
+            print((sys.argv[0] +
+                  ": error: arguments -l/--location is required."))
             sys.exit(1)
     else:
         # If using a CSV file, add the data where needed into the username,
@@ -672,12 +663,12 @@ def get_args():
                     # If the number of fields is different,
                     # then this is not a CSV.
                     if num_fields != line.count(',') + 1:
-                        print(sys.argv[0] +
+                        print((sys.argv[0] +
                               ": Error parsing CSV file on line " + str(num) +
                               ". Your file started with the following " +
                               "input, '" + csv_input[num_fields] +
                               "' but now you gave us '" +
-                              csv_input[line.count(',') + 1] + "'.")
+                              csv_input[line.count(',') + 1] + "'."))
                         sys.exit(1)
 
                     field_error = ''
@@ -691,7 +682,7 @@ def get_args():
                     # fields and strip them.
                     if num_fields > 1:
                         fields = line.split(",")
-                        fields = map(str.strip, fields)
+                        fields = list(map(str.strip, fields))
 
                     # If the number of fields is one then assume this is
                     # "username". As requested.
@@ -747,13 +738,13 @@ def get_args():
                             type_error = (
                                 'not ptc or google instead we got \'' +
                                 fields[0] + '\'!')
-                        print(sys.argv[0] +
+                        print((sys.argv[0] +
                               ": Error parsing CSV file on line " + str(num) +
                               ". We found " + str(num_fields) + " fields, " +
                               "so your input should have looked like '" +
                               csv_input[num_fields] + "'\nBut you gave us '" +
                               line + "', your " + field_error +
-                              " was " + type_error)
+                              " was " + type_error))
                         sys.exit(1)
 
         errors = []
@@ -810,7 +801,7 @@ def get_args():
 
         if len(errors) > 0:
             parser.print_usage()
-            print(sys.argv[0] + ": errors: \n - " + "\n - ".join(errors))
+            print((sys.argv[0] + ": errors: \n - " + "\n - ".join(errors)))
             sys.exit(1)
 
         # Make the accounts list.
@@ -887,12 +878,12 @@ def get_args():
         # line and CSV accounts.
         if args.pgpool_url is None:
             if len(args.accounts) == 0:
-                print(sys.argv[0] +
+                print((sys.argv[0] +
                       ': Error: no accounts specified. Use -a, ' +
                       '-u, and -p or ' +
                       '--accountcsv to add accounts. Or use ' +
                       '-pgpu/--pgpool-url to ' +
-                      'specify the URL of PGPool.')
+                      'specify the URL of PGPool.'))
                 sys.exit(1)
 
         # create an empty set
@@ -966,8 +957,8 @@ def is_imagemagick_binary(binary):
         process = subprocess.Popen([binary, '-version'],
                                    stdout=subprocess.PIPE)
         out, err = process.communicate()
-        return "ImageMagick" in out
-    except Exception:
+        return "ImageMagick" in out.decode('utf8')
+    except Exception as e:
         return False
 
 
@@ -1112,7 +1103,7 @@ def get_pokemon_id(pokemon_name):
             get_pokemon_data(1)
 
         get_pokemon_id.ids = {}
-        for pokemon_id, data in get_pokemon_data.pokemon.iteritems():
+        for pokemon_id, data in get_pokemon_data.pokemon.items():
             get_pokemon_id.ids[data['name']] = int(pokemon_id)
 
     return get_pokemon_id.ids.get(pokemon_name, -1)
@@ -1124,8 +1115,7 @@ def get_pokemon_name(pokemon_id):
 
 def get_pokemon_types(pokemon_id):
     pokemon_types = get_pokemon_data(pokemon_id)['types']
-    return map(lambda x: {"type": i8ln(x['type']), "color": x['color']},
-               pokemon_types)
+    return [{"type": i8ln(x['type']), "color": x['color']} for x in pokemon_types]
 
 
 def get_moves_data(move_id):
@@ -1196,50 +1186,6 @@ def get_pos_by_name(location_name):
     return (loc.latitude, loc.longitude, loc.altitude)
 
 
-@memoize
-def gmaps_reverse_geolocate(locale, location):
-    # Find the reverse geolocation
-    geolocator = Nominatim()
-
-    player_locale = {
-        'country': 'US',
-        'language': locale,
-        'timezone': 'America/Denver'
-    }
-
-    try:
-        reverse = geolocator.reverse(location)
-        address = reverse[-1].raw['address_components']
-        country_code = 'US'
-
-        # Find country component.
-        for component in address:
-            # Look for country.
-            component_is_country = any([t == 'country'
-                                        for t in component.get('types', [])])
-
-            if component_is_country:
-                country_code = component['short_name']
-                break
-
-        try:
-            timezone = geolocator.timezone(location)
-            player_locale.update({
-                'country': country_code,
-                'timezone': str(timezone)
-            })
-        except Exception as e:
-            log.exception('Exception on  Timezone API. '
-                          + 'Please check that you have Timezone API', e)
-    except Exception as e:
-        log.exception('Exception while obtaining player locale: %s.'
-                      + ' Using default locale.', e)
-
-    return player_locale
-
-
-# Get a future_requests FuturesSession that supports asynchronous workers
-# and retrying requests on failure.
 # Setting up a persistent session that is re-used by multiple requests can
 # speed up requests to the same host, as it'll re-use the underlying TCP
 # connection.
@@ -1251,7 +1197,7 @@ def get_async_requests_session(num_retries, backoff_factor, pool_size,
     # code returned is in status_forcelist.
     if status_forcelist is None:
         status_forcelist = [500, 502, 503, 504]
-    session = FuturesSession(max_workers=pool_size)
+    session = Session(max_workers=pool_size)
 
     # If any regular response is generated, no retry is done. Without using
     # the status_forcelist, even a response with status 500 will not be

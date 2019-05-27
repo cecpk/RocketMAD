@@ -141,7 +141,7 @@ def log_hatched_egg(pgacc, hatched_egg):
     candy = hatched_egg['candy_awarded']
     dust = hatched_egg['stardust_awarded']
     pgacc.log_info(
-        (u"Hatched {:.1f}% {} from {}km egg for {} XP, {} candy, {} dust.")
+        ("Hatched {:.1f}% {} from {}km egg for {} XP, {} candy, {} dust.")
         .format(iv, pname, km, xp, candy, dust))
 
 
@@ -226,7 +226,7 @@ def clear_pokemon(pgacc):
     total_pokemon = len(pgacc.pokemon)
     if total_pokemon > 200:
         release_count = int(total_pokemon - random.randint(40, 80))
-        release_ids = random.sample(pgacc.pokemon.keys(), release_count)
+        release_ids = random.sample(list(pgacc.pokemon.keys()), release_count)
         if pgacc.get_state('buddy') in release_ids:
             release_ids.remove(pgacc.get_state('buddy'))
 

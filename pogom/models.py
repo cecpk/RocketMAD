@@ -10,14 +10,13 @@ import time
 import math
 
 import s2sphere
-from peewee import (InsertQuery, Check, CompositeKey, ForeignKeyField,
+from peewee import (Check, CompositeKey, ForeignKeyField,
                     SmallIntegerField, IntegerField, CharField, DoubleField,
-                    BooleanField, DateTimeField, fn, DeleteQuery, FloatField,
+                    BooleanField, DateTimeField, fn, FloatField,
                     TextField, BigIntegerField, PrimaryKeyField,
-                    JOIN, OperationalError)
+                    JOIN, OperationalError, __exception_wrapper__)
 from playhouse.flask_utils import FlaskDB
 from playhouse.pool import PooledMySQLDatabase
-from playhouse.shortcuts import RetryOperationalError, case
 from playhouse.migrate import migrate, MySQLMigrator
 from datetime import datetime, timedelta
 from cachetools import TTLCache
@@ -43,7 +42,8 @@ from pgoapi.protos.pogoprotos.map.weather.gameplay_weather_pb2 import (
 from pgoapi.protos.pogoprotos.map.weather.weather_alert_pb2 import (
     WeatherAlert)
 from pgoapi.protos.pogoprotos.networking.responses\
-         .get_map_objects_response_pb2 import GetMapObjectsResponse
+    .get_map_objects_response_pb2 import GetMapObjectsResponse
+from functools import reduce
 
 log = logging.getLogger(__name__)
 
@@ -52,6 +52,22 @@ flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
 db_schema_version = 31
+
+
+class RetryOperationalError(object):
+    def execute_sql(self, sql, params=None, commit=True):
+        try:
+            cursor = super(RetryOperationalError, self).execute_sql(
+                sql, params, commit)
+        except OperationalError:
+            if not self.is_closed():
+                self.close()
+            with __exception_wrapper__:
+                cursor = self.cursor()
+                cursor.execute(sql, params or ())
+                if commit and not self.in_transaction():
+                    self.commit()
+        return cursor
 
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
@@ -255,15 +271,14 @@ class Pokemon(LatLongModel):
         # and should use the disappear_time index and hopefully
         # improve performance
         pokemon_count_query = (Pokemon
-                               .select((Pokemon.pokemon_id+0).alias(
-                                           'pokemon_id'),
-                                       fn.COUNT((Pokemon.pokemon_id+0)).alias(
-                                           'count'),
-                                       fn.MAX(Pokemon.disappear_time).alias(
-                                           'lastappeared')
-                                       )
+                               .select((Pokemon.pokemon_id + 0).alias(
+                                   'pokemon_id'),
+                                   fn.COUNT((Pokemon.pokemon_id + 0)).alias(
+                                       'count'),
+                                   fn.MAX(Pokemon.disappear_time).alias(
+                                       'lastappeared'))
                                .where(Pokemon.disappear_time > timediff)
-                               .group_by((Pokemon.pokemon_id+0))
+                               .group_by((Pokemon.pokemon_id + 0))
                                .alias('counttable')
                                )
         query = (Pokemon
@@ -368,14 +383,14 @@ class Pokestop(LatLongModel):
                                 Pokestop.latitude, Pokestop.longitude)
         query = (query.where(
             ((Pokestop.latitude == lat) &
-             (Pokestop.longitude == long))).dicts())
+             (Pokestop.longitude == int))).dicts())
         pokestops = []
         for p in query:
             if args.china:
                 p['latitude'], p['longitude'] = \
                     transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
             pokestops.append(p)
-        
+
         return pokestops
 
     @staticmethod
@@ -392,13 +407,13 @@ class Pokestop(LatLongModel):
                                 Trs_Quest.quest_type, Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
                                 Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id, Trs_Quest.quest_item_amount,
                                 Trs_Quest.quest_target, Trs_Quest.quest_timestamp, Pokestop.name, Pokestop.image)
-                                
+
         query = (query
                     .join(Trs_Quest, JOIN.LEFT_OUTER,
                     on=(Pokestop.pokestop_id == Trs_Quest.GUID))
                 )
-                             
-            
+
+
 
         if not (swLat and swLng and neLat and neLng):
             query = (query
@@ -467,16 +482,16 @@ class Pokestop(LatLongModel):
             if args.china:
                 p['latitude'], p['longitude'] = \
                     transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
-            
+
             p['quest_raw'] = generate_quest(p)
-            
+
             pokestops.append(p)
-            
+
         # Re-enable the GC.
         gc.enable()
         return pokestops
-     
-    @staticmethod   
+
+    @staticmethod
     def get_quest(GUID):
         query = (Trs_Quest
                     .select()
@@ -721,7 +736,7 @@ class Gym(LatLongModel):
 
     @staticmethod
     def is_gym_ex_raid_eligible(id):
-        with Gym.database().execution_context():
+        with Gym.database():
             gym_by_id = Gym.select(Gym.is_ex_raid_eligible).where(
                 Gym.gym_id == id).dicts()
             if gym_by_id:
@@ -786,8 +801,7 @@ class LocationAltitude(LatLongModel):
 
     @staticmethod
     def save_altitude(loc, altitude):
-        InsertQuery(
-            LocationAltitude,
+        LocationAltitude.insert(
             rows=[LocationAltitude.new_loc(loc, altitude)]).upsert().execute()
 
 
@@ -821,7 +835,7 @@ class PlayerLocale(BaseModel):
     @staticmethod
     def get_locale(location):
         locale = None
-        with PlayerLocale.database().execution_context():
+        with PlayerLocale.database():
             try:
                 query = PlayerLocale.get(PlayerLocale.location == location)
                 locale = {
@@ -939,7 +953,7 @@ class ScannedLocation(LatLongModel):
     def db_format(scan, band, nowms):
         scan.update({'band' + str(band): nowms})
         scan['done'] = reduce(lambda x, y: x and (
-            scan['band' + str(y)] > -1), range(1, 6), True)
+            scan['band' + str(y)] > -1), list(range(1, 6)), True)
         return scan
 
     # Shorthand helper for DB dict.
@@ -951,7 +965,7 @@ class ScannedLocation(LatLongModel):
     @staticmethod
     def get_by_cellids(cellids):
         d = {}
-        with ScannedLocation.database().execution_context():
+        with ScannedLocation.database():
             query = (ScannedLocation
                      .select()
                      .where(ScannedLocation.cellid << cellids)
@@ -970,7 +984,7 @@ class ScannedLocation(LatLongModel):
     # Return value of a particular scan from loc, or default dict if not found.
     @staticmethod
     def get_by_loc(loc):
-        with ScannedLocation.database().execution_context():
+        with ScannedLocation.database():
             query = (ScannedLocation
                      .select()
                      .where(ScannedLocation.cellid == cellid(loc))
@@ -986,7 +1000,7 @@ class ScannedLocation(LatLongModel):
     def link_spawn_points(scans, initial, spawn_points, distance):
         index = 0
         scan_spawn_point = {}
-        for cell, scan in scans.iteritems():
+        for cell, scan in scans.items():
             # Difference in degrees at the equator for 70m is actually 0.00063
             # degrees and gets smaller the further north or south you go
             deg_at_lat = 0.0007 / math.cos(math.radians(scan['loc'][0]))
@@ -1009,7 +1023,7 @@ class ScannedLocation(LatLongModel):
         # Unable to use a normal join, since MySQL produces foreignkey
         # constraint errors when trying to upsert fields that are foreignkeys
         # on another table
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             query = (SpawnPoint
                      .select()
                      .join(ScanSpawnPoint)
@@ -1046,7 +1060,7 @@ class ScannedLocation(LatLongModel):
         # As scan locations overlap,spawnpoints can belong to up to 3 locations
         # This sub-query effectively assigns each SP to exactly one location.
         ret = {}
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             query = (SpawnPoint
                      .select(SpawnPoint, one_sp_scan.c.cellid)
                      .join(one_sp_scan, on=(SpawnPoint.id ==
@@ -1125,9 +1139,9 @@ class ScannedLocation(LatLongModel):
         # Find band midpoint/width.
         scan = ScannedLocation.db_format(scan, band, now_secs)
         bts = [scan['band' + str(i)] for i in range(1, 6)]
-        bts = filter(lambda ms: ms > -1, bts)
-        bts_delta = map(lambda ms: (ms - basems) % 3600, bts)
-        bts_offsets = map(lambda ms: (ms + 1080) % 720 - 360, bts_delta)
+        bts = [ms for ms in bts if ms > -1]
+        bts_delta = [(ms - basems) % 3600 for ms in bts]
+        bts_offsets = [(ms + 1080) % 720 - 360 for ms in bts_delta]
         min_scan = min(bts_offsets)
         max_scan = max(bts_offsets)
         scan['width'] = max_scan - min_scan
@@ -1137,7 +1151,7 @@ class ScannedLocation(LatLongModel):
 
     @staticmethod
     def get_bands_filled_by_cellids(cellids):
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             result = int(
                 ScannedLocation.select(
                     fn.SUM(
@@ -1167,7 +1181,7 @@ class ScannedLocation(LatLongModel):
 
         in_hex = []
         # Get all spawns for the locations.
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             sp = list(ScannedLocation
                       .select()
                       .where(ScannedLocation.cellid << cells)
@@ -1201,7 +1215,7 @@ class MainWorker(BaseModel):
     def get_account_stats(age_minutes=30):
         stats = {'working': 0, 'captcha': 0, 'failed': 0}
         timeout = datetime.utcnow() - timedelta(minutes=age_minutes)
-        with MainWorker.database().execution_context():
+        with MainWorker.database():
             account_stats = (MainWorker
                              .select(fn.SUM(MainWorker.accounts_working),
                                      fn.SUM(MainWorker.accounts_captcha),
@@ -1221,7 +1235,7 @@ class MainWorker(BaseModel):
         status = []
         timeout = datetime.utcnow() - timedelta(minutes=age_minutes)
         try:
-            with MainWorker.database().execution_context():
+            with MainWorker.database():
                 query = (MainWorker
                          .select()
                          .where(MainWorker.last_modified >= timeout)
@@ -1271,7 +1285,7 @@ class WorkerStatus(LatLongModel):
         status = []
         timeout = datetime.utcnow() - timedelta(minutes=age_minutes)
         try:
-            with WorkerStatus.database().execution_context():
+            with WorkerStatus.database():
                 query = (WorkerStatus
                          .select()
                          .where(WorkerStatus.last_modified >= timeout)
@@ -1286,7 +1300,7 @@ class WorkerStatus(LatLongModel):
     @staticmethod
     def get_worker(username):
         res = None
-        with WorkerStatus.database().execution_context():
+        with WorkerStatus.database():
             try:
                 res = WorkerStatus.select().where(
                     WorkerStatus.username == username).dicts().get()
@@ -1357,7 +1371,7 @@ class SpawnPoint(LatLongModel):
     # Returns the spawnpoint dict from ID, or a new dict if not found.
     @staticmethod
     def get_by_id(id, latitude=0, longitude=0):
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             query = (SpawnPoint
                      .select()
                      .where(SpawnPoint.id == id)
@@ -1380,7 +1394,7 @@ class SpawnPoint(LatLongModel):
     def get_spawnpoints(swLat, swLng, neLat, neLng, timestamp=0,
                         oSwLat=None, oSwLng=None, oNeLat=None, oNeLng=None):
         spawnpoints = {}
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             query = (trs_spawn.select(
                 trs_spawn.latitude, trs_spawn.longitude,
                 trs_spawn.spawnpoint.alias('id'),
@@ -1431,7 +1445,7 @@ class SpawnPoint(LatLongModel):
                 spawnpoints[key]['appear_time'] = appear_time
 
         # Helping out the GC.
-        for sp in spawnpoints.values():
+        for sp in list(spawnpoints.values()):
             del sp['kind']
             del sp['links']
             del sp['latest_seen']
@@ -1563,7 +1577,7 @@ class SpawnPoint(LatLongModel):
                        .alias('maxscan'))
 
         in_hex = []
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             query = (SpawnPoint
                      .select(SpawnPoint)
                      .join(one_sp_scan,
@@ -1583,7 +1597,7 @@ class SpawnPoint(LatLongModel):
 
         in_hex = []
         # Get all spawns in that box.
-        with SpawnPoint.database().execution_context():
+        with SpawnPoint.database():
             sp = list(SpawnPoint
                       .select()
                       .where((SpawnPoint.latitude <= n) &
@@ -1638,7 +1652,7 @@ class SpawnpointDetectionData(BaseModel):
     def classify(sp, scan_loc, now_secs, sighting=None):
 
         # Get past sightings.
-        with SpawnpointDetectionData.database().execution_context():
+        with SpawnpointDetectionData.database():
             query = list(
                 SpawnpointDetectionData.select()
                 .where(SpawnpointDetectionData.spawnpoint_id == sp['id'])
@@ -1673,7 +1687,7 @@ class SpawnpointDetectionData(BaseModel):
         # if it changes.
         old_kind = str(sp['kind'])
         # Make a sorted list of the seconds after the hour.
-        seen_secs = sorted(map(lambda x: date_secs(x['scan_time']), query))
+        seen_secs = sorted([date_secs(x['scan_time']) for x in query])
         # Include and entry for the TTH if it found
         if tth_found:
             seen_secs.append(tth_secs)
@@ -1929,7 +1943,7 @@ class Token(BaseModel):
         token_ids = []
         tokens = []
         try:
-            with Token.database().execution_context():
+            with Token.database():
                 query = (Token
                          .select()
                          .where(Token.last_updated > valid_time)
@@ -2029,7 +2043,7 @@ class HashKeys(BaseModel):
     def get_stored_peaks():
         hashkeys = {}
         try:
-            with HashKeys.database().execution_context():
+            with HashKeys.database():
                 query = (HashKeys
                          .select(HashKeys.key, HashKeys.peak)
                          .where(HashKeys.last_updated >
@@ -2057,7 +2071,7 @@ def hex_bounds(center, steps=None, radius=None):
 def perform_pgscout(p):
     pokemon_id = p.pokemon_data.pokemon_id
     pokemon_name = get_pokemon_name(pokemon_id)
-    log.info(u"PGScouting a {} at {}, {}.".format(pokemon_name, p.latitude,
+    log.info("PGScouting a {} at {}, {}.".format(pokemon_name, p.latitude,
                                                   p.longitude))
 
     # Prepare Pokemon object
@@ -2072,12 +2086,12 @@ def perform_pgscout(p):
     scout_result = pgscout_encounter(pkm)
     if scout_result['success']:
         log.info(
-            u"Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
-            u" (scout level {}).".format(
+            "Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
+            " (scout level {}).".format(
                 scout_result['iv_percent'], scout_result['level'],
                 pokemon_name, scout_result['cp'], scout_result['scout_level']))
     else:
-        log.warning(u"Failed PGScouting {}: {}".format(pokemon_name,
+        log.warning("Failed PGScouting {}: {}".format(pokemon_name,
                                                        scout_result['error']))
     return scout_result
 
@@ -2152,7 +2166,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
         weather_alert = cell.alerts
 
         # Convert Cell To Lat, Long
-        cell_id = s2sphere.CellId(long(s2_cell_id))
+        cell_id = s2sphere.CellId(int(s2_cell_id))
         cell = s2sphere.Cell(cell_id)
         center = s2sphere.LatLng.from_point(cell.get_center())
         lat = center.lat().degrees
@@ -2232,7 +2246,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
         encounter_ids = [p.encounter_id for p in wild_pokemon]
         # For all the wild Pokemon we found check if an active Pokemon is in
         # the database.
-        with Pokemon.database().execution_context():
+        with Pokemon.database():
             query = (Pokemon
                      .select(Pokemon.encounter_id, Pokemon.spawnpoint_id)
                      .where((Pokemon.disappear_time >= now_date) &
@@ -2476,7 +2490,7 @@ def parse_map(args, map_dict, scan_coords, scan_location, db_update_queue,
         if not args.no_pokestops:
             stop_ids = [f.id for f in forts if f.type == 1]
             if stop_ids:
-                with Pokemon.database().execution_context():
+                with Pokemon.database():
                     query = (Pokestop.select(
                         Pokestop.pokestop_id, Pokestop.last_modified).where(
                             (Pokestop.pokestop_id << stop_ids)).dicts())
@@ -2824,7 +2838,7 @@ def encounter_pokemon(args, pokemon, account, pgacc, account_sets, status,
         # Hashing key.
         # TODO: Rework inefficient threading.
         if args.hash_key:
-            key = key_scheduler.next()
+            key = next(key_scheduler)
             log.debug('Using hashing key %s for this encounter.', key)
             hlvl_pgacc.hash_key = key
 
@@ -2905,7 +2919,7 @@ def parse_gyms(args, gym_responses, wh_update_queue, db_update_queue):
     gym_pokemon = {}
     trainers = {}
     i = 0
-    for g in gym_responses.values():
+    for g in list(gym_responses.values()):
         gym_state = g.gym_status_and_defenders
         gym_id = gym_state.pokemon_fort_proto.id
 
@@ -3011,9 +3025,9 @@ def parse_gyms(args, gym_responses, wh_update_queue, db_update_queue):
 
     # Get rid of all the gym members, we're going to insert new records.
     if gym_details:
-        with GymMember.database().execution_context():
+        with GymMember.database():
             DeleteQuery(GymMember).where(
-                GymMember.gym_id << gym_details.keys()).execute()
+                GymMember.gym_id << list(gym_details.keys())).execute()
 
     # Insert new gym members.
     if gym_members:
@@ -3113,7 +3127,7 @@ def db_cleanup_regular():
     # http://docs.peewee-orm.com/en/latest/peewee/database.html#advanced-connection-management
     # When using an execution context, a separate connection from the pool
     # will be used inside the wrapped block and a transaction will be started.
-    with Token.database().execution_context():
+    with Token.database():
         # Remove unusable captcha tokens.
         query = (Token
                  .delete()
@@ -3143,7 +3157,7 @@ def db_cleanup_worker_status(age_minutes):
 
     worker_status_timeout = datetime.utcnow() - timedelta(minutes=age_minutes)
 
-    with MainWorker.database().execution_context():
+    with MainWorker.database():
         # Remove status information from inactive instances.
         query = (MainWorker
                  .delete()
@@ -3172,7 +3186,7 @@ def db_clean_pokemons(age_hours):
     log.debug('Beginning cleanup of old pokemon spawns.')
     start_timer = default_timer()
     pokemon_timeout = datetime.utcnow() - timedelta(hours=age_hours)
-    with Pokemon.database().execution_context():
+    with Pokemon.database():
         query = (Pokemon
                  .delete()
                  .where(Pokemon.disappear_time < pokemon_timeout))
@@ -3190,7 +3204,7 @@ def db_clean_gyms(age_hours, gyms_age_days=30):
 
     gym_info_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with Gym.database().execution_context():
+    with Gym.database():
         # Remove old GymDetails entries.
         query = (GymDetails
                  .delete()
@@ -3232,7 +3246,7 @@ def db_clean_spawnpoints(age_hours, missed=5):
 
     spawnpoint_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with SpawnPoint.database().execution_context():
+    with SpawnPoint.database():
         # Select old SpawnPoint entries.
         query = (SpawnPoint
                  .select(SpawnPoint.id)
@@ -3333,7 +3347,7 @@ def db_clean_forts(age_hours):
 
     fort_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with Gym.database().execution_context():
+    with Gym.database():
         # Remove old Gym entries.
         query = (Gym
                  .delete()
@@ -3354,7 +3368,7 @@ def db_clean_forts(age_hours):
 
 
 def bulk_upsert(cls, data, db):
-    rows = data.values()
+    rows = list(data.values())
     num_rows = len(rows)
     i = 0
 
@@ -3377,9 +3391,9 @@ def bulk_upsert(cls, data, db):
     # We build our own INSERT INTO ... ON DUPLICATE KEY UPDATE x=VALUES(x)
     # query, making sure all data is properly escaped. We use
     # placeholders for VALUES(%s, %s, ...) so we can use executemany().
-    # We use peewee's InsertQuery to retrieve the fields because it
+    # We use peewee's Insert to retrieve the fields because it
     # takes care of peewee's internals (e.g. required default fields).
-    query = InsertQuery(cls, rows=[rows[0]])
+    query = cls.insert(rows=[rows[0]])
     # Take the first row. We need to call _iter_rows() for peewee internals.
     # Using next() for a single item is not considered "pythonic".
     first_row = {}
@@ -3387,8 +3401,8 @@ def bulk_upsert(cls, data, db):
         first_row = row
         break
     # Convert the row to its fields, sorted by peewee.
-    row_fields = sorted(first_row.keys(), key=lambda x: x._sort_key)
-    row_fields = map(lambda x: x.name, row_fields)
+    row_fields = sorted(list(first_row.keys()), key=lambda x: x._sort_key)
+    row_fields = [x.name for x in row_fields]
     # Translate to proper column name, e.g. foreign keys.
     db_columns = [peewee_attr_to_col(cls, f) for f in row_fields]
 
@@ -3396,7 +3410,7 @@ def bulk_upsert(cls, data, db):
     # isn't set.
     defaults = {}
 
-    for f in cls._meta.fields.values():
+    for f in list(cls._meta.fields.values()):
         # Use DB column name as key.
         field_name = f.name
         field_default = cls._meta.defaults.get(f, None)
@@ -3484,11 +3498,10 @@ def bulk_upsert(cls, data, db):
                 # Unrecoverable error strings:
                 unrecoverable = ['constraint', 'has no attribute',
                                  'peewee.IntegerField object at']
-                has_unrecoverable = filter(
-                    lambda x: x in str(e), unrecoverable)
+                has_unrecoverable = [x for x in unrecoverable if x in str(e)]
                 if has_unrecoverable:
                     log.exception('%s. Data is:', repr(e))
-                    log.warning(data.items())
+                    log.warning(list(data.items()))
                 else:
                     log.warning('%s... Retrying...', repr(e))
                     time.sleep(1)
@@ -3502,7 +3515,7 @@ def create_tables(db):
               GymMember, GymPokemon, Trainer, MainWorker, WorkerStatus,
               SpawnPoint, ScanSpawnPoint, SpawnpointDetectionData,
               Token, LocationAltitude, PlayerLocale, HashKeys, Weather]
-    with db.execution_context():
+    with db:
         for table in tables:
             if not table.table_exists():
                 log.info('Creating table: %s', table.__name__)
@@ -3518,7 +3531,7 @@ def drop_tables(db):
               WorkerStatus, SpawnPoint, ScanSpawnPoint,
               SpawnpointDetectionData, LocationAltitude, PlayerLocale,
               Token, HashKeys, Weather]
-    with db.execution_context():
+    with db:
         db.execute_sql('SET FOREIGN_KEY_CHECKS=0;')
         for table in tables:
             if table.table_exists():
@@ -3535,7 +3548,7 @@ def does_column_exist(db, table_name, column_name):
 
 
 def verify_table_encoding(db):
-    with db.execution_context():
+    with db:
 
         cmd_sql = '''
             SELECT table_name FROM information_schema.tables WHERE
@@ -3573,12 +3586,12 @@ def verify_database_schema(db):
             # Versions table doesn't exist, but there are tables. This must
             # mean the user is coming from a database that existed before we
             # started tracking the schema version. Perform a full upgrade.
-            InsertQuery(Versions, {Versions.key: 'schema_version',
-                                   Versions.val: 0}).execute()
+            Versions.insert({Versions.key: 'schema_version',
+                             Versions.val: 0}).execute()
             database_migrate(db, 0)
         else:
-            InsertQuery(Versions, {Versions.key: 'schema_version',
-                                   Versions.val: db_schema_version}).execute()
+            Versions.insert({Versions.key: 'schema_version',
+                             Versions.val: db_schema_version}).execute()
 
     else:
         db_ver = Versions.get(Versions.key == 'schema_version').val

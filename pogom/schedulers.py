@@ -66,6 +66,7 @@ from .utils import now, cur_sec, cellid, distance
 from .altitude import get_altitude
 from .geofence import Geofences
 from .cluster import cluster_spawnpoints
+from functools import reduce
 
 log = logging.getLogger(__name__)
 
@@ -554,8 +555,8 @@ class SpeedScan(HexSearch):
             scans[cell] = {'loc': e[1],  # Lat/long pair
                            'step': e[0]}
 
-            initial[cell] = all_scans[cell] if cell in all_scans.keys(
-            ) else ScannedLocation.new_loc(e[1])
+            initial[cell] = all_scans[cell] if cell in list(all_scans.keys(
+            )) else ScannedLocation.new_loc(e[1])
 
         self.scans = scans
         db_update_queue.put((ScannedLocation, initial))
@@ -676,7 +677,7 @@ class SpeedScan(HexSearch):
         try:
             bands_total = len(self.locations) * 5
             bands_filled = ScannedLocation.get_bands_filled_by_cellids(
-                self.scans.keys())
+                list(self.scans.keys()))
             percent = bands_filled * 100.0 / bands_total
             if bands_total == bands_filled:
                 log.info('Initial spawnpoint scan is complete')
@@ -706,19 +707,19 @@ class SpeedScan(HexSearch):
         start = time.time()
 
         # prefetch all scanned locations
-        scanned_locations = ScannedLocation.get_by_cellids(self.scans.keys())
+        scanned_locations = ScannedLocation.get_by_cellids(list(self.scans.keys()))
 
         # extract all spawnpoints into a dict with spawnpoint
         # id -> spawnpoint for easy access later
         cell_to_linked_spawn_points = (
             ScannedLocation.get_cell_to_linked_spawn_points(
-                self.scans.keys(), self.location_change_date))
+                list(self.scans.keys()), self.location_change_date))
         sp_by_id = {}
-        for sps in cell_to_linked_spawn_points.itervalues():
+        for sps in cell_to_linked_spawn_points.values():
             for sp in sps:
                 sp_by_id[sp['id']] = sp
 
-        for cell, scan in self.scans.iteritems():
+        for cell, scan in self.scans.items():
             queue += ScannedLocation.get_times(scan, now_date,
                                                scanned_locations)
             queue += SpawnPoint.get_times(cell, scan, now_date,
@@ -743,23 +744,22 @@ class SpeedScan(HexSearch):
 
                 # Possible 'done' values are 'Missed', 'Scanned', None, or
                 # number
-                Not_none_list = filter(lambda e: e.get(
-                    'done', None) is not None, old_q)
-                Missed_list = filter(lambda e: e.get(
-                    'done', None) == 'Missed', Not_none_list)
-                Scanned_list = filter(lambda e: e.get(
-                    'done', None) == 'Scanned', Not_none_list)
-                Timed_list = filter(lambda e: type(
-                    e['done']) is not str, Not_none_list)
-                spawns_timed_list = filter(
-                    lambda e: e['kind'] == 'spawn', Timed_list)
+                Not_none_list = [e for e in old_q if e.get(
+                    'done', None) is not None]
+                Missed_list = [e for e in Not_none_list if e.get(
+                    'done', None) == 'Missed']
+                Scanned_list = [e for e in Not_none_list if e.get(
+                    'done', None) == 'Scanned']
+                Timed_list = [e for e in Not_none_list if type(
+                    e['done']) is not str]
+                spawns_timed_list = [e for e in Timed_list if e['kind'] == 'spawn']
                 spawns_timed = len(spawns_timed_list)
                 bands_timed = len(
-                    filter(lambda e: e['kind'] == 'band', Timed_list))
+                    [e for e in Timed_list if e['kind'] == 'band'])
                 spawns_all = spawns_timed + \
-                    len(filter(lambda e: e['kind'] == 'spawn', Scanned_list))
+                    len([e for e in Scanned_list if e['kind'] == 'spawn'])
                 spawns_missed = len(
-                    filter(lambda e: e['kind'] == 'spawn', Missed_list))
+                    [e for e in Missed_list if e['kind'] == 'spawn'])
 
                 band_percent = self.band_status()
                 kinds = {}
@@ -769,7 +769,7 @@ class SpeedScan(HexSearch):
                 found_percent = 100.0
                 spawns_reached = 100.0
                 spawnpoints = SpawnPoint.select_in_hex_by_cellids(
-                    self.scans.keys(), self.location_change_date)
+                    list(self.scans.keys()), self.location_change_date)
 
                 for sp in spawnpoints:
                     if sp['missed_count'] > 5:
@@ -809,7 +809,7 @@ class SpeedScan(HexSearch):
                          self.tth_found * 100.0 / self.active_sp,
                          self.active_sp - self.tth_found)
 
-                for k in sorted(tth_ranges.keys(), key=int):
+                for k in sorted(list(tth_ranges.keys()), key=int):
                     log.info('Spawnpoints with a %sm range to find TTH: %d', k,
                              tth_ranges[k])
 
@@ -847,7 +847,7 @@ class SpeedScan(HexSearch):
 
                     spawns_missed = reduce(
                         lambda x, y: x + len(y),
-                        self.spawns_missed_delay.values(), 0)
+                        list(self.spawns_missed_delay.values()), 0)
                     sum = spawns_missed + self.spawns_found
                     found_percent = (
                         self.spawns_found * 100.0 / sum if sum else 0)
@@ -1246,6 +1246,6 @@ class KeyScheduler(object):
     def current(self):
         return self.curr_key
 
-    def next(self):
-        self.curr_key = self.key_cycle.next()
+    def __next__(self):
+        self.curr_key = next(self.key_cycle)
         return self.curr_key

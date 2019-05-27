@@ -29,20 +29,20 @@ DITTO_CANDIDATES_IDS = [16, 19, 41, 92, 161, 163, 193, 263, 293, 316]
 DITTO_POKEDEX_ID = 132
 
 ITEM_NAMES = {
-    ITEM_POKE_BALL: u"Poké Ball",
-    ITEM_GREAT_BALL: u"Great Ball",
-    ITEM_ULTRA_BALL: u"Ultra Ball",
-    ITEM_POTION: u"Potion",
-    ITEM_SUPER_POTION: u"Super Potion",
-    ITEM_HYPER_POTION: u"Hyper Potion",
-    ITEM_MAX_POTION: u"Max Potion",
-    ITEM_REVIVE: u"Revive",
-    ITEM_MAX_REVIVE: u"Max Revive",
-    ITEM_BLUK_BERRY: u"Bluk Berry",
-    ITEM_NANAB_BERRY: u"Nanab Berry",
-    ITEM_WEPAR_BERRY: u"Wepar Berry",
-    ITEM_PINAP_BERRY: u"Pinap Berry",
-    ITEM_RAZZ_BERRY: u"Razz Berry"
+    ITEM_POKE_BALL: "Poké Ball",
+    ITEM_GREAT_BALL: "Great Ball",
+    ITEM_ULTRA_BALL: "Ultra Ball",
+    ITEM_POTION: "Potion",
+    ITEM_SUPER_POTION: "Super Potion",
+    ITEM_HYPER_POTION: "Hyper Potion",
+    ITEM_MAX_POTION: "Max Potion",
+    ITEM_REVIVE: "Revive",
+    ITEM_MAX_REVIVE: "Max Revive",
+    ITEM_BLUK_BERRY: "Bluk Berry",
+    ITEM_NANAB_BERRY: "Nanab Berry",
+    ITEM_WEPAR_BERRY: "Wepar Berry",
+    ITEM_PINAP_BERRY: "Pinap Berry",
+    ITEM_RAZZ_BERRY: "Razz Berry"
 }
 
 
@@ -88,7 +88,7 @@ def gxp_spin_stops(forts, pgacc, step_location):
 def is_ditto(args, pgacc, p):
     pokemon_id = p.pokemon_data.pokemon_id
     pokemon_name = get_pokemon_name(pokemon_id)
-    log.info(u'{} may be a Ditto. Triggering catch logic!'.format(
+    log.info('{} may be a Ditto. Triggering catch logic!'.format(
         pokemon_name))
 
     # Encounter Pokemon.
@@ -102,11 +102,11 @@ def is_ditto(args, pgacc, p):
     catch_result = catch(pgacc, p.encounter_id, p.spawn_point_id)
     if catch_result['catch_status'] == 'success':
         if int(catch_result['pid']) == DITTO_POKEDEX_ID:
-            logmsg = u'GXP: Successfully caught a Ditto disguised '\
+            logmsg = 'GXP: Successfully caught a Ditto disguised '\
                       'as {}! Needed {} attempts.'
             got_ditto = True
         else:
-            logmsg = u'GXP: Successfully caught a '\
+            logmsg = 'GXP: Successfully caught a '\
                       'regular {} after {} attempts.'
         log.info(logmsg.format(pokemon_name, catch_result['attempts']))
     else:
@@ -241,8 +241,8 @@ def cleanup_inventory(pgacc):
         drops = []
         for item_id in sorted(drop_stats):
             dropped = drop_stats[item_id]
-            drops.append(u"{} {}s".format(dropped, ITEM_NAMES[item_id]))
-        log.info(u"GXP: Items dropped: {}".format(u", ".join(drops)))
+            drops.append("{} {}s".format(dropped, ITEM_NAMES[item_id]))
+        log.info("GXP: Items dropped: {}".format(", ".join(drops)))
 
 
 def drop_items(pgacc, item_id, drop_stats, drop_count=-1):
@@ -259,6 +259,6 @@ def drop_items(pgacc, item_id, drop_stats, drop_count=-1):
             drop_stats[item_id] = drop_count
             return drop_count
         else:
-            log.warning(u"GXP: Failed dropping {} {}s.".format(
+            log.warning("GXP: Failed dropping {} {}s.".format(
                 drop_count, ITEM_NAMES[item_id]))
     return 0
