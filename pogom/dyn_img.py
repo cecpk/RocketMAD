@@ -82,6 +82,7 @@ team_colors = {
     "Valor": "rgb(255,26,26)",
     "Instinct": "rgb(255,190,8)"
 }
+raid_colors = ["rgb(252,112,176)", "rgb(255,158,22)", "rgb(184,165,221)"]
 
 font = os.path.join(path_static, 'Arial Black.ttf')
 font_pointsize = 25
@@ -169,7 +170,7 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form):
             "{}_L{}_R{}_P{}{}.png".format(team, level, raidlevel, pkm, form_extension)
         )
         im_lines.extend(draw_raid_pokemon(pkm, form))
-        im_lines.extend(draw_raid_level(raidlevel))
+        im_lines.extend(draw_raid_level(int(raidlevel)))
         if level > 0:
             im_lines.extend(draw_gym_level(level, team))
     elif raidlevel:
@@ -223,7 +224,9 @@ def draw_gym_level(level, team):
 
 
 def draw_raid_level(raidlevel):
-    return draw_badge(badge_upper_right, "white", "black", raidlevel)
+    return draw_badge(
+        badge_upper_right, raid_colors[int((raidlevel -1) / 2)], "white",
+        raidlevel)
 
 
 def draw_battle_indicator():
