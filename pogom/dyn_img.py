@@ -77,6 +77,12 @@ badge_lower_right = (
     gym_icon_size - (gym_badge_padding + gym_badge_radius),
     gym_icon_size - (gym_badge_padding + gym_badge_radius))
 
+team_colors = {
+    "Mystic": "rgb(30,160,225)",
+    "Valor": "rgb(255,26,26)",
+    "Instinct": "rgb(255,190,8)"
+}
+
 font = os.path.join(path_static, 'Arial Black.ttf')
 font_pointsize = 25
 
@@ -165,7 +171,7 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form):
         im_lines.extend(draw_raid_pokemon(pkm, form))
         im_lines.extend(draw_raid_level(raidlevel))
         if level > 0:
-            im_lines.extend(draw_gym_level(level))
+            im_lines.extend(draw_gym_level(level, team))
     elif raidlevel:
         # Gym with upcoming raid (egg)
         raidlevel = int(raidlevel)
@@ -175,13 +181,13 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form):
         im_lines.extend(draw_raid_egg(raidlevel))
         im_lines.extend(draw_raid_level(raidlevel))
         if level > 0:
-            im_lines.extend(draw_gym_level(level))
+            im_lines.extend(draw_gym_level(level, team))
     elif level > 0:
         # Occupied gym
         out_filename = os.path.join(
             path_generated_gym,
             '{}_L{}.png'.format(team, level))
-        im_lines.extend(draw_gym_level(level))
+        im_lines.extend(draw_gym_level(level, team))
     else:
         # Neutral gym
         return os.path.join(path_gym, '{}.png'.format(team))
@@ -212,8 +218,8 @@ def draw_raid_egg(raidlevel):
     return draw_gym_subject(egg_path, 36, gravity='center')
 
 
-def draw_gym_level(level):
-    return draw_badge(badge_lower_right, "black", "white", level)
+def draw_gym_level(level, team):
+    return draw_badge(badge_lower_right, team_colors[team], "white", level)
 
 
 def draw_raid_level(raidlevel):
