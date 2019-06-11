@@ -367,7 +367,7 @@ def draw_badge(pos, fill_col, text_col, text):
         '-gravity center -fill {} -stroke none '.format(
             text_col),
         '-draw "text {},{} \'{}\'"'.format(
-            x - 48, y - 49, text)
+            x - 47, y - 49, text)
     ]
     return lines
 
