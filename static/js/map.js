@@ -1413,8 +1413,7 @@ function updateGymMarker(gym, marker) {
 }
 
 function setupPokestopMarker(item) {
-
-    var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'])
+    var icon = build_quest_small(item['quest_raw']['quest_reward_type_raw'], item['quest_raw']['item_id'], item['quest_raw']['pokemon_id'], item['lure_expiration'], item['active_fort_modifier'])
     var marker = L
         .marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: item['lure_expiration'] ? 3 : 2})
         .bindPopup(pokestopLabel(item))
@@ -1426,7 +1425,7 @@ function setupPokestopMarker(item) {
     return marker
 }
 
-function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_id, lure){
+function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_id, lure, active_fort_modifier){
 
 	var image
 	var size
@@ -1452,7 +1451,6 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 		var formParam = '';
 		if (quest_pokemon_id === '327') {
 			let formParam = `&form=11`
-
 		}
 		if (generateImages) {
 			image = `pkm_img?pkm=${quest_pokemon_id}${formParam}`
@@ -1467,7 +1465,16 @@ function build_quest_small(quest_reward_type_raw, quest_item_id, quest_pokemon_i
 	}
 
 	var imagename = quest_reward_type_raw ? 'PokestopQuest' : 'Pokestop'
-	var imagename = lure ? 'PokestopLured' : imagename
+
+    if (lure && active_fort_modifier == 502) {
+        imagename = 'PokestopLuredGlacial'
+    } else if (lure && active_fort_modifier == 503) {
+        imagename = 'PokestopLuredMossy'
+    } else if (lure && active_fort_modifier == 504) {
+        imagename = 'PokestopLuredMagnetic'
+    } else if (lure) {
+        imagename = 'PokestopLured'
+    }
 
 	var icon =  L.icon({
         iconUrl: 'static/images/pokestop/' + imagename + '.png',
