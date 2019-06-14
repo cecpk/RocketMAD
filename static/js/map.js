@@ -772,7 +772,7 @@ function gymLabel(gym) {
     var teamDisplay = ''
     var strenghtDisplay = ''
     var gymLeaderDisplay = ''
-	  var raidDisplay = ''
+    var raidDisplay = ''
 
     if (gym.is_ex_raid_eligible) {
         exRaidDisplay = `
