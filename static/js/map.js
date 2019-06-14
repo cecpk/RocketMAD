@@ -1328,7 +1328,7 @@ function customizePokemonMarker(marker, item, skipNotification) {
             playPokemonSound(item['pokemon_id'], cryFileTypes)
             sendNotification(notifyText.fav_title, notifyText.fav_text, getPokemonRawIconUrl(item), item['latitude'], item['longitude'])
         }
-        if (marker.animationDisabled !== true) {
+        if (!marker.animationDisabled && !Store.get('isBounceDisabled')) {
             marker.bounce()
         }
     }
@@ -1972,7 +1972,7 @@ function processPokemon(item) {
                 markers.removeLayer(item)
                 markersnotify.removeLayer(item)
             }
-            newMarker = setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity, isNotifyPkmn)
+            newMarker = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
             customizePokemonMarker(newMarker, item, !Store.get('showPopups'))
             item.marker = newMarker
 

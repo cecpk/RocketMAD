@@ -506,7 +506,7 @@ function updatePokemonMarker(item, map, scaleByRarity = true, isNotifyPkmn = fal
     marker.setIcon(icon)
 }
 
-function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true, isNotifyPkmn = false) {
+function setupPokemonMarker(item, map, scaleByRarity = true, isNotifyPkmn = false) {
     // Scale icon size up with the map exponentially, also size with rarity.
     const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
     const icon = L.icon(markerDetails.icon)
@@ -518,7 +518,6 @@ function setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity = true, i
     }
     return pokemonMarker
 }
-
 
 function updatePokemonLabel(item) {
     // Only update label when Pokémon has been encountered.
