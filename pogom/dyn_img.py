@@ -78,11 +78,13 @@ badge_lower_right = (
     gym_icon_size - (gym_badge_padding + gym_badge_radius))
 
 team_colors = {
-    "Mystic": "rgb(30,160,225)",
-    "Valor": "rgb(255,26,26)",
-    "Instinct": "rgb(255,190,8)"
+    "Mystic": "\"rgb(30,160,225)\"",
+    "Valor": "\"rgb(255,26,26)\"",
+    "Instinct": "\"rgb(255,190,8)\""
 }
-raid_colors = ["rgb(252,112,176)", "rgb(255,158,22)", "rgb(184,165,221)"]
+raid_colors = [
+    "\"rgb(252,112,176)\"", "\"rgb(255,158,22)\"", "\"rgb(184,165,221)\""
+]
 
 font = os.path.join(path_static, 'Arial Black.ttf')
 font_pointsize = 25
