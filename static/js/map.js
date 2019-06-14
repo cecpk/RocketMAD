@@ -3212,34 +3212,39 @@ $(function () {
         var pokemonIcon
         var typestring = []
         var pokeList = []
-        $.each(data, function (key, value) {
-            if (key > numberOfPokemon) {
-                return false
-            }
-            if (generateImages) {
-                pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': key})}'>`
-            } else {
-                pokemonIcon = `<i class="pokemon-sprite n${key}"></i>`
-            }
-            value['name'] = i8ln(value['name'])
-            $.each(value['types'], function (key, pokemonType) {
-                typestring[key] = i8ln(pokemonType['type'])
-                if (key < 1) {
-                    typestring[key+1] = i8ln(pokemonType['type'])
-                }
-            })
-            value['gen'] = getPokemonGen(key)
-            $('.list').append('<div class=pokemon-icon-sprite data-gen=gen' + value['gen'] + ' data-pkm=' + i8ln(value['name']) + ' data-value=' + key + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + key + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(value['name']) + '</div></div>')
-            idToPokemon[key] = value
-            pokeSearchList.push({
-                value: key,
-                pkm: i8ln(value['name']),
-                gen: 'gen' + value['gen'],
-                type1: typestring[0],
-                type2: typestring[1],
-                allpokemon: 'allpokemon'
-            })
-        })
+        
+        function populateLists(id, pokemonData) {
+          if (generateImages) {
+              pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': id})}'>`
+          } else {
+              pokemonIcon = `<i class="pokemon-sprite n${id}"></i>`
+          }
+          pokemonData['name'] = i8ln(pokemonData['name'])
+          $.each(pokemonData['types'], function (id, pokemonType) {
+              typestring[id] = i8ln(pokemonType['type'])
+              if (id < 1) {
+                  typestring[id+1] = i8ln(pokemonType['type'])
+              }
+          })
+          pokemonData['gen'] = getPokemonGen(id)
+          $('.list').append('<div class=pokemon-icon-sprite data-gen=gen' + pokemonData['gen'] + ' data-pkm=' + i8ln(pokemonData['name']) + ' data-value=' + id + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + id + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(pokemonData['name']) + '</div></div>')
+          idToPokemon[id] = pokemonData
+          pokeSearchList.push({
+              value: id,
+              pkm: i8ln(pokemonData['name']),
+              gen: 'gen' + pokemonData['gen'],
+              type1: typestring[0],
+              type2: typestring[1],
+              allpokemon: 'allpokemon'
+          })
+        }
+        var id
+        for (id = 1; id <= numberOfPokemon; id++) {
+            populateLists(id, data[id])
+        }
+        // Meltan and Melmetal
+        populateLists(808, data[808])
+        populateLists(809, data[809])
 
         $selectRarityNotify.select2({
             placeholder: i8ln('Select Rarity'),
