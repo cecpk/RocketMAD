@@ -804,7 +804,7 @@ function gymLabel(gym) {
             </div>`*/
 
         gymLeaderDisplay = `
-            <div class='gym gym-leader'>
+            <div>
               Gym leader: <span class='info'>${idToPokemon[gym.guard_pokemon_id].name}</span>
               <a class='info' href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>
             </div>`
@@ -920,11 +920,13 @@ function gymLabel(gym) {
             </div>
             <div class='gym container content-right'>
               <div>
-                ${strenghtDisplay}
-                <div>
-                  Free slots: <span class='info'>${gym.slots_available}</span>
+                <div class='gym gym-info'>
+                  ${strenghtDisplay}
+                  <div>
+                    Free slots: <span class='info'>${gym.slots_available}</span>
+                  </div>
+                  ${gymLeaderDisplay}
                 </div>
-                ${gymLeaderDisplay}
                 <div>
                   Last scanned: <span class='info'>${getDateStr(gym.last_scanned)}</span>
                 </div>
