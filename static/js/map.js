@@ -771,6 +771,7 @@ function gymLabel(gym) {
     var gymImageDisplay = ''
     var teamDisplay = ''
     var strenghtDisplay = ''
+    var gymLeaderDisplay = ''
 	  var raidDisplay = ''
 
     if (gym.is_ex_raid_eligible) {
@@ -801,6 +802,12 @@ function gymLabel(gym) {
             <div>
               Strength: <span class='info'>${gym.total_cp}</span>
             </div>`*/
+
+        gymLeaderDisplay = `
+            <div class='gym gym-leader'>
+              Gym leader: <span class='info'>${idToPokemon[gym.guard_pokemon_id].name}</span>
+              <a class='info' href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>
+            </div>`
 
         teamDisplay = `
             <div class='gym team-container'>
@@ -917,10 +924,7 @@ function gymLabel(gym) {
                 <div>
                   Free slots: <span class='info'>${gym.slots_available}</span>
                 </div>
-                <div class='gym gym-leader'>
-                  Gym leader: <span class='info'>${idToPokemon[gym.guard_pokemon_id].name}</span>
-                  <a class='info' href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>
-                </div>
+                ${gymLeaderDisplay}
                 <div>
                   Last scanned: <span class='info'>${getDateStr(gym.last_scanned)}</span>
                 </div>
