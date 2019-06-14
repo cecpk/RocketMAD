@@ -9538,5 +9538,23 @@
       }
     ],
     "name": "Marshadow"
+  },
+  "808": {
+    "types": [
+      {
+        "type": "Steel",
+        "color": "#b8b8d0"
+      }
+    ],
+    "name": "Meltan"
+  },
+  "809": {
+    "types": [
+      {
+        "type": "Steel",
+        "color": "#b8b8d0"
+      }
+    ],
+    "name": "Melmetal"
   }
 }
