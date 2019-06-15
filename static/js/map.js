@@ -754,8 +754,12 @@ function isValidRaid(raid) {
     // && Date.now() > raid.spawn
 }
 
-function isGymSatisfiesRaidMinMaxFilter(raid) {
+function isRaidSatisfiesRaidMinMaxFilter(raid) {
     return raid && raid['level'] <= Store.get('showRaidMaxLevel') && raid['level'] >= Store.get('showRaidMinLevel')
+}
+
+function isGymSatisfiesRaidExEligibleFilter(gym) {
+    return gym.raid && (!Store.get('showParkRaidsOnly') || gym.is_ex_raid_eligible)
 }
 
 function gymLabel(gym) {
@@ -815,7 +819,7 @@ function gymLabel(gym) {
             </div>`
     }
 
-    if ((isRaidUpcoming || isRaidOngoing) && isRaidFilterOn && isGymSatisfiesRaidMinMaxFilter(raid)) {
+    if ((isRaidUpcoming || isRaidOngoing) && isRaidFilterOn && isRaidSatisfiesRaidMinMaxFilter(raid)) {
         const raidColor = ['252,112,176', '255,158,22', '184,165,221']
         const levelStr = '★'.repeat(raid.level)
 
@@ -1363,13 +1367,13 @@ function updateGymMarker(gym, marker) {
     let markerImage = ''
     var zIndexOffset
 
-    if (gym.raid && isOngoingRaid(gym.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+    if (gym.raid && isOngoingRaid(gym.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel') && isGymSatisfiesRaidExEligibleFilter(gym)) {
         markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level'] + '&pkm=' + gym['raid']['pokemon_id']
         if (gym.raid.form) {
             markerImage += '&form=' + gym.raid.form
         }
         zIndexOffset = 100
-    } else if (gym.raid && gym.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+    } else if (gym.raid && gym.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel') && isGymSatisfiesRaidExEligibleFilter(gym)) {
         markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level']
         zIndexOffset = 20
     } else {
@@ -3212,7 +3216,7 @@ $(function () {
         var pokemonIcon
         var typestring = []
         var pokeList = []
-        
+
         function populateLists(id, pokemonData) {
           if (generateImages) {
               pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': id})}'>`
