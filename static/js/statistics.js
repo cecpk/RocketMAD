@@ -67,7 +67,7 @@ function processSeen(seen) {
                             ${pokemonIcon}
                         </td>
                         <td class="status_cell">
-                            ${pokemonItem.pokemon_id}                        
+                            ${pokemonItem.pokemon_id}
                         </td>
                         <td class="status_cell">
                             <a href="http://pokemon.gameinfo.io/en/pokemon/${pokemonItem.pokemon_id}" target="_blank" title="View in Pokedex">
@@ -328,7 +328,7 @@ function processAppearance(i, item) {
         if (item['marker']) {
             item['marker'].setMap(null)
         }
-        item['marker'] = setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity, isNotifyPkmn)
+        item['marker'] = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
         markers.addLayer(item['marker'])
         addListeners(item['marker'])
         item['marker'].spawnpointId = spawnpointId
@@ -346,7 +346,7 @@ function redrawAppearances(appearances) {
             const isNotifyPkmn = false    // ..and especially not this.
 
             // item['marker'].setMap(null)
-            const newMarker = setupPokemonMarker(item, map, isBounceDisabled, scaleByRarity, isNotifyPkmn)
+            const newMarker = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
             markers.addLayer(newMarker)
             addListeners(newMarker)
             newMarker.spawnpointId = item['spawnpoint_id']
