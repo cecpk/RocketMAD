@@ -758,6 +758,10 @@ function isGymSatisfiesRaidMinMaxFilter(raid) {
     return raid && raid['level'] <= Store.get('showRaidMaxLevel') && raid['level'] >= Store.get('showRaidMinLevel')
 }
 
+function isGymSatisfiesRaidExEligibleFilter(raid) {
+    return raid && (!Store.get('showParkRaidsOnly') || raid.is_ex_raid_eligible)
+}
+
 function gymLabel(gym) {
     const raid = gym.raid
     const teamName = gymTypes[gym.team_id]
@@ -1363,13 +1367,13 @@ function updateGymMarker(gym, marker) {
     let markerImage = ''
     var zIndexOffset
 
-    if (gym.raid && isOngoingRaid(gym.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+    if (gym.raid && isOngoingRaid(gym.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel') && isGymSatisfiesRaidExEligibleFilter(gym.raid)) {
         markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level'] + '&pkm=' + gym['raid']['pokemon_id']
         if (gym.raid.form) {
             markerImage += '&form=' + gym.raid.form
         }
         zIndexOffset = 100
-    } else if (gym.raid && gym.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel')) {
+    } else if (gym.raid && gym.raid.end > Date.now() && Store.get('showRaids') && !Store.get('showActiveRaidsOnly') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel') && isGymSatisfiesRaidExEligibleFilter(gym.raid)) {
         markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level']
         zIndexOffset = 20
     } else {
@@ -3212,7 +3216,7 @@ $(function () {
         var pokemonIcon
         var typestring = []
         var pokeList = []
-        
+
         function populateLists(id, pokemonData) {
           if (generateImages) {
               pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': id})}'>`
