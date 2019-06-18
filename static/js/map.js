@@ -853,7 +853,7 @@ function gymLabel(gym) {
                     <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
                   </div>
                   <div>
-                    ${pokemonName} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a> Raid
+                    ${pokemonName} ${genderType[raid.gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a> Raid
                   </div>
                   <div>
                     <span class='label-countdown' disappears-at='${raid.end}'>00m00s</span> left (${moment(raid.end).format('HH:mm')})

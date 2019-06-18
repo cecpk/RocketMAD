@@ -51,7 +51,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 31
+db_schema_version = 32
 
 
 class RetryOperationalError(object):
@@ -757,6 +757,7 @@ class Raid(BaseModel):
     last_scanned = DateTimeField(default=datetime.utcnow, index=True)
     form = SmallIntegerField(null=True)
     is_exclusive = BooleanField(null=True)
+    gender = SmallIntegerField(null=True)
 
 
 class LocationAltitude(LatLongModel):
@@ -4024,6 +4025,17 @@ def database_migrate(db, old_ver):
                     'raid',
                     'is_exclusive',
                     BooleanField(null=True)
+                )
+            )
+
+    if old_ver < 32:
+        # Column might already exist if created by MAD
+        if not does_column_exist(db, 'raid', 'gender'):
+            migrate(
+                migrator.add_column(
+                    'raid',
+                    'gender',
+                    SmallIntegerField(null=True)
                 )
             )
 
