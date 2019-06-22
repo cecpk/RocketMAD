@@ -166,6 +166,10 @@ var StoreOptions = {
         default: 0,
         type: StoreTypes.Number
     },
+    'showQuests': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showScanned': {
         default: false,
         type: StoreTypes.Boolean

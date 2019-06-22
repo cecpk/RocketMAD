@@ -237,14 +237,24 @@
             <div class="form-control switch-container" id="lured-pokestops-only-wrapper" style="display:none">
               <select name="lured-pokestops-only-switch" id="lured-pokestops-only-switch">
                 <option value="0">All</option>
-                <option value="1">Only Lured</option>
-				<option value="2">Only Quest (All)</option>
-                <option value="3">Only Quest (Rare Candy)</option>
-                <option value="4">Only Quest (Silver Pinap)</option>
-				<option value="5">Only Quest (Spinda)</option>
+                <option value="1">Lured Only</option>
+                <option value="2">Normal Lured Only</option>
+                <option value="3">Glacial Lured Only</option>
+                <option value="4">Magnetic Lured Only</option>
+                <option value="5">Mossy Lured Only</option>
               </select>
             </div>
               {% endif %}
+            <div class="form-control switch-container">
+              <h3>Quests</h3>
+              <div class="onoffswitch">
+                <input id="quests-switch" type="checkbox" name="quests-switch" class="onoffswitch-checkbox" checked>
+                <label class="onoffswitch-label" for="quests-switch">
+                <span class="switch-label" data-on="On" data-off="Off"></span>
+                <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
             <div class="form-control switch-container">
               <h3>Scanned Locations</h3>
               <div class="onoffswitch">

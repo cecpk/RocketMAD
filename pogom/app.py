@@ -439,7 +439,7 @@ class Pogom(Flask):
         lastspawns = request.args.get('lastspawns')
 
         luredonly = False
-        if request.args.get('luredonly') == '0':
+        if request.args.get('luredonly') != '0':
             luredonly = False
         elif request.args.get('luredonly') == '1':
             luredonly = True
