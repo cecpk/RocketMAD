@@ -598,6 +598,10 @@ def get_args():
                               'external authentication.'))
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)
+    parser.add_argument('-bwb', '--black-white-badges',
+                        help='Use black/white background with white/black' +
+                        ' text for gym/raid level badge in gym icons.',
+                        action='store_true', default=False)
     rarity = parser.add_argument_group('Dynamic Rarity')
     rarity.add_argument('-Rh', '--rarity-hours',
                         help=('Number of hours of Pokemon data to use' +

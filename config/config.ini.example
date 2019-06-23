@@ -169,3 +169,4 @@
 #mock:                          # Mock mode - point to a fpgo endpoint instead of using the real PogoApi,
                                 # e.g: http://127.0.0.1:9090 (default='')
 #dump                           # Dump censored debug info about the environment and auto-upload to hastebin.com.
+#black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
