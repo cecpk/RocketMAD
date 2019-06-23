@@ -438,17 +438,7 @@ class Pogom(Flask):
         lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
 
-        luredonly = False
-        if request.args.get('luredonly') != '0':
-            luredonly = False
-        elif request.args.get('luredonly') == '1':
-            luredonly = True
-        elif request.args.get('luredonly') == '2':
-            luredonly = False
-        elif request.args.get('luredonly') == '3':
-            luredonly = False
-        elif request.args.get('luredonly') == '4':
-            luredonly = False
+        luredonly = request.args.get('luredonly', 'false') == 'true'
 
         # Current switch settings saved for next request.
         if request.args.get('gyms', 'true') == 'true':
