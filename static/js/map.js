@@ -2046,10 +2046,34 @@ function removePokestop(pokestop) {
   }
 }
 
-function removeUnwantedPokestops() {
+function updatePokestops() {
     $.each(mapData.pokestops, function (key, pokestop) {
-        if (!isPokestopSatisfiesFilters(pokestop)) {
+        if (isPokestopSatisfiesFilters(pokestop)) {
+            updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+        } else {
             removePokestop(pokestop)
+        }
+    })
+    lastpokestops = false
+    updateMap()
+}
+
+function updateLuredPokestops() {
+    if (!Store.get('showPokestops')) {
+        return false
+    }
+
+    var currentTime = new Date().getTime()
+    // Change lured pokestop marker to unlured when lure has expired.
+    $.each(mapData.pokestops, function (key, pokestop) {
+        if (pokestop['lure_expiration'] && pokestop['lure_expiration'] < currentTime) {
+            pokestop['lure_expiration'] = null
+            pokestop['active_fort_modifier'] = null
+            if (isPokestopSatisfiesFilters(pokestop)) {
+                updatePokestopMarker(pokestop, pokestop.marker)
+            } else {
+                removePokestop(pokestop)
+            }
         }
     })
 }
@@ -2086,26 +2110,6 @@ function processPokestop(i, pokestop) {
             }
         }
     }
-}
-
-function updatePokestops() {
-    if (!Store.get('showPokestops')) {
-        return false
-    }
-
-    var currentTime = new Date().getTime()
-    // Change lured pokestop marker to unlured when lure has expired.
-    $.each(mapData.pokestops, function (key, pokestop) {
-        if (pokestop['lure_expiration'] && pokestop['lure_expiration'] < currentTime) {
-            pokestop['lure_expiration'] = null
-            pokestop['active_fort_modifier'] = null
-            if (isPokestopSatisfiesFilters(pokestop)) {
-                updatePokestopMarker(pokestop, pokestop.marker)
-            } else {
-                removePokestop(pokestop)
-            }
-        }
-    })
 }
 
 function processGym(i, item) {
@@ -2290,7 +2294,7 @@ function updateMap() {
 
         updateScanned()
         updateSpawnPoints()
-        updatePokestops()
+        updateLuredPokestops()
 
         if ($('#stats').hasClass('visible')) {
             countMarkers(map)
@@ -3018,16 +3022,7 @@ $(function () {
 
     $selectLuredPokestopsOnly.on('change', function () {
         Store.set('showLuredPokestopsOnly', this.value)
-        if (this.value > 0) {
-            removeUnwantedPokestops()
-        }
-        if (Store.get('showQuests')) {
-            $.each(mapData.pokestops, function (key, pokestop) {
-                updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-            })
-        }
-        lastpokestops = false
-        updateMap()
+        updatePokestops()
     })
     $switchGymSidebar = $('#gym-sidebar-switch')
 
@@ -3355,17 +3350,10 @@ $(function () {
                 $('.quest-filter-active').text('*** No active Filter ***')
                 $('.quest-filter-active').css('color', 'black')
             } else {
-                removeUnwantedPokestops();
                 $('.quest-filter-active').text('*** Active Filter ***')
                 $('.quest-filter-active').css('color', 'limegreen')
             }
-            if (Store.get('showPokestops')) {
-                $.each(mapData.pokestops, function (key, pokestop) {
-                    updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-                })
-            }
-            lastpokestops = false
-            updateMap()
+            updatePokestops()
             Store.set('remember_select_exclude_quest_pokemon', excludedQuestPokemon)
         })
         $selectExcludeRarity.on('change', function (e) {
@@ -3694,18 +3682,7 @@ $(function () {
         this.checked ? wrapper.show(options) : wrapper.hide(options)
 
         Store.set('showPokestops', this.checked)
-        if (!this.checked) {
-            removeUnwantedPokestops()
-        }
-        if (Store.get('showQuests')) {
-            $.each(mapData.pokestops, function (key, pokestop) {
-                updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-            })
-        }
-        if (this.checked) {
-            lastpokestops = false
-            updateMap()
-        }
+        updatePokestops()
     })
 
     $('#quests-switch').change(function () {
@@ -3716,18 +3693,7 @@ $(function () {
         this.checked ? wrapper.show(options) : wrapper.hide(options)
 
         Store.set('showQuests', this.checked)
-        if (!this.checked) {
-            removeUnwantedPokestops()
-        }
-        if (Store.get('showPokestops')) {
-            $.each(mapData.pokestops, function (key, pokestop) {
-                updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-            })
-        }
-        if (this.checked) {
-            lastpokestops = false
-            updateMap()
-        }
+        updatePokestops()
     })
 
     $('#sound-switch').change(function () {
