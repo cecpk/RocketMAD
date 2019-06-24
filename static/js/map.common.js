@@ -70,6 +70,10 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'remember_select_exclude_quest_pokemon': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'remember_select_notify': {
         default: [],
         type: StoreTypes.JSON

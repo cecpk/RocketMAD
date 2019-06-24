@@ -255,6 +255,36 @@
                 </label>
               </div>
             </div>
+            <div class="form-control switch-container" id="quests-filter-wrapper" style="display:none">
+              <div class="quest-filter-active">*** No active Filter ***</div>
+              <div id="tabs_quest">
+               <ul id="tabs_quest_ul">
+                <li><a href="#tabs_quest-1">Hide Quest Pokémon</a></li>
+                <li><a href="#tabs_quest-2">Hide Quest Items</a></li>
+               </ul>
+                <div id="tabs_quest-1">
+                 <div class="form-control">
+                  <label for="exclude-quest-pokemon">
+                   <div class="pokemon-container">
+                    <input id="exclude-quest-pokemon" type="text" readonly="true" style="display:none;" >
+                    <div class="list"></div>
+                    <a href="#" class="select-all" style="display:none;">Hide filtered</a><a href="#" class="select-reverse" style="display:none;">Hide not filtered</a>
+                    <a href="#" class="hide-all">Show all</a>
+                   </div>
+                  </label>
+                 </div>
+                </div>
+                <div id="tabs_quest-2">
+                 <div class="form-control">
+                  <label for="exclude-quest-pokemon">
+                   <div class="pokemon-container">
+                     <div class="exclude_templates"></div>
+                    </div>
+                  </label>
+                 </div>
+                </div>
+              </div>
+            </div>
             <div class="form-control switch-container">
               <h3>Scanned Locations</h3>
               <div class="onoffswitch">
@@ -287,16 +317,16 @@
             </div>
               {% if show.pokemons %}
             <div class="form-control switch-container">
-            <div class="hidefilteractiv" style="color:black; font-weight: bold; font-size: x-small;">*** No active Filter ***</div>
+            <div class="pokemon-filter-active">*** No active Filter ***</div>
             <div id="tabs_marker">
              <ul id="tabs_marker_ul">
-              <li><a href="#tabs_marker-1">Hide Pokemon</a></li>
+              <li><a href="#tabs_marker-1">Hide Pokémon</a></li>
               <li><a href="#tabs_marker-2">Hide Presets</a></li>
              </ul>
               <div id="tabs_marker-1">
                <div class="form-control">
                 <label for="exclude-pokemon">
-                 <div class=pokemon-container>
+                 <div class="pokemon-container">
                   <input id="exclude-pokemon" type="text" readonly="true" style="display:none;" >
                   <div class="list"></div>
                   <a href="#" class="select-all" style="display:none;">Hide filtered</a><a href="#" class="select-reverse" style="display:none;">Hide not filtered</a>
@@ -308,7 +338,7 @@
               <div id="tabs_marker-2">
                <div class="form-control">
                 <label for="exclude-pokemon">
-                 <div class=pokemon-container>
+                 <div class="pokemon-container">
                    <div class="exclude_templates"></div>
                   </div>
                 </label>
@@ -402,6 +432,7 @@
             {% if show.pokemons %}
           <h3><i class="fa fa-bullhorn fa-fw"></i>Notification Settings</h3>
           <div>
+          <div class="notify-filter-active">*** No active Filter ***</div>     
           <div id="tabs_notify">
            <ul id="tabs_notify_ul">
             <li><a href="#tabs_notify-10">Notify of Pokémon</a></li>
@@ -412,9 +443,8 @@
             <div class="form-control">
             <div class="notify-container">
              <h3>Notify of Pokémon</h3>
-             <div class="notifyfilteractiv" style="color:black; font-weight: bold; font-size: x-small;">*** No active Filter ***</div>
              <label for="notify-pokemon">
-              <div class=pokemon-container>
+              <div class="pokemon-container">
                <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
                <div class="list"></div>
                <a href="#" class="select-all">Notify selection</a><a href="#" class="hide-all">Notify none</a>
