@@ -6,6 +6,7 @@
 
 var $selectExclude
 var $selectExcludeQuestPokemon
+var $selectExcludeQuestItems
 var $selectPokemonNotify
 var $selectRarityNotify
 var $textPerfectionNotify
@@ -49,6 +50,7 @@ var searchMarkerStyles
 var timestamp
 var excludedPokemon = []
 var excludedQuestPokemon = []
+var excludedQuestItems = []
 var excludedPokemonByRarity = []
 var excludedRarity
 
@@ -100,6 +102,8 @@ const cryFileTypes = ['wav', 'mp3']
 
 const genderType = ['♂', '♀', '⚲']
 const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '?']
+
+const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 301, 401, 501, 701, 703, 705, 706, 708, 902, 903, 1101, 1102, 1103, 1104, 1105, 1106, 1201, 1202, 1301, 1402, 1404, 1405]
 
 const weatherImages = {
     1: 'weather_sunny.png',
@@ -234,6 +238,7 @@ function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
 function loadDefaultImages() {
     var ep = Store.get('remember_select_exclude')
     var eqp = Store.get('remember_select_exclude_quest_pokemon')
+    var eqi = Store.get('remember_select_exclude_quest_items')
     var en = Store.get('remember_select_notify')
     $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="exclude-pokemon"] .list .pokemon-icon-sprite').each(function () {
@@ -246,6 +251,14 @@ function loadDefaultImages() {
     $('label[for="exclude-quest-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="exclude-quest-pokemon"] .list .pokemon-icon-sprite').each(function () {
         if (eqp.indexOf($(this).data('value')) !== -1) {
+            $(this).addClass('active')
+            $('.quest-filter-active').css('color', 'limegreen')
+            $('.quest-filter-active').text('*** Active Filter  ***')
+        }
+    })
+    $('label[for="exclude-quest-items"] .quest-item-list .quest-item-sprite').removeClass('active')
+    $('label[for="exclude-quest-items"] .quest-item-list .quest-item-sprite').each(function () {
+        if (eqi.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
             $('.quest-filter-active').css('color', 'limegreen')
             $('.quest-filter-active').text('*** Active Filter  ***')
@@ -997,16 +1010,20 @@ function pokestopLabel(pokestop) {
 
         switch (quest['quest_reward_type_raw']) {
             case '2':
-                image = 'static/images/quest/reward_' + quest['item_id'] + '_1.png'
-                rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
-                width = 40
-                showQuest = true
+                if (excludedQuestItems.indexOf(parseInt(quest['item_id'])) === -1) {
+                    image = 'static/images/quest/reward_' + quest['item_id'] + '_1.png'
+                    rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
+                    width = 40
+                    showQuest = true
+                }
                 break
             case '3':
-                image = 'static/images/quest/reward_stardust.png'
-                rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
-                width = 40
-                showQuest = true
+                if (excludedQuestItems.indexOf(6) === -1) {
+                    image = 'static/images/quest/reward_stardust.png'
+                    rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
+                    width = 40
+                    showQuest = true
+                }
                 break
             case '7':
                 if (excludedQuestPokemon.indexOf(parseInt(quest['pokemon_id'])) === -1) {
@@ -1436,7 +1453,7 @@ function setupPokestopMarker(pokestop) {
 }
 
 function updatePokestopMarker(pokestop, marker) {
-    var questRewardTypeRaw = pokestop['quest_raw']['quest_reward_type_raw']
+    var questRewardType = pokestop['quest_raw']['quest_reward_type_raw']
     var questItemId = pokestop['quest_raw']['item_id']
     var questPokemonId = pokestop['quest_raw']['pokemon_id']
     var lureExipiration = pokestop['lure_expiration']
@@ -1446,19 +1463,23 @@ function updatePokestopMarker(pokestop, marker) {
     var shadowSize
     var shadowAnchor
 
-    if (Store.get('showQuests') && questRewardTypeRaw) {
-        switch (questRewardTypeRaw) {
+    if (Store.get('showQuests') && questRewardType) {
+        switch (questRewardType) {
             case '2':
-                shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
-                shadowSize = [30, 30]
-                shadowAnchor = [30, 20]
-                markerImage = 'pokestop_quest'
+                if (excludedQuestItems.indexOf(parseInt(questItemId)) === -1) {
+                    shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
+                    shadowSize = [30, 30]
+                    shadowAnchor = [30, 20]
+                    markerImage = 'pokestop_quest'
+                }
                 break
             case '3':
-                shadowImage = 'static/images/quest/reward_stardust.png'
-                shadowSize = [30, 30]
-                shadowAnchor = [30, 20]
-                markerImage = 'pokestop_quest'
+                if (excludedQuestItems.indexOf(6) === -1) {
+                    shadowImage = 'static/images/quest/reward_stardust.png'
+                    shadowSize = [30, 30]
+                    shadowAnchor = [30, 20]
+                    markerImage = 'pokestop_quest'
+                }
                 break
             case '7':
                 if (excludedQuestPokemon.indexOf(parseInt(questPokemonId)) === -1) {
@@ -2008,12 +2029,22 @@ function processPokemon(item) {
 
 function isPokestopSatisfiesFilters(pokestop) {
     if (Store.get('showQuests') && pokestop['quest_raw']['quest_reward_type_raw']) {
-        if (pokestop['quest_raw']['quest_reward_type_raw'] == '7') {
-            if (excludedQuestPokemon.indexOf(parseInt(pokestop['quest_raw']['pokemon_id'])) === -1) {
-                return true
-            }
-        } else {
-          return true //for now
+        switch(pokestop['quest_raw']['quest_reward_type_raw']) {
+            case 2:
+                if (excludedQuestItems.indexOf(parseInt(pokestop['quest_raw']['item_id'])) === -1) {
+                    return true
+                }
+                break
+            case 3:
+                if (excludedQuestItems.indexOf(6) === -1) {
+                    return true
+                }
+                break
+            case 7:
+                if (excludedQuestPokemon.indexOf(parseInt(pokestop['quest_raw']['pokemon_id'])) === -1) {
+                    return true
+                }
+                break
         }
     }
 
@@ -3167,6 +3198,7 @@ $(function () {
 
     $selectExclude = $('#exclude-pokemon')
     $selectExcludeQuestPokemon = $('#exclude-quest-pokemon')
+    $selectExcludeQuestItems = $('#exclude-quest-items')
     $selectExcludeRarity = $('#exclude-rarity')
     $selectPokemonNotify = $('#notify-pokemon')
     $selectRarityNotify = $('#notify-rarity')
@@ -3175,8 +3207,8 @@ $(function () {
     var numberOfPokemon = 493
 
     $('.list').before('<input type="search" class="search" placeholder="Search for Name, ID or Type...">')
-    const hidepresets = Store.get('hidepresets')
 
+    const hidepresets = Store.get('hidepresets')
     $.each(hidepresets, function (key, value) {
         var pokemonIcon
         var iconid = value['PokemonID']
@@ -3187,6 +3219,19 @@ $(function () {
         }
         $('.exclude_templates').append('<div class="hidepreset" data-key=' + key + '><div class="hideicon">' + pokemonIcon + '</div><div class="hidetext">' + value['Name'] + '</div></div>')
     })
+
+    $.each(questItemIds, function (key, id) {
+        $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='${id}'><img class='quest-item-select-icon' src='static/images/quest/reward_${id}_1.png'></div>`)
+    })
+    //
+    $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='6'><img class='quest-item-select-icon' src='static/images/quest/reward_stardust.png'></div>`)
+    $('.quest-item-show-all').on('click', function (e) {
+        e.preventDefault()
+        var parent = $(this).parent().parent()
+        parent.find('.quest-item-list .quest-item-sprite').removeClass('active')
+        parent.find('input[id$=items]').val('').trigger('change')
+    })
+
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         var pokemonIcon
@@ -3239,6 +3284,22 @@ $(function () {
             $(this).find('.hidepreset').removeClass('active')
             var id = img.data('value').toString()
             $('.hidepreset').removeClass('active')
+            if (img.hasClass('active')) {
+                select.val(value.filter(function (elem) {
+                    return elem !== id
+                }).join(',')).trigger('change')
+                img.removeClass('active')
+            } else {
+                select.val((value.concat(id).join(','))).trigger('change')
+                img.addClass('active')
+            }
+        })
+
+        $('.quest-item-list').on('click', '.quest-item-sprite', function () {
+            var img = $(this)
+            var select = $(this).parent().parent().find('input[id$=items]')
+            var value = select.val().split(',')
+            var id = img.data('value').toString()
             if (img.hasClass('active')) {
                 select.val(value.filter(function (elem) {
                     return elem !== id
@@ -3346,7 +3407,7 @@ $(function () {
             excludedQuestPokemon = $selectExcludeQuestPokemon.val().split(',').map(Number).sort(function (a, b) {
                 return parseInt(a) - parseInt(b)
             })
-            if (excludedQuestPokemon.length === 1) {
+            if (excludedQuestPokemon.length === 1 && excludedQuestItems.length === 1) {
                 $('.quest-filter-active').text('*** No active Filter ***')
                 $('.quest-filter-active').css('color', 'black')
             } else {
@@ -3355,6 +3416,21 @@ $(function () {
             }
             updatePokestops()
             Store.set('remember_select_exclude_quest_pokemon', excludedQuestPokemon)
+        })
+        $selectExcludeQuestItems.on('change', function (e) {
+            excludedQuestItems = $selectExcludeQuestItems.val().split(',').map(Number).sort(function (a, b) {
+                return parseInt(a) - parseInt(b)
+            })
+            if (excludedQuestPokemon.length === 1 && excludedQuestItems.length === 1) {
+                $('.quest-filter-active').text('*** No active Filter ***')
+                $('.quest-filter-active').css('color', 'black')
+            } else {
+                $('.quest-filter-active').text('*** Active Filter ***')
+                $('.quest-filter-active').css('color', 'limegreen')
+            }
+            console.log(excludedQuestItems)
+            updatePokestops()
+            Store.set('remember_select_exclude_quest_items', excludedQuestItems)
         })
         $selectExcludeRarity.on('change', function (e) {
             excludedRarity = $selectExcludeRarity.val()
@@ -3412,6 +3488,7 @@ $(function () {
         // recall saved lists
         $selectExclude.val(Store.get('remember_select_exclude')).trigger('change')
         $selectExcludeQuestPokemon.val(Store.get('remember_select_exclude_quest_pokemon')).trigger('change')
+        $selectExcludeQuestItems.val(Store.get('remember_select_exclude_quest_items')).trigger('change')
         $selectPokemonNotify.val(Store.get('remember_select_notify')).trigger('change')
         $selectRarityNotify.val(Store.get('remember_select_rarity_notify')).trigger('change')
         $textPerfectionNotify.val(Store.get('remember_text_perfection_notify')).trigger('change')

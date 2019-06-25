@@ -245,6 +245,7 @@
               </select>
             </div>
               {% endif %}
+              {% if show.quests %}
             <div class="form-control switch-container">
               <h3>Quests</h3>
               <div class="onoffswitch">
@@ -276,15 +277,18 @@
                 </div>
                 <div id="tabs_quest-2">
                  <div class="form-control">
-                  <label for="exclude-quest-pokemon">
-                   <div class="pokemon-container">
-                     <div class="exclude_templates"></div>
+                  <label for="exclude-quest-items">
+                   <div class="quest-item-container">
+                     <input id="exclude-quest-items" type="text" readonly="true" style="display:none;" >
+                     <div class="quest-item-list"></div>
+                     <a href="#" class="quest-item-show-all">Show all</a>
                     </div>
                   </label>
                  </div>
                 </div>
               </div>
             </div>
+              {% endif %}
             <div class="form-control switch-container">
               <h3>Scanned Locations</h3>
               <div class="onoffswitch">
@@ -337,7 +341,7 @@
               </div>
               <div id="tabs_marker-2">
                <div class="form-control">
-                <label for="exclude-pokemon">
+                <label for="exclude-items">
                  <div class="pokemon-container">
                    <div class="exclude_templates"></div>
                   </div>
@@ -432,7 +436,7 @@
             {% if show.pokemons %}
           <h3><i class="fa fa-bullhorn fa-fw"></i>Notification Settings</h3>
           <div>
-          <div class="notify-filter-active">*** No active Filter ***</div>     
+          <div class="notify-filter-active">*** No active Filter ***</div>
           <div id="tabs_notify">
            <ul id="tabs_notify_ul">
             <li><a href="#tabs_notify-10">Notify of Pokémon</a></li>

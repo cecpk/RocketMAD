@@ -31,10 +31,11 @@
 #location:                      # Location, can be an address or coordinates.
 #step-limit:                    # Steps (default=10)
 #scan-delay:                    # Time delay between requests in scan threads. (default=10)
+#no-pokemon                     # Disables Pokémon from the map. (default=False)
 #no-gyms                        # Disables gym scanning (default=False)
-#no-pokemon                     # Disables pokemon scanning. (default=False)
-#no-pokestops                   # Disables pokestop scanning. (default=False)
-#no-raids                       # Disables raid scanning (default=False)
+#no-raids                       # Disables raids from the map. (default=False)
+#no-pokestops                   # Disables PokéStops from the map. (default=False)
+#no-quests                      # Disables quests from the map. (default=False)
 #print-status                   # Enable ENTER to switch between log view and a status view.
                                 # Optionally add ": status" to start in status view and ": logs" to start in log view. (default=False)
 #status-page-password:          # Enables and protects the /status page to view status of all workers. (default=None)

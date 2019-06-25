@@ -357,6 +357,7 @@ class Pogom(Flask):
             'gyms': not args.no_gyms,
             'pokemons': not args.no_pokemon,
             'pokestops': not args.no_pokestops,
+            'quests': not args.no_quests,
             'raids': not args.no_raids,
             'gym_info': args.gym_info,
             'encounter': args.encounter,

@@ -151,38 +151,50 @@
       margin-bottom: 0;
     }
   }
-  label[for="exclude-pokemon"], label[for="exclude-quest-pokemon"], label[for="notify-pokemon"] {
-    .list .active {
+  label[for="exclude-pokemon"], label[for="exclude-quest-pokemon"], label[for="exclude-quest-items"], label[for="notify-pokemon"] {
+    .list .active, .quest-item-list .active {
       border: 1px solid #D3D3D3;
       background: rgba(211, 211, 211, 0.4);
     }
   }
 
-.list {
+.list, .quest-item-list {
     align-items: center;
     text-align:center;
+    margin-bottom: 5px;
     max-width: 100%;
     overflow: auto;
-    height: 200px;
-    .pokemon-icon-sprite{
+    .pokemon-icon-sprite, .quest-item-sprite {
       width: 32%;
-      margin-bottom: 1px;
-      margin-left: 3px;
+      margin-bottom: 3px;
+      margin-right: 3px;
       border: 1px solid #D3D3D3;
       float: left;
     }
-  }
+}
+
+.list {
+    height: 201px;
+}
+
+.quest-item-list {
+    height: 222px;
+}
+
 .pokemon-select-icon {
     margin-top: 2px;
-
-  }
+}
 
 .search {
-    margin-bottom: 5px;
     background-color: #fff;
     border: 1px solid #aaa;
     padding: 0 10px;
+    margin-bottom: 5px;
     width: 100%;
+}
+
+.select-all {
+  margin-bottom: 5px;
 }
 
 #pkid_list {
@@ -201,7 +213,6 @@ label a {
     text-decoration: none;
     border: 1px solid #aaa;
     border-radius: 4px;
-    margin-top: 5px;
 }
 
 .pokemon-filter-active, .quest-filter-active, .notify-filter-active {
@@ -248,11 +259,10 @@ label a {
         }
       }
     }
-.pokemon-container {
+.pokemon-container, .quest-item-container {
     border: 1px solid #c5c5c5;
-    padding: 1px;
+    padding: 5px;
     overflow: hidden;
-    min-height: 300px;
 }
 
 .notify-container{
