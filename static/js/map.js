@@ -3223,8 +3223,8 @@ $(function () {
     $.each(questItemIds, function (key, id) {
         $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='${id}'><img class='quest-item-select-icon' src='static/images/quest/reward_${id}_1.png'></div>`)
     })
-    //
     $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='6'><img class='quest-item-select-icon' src='static/images/quest/reward_stardust.png'></div>`)
+
     $('.quest-item-show-all').on('click', function (e) {
         e.preventDefault()
         var parent = $(this).parent().parent()
