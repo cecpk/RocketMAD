@@ -52,7 +52,6 @@ def convert_pokemon_list(pokemon):
 
 
 class Pogom(Flask):
-
     def __init__(self, import_name, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
         compress.init_app(self)
@@ -83,17 +82,9 @@ class Pogom(Flask):
         self.route("/loc", methods=['GET'])(self.loc)
         self.route("/next_loc", methods=['POST'])(self.next_loc)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
-        self.route("/search_control", methods=['GET'])(self.get_search_control)
-        self.route("/search_control", methods=['POST'])(
-            self.post_search_control)
         self.route("/stats", methods=['GET'])(self.get_stats)
-        self.route("/status", methods=['GET'])(self.get_status)
-        self.route("/status", methods=['POST'])(self.post_status)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
-        self.route("/bookmarklet", methods=['GET'])(self.get_bookmarklet)
-        self.route("/inject.js", methods=['GET'])(self.render_inject_js)
         self.route("/submit_token", methods=['POST'])(self.submit_token)
-        self.route("/get_stats", methods=['GET'])(self.get_account_stats)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
@@ -149,22 +140,6 @@ class Pogom(Flask):
     def render_service_worker_js(self):
         return send_from_directory('static/dist/js', 'serviceWorker.min.js')
 
-    def get_bookmarklet(self):
-        args = get_args()
-        return render_template('bookmarklet.html',
-                               domain=args.manual_captcha_domain)
-
-    def render_inject_js(self):
-        args = get_args()
-        src = render_template('inject.js',
-                              domain=args.manual_captcha_domain,
-                              timer=args.manual_captcha_refresh)
-
-        response = make_response(src)
-        response.headers['Content-Type'] = 'application/javascript'
-
-        return response
-
     def submit_token(self):
         response = 'error'
         if request.form:
@@ -173,12 +148,6 @@ class Pogom(Flask):
             query.execute()
             response = 'ok'
         r = make_response(response)
-        r.headers.add('Access-Control-Allow-Origin', '*')
-        return r
-
-    def get_account_stats(self):
-        stats = MainWorker.get_account_stats()
-        r = make_response(jsonify(**stats))
         r.headers.add('Access-Control-Allow-Origin', '*')
         return r
 
@@ -211,9 +180,6 @@ class Pogom(Flask):
     def set_db_updates_queue(self, db_updates_queue):
         self.db_updates_queue = db_updates_queue
 
-    def set_control_flags(self, control):
-        self.control_flags = control
-
     def set_heartbeat_control(self, heartb):
         self.heartbeat = heartb
 
@@ -223,38 +189,12 @@ class Pogom(Flask):
     def set_current_location(self, location):
         self.current_location = location
 
-    def get_search_control(self):
-        return jsonify({
-            'status': not self.control_flags['search_control'].is_set()})
-
-    def post_search_control(self):
-        args = get_args()
-        if not args.search_control or args.on_demand_timeout > 0:
-            return 'Search control is disabled', 403
-        action = request.args.get('action', 'none')
-        if action == 'on':
-            self.control_flags['search_control'].clear()
-            log.info('Search thread resumed')
-        elif action == 'off':
-            self.control_flags['search_control'].set()
-            log.info('Search thread paused')
-        else:
-            return jsonify({'message': 'invalid use of api'})
-        return self.get_search_control()
-
     def auth_callback(self, statusname=None):
         return render_template('auth_callback.html')
 
     def fullmap(self, statusname=None):
         self.heartbeat[0] = now()
         args = get_args()
-        if args.on_demand_timeout > 0:
-            self.control_flags['on_demand'].clear()
-
-        search_display = (args.search_control and args.on_demand_timeout <= 0)
-
-        scan_display = False if (args.only_server or args.fixed_location or
-                                 args.spawnpoint_scanning) else True
 
         visibility_flags = {
             'gyms': not args.no_gyms,
@@ -263,8 +203,6 @@ class Pogom(Flask):
             'raids': not args.no_raids,
             'gym_info': args.gym_info,
             'encounter': args.encounter,
-            'scan_display': scan_display,
-            'search_display': search_display,
             'fixed_display': not args.fixed_location,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,
@@ -307,8 +245,6 @@ class Pogom(Flask):
 
         self.heartbeat[0] = now()
         args = get_args()
-        if args.on_demand_timeout > 0:
-            self.control_flags['on_demand'].clear()
         d = {}
 
         auth_redirect = check_auth(args, request, self.user_auth_code_cache)
@@ -509,21 +445,6 @@ class Pogom(Flask):
                             oSwLat=oSwLat, oSwLng=oSwLng,
                             oNeLat=oNeLat, oNeLng=oNeLng))
 
-        if request.args.get('status', 'false') == 'true':
-            args = get_args()
-            d = {}
-            if args.status_page_password is None:
-                d['error'] = 'Access denied'
-            elif (request.args.get('password', None) ==
-                  args.status_page_password):
-                max_status_age = args.status_page_filter
-                if max_status_age > 0:
-                    d['main_workers'] = MainWorker.get_recent(max_status_age)
-                    d['workers'] = WorkerStatus.get_recent(max_status_age)
-                else:
-                    d['main_workers'] = MainWorker.get_all()
-                    d['workers'] = WorkerStatus.get_all()
-
         if request.args.get('weather', 'false') == 'true':
             d['weather'] = get_weather_cells(swLat, swLng, neLat, neLng)
         if request.args.get('s2cells', 'false') == 'true':
@@ -634,39 +555,6 @@ class Pogom(Flask):
         gym = Gym.get_gym(gym_id)
 
         return jsonify(gym)
-
-    def get_status(self):
-        args = get_args()
-        visibility_flags = {
-            'custom_css': args.custom_css,
-            'custom_js': args.custom_js
-        }
-        if args.status_page_password is None:
-            abort(404)
-
-        return render_template('status.html',
-                               show=visibility_flags)
-
-    def post_status(self):
-        args = get_args()
-        d = {}
-        if args.status_page_password is None:
-            abort(404)
-
-        if request.form.get('password', None) == args.status_page_password:
-            d['login'] = 'ok'
-            max_status_age = args.status_page_filter
-            if max_status_age > 0:
-                d['main_workers'] = MainWorker.get_recent(max_status_age)
-                d['workers'] = WorkerStatus.get_recent(max_status_age)
-            else:
-                d['main_workers'] = MainWorker.get_all()
-                d['workers'] = WorkerStatus.get_all()
-            d['hashkeys'] = HashKeys.get_obfuscated_keys()
-        else:
-            d['login'] = 'failed'
-        return jsonify(d)
-
 
 class CustomJSONEncoder(JSONEncoder):
 

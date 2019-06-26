@@ -339,11 +339,6 @@ function initMap() { // eslint-disable-line no-unused-vars
     $('#scan-here').on('click', function () {
         var loc = map.getCenter()
         changeLocation(loc.lat, loc.lng)
-
-        if (!$('#search-switch').checked) {
-            $('#search-switch').prop('checked', true)
-            searchControl('on')
-        }
     })
 
     $('#tabs_marker').tabs()
@@ -461,20 +456,6 @@ function createSearchMarker() {
     return searchMarker
 }
 
-var searchControlURI = 'search_control'
-
-function searchControl(action) {
-    $.post(searchControlURI + '?action=' + encodeURIComponent(action))
-    $('#scan-here').toggleClass('disabled', action === 'off')
-}
-
-function updateSearchStatus() {
-    $.getJSON(searchControlURI).then(function (data) {
-        $('#search-switch').prop('checked', data.status)
-        $('#scan-here').toggleClass('disabled', !data.status)
-    })
-}
-
 function initSidebar() {
     $('#gyms-switch').prop('checked', Store.get('showGyms'))
     $('#gym-sidebar-switch').prop('checked', Store.get('useGymSidebar'))
@@ -531,11 +512,6 @@ function initSidebar() {
     $('select').select2({
         minimumResultsForSearch: -1
     })
-
-    if ($('#search-switch').length) {
-        updateSearchStatus()
-        setInterval(updateSearchStatus, 5000)
-    }
 
     $('#pokemon-icon-size').val(Store.get('iconSizeModifier'))
 }
@@ -3765,10 +3741,6 @@ $(function () {
         if (searchMarker) {
             searchMarker.draggable = (!this.checked)
         }
-    })
-
-    $('#search-switch').change(function () {
-        searchControl(this.checked ? 'on' : 'off')
     })
 
     $('#start-at-user-location-switch').change(function () {

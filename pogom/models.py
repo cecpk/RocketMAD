@@ -29,9 +29,7 @@ from .utils import (get_pokemon_name, get_pokemon_types,
                     get_move_name, get_move_damage, get_move_energy,
                     get_move_type, calc_pokemon_level, peewee_attr_to_col)
 from .transform import transform_from_wgs_to_gcj, get_new_coords
-from .customLog import printPokemon
 
-from .proxy import get_new_proxy
 from pgoapi.protos.pogoprotos.map.weather.gameplay_weather_pb2 import (
     GameplayWeather)
 from pgoapi.protos.pogoprotos.map.weather.weather_alert_pb2 import (
@@ -1070,39 +1068,6 @@ class ScannedLocation(LatLongModel):
 
         return ret
 
-    # Return list of dicts for upcoming valid band times.
-    @staticmethod
-    def get_times(scan, now_date, scanned_locations):
-        s = ScannedLocation.find_in_locs(scan['loc'], scanned_locations)
-        if s['done']:
-            return []
-
-        max = 3600 * 2 + 250  # Greater than maximum possible value.
-        min = {'end': max}
-
-        nowms = date_secs(now_date)
-        if s['band1'] == -1:
-            return [ScannedLocation._q_init(scan, nowms, nowms + 3599, 'band')]
-
-        # Find next window.
-        basems = s['band1']
-        for i in range(2, 6):
-            ms = s['band' + str(i)]
-
-            # Skip bands already done.
-            if ms > -1:
-                continue
-
-            radius = 120 - s['width'] / 2
-            end = (basems + s['midpoint'] + radius + (i - 1) * 720 - 10) % 3600
-            end = end if end >= nowms else end + 3600
-
-            if end < min['end']:
-                min = ScannedLocation._q_init(scan, end - radius * 2 + 10, end,
-                                              'band')
-
-        return [min] if min['end'] < max else []
-
     # Checks if now falls within an unfilled band for a scanned location.
     # Returns the updated scan location dict.
     @staticmethod
@@ -1483,47 +1448,6 @@ class SpawnPoint(LatLongModel):
             sp) else 0
         end = sp['latest_seen'] - (3 - links.index('-')) * 900 + no_tth_adjust
         return [start % 3600, end % 3600]
-
-    # Return a list of dicts with the next spawn times.
-    @staticmethod
-    def get_times(cell, scan, now_date, scan_delay,
-                  cell_to_linked_spawn_points, sp_by_id):
-        result = []
-        now_secs = date_secs(now_date)
-        linked_spawn_points = (cell_to_linked_spawn_points[cell]
-                               if cell in cell_to_linked_spawn_points else [])
-
-        for sp in linked_spawn_points:
-
-            if sp['missed_count'] > 5:
-                continue
-
-            endpoints = SpawnPoint.start_end(sp, scan_delay)
-            SpawnPoint.add_if_not_scanned('spawn', result, sp, scan,
-                                          endpoints[0], endpoints[1], now_date,
-                                          now_secs, sp_by_id)
-
-            # Check to see if still searching for valid TTH.
-            if SpawnPoint.tth_found(sp):
-                continue
-
-            # Add a spawnpoint check between latest_seen and earliest_unseen.
-            start = sp['latest_seen']
-            end = sp['earliest_unseen']
-
-            # So if the gap between start and end < 89 seconds make the gap
-            # 89 seconds
-            if ((end > start and end - start < 89) or
-                    (start > end and (end + 3600) - start < 89)):
-                end = (start + 89) % 3600
-            # So we move the search gap on 45 to within 45 and 89 seconds from
-            # the last scan. TTH appears in the last 90 seconds of the Spawn.
-            start = sp['latest_seen'] + 45
-
-            SpawnPoint.add_if_not_scanned('TTH', result, sp, scan, start, end,
-                                          now_date, now_secs, sp_by_id)
-
-        return result
 
     @staticmethod
     def add_if_not_scanned(kind, l, sp, scan, start,
@@ -2230,10 +2154,6 @@ def clean_db_loop(args):
         try:
             db_cleanup_regular()
 
-            # Remove old worker status entries.
-            if args.db_cleanup_worker > 0:
-                db_cleanup_worker_status(args.db_cleanup_worker)
-
             # Check if it's time to run full database cleanup.
             now = default_timer()
             if now - full_cleanup_timer > full_cleanup_secs:
@@ -2298,37 +2218,6 @@ def db_cleanup_regular():
 
     time_diff = default_timer() - start_timer
     log.debug('Completed regular cleanup in %.6f seconds.', time_diff)
-
-
-def db_cleanup_worker_status(age_minutes):
-    log.debug('Beginning cleanup of old worker status.')
-    start_timer = default_timer()
-
-    worker_status_timeout = datetime.utcnow() - timedelta(minutes=age_minutes)
-
-    with MainWorker.database():
-        # Remove status information from inactive instances.
-        query = (MainWorker
-                 .delete()
-                 .where(MainWorker.last_modified < worker_status_timeout))
-        query.execute()
-        # OPTIMIZE TABLE locks the table...
-        # queryOptimize = MainWorker.raw('OPTIMIZE TABLE mainworker')
-        # queryOptimize.execute()
-        # log.debug('Finished %s.', queryOptimize)
-
-        # Remove worker status information that are inactive.
-        query = (WorkerStatus
-                 .delete()
-                 .where(MainWorker.last_modified < worker_status_timeout))
-        query.execute()
-        # queryOptimize = WorkerStatus.raw('OPTIMIZE TABLE workerstatus')
-        # queryOptimize.execute()
-        # log.debug('Finished %s.', queryOptimize)
-
-    time_diff = default_timer() - start_timer
-    log.debug('Completed cleanup of old worker status in %.6f seconds.',
-              time_diff)
 
 
 def db_clean_pokemons(age_hours):

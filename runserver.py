@@ -2,11 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-py_version = sys.version_info
-if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
-    print("RocketMap requires at least python 3.6! Your version: {}.{}"
-          .format(py_version.major, py_version.minor))
-    sys.exit(1)
 import os
 import logging
 import re
@@ -24,7 +19,7 @@ from flask_cachebuster import CacheBuster
 from colorlog import ColoredFormatter
 
 from pogom.app import Pogom
-from pogom.utils import (get_args, now, init_args,
+from pogom.utils import (get_args, now, init_dynamic_images,
                          log_resource_usage_loop, get_debug_dump_link,
                          dynamic_rarity_refresher, get_pos_by_name)
 
@@ -187,51 +182,6 @@ def validate_assets(args):
     return True
 
 
-def can_start_scanning(args):
-    # Currently supported pgoapi.
-    pgoapi_version = "1.2.0"
-    api_version_error = (
-        'The installed pgoapi is out of date. Please refer to '
-        'http://rocketmap.readthedocs.io/en/develop/common-issues/'
-        'faq.html#i-get-an-error-about-pgoapi-version'
-    )
-
-    # Assert pgoapi >= pgoapi_version.
-    if (not hasattr(pgoapi, "__version__") or
-            StrictVersion(pgoapi.__version__) < StrictVersion(pgoapi_version)):
-        log.critical(api_version_error)
-        return False
-
-    # Abort if we don't have a hash key set.
-    if not args.hash_key:
-        log.critical('Hash key is required for scanning. Exiting.')
-        return False
-
-    # Check the PoGo api pgoapi implements against what RM is expecting.
-    # Some API versions have a non-standard version int, so we map them
-    # to the correct one.
-    api_version_int = int(args.api_version.replace('.', '0'))
-    api_version_map = {
-        8302: 8300,
-        8501: 8500,
-        8705: 8700,
-        8901: 8900,
-        9101: 9100,
-        9102: 9100
-    }
-    mapped_version_int = api_version_map.get(api_version_int, api_version_int)
-
-    try:
-        if PGoApi.get_api_version() != mapped_version_int:
-            log.critical(api_version_error)
-            return False
-    except AttributeError:
-        log.critical(api_version_error)
-        return False
-
-    return True
-
-
 def startup_db(app, clear_db):
     db = init_database(app)
     if clear_db:
@@ -270,6 +220,12 @@ def extract_coordinates(location):
 
 
 def main():
+    py_version = sys.version_info
+    if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
+        print("RocketMap requires at least python 3.6! Your version: {}.{}"
+              .format(py_version.major, py_version.minor))
+        sys.exit(1)
+
     # Patch threading to make exceptions catchable.
     install_thread_excepthook()
 
@@ -287,7 +243,7 @@ def main():
     set_log_and_verbosity(log)
 
     args.root_path = os.path.dirname(os.path.abspath(__file__))
-    init_args(args)
+    init_dynamic_images(args)
 
     # Stop if we're just looking for a debug dump.
     if args.dump:
@@ -298,15 +254,8 @@ def main():
         sys.exit(1)
 
     # Let's not forget to run Grunt / Only needed when running with webserver.
-    if args.only_server and not validate_assets(args):
+    if not validate_assets(args):
         sys.exit(1)
-
-    if args.no_version_check and not args.only_server:
-        log.warning('You are running RocketMap in No Version Check mode. '
-                    "If you don't know what you're doing, this mode "
-                    'can have negative consequences, and you will not '
-                    'receive support running in NoVC mode. '
-                    'You have been warned.')
 
     position = extract_coordinates(args.location)
 
@@ -324,7 +273,7 @@ def main():
              'enabled' if args.encounter else 'disabled')
 
     app = None
-    if args.only_server and not args.clear_db:
+    if not args.clear_db:
         app = Pogom(__name__,
                     root_path=os.path.dirname(
                         os.path.abspath(__file__)))
@@ -332,19 +281,6 @@ def main():
         app.set_current_location(position)
 
     db = startup_db(app, args.clear_db)
-
-    # Control the search status (running or not) across threads.
-    control_flags = {
-        'on_demand': Event(),
-        'api_watchdog': Event(),
-        'search_control': Event()
-    }
-
-    for flag in list(control_flags.values()):
-        flag.clear()
-
-    if args.on_demand_timeout > 0:
-        control_flags['on_demand'].set()
 
     heartbeat = [now()]
 
@@ -388,7 +324,6 @@ def main():
     cache_buster = CacheBuster()
     cache_buster.init_app(app)
 
-    app.set_control_flags(control_flags)
     app.set_heartbeat_control(heartbeat)
     app.set_location_queue(new_location_queue)
     ssl_context = None
