@@ -103,7 +103,7 @@ const cryFileTypes = ['wav', 'mp3']
 const genderType = ['♂', '♀', '⚲']
 const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '?']
 
-const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 301, 401, 501, 701, 703, 705, 706, 708, 902, 903, 1101, 1102, 1103, 1104, 1105, 1106, 1201, 1202, 1301, 1402, 1404, 1405]
+const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
 
 const weatherImages = {
     1: 'weather_sunny.png',
@@ -3225,13 +3225,6 @@ $(function () {
     })
     $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='6'><img class='quest-item-select-icon' src='static/images/quest/reward_stardust.png'></div>`)
 
-    $('.quest-item-show-all').on('click', function (e) {
-        e.preventDefault()
-        var parent = $(this).parent().parent()
-        parent.find('.quest-item-list .quest-item-sprite').removeClass('active')
-        parent.find('input[id$=items]').val('').trigger('change')
-    })
-
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         var pokemonIcon
@@ -3309,6 +3302,13 @@ $(function () {
                 select.val((value.concat(id).join(','))).trigger('change')
                 img.addClass('active')
             }
+        })
+
+        $('.quest-item-show-all').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
+            parent.find('.quest-item-list .quest-item-sprite').removeClass('active')
+            parent.find('input[id$=items]').val('').trigger('change')
         })
 
         $('.exclude_templates').on('click', '.hidepreset', function () {
