@@ -396,7 +396,7 @@ class Pokestop(LatLongModel):
     @staticmethod
     def get_stops(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
                   oSwLng=None, oNeLat=None, oNeLng=None, lured=False):
-        query = Pokestop.select(Pokestop.active_fort_modifier,
+        query = (Pokestop.select(Pokestop.active_fort_modifier,
                                 Pokestop.enabled, Pokestop.latitude,
                                 Pokestop.longitude, Pokestop.last_modified,
                                 Pokestop.lure_expiration, Pokestop.pokestop_id,
@@ -409,10 +409,8 @@ class Pokestop(LatLongModel):
                                 Trs_Quest.quest_target,
                                 Trs_Quest.quest_timestamp, Pokestop.name,
                                 Pokestop.image)
-
-        query = (query
-                    .join(Trs_Quest, JOIN.LEFT_OUTER,
-                          on=(Pokestop.pokestop_id == Trs_Quest.GUID)))
+                        .join(Trs_Quest, JOIN.LEFT_OUTER,
+                              on=(Pokestop.pokestop_id == Trs_Quest.GUID)))
 
         if not (swLat and swLng and neLat and neLng):
             query = (query
