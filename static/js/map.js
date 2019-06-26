@@ -3428,7 +3428,6 @@ $(function () {
                 $('.quest-filter-active').text('*** Active Filter ***')
                 $('.quest-filter-active').css('color', 'limegreen')
             }
-            console.log(excludedQuestItems)
             updatePokestops()
             Store.set('remember_select_exclude_quest_items', excludedQuestItems)
         })
