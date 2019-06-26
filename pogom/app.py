@@ -15,9 +15,6 @@ from flask.json import JSONEncoder
 from flask_compress import Compress
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
-from pogom.pgscout import scout_error, pgscout_encounter, perform_lure
-
-
 from pogom.weather import (get_weather_cells,
                            get_s2_coverage, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
@@ -102,8 +99,6 @@ class Pogom(Flask):
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
-        self.route("/scout", methods=['GET'])(self.scout_pokemon)
-        self.route("/lure", methods=['GET'])(self.scout_lure)
         self.route("/<statusname>", methods=['GET'])(self.fullmap)
 
     def gym_img(self):
@@ -147,98 +142,6 @@ class Pogom(Flask):
                 pkm, weather=weather,
                 gender=gender, form=form, costume=costume)
         return send_file(filename, mimetype='image/png')
-
-    def scout_pokemon(self):
-        args = get_args()
-        if args.pgscout_url:
-            encounterId = request.args.get('encounter_id')
-            p = Pokemon.get(Pokemon.encounter_id == encounterId)
-            pokemon_name = get_pokemon_name(p.pokemon_id)
-            log.info(
-                "On demand PGScouting a {} at {}, {}.".format(
-                    pokemon_name,
-                    p.latitude,
-                    p.longitude))
-            scout_result = pgscout_encounter(p, forced=1)
-            if scout_result['success']:
-                self.update_scouted_pokemon(p, scout_result)
-                log.info(
-                    "Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
-                    " (scout level {}).".format(
-                        scout_result['iv_percent'], scout_result['level'],
-                        pokemon_name, scout_result['cp'],
-                        scout_result['scout_level']))
-            else:
-                log.warning("Failed PGScouting {}: {}".format(pokemon_name,
-                                                               scout_result[
-                                                                   'error']))
-        else:
-            scout_result = scout_error("PGScout URL not configured.")
-        return jsonify(scout_result)
-
-    def scout_lure(self):
-        args = get_args()
-        if args.lure_url:
-            lat = request.args.get('latitude')
-            lng = request.args.get('longitude')
-            log.info(
-                "On demand luring a stop at lat = {}, long = {}.".format(lat,
-                                                                          lng))
-            stops = Pokestop.get_stop_by_cord(lat, lng)
-            if len(stops) > 1:
-                log.info("Error, more than one stop returned")
-                return None
-            else:
-                p = stops[0]
-            log.info(
-                "On demand luring a stop {} at {}, {}.".format(
-                    p["pokestop_id"],
-                    p["latitude"],
-                    p["longitude"]))
-            scout_result = perform_lure(p)
-            if scout_result['success']:
-                log.info(
-                    "Successfully lured pokestop_id {} at {}, {}".format(
-                        p["pokestop_id"], p["latitude"],
-                        p["longitude"]))
-            else:
-                log.warning("Failed luring {} at {},{}".format(
-                    p["pokestop_id"],
-                    p["latitude"],
-                    p["longitude"]))
-        else:
-            scout_result = scout_error("URL not configured.")
-        return jsonify(scout_result)
-
-    def update_scouted_pokemon(self, p, response):
-        # Update database
-        update_data = {
-            p.encounter_id: {
-                'encounter_id': p.encounter_id,
-                'spawnpoint_id': p.spawnpoint_id,
-                'pokemon_id': p.pokemon_id,
-                'latitude': p.latitude,
-                'longitude': p.longitude,
-                'disappear_time': p.disappear_time,
-                'individual_attack': response['iv_attack'],
-                'individual_defense': response['iv_defense'],
-                'individual_stamina': response['iv_stamina'],
-                'move_1': response['move_1'],
-                'move_2': response['move_2'],
-                'height': response['height'],
-                'weight': response['weight'],
-                'gender': response['gender'],
-                'form': response.get('form', None),
-                'cp': response['cp'],
-                'cp_multiplier': response['cp_multiplier'],
-                'catch_prob_1': response['catch_prob_1'],
-                'catch_prob_2': response['catch_prob_2'],
-                'catch_prob_3': response['catch_prob_3'],
-                'rating_attack': response['rating_attack'],
-                'rating_defense': response['rating_defense']
-            }
-        }
-        self.db_updates_queue.put((Pokemon, update_data))
 
     def render_robots_txt(self):
         return render_template('robots.txt')

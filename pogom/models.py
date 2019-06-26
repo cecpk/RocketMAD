@@ -23,7 +23,6 @@ from cachetools import TTLCache
 from cachetools import cached
 from timeit import default_timer
 
-from pogom.pgscout import pgscout_encounter
 from .questGen import generate_quest
 from .utils import (get_pokemon_name, get_pokemon_types,
                     get_args, cellid, in_radius, date_secs, clock_between,
@@ -2062,34 +2061,6 @@ def hex_bounds(center, steps=None, radius=None):
     s = get_new_coords(center, sp_dist, 180)[0]
     w = get_new_coords(center, sp_dist, 270)[1]
     return (n, e, s, w)
-
-
-def perform_pgscout(p):
-    pokemon_id = p.pokemon_data.pokemon_id
-    pokemon_name = get_pokemon_name(pokemon_id)
-    log.info("PGScouting a {} at {}, {}.".format(pokemon_name, p.latitude,
-                                                  p.longitude))
-
-    # Prepare Pokemon object
-    pkm = Pokemon()
-    pkm.pokemon_id = pokemon_id
-    pkm.encounter_id = p.encounter_id
-    pkm.spawnpoint_id = int(p.spawn_point_id, 16)
-    pkm.latitude = p.latitude
-    pkm.longitude = p.longitude
-    pokemon_display = p.pokemon_data.pokemon_display
-    pkm.weather_boosted_condition = pokemon_display.weather_boosted_condition
-    scout_result = pgscout_encounter(pkm)
-    if scout_result['success']:
-        log.info(
-            "Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
-            " (scout level {}).".format(
-                scout_result['iv_percent'], scout_result['level'],
-                pokemon_name, scout_result['cp'], scout_result['scout_level']))
-    else:
-        log.warning("Failed PGScouting {}: {}".format(pokemon_name,
-                                                       scout_result['error']))
-    return scout_result
 
 def parse_gyms(args, gym_responses, wh_update_queue, db_update_queue):
     gym_details = {}
