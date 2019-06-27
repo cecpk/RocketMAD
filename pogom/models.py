@@ -30,12 +30,6 @@ from .utils import (get_pokemon_name, get_pokemon_types,
                     get_move_type, calc_pokemon_level, peewee_attr_to_col)
 from .transform import transform_from_wgs_to_gcj, get_new_coords
 
-from pgoapi.protos.pogoprotos.map.weather.gameplay_weather_pb2 import (
-    GameplayWeather)
-from pgoapi.protos.pogoprotos.map.weather.weather_alert_pb2 import (
-    WeatherAlert)
-from pgoapi.protos.pogoprotos.networking.responses\
-    .get_map_objects_response_pb2 import GetMapObjectsResponse
 from functools import reduce
 
 log = logging.getLogger(__name__)

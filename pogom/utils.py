@@ -8,7 +8,6 @@ import configargparse
 import os
 import json
 import logging
-import random
 import time
 import socket
 import struct
@@ -101,11 +100,6 @@ def get_args():
     parser.add_argument('-c', '--china',
                         help='Coordinates transformer for China.',
                         action='store_true')
-    parser.add_argument('-nfl', '--no-fixed-location',
-                        help='Disables a fixed map location and shows the ' +
-                        'search bar for use in shared maps.',
-                        action='store_false', dest='fixed_location',
-                        default=True)
     parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
                         action='store_true', default=False)
     parser.add_argument('-cd', '--clear-db',
@@ -279,7 +273,7 @@ def get_args():
     if args.location is None:
         parser.print_usage()
         print((sys.argv[0] +
-              ": error: arguments -l/--location is required."))
+               ": error: arguments -l/--location is required."))
         sys.exit(1)
 
     args.locales_dir = 'static/dist/locales'
@@ -624,7 +618,6 @@ def check_output_catch(command):
 # or 'censored_tag' if not.
 def _censor_args_namespace(args, censored_tag, empty_tag):
     fields_to_censor = [
-        'proxy',
         'config',
         'db',
         'log_path',

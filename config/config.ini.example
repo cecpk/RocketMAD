@@ -46,18 +46,16 @@
 #db-cleanup-forts               # Clear gyms and pokestops from database X hours after last valid scan. Default: 0, 0 to disable.
 
 
-# Pokemon IV (Only use one of the filters below)
-################################################
+# Pokemon IV
+############
 
 #encounter                      # Set to true to start encounters to pull more info, like IVs or movesets. (default=False)
-#medalpokemon                   # Show notify for tiny rattata and big magikarp on map
+#medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
 
 # Webserver settings
 ####################
 
 #locale:                        # Pokemon translation
-#no-fixed-location              # Disables the fixed map location and shows the search bar for use in shared maps.
-#access-logs                    # Write web logs to console and log file.
 #cors                           # Enable CORS on web server.
 #ssl-certificate:               # Path to ssl certificate
 #ssl-privatekey:                # Path to ssl private key
@@ -72,6 +70,7 @@
 #################
 
 #status-name:                   # Enables writing status updates to the database - if you use multiple processes, each needs a unique value. (default=None)
+#access-logs                    # Write web logs to console and log file. (default=False)
 #no-file-logs                   # Disables logging to files except for access.log. (default=False)
 #log-path:                      # Defines the path logs are saved at. (default=logs/)
 #log-filename:                  # Defines the log filename to be saved. The default generates yyyymmdd_HHMM_statusname.log. (default=%Y%m%d_%H%M_<SN>)

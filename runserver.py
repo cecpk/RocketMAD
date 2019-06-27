@@ -8,9 +8,7 @@ import re
 import ssl
 import requests
 
-from distutils.version import StrictVersion
-
-from threading import Thread, Event
+from threading import Thread
 
 from queue import Queue
 from flask_cors import CORS
@@ -24,8 +22,8 @@ from pogom.utils import (get_args, now, init_dynamic_images,
                          dynamic_rarity_refresher, get_pos_by_name)
 
 from pogom.models import (init_database, create_tables, drop_tables,
-                          db_updater, clean_db_loop,
-                          verify_table_encoding, verify_database_schema)
+                          clean_db_loop, verify_table_encoding,
+                          verify_database_schema)
 
 from time import strftime
 
@@ -78,17 +76,6 @@ stderr_hdlr.setLevel(logging.WARNING)
 log = logging.getLogger()
 log.addHandler(stdout_hdlr)
 log.addHandler(stderr_hdlr)
-
-
-# Assert pgoapi is installed.
-try:
-    import pgoapi
-    from pgoapi import PGoApi
-except ImportError:
-    log.critical(
-        "It seems `pgoapi` is not installed. Try running "
-        "pip install --upgrade -r requirements.txt.")
-    sys.exit(1)
 
 
 # Patch to make exceptions in threads cause an exception.
@@ -222,8 +209,9 @@ def extract_coordinates(location):
 def main():
     py_version = sys.version_info
     if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
-        print("RocketMap requires at least python 3.6! Your version: {}.{}"
-              .format(py_version.major, py_version.minor))
+        log.critical("RocketMap requires at least python 3.6! " +
+                     "Your version: {}.{}"
+                     .format(py_version.major, py_version.minor))
         sys.exit(1)
 
     # Patch threading to make exceptions catchable.
@@ -253,7 +241,7 @@ def main():
                  hastebin_id)
         sys.exit(1)
 
-    # Let's not forget to run Grunt / Only needed when running with webserver.
+    # Let's not forget to run Grunt.
     if not validate_assets(args):
         sys.exit(1)
 
@@ -278,28 +266,9 @@ def main():
                     root_path=os.path.dirname(
                         os.path.abspath(__file__)))
         app.before_request(app.validate_request)
-        app.set_current_location(position)
+        app.set_location(position)
 
     db = startup_db(app, args.clear_db)
-
-    heartbeat = [now()]
-
-    # Setup the location tracking queue and push the first location on.
-    new_location_queue = Queue()
-    new_location_queue.put(position)
-
-    # DB Updates
-    db_updates_queue = Queue()
-    if app:
-        app.set_db_updates_queue(db_updates_queue)
-
-    # Thread(s) to process database updates.
-    for i in range(args.db_threads):
-        log.debug('Starting db-updater worker thread %d', i)
-        t = Thread(target=db_updater, name='db-updater-{}'.format(i),
-                   args=(db_updates_queue, db))
-        t.daemon = True
-        t.start()
 
     # Database cleaner; really only need one ever.
     if args.db_cleanup:
@@ -324,8 +293,6 @@ def main():
     cache_buster = CacheBuster()
     cache_buster.init_app(app)
 
-    app.set_heartbeat_control(heartbeat)
-    app.set_location_queue(new_location_queue)
     ssl_context = None
     if (args.ssl_certificate and args.ssl_privatekey and
             os.path.exists(args.ssl_certificate) and
@@ -369,10 +336,7 @@ def set_log_and_verbosity(log):
     # These are very noisy, let's shush them up a bit.
     logging.getLogger('peewee').setLevel(logging.INFO)
     logging.getLogger('requests').setLevel(logging.WARNING)
-    logging.getLogger('pgoapi.pgoapi').setLevel(logging.WARNING)
-    logging.getLogger('pgoapi.rpc_api').setLevel(logging.INFO)
     logging.getLogger('werkzeug').setLevel(logging.ERROR)
-    logging.getLogger('pogom.apiRequests').setLevel(logging.INFO)
 
     # This sneaky one calls log.warning() on every retry.
     urllib3_logger = logging.getLogger(requests.packages.urllib3.__package__)
@@ -380,18 +344,13 @@ def set_log_and_verbosity(log):
 
     # Turn these back up if debugging.
     if args.verbose >= 2:
-        logging.getLogger('pgoapi').setLevel(logging.DEBUG)
-        logging.getLogger('pgoapi.pgoapi').setLevel(logging.DEBUG)
         logging.getLogger('requests').setLevel(logging.DEBUG)
         urllib3_logger.setLevel(logging.INFO)
 
     if args.verbose >= 3:
         logging.getLogger('peewee').setLevel(logging.DEBUG)
-        logging.getLogger('rpc_api').setLevel(logging.DEBUG)
-        logging.getLogger('pgoapi.rpc_api').setLevel(logging.DEBUG)
         logging.getLogger('werkzeug').setLevel(logging.DEBUG)
         logging.addLevelName(5, 'TRACE')
-        logging.getLogger('pogom.apiRequests').setLevel(5)
 
     # Web access logs.
     if args.access_logs:

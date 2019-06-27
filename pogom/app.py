@@ -18,10 +18,9 @@ from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
 from pogom.weather import (get_weather_cells,
                            get_s2_coverage, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
-                     MainWorker, WorkerStatus, Token, HashKeys,
-                     SpawnPoint, Trs_Quest)
-from .utils import (get_args, get_pokemon_name, get_pokemon_types,
-                    now, dottedQuadToNum)
+                     WorkerStatus, Token, SpawnPoint)
+from .utils import (get_args, get_pokemon_name, get_pokemon_types, now,
+                    dottedQuadToNum)
 from .client_auth import check_auth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
@@ -52,6 +51,7 @@ def convert_pokemon_list(pokemon):
 
 
 class Pogom(Flask):
+
     def __init__(self, import_name, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
         compress.init_app(self)
@@ -79,8 +79,6 @@ class Pogom(Flask):
         self.route("/", methods=['GET'])(self.fullmap)
         self.route("/auth_callback", methods=['GET'])(self.auth_callback)
         self.route("/raw_data", methods=['GET'])(self.raw_data)
-        self.route("/loc", methods=['GET'])(self.loc)
-        self.route("/next_loc", methods=['POST'])(self.next_loc)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
         self.route("/stats", methods=['GET'])(self.get_stats)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
@@ -90,7 +88,6 @@ class Pogom(Flask):
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
-        self.route("/<statusname>", methods=['GET'])(self.fullmap)
 
     def gym_img(self):
         team = request.args.get('team')
@@ -100,16 +97,19 @@ class Pogom(Flask):
         form = request.args.get('form')
         is_in_battle = 'in_battle' in request.args
 
-        if (level == None or raidlevel == None):
-            return send_file(get_gym_icon(
-                team, level, raidlevel, pkm, is_in_battle, form), mimetype='image/png')
+        if (level is None or raidlevel is None):
+            return send_file(
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form),
+                mimetype='image/png')
 
-        elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or int(raidlevel) > 5):
+        elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or
+              int(raidlevel) > 5):
             return abort(416)
 
         else:
-            return send_file(get_gym_icon(
-                team, level, raidlevel, pkm, is_in_battle, form), mimetype='image/png')
+            return send_file(
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form),
+                mimetype='image/png')
 
     def pokemon_img(self):
         raw = 'raw' in request.args
@@ -177,23 +177,13 @@ class Pogom(Flask):
 
         return start <= dottedQuadToNum(ip) <= end
 
-    def set_db_updates_queue(self, db_updates_queue):
-        self.db_updates_queue = db_updates_queue
+    def set_location(self, location):
+        self.location = location
 
-    def set_heartbeat_control(self, heartb):
-        self.heartbeat = heartb
-
-    def set_location_queue(self, queue):
-        self.location_queue = queue
-
-    def set_current_location(self, location):
-        self.current_location = location
-
-    def auth_callback(self, statusname=None):
+    def auth_callback(self):
         return render_template('auth_callback.html')
 
-    def fullmap(self, statusname=None):
-        self.heartbeat[0] = now()
+    def fullmap(self):
         args = get_args()
 
         visibility_flags = {
@@ -203,28 +193,16 @@ class Pogom(Flask):
             'raids': not args.no_raids,
             'gym_info': args.gym_info,
             'encounter': args.encounter,
-            'fixed_display': not args.fixed_location,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,
             'medalpokemon': args.medalpokemon,
             'madmin': args.madmin_url is not None
         }
 
-        map_lat = False
-        if statusname:
-            coords = WorkerStatus.get_center_of_worker(statusname)
-            if coords:
-                map_lat = coords['lat']
-                map_lng = coords['lng']
-
-        if not map_lat:
-            map_lat = self.current_location[0]
-            map_lng = self.current_location[1]
-
         return render_template(
             'map.html',
-            lat=map_lat,
-            lng=map_lng,
+            lat=self.location[0],
+            lng=self.location[1],
             showAllZoomLevel=args.show_all_zoom_level,
             generateImages=str(args.generate_images).lower(),
             lang=args.locale,
@@ -243,7 +221,6 @@ class Pogom(Flask):
             log.debug('User denied access: blacklisted fingerprint.')
             abort(403)
 
-        self.heartbeat[0] = now()
         args = get_args()
         d = {}
 
@@ -305,9 +282,10 @@ class Pogom(Flask):
         if request.args.get('spawnpoints', 'false') == 'true':
             d['lastspawns'] = request.args.get('spawnpoints', 'false')
 
-        if (oSwLat is not None and oSwLng is not None
-                and oNeLat is not None and oNeLng is not None):
-            # If old coords are not equal to current coords we have moved/zoomed!
+        if (oSwLat is not None and oSwLng is not None and
+                oNeLat is not None and oNeLng is not None):
+            # If old coords are not equal to current coords we have
+            # moved/zoomed!
             if (oSwLng < swLng and oSwLat < swLat and
                     oNeLat > neLat and oNeLng > neLng):
                 newArea = False  # We zoomed in no new area uncovered.
@@ -388,8 +366,6 @@ class Pogom(Flask):
                                            oNeLat=oNeLat, oNeLng=oNeLng,
                                            lured=luredonly))
 
-        #d['quests'] = Trs_Quest.get_quests()
-
         if request.args.get('gyms', 'true') == 'true' and not args.no_gyms:
             if lastgyms != 'true':
                 d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng)
@@ -454,45 +430,14 @@ class Pogom(Flask):
 
         return jsonify(d)
 
-    def loc(self):
-        d = {}
-        d['lat'] = self.current_location[0]
-        d['lng'] = self.current_location[1]
-
-        return jsonify(d)
-
-    def next_loc(self):
-        args = get_args()
-        if args.fixed_location:
-            return 'Location changes are turned off', 403
-        lat = None
-        lon = None
-        # Part of query string.
-        if request.args:
-            lat = request.args.get('lat', type=float)
-            lon = request.args.get('lon', type=float)
-        # From post requests.
-        if request.form:
-            lat = request.form.get('lat', type=float)
-            lon = request.form.get('lon', type=float)
-
-        if not (lat and lon):
-            log.warning('Invalid next location: %s,%s', lat, lon)
-            return 'bad parameters', 400
-        else:
-            self.location_queue.put((lat, lon, 0))
-            self.set_current_location((lat, lon, 0))
-            log.info('Changing next location: %s,%s', lat, lon)
-            return self.loc()
-
     def list_pokemon(self):
         # todo: Check if client is Android/iOS/Desktop for geolink, currently
         # only supports Android.
         pokemon_list = []
 
         # Allow client to specify location.
-        lat = request.args.get('lat', self.current_location[0], type=float)
-        lon = request.args.get('lon', self.current_location[1], type=float)
+        lat = request.args.get('lat', self.location[0], type=float)
+        lon = request.args.get('lon', self.location[1], type=float)
         origin_point = LatLng.from_degrees(lat, lon)
 
         for pokemon in convert_pokemon_list(
@@ -545,8 +490,8 @@ class Pogom(Flask):
 
         return render_template(
             'statistics.html',
-            lat=self.current_location[0],
-            lng=self.current_location[1],
+            lat=self.location[0],
+            lng=self.location[1],
             generateImages=str(args.generate_images).lower(),
             show=visibility_flags)
 
@@ -555,6 +500,7 @@ class Pogom(Flask):
         gym = Gym.get_gym(gym_id)
 
         return jsonify(gym)
+
 
 class CustomJSONEncoder(JSONEncoder):
 

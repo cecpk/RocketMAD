@@ -277,26 +277,6 @@ function initMap() { // eslint-disable-line no-unused-vars
     map.addLayer(markers)
     markersnotify = L.layerGroup().addTo(map)
 
-    if (showConfig.fixed_display) {
-        var GeoSearchControl = window.GeoSearch.GeoSearchControl
-        var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
-        var provider = new OpenStreetMapProvider()
-
-        const search = new GeoSearchControl({
-            provider: provider,
-            position: 'bottomright',
-            autoClose: true,
-            keepResult: false,
-            showMarker: false
-        })
-
-        map.addControl(search)
-
-        map.on('geosearch/showlocation', function (e) {
-            changeLocation(e.location.y, e.location.x)
-        })
-    }
-
     map.on('zoom', function () {
         if (storeZoom === true) {
             Store.set('zoomLevel', map.getZoom())
@@ -335,11 +315,6 @@ function initMap() { // eslint-disable-line no-unused-vars
     }
     createMyLocationButton()
     initSidebar()
-
-    $('#scan-here').on('click', function () {
-        var loc = map.getCenter()
-        changeLocation(loc.lat, loc.lng)
-    })
 
     $('#tabs_marker').tabs()
     $('#tabs_notify').tabs()
@@ -435,23 +410,6 @@ function createSearchMarker() {
     const isSearchMarkerMovable = Store.get('isSearchMarkerMovable')
     var searchMarker = L.marker([centerLat, centerLng], {draggable: !Store.get('lockMarker') && isSearchMarkerMovable}).addTo(markersnotify).bindPopup('<div><b>Search Location</b></div>')
     addListeners(searchMarker)
-    var oldLocation = null
-    searchMarker.on('dragstart', function () {
-        oldLocation = searchMarker.getLatLng()
-    })
-
-    searchMarker.on('dragend', function () {
-        var newLocation = searchMarker.getLatLng()
-        changeSearchLocation(newLocation.lat, newLocation.lng)
-            .done(function () {
-                oldLocation = null
-            })
-            .fail(function () {
-                if (oldLocation) {
-                    searchMarker.setLatLng(oldLocation)
-                }
-            })
-    })
 
     return searchMarker
 }
@@ -483,8 +441,6 @@ function initSidebar() {
     $('#lock-marker-switch').prop('checked', Store.get('lockMarker'))
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
     $('#follow-my-location-switch').prop('checked', Store.get('followMyLocation'))
-    $('#scan-here-switch').prop('checked', Store.get('scanHere'))
-    $('#scan-here').toggle(Store.get('scanHere'))
     $('#scanned-switch').prop('checked', Store.get('showScanned'))
     $('#spawnpoints-switch').prop('checked', Store.get('showSpawnpoints'))
     $('#ranges-switch').prop('checked', Store.get('showRanges'))
@@ -2507,20 +2463,6 @@ function centerMapOnLocation() {
     }
 }
 
-function changeLocation(lat, lng) {
-    var loc = new L.LatLng(lat, lng)
-    changeSearchLocation(lat, lng).done(function () {
-        map.panTo(loc)
-        if (searchMarker) {
-            searchMarker.setLatLng(loc)
-        }
-    })
-}
-
-function changeSearchLocation(lat, lng) {
-    return $.post('next_loc?lat=' + lat + '&lon=' + lng, {})
-}
-
 function centerMap(lat, lng, zoom) {
     var loc = new L.LatLng(lat, lng)
 
@@ -3763,15 +3705,6 @@ $(function () {
                 locationMarker.draggable = isMarkerMovable
             }
         }
-    })
-
-    $('#scan-here-switch').change(function () {
-        if (this.checked && !Store.get('scanHereAlerted')) {
-            alert('Use this feature carefully ! This button will set the current map center as new search location. This may cause worker to teleport long range.')
-            Store.set('scanHereAlerted', true)
-        }
-        $('#scan-here').toggle(this.checked)
-        Store.set('scanHere', this.checked)
     })
 
     if ($('#nav-accordion').length) {

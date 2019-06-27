@@ -169,7 +169,8 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form):
         form_extension = "_F{}".format(form) if form else ""
         out_filename = os.path.join(
             path_generated_gym,
-            "{}_L{}_R{}_P{}{}.png".format(team, level, raidlevel, pkm, form_extension)
+            "{}_L{}_R{}_P{}{}.png".format(team, level, raidlevel, pkm,
+                                          form_extension)
         )
         im_lines.extend(draw_raid_pokemon(pkm, form))
         im_lines.extend(draw_raid_level(int(raidlevel)))
@@ -227,7 +228,7 @@ def draw_gym_level(level, team):
 
 def draw_raid_level(raidlevel):
     return draw_badge(
-        badge_upper_right, raid_colors[int((raidlevel -1) / 2)], "white",
+        badge_upper_right, raid_colors[int((raidlevel - 1) / 2)], "white",
         raidlevel)
 
 
