@@ -365,8 +365,7 @@ class Pogom(Flask):
             'fixed_display': not args.fixed_location,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,
-            'medalpokemon': args.medalpokemon,
-            'madmin': args.madmin_url is not None
+            'medalpokemon': args.medalpokemon
         }
 
         map_lat = False
@@ -389,6 +388,7 @@ class Pogom(Flask):
             lang=args.locale,
             show=visibility_flags,
             rarityFileName=args.rarity_filename,
+            mapTitle=args.map_title,
             madminUrl=args.madmin_url)
 
     def raw_data(self):
