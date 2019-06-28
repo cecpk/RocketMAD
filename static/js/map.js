@@ -672,7 +672,7 @@ function pokemonLabel(item) {
     }
 
     if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
-        formDisplay += `<span class='title-text'>(${i8ln(idToPokemon[id].forms[form].formName)})</span>`
+        formDisplay += `(${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 
     if (pokemonRarity) {
