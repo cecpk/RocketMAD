@@ -875,7 +875,7 @@ function gymLabel(gym) {
 
             let gender = '';
             if (raid.gender) {
-                gender = raid.gender - 1;
+                gender = genderType[raid.gender - 1];
             }
 
             raidDisplay = `
