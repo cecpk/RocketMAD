@@ -854,7 +854,7 @@ function gymLabel(gym) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid)
 
             let pokemonName = raid.pokemon_name;
-            if (raid.form && 'forms' in idToPokemon[raid.pokemon_id] && raid.form in idToPokemon[raid.pokemon_id].forms) {
+            if (raid.form && 'forms' in idToPokemon[raid.pokemon_id] && raid.form in idToPokemon[raid.pokemon_id].forms && idToPokemon[raid.pokemon_id].forms[raid.form].formName !== '') {
                 pokemonName += ` (${i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].formName)})`;
             }
 
