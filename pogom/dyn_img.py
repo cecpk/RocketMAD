@@ -80,7 +80,8 @@ badge_lower_right = (
 team_colors = {
     "Mystic": "\"rgb(30,160,225)\"",
     "Valor": "\"rgb(255,26,26)\"",
-    "Instinct": "\"rgb(255,190,8)\""
+    "Instinct": "\"rgb(255,190,8)\"",
+    "Uncontested": "\"rgb(255,255,255)\""
 }
 raid_colors = [
     "\"rgb(252,112,176)\"", "\"rgb(255,158,22)\"", "\"rgb(184,165,221)\""
