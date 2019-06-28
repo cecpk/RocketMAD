@@ -672,7 +672,7 @@ function pokemonLabel(item) {
     }
 
     if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
-        formDisplay += `<span class='title-text'>(${i8ln(idToPokemon[id].forms[form].formName)})</span>`
+        formDisplay += `(${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 
     if (pokemonRarity) {
@@ -737,7 +737,7 @@ function pokemonLabel(item) {
 
     return `
     <div class='pokemon title'>
-      <span class='title-text'>${name} ${genderType[gender - 1]}</span> <a class='title-text' href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a> ${formDisplay}${weatherBoostDisplay}
+      <span class='title-text'>${name} ${formDisplay} ${genderType[gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span>${weatherBoostDisplay}
     </div>
     <div class='pokemon container'>
       <div class='pokemon container content-left'>
