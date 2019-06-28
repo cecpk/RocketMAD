@@ -292,20 +292,19 @@ def get_args():
                               'starting the Webserver.'),
                         action='store_true', default=False)
     parser.add_argument('-np', '--no-pokemon',
-                        help=('Disables Pokemon from the map (including ' +
-                              'parsing them into local db.)'),
+                        help=('Disables Pokemon from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-ng', '--no-gyms',
-                        help=('Disables Gyms from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables Gyms from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-nr', '--no-raids',
-                        help=('Disables Raids from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables Raids from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-nk', '--no-pokestops',
-                        help=('Disables PokeStops from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables PokeStops from the map.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nq', '--no-quests',
+                        help=('Disables quests from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-ss', '--spawnpoint-scanning',
                         help=('Use spawnpoint scanning (instead of hex ' +

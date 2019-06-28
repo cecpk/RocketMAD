@@ -70,6 +70,14 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'remember_select_exclude_quest_pokemon': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'remember_select_exclude_quest_items': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'remember_select_notify': {
         default: [],
         type: StoreTypes.JSON
@@ -165,6 +173,10 @@ var StoreOptions = {
     'showLuredPokestopsOnly': {
         default: 0,
         type: StoreTypes.Number
+    },
+    'showQuests': {
+        default: false,
+        type: StoreTypes.Boolean
     },
     'showScanned': {
         default: false,

@@ -396,24 +396,18 @@ class Pokestop(LatLongModel):
     @staticmethod
     def get_stops(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
                   oSwLng=None, oNeLat=None, oNeLng=None, lured=False):
-
-
-
-
-        query = Pokestop.select(Pokestop.active_fort_modifier,
-                                Pokestop.enabled, Pokestop.latitude,
-                                Pokestop.longitude, Pokestop.last_modified,
-                                Pokestop.lure_expiration, Pokestop.pokestop_id, Trs_Quest.quest_task,
-                                Trs_Quest.quest_type, Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
-                                Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id, Trs_Quest.quest_item_amount,
-                                Trs_Quest.quest_target, Trs_Quest.quest_timestamp, Pokestop.name, Pokestop.image)
-
-        query = (query
-                    .join(Trs_Quest, JOIN.LEFT_OUTER,
-                    on=(Pokestop.pokestop_id == Trs_Quest.GUID))
-                )
-
-
+        query = (Pokestop
+                 .select(Pokestop.pokestop_id, Pokestop.name, Pokestop.enabled,
+                         Pokestop.latitude, Pokestop.longitude,
+                         Pokestop.last_modified, Pokestop.active_fort_modifier,
+                         Pokestop.lure_expiration, Pokestop.image,
+                         Trs_Quest.quest_task, Trs_Quest.quest_type,
+                         Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
+                         Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id,
+                         Trs_Quest.quest_item_amount, Trs_Quest.quest_target,
+                         Trs_Quest.quest_timestamp)
+                 .join(Trs_Quest, JOIN.LEFT_OUTER,
+                       on=(Pokestop.pokestop_id == Trs_Quest.GUID)))
 
         if not (swLat and swLng and neLat and neLng):
             query = (query
