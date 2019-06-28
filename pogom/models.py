@@ -400,7 +400,7 @@ class Pokestop(LatLongModel):
                  .select(Pokestop.pokestop_id, Pokestop.name, Pokestop.enabled,
                          Pokestop.latitude, Pokestop.longitude,
                          Pokestop.last_modified, Pokestop.active_fort_modifier,
-                         Pokestop.lure_expiration, Pokestop.Image,
+                         Pokestop.lure_expiration, Pokestop.image,
                          Trs_Quest.quest_task, Trs_Quest.quest_type,
                          Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
                          Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id,

@@ -2030,17 +2030,17 @@ function processPokemon(item) {
 function isPokestopSatisfiesFilters(pokestop) {
     if (Store.get('showQuests') && pokestop['quest_raw']['quest_reward_type_raw']) {
         switch(pokestop['quest_raw']['quest_reward_type_raw']) {
-            case 2:
+            case '2':
                 if (excludedQuestItems.indexOf(parseInt(pokestop['quest_raw']['item_id'])) === -1) {
                     return true
                 }
                 break
-            case 3:
+            case '3':
                 if (excludedQuestItems.indexOf(6) === -1) {
                     return true
                 }
                 break
-            case 7:
+            case '7':
                 if (excludedQuestPokemon.indexOf(parseInt(pokestop['quest_raw']['pokemon_id'])) === -1) {
                     return true
                 }
@@ -2114,12 +2114,11 @@ function processPokestop(i, pokestop) {
         return false // in case the checkbox was unchecked in the meantime.
     }
 
-    if (!isPokestopSatisfiesFilters(pokestop)) {
-        removePokestop(pokestop)
-        return true
-	  }
-
     if (!mapData.pokestops[pokestop['pokestop_id']]) {
+        if (!isPokestopSatisfiesFilters(pokestop)) {
+            return true
+        }
+
         // New pokestop, add marker to map and item to dict.
         if (pokestop.marker && pokestop.marker.rangeCircle) {
             markers.removeLayer(pokestop.marker.rangeCircle)
