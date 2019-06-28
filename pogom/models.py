@@ -38,7 +38,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 31
+db_schema_version = 32
 
 
 class RetryOperationalError(object):
@@ -383,24 +383,18 @@ class Pokestop(LatLongModel):
     @staticmethod
     def get_stops(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
                   oSwLng=None, oNeLat=None, oNeLng=None, lured=False):
-
-
-
-
-        query = Pokestop.select(Pokestop.active_fort_modifier,
-                                Pokestop.enabled, Pokestop.latitude,
-                                Pokestop.longitude, Pokestop.last_modified,
-                                Pokestop.lure_expiration, Pokestop.pokestop_id, Trs_Quest.quest_task,
-                                Trs_Quest.quest_type, Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
-                                Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id, Trs_Quest.quest_item_amount,
-                                Trs_Quest.quest_target, Trs_Quest.quest_timestamp, Pokestop.name, Pokestop.image)
-
-        query = (query
-                    .join(Trs_Quest, JOIN.LEFT_OUTER,
-                    on=(Pokestop.pokestop_id == Trs_Quest.GUID))
-                )
-
-
+        query = (Pokestop
+                 .select(Pokestop.pokestop_id, Pokestop.name, Pokestop.enabled,
+                         Pokestop.latitude, Pokestop.longitude,
+                         Pokestop.last_modified, Pokestop.active_fort_modifier,
+                         Pokestop.lure_expiration, Pokestop.image,
+                         Trs_Quest.quest_task, Trs_Quest.quest_type,
+                         Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
+                         Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id,
+                         Trs_Quest.quest_item_amount, Trs_Quest.quest_target,
+                         Trs_Quest.quest_timestamp)
+                 .join(Trs_Quest, JOIN.LEFT_OUTER,
+                       on=(Pokestop.pokestop_id == Trs_Quest.GUID)))
 
         if not (swLat and swLng and neLat and neLng):
             query = (query
@@ -744,6 +738,7 @@ class Raid(BaseModel):
     last_scanned = DateTimeField(default=datetime.utcnow, index=True)
     form = SmallIntegerField(null=True)
     is_exclusive = BooleanField(null=True)
+    gender = SmallIntegerField(null=True)
 
 
 class LocationAltitude(LatLongModel):
@@ -3056,6 +3051,17 @@ def database_migrate(db, old_ver):
                     'raid',
                     'is_exclusive',
                     BooleanField(null=True)
+                )
+            )
+
+    if old_ver < 32:
+        # Column might already exist if created by MAD
+        if not does_column_exist(db, 'raid', 'gender'):
+            migrate(
+                migrator.add_column(
+                    'raid',
+                    'gender',
+                    SmallIntegerField(null=True)
                 )
             )
 

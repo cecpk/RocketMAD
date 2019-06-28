@@ -2,7 +2,7 @@
 <html lang="{{lang}}">
   <head>
     <meta charset="utf-8">
-    <title>RocketMap</title>
+    <title>{{ mapTitle }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -44,9 +44,9 @@
       <!-- Header -->
       <header id="header">
         <a href="#nav"><span class="label">Options</span></a>
-        <h1><a href="./">RocketMap<img class='rocket icon' src='static/images/rocket.png'></a></h1>
+        <h1><a href="./">{{ mapTitle }}<img class='rocket icon' src='static/images/rocket.png'></a></h1>
         <a href="#stats" id="statsToggle" class="statsNav" style="float: right;"><span class="label">Stats</span></a>
-          {% if show.madmin %}
+          {% if madminUrl %}
         <a href="{{ madminUrl }}" id="madmin" target="_blank" style="float: right;"><span class="label">MADmin</span></a>
           {% endif %}
         <span id="weatherInfo" style="float: right; vertical-align: middle;"></span>
@@ -237,12 +237,56 @@
             <div class="form-control switch-container" id="lured-pokestops-only-wrapper" style="display:none">
               <select name="lured-pokestops-only-switch" id="lured-pokestops-only-switch">
                 <option value="0">All</option>
-                <option value="1">Only Lured</option>
-				<option value="2">Only Quest (All)</option>
-                <option value="3">Only Quest (Rare Candy)</option>
-                <option value="4">Only Quest (Silver Pinap)</option>
-				<option value="5">Only Quest (Spinda)</option>
+                <option value="1">Lured Only</option>
+                <option value="2">Normal Lured Only</option>
+                <option value="3">Glacial Lured Only</option>
+                <option value="4">Magnetic Lured Only</option>
+                <option value="5">Mossy Lured Only</option>
               </select>
+            </div>
+              {% endif %}
+              {% if show.quests %}
+            <div class="form-control switch-container">
+              <h3>Quests</h3>
+              <div class="onoffswitch">
+                <input id="quests-switch" type="checkbox" name="quests-switch" class="onoffswitch-checkbox" checked>
+                <label class="onoffswitch-label" for="quests-switch">
+                <span class="switch-label" data-on="On" data-off="Off"></span>
+                <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
+            <div class="form-control switch-container" id="quests-filter-wrapper" style="display:none">
+              <div class="quest-filter-active">*** No active Filter ***</div>
+              <div id="tabs_quest">
+               <ul id="tabs_quest_ul">
+                <li><a href="#tabs_quest-1">Hide Quest Pokémon</a></li>
+                <li><a href="#tabs_quest-2">Hide Quest Items</a></li>
+               </ul>
+                <div id="tabs_quest-1">
+                 <div class="form-control">
+                  <label for="exclude-quest-pokemon">
+                   <div class="pokemon-container">
+                    <input id="exclude-quest-pokemon" type="text" readonly="true" style="display:none;" >
+                    <div class="list"></div>
+                    <a href="#" class="select-all" style="display:none;">Hide filtered</a><a href="#" class="select-reverse" style="display:none;">Hide not filtered</a>
+                    <a href="#" class="hide-all">Show all</a>
+                   </div>
+                  </label>
+                 </div>
+                </div>
+                <div id="tabs_quest-2">
+                 <div class="form-control">
+                  <label for="exclude-quest-items">
+                   <div class="quest-item-container">
+                     <input id="exclude-quest-items" type="text" readonly="true" style="display:none;" >
+                     <div class="quest-item-list"></div>
+                     <a href="#" class="quest-item-show-all">Show all</a>
+                    </div>
+                  </label>
+                 </div>
+                </div>
+              </div>
             </div>
               {% endif %}
             <div class="form-control switch-container">
@@ -277,16 +321,16 @@
             </div>
               {% if show.pokemons %}
             <div class="form-control switch-container">
-            <div class="hidefilteractiv" style="color:black; font-weight: bold; font-size: x-small;">*** No active Filter ***</div>
+            <div class="pokemon-filter-active">*** No active Filter ***</div>
             <div id="tabs_marker">
              <ul id="tabs_marker_ul">
-              <li><a href="#tabs_marker-1">Hide Pokemon</a></li>
+              <li><a href="#tabs_marker-1">Hide Pokémon</a></li>
               <li><a href="#tabs_marker-2">Hide Presets</a></li>
              </ul>
               <div id="tabs_marker-1">
                <div class="form-control">
                 <label for="exclude-pokemon">
-                 <div class=pokemon-container>
+                 <div class="pokemon-container">
                   <input id="exclude-pokemon" type="text" readonly="true" style="display:none;" >
                   <div class="list"></div>
                   <a href="#" class="select-all" style="display:none;">Hide filtered</a><a href="#" class="select-reverse" style="display:none;">Hide not filtered</a>
@@ -297,8 +341,8 @@
               </div>
               <div id="tabs_marker-2">
                <div class="form-control">
-                <label for="exclude-pokemon">
-                 <div class=pokemon-container>
+                <label for="exclude-items">
+                 <div class="pokemon-container">
                    <div class="exclude_templates"></div>
                   </div>
                 </label>
@@ -380,6 +424,7 @@
             {% if show.pokemons %}
           <h3><i class="fa fa-bullhorn fa-fw"></i>Notification Settings</h3>
           <div>
+          <div class="notify-filter-active">*** No active Filter ***</div>
           <div id="tabs_notify">
            <ul id="tabs_notify_ul">
             <li><a href="#tabs_notify-10">Notify of Pokémon</a></li>
@@ -390,9 +435,8 @@
             <div class="form-control">
             <div class="notify-container">
              <h3>Notify of Pokémon</h3>
-             <div class="notifyfilteractiv" style="color:black; font-weight: bold; font-size: x-small;">*** No active Filter ***</div>
              <label for="notify-pokemon">
-              <div class=pokemon-container>
+              <div class="pokemon-container">
                <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
                <div class="list"></div>
                <a href="#" class="select-all">Notify selection</a><a href="#" class="hide-all">Notify none</a>

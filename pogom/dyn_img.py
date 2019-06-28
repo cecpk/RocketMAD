@@ -10,7 +10,7 @@ from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import (
     WeatherCondition, CLEAR, RAINY,
     PARTLY_CLOUDY, OVERCAST, WINDY, SNOW, FOG)
 
-from pogom.utils import get_pokemon_data
+from pogom.utils import get_args, get_pokemon_data
 
 log = logging.getLogger(__name__)
 
@@ -80,7 +80,8 @@ badge_lower_right = (
 team_colors = {
     "Mystic": "\"rgb(30,160,225)\"",
     "Valor": "\"rgb(255,26,26)\"",
-    "Instinct": "\"rgb(255,190,8)\""
+    "Instinct": "\"rgb(255,190,8)\"",
+    "Uncontested": "\"rgb(255,255,255)\""
 }
 raid_colors = [
     "\"rgb(252,112,176)\"", "\"rgb(255,158,22)\"", "\"rgb(184,165,221)\""
@@ -223,13 +224,17 @@ def draw_raid_egg(raidlevel):
 
 
 def draw_gym_level(level, team):
-    return draw_badge(badge_lower_right, team_colors[team], "white", level)
+    args = get_args()
+    fill_col = "black" if args.black_white_badges else team_colors[team]
+    return draw_badge(badge_lower_right, fill_col, "white", level)
 
 
 def draw_raid_level(raidlevel):
-    return draw_badge(
-        badge_upper_right, raid_colors[int((raidlevel - 1) / 2)], "white",
-        raidlevel)
+    args = get_args()
+    fill_col = ("white" if args.black_white_badges
+        else raid_colors[int((raidlevel - 1) / 2)])
+    text_col = "black" if args.black_white_badges else "white"
+    return draw_badge(badge_upper_right, fill_col, text_col, raidlevel)
 
 
 def draw_battle_indicator():

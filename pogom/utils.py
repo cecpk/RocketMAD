@@ -107,20 +107,19 @@ def get_args():
                               'starting the Webserver.'),
                         action='store_true', default=False)
     parser.add_argument('-np', '--no-pokemon',
-                        help=('Disables Pokemon from the map (including ' +
-                              'parsing them into local db.)'),
+                        help=('Disables Pokemon from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-ng', '--no-gyms',
-                        help=('Disables Gyms from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables Gyms from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-nr', '--no-raids',
-                        help=('Disables Raids from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables Raids from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-nk', '--no-pokestops',
-                        help=('Disables PokeStops from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables PokeStops from the map.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nq', '--no-quests',
+                        help=('Disables quests from the map.'),
                         action='store_true', default=False)
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
@@ -243,8 +242,15 @@ def get_args():
     parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
                         help=('Discord Bot Token for user ' +
                               'external authentication.'))
+    parser.add_argument('-mt', '--map-title',
+                        help=('The title of the map. Default: RocketMap'),
+                        default='RocketMap')
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)
+    parser.add_argument('-bwb', '--black-white-badges',
+                        help='Use black/white background with white/black' +
+                        ' text for gym/raid level badge in gym icons.',
+                        action='store_true', default=False)
     rarity = parser.add_argument_group('Dynamic Rarity')
     rarity.add_argument('-Rh', '--rarity-hours',
                         help=('Number of hours of Pokemon data to use' +

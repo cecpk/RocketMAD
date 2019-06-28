@@ -23,6 +23,7 @@
 #no-raids                       # Disables raid scanning (default=False)
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
+#map-title                      # Title of the map. (default='RocketMap')
 
 
 # Database settings
@@ -109,3 +110,4 @@
 
 #verbosity                      # Show debug messages from RocketMap and PGoApi. Values are 1,2,3 (default=0)
 #dump                           # Dump censored debug info about the environment and auto-upload to hastebin.com.
+#black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
