@@ -596,6 +596,9 @@ def get_args():
     parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
                         help=('Discord Bot Token for user ' +
                               'external authentication.'))
+    parser.add_argument('-mt', '--map-title',
+                        help=('The title of the map. Default: RocketMap'),
+                        default='RocketMap')
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)
     parser.add_argument('-bwb', '--black-white-badges',

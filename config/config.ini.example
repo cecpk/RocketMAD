@@ -41,6 +41,7 @@
 #captcha-solving                # Enables captcha solving. (default=False)
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
+#map-title                      # Title of the map. (default='RocketMap')
 
 
 # Database settings
