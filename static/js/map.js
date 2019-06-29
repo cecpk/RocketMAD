@@ -2127,12 +2127,6 @@ function processPokestop(i, pokestop) {
         }
 
         // New pokestop, add marker to map and item to dict.
-        if (pokestop.marker && pokestop.marker.rangeCircle) {
-            markers.removeLayer(pokestop.marker.rangeCircle)
-        }
-        if (pokestop.marker) {
-            markers.removeLayer(pokestop.marker)
-        }
         pokestop.marker = setupPokestopMarker(pokestop)
         mapData.pokestops[pokestop['pokestop_id']] = pokestop
     } else {
