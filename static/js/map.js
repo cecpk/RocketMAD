@@ -63,6 +63,8 @@ var buffer = []
 var reincludedPokemon = []
 var reids = []
 
+var luredPokestops = []
+
 // var map
 var markerCluster = window.markerCluster = {}
 var rawDataIsLoading = false
@@ -2102,11 +2104,11 @@ function updateLuredPokestops() {
     var currentTime = new Date().getTime()
     // Change lured pokestop marker to unlured when lure has expired.
     $.each(mapData.pokestops, function (key, pokestop) {
-        if (pokestop['lure_expiration'] && pokestop['lure_expiration'] < currentTime) {
-            pokestop['lure_expiration'] = null
-            pokestop['active_fort_modifier'] = null
+        if (pokestop.lure_expiration && pokestop.lure_expiration <= currentTime) {
+            mapData.pokestops[pokestop.pokestop_id].lure_expiration = null
+            mapData.pokestops[pokestop.pokestop_id].active_fort_modifier = null
             if (isPokestopSatisfiesFilters(pokestop)) {
-                updatePokestopMarker(pokestop, pokestop.marker)
+                updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
             } else {
                 removePokestop(pokestop)
             }
