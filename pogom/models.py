@@ -414,8 +414,8 @@ class Pokestop(LatLongModel):
                      .dicts())
         elif timestamp > 0:
             query = (query
-                     .where(((Pokestop.last_updated >
-                              datetime.utcfromtimestamp(timestamp / 1000))) &
+                     .where((Pokestop.last_updated >
+                             datetime.utcfromtimestamp(timestamp / 1000)) &
                             (Pokestop.latitude >= swLat) &
                             (Pokestop.longitude >= swLng) &
                             (Pokestop.latitude <= neLat) &
