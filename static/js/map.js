@@ -3239,7 +3239,7 @@ $(function () {
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         var pokemonIcon
         var typestring = []
-        var pokeList = []
+        var pokemonIds = []
 
         function populateLists(id, pokemonData) {
           if (generateImages) {
@@ -3269,6 +3269,7 @@ $(function () {
         var id
         for (id = 1; id <= numberOfPokemon; id++) {
             populateLists(id, data[id])
+            pokemonIds.push(id)
         }
         // Meltan and Melmetal
         populateLists(808, data[808])
@@ -3282,43 +3283,34 @@ $(function () {
 
         $('.list').on('click', '.pokemon-icon-sprite', function () {
             var img = $(this)
-            var select = $(this).parent().parent().find('input[id$=pokemon]')
-            var value = select.val().split(',')
-            $(this).find('.hidepreset').removeClass('active')
+            var inputElement = $(this).parent().parent().find('input[id$=pokemon]')
+            var value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
             var id = img.data('value').toString()
-            $('.hidepreset').removeClass('active')
             if (img.hasClass('active')) {
-                select.val(value.filter(function (elem) {
+                inputElement.val(value.filter(function (elem) {
                     return elem !== id
                 }).join(',')).trigger('change')
                 img.removeClass('active')
             } else {
-                select.val((value.concat(id).join(','))).trigger('change')
+                inputElement.val((value.concat(id).join(','))).trigger('change')
                 img.addClass('active')
             }
         })
 
         $('.quest-item-list').on('click', '.quest-item-sprite', function () {
             var img = $(this)
-            var select = $(this).parent().parent().find('input[id$=items]')
-            var value = select.val().split(',')
+            var inputElement = $(this).parent().parent().find('input[id$=items]')
+            var value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
             var id = img.data('value').toString()
             if (img.hasClass('active')) {
-                select.val(value.filter(function (elem) {
+                inputElement.val(value.filter(function (elem) {
                     return elem !== id
                 }).join(',')).trigger('change')
                 img.removeClass('active')
             } else {
-                select.val((value.concat(id).join(','))).trigger('change')
+                inputElement.val((value.concat(id).join(','))).trigger('change')
                 img.addClass('active')
             }
-        })
-
-        $('.quest-item-show-all').on('click', function (e) {
-            e.preventDefault()
-            var parent = $(this).parent().parent()
-            parent.find('.quest-item-list .quest-item-sprite').removeClass('active')
-            parent.find('input[id$=items]').val('').trigger('change')
         })
 
         $('.exclude_templates').on('click', '.hidepreset', function () {
@@ -3336,13 +3328,13 @@ $(function () {
             var foundpokemon = []
             var pokeselectlist = $(this).next('.list').find('.pokemon-icon-sprite')
             if (searchtext === '') {
-                parent.parent().find('.select-all, .select-reverse').hide()
-                parent.parent().find('.hide-all').show()
+                parent.parent().find('.pokemon-select-filtered, .pokemon-select-unfiltered, .pokemon-deselect-filtered, .pokemon-deselect-unfiltered').hide()
+                parent.parent().find('.pokemon-select-all, .pokemon-deselect-all').show()
                 pokeselectlist.show()
             } else {
                 pokeselectlist.hide()
-                parent.parent().find('.select-all, .select-reverse').show()
-                parent.parent().find('.hide-all').hide()
+                parent.parent().find('.pokemon-select-filtered, .pokemon-select-unfiltered, .pokemon-deselect-filtered, .pokemon-deselect-unfiltered').show()
+                parent.parent().find('.pokemon-select-all, .pokemon-deselect-all').hide()
                 foundpokemon = filterpokemon(pokeSearchList, searchtext.replace(/\s/g, ''))
             }
 
@@ -3354,57 +3346,107 @@ $(function () {
 
         loadDefaultImages()
 
-        $('.select-reverse').on('click', function (e) {
+        $('.pokemon-select-filtered').on('click', function (e) {
             e.preventDefault()
-            var selectlist = []
             var parent = $(this).parent().parent()
-            var pokeselectlist = parent.find('.pokemon-icon-sprite')
-            pokeselectlist.removeClass('active')
-            pokeselectlist = parent.find('.pokemon-icon-sprite:hidden')
-            pokeselectlist.addClass('active')
-            $('.hidepreset').removeClass('active')
-
-            $.each(pokeselectlist, function (i, item) {
-                var pokemonicon = $(this)
-                selectlist.push(pokemonicon.data('value'))
+            var inputElement = $(this).parent().parent().find('input[id$=pokemon]')
+            var selectedPokemons = inputElement.val().length > 0 ? inputElement.val().split(',') : []
+            var visibleNotActiveIconElements = parent.find('.pokemon-icon-sprite:visible:not(.active)')
+            visibleNotActiveIconElements.addClass('active')
+            $.each(visibleNotActiveIconElements, function (i, item) {
+                selectedPokemons.push($(this).data('value'))
             })
-            parent.find('input[id$=pokemon]').val(selectlist.join(',')).trigger('change')
+            parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
         })
 
-        $('.select-all').on('click', function (e) {
+        $('.pokemon-deselect-filtered').on('click', function (e) {
             e.preventDefault()
-            var selectlist = []
             var parent = $(this).parent().parent()
-            var pokeselectlist = parent.find('.pokemon-icon-sprite')
-            pokeselectlist.removeClass('active')
-            pokeselectlist = parent.find('.pokemon-icon-sprite:visible')
-            pokeselectlist.addClass('active')
-            $('.hidepreset').removeClass('active')
-
-            $.each(pokeselectlist, function (i, item) {
-                var pokemonicon = $(this)
-                selectlist.push(pokemonicon.data('value'))
+            var inputElement = $(this).parent().parent().find('input[id$=pokemon]')
+            var selectedPokemons = inputElement.val().length > 0 ? inputElement.val().split(',') : []
+            var visibleActiveIconElements = parent.find('.pokemon-icon-sprite:visible.active')
+            visibleActiveIconElements.removeClass('active')
+            $.each(visibleActiveIconElements, function (i, item) {
+                var id = $(this).data('value').toString()
+                selectedPokemons = selectedPokemons.filter(function(item) {
+                    return item !== id
+                })
             })
-            parent.find('input[id$=pokemon]').val(selectlist.join(',')).trigger('change')
+            parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
         })
-        $('.hide-all').on('click', function (e) {
+
+        $('.pokemon-select-unfiltered').on('click', function (e) {
             e.preventDefault()
             var parent = $(this).parent().parent()
-            $('.hidepreset').removeClass('active')
+            var selectedPokemons = []
+            var visibleActiveIconElements = parent.find('.pokemon-icon-sprite:visible.active')
+            var hiddenIconElements = parent.find('.pokemon-icon-sprite:hidden')
+            hiddenIconElements.addClass('active')
+            $.each(visibleActiveIconElements, function (i, item) {
+                selectedPokemons.push($(this).data('value'))
+            })
+            $.each(hiddenIconElements, function (i, item) {
+                selectedPokemons.push($(this).data('value'))
+            })
+            parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
+        })
+
+        $('.pokemon-deselect-unfiltered').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
+            var selectedPokemons = []
+            var visibleActiveIconElements = parent.find('.pokemon-icon-sprite:visible.active')
+            var hiddenIconElements = parent.find('.pokemon-icon-sprite:hidden')
+            hiddenIconElements.removeClass('active')
+            $.each(visibleActiveIconElements, function (i, item) {
+                selectedPokemons.push($(this).data('value'))
+            })
+            parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
+        })
+
+        $('.pokemon-select-all').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
+            parent.find('.list .pokemon-icon-sprite:visible').addClass('active')
+            parent.find('input[id$=pokemon]').val(pokemonIds.join(',')).trigger('change')
+        })
+
+        $('.pokemon-deselect-all').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
             parent.find('.list .pokemon-icon-sprite:visible').removeClass('active')
             parent.find('input[id$=pokemon]').val('').trigger('change')
         })
+
+        $('.quest-item-select-all').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
+            parent.find('.quest-item-list .quest-item-sprite').addClass('active')
+            parent.find('input[id$=items]').val(questItemIds.concat(new Array("6")).join(',')).trigger('change')
+        })
+
+        $('.quest-item-deselect-all').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
+            parent.find('.quest-item-list .quest-item-sprite').removeClass('active')
+            parent.find('input[id$=items]').val('').trigger('change')
+        })
+
         $selectExclude.on('change', function (e) {
             buffer = excludedPokemon
-            excludedPokemon = $selectExclude.val().split(',').map(Number).sort(function (a, b) {
-                return parseInt(a) - parseInt(b)
-            })
+            if ($selectExclude.val().length > 0) {
+                excludedPokemon = $selectExclude.val().split(',').map(Number).sort(function (a, b) {
+                    return a - b
+                })
+            } else {
+                excludedPokemon = []
+            }
             buffer = buffer.filter(function (e) {
                 return this.indexOf(e) < 0
             }, excludedPokemon)
             reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
             clearStaleMarkers()
-            if (excludedPokemon.length === 1) {
+            if (excludedPokemon.length === 0) {
                 $('.pokemon-filter-active').text('*** No active Filter ***')
                 $('.pokemon-filter-active').css('color', 'black')
             } else {
@@ -3414,10 +3456,14 @@ $(function () {
             Store.set('remember_select_exclude', excludedPokemon)
         })
         $selectExcludeQuestPokemon.on('change', function (e) {
-            excludedQuestPokemon = $selectExcludeQuestPokemon.val().split(',').map(Number).sort(function (a, b) {
-                return parseInt(a) - parseInt(b)
-            })
-            if (excludedQuestPokemon.length === 1 && excludedQuestItems.length === 1) {
+            if ($selectExcludeQuestPokemon.val().length > 0) {
+                excludedQuestPokemon = $selectExcludeQuestPokemon.val().split(',').map(Number).sort(function (a, b) {
+                    return a - b
+                })
+            } else {
+                excludedQuestPokemon = []
+            }
+            if (excludedQuestPokemon.length === 0 && excludedQuestItems.length === 0) {
                 $('.quest-filter-active').text('*** No active Filter ***')
                 $('.quest-filter-active').css('color', 'black')
             } else {
@@ -3428,10 +3474,14 @@ $(function () {
             Store.set('remember_select_exclude_quest_pokemon', excludedQuestPokemon)
         })
         $selectExcludeQuestItems.on('change', function (e) {
-            excludedQuestItems = $selectExcludeQuestItems.val().split(',').map(Number).sort(function (a, b) {
-                return parseInt(a) - parseInt(b)
-            })
-            if (excludedQuestPokemon.length === 1 && excludedQuestItems.length === 1) {
+            if ($selectExcludeQuestItems.val().length > 0) {
+                excludedQuestItems = $selectExcludeQuestItems.val().split(',').map(Number).sort(function (a, b) {
+                    return a - b
+                })
+            } else {
+                excludedQuestItems = []
+            }
+            if (excludedQuestPokemon.length === 0 && excludedQuestItems.length === 0) {
                 $('.quest-filter-active').text('*** No active Filter ***')
                 $('.quest-filter-active').css('color', 'black')
             } else {
@@ -3450,15 +3500,19 @@ $(function () {
         })
         $selectPokemonNotify.on('change', function (e) {
             buffer = notifiedPokemon
-            notifiedPokemon = $selectPokemonNotify.val().split(',').map(Number).sort(function (a, b) {
-                return parseInt(a) - parseInt(b)
-            })
+            if ($selectPokemonNotify.val().length > 0) {
+                notifiedPokemon = $selectPokemonNotify.val().split(',').map(Number).sort(function (a, b) {
+                    return a - b
+                })
+            } else {
+                notifiedPokemon = []
+            }
             buffer = buffer.filter(function (e) {
                 return this.indexOf(e) < 0
             }, notifiedPokemon)
             reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
             clearStaleMarkers()
-            if (notifiedPokemon.length === 1) {
+            if (notifiedPokemon.length === 0) {
                 $('.notify-filter-active').text('*** No active Filter ***')
                 $('.notify-filter-active').css('color', 'black')
             } else {
