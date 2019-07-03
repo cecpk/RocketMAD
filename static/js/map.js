@@ -3295,6 +3295,9 @@ $(function () {
                 inputElement.val((value.concat(id).join(','))).trigger('change')
                 img.addClass('active')
             }
+
+            var hidePresetElements = $(this).parent().parent().parent().parent().parent().parent().find('.hidepreset')
+            hidePresetElements.removeClass('active')
         })
 
         $('.quest-item-list').on('click', '.quest-item-sprite', function () {
@@ -3357,6 +3360,9 @@ $(function () {
                 selectedPokemons.push($(this).data('value'))
             })
             parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
+
+            var hidePresetElements = parent.parent().parent().parent().find('.hidepreset')
+            hidePresetElements.removeClass('active')
         })
 
         $('.pokemon-deselect-filtered').on('click', function (e) {
@@ -3373,6 +3379,9 @@ $(function () {
                 })
             })
             parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
+
+            var hidePresetElements = parent.parent().parent().parent().find('.hidepreset')
+            hidePresetElements.removeClass('active')
         })
 
         $('.pokemon-select-unfiltered').on('click', function (e) {
@@ -3389,6 +3398,9 @@ $(function () {
                 selectedPokemons.push($(this).data('value'))
             })
             parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
+
+            var hidePresetElements = parent.parent().parent().parent().find('.hidepreset')
+            hidePresetElements.removeClass('active')
         })
 
         $('.pokemon-deselect-unfiltered').on('click', function (e) {
@@ -3402,6 +3414,9 @@ $(function () {
                 selectedPokemons.push($(this).data('value'))
             })
             parent.find('input[id$=pokemon]').val(selectedPokemons.join(',')).trigger('change')
+
+            var hidePresetElements = parent.parent().parent().parent().find('.hidepreset')
+            hidePresetElements.removeClass('active')
         })
 
         $('.pokemon-select-all').on('click', function (e) {
@@ -3409,6 +3424,10 @@ $(function () {
             var parent = $(this).parent().parent()
             parent.find('.list .pokemon-icon-sprite:visible').addClass('active')
             parent.find('input[id$=pokemon]').val(pokemonIds.join(',')).trigger('change')
+            $('.hidepreset').removeClass('active')
+
+            var hidePresetElements = parent.parent().parent().parent().find('.hidepreset')
+            hidePresetElements.removeClass('active')
         })
 
         $('.pokemon-deselect-all').on('click', function (e) {
@@ -3416,6 +3435,9 @@ $(function () {
             var parent = $(this).parent().parent()
             parent.find('.list .pokemon-icon-sprite:visible').removeClass('active')
             parent.find('input[id$=pokemon]').val('').trigger('change')
+
+            var hidePresetElements = parent.parent().parent().parent().find('.hidepreset')
+            hidePresetElements.removeClass('active')
         })
 
         $('.quest-item-select-all').on('click', function (e) {
