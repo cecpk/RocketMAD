@@ -983,7 +983,7 @@ function gymLabel(gym) {
 
 function pokestopLabel(pokestop) {
     let questText = ''
-    let pokestopImg = '<img class=\'pokestop sprite\' src=\'static/images/pokestop/Pokestop.png\'>'
+    let pokestopImg = '<img class=\'pokestop sprite\' src=\'static/images/pokestop/pokestop.png\'>'
     let pokestopExpiration = ''
     const expireTime = pokestop.lure_expiration
     const latitude = pokestop.latitude
