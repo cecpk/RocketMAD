@@ -457,6 +457,8 @@ function createStartLocationMarker() {
 
     var isMovable = !Store.get('lockStartLocationMarker') && Store.get('isStartLocationMarkerMovable')
     var marker = L.marker([lat, lng], {draggable: isMovable}).addTo(markersnotify).bindPopup('<div><b>Start Location</b></div>')
+    // Display marker on top of everything else so it doesn't get stuck.
+    marker.setZIndexOffset(1000)
     addListeners(marker)
 
     marker.on('dragend', function () {
