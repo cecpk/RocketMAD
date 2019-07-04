@@ -39,7 +39,9 @@
         <header id="header">
           <a href="#nav"><span class="label">Options</span></a>
           <h1><a href="./">{{ mapTitle }}<img class='rocket icon' src='static/images/rocket.png'></a></h1>
-          <a href="status" target="_blank" style="float: right;"><span class="label">Status</span></a>
+            {% if madminUrl %}
+          <a href="{{ madminUrl }}" id="madmin" target="_blank" style="float: right;"><span class="label">MADmin</span></a>
+            {% endif %}
         </header>
         <nav id="nav">
           <div id="nav-accordion" class="ui-accordion-content">

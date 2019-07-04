@@ -716,7 +716,8 @@ class Pogom(Flask):
             lng=self.current_location[1],
             generateImages=str(args.generate_images).lower(),
             show=visibility_flags,
-            mapTitle=args.map_title)
+            mapTitle=args.map_title,
+            madminUrl=args.madmin_url)
 
     def get_gymdata(self):
         gym_id = request.args.get('id')
