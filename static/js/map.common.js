@@ -222,8 +222,8 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'lockMarker': {
-        default: isTouchDevice(), // default to true if touch device
+    'lockStartLocationMarker': {
+        default: false,
         type: StoreTypes.Boolean
     },
     'startAtUserLocation': {
@@ -306,20 +306,20 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'startLocationPosition': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'showStartLocationMarker': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'isStartLocationMarkerMovable': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'showLocationMarker': {
         default: true,
-        type: StoreTypes.Boolean
-    },
-    'isLocationMarkerMovable': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showSearchMarker': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'isSearchMarkerMovable': {
-        default: false,
         type: StoreTypes.Boolean
     },
     'hidepresets': {

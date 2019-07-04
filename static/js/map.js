@@ -66,9 +66,9 @@ var reids = []
 // var map
 var markerCluster = window.markerCluster = {}
 var rawDataIsLoading = false
-var locationMarker
+var startLocationMarker
+var userLocationMarker
 const rangeMarkers = ['pokemon', 'pokestop', 'gym']
-var searchMarker
 var storeZoom = true
 var moves
 
@@ -276,8 +276,13 @@ function loadDefaultImages() {
 
 
 function initMap() { // eslint-disable-line no-unused-vars
+    var position = Store.get('startLocationPosition')
+    var useStartLocation = Store.get('showStartLocationMarker') && 'lat' in position && 'lng' in position
+    var lat = useStartLocation ? position.lat : centerLat
+    var lng = useStartLocation ? position.lng : centerLng
+
     map = L.map('map', {
-        center: [Number(getParameterByName('lat')) || centerLat, Number(getParameterByName('lon')) || centerLng],
+        center: [Number(getParameterByName('lat')) || lat, Number(getParameterByName('lon')) || lng],
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         maxZoom: 18,
         zoomControl: false
@@ -300,6 +305,24 @@ function initMap() { // eslint-disable-line no-unused-vars
 
     map.addLayer(markers)
     markersnotify = L.layerGroup().addTo(map)
+
+    var GeoSearchControl = window.GeoSearch.GeoSearchControl
+    var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
+    var provider = new OpenStreetMapProvider()
+
+    const search = new GeoSearchControl({
+        provider: provider,
+        position: 'bottomright',
+        autoClose: true,
+        keepResult: false,
+        showMarker: false
+    })
+
+    map.addControl(search)
+
+    map.on('geosearch/showlocation', function (e) {
+        changeLocation(e.location.y, e.location.x)
+    })
 
     map.on('zoom', function () {
         if (storeZoom === true) {
@@ -324,18 +347,13 @@ function initMap() { // eslint-disable-line no-unused-vars
         }, 500)
     })
 
-    const showSearchMarker = Store.get('showSearchMarker')
-    const showLocationMarker = Store.get('showLocationMarker')
-    const isLocationMarkerMovable = Store.get('isLocationMarkerMovable')
-
-    if (showSearchMarker) {
-        // Whether marker is draggable or not is set in createSearchMarker().
-        searchMarker = createSearchMarker()
+    if (Store.get('showStartLocationMarker')) {
+        // Whether marker is draggable or not is set in createStartLocationMarker().
+        startLocationMarker = createStartLocationMarker()
     }
 
-    if (showLocationMarker) {
-        locationMarker = createLocationMarker()
-        locationMarker.draggable = isLocationMarkerMovable
+    if (Store.get('showLocationMarker')) {
+        userLocationMarker = createUserLocationMarker()
     }
     createMyLocationButton()
     initSidebar()
@@ -363,9 +381,9 @@ function setTitleLayer(layername) {
     _oldlayer = layername
 }
 
-function updateLocationMarker(style) {
+function updateUserLocationMarker(style) {
     // Don't do anything if it's disabled.
-    if (!locationMarker) {
+    if (!userLocationMarker) {
         return
     }
     var locationIcon
@@ -376,42 +394,42 @@ function updateLocationMarker(style) {
                 iconUrl: url,
                 iconSize: [24, 24]
             })
-            locationMarker.setIcon(locationIcon)
+            userLocationMarker.setIcon(locationIcon)
         } else {
             locationIcon = new L.Icon.Default()
-            locationMarker.setIcon(locationIcon)
+            userLocationMarker.setIcon(locationIcon)
         }
         Store.set('locationMarkerStyle', style)
     }
     // Return value is currently unused.
-    return locationMarker
+    return userLocationMarker
 }
 
-function createLocationMarker() {
+function createUserLocationMarker() {
     var position = Store.get('followMyLocationPosition')
     var lat = ('lat' in position) ? position.lat : centerLat
     var lng = ('lng' in position) ? position.lng : centerLng
 
-    var locationMarker = L.marker([lat, lng]).addTo(markersnotify).bindPopup('<div><b>My Location</b></div>')
-    addListeners(locationMarker)
+    var marker = L.marker([lat, lng]).addTo(markersnotify).bindPopup('<div><b>My Location</b></div>')
+    addListeners(marker)
 
-    locationMarker.on('dragend', function () {
-        var newLocation = locationMarker.getLatLng()
+    marker.on('dragend', function () {
+        var newLocation = marker.getLatLng()
         Store.set('followMyLocationPosition', {
             lat: newLocation.lat,
             lng: newLocation.lng
         })
     })
 
-    return locationMarker
+    return marker
 }
 
-function updateSearchMarker(style) {
+function updateStartLocationMarker(style) {
     if (style in searchMarkerStyles) {
         Store.set('searchMarkerStyle', style)
 
         // If it's disabled, stop.
-        if (!searchMarker) {
+        if (!startLocationMarker) {
             return
         }
 
@@ -421,22 +439,35 @@ function updateSearchMarker(style) {
                 iconUrl: url,
                 iconSize: [24, 24]
             })
-            searchMarker.setIcon(SearchIcon)
+            startLocationMarker.setIcon(SearchIcon)
         } else {
             SearchIcon = new L.Icon.Default()
-            searchMarker.setIcon(SearchIcon)
+            startLocationMarker.setIcon(SearchIcon)
         }
     }
 
-    return searchMarker
+    return startLocationMarker
 }
 
-function createSearchMarker() {
-    const isSearchMarkerMovable = Store.get('isSearchMarkerMovable')
-    var searchMarker = L.marker([centerLat, centerLng], {draggable: !Store.get('lockMarker') && isSearchMarkerMovable}).addTo(markersnotify).bindPopup('<div><b>Search Location</b></div>')
-    addListeners(searchMarker)
+function createStartLocationMarker() {
+    var position = Store.get('startLocationPosition')
+    var useStartLocation = 'lat' in position && 'lng' in position
+    var lat = useStartLocation ? position.lat : centerLat
+    var lng = useStartLocation ? position.lng : centerLng
 
-    return searchMarker
+    var isMovable = !Store.get('lockStartLocationMarker') && Store.get('isStartLocationMarkerMovable')
+    var marker = L.marker([lat, lng], {draggable: isMovable}).addTo(markersnotify).bindPopup('<div><b>Start Location</b></div>')
+    addListeners(marker)
+
+    marker.on('dragend', function () {
+        var newLocation = marker.getLatLng()
+        Store.set('startLocationPosition', {
+            lat: newLocation.lat,
+            lng: newLocation.lng
+        })
+    })
+
+    return marker
 }
 
 function initSidebar() {
@@ -465,7 +496,7 @@ function initSidebar() {
     $('#quests-switch').prop('checked', Store.get('showQuests'))
     $('#quests-filter-wrapper').toggle(Store.get('showQuests'))
     $('#geoloc-switch').prop('checked', Store.get('geoLocate'))
-    $('#lock-marker-switch').prop('checked', Store.get('lockMarker'))
+    $('#lock-marker-switch').prop('checked', Store.get('lockStartLocationMarker'))
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
     $('#follow-my-location-switch').prop('checked', Store.get('followMyLocation'))
     $('#scanned-switch').prop('checked', Store.get('showScanned'))
@@ -2456,8 +2487,8 @@ function centerMapOnLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var latlng = new L.LatLng(position.coords.latitude, position.coords.longitude)
-            if (locationMarker) {
-                locationMarker.setLatLng(latlng)
+            if (userLocationMarker) {
+                userLocationMarker.setLatLng(latlng)
             }
             map.panTo(latlng)
             Store.set('followMyLocationPosition', {
@@ -2470,6 +2501,11 @@ function centerMapOnLocation() {
         clearInterval(animationInterval)
         currentLocation.style.backgroundPosition = '0px 0px'
     }
+}
+
+function changeLocation(lat, lng) {
+    var loc = new L.LatLng(lat, lng)
+    map.panTo(loc)
 }
 
 function centerMap(lat, lng, zoom) {
@@ -2515,17 +2551,17 @@ function updateGeoLocation() {
 
             if (Store.get('geoLocate')) {
                 // The search function makes any small movements cause a loop. Need to increase resolution.
-                if ((typeof searchMarker !== 'undefined') && (getPointDistance(searchMarker.getLatLng(), center) > 40)) {
+                if ((typeof startLocationMarker !== 'undefined') && (getPointDistance(searchMarker.getLatLng(), center) > 40)) {
                     $.post('next_loc?lat=' + lat + '&lon=' + lng).done(function () {
                         map.panTo(center)
-                        searchMarker.setLatLng(center)
+                        startLocationMarker.setLatLng(center)
                     })
                 }
             }
             if (Store.get('followMyLocation')) {
-                if ((typeof locationMarker !== 'undefined') && (getPointDistance(locationMarker.getLatLng(), center) >= 5)) {
+                if ((typeof userLocationMarker !== 'undefined') && (getPointDistance(userLocationMarker.getLatLng(), center) >= 5)) {
                     map.panTo(center)
-                    locationMarker.setLatLng(center)
+                    userLocationMarker.setLatLng(center)
                     Store.set('followMyLocationPosition', {
                         lat: lat,
                         lng: lng
@@ -3031,12 +3067,10 @@ $(function () {
         $selectSearchIconMarker.on('change', function (e) {
             var selectSearchIconMarker = $selectSearchIconMarker.val()
             Store.set('searchMarkerStyle', selectSearchIconMarker)
-            setTimeout(function () { updateSearchMarker(selectSearchIconMarker) }, 300)
+            setTimeout(function () { updateStartLocationMarker(selectSearchIconMarker) }, 300)
         })
 
         $selectSearchIconMarker.val(Store.get('searchMarkerStyle')).trigger('change')
-
-        updateSearchMarker(Store.get('lockMarker'))
 
         $selectLocationIconMarker.select2({
             placeholder: 'Select Location Marker',
@@ -3047,10 +3081,11 @@ $(function () {
         $selectLocationIconMarker.on('change', function (e) {
             var locStyle = this.value
             Store.set('locationMarkerStyle', locStyle)
-            setTimeout(function () { updateLocationMarker(locStyle) }, 300)
+            setTimeout(function () { updateUserLocationMarker(locStyle) }, 300)
         })
 
         $selectLocationIconMarker.val(Store.get('locationMarkerStyle')).trigger('change')
+
         loadDefaultImages()
     })
 })
@@ -3114,6 +3149,7 @@ $(function () {
     if (Store.get('startAtUserLocation') && getParameterByName('lat') == null && getParameterByName('lon') == null) {
         centerMapOnLocation()
     }
+
     $.getJSON('static/dist/data/moves.min.json').done(function (data) {
         moves = data
     })
@@ -3753,9 +3789,9 @@ $(function () {
     })
 
     $('#lock-marker-switch').change(function () {
-        Store.set('lockMarker', this.checked)
-        if (searchMarker) {
-            searchMarker.draggable = (!this.checked)
+        Store.set('lockStartLocationMarker', this.checked)
+        if (startLocationMarker) {
+            startLocationMarker.draggable = (!this.checked)
         }
     })
 
@@ -3768,16 +3804,6 @@ $(function () {
             this.checked = false
         } else {
             Store.set('followMyLocation', this.checked)
-        }
-        if (locationMarker) {
-            if (this.checked) {
-                // Follow our position programatically, so no dragging.
-                locationMarker.draggable = false
-            } else {
-                // Go back to default non-follow.
-                const isMarkerMovable = Store.get('isLocationMarkerMovable')
-                locationMarker.draggable = isMarkerMovable
-            }
         }
     })
 
