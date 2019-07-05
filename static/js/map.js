@@ -985,10 +985,11 @@ function pokestopLabel(pokestop) {
     let questText = ''
     let pokestopImg = '<img class=\'pokestop sprite\' src=\'static/images/pokestop/pokestop.png\'>'
     let pokestopExpiration = ''
+    const now = new Date()
     const expireTime = pokestop.lure_expiration
     const latitude = pokestop.latitude
     const longitude = pokestop.longitude
-    const luredClass = expireTime ? 'lure' : 'nolure'
+    const luredClass = expireTime && expireTime > now ? 'lure' : 'nolure'
     const pokestopNavigation = `
       <div class="pokestop">
         <a href='#!' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps' class='pokestop navigate ${luredClass}'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a>
@@ -996,7 +997,7 @@ function pokestopLabel(pokestop) {
     `
     const pokestopName = pokestop.name ? pokestop.name : 'Pokéstop'
 
-    if (expireTime) {
+    if (expireTime && expireTime > now) {
         pokestopExpiration = `
           <div class='pokestop-expire'>
             <span class='label-countdown' disappears-at='${expireTime}'>00m00s</span> left (${moment(expireTime).format('HH:mm')})
@@ -1463,7 +1464,7 @@ function updatePokestopMarker(pokestop, marker) {
     var questRewardType = pokestop['quest_raw']['quest_reward_type_raw']
     var questItemId = pokestop['quest_raw']['item_id']
     var questPokemonId = pokestop['quest_raw']['pokemon_id']
-    var lureExipiration = pokestop['lure_expiration']
+    var lureExpiration = pokestop['lure_expiration']
     var activeFortModifier = pokestop['active_fort_modifier']
     var markerImage
     var shadowImage
@@ -1504,14 +1505,15 @@ function updatePokestopMarker(pokestop, marker) {
         }
     }
 
-    if (Store.get('showPokestops') && lureExipiration) {
-        if (Store.get('showLuredPokestopsOnly') <= 2 && !pokestop['active_fort_modifier']) {
+    if (Store.get('showPokestops') && lureExpiration && lureExpiration > new Date()) {
+        let showLuredPokestopsOnly = Store.get('showLuredPokestopsOnly')
+        if (showLuredPokestopsOnly <= 2 && activeFortModifier === 501) {
             markerImage = 'pokestop_lured'
-        } else if ((Store.get('showLuredPokestopsOnly') <= 1 || Store.get('showLuredPokestopsOnly') == 3) && activeFortModifier === 502) {
+        } else if ((showLuredPokestopsOnly <= 1 || showLuredPokestopsOnly == 3) && activeFortModifier === 502) {
             markerImage = 'pokestop_lured_glacial'
-        } else if ((Store.get('showLuredPokestopsOnly') <= 1 || Store.get('showLuredPokestopsOnly') == 4) && activeFortModifier === 504) {
+        } else if ((showLuredPokestopsOnly <= 1 || showLuredPokestopsOnly == 4) && activeFortModifier === 504) {
             markerImage = 'pokestop_lured_magnetic'
-        } else if ((Store.get('showLuredPokestopsOnly') <= 1 || Store.get('showLuredPokestopsOnly') == 5) && activeFortModifier === 503) {
+        } else if ((showLuredPokestopsOnly <= 1 || showLuredPokestopsOnly == 5) && activeFortModifier === 503) {
             markerImage = 'pokestop_lured_mossy'
         }
     }
@@ -2057,12 +2059,13 @@ function isPokestopSatisfiesFilters(pokestop) {
 
     if (Store.get('showPokestops')) {
         if (Store.get('showLuredPokestopsOnly') > 0) {
-            if (pokestop['lure_expiration']) {
-              if (Store.get('showLuredPokestopsOnly') == 1 ||
-                  Store.get('showLuredPokestopsOnly') == 2 && !pokestop['active_fort_modifier'] ||
-                  Store.get('showLuredPokestopsOnly') == 3 && pokestop['active_fort_modifier'] === 502 ||
-                  Store.get('showLuredPokestopsOnly') == 4 && pokestop['active_fort_modifier'] === 504 ||
-                  Store.get('showLuredPokestopsOnly') == 5 && pokestop['active_fort_modifier'] === 503) {
+            if (pokestop['lure_expiration'] && pokestop['lure_expiration'] > new Date()) {
+              let showLuredPokestopsOnly = Store.get('showLuredPokestopsOnly')
+              if (showLuredPokestopsOnly == 1 ||
+                      showLuredPokestopsOnly == 2 && pokestop['active_fort_modifier'] === 501 ||
+                      showLuredPokestopsOnly == 3 && pokestop['active_fort_modifier'] === 502 ||
+                      showLuredPokestopsOnly == 4 && pokestop['active_fort_modifier'] === 504 ||
+                      showLuredPokestopsOnly == 5 && pokestop['active_fort_modifier'] === 503) {
                   return true
               }
             }
@@ -2105,9 +2108,8 @@ function updateLuredPokestops() {
         return false
     }
 
-    var currentTime = new Date().getTime()
     $.each(luredPokestops, function (key, pokestop) {
-        if (pokestop.lure_expiration && pokestop.lure_expiration <= currentTime) {
+        if (pokestop.lure_expiration && pokestop.lure_expiration <= new Date()) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 mapData.pokestops[pokestop.pokestop_id].lure_expiration = null
                 mapData.pokestops[pokestop.pokestop_id].active_fort_modifier = null
@@ -2132,13 +2134,14 @@ function processPokestop(i, pokestop) {
         // New pokestop, add marker to map and item to dict.
         pokestop.marker = setupPokestopMarker(pokestop)
         mapData.pokestops[pokestop.pokestop_id] = pokestop
-        if (pokestop.lure_expiration) {
+        if (pokestop.lure_expiration && pokestop.lure_expiration > new Date()) {
             luredPokestops[pokestop.pokestop_id] = pokestop
         }
     } else {
         // Existing pokestop, update marker and dict item if necessary.
-        var pokestop2 = mapData.pokestops[pokestop.pokestop_id]
-        var newLure = pokestop.lure_expiration && !pokestop2.lure_expiration
+        let pokestop2 = mapData.pokestops[pokestop.pokestop_id]
+        let now = new Date()
+        let newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && (!pokestop2.lure_expiration || pokestop2.lure_expiration < now)
         if (newLure || !!pokestop.quest_raw.quest_reward_type_raw !== !!pokestop2.quest_raw.quest_reward_type_raw) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
