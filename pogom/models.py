@@ -398,11 +398,12 @@ class Pokestop(LatLongModel):
                   oSwLng=None, oNeLat=None, oNeLng=None, lured=False):
         query = (Pokestop
                  .select(Pokestop.pokestop_id, Pokestop.name, Pokestop.enabled,
-                         Pokestop.latitude, Pokestop.longitude,
-                         Pokestop.last_modified, Pokestop.active_fort_modifier,
-                         Pokestop.lure_expiration, Pokestop.image,
-                         Trs_Quest.quest_task, Trs_Quest.quest_type,
-                         Trs_Quest.quest_stardust, Trs_Quest.quest_pokemon_id,
+                         Pokestop.image, Pokestop.latitude, Pokestop.longitude,
+                         Pokestop.last_updated, Pokestop.last_modified,
+                         Pokestop.active_fort_modifier,
+                         Pokestop.lure_expiration, Trs_Quest.quest_task,
+                         Trs_Quest.quest_type, Trs_Quest.quest_stardust,
+                         Trs_Quest.quest_pokemon_id,
                          Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id,
                          Trs_Quest.quest_item_amount, Trs_Quest.quest_target,
                          Trs_Quest.quest_timestamp)
