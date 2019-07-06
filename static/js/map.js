@@ -2186,7 +2186,7 @@ function processPokestop(i, pokestop) {
         let now = Date.now()
         let newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
         if (newLure || !!pokestop.quest_raw.quest_reward_type_raw !== !!pokestop2.quest_raw.quest_reward_type_raw ||
-                pokestop.last_updated > pokestop2.last_updated || pokestop.last_modified > pokestop2.last_modified
+                pokestop.last_updated > pokestop2.last_updated || pokestop.last_modified > pokestop2.last_modified) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
                 mapData.pokestops[pokestop.pokestop_id] = pokestop
