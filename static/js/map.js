@@ -1105,10 +1105,10 @@ function pokestopLabel(pokestop) {
               <div>
                 ${lureDisplay}
                 <div>
-                  Last scanned: <span class='info'>${getDateStr(pokestop.last_updated)}</span>
+                  Last scanned: <span class='info'>${moment(pokestop.last_updated).format('HH:mm:ss DD-MM-YYYY')}</span>
                 </div>
                 <div>
-                  Last modified: <span class='info'>${getDateStr(pokestop.last_modified)}</span>
+                  Last lure: <span class='info'>${moment(pokestop.last_modified).format('HH:mm:ss DD-MM-YYYY')}</span>
                 </div>
                 <div>
                   <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'>${pokestop.latitude.toFixed(7)}, ${pokestop.longitude.toFixed(7)}</a>
@@ -1118,6 +1118,10 @@ function pokestopLabel(pokestop) {
           </div>
           ${questDisplay}
         </div>`
+}
+
+function updatePokestopLabel(pokestop, marker) {
+    marker._popup.setContent(pokestopLabel(pokestop))
 }
 
 function formatSpawnTime(seconds) {
@@ -1495,11 +1499,51 @@ function updateGymMarker(gym, marker) {
 function setupPokestopMarker(pokestop) {
     var marker = L.marker([pokestop.latitude, pokestop.longitude])
     updatePokestopMarker(pokestop, marker)
+    marker.bindPopup(pokestopLabel(pokestop))
     markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
         marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')
     }
-    addListeners(marker)
+    marker.pokestop_id = pokestop.pokestop_id
+
+    marker.on('click', function () {
+        if (!marker.infoWindowIsOpen) {
+            if (mapData.pokestops[marker.pokestop_id].isUpdated) {
+                updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
+            }
+            marker.openPopup()
+            clearSelection()
+            updateLabelDiffTime()
+            marker.persist = true
+            marker.infoWindowIsOpen = true
+        } else {
+            marker.closePopup()
+            mapData.pokestops[marker.pokestop_id].isUpdated = false
+            marker.persist = null
+            marker.infoWindowIsOpen = false
+        }
+    })
+
+    if (!isMobileDevice() && !isTouchDevice()) {
+        marker.on('mouseover', function () {
+            if (mapData.pokestops[marker.pokestop_id].isUpdated) {
+                updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
+            }
+            marker.openPopup()
+            clearSelection()
+            updateLabelDiffTime()
+            marker.infoWindowIsOpen = true
+        })
+    }
+
+    marker.on('mouseout', function () {
+        if (!marker.persist) {
+            marker.closePopup()
+            marker.infoWindowIsOpen = false
+            mapData.pokestops[marker.pokestop_id].isUpdated = false
+        }
+    })
+
     return marker
 }
 
@@ -1575,7 +1619,6 @@ function updatePokestopMarker(pokestop, marker) {
 
     marker.setIcon(PokestopIcon)
     marker.setZIndexOffset = pokestop['lure_expiration'] ? 3 : 2
-    marker.bindPopup(pokestopLabel(pokestop))
 
     return marker
 }
@@ -2137,6 +2180,7 @@ function updatePokestops() {
     $.each(mapData.pokestops, function (key, pokestop) {
         if (isPokestopSatisfiesFilters(pokestop)) {
             updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+            updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
         } else {
             removePokestop(pokestop)
         }
@@ -2185,12 +2229,15 @@ function processPokestop(i, pokestop) {
         let pokestop2 = mapData.pokestops[pokestop.pokestop_id]
         let now = Date.now()
         let newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
-        if (newLure || !!pokestop.quest_raw.quest_reward_type_raw !== !!pokestop2.quest_raw.quest_reward_type_raw ||
-                pokestop.last_updated > pokestop2.last_updated || pokestop.last_modified > pokestop2.last_modified) {
+        if (newLure || !!pokestop.quest_raw.quest_reward_type_raw !== !!pokestop2.quest_raw.quest_reward_type_raw) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 var marker = mapData.pokestops[pokestop.pokestop_id].marker
+                if (marker.infoWindowIsOpen) {
+                    updatePokestopLabel(pokestop, marker)
+                }
                 updatePokestopMarker(pokestop, marker)
                 pokestop.marker = marker
+                pokestop.isUpdated = true
                 mapData.pokestops[pokestop.pokestop_id] = pokestop
                 if (newLure) {
                     luredPokestops[pokestop.pokestop_id] = pokestop
@@ -2198,6 +2245,18 @@ function processPokestop(i, pokestop) {
             } else {
                 removePokestop(pokestop)
             }
+            return true
+        }
+
+        if (pokestop.last_updated > pokestop2.last_updated) {
+            if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
+                updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                console.log('is open')
+            } else {
+                console.log('is not open')
+            }
+            mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
+            mapData.pokestops[pokestop.pokestop_id].isUpdated = true
         }
     }
 }
