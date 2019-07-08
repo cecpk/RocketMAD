@@ -2251,9 +2251,6 @@ function processPokestop(i, pokestop) {
         if (pokestop.last_updated > pokestop2.last_updated) {
             if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
                 updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-                console.log('is open')
-            } else {
-                console.log('is not open')
             }
             mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
             mapData.pokestops[pokestop.pokestop_id].isUpdated = true
