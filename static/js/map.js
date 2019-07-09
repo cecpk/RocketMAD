@@ -959,10 +959,10 @@ function gymLabel(gym) {
                   ${gymLeaderDisplay}
                 </div>
                 <div>
-                  Last scanned: <span class='info'>${getDateStr(gym.last_scanned)}</span>
+                  Last scanned: <span class='info'>${moment(gym.last_scanned).format('HH:mm:ss DD-MM-YYYY')}</span>
                 </div>
                 <div>
-                  Last modified: <span class='info'>${getDateStr(gym.last_modified)}</span>
+                  Last modified: <span class='info'>${moment(gym.last_modified).format('HH:mm:ss DD-MM-YYYY')}</span>
                 </div>
                 <div>
                   <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'>${gym.latitude.toFixed(7)}, ${gym.longitude.toFixed(7)}</a>
