@@ -45,10 +45,12 @@
       }
 
       &[href="#nav"] {
-        @include icon('\f013');
         -webkit-tap-highlight-color: rgba(0,0,0,0);
 
         &:before {
+          content: '\f013';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
           margin: 0 0.5em 0 0;
         }
       }
@@ -60,10 +62,12 @@
       }
 
       &[href="#stats"] {
-        @include icon('\f080');
         -webkit-tap-highlight-color: rgba(0,0,0,0);
 
         &:before {
+          content: '\f080';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 400;
           margin: 0 0.5em 0 0;
         }
       }
@@ -75,10 +79,12 @@
       }
 
       &#madmin {
-        @include icon('\f059');
         -webkit-tap-highlight-color: rgba(0,0,0,0);
 
         &:before {
+          content: '\f059';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
           margin: 0 0.5em 0 0;
         }
       }

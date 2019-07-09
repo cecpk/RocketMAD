@@ -54,9 +54,8 @@
       <!-- NAV -->
       <nav id="nav">
         <div id="nav-accordion">
-          <h3><i class="fa fa-map-marker fa-fw"></i>Marker Settings</h3>
+          <h3><i class="fas fa-map-marker-alt fa-fw"></i>Marker Settings</h3>
           <div>
-
               {% if show.pokemons %}
             <div class="form-control switch-container">
               <h3>Pokémon</h3>
@@ -417,7 +416,7 @@
                 </div>
             </div>
           </div>
-        <h3><i class="fa fa-location-arrow fa-fw"></i>Location Settings</h3>
+        <h3><i class="fas fa-location-arrow fa-fw"></i>Location Settings</h3>
           <div>
             <div class="form-control switch-container" >
               <h3>Start map at my position</h3>
@@ -443,7 +442,7 @@
               {% endif %}
           </div>
             {% if show.pokemons %}
-          <h3><i class="fa fa-bullhorn fa-fw"></i>Notification Settings</h3>
+          <h3><i class="fas fa-bullhorn fa-fw"></i>Notification Settings</h3>
           <div>
           <div class="notify-filter-active">*** No active Filter ***</div>
           <div id="tabs_notify">
@@ -585,7 +584,7 @@
           </div>
           </div>
             {% endif %}
-          <h3><i class="fa fa-map-o fa-fw"></i>Style Settings</h3>
+          <h3><i class="fas fa-map fa-fw"></i>Style Settings</h3>
           <div>
             <div class="form-control switch-container">
               <h3>Map Style</h3>
@@ -619,9 +618,9 @@
           </div>
         </div>
       <div>
-        <center><button class="settings" onclick="downloadSettings('RocketMap', JSON.stringify(localStorage))"><i class="fa fa-upload fa-fw"></i>Export Settings</button></center>
-        <center><input id="settingsFileInput" type="file" style="display:none;" onchange="loadSettingsFile(event)"> <button class="settings" onclick="document.getElementById('settingsFileInput').click()"><i class="fa fa-download fa-fw"></i>Import Settings</button></center>
-        <center><button class="settings" onclick="confirm('Are you sure you want to reset settings to default values?') ? (localStorage.clear(), window.location.reload()) : false"><i class="fa fa-refresh fa-fw"></i>Reset Settings</button></center>
+        <center><button class="settings" onclick="downloadSettings('RocketMap', JSON.stringify(localStorage))"><i class="fas fa-upload fa-fw"></i>Export Settings</button></center>
+        <center><input id="settingsFileInput" type="file" style="display:none;" onchange="loadSettingsFile(event)"> <button class="settings" onclick="document.getElementById('settingsFileInput').click()"><i class="fas fa-download fa-fw"></i>Import Settings</button></center>
+        <center><button class="settings" onclick="confirm('Are you sure you want to reset settings to default values?') ? (localStorage.clear(), window.location.reload()) : false"><i class="fas fa-sync-alt fa-fw"></i>Reset Settings</button></center>
       </div>
       </nav>
       <nav id="stats">
