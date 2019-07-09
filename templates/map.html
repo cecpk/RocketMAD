@@ -428,18 +428,6 @@
                 </label>
               </div>
             </div>
-              {% if show.search_display %}
-            <div class="form-control switch-container">
-              <h3>Search</h3>
-              <div class="onoffswitch">
-                <input id="search-switch" type="checkbox" name="search-switch" class="onoffswitch-checkbox" checked/>
-                <label class="onoffswitch-label" for="search-switch">
-                <span class="switch-label" data-on="On" data-off="Off"></span>
-                <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-              {% endif %}
           </div>
             {% if show.pokemons %}
           <h3><i class="fas fa-bell fa-fw"></i>Notification Settings</h3>
@@ -607,12 +595,12 @@
               </select>
             </div>
             <div class="form-control switch-container">
-              <h3>Search Icon Marker</h3>
+              <h3>Start Location Marker Icon</h3>
               <select name="iconmarker-style" id="iconmarker-style"></select>
             </div>
 
             <div class="form-control switch-container">
-              <h3>Location Icon Marker</h3>
+              <h3>My Location Marker Icon</h3>
               <select name="locationmarker-style" id="locationmarker-style"></select>
             </div>
           </div>
@@ -686,6 +674,8 @@
     <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <script src="{{ url_for('static', filename='js/vendor/bouncemarker.js').lstrip('/') }}"></script>
     <script src="https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+    <link  href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet" />
+    <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
 
     <script src="{{ url_for('static', filename='dist/js/app.min.js').lstrip('/') }}"></script>
     <script src="{{ url_for('static', filename='dist/js/map.common.min.js').lstrip('/') }}"></script>
@@ -698,10 +688,6 @@
     <script src="{{ url_for('static', filename='dist/js/weather.min.js').lstrip('/') }}"></script>
     <script async src='https://www.google-analytics.com/analytics.js'> </script>
 
-      {% if show.fixed_display %}
-    <link  href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet" />
-    <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
-      {% endif %}
     <script>
     $( document ).ready(function() {
         initMap()

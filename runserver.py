@@ -4,7 +4,8 @@
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
-    print("RocketMap requires at least python 3.6! Your version: {}.{}"
+    print("RocketMap requires at least python 3.6! " +
+          "Your version: {}.{}"
           .format(py_version.major, py_version.minor))
     sys.exit(1)
 import os
@@ -13,9 +14,7 @@ import re
 import ssl
 import requests
 
-from distutils.version import StrictVersion
-
-from threading import Thread, Event
+from threading import Thread
 
 from queue import Queue
 from flask_cors import CORS
@@ -24,13 +23,13 @@ from flask_cachebuster import CacheBuster
 from colorlog import ColoredFormatter
 
 from pogom.app import Pogom
-from pogom.utils import (get_args, now, init_args,
+from pogom.utils import (get_args, now, init_dynamic_images,
                          log_resource_usage_loop, get_debug_dump_link,
                          dynamic_rarity_refresher, get_pos_by_name)
 
 from pogom.models import (init_database, create_tables, drop_tables,
-                          db_updater, clean_db_loop,
-                          verify_table_encoding, verify_database_schema)
+                          clean_db_loop, verify_table_encoding,
+                          verify_database_schema)
 
 from time import strftime
 
@@ -83,17 +82,6 @@ stderr_hdlr.setLevel(logging.WARNING)
 log = logging.getLogger()
 log.addHandler(stdout_hdlr)
 log.addHandler(stderr_hdlr)
-
-
-# Assert pgoapi is installed.
-try:
-    import pgoapi
-    from pgoapi import PGoApi
-except ImportError:
-    log.critical(
-        "It seems `pgoapi` is not installed. Try running "
-        "pip install --upgrade -r requirements.txt.")
-    sys.exit(1)
 
 
 # Patch to make exceptions in threads cause an exception.
@@ -187,51 +175,6 @@ def validate_assets(args):
     return True
 
 
-def can_start_scanning(args):
-    # Currently supported pgoapi.
-    pgoapi_version = "1.2.0"
-    api_version_error = (
-        'The installed pgoapi is out of date. Please refer to '
-        'http://rocketmap.readthedocs.io/en/develop/common-issues/'
-        'faq.html#i-get-an-error-about-pgoapi-version'
-    )
-
-    # Assert pgoapi >= pgoapi_version.
-    if (not hasattr(pgoapi, "__version__") or
-            StrictVersion(pgoapi.__version__) < StrictVersion(pgoapi_version)):
-        log.critical(api_version_error)
-        return False
-
-    # Abort if we don't have a hash key set.
-    if not args.hash_key:
-        log.critical('Hash key is required for scanning. Exiting.')
-        return False
-
-    # Check the PoGo api pgoapi implements against what RM is expecting.
-    # Some API versions have a non-standard version int, so we map them
-    # to the correct one.
-    api_version_int = int(args.api_version.replace('.', '0'))
-    api_version_map = {
-        8302: 8300,
-        8501: 8500,
-        8705: 8700,
-        8901: 8900,
-        9101: 9100,
-        9102: 9100
-    }
-    mapped_version_int = api_version_map.get(api_version_int, api_version_int)
-
-    try:
-        if PGoApi.get_api_version() != mapped_version_int:
-            log.critical(api_version_error)
-            return False
-    except AttributeError:
-        log.critical(api_version_error)
-        return False
-
-    return True
-
-
 def startup_db(app, clear_db):
     db = init_database(app)
     if clear_db:
@@ -287,7 +230,7 @@ def main():
     set_log_and_verbosity(log)
 
     args.root_path = os.path.dirname(os.path.abspath(__file__))
-    init_args(args)
+    init_dynamic_images(args)
 
     # Stop if we're just looking for a debug dump.
     if args.dump:
@@ -297,16 +240,9 @@ def main():
                  hastebin_id)
         sys.exit(1)
 
-    # Let's not forget to run Grunt / Only needed when running with webserver.
-    if args.only_server and not validate_assets(args):
+    # Let's not forget to run Grunt.
+    if not validate_assets(args):
         sys.exit(1)
-
-    if args.no_version_check and not args.only_server:
-        log.warning('You are running RocketMap in No Version Check mode. '
-                    "If you don't know what you're doing, this mode "
-                    'can have negative consequences, and you will not '
-                    'receive support running in NoVC mode. '
-                    'You have been warned.')
 
     position = extract_coordinates(args.location)
 
@@ -324,46 +260,14 @@ def main():
              'enabled' if args.encounter else 'disabled')
 
     app = None
-    if args.only_server and not args.clear_db:
+    if not args.clear_db:
         app = Pogom(__name__,
                     root_path=os.path.dirname(
                         os.path.abspath(__file__)))
         app.before_request(app.validate_request)
-        app.set_current_location(position)
+        app.set_location(position)
 
     db = startup_db(app, args.clear_db)
-
-    # Control the search status (running or not) across threads.
-    control_flags = {
-        'on_demand': Event(),
-        'api_watchdog': Event(),
-        'search_control': Event()
-    }
-
-    for flag in list(control_flags.values()):
-        flag.clear()
-
-    if args.on_demand_timeout > 0:
-        control_flags['on_demand'].set()
-
-    heartbeat = [now()]
-
-    # Setup the location tracking queue and push the first location on.
-    new_location_queue = Queue()
-    new_location_queue.put(position)
-
-    # DB Updates
-    db_updates_queue = Queue()
-    if app:
-        app.set_db_updates_queue(db_updates_queue)
-
-    # Thread(s) to process database updates.
-    for i in range(args.db_threads):
-        log.debug('Starting db-updater worker thread %d', i)
-        t = Thread(target=db_updater, name='db-updater-{}'.format(i),
-                   args=(db_updates_queue, db))
-        t.daemon = True
-        t.start()
 
     # Database cleaner; really only need one ever.
     if args.db_cleanup:
@@ -388,9 +292,6 @@ def main():
     cache_buster = CacheBuster()
     cache_buster.init_app(app)
 
-    app.set_control_flags(control_flags)
-    app.set_heartbeat_control(heartbeat)
-    app.set_location_queue(new_location_queue)
     ssl_context = None
     if (args.ssl_certificate and args.ssl_privatekey and
             os.path.exists(args.ssl_certificate) and
@@ -434,10 +335,7 @@ def set_log_and_verbosity(log):
     # These are very noisy, let's shush them up a bit.
     logging.getLogger('peewee').setLevel(logging.INFO)
     logging.getLogger('requests').setLevel(logging.WARNING)
-    logging.getLogger('pgoapi.pgoapi').setLevel(logging.WARNING)
-    logging.getLogger('pgoapi.rpc_api').setLevel(logging.INFO)
     logging.getLogger('werkzeug').setLevel(logging.ERROR)
-    logging.getLogger('pogom.apiRequests').setLevel(logging.INFO)
 
     # This sneaky one calls log.warning() on every retry.
     urllib3_logger = logging.getLogger(requests.packages.urllib3.__package__)
@@ -445,18 +343,13 @@ def set_log_and_verbosity(log):
 
     # Turn these back up if debugging.
     if args.verbose >= 2:
-        logging.getLogger('pgoapi').setLevel(logging.DEBUG)
-        logging.getLogger('pgoapi.pgoapi').setLevel(logging.DEBUG)
         logging.getLogger('requests').setLevel(logging.DEBUG)
         urllib3_logger.setLevel(logging.INFO)
 
     if args.verbose >= 3:
         logging.getLogger('peewee').setLevel(logging.DEBUG)
-        logging.getLogger('rpc_api').setLevel(logging.DEBUG)
-        logging.getLogger('pgoapi.rpc_api').setLevel(logging.DEBUG)
         logging.getLogger('werkzeug').setLevel(logging.DEBUG)
         logging.addLevelName(5, 'TRACE')
-        logging.getLogger('pogom.apiRequests').setLevel(5)
 
     # Web access logs.
     if args.access_logs:

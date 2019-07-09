@@ -10,5 +10,4 @@ psutil
 cHaversine
 peewee
 cachetools
-git+https://github.com/Map-A-Droid/MrMime.git#egg=MrMime
 PyMySQL

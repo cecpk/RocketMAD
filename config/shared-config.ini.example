@@ -4,14 +4,7 @@
 # When your configuration is done, rename this file by removing the ".example" extension
 
 
-# Keys
-###################
-
-#gmaps-key:                     # Your Google Maps API key
-#captcha-key:                   # 2Captcha API key.
-#hash-key:                      # Key for hash server (default=None)
-
-# Other shared settings 
+# Shared settings
 ###################
 
 #db-host:                       # Required for mysql ()
@@ -19,5 +12,4 @@
 #db-user:                       # Required for mysql
 #db-pass:                       # Required for mysql
 #db-port:                       # Required for mysql (default=3306)
-#db-max_connections:            # Max connections (per thread) for the database. (default=5)
 #db-threads:                    # Number of db threads; increase if the db queue falls behind. (default=1)

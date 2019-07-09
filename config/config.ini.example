@@ -1,45 +1,26 @@
 # DO NOT USE NOTEPAD TO EDIT CONFIG FILES! USE NOTEPAD++ INSTEAD!
 # Uncomment a line when you want to change its default value (Remove # at the beginning)
 # Please ensure to leave a space after the colon if a value is needed ("example-setting" "example-setting-with: value")
-# At least one account with "username", "password" as well as "location" and "gmaps-key" are required
 # When your configuration is done, rename this file by removing the ".example" extension
 # A different config-files can be included directly in processes by "--config-file" or "-cf" and path
-
-# PGTools
-#########
-
-#pgpool-url:                    # Address of PGPool to load accounts from and/or update their details. Required for PGPool.
-                                # e.g. http://127.0.0.1:4242 (default=None)
-#pgscout-url:                   # Address of PGScout to perform encounters. Required for PGScout.
-                                # e.g. http://127.0.0.1:4243/iv (default=None)
-#rareless-scans-threshold:      # Mark an account as shadowbanned after this many rareless scans. PGPool required. (default=10)
-#rotate-blind                   # Rotate out shadowbanned accounts. PGPool required.
 
 # Fork features
 ###############
 
-#gain-xp                        # Do various things to let map accounts gain XP and detect Ditto.
 #pogo-assets:                   # Directory pointing to optional PogoAssets root directory. (default=None)
 #generate-images                # Use ImageMagick to generate dynamic icons on demand.
+
 
 # Common settings
 #################
 
 #host:                          # Address to listen on (default='127.0.0.1')
 #port:                          # Port to listen on (default=5000)
-#accountcsv:                    # Load accounts instead from a CSV file containing "auth-service,username,password" lines.
 #location:                      # Location, can be an address or coordinates.
-#step-limit:                    # Steps (default=10)
-#scan-delay:                    # Time delay between requests in scan threads. (default=10)
-#no-pokemon                     # Disables Pokémon from the map. (default=False)
 #no-gyms                        # Disables gym scanning (default=False)
-#no-raids                       # Disables raids from the map. (default=False)
-#no-pokestops                   # Disables PokéStops from the map. (default=False)
-#no-quests                      # Disables quests from the map. (default=False)
-#print-status                   # Enable ENTER to switch between log view and a status view.
-                                # Optionally add ": status" to start in status view and ": logs" to start in log view. (default=False)
-#status-page-password:          # Enables and protects the /status page to view status of all workers. (default=None)
-#captcha-solving                # Enables captcha solving. (default=False)
+#no-pokemon                     # Disables pokemon scanning. (default=False)
+#no-pokestops                   # Disables pokestop scanning. (default=False)
+#no-raids                       # Disables raid scanning (default=False)
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title                      # Title of the map. (default='RocketMap')
@@ -60,86 +41,44 @@
 #################
 
 #db-cleanup                     # Enable regular database cleanup thread.
-#db-cleanup-worker              # Clear worker status from database after X minutes of inactivity. Default: 30, 0 to disable.
 #db-cleanup-pokemon             # Clear pokemon from database X hours after they disappeared. Default: 0, 0 to disable.
 #db-cleanup-gym                 # Clear gym details from database X hours after last gym scan. Default: 8, 0 to disable.
 #db-cleanup-spawnpoint          # Clear spawnpoint from database X hours after last valid scan. Default: 720, 0 to disable.
 #db-cleanup-forts               # Clear gyms and pokestops from database X hours after last valid scan. Default: 0, 0 to disable.
 
 
-# Scan method (speed-scan preferable, (default is hex-scan)
-#############
-
-#beehive                        # Use beehive configuration for multiple accounts, one account per hex.
-                                # Make sure to keep -st under 5, and -w under the total amount of accounts available.
-#spawnpoint-scanning            # Use spawnpoint scanning (instead of hex grid).
-                                # Scans in a circle based on step_limit when on DB.
-                                # A spawnpoint-file can be added optinal as value for "spawnpoint-scanning".
-#dump-spawnpoints               # Dump the spawnpoints from the db to json (only for use with -ss).
-#ss-cluster-time                # Time threshold in seconds for spawn point clustering (0 to disable). (only for use with -ss).
-
-
-# Geofence settings
-###################
-
-#geofence-file:                 # Geofence file to define outer borders of the scan area.
-#geofence-excluded-file:        # File to define forbidden areas inside scan area. Regarded this as inverted geofence. Can be combined with geofence-file.
-
-
-
-# Pokemon IV (Only use one of the filters below)
+# Pokemon IV
 ############
 
 #encounter                      # Set to true to start encounters to pull more info, like IVs or movesets. (default=False)
-#encounter-delay:               # Delay in seconds before starting an encounter. Must not be zero. (default=1)
-#high-lvl-accounts:             # File containing a list high level accounts, in the format "auth_service,username,password"
-#enc-whitelist-file:            # File containing a list of Pokemon IDs to encounter for IV/CPs. Requires L30 or higher accounts in --high-lvl-accounts.
-#hlvl-kph:                      # Set a maximum speed in km/hour for high level account scanning. 0 to disable. (default=25)
-#medalpokemon                   # Show notify for tiny rattata and big magikarp on map
+#medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
 
 # Webserver settings
 ####################
 
-#only-server                    # Server-Only Mode
 #locale:                        # Pokemon translation
-#no-fixed-location              # Disables the fixed map location and shows the search bar for use in shared maps.
 #cors                           # Enable CORS on web server.
 #ssl-certificate:               # Path to ssl certificate
 #ssl-privatekey:                # Path to ssl private key
 #encrypt-lib:                   # Path to encrypt lib to be used instead of the shipped ones.
-#display-in-console             # Display Found Pokemon in Console.
 #disable-blacklist              # Disable the global anti-scraper IP blacklist.
 #rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
 #rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
 #rarity-filename:               # Name of the JSON File for dynamic rarity. Using two different RM Databases with two instances out of the same folter. Default (if empty): rarity
 
 
-
-# Proxy settings
-################
-
-#proxy:                         # Proxy URL e.g. socks5://127.0.0.1:9050 or a list of proxies
-                                # e.g. [socks5://127.0.0.1:9050,socks5://127.0.0.1:9050]
-#proxy-skip-check               # Disable checking of proxies before start.
-#proxy-test-timeout:            # Timeout before proceeding with next proxy while checking if the proxy works. (default=5)
-#proxy-test-retries:            # Number of times to retry sending proxy test requests on failure. (default=0)
-#proxy-test-backoff-factor:     # Factor (in seconds) by which the delay until next retry will increase. (default=0.25)
-#proxy-test-concurrency:        # Async requests pool size. (default=0 for automatic optimal sizing)
-#proxy-display:                 # Used with -ps, full = display complete proxy address. Index = displays just the index for that proxy. (default='index')
-#proxy-file:                    # Load proxy list from text file (one proxy per line), overrides #proxy.
-#proxy-refresh:                 # Period of proxy file reloading, in seconds. Works only with proxy-file. (default=0, 0 to disable)
-#proxy-rotation:                # Enable proxy rotation with account changing for search threads (none/round/random). (default='none')
-
 # Status and logs
 #################
 
-#stats-log-timer                # In log view, list per hr stats every X seconds
 #status-name:                   # Enables writing status updates to the database - if you use multiple processes, each needs a unique value. (default=None)
-#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
+#access-logs                    # Write web logs to console and log file. (default=False)
+#no-file-logs                   # Disables logging to files except for access.log. (default=False)
+#log-path:                      # Defines the path logs are saved at. (default=logs/)
+#log-filename:                  # Defines the log filename to be saved. The default generates yyyymmdd_HHMM_statusname.log. (default=%Y%m%d_%H%M_<SN>)
 
 
 # User Auth Settings
-################
+####################
 # If you want users to auth to Discord prior to accessing server, set user-auth-service to Discord, create an app here:
 # https://discordapp.com/developers/applications/me and add a redrect uri to your the application in this format: https://mysrv.com/auth_callback.
 # If you get an error on the discord page when authenticating, and the redirect_uri in the url doesn't match your servers actual web address
@@ -159,16 +98,16 @@
 #uas-discord-required-roles     # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
 #uas-discord-bot-token          # Token for bot with access to your guild. Only required for required-roles feature
 
+
+# MADmin
+########
+
+#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
+
+
 # Misc
 ######
 
 #verbosity                      # Show debug messages from RocketMap and PGoApi. Values are 1,2,3 (default=0)
-#no-file-logs                   # Disables logging to files except for access.log. (default=False)
-#log-path:                      # Defines the path logs are saved at. (default=logs/)
-#log-filename:                  # Defines the log filename to be saved. The default generates yyyymmdd_HHMM_statusname.log. (default=%Y%m%d_%H%M_<SN>)
-#no-version-check               # Disable API version check. (default=False)
-#version-check-interval:        # Interval to check API version in seconds (Default: in range [60, 300]).
-#mock:                          # Mock mode - point to a fpgo endpoint instead of using the real PogoApi,
-                                # e.g: http://127.0.0.1:9090 (default='')
 #dump                           # Dump censored debug info about the environment and auto-upload to hastebin.com.
 #black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
