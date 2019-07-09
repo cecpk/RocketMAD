@@ -351,7 +351,7 @@ class Pogom(Flask):
                 d['pokestops'] = Pokestop.get_stops(swLat, swLng, neLat, neLng,
                                                     timestamp=timestamp)
                 if newArea:
-                    d['pokestops'] = d['pokestops'] + (
+                    d['pokestops'].update(
                         Pokestop.get_stops(swLat, swLng, neLat, neLng,
                                            oSwLat=oSwLat, oSwLng=oSwLng,
                                            oNeLat=oNeLat, oNeLng=oNeLng,
@@ -484,7 +484,9 @@ class Pogom(Flask):
             lat=self.location[0],
             lng=self.location[1],
             generateImages=str(args.generate_images).lower(),
-            show=visibility_flags)
+            show=visibility_flags,
+            mapTitle=args.map_title,
+            madminUrl=args.madmin_url)
 
     def get_gymdata(self):
         gym_id = request.args.get('id')

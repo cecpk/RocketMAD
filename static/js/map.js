@@ -106,6 +106,39 @@ const genderType = ['♂', '♀', '⚲']
 const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '?']
 
 const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
+const questItemNames = {
+    1: 'Poké Ball',
+    2: 'Great Ball',
+    3: 'Ultra Ball',
+    101: 'Potion',
+    102: 'Super Potion',
+    103: 'Hyper Potion',
+    104: 'Max Potion',
+    201: 'Revive',
+    202: 'Max Revive',
+    301: 'Lucky Egg',
+    401: 'Incense',
+    501: 'Lure Module',
+    701: 'Razz Berry',
+    703: 'Nanab Berry',
+    705: 'Pinap Berry',
+    706: 'Golden Razz Berry',
+    708: 'Silver Pinap Berry',
+    902: 'Egg Incubator',
+    903: 'Super Incubator',
+    1101: 'Sun Stone',
+    1102: 'Kings Rock',
+    1103: 'Metal Coat',
+    1104: 'Dragon Scale',
+    1105: 'Up-Grade',
+    1106: 'Sinnoh Stone',
+    1201: 'Fast TM',
+    1202: 'Charged TM',
+    1301: 'Rare Candy',
+    1402: 'Premium Raid Pass',
+    1404: 'Star Piece',
+    1405: 'Gift'
+}
 
 const weatherImages = {
     1: 'weather_sunny.png',
@@ -840,11 +873,6 @@ function gymLabel(gym) {
                 chargeMoveType = moves[raid.move_2].type;
             }
 
-            let gender = '';
-            if (raid.gender) {
-                gender = genderType[raid.gender - 1];
-            }
-
             raidDisplay = `
                 <div class='section-divider'></div>
                 <div class='raid title'>
@@ -852,7 +880,7 @@ function gymLabel(gym) {
                     <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
                   </div>
                   <div>
-                    ${pokemonName} ${gender} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a> Raid
+                    ${pokemonName} ${genderType[raid.gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a> Raid
                   </div>
                   <div>
                     <span class='label-countdown' disappears-at='${raid.end}'>00m00s</span> left (${moment(raid.end).format('HH:mm')})
@@ -947,98 +975,146 @@ function gymLabel(gym) {
 }
 
 function pokestopLabel(pokestop) {
-    let questText = ''
-    let pokestopImg = '<img class=\'pokestop sprite\' src=\'static/images/pokestop/pokestop.png\'>'
-    let pokestopExpiration = ''
-    const expireTime = pokestop.lure_expiration
-    const latitude = pokestop.latitude
-    const longitude = pokestop.longitude
-    const luredClass = expireTime ? 'lure' : 'nolure'
-    const pokestopNavigation = `
-      <div class="pokestop">
-        <a href='#!' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in Google Maps' class='pokestop navigate ${luredClass}'>${latitude.toFixed(6)}, ${longitude.toFixed(7)}</a>
-      </div>
-    `
-    const pokestopName = pokestop.name ? pokestop.name : 'Pokéstop'
+    const pokestopName = pokestop.name ? pokestop.name : 'PokéStop'
+    const lureExpirationTime = pokestop.lure_expiration
+    const quest = pokestop.quest
+    const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
+    var pokestopImageSource = ''
+    var pokestopImageClass = ''
+    var lureDisplay = ''
+    var lureClass = ''
+    var questDisplay = ''
 
-    if (expireTime) {
-        pokestopExpiration = `
-          <div class='pokestop-expire'>
-            <span class='label-countdown' disappears-at='${expireTime}'>00m00s</span> left (${moment(expireTime).format('HH:mm')})
-          </div>
-        `
+    if (lureExpirationTime && lureExpirationTime > Date.now()) {
+        let lureTypeText = ''
+
+        switch(pokestop.active_fort_modifier) {
+            case 502:
+                pokestopImageSource = 'static/images/pokestop/pokestop_lured_glacial.png'
+                lureTypeText = 'Glacial Lure'
+                lureClass = 'lure-glacial'
+                break;
+            case 503:
+                pokestopImageSource = 'static/images/pokestop/pokestop_lured_mossy.png'
+                lureTypeText = 'Mossy Lure'
+                lureClass = 'lure-mossy'
+                break;
+            case 504:
+                pokestopImageSource = 'static/images/pokestop/pokestop_lured_magnetic.png'
+                lureTypeText = 'Magnetic Lure'
+                lureClass = 'lure-magnetic'
+                break;
+            default:
+                pokestopImageSource = 'static/images/pokestop/pokestop_lured.png'
+                lureTypeText = 'Normal Lure'
+                lureClass = 'lure-normal'
+        }
+
+        lureDisplay = `
+            <div class='pokestop lure-container ${lureClass}'>
+              <div>
+                ${lureTypeText}
+              </div>
+              <div>
+                <span class='label-countdown' disappears-at='${lureExpirationTime}'>00m00s</span> left (${moment(lureExpirationTime).format('HH:mm')})
+              </div>
+            </div>`
+    } else {
+        pokestopImageSource = 'static/images/pokestop/pokestop.png'
+        lureClass = 'no-lure'
     }
 
-    if (typeof pokestop.image !== 'undefined' && pokestop.image !== null && pokestop.image !== '') {
-        pokestopImg = `<img class='pokestop imgcircle ${luredClass}' src='${pokestop.image}'>`
+    if (pokestop.image) {
+        pokestopImageSource = pokestop.image
+        pokestopImageClass = 'image'
+    } else {
+        pokestopImageClass = 'sprite'
     }
 
-    const quest = pokestop.quest_raw
-    if (Store.get('showQuests') && quest['is_quest']) {
-        let image = ''
+    if (Store.get('showQuests') && quest) {
+        let rewardImageSource = ''
         let rewardText = ''
-        let width = 40
-        let showQuest = false
 
-        switch (quest['quest_reward_type_raw']) {
+        switch (quest.reward_type) {
             case '2':
-                if (excludedQuestItems.indexOf(parseInt(quest['item_id'])) === -1) {
-                    image = 'static/images/quest/reward_' + quest['item_id'] + '_1.png'
-                    rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
-                    width = 40
-                    showQuest = true
+                if (excludedQuestItems.indexOf(parseInt(quest.item_id)) === -1) {
+                    rewardImageSource = 'static/images/quest/reward_' + quest.item_id + '_1.png'
+                    rewardText = quest.item_amount + ' ' + i8ln(questItemNames[quest.item_id])
                 }
                 break
             case '3':
                 if (excludedQuestItems.indexOf(6) === -1) {
-                    image = 'static/images/quest/reward_stardust.png'
-                    rewardText = quest['item_amount'] + ' ' + i8ln(quest['item_type'])
-                    width = 40
-                    showQuest = true
+                    rewardImageSource = 'static/images/quest/reward_stardust.png'
+                    rewardText = quest.stardust + ' Stardust'
                 }
                 break
             case '7':
-                if (excludedQuestPokemon.indexOf(parseInt(quest['pokemon_id'])) === -1) {
-                    const pokemonId = quest['pokemon_id']
-                    if (generateImages) {
-                        image = `pkm_img?pkm=${pokemonId}`
-                    } else {
-                        image = pokemonSprites(quest['pokemon_id']).filename
-                    }
-                    rewardText = quest['quest_pokemon_name']
-                    width = 40
-                    showQuest = true
+                if (excludedQuestPokemon.indexOf(parseInt(quest.pokemon_id)) === -1) {
+                    rewardImageSource = getPokemonRawIconUrl(quest)
+                    rewardText = `${idToPokemon[quest.pokemon_id].name} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
                 }
                 break
         }
 
-        if (showQuest) {
-            questText = `
-                <div class="pokestop-quest">
-                  <div class="pokestop-quest__reward">
-                    <div class="pokestop-quest__reward-image"><img src="${image}" width="${width}" /></div>
-                    <div class="pokestop-quest__reward-text">${rewardText}</div>
+        if (rewardText) {
+            questDisplay = `
+                <div class='section-divider'></div>
+                <div class='quest container'>
+                  <div class='quest container content-left'>
+                    <div>
+                      <div>
+                        <img class='quest image' src="${rewardImageSource}" width='64px' height='64px'/>
+                      </div>
+                    </div>
                   </div>
-                  <div class="pokestop-quest__task">${quest['quest_task']}</div>
+                  <div class='quest container content-right'>
+                    <div>
+                      <div>
+                        Quest task: <span class='info'>${quest.task}</span>
+                      </div>
+                      <div>
+                        Quest reward: <span class='info'>${rewardText}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>`
         }
-
     }
 
     return `
-      <div>
-        <div class='pokestop ${luredClass}'>
-          ${pokestopName}
-        </div>
-        ${pokestopExpiration}
         <div>
-          ${pokestopImg}
-        </div>
-        <div>
-          ${questText}
-        </div>
-        ${pokestopNavigation}
-      </div>`
+          <div class='pokestop name ${lureClass}'>
+            ${pokestopName}
+          </div>
+          <div class='pokestop container'>
+            <div class='pokestop container content-left'>
+              <div>
+                <div>
+                  <img class='pokestop ${pokestopImageClass} ${lureClass}' src='${pokestopImageSource}' width='64px' height='64px'>
+                </div>
+              </div>
+            </div>
+            <div class='pokestop container content-right'>
+              <div>
+                ${lureDisplay}
+                <div>
+                  Last scanned: <span class='info'>${moment(pokestop.last_updated).format('HH:mm:ss DD-MM-YYYY')}</span>
+                </div>
+                <div>
+                  Last lure: <span class='info'>${moment(pokestop.last_modified).format('HH:mm:ss DD-MM-YYYY')}</span>
+                </div>
+                <div>
+                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'>${pokestop.latitude.toFixed(7)}, ${pokestop.longitude.toFixed(7)}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          ${questDisplay}
+        </div>`
+}
+
+function updatePokestopLabel(pokestop, marker) {
+    marker._popup.setContent(pokestopLabel(pokestop))
 }
 
 function formatSpawnTime(seconds) {
@@ -1416,27 +1492,69 @@ function updateGymMarker(gym, marker) {
 function setupPokestopMarker(pokestop) {
     var marker = L.marker([pokestop.latitude, pokestop.longitude])
     updatePokestopMarker(pokestop, marker)
+    marker.bindPopup()
     markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
         marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')
     }
-    addListeners(marker)
+    marker.pokestop_id = pokestop.pokestop_id
+    pokestop.isUpdated = true
+
+    marker.on('click', function () {
+        if (!marker.infoWindowIsOpen) {
+            if (mapData.pokestops[marker.pokestop_id].isUpdated) {
+                updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
+            }
+            marker.openPopup()
+            clearSelection()
+            updateLabelDiffTime()
+            marker.persist = true
+            marker.infoWindowIsOpen = true
+        } else {
+            marker.closePopup()
+            mapData.pokestops[marker.pokestop_id].isUpdated = false
+            marker.persist = null
+            marker.infoWindowIsOpen = false
+        }
+    })
+
+    if (!isMobileDevice() && !isTouchDevice()) {
+        marker.on('mouseover', function () {
+            if (mapData.pokestops[marker.pokestop_id].isUpdated) {
+                updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
+            }
+            marker.openPopup()
+            clearSelection()
+            updateLabelDiffTime()
+            marker.infoWindowIsOpen = true
+        })
+    }
+
+    marker.on('mouseout', function () {
+        if (!marker.persist) {
+            marker.closePopup()
+            marker.infoWindowIsOpen = false
+            mapData.pokestops[marker.pokestop_id].isUpdated = false
+        }
+    })
+
     return marker
 }
 
 function updatePokestopMarker(pokestop, marker) {
-    var questRewardType = pokestop['quest_raw']['quest_reward_type_raw']
-    var questItemId = pokestop['quest_raw']['item_id']
-    var questPokemonId = pokestop['quest_raw']['pokemon_id']
-    var lureExipiration = pokestop['lure_expiration']
-    var activeFortModifier = pokestop['active_fort_modifier']
+    const quest = pokestop.quest
+    const lureExpiration = pokestop.lure_expiration
+    const activeFortModifier = pokestop.active_fort_modifier
     var markerImage
     var shadowImage
     var shadowSize
     var shadowAnchor
 
-    if (Store.get('showQuests') && questRewardType) {
-        switch (questRewardType) {
+    if (Store.get('showQuests') && quest) {
+        const questItemId = quest.item_id
+        const questPokemonId = quest.pokemon_id
+
+        switch (quest.reward_type) {
             case '2':
                 if (excludedQuestItems.indexOf(parseInt(questItemId)) === -1) {
                     shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
@@ -1469,14 +1587,15 @@ function updatePokestopMarker(pokestop, marker) {
         }
     }
 
-    if (Store.get('showPokestops') && lureExipiration) {
-        if (Store.get('showLuredPokestopsOnly') <= 2 && !pokestop['active_fort_modifier']) {
+    if (Store.get('showPokestops') && lureExpiration && lureExpiration > new Date()) {
+        let showLuredPokestopsOnly = Store.get('showLuredPokestopsOnly')
+        if (showLuredPokestopsOnly <= 2 && activeFortModifier === 501) {
             markerImage = 'pokestop_lured'
-        } else if ((Store.get('showLuredPokestopsOnly') <= 1 || Store.get('showLuredPokestopsOnly') == 3) && activeFortModifier === 502) {
+        } else if ((showLuredPokestopsOnly <= 1 || showLuredPokestopsOnly == 3) && activeFortModifier === 502) {
             markerImage = 'pokestop_lured_glacial'
-        } else if ((Store.get('showLuredPokestopsOnly') <= 1 || Store.get('showLuredPokestopsOnly') == 4) && activeFortModifier === 504) {
+        } else if ((showLuredPokestopsOnly <= 1 || showLuredPokestopsOnly == 4) && activeFortModifier === 504) {
             markerImage = 'pokestop_lured_magnetic'
-        } else if ((Store.get('showLuredPokestopsOnly') <= 1 || Store.get('showLuredPokestopsOnly') == 5) && activeFortModifier === 503) {
+        } else if ((showLuredPokestopsOnly <= 1 || showLuredPokestopsOnly == 5) && activeFortModifier === 503) {
             markerImage = 'pokestop_lured_mossy'
         }
     }
@@ -1495,7 +1614,6 @@ function updatePokestopMarker(pokestop, marker) {
 
     marker.setIcon(PokestopIcon)
     marker.setZIndexOffset = pokestop['lure_expiration'] ? 3 : 2
-    marker.bindPopup(pokestopLabel(pokestop))
 
     return marker
 }
@@ -2000,10 +2118,10 @@ function processPokemon(item) {
 }
 
 function isPokestopSatisfiesFilters(pokestop) {
-    if (Store.get('showQuests') && pokestop['quest_raw']['quest_reward_type_raw']) {
-        switch(pokestop['quest_raw']['quest_reward_type_raw']) {
+    if (Store.get('showQuests') && pokestop.quest) {
+        switch(pokestop.quest.reward_type) {
             case '2':
-                if (excludedQuestItems.indexOf(parseInt(pokestop['quest_raw']['item_id'])) === -1) {
+                if (excludedQuestItems.indexOf(parseInt(pokestop.quest.item_id)) === -1) {
                     return true
                 }
                 break
@@ -2013,7 +2131,7 @@ function isPokestopSatisfiesFilters(pokestop) {
                 }
                 break
             case '7':
-                if (excludedQuestPokemon.indexOf(parseInt(pokestop['quest_raw']['pokemon_id'])) === -1) {
+                if (excludedQuestPokemon.indexOf(parseInt(pokestop.quest.pokemon_id)) === -1) {
                     return true
                 }
                 break
@@ -2022,12 +2140,13 @@ function isPokestopSatisfiesFilters(pokestop) {
 
     if (Store.get('showPokestops')) {
         if (Store.get('showLuredPokestopsOnly') > 0) {
-            if (pokestop['lure_expiration']) {
-              if (Store.get('showLuredPokestopsOnly') == 1 ||
-                  Store.get('showLuredPokestopsOnly') == 2 && !pokestop['active_fort_modifier'] ||
-                  Store.get('showLuredPokestopsOnly') == 3 && pokestop['active_fort_modifier'] === 502 ||
-                  Store.get('showLuredPokestopsOnly') == 4 && pokestop['active_fort_modifier'] === 504 ||
-                  Store.get('showLuredPokestopsOnly') == 5 && pokestop['active_fort_modifier'] === 503) {
+            if (pokestop['lure_expiration'] && pokestop['lure_expiration'] > new Date()) {
+              let showLuredPokestopsOnly = Store.get('showLuredPokestopsOnly')
+              if (showLuredPokestopsOnly == 1 ||
+                      showLuredPokestopsOnly == 2 && pokestop['active_fort_modifier'] === 501 ||
+                      showLuredPokestopsOnly == 3 && pokestop['active_fort_modifier'] === 502 ||
+                      showLuredPokestopsOnly == 4 && pokestop['active_fort_modifier'] === 504 ||
+                      showLuredPokestopsOnly == 5 && pokestop['active_fort_modifier'] === 503) {
                   return true
               }
             }
@@ -2056,6 +2175,7 @@ function updatePokestops() {
     $.each(mapData.pokestops, function (key, pokestop) {
         if (isPokestopSatisfiesFilters(pokestop)) {
             updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+            updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
         } else {
             removePokestop(pokestop)
         }
@@ -2070,9 +2190,8 @@ function updateLuredPokestops() {
         return false
     }
 
-    var currentTime = new Date().getTime()
     $.each(luredPokestops, function (key, pokestop) {
-        if (pokestop.lure_expiration && pokestop.lure_expiration <= currentTime) {
+        if (pokestop.lure_expiration && pokestop.lure_expiration <= new Date()) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 mapData.pokestops[pokestop.pokestop_id].lure_expiration = null
                 mapData.pokestops[pokestop.pokestop_id].active_fort_modifier = null
@@ -2097,16 +2216,23 @@ function processPokestop(i, pokestop) {
         // New pokestop, add marker to map and item to dict.
         pokestop.marker = setupPokestopMarker(pokestop)
         mapData.pokestops[pokestop.pokestop_id] = pokestop
-        if (pokestop.lure_expiration) {
+        if (pokestop.lure_expiration && pokestop.lure_expiration > new Date()) {
             luredPokestops[pokestop.pokestop_id] = pokestop
         }
     } else {
         // Existing pokestop, update marker and dict item if necessary.
-        var pokestop2 = mapData.pokestops[pokestop.pokestop_id]
-        var newLure = pokestop.lure_expiration && !pokestop2.lure_expiration
-        if (newLure || !!pokestop.quest_raw.quest_reward_type_raw !== !!pokestop2.quest_raw.quest_reward_type_raw) {
+        let pokestop2 = mapData.pokestops[pokestop.pokestop_id]
+        let now = Date.now()
+        let newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
+        if (newLure || !!pokestop.quest !== !!pokestop2.quest) {
             if (isPokestopSatisfiesFilters(pokestop)) {
-                updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                var marker = mapData.pokestops[pokestop.pokestop_id].marker
+                if (marker.infoWindowIsOpen) {
+                    updatePokestopLabel(pokestop, marker)
+                }
+                updatePokestopMarker(pokestop, marker)
+                pokestop.marker = marker
+                pokestop.isUpdated = true
                 mapData.pokestops[pokestop.pokestop_id] = pokestop
                 if (newLure) {
                     luredPokestops[pokestop.pokestop_id] = pokestop
@@ -2114,6 +2240,15 @@ function processPokestop(i, pokestop) {
             } else {
                 removePokestop(pokestop)
             }
+            return true
+        }
+
+        if (pokestop.last_updated > pokestop2.last_updated) {
+            if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
+                updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+            }
+            mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
+            mapData.pokestops[pokestop.pokestop_id].isUpdated = true
         }
     }
 }
