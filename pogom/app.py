@@ -534,7 +534,7 @@ class Pogom(Flask):
                 d['pokestops'] = Pokestop.get_stops(swLat, swLng, neLat, neLng,
                                                     timestamp=timestamp)
                 if newArea:
-                    d['pokestops'] = d['pokestops'] + (
+                    d['pokestops'].update(
                         Pokestop.get_stops(swLat, swLng, neLat, neLng,
                                            oSwLat=oSwLat, oSwLng=oSwLng,
                                            oNeLat=oNeLat, oNeLng=oNeLng,

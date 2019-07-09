@@ -106,6 +106,39 @@ const genderType = ['♂', '♀', '⚲']
 const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '?']
 
 const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
+const questItemNames = {
+    1: 'Poké Ball',
+    2: 'Great Ball',
+    3: 'Ultra Ball',
+    101: 'Potion',
+    102: 'Super Potion',
+    103: 'Hyper Potion',
+    104: 'Max Potion',
+    201: 'Revive',
+    202: 'Max Revive',
+    301: 'Lucky Egg',
+    401: 'Incense',
+    501: 'Lure Module',
+    701: 'Razz Berry',
+    703: 'Nanab Berry',
+    705: 'Pinap Berry',
+    706: 'Golden Razz Berry',
+    708: 'Silver Pinap Berry',
+    902: 'Egg Incubator',
+    903: 'Super Incubator',
+    1101: 'Sun Stone',
+    1102: 'Kings Rock',
+    1103: 'Metal Coat',
+    1104: 'Dragon Scale',
+    1105: 'Up-Grade',
+    1106: 'Sinnoh Stone',
+    1201: 'Fast TM',
+    1202: 'Charged TM',
+    1301: 'Rare Candy',
+    1402: 'Premium Raid Pass',
+    1404: 'Star Piece',
+    1405: 'Gift'
+}
 
 const weatherImages = {
     1: 'weather_sunny.png',
@@ -979,7 +1012,7 @@ function gymLabel(gym) {
 function pokestopLabel(pokestop) {
     const pokestopName = pokestop.name ? pokestop.name : 'PokéStop'
     const lureExpirationTime = pokestop.lure_expiration
-    const quest = pokestop.quest_raw
+    const quest = pokestop.quest
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
     var pokestopImageSource = ''
     var pokestopImageClass = ''
@@ -1033,27 +1066,27 @@ function pokestopLabel(pokestop) {
         pokestopImageClass = 'sprite'
     }
 
-    if (Store.get('showQuests') && quest && quest.quest_reward_type_raw) {
+    if (Store.get('showQuests') && quest) {
         let rewardImageSource = ''
         let rewardText = ''
 
-        switch (quest.quest_reward_type_raw) {
+        switch (quest.reward_type) {
             case '2':
                 if (excludedQuestItems.indexOf(parseInt(quest.item_id)) === -1) {
                     rewardImageSource = 'static/images/quest/reward_' + quest.item_id + '_1.png'
-                    rewardText = quest.item_amount + ' ' + i8ln(quest.item_type)
+                    rewardText = quest.item_amount + ' ' + i8ln(questItemNames[quest.item_id])
                 }
                 break
             case '3':
                 if (excludedQuestItems.indexOf(6) === -1) {
                     rewardImageSource = 'static/images/quest/reward_stardust.png'
-                    rewardText = quest.item_amount + ' ' + i8ln(quest.item_type)
+                    rewardText = quest.stardust + ' Stardust'
                 }
                 break
             case '7':
                 if (excludedQuestPokemon.indexOf(parseInt(quest.pokemon_id)) === -1) {
                     rewardImageSource = getPokemonRawIconUrl(quest)
-                    rewardText = `${quest.quest_pokemon_name} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
+                    rewardText = `${idToPokemon[quest.pokemon_id].name} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
                 }
                 break
         }
@@ -1072,7 +1105,7 @@ function pokestopLabel(pokestop) {
                   <div class='quest container content-right'>
                     <div>
                       <div>
-                        Quest task: <span class='info'>${quest.quest_task}</span>
+                        Quest task: <span class='info'>${quest.task}</span>
                       </div>
                       <div>
                         Quest reward: <span class='info'>${rewardText}</span>
@@ -1494,12 +1527,13 @@ function updateGymMarker(gym, marker) {
 function setupPokestopMarker(pokestop) {
     var marker = L.marker([pokestop.latitude, pokestop.longitude])
     updatePokestopMarker(pokestop, marker)
-    marker.bindPopup(pokestopLabel(pokestop))
+    marker.bindPopup()
     markers.addLayer(marker)
     if (!marker.rangeCircle && isRangeActive(map)) {
         marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')
     }
     marker.pokestop_id = pokestop.pokestop_id
+    pokestop.isUpdated = true
 
     marker.on('click', function () {
         if (!marker.infoWindowIsOpen) {
@@ -1543,18 +1577,19 @@ function setupPokestopMarker(pokestop) {
 }
 
 function updatePokestopMarker(pokestop, marker) {
-    var questRewardType = pokestop['quest_raw']['quest_reward_type_raw']
-    var questItemId = pokestop['quest_raw']['item_id']
-    var questPokemonId = pokestop['quest_raw']['pokemon_id']
-    var lureExpiration = pokestop['lure_expiration']
-    var activeFortModifier = pokestop['active_fort_modifier']
+    const quest = pokestop.quest
+    const lureExpiration = pokestop.lure_expiration
+    const activeFortModifier = pokestop.active_fort_modifier
     var markerImage
     var shadowImage
     var shadowSize
     var shadowAnchor
 
-    if (Store.get('showQuests') && questRewardType) {
-        switch (questRewardType) {
+    if (Store.get('showQuests') && quest) {
+        const questItemId = quest.item_id
+        const questPokemonId = quest.pokemon_id
+
+        switch (quest.reward_type) {
             case '2':
                 if (excludedQuestItems.indexOf(parseInt(questItemId)) === -1) {
                     shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
@@ -2118,10 +2153,10 @@ function processPokemon(item) {
 }
 
 function isPokestopSatisfiesFilters(pokestop) {
-    if (Store.get('showQuests') && pokestop['quest_raw']['quest_reward_type_raw']) {
-        switch(pokestop['quest_raw']['quest_reward_type_raw']) {
+    if (Store.get('showQuests') && pokestop.quest) {
+        switch(pokestop.quest.reward_type) {
             case '2':
-                if (excludedQuestItems.indexOf(parseInt(pokestop['quest_raw']['item_id'])) === -1) {
+                if (excludedQuestItems.indexOf(parseInt(pokestop.quest.item_id)) === -1) {
                     return true
                 }
                 break
@@ -2131,7 +2166,7 @@ function isPokestopSatisfiesFilters(pokestop) {
                 }
                 break
             case '7':
-                if (excludedQuestPokemon.indexOf(parseInt(pokestop['quest_raw']['pokemon_id'])) === -1) {
+                if (excludedQuestPokemon.indexOf(parseInt(pokestop.quest.pokemon_id)) === -1) {
                     return true
                 }
                 break
@@ -2224,7 +2259,7 @@ function processPokestop(i, pokestop) {
         let pokestop2 = mapData.pokestops[pokestop.pokestop_id]
         let now = Date.now()
         let newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
-        if (newLure || !!pokestop.quest_raw.quest_reward_type_raw !== !!pokestop2.quest_raw.quest_reward_type_raw) {
+        if (newLure || !!pokestop.quest !== !!pokestop2.quest) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 var marker = mapData.pokestops[pokestop.pokestop_id].marker
                 if (marker.infoWindowIsOpen) {

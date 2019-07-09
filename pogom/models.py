@@ -25,7 +25,6 @@ from timeit import default_timer
 
 from pogom.gainxp import DITTO_CANDIDATES_IDS, is_ditto, gxp_spin_stops
 from pogom.pgscout import pgscout_encounter
-from .questGen import generate_quest
 from .utils import (get_pokemon_name, get_pokemon_types,
                     get_args, cellid, in_radius, date_secs, clock_between,
                     get_move_name, get_move_damage, get_move_energy,
@@ -401,14 +400,7 @@ class Pokestop(LatLongModel):
                          Pokestop.image, Pokestop.latitude, Pokestop.longitude,
                          Pokestop.last_updated, Pokestop.last_modified,
                          Pokestop.active_fort_modifier,
-                         Pokestop.lure_expiration, Trs_Quest.quest_task,
-                         Trs_Quest.quest_type, Trs_Quest.quest_stardust,
-                         Trs_Quest.quest_pokemon_id,
-                         Trs_Quest.quest_reward_type, Trs_Quest.quest_item_id,
-                         Trs_Quest.quest_item_amount, Trs_Quest.quest_target,
-                         Trs_Quest.quest_timestamp)
-                 .join(Trs_Quest, JOIN.LEFT_OUTER,
-                       on=(Pokestop.pokestop_id == Trs_Quest.GUID)))
+                         Pokestop.lure_expiration))
 
         if not (swLat and swLng and neLat and neLng):
             query = (query
@@ -472,15 +464,35 @@ class Pokestop(LatLongModel):
         # (potentially) large dict with append().
         gc.disable()
 
-        pokestops = []
+        pokestops = {}
+        pokestop_ids = []
         for p in query:
             if args.china:
                 p['latitude'], p['longitude'] = \
                     transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
+            p['quest'] = None
+            pokestops[p['pokestop_id']] = p
+            pokestop_ids.append(p['pokestop_id'])
 
-            p['quest_raw'] = generate_quest(p)
+        if len(pokestop_ids) > 0:
+            today = datetime.today() #local time
+            today_timestamp = datetime.timestamp(
+                datetime.combine(today, datetime.min.time()))
+            quests = (Trs_Quest
+                      .select(Trs_Quest.GUID.alias('pokestop_id'),
+                              Trs_Quest.quest_task.alias('task'),
+                              Trs_Quest.quest_type.alias('type'),
+                              Trs_Quest.quest_stardust.alias('stardust'),
+                              Trs_Quest.quest_pokemon_id.alias('pokemon_id'),
+                              Trs_Quest.quest_reward_type.alias('reward_type'),
+                              Trs_Quest.quest_item_id.alias('item_id'),
+                              Trs_Quest.quest_item_amount.alias('item_amount'))
+                      .where((Trs_Quest.GUID << pokestop_ids) &
+                             (Trs_Quest.quest_timestamp >= today_timestamp))
+                      .dicts())
 
-            pokestops.append(p)
+            for q in quests:
+                pokestops[q['pokestop_id']]['quest'] = q
 
         # Re-enable the GC.
         gc.enable()
@@ -813,7 +825,7 @@ class Trs_Quest(BaseModel):
     quest_item_id = Utf8mb4CharField(max_length=3)
     quest_item_amount = Utf8mb4CharField(max_length=2)
     quest_target = Utf8mb4CharField(max_length=3)
-    quest_timestamp = FloatField()
+    quest_timestamp = IntegerField(null=True)
 
     @staticmethod
     def get_quests():
