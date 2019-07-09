@@ -579,10 +579,16 @@ function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
 }
 
 // Converts timestamp to readable String
-function getDateStr(t) {
+function getDateStr(timestamp) {
     var dateStr = 'Unknown'
-    if (t) {
-        dateStr = moment(t).fromNow()
+    if (timestamp) {
+        if (moment(timestamp).isSame(moment(), 'day')) {
+            dateStr = 'Today ' + moment(timestamp).format('HH:mm:ss')
+        } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
+            dateStr = 'Yesterday ' + moment(timestamp).format('HH:mm:ss')
+        } else {
+            dateStr = moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
+        }
     }
     return dateStr
 }
@@ -959,10 +965,10 @@ function gymLabel(gym) {
                   ${gymLeaderDisplay}
                 </div>
                 <div>
-                  Last scanned: <span class='info'>${moment(gym.last_scanned).format('HH:mm:ss DD-MM-YYYY')}</span>
+                  Last scanned: <span class='info'>${getDateStr(gym.last_scanned)}</span>
                 </div>
                 <div>
-                  Last modified: <span class='info'>${moment(gym.last_modified).format('HH:mm:ss DD-MM-YYYY')}</span>
+                  Last modified: <span class='info'>${getDateStr(gym.last_modified)}</span>
                 </div>
                 <div>
                   <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'>${gym.latitude.toFixed(7)}, ${gym.longitude.toFixed(7)}</a>
@@ -1098,10 +1104,10 @@ function pokestopLabel(pokestop) {
               <div>
                 ${lureDisplay}
                 <div>
-                  Last scanned: <span class='info'>${moment(pokestop.last_updated).format('HH:mm:ss DD-MM-YYYY')}</span>
+                  Last scanned: <span class='info'>${getDateStr(pokestop.last_updated)}</span>
                 </div>
                 <div>
-                  Last lure: <span class='info'>${moment(pokestop.last_modified).format('HH:mm:ss DD-MM-YYYY')}</span>
+                  Last lure: <span class='info'>${getDateStr(pokestop.last_modified)}</span>
                 </div>
                 <div>
                   <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'>${pokestop.latitude.toFixed(7)}, ${pokestop.longitude.toFixed(7)}</a>
