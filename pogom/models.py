@@ -178,17 +178,17 @@ class Pokemon(LatLongModel):
             # Send Pokemon in view but exclude those within old boundaries.
             # Only send newly uncovered Pokemon.
             query = (query
-                     .where(((Pokemon.disappear_time > now_date) &
-                             (((Pokemon.latitude >= swLat) &
-                               (Pokemon.longitude >= swLng) &
-                               (Pokemon.latitude <= neLat) &
-                               (Pokemon.longitude <= neLng))) &
-                             ~((Pokemon.disappear_time > now_date) &
-                               (Pokemon.latitude >= oSwLat) &
-                               (Pokemon.longitude >= oSwLng) &
-                               (Pokemon.latitude <= oNeLat) &
-                               (Pokemon.longitude <= oNeLng))))
+                     .where((Pokemon.disappear_time > now_date) &
+                            ((Pokemon.latitude >= swLat) &
+                             (Pokemon.longitude >= swLng) &
+                             (Pokemon.latitude <= neLat) &
+                             (Pokemon.longitude <= neLng)) & ~
+                            ((Pokemon.latitude >= oSwLat) &
+                             (Pokemon.longitude >= oSwLng) &
+                             (Pokemon.latitude <= oNeLat) &
+                             (Pokemon.longitude <= oNeLng)))
                      .dicts())
+            print(query)
         else:
             query = (query
                      # Add 1 hour buffer to include spawnpoints that persist
