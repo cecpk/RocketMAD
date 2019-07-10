@@ -3,33 +3,27 @@
 
 import logging
 import itertools
-import calendar
 import sys
 import gc
 import time
-import math
 
-import s2sphere
-from peewee import (Check, CompositeKey, ForeignKeyField,
-                    SmallIntegerField, IntegerField, CharField, DoubleField,
-                    BooleanField, DateTimeField, fn, FloatField,
-                    TextField, BigIntegerField, PrimaryKeyField,
-                    JOIN, OperationalError, __exception_wrapper__)
+from peewee import (Check, SmallIntegerField, IntegerField, CharField,
+                    DoubleField, BooleanField, DateTimeField, fn, FloatField,
+                    TextField, BigIntegerField, JOIN, OperationalError,
+                    __exception_wrapper__)
 from playhouse.flask_utils import FlaskDB
 from playhouse.pool import PooledMySQLDatabase
 from playhouse.migrate import migrate, MySQLMigrator
 from datetime import datetime, timedelta
 from cachetools import TTLCache
 from cachetools import cached
+from functools import reduce
 from timeit import default_timer
 
 from .utils import (get_pokemon_name, get_pokemon_types,
-                    get_args, cellid, in_radius, date_secs, clock_between,
-                    get_move_name, get_move_damage, get_move_energy,
-                    get_move_type, calc_pokemon_level, peewee_attr_to_col)
-from .transform import transform_from_wgs_to_gcj, get_new_coords
-
-from functools import reduce
+                    get_args, cellid, get_move_name, get_move_damage,
+                    get_move_energy, get_move_type)
+from .transform import transform_from_wgs_to_gcj
 
 log = logging.getLogger(__name__)
 
