@@ -188,7 +188,6 @@ class Pokemon(LatLongModel):
                              (Pokemon.latitude <= oNeLat) &
                              (Pokemon.longitude <= oNeLng)))
                      .dicts())
-            print(query)
         else:
             query = (query
                      # Add 1 hour buffer to include spawnpoints that persist
