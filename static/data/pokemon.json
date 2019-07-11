@@ -1867,7 +1867,21 @@
         "color": "#f85888"
       }
     ],
-    "name": "Mewtwo"
+    "name": "Mewtwo",
+    "forms": {
+      "0": {
+        "id": "MEWTWO_NORMAL",
+        "name": "Mewtwo",
+        "formName": "",
+        "assetId": "00"
+      },
+      "133": {
+        "id": "MEWTWO_A",
+        "name": "A",
+        "formName": "Armored",
+        "assetSuffix": "pm0150_00_pgo_a"
+      }
+    }
   },
   "151": {
     "types": [

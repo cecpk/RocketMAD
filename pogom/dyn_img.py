@@ -316,6 +316,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
 
     pokemon_data = get_pokemon_data(pkm)
     forms = pokemon_data.get('forms', {})
+    should_use_suffix = False
 
     if forms:
         # default value is first form
@@ -323,7 +324,14 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
         if form and str(form) in forms:
             form_data = forms[str(form)]
 
-        asset_id = form_data['assetId']
+        asset_id = ''
+
+        if 'assetId' in form_data:
+            asset_id = form_data['assetId']
+        elif 'assetSuffix' in form_data:
+            should_use_suffix = True
+            asset_id = form_data['assetSuffix']
+
         gender_assets_suffix = '_' + asset_id
         form_suffix = '_' + asset_id
 
@@ -334,6 +342,12 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
                                        form_assets_suffix,
                                        costume_assets_suffix,
                                        shiny_suffix))
+
+    if should_use_suffix:
+        assets_fullname = os.path.join(assets_basedir,
+                                       'pokemon_icon{}.png'.format(form_suffix)
+                                       )
+
     target_path = os.path.join(
         path_generated, 'pokemon_{}'.format(
             classifier)) if classifier else os.path.join(
