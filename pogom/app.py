@@ -17,8 +17,7 @@ from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
 from pogom.weather import (get_weather_cells,
                            get_s2_coverage, get_weather_alerts)
-from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
-                     WorkerStatus, Token, SpawnPoint)
+from .models import (Pokemon, Gym, Pokestop, ScannedLocation, SpawnPoint)
 from .utils import (get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
 from .client_auth import check_auth

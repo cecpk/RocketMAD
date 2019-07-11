@@ -1042,19 +1042,19 @@ function pokestopLabel(pokestop) {
         let rewardText = ''
 
         switch (quest.reward_type) {
-            case '2':
+            case 2:
                 if (excludedQuestItems.indexOf(parseInt(quest.item_id)) === -1) {
                     rewardImageSource = 'static/images/quest/reward_' + quest.item_id + '_1.png'
                     rewardText = quest.item_amount + ' ' + i8ln(questItemNames[quest.item_id])
                 }
                 break
-            case '3':
+            case 3:
                 if (excludedQuestItems.indexOf(6) === -1) {
                     rewardImageSource = 'static/images/quest/reward_stardust.png'
                     rewardText = quest.stardust + ' Stardust'
                 }
                 break
-            case '7':
+            case 7:
                 if (excludedQuestPokemon.indexOf(parseInt(quest.pokemon_id)) === -1) {
                     rewardImageSource = getPokemonRawIconUrl(quest)
                     rewardText = `${idToPokemon[quest.pokemon_id].name} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
@@ -1561,7 +1561,7 @@ function updatePokestopMarker(pokestop, marker) {
         const questPokemonId = quest.pokemon_id
 
         switch (quest.reward_type) {
-            case '2':
+            case 2:
                 if (excludedQuestItems.indexOf(parseInt(questItemId)) === -1) {
                     shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
                     shadowSize = [30, 30]
@@ -1569,7 +1569,7 @@ function updatePokestopMarker(pokestop, marker) {
                     markerImage = 'pokestop_quest'
                 }
                 break
-            case '3':
+            case 3:
                 if (excludedQuestItems.indexOf(6) === -1) {
                     shadowImage = 'static/images/quest/reward_stardust.png'
                     shadowSize = [30, 30]
@@ -1577,7 +1577,7 @@ function updatePokestopMarker(pokestop, marker) {
                     markerImage = 'pokestop_quest'
                 }
                 break
-            case '7':
+            case 7:
                 if (excludedQuestPokemon.indexOf(parseInt(questPokemonId)) === -1) {
                     if (generateImages) {
                         shadowImage = `pkm_img?pkm=${questPokemonId}`
@@ -2126,17 +2126,17 @@ function processPokemon(item) {
 function isPokestopSatisfiesFilters(pokestop) {
     if (Store.get('showQuests') && pokestop.quest) {
         switch(pokestop.quest.reward_type) {
-            case '2':
+            case 2:
                 if (excludedQuestItems.indexOf(parseInt(pokestop.quest.item_id)) === -1) {
                     return true
                 }
                 break
-            case '3':
+            case 3:
                 if (excludedQuestItems.indexOf(6) === -1) {
                     return true
                 }
                 break
-            case '7':
+            case 7:
                 if (excludedQuestPokemon.indexOf(parseInt(pokestop.quest.pokemon_id)) === -1) {
                     return true
                 }
