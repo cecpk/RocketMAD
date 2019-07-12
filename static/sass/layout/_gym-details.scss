@@ -61,7 +61,6 @@
     }
 
     .close {
-      @include icon('\f00d');
       @include vendor('transition', 'color #{_duration(transition)} ease-in-out');
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       border: 0;
@@ -78,7 +77,10 @@
       width: 3em;
 
       &:before {
-        font-size: 1.25em;
+        content: '\f00d';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        //font-size: 1.25em;
       }
 
       &:hover {

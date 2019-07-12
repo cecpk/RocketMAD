@@ -21,6 +21,7 @@
 #no-pokemon                     # Disables pokemon scanning. (default=False)
 #no-pokestops                   # Disables pokestop scanning. (default=False)
 #no-raids                       # Disables raid scanning (default=False)
+#no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title                      # Title of the map. (default='RocketMap')

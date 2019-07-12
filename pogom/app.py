@@ -191,7 +191,7 @@ class Pogom(Flask):
             'pokestops': not args.no_pokestops,
             'quests': not args.no_quests,
             'raids': not args.no_raids,
-            'gym_info': args.gym_info,
+            'gym_sidebar': not args.no_gym_sidebar,
             'encounter': args.encounter,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,

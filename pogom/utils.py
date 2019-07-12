@@ -121,6 +121,9 @@ def get_args():
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables quests from the map.'),
                         action='store_true', default=False)
+    parser.add_argument('-ngs', '--no-gym-sidebar',
+                        help=('Disable the gym sidebar and toggle.'),
+                        action='store_true', default=False)
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)
@@ -161,11 +164,6 @@ def get_args():
                              'after last valid scan. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
-    parser.add_argument('-gi', '--gym-info',
-                        help=('Get all details about gyms (causes '
-                              'an additional API hit for ' +
-                              'every gym).'),
-                        action='store_true', default=False)
     parser.add_argument('--ssl-certificate',
                         help='Path to SSL certificate file.')
     parser.add_argument('--ssl-privatekey',

@@ -576,7 +576,6 @@ class Gym(LatLongModel):
 
     @staticmethod
     def get_gym(id):
-
         try:
             result = (Gym
                       .select(Gym.gym_id,
@@ -608,51 +607,6 @@ class Gym(LatLongModel):
 
         result['guard_pokemon_name'] = get_pokemon_name(
             result['guard_pokemon_id']) if result['guard_pokemon_id'] else ''
-        result['pokemon'] = []
-
-        pokemon = (GymMember
-                   .select(GymPokemon.cp.alias('pokemon_cp'),
-                           GymMember.cp_decayed,
-                           GymMember.deployment_time,
-                           GymMember.last_scanned,
-                           GymPokemon.pokemon_id,
-                           GymPokemon.pokemon_uid,
-                           GymPokemon.move_1,
-                           GymPokemon.move_2,
-                           GymPokemon.iv_attack,
-                           GymPokemon.iv_defense,
-                           GymPokemon.iv_stamina,
-                           GymPokemon.gender,
-                           GymPokemon.form,
-                           GymPokemon.costume,
-                           GymPokemon.weather_boosted_condition,
-                           GymPokemon.shiny,
-                           Trainer.name.alias('trainer_name'),
-                           Trainer.level.alias('trainer_level'))
-                   .join(Gym, on=(GymMember.gym_id == Gym.gym_id))
-                   .join(GymPokemon,
-                         on=(GymMember.pokemon_uid == GymPokemon.pokemon_uid))
-                   .join(Trainer, on=(GymPokemon.trainer_name == Trainer.name))
-                   .where(GymMember.gym_id == id)
-                   .where(GymMember.last_scanned > Gym.last_modified)
-                   .order_by(GymMember.deployment_time.desc())
-                   .distinct()
-                   .dicts())
-
-        for p in pokemon:
-            p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
-
-            p['move_1_name'] = get_move_name(p['move_1'])
-            p['move_1_damage'] = get_move_damage(p['move_1'])
-            p['move_1_energy'] = get_move_energy(p['move_1'])
-            p['move_1_type'] = get_move_type(p['move_1'])
-
-            p['move_2_name'] = get_move_name(p['move_2'])
-            p['move_2_damage'] = get_move_damage(p['move_2'])
-            p['move_2_energy'] = get_move_energy(p['move_2'])
-            p['move_2_type'] = get_move_type(p['move_2'])
-
-            result['pokemon'].append(p)
 
         try:
             raid = Raid.select(Raid).where(Raid.gym_id == id).dicts().get()

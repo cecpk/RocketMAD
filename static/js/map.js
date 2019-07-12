@@ -1427,7 +1427,7 @@ function setupGymMarker(item) {
         marker.rangeCircle = addRangeCircle(marker, map, 'gym', item['team_id'])
     }
 
-    if (Store.get('useGymSidebar')) {
+    if (Store.get('useGymSidebar') && showConfig.gym_sidebar) {
         marker.on('click', function () {
             var gymSidebar = document.querySelector('#gym-details')
             if (gymSidebar.getAttribute('data-id') === item['gym_id'] && gymSidebar.classList.contains('visible')) {
@@ -1488,7 +1488,7 @@ function updateGymMarker(gym, marker) {
     marker.setIcon(GymIcon)
     marker.setZIndexOffset = zIndexOffset
 
-    if (!Store.get('useGymSidebar')) {
+    if (!Store.get('useGymSidebar') || !showConfig.gym_sidebar) {
         marker.bindPopup(gymLabel(gym))
     }
 
@@ -2770,31 +2770,20 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
 
     data.done(function (result) {
         var pokemonHtml = ''
-        if (result.pokemon.length) {
-            result.pokemon.forEach((pokemon) => {
-                pokemonHtml += getSidebarGymMember(pokemon)
-            })
-
-            pokemonHtml = `<table><tbody>${pokemonHtml}</tbody></table>`
-        } else if (result.team_id === 0) {
-            pokemonHtml = ''
+        var pokemonIcon
+        if (generateImages) {
+            result.pokemon_id = result.guard_pokemon_id
+            pokemonIcon = `<img class='guard-pokemon-icon' src='${getPokemonRawIconUrl(result)}'>`
         } else {
-            var pokemonIcon
-            if (generateImages) {
-                result.pokemon_id = result.guard_pokemon_id
-                pokemonIcon = `<img class='guard-pokemon-icon' src='${getPokemonRawIconUrl(result)}'>`
-            } else {
-                pokemonIcon = `<i class="pokemon-large-sprite n${result.guard_pokemon_id}"></i>`
-            }
-            pokemonHtml = `
-                <div class='section-divider'></div>
-                <center>
-                    Gym Leader:<br>
-                    ${pokemonIcon}<br>
-                    <b>${result.guard_pokemon_name}</b>
-                </center>
-            `
+            pokemonIcon = `<i class="pokemon-large-sprite n${result.guard_pokemon_id}"></i>`
         }
+        pokemonHtml = `
+            <div class='section-divider'></div>
+              <center>
+                Gym Leader:<br>
+                ${pokemonIcon}<br>
+                <b>${result.guard_pokemon_name}</b>
+              </center>`
 
         var topPart = gymLabel(result)
         sidebar.innerHTML = `${topPart}${pokemonHtml}`
@@ -3162,6 +3151,7 @@ $(function () {
         Store.set('showLuredPokestopsOnly', this.value)
         updatePokestops()
     })
+
     $switchGymSidebar = $('#gym-sidebar-switch')
 
     $switchGymSidebar.on('change', function () {
