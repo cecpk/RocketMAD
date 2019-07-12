@@ -1,5 +1,6 @@
 {
   "1": {
+    "name": "Bulbasaur",
     "types": [
       {
         "type": "Grass",
@@ -10,9 +11,13 @@
         "color": "#a040a0"
       }
     ],
-    "name": "Bulbasaur"
+    "gender": [
+      1,
+      2
+    ]
   },
   "2": {
+    "name": "Ivysaur",
     "types": [
       {
         "type": "Grass",
@@ -23,9 +28,13 @@
         "color": "#a040a0"
       }
     ],
-    "name": "Ivysaur"
+    "gender": [
+      1,
+      2
+    ]
   },
   "3": {
+    "name": "Venusaur",
     "types": [
       {
         "type": "Grass",
@@ -36,27 +45,39 @@
         "color": "#a040a0"
       }
     ],
-    "name": "Venusaur"
+    "gender": [
+      1,
+      2
+    ]
   },
   "4": {
+    "name": "Charmander",
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
     ],
-    "name": "Charmander"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "5": {
+    "name": "Charmeleon",
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
     ],
-    "name": "Charmeleon"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "6": {
+    "name": "Charizard",
     "types": [
       {
         "type": "Fire",
@@ -67,54 +88,78 @@
         "color": "#a890f0"
       }
     ],
-    "name": "Charizard"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "7": {
+    "name": "Squirtle",
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
     ],
-    "name": "Squirtle"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "8": {
+    "name": "Wartortle",
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
     ],
-    "name": "Wartortle"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "9": {
+    "name": "Blastoise",
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
     ],
-    "name": "Blastoise"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "10": {
+    "name": "Caterpie",
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
     ],
-    "name": "Caterpie"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "11": {
+    "name": "Metapod",
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
     ],
-    "name": "Metapod"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "12": {
+    "name": "Butterfree",
     "types": [
       {
         "type": "Bug",
@@ -125,9 +170,13 @@
         "color": "#a890f0"
       }
     ],
-    "name": "Butterfree"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "13": {
+    "name": "Weedle",
     "types": [
       {
         "type": "Bug",
@@ -138,9 +187,13 @@
         "color": "#a040a0"
       }
     ],
-    "name": "Weedle"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "14": {
+    "name": "Kakuna",
     "types": [
       {
         "type": "Bug",
@@ -151,9 +204,13 @@
         "color": "#a040a0"
       }
     ],
-    "name": "Kakuna"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "15": {
+    "name": "Beedrill",
     "types": [
       {
         "type": "Bug",
@@ -164,9 +221,13 @@
         "color": "#a040a0"
       }
     ],
-    "name": "Beedrill"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "16": {
+    "name": "Pidgey",
     "types": [
       {
         "type": "Normal",
@@ -177,9 +238,13 @@
         "color": "#a890f0"
       }
     ],
-    "name": "Pidgey"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "17": {
+    "name": "Pidgeotto",
     "types": [
       {
         "type": "Normal",
@@ -190,9 +255,13 @@
         "color": "#a890f0"
       }
     ],
-    "name": "Pidgeotto"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "18": {
+    "name": "Pidgeot",
     "types": [
       {
         "type": "Normal",
@@ -203,16 +272,19 @@
         "color": "#a890f0"
       }
     ],
-    "name": "Pidgeot"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "19": {
+    "name": "Rattata",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
     ],
-    "name": "Rattata",
     "forms": {
       "45": {
         "id": "RATTATA",
@@ -226,16 +298,20 @@
         "formName": "Alola",
         "assetId": "61"
       }
-    }
+    },
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "20": {
+    "name": "Raticate",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
     ],
-    "name": "Raticate",
     "forms": {
       "47": {
         "id": "RATICATE",
@@ -249,9 +325,14 @@
         "formName": "Alola",
         "assetId": "61"
       }
-    }
+    },
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "21": {
+    "name": "Spearow",
     "types": [
       {
         "type": "Normal",
@@ -262,9 +343,13 @@
         "color": "#a890f0"
       }
     ],
-    "name": "Spearow"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "22": {
+    "name": "Fearow",
     "types": [
       {
         "type": "Normal",
@@ -275,43 +360,58 @@
         "color": "#a890f0"
       }
     ],
-    "name": "Fearow"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "23": {
+    "name": "Ekans",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
     ],
-    "name": "Ekans"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "24": {
+    "name": "Arbok",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
     ],
-    "name": "Arbok"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "25": {
+    "name": "Pikachu",
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
     ],
-    "name": "Pikachu"
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "26": {
+    "name": "Raichu",
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
     ],
-    "name": "Raichu",
     "forms": {
       "49": {
         "id": "RAICHU",
@@ -325,16 +425,20 @@
         "formName": "Alola",
         "assetId": "61"
       }
-    }
+    },
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "27": {
+    "name": "Sandshrew",
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
     ],
-    "name": "Sandshrew",
     "forms": {
       "51": {
         "id": "SANDSHREW",
@@ -348,16 +452,20 @@
         "formName": "Alola",
         "assetId": "61"
       }
-    }
+    },
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "28": {
+    "name": "Sandslash",
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
     ],
-    "name": "Sandslash",
     "forms": {
       "53": {
         "id": "SANDSLASH",
@@ -371,27 +479,38 @@
         "formName": "Alola",
         "assetId": "61"
       }
-    }
+    },
+    "gender": [
+      "male",
+      "female"
+    ]
   },
   "29": {
+    "name": "Nidoran♀",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
     ],
-    "name": "Nidoran♀"
+    "gender": [
+      "female"
+    ]
   },
   "30": {
+    "name": "Nidorina",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
     ],
-    "name": "Nidorina"
+    "gender": [
+      "female"
+    ]
   },
   "31": {
+    "name": "Nidoqueen",
     "types": [
       {
         "type": "Poison",
@@ -402,27 +521,36 @@
         "color": "#e0c068"
       }
     ],
-    "name": "Nidoqueen"
+    "gender": [
+      "female"
+    ]
   },
   "32": {
+    "name": "Nidoran♂",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
     ],
-    "name": "Nidoran♂"
+    "gender": [
+      "male"
+    ]
   },
   "33": {
+    "name": "Nidorino",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
     ],
-    "name": "Nidorino"
+    "gender": [
+      "male"
+    ]
   },
   "34": {
+    "name": "Nidoking",
     "types": [
       {
         "type": "Poison",
@@ -433,7 +561,9 @@
         "color": "#e0c068"
       }
     ],
-    "name": "Nidoking"
+    "gender": [
+      "male"
+    ]
   },
   "35": {
     "types": [
@@ -7765,6 +7895,28 @@
     ],
     "name": "Virizion"
   },
+  "641": {
+    "name": "Tornadus",
+    "types": [
+      {
+        "type": "Flying",
+        "color": "#a890f0"
+      }
+    ]
+  },
+  "642": {
+    "name": "Thundurus",
+    "types": [
+      {
+        "type": "Electric",
+        "color": "#f8d030"
+      },
+      {
+        "type": "Flying",
+        "color": "#a890f0"
+      }
+    ]
+  },
   "643": {
     "types": [
       {
@@ -7791,6 +7943,19 @@
     ],
     "name": "Zekrom"
   },
+  "645": {
+    "name": "Landorus",
+    "types": [
+      {
+        "type": "Ground",
+        "color": "#e0c068"
+      },
+      {
+        "type": "Flying",
+        "color": "#a890f0"
+      }
+    ]
+  },
   "646": {
     "types": [
       {
@@ -7816,6 +7981,19 @@
       }
     ],
     "name": "Keldeo"
+  },
+  "648": {
+    "name": "Meloetta",
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      },
+      {
+        "type": "Psychic",
+        "color": "#f85888"
+      }
+    ]
   },
   "649": {
     "types": [
@@ -8160,6 +8338,19 @@
       }
     ],
     "name": "Doublade"
+  },
+  "681": {
+    "name": "Aegislash",
+    "types": [
+      {
+        "type": "Steel",
+        "color": "#b8b8d0"
+      },
+      {
+        "type": "Ghost",
+        "color": "#705898"
+      }
+    ]
   },
   "682": {
     "types": [
@@ -8603,7 +8794,21 @@
     ],
     "name": "Diancie"
   },
+  "720": {
+    "types": [
+      {
+        "type": "Rock",
+        "color": "#b8a038"
+      },
+      {
+        "type": "Fairy",
+        "color": "#e898e8"
+      }
+    ],
+    "name": "Diancie"
+  },
   "721": {
+    "name": "Volcanion",
     "types": [
       {
         "type": "Fire",
@@ -8613,8 +8818,7 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Volcanion"
+    ]
   },
   "722": {
     "types": [
@@ -9552,6 +9756,63 @@
       }
     ],
     "name": "Marshadow"
+  },
+  "803": {
+    "types": [
+      {
+        "type": "Poison",
+        "color": "#a040a0"
+      }
+    ],
+    "name": "Poipole"
+  },
+  "804": {
+    "types": [
+      {
+        "type": "Poison",
+        "color": "#a040a0"
+      },
+      {
+        "type": "Dragon",
+        "color": "#7038f8"
+      }
+    ],
+    "name": "Naganadel"
+  },
+  "805": {
+    "types": [
+      {
+        "type": "Rock",
+        "color": "#b8a038"
+      },
+      {
+        "type": "Steel",
+        "color": "#b8b8d0"
+      }
+    ],
+    "name": "Stakataka"
+  },
+  "806": {
+    "types": [
+      {
+        "type": "Fire",
+        "color": "#f08030"
+      },
+      {
+        "type": "Ghost",
+        "color": "#705898"
+      }
+    ],
+    "name": "Blacephalon"
+  },
+  "807": {
+    "types": [
+      {
+        "type": "Electric",
+        "color": "#f8d030"
+      }
+    ],
+    "name": "Zeraora"
   },
   "808": {
     "types": [

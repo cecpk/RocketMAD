@@ -103,7 +103,6 @@ const audio = new Audio('static/sounds/ding.mp3')
 const cryFileTypes = ['wav', 'mp3']
 
 const genderType = ['♂', '♀', '⚲']
-const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '?']
 
 const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
 const questItemNames = {
@@ -3339,11 +3338,7 @@ $(function () {
         var pokemonIds = []
 
         function populateLists(id, pokemonData) {
-          if (generateImages) {
-              pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': id})}'>`
-          } else {
-              pokemonIcon = `<i class="pokemon-sprite n${id}"></i>`
-          }
+          pokemonIcon = `<i class="pokemon-select-icon pokemon-sprite-small n${id}"></i>`
           pokemonData['name'] = i8ln(pokemonData['name'])
           $.each(pokemonData['types'], function (id, pokemonType) {
               typestring[id] = i8ln(pokemonType['type'])

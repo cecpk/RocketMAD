@@ -45,17 +45,15 @@
 @mixin pokemon-sprites($filename, $icon_size) {
   /// These are constant for now
   $icons_per_row: 28;
-  $total_icons: 493;
+  $total_icons: 809;
 
-  display: inline-block;
+  display: block;
   background: {
-    image: url(../../../#{$filename});
+    image: url(../../#{$filename});
     size: ($icon_size * $icons_per_row) (ceil($total_icons / $icons_per_row) * $icon_size);
     repeat: no-repeat;
   };
-  top: 6px;
   position: relative;
-  -moz-transform-origin: 0 0;
   height: $icon_size;
   width: $icon_size;
 

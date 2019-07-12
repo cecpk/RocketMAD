@@ -1,6 +1,10 @@
 import logging
+import sys
 import os
 import subprocess
+
+from pathlib import Path
+from collections import OrderedDict
 
 from pgoapi.protos.pogoprotos.enums.costume_pb2 import Costume
 from pgoapi.protos.pogoprotos.enums.form_pb2 import Form
@@ -10,7 +14,7 @@ from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import (
     WeatherCondition, CLEAR, RAINY,
     PARTLY_CLOUDY, OVERCAST, WINDY, SNOW, FOG)
 
-from pogom.utils import get_args, get_pokemon_data
+from pogom.utils import get_args, get_form_data, get_all_pokemon_data
 
 log = logging.getLogger(__name__)
 
@@ -18,22 +22,24 @@ log = logging.getLogger(__name__)
 generate_images = False
 imagemagick_executable = None
 pogo_assets = None
+pogo_assets_icons = None
 
-path_static = os.path.join(os.path.dirname(__file__), '..', 'static')
-path_icons = os.path.join(path_static, 'icons')
-path_images = os.path.join(path_static, 'images')
-path_gym = os.path.join(path_images, 'gym')
-path_raid = os.path.join(path_images, 'raid')
-path_weather = os.path.join(path_images, 'weather')
-path_generated = os.path.join(path_images, 'generated')
-path_generated_gym = os.path.join(path_generated, 'gym')
+path_root = Path().cwd()
+path_static = path_root / 'static'
+path_icons = path_static / 'icons'
+path_images = path_static / 'images'
+path_gym = path_images / 'gym'
+path_raid = path_images / 'raid'
+path_weather = path_images / 'weather'
+path_generated = path_images / 'generated'
+path_generated_gym = path_generated / 'gym'
 
 egg_images = {
-    1: os.path.join(path_raid, 'egg_normal.png'),
-    2: os.path.join(path_raid, 'egg_normal.png'),
-    3: os.path.join(path_raid, 'egg_rare.png'),
-    4: os.path.join(path_raid, 'egg_rare.png'),
-    5: os.path.join(path_raid, 'egg_legendary.png')
+    1: path_raid / 'egg_normal.png',
+    2: path_raid / 'egg_normal.png',
+    3: path_raid / 'egg_rare.png',
+    4: path_raid / 'egg_rare.png',
+    5: path_raid / 'egg_legendary.png'
 }
 
 egg_images_assets = {
@@ -45,17 +51,17 @@ egg_images_assets = {
 }
 
 weather_images = {
-    CLEAR:          os.path.join(path_weather, 'weather_sunny.png'),
-    RAINY:          os.path.join(path_weather, 'weather_rain.png'),
-    PARTLY_CLOUDY:  os.path.join(path_weather, 'weather_partlycloudy_day.png'),
-    OVERCAST:       os.path.join(path_weather, 'weather_cloudy.png'),
-    WINDY:          os.path.join(path_weather, 'weather_windy.png'),
-    SNOW:           os.path.join(path_weather, 'weather_snow.png'),
-    FOG:            os.path.join(path_weather, 'weather_fog.png')
+    CLEAR:          path_weather / 'weather_sunny.png',
+    RAINY:          path_weather / 'weather_rain.png',
+    PARTLY_CLOUDY:  path_weather / 'weather_partlycloudy_day.png',
+    OVERCAST:       path_weather / 'weather_cloudy.png',
+    WINDY:          path_weather / 'weather_windy.png',
+    SNOW:           path_weather / 'weather_snow.png',
+    FOG:            path_weather / 'weather_fog.png'
 }
 
 # Info about Pokemon spritesheet
-path_pokemon_spritesheet = os.path.join(path_static, 'icons-large-sprite.png')
+path_pokemon_spritesheet = path_static / 'icons-large-sprite.png'
 pkm_sprites_size = 80
 pkm_sprites_cols = 28
 
@@ -87,7 +93,7 @@ raid_colors = [
     "\"rgb(252,112,176)\"", "\"rgb(255,158,22)\"", "\"rgb(184,165,221)\""
 ]
 
-font = os.path.join(path_static, 'Arial Black.ttf')
+font = path_static / 'Arial Black.ttf'
 font_pointsize = 25
 
 
@@ -98,13 +104,13 @@ def get_pokemon_raw_icon(pkm, gender=None, form=None,
             pkm, classifier='icon', gender=gender,
             form=form, costume=costume,
             weather=weather, shiny=shiny)
-        im_lines = ['-fuzz 0.5% -trim +repage'
+        im_lines = ['convert -fuzz 0.5% -trim +repage'
                     ' -scale "96x96>" -unsharp 0x1'
                     ' -background none -gravity center -extent 96x96'
                     ]
         return run_imagemagick(source, im_lines, target)
     else:
-        return os.path.join(path_icons, '{}.png'.format(pkm))
+        return path_icons / '{}.png'.format(pkm)
 
 
 def get_pokemon_map_icon(pkm, weather=None, gender=None,
@@ -285,46 +291,36 @@ def battle_indicator_swords():
     ]
 
 
-def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
-                       form=None, costume=None,
-                       weather=None, shiny=False):
-    gender_suffix = gender_assets_suffix = ''
-    form_suffix = form_assets_suffix = ''
-    costume_suffix = costume_assets_suffix = ''
+def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET, form=None,
+                       costume=None, weather=None, shiny=False):
+    gender_suffix = form_suffix = gender_form_asset_suffix = ''
+    costume_suffix = costume_asset_suffix = ''
     weather_suffix = '_{}'.format(
         WeatherCondition.Name(weather)) if weather else ''
     shiny_suffix = '_shiny' if shiny else ''
 
     if gender in (MALE, FEMALE):
-        gender_assets_suffix = '_{:02d}'.format(gender - 1)
+        gender_form_asset_suffix = '_{:02d}'.format(gender - 1)
         gender_suffix = '_{}'.format(Gender.Name(gender))
-    elif gender in (GENDER_UNSET, GENDERLESS):
-        gender_assets_suffix = '_00' if pkm > 0 else ''
+    else:
+        # Use male if gender is undefined.
+        gender_form_asset_suffix = '_00'
+        gender_suffix = '_{}'.format(Gender.Name(MALE))
 
     if costume:
-        costume_assets_suffix = '_{:02d}'.format(costume)
+        costume_asset_suffix = '_{:02d}'.format(costume)
         costume_suffix = '_{}'.format(Costume.Name(costume))
 
-    if (
-        not gender_assets_suffix and
-        not form_assets_suffix and
-        not costume_assets_suffix
-       ):
-        gender_assets_suffix = ('_16' if pkm == 201
-                                else '_00' if pkm > 0
-                                else '')
-
-    pokemon_data = get_pokemon_data(pkm)
-    forms = pokemon_data.get('forms', {})
     should_use_suffix = False
-
+    forms = get_form_data(pkm)
     if forms:
-        # default value is first form
-        form_data = list(forms.values())[0]
         if form and str(form) in forms:
             form_data = forms[str(form)]
-
-        asset_id = ''
+            form_suffix = '_' + str(form)
+        else:
+            # form undefined, pick first one from data.
+            form_data = next(iter(forms.values()))
+            form_suffix = '_' + next(iter(forms))
 
         if 'assetId' in form_data:
             asset_id = form_data['assetId']
@@ -332,31 +328,30 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
             should_use_suffix = True
             asset_id = form_data['assetSuffix']
 
-        gender_assets_suffix = '_' + asset_id
-        form_suffix = '_' + asset_id
-
-    assets_basedir = os.path.join(pogo_assets, 'pokemon_icons')
-    assets_fullname = os.path.join(assets_basedir,
-                                   'pokemon_icon_{:03d}{}{}{}{}.png'.format(
-                                       pkm, gender_assets_suffix,
-                                       form_assets_suffix,
-                                       costume_assets_suffix,
-                                       shiny_suffix))
+        # In the case of '00' gender is used instead of form.
+        if asset_id != '00':
+            gender_form_asset_suffix = '_' + asset_id
 
     if should_use_suffix:
-        assets_fullname = os.path.join(assets_basedir,
-                                       'pokemon_icon{}.png'.format(form_suffix)
-                                       )
+        assets_fullname = os.path.join(
+            pogo_assets_icons, 'pokemon_icon{}.png'.format(
+                gender_form_asset_suffix))
+    else:
+        assets_fullname = os.path.join(
+            pogo_assets_icons, 'pokemon_icon_{:03d}{}{}{}.png'.format(
+                pkm, gender_form_asset_suffix, costume_asset_suffix,
+                shiny_suffix))
 
     target_path = os.path.join(
         path_generated, 'pokemon_{}'.format(
             classifier)) if classifier else os.path.join(
         path_generated, 'pokemon')
     target_name = os.path.join(target_path,
-                               "pkm_{:03d}{}{}{}{}{}.png".format(
+                               "pkm_{}{}{}{}{}{}.png".format(
                                    pkm, gender_suffix, form_suffix,
-                                   costume_suffix,
-                                   weather_suffix, shiny_suffix))
+                                   costume_suffix, weather_suffix,
+                                   shiny_suffix))
+
     if os.path.isfile(assets_fullname):
         return assets_fullname, target_name
     else:
@@ -365,11 +360,10 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
                 assets_fullname))
             # Dummy Pokemon icon
             return (
-                os.path.join(assets_basedir, 'pokemon_icon_000.png'),
+                os.path.join(pogo_assets_icons, 'pokemon_icon_000.png'),
                 os.path.join(target_path, 'pkm_000.png'))
-        return pokemon_asset_path(pkm, classifier=classifier,
-                                  gender=MALE, form=form,
-                                  costume=costume, weather=weather,
+        return pokemon_asset_path(pkm, classifier=classifier, gender=MALE,
+                                  form=form, costume=costume, weather=weather,
                                   shiny=shiny)
 
 
@@ -398,12 +392,8 @@ def draw_badge(pos, fill_col, text_col, text):
 
 
 def init_image_dir(path):
-    if not os.path.isdir(path):
-        try:
-            os.makedirs(path)
-        except OSError:
-            if not os.path.isdir(path):
-                raise
+    if not path.is_dir():
+       path.mkdir(parents=True)
 
 
 def default_gym_image(team, level, raidlevel, pkm):
@@ -424,13 +414,137 @@ def default_gym_image(team, level, raidlevel, pkm):
     return os.path.join(path, icon)
 
 
-def run_imagemagick(source, im_lines, out_filename):
-    if not os.path.isfile(out_filename):
-        # Make sure, target path exists
-        init_image_dir(os.path.split(out_filename)[0])
+def generate_sprite_sheet():
+    sprite_sheet_name = path_static / 'icons-sprite.png'
+    if sprite_sheet_name.is_file():
+        return
 
-        cmd = '{} "{}" {} "{}"'.format(
-            imagemagick_executable, source, " ".join(im_lines), out_filename)
+    im_lines = [' montage -mode concatenate -tile 28x'
+                ' -background none @temp.txt']
+
+    # Use file to store image names, otherwise command will be too long.
+    f = open("temp.txt", "w")
+
+    pokemon_data = get_all_pokemon_data()
+    for id in pokemon_data:
+        icon_name = path_icons / (id + '.png')
+        if not icon_name.is_file():
+            # Use placeholder.
+            icon_name = path_icons / '0.png'
+            if not icon_name.is_file():
+                log.critical("Cannot find file {}!".format(icon_name))
+                sys.exit(1)
+        f.write(str(icon_name))
+        f.write(' ')
+
+    f.close()
+
+    run_imagemagick(None, im_lines, sprite_sheet_name)
+    os.remove("temp.txt")
+
+
+def generate_icons():
+    im_lines = ['-fuzz 0.5% -trim +repage'
+                ' -scale "64x64>" -unsharp 0x1'
+                ' -background none -gravity center -extent 64x64']
+
+    # Placeholder.
+    simple_target_name = path_icons / '0.png'
+    if not simple_target_name.is_file():
+        simple_asset_name = pogo_assets_icons / 'pokemon_icon_000.png'
+        if simple_asset_name.is_file():
+            run_imagemagick(simple_asset_name, im_lines, simple_target_name)
+        else:
+            log.critical("Cannot find PogoAssets file {}!".format(
+                simple_asset_name))
+            sys.exit(1)
+
+    pokemon_data = get_all_pokemon_data()
+    for id, pokemon in pokemon_data.items():
+        # generated icon: {id}_{gender}_{form}_{costume}_s
+        # pokemon_icon_{id}_{gender/form}_{!costume}_{!shiny}
+        id = int(id)
+
+        if 'gender' in pokemon:
+            gender = pokemon['gender']
+        else:
+            # Assume pokemon is genderless.
+            gender = [3]
+
+        if 'forms' in pokemon:
+            forms = pokemon['forms']
+        else:
+            forms = OrderedDict([('0', '')])
+
+        if 'costumes' in pokemon:
+            costumes = pokemon['costumes']
+        else:
+            costumes = [0]
+
+        # Generate basic ({id}.png) icon first.
+        target_name = path_icons / '{}.png'.format(id)
+        if not simple_target_name.is_file():
+            asset_name = (pogo_assets_icons /
+                'pokemon_icon_{:03d}_00.png'.format(id))
+
+            if not simple_asset_name.is_file():
+                if 'forms' in pokemon:
+                    # Use first form.
+                    form_data = next(iter(forms.values()))
+                    has_asset_suffix = False
+
+                    if 'assetId' in form_data:
+                        asset_id = form_data['assetId']
+                    elif 'assetSuffix' in form_data:
+                        asset_id = form_data['assetSuffix']
+                        has_asset_suffix = True
+
+                    if has_asset_suffix:
+                        asset_name = (pogo_assets_icons /
+                            'pokemon_icon_{}.png'.format(id, asset_id))
+                    else:
+                        asset_name = (pogo_assets_icons /
+                            'pokemon_icon_{:03d}_{}.png'.format(id, asset_id))
+                else:
+                    log.critical("Cannot find PogoAssets file {}!".format(
+                        asset_name))
+                    sys.exit(1)
+
+            run_imagemagick(asset_name, im_lines, target_name)
+
+        costume_asset_suffix = ''
+        for g in gender:
+            gender_form_asset_suffix = '_00'
+            if g == 2:
+                # Check if female icon exists.
+                asset_name = (pogo_assets_icons /
+                    'pokemon_icon_{:03d}_01.png'.format(id, asset_id))
+                if asset_name.is_file():
+                    gender_form_asset_suffix = '_01'
+
+            for f in forms:
+                for c in costumes:
+                    # todo
+
+
+    if (id == 493):
+        return
+
+
+
+
+def run_imagemagick(source, im_lines, out_filename):
+    if not out_filename.is_file():
+        # Make sure, target path exists
+        init_image_dir(out_filename.parent)
+
+        if source:
+            cmd = '{} "{}" {} "{}"'.format(
+                imagemagick_executable, source, " ".join(im_lines),
+                out_filename)
+        else:
+            cmd = '{} {} "{}"'.format(
+                        imagemagick_executable, " ".join(im_lines), out_filename)
         if os.name != 'nt':
             cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
         log.info("Generating icon '{}'".format(out_filename))

@@ -1,9 +1,9 @@
 /// Sprites for Pokemon icons on map.
-.pokemon-large-sprite {
-  @include pokemon-sprites("icons-large-sprite.png", 80px);
+.pokemon-sprite {
+  @include pokemon-sprites("icons-sprite.png", 64px);
 }
 
-/// Sprites for Pokemon icons in gyms and statistics.
-.pokemon-sprite {
-  @include pokemon-sprites("icons-sprite.png", 30px);
+/// Sprites for Pokemon icons in filters and statistics.
+.pokemon-sprite-small {
+  @include pokemon-sprites("icons-sprite.png", 32px);
 }

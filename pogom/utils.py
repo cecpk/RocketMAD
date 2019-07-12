@@ -15,6 +15,7 @@ import psutil
 import subprocess
 import requests
 
+from pathlib import Path
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
 from geopy.geocoders import Nominatim
@@ -298,17 +299,21 @@ def init_dynamic_images(args):
                      "executable '{}'.".format(executable))
 
             if args.pogo_assets:
-                decr_assets_dir = os.path.join(args.pogo_assets,
-                                               'pokemon_icons')
-                if os.path.isdir(decr_assets_dir):
+                decr_assets_dir = Path(args.pogo_assets) / 'pokemon_icons'
+                if decr_assets_dir.is_dir():
                     log.info("Using PogoAssets repository at '{}'".format(
                         args.pogo_assets))
-                    dyn_img.pogo_assets = args.pogo_assets
+                    dyn_img.pogo_assets = Path(args.pogo_assets)
+                    dyn_img.pogo_assets_icons = decr_assets_dir
+                    # Pregenerate pokemon icons.
+                    dyn_img.generate_icons()
                 else:
                     log.error(("Could not find PogoAssets repository at '{}'. "
                                "Clone via 'git clone -depth 1 "
                                "https://github.com/ZeChrales/PogoAssets.git'")
                               .format(args.pogo_assets))
+
+            dyn_img.generate_sprite_sheet()
         else:
             log.error("Could not find ImageMagick executable. Make sure "
                       "you can execute either 'magick' (ImageMagick 7)"
@@ -329,7 +334,7 @@ def is_imagemagick_binary(binary):
 
 def determine_imagemagick_binary():
     candidates = {
-        'magick': 'magick convert',
+        'magick': 'magick',
         'convert': None
     }
     for c in candidates:
@@ -411,6 +416,20 @@ def get_pokemon_data(pokemon_id):
     return get_pokemon_data.pokemon[str(pokemon_id)]
 
 
+def get_all_pokemon_data():
+    if not hasattr(get_all_pokemon_data, 'pokemons'):
+        args = get_args()
+        file_path = os.path.join(
+            args.root_path,
+            args.data_dir,
+            'pokemon.min.json')
+
+        with open(file_path, 'r') as f:
+            get_all_pokemon_data.pokemons = json.loads(
+                f.read(), object_pairs_hook=OrderedDict)
+    return get_all_pokemon_data.pokemons
+
+
 def get_pokemon_id(pokemon_name):
     if not hasattr(get_pokemon_id, 'ids'):
         if not hasattr(get_pokemon_data, 'pokemon'):
@@ -432,6 +451,10 @@ def get_pokemon_types(pokemon_id):
     pokemon_types = get_pokemon_data(pokemon_id)['types']
     return [{"type": i8ln(x['type']), "color": x['color']} for x in
             pokemon_types]
+
+
+def get_form_data(pokemon_id):
+    return get_pokemon_data(pokemon_id).get('forms')
 
 
 def get_moves_data(move_id):
