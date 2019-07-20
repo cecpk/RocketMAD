@@ -1,0 +1,28 @@
+id=MagickPixelCache
+magick-signature=1951341353
+class=DirectClass  colors=0  alpha-trait=Undefined
+number-channels=1  number-meta-channels=0
+columns=64  rows=64 depth=8
+colorspace=Gray
+compression=Zip  quality=0
+units=PixelsPerCentimeter
+resolution=37.79x37.79
+page=64x64+0+0
+gamma=0.454545
+date:create=2019-07-16T09:09:41+00:00
+date:modify=2019-07-16T09:37:57+00:00
+png:bKGD={chunk was found (see Background color, above)}
+png:cHRM={chunk was found (see Chromaticity, above)}
+png:gAMA={gamma=0.45455 (See Gamma, above)}
+png:IHDR.bit-depth-orig=8
+png:IHDR.bit_depth=8
+png:IHDR.color-type-orig=6
+png:IHDR.color_type={6 (RGBA)}
+png:IHDR.interlace_method={0 (Not interlaced)}
+png:IHDR.width,height={64, 64}
+png:pHYs={x_res=3779, y_res=3779, units=1}
+png:sRGB={intent=0 (Perceptual Intent)}
+png:text={2 tEXt/zTXt/iTXt chunks were found}
+png:tIME=2019-07-16T09:37:57Z
+
+:

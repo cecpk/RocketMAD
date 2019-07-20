@@ -409,11 +409,7 @@ function getPokemonIcon(item, sprite, displayHeight) {
     var scaledIconOffset = [0, 0]
     var scaledIconCenterOffset = [scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2]
 
-    let genderParam = item['gender'] ? `&gender=${item['gender']}` : ''
-    let formParam = item['form'] ? `&form=${item['form']}` : ''
-    let costumeParam = item['costume'] ? `&costume=${item['costume']}` : ''
-    let weatherParam = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
-    let iconUrl = `pkm_img?pkm=${item['pokemon_id']}${genderParam}${formParam}${costumeParam}${weatherParam}`
+    let iconUrl = getPokemonIconUrl(item)
 
     return {
         iconUrl: iconUrl,
@@ -472,7 +468,7 @@ function getGoogleSprite(index, sprite, displayHeight) {
 
 function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
     const pokemonIndex = item['pokemon_id']
-    const sprite = pokemonSprites(pokemonIndex)
+    const sprite = pokemonSprites(item.pokemon_id)
 
     var markerDetails = {
         sprite: sprite
@@ -583,4 +579,12 @@ function getPokemonRawIconUrl(p) {
         }
     }
     return url
+}
+
+function getPokemonIconUrl(pokemon) {
+    var form = pokemon.form ? pokemon.from : '0'
+    var costume = pokemon.costume ? pokemon.costume : '0'
+    var shiny = pokemon.shiny ? '_s' : ''
+
+    return `static/icons/${pokemon.pokemon_id}_${pokemon.gender}_${form}_${costume}${shiny}.png`
 }

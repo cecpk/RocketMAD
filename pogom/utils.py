@@ -291,12 +291,9 @@ def get_args():
 
 def init_dynamic_images(args):
     if args.generate_images:
-        executable = determine_imagemagick_binary()
-        if executable:
+        if is_imagemagick_available():
             dyn_img.generate_images = True
-            dyn_img.imagemagick_executable = executable
-            log.info("Generating icons using ImageMagick " +
-                     "executable '{}'.".format(executable))
+            log.info("Generating icons using ImageMagick. ")
 
             if args.pogo_assets:
                 decr_assets_dir = Path(args.pogo_assets) / 'pokemon_icons'
@@ -316,31 +313,19 @@ def init_dynamic_images(args):
             dyn_img.generate_sprite_sheet()
         else:
             log.error("Could not find ImageMagick executable. Make sure "
-                      "you can execute either 'magick' (ImageMagick 7)"
-                      " or 'convert' (ImageMagick 6) from the commandline. "
+                      "you can execute 'magick' (ImageMagick 7). "
                       "Otherwise you cannot use --generate-images")
             sys.exit(1)
 
 
-def is_imagemagick_binary(binary):
+def is_imagemagick_available():
     try:
-        process = subprocess.Popen([binary, '-version'],
+        process = subprocess.Popen(['magick', '-version'],
                                    stdout=subprocess.PIPE)
         out, err = process.communicate()
         return "ImageMagick" in out.decode('utf8')
     except Exception as e:
         return False
-
-
-def determine_imagemagick_binary():
-    candidates = {
-        'magick': 'magick',
-        'convert': None
-    }
-    for c in candidates:
-        if is_imagemagick_binary(c):
-            return candidates[c] if candidates[c] else c
-    return None
 
 
 def now():
