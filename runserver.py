@@ -15,17 +15,26 @@ import ssl
 import requests
 
 from threading import Thread
+from pathlib import Path
 
+from collections import OrderedDict
 from queue import Queue
 from flask_cors import CORS
 from flask_cachebuster import CacheBuster
 
 from colorlog import ColoredFormatter
 
+from pogom import dyn_img
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, init_dynamic_images,
                          log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher, get_pos_by_name)
+                         dynamic_rarity_refresher, get_pos_by_name,
+                         get_all_pokemon_data, get_weather, get_form_data)
+from pgoapi.protos.pogoprotos.enums.gender_pb2 import (
+    MALE, FEMALE, Gender, GENDERLESS, GENDER_UNSET)
+from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import (
+    WeatherCondition, CLEAR, RAINY,
+    PARTLY_CLOUDY, OVERCAST, WINDY, SNOW, FOG)
 
 from pogom.models import (init_database, create_tables, drop_tables,
                           clean_db_loop, verify_table_encoding,
@@ -83,6 +92,8 @@ log = logging.getLogger()
 log.addHandler(stdout_hdlr)
 log.addHandler(stderr_hdlr)
 
+releasedPokemonCount = 493
+
 
 # Patch to make exceptions in threads cause an exception.
 def install_thread_excepthook():
@@ -126,36 +137,172 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         exc_type, exc_value, exc_traceback))
 
 
+def validate_custom_pokemon_icons():
+    custom_icons_path = Path.cwd() / 'static/images/pokemon-custom'
+    for id in range(releasedPokemonCount + 1):
+        file = custom_icons_path / '{}.png'.format(id)
+        if not file.is_file():
+            return False
+
+    return True
+
+
+def validate_pokemon_icons():
+    icons_path = Path.cwd() / 'static/images/pokemon'
+    map_icons_path = Path.cwd() / 'static/images/pokemon-map'
+
+    placeholder_file = icons_path / '0.png'
+    if not placeholder_file.is_file():
+        log.critical('Could not find pokemon icon {}.'.format(
+            placeholder_file))
+        return False
+
+    pokemon_data = get_all_pokemon_data()
+    for id, pokemon in pokemon_data.items():
+        id = int(id)
+
+        if 'gender' in pokemon:
+            gender = pokemon['gender']
+        else:
+            # Assume pokemon is genderless.
+            gender = [GENDERLESS]
+
+        if 'forms' in pokemon:
+            forms = pokemon['forms']
+            form_data = get_form_data(id, 0)
+            if form_data['formName'] == '':
+                # Pokemon has normal form.
+                forms['0'] = ''
+        else:
+            forms = OrderedDict([('0', '')])
+
+        costumes = [0]
+        if 'costumes' in pokemon:
+            costumes.extend(pokemon['costumes'])
+
+        # Validate basic icon ({id}.png) first.
+        simple_file = icons_path / '{}.png'.format(id)
+        if not simple_file.is_file():
+            log.critical('Could not find pokemon icon {}.'.format(simple_file))
+            return False
+
+        for g in gender:
+            for form_id, form_data in forms.items():
+                form_id = int(form_id)
+
+                for c in costumes:
+                    if (c > 0 and form_id > 0 and 'hasCostume' in form_data and
+                            not form_data['hasCostume']):
+                        # Pokemon with this form doesn't have a custome.
+                        # Skip next costumes.
+                        break
+                    file = icons_path / '{}_{}_{}_{}.png'.format(id, g,
+                                                                 form_id, c)
+                    if not file.is_file():
+                        log.critical('Could not find pokemon icon {}.'.format(
+                            file))
+                        return False
+
+                    # Shiny.
+                    file = icons_path / '{}_{}_{}_{}_s.png'.format(id, g,
+                                                                 form_id, c)
+                    if not file.is_file():
+                        log.critical('Could not find pokemon icon {}.'.format(
+                            file))
+                        return False
+
+                    # Regular map icon.
+                    file = map_icons_path / '{}_{}_{}_{}_0.png'.format(id, g,
+                                                                   form_id, c)
+                    if not file.is_file():
+                        log.critical('Could not find pokemon icon {}.'.format(
+                            file))
+                        return False
+
+                    # Map icons with weather boost.
+                    for t in pokemon['types']:
+                        weather = get_weather(t['type'])
+                        file = map_icons_path / '{}_{}_{}_{}_{}.png'.format(
+                            id, g, form_id, c, weather)
+                        if not file.is_file():
+                            log.critical(
+                                'Could not find pokemon icon {}.'.format(file))
+                            return False
+
+        if (id == 151):
+            return True
+
+
 def validate_assets(args):
     assets_error_log = (
         'Missing front-end assets (static/dist) -- please run '
         '"npm install && npm run build" before starting the server.')
 
-    root_path = os.path.dirname(__file__)
-    if not os.path.exists(os.path.join(root_path, 'static/dist')):
+    root_path = Path().cwd()
+    static_path = root_path / 'static'
+    dist_path = static_path / 'dist'
+    if not dist_path.is_dir():
         log.critical(assets_error_log)
         return False
 
-    static_path = os.path.join(root_path, 'static/js')
-    for file in os.listdir(static_path):
-        if file.endswith(".js"):
-            generated_path = os.path.join(static_path, '../dist/js/',
-                                          file.replace(".js", ".min.js"))
-            source_path = os.path.join(static_path, file)
-            if not os.path.exists(generated_path) or (
-                    os.path.getmtime(source_path) >
-                    os.path.getmtime(generated_path)):
-                log.critical(assets_error_log)
+    js_path = static_path / 'js'
+    for file in js_path.glob('*.js'):
+        generated_file = dist_path / 'js' / file.name.replace('.js', '.min.js')
+        if not generated_file.is_file() or ( file.stat().st_mtime >
+                generated_file.stat().st_mtime):
+            log.critical(assets_error_log)
+            return False
+
+    data_path = static_path / 'data'
+    for file in data_path.glob('*.json'):
+        generated_file = dist_path / 'data' / file.name.replace('.json',
+                                                                '.min.json')
+        if not generated_file.is_file() or (file.stat().st_mtime >
+                generated_file.stat().st_mtime):
+            log.critical(assets_error_log)
+            return False
+
+    if args.pogo_assets:
+        pokemon_icons_path = Path(args.pogo_assets) / 'pokemon_icons'
+        if pokemon_icons_path.is_dir():
+            log.info("Using PogoAssets repository at '{}'".format(
+                args.pogo_assets))
+            dyn_img.pogo_assets = Path(args.pogo_assets)
+            dyn_img.pogo_assets_icons = pokemon_icons_path
+        else:
+            log.error(("Could not find PogoAssets repository at '{}'. "
+                       "Clone via 'git clone -depth 1 "
+                       "https://github.com/ZeChrales/PogoAssets.git'")
+                       .format(args.pogo_assets))
+
+    if not dyn_img.pogo_assets:
+        if validate_custom_pokemon_icons():
+            dyn_img.custom_icons = True
+            log.info("Using custom pokemon icons.")
+        else:
+            dyn_img.safe_icons = True
+            log.info("Using safe pokemon icons.")
+
+    if not validate_pokemon_icons():
+        if dyn_img.generate_images and not dyn_img.safe_icons:
+            dyn_img.generate_pokemon_icons()
+            if not validate_pokemon_icons():
                 return False
+        else:
+            log.critical(assets_error_log)
+            return False
 
-    # You need custom image files now.
-    if not os.path.isfile(
-            os.path.join(root_path, 'static/icons-sprite.png')):
-        log.critical(assets_error_log)
-        return False
+    pokemon_spritesheet_file = static_path / 'icons-sprite.png'
+    if not pokemon_spritesheet_file.is_file():
+        if dyn_img.generate_images and not dyn_img.safe_icons:
+            dyn_img.generate_sprite_sheet()
+        else:
+            log.critical(assets_error_log)
+            return False
 
     # Check if custom.css is used otherwise fall back to default.
-    if os.path.exists(os.path.join(root_path, 'static/css/custom.css')):
+    custom_css_file = static_path / 'css/custom.css'
+    if custom_css_file.is_file():
         args.custom_css = True
         log.info(
             'File \"custom.css\" found, applying user-defined settings.')
@@ -164,13 +311,16 @@ def validate_assets(args):
         log.info('No file \"custom.css\" found, using default settings.')
 
     # Check if custom.js is used otherwise fall back to default.
-    if os.path.exists(os.path.join(root_path, 'static/js/custom.js')):
+    custom_js_file = static_path / 'js/custom.css'
+    if custom_js_file.is_file():
         args.custom_js = True
         log.info(
             'File \"custom.js\" found, applying user-defined settings.')
     else:
         args.custom_js = False
         log.info('No file \"custom.js\" found, using default settings.')
+
+
 
     return True
 

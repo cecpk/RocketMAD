@@ -60,7 +60,7 @@ function processSeen(seen) {
         var pokemonItem = seen.pokemon[i]
         var seenPercent = (pokemonItem.count / seen.total) * 100
 
-        var pokemonIcon = generateImages ? `<img class='pokemon_icon' src='${getPokemonRawIconUrl(pokemonItem)}'>` : `<i class="pokemon-sprite n${pokemonItem.pokemon_id}"</i>`
+        var pokemonIcon = `<i class="pokemon-sprite-small n${pokemonItem.pokemon_id}"</i>`
         $('#stats_table > tbody')
             .append(`<tr class="status_row">
                         <td class="status_cell">

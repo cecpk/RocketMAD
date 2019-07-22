@@ -192,6 +192,7 @@ class Pogom(Flask):
             'quests': not args.no_quests,
             'raids': not args.no_raids,
             'gym_info': args.gym_info,
+            'weather_icons': args.weather_icons,
             'encounter': args.encounter,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,

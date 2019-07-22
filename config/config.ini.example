@@ -26,6 +26,15 @@
 #map-title                      # Title of the map. (default='RocketMap')
 
 
+# Image generation
+##################
+
+#gender
+#form
+#costume
+#weather-icons                  # Add weather icon to pokemon images and show them on the map.
+
+
 # Database settings
 ###################
 

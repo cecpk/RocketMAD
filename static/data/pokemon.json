@@ -294,6 +294,7 @@
     ],
     "forms": {
       "45": {
+        "defaultForm": true,
         "id": "RATTATA",
         "name": "Rattata",
         "formName": "",
@@ -321,6 +322,7 @@
     ],
     "forms": {
       "47": {
+        "defaultForm": true,
         "id": "RATICATE",
         "name": "Raticate",
         "formName": "",
@@ -432,6 +434,7 @@
     ],
     "forms": {
       "49": {
+        "defaultForm": true,
         "id": "RAICHU",
         "name": "Raichu",
         "formName": "",
@@ -472,6 +475,7 @@
     ],
     "forms": {
       "51": {
+        "defaultForm": true,
         "id": "SANDSHREW",
         "name": "Sandshrew",
         "formName": "",
@@ -499,6 +503,7 @@
     ],
     "forms": {
       "53": {
+        "defaultForm": true,
         "id": "SANDSLASH",
         "name": "Sandslash",
         "formName": "",
@@ -632,6 +637,7 @@
     ],
     "forms": {
       "55": {
+        "defaultForm": true,
         "id": "VULPIX",
         "name": "Vulpix",
         "formName": "",
@@ -659,6 +665,7 @@
     ],
     "forms": {
       "57": {
+        "defaultForm": true,
         "id": "NINETALES",
         "name": "Ninetales",
         "formName": "",
@@ -873,6 +880,7 @@
     ],
     "forms": {
       "59": {
+        "defaultForm": true,
         "id": "DIGLETT",
         "name": "Diglett",
         "formName": "",
@@ -900,6 +908,7 @@
     ],
     "forms": {
       "61": {
+        "defaultForm": true,
         "id": "DUGTRIO",
         "name": "Dugtrio",
         "formName": "",
@@ -927,6 +936,7 @@
     ],
     "forms": {
       "63": {
+        "defaultForm": true,
         "id": "MEOWTH",
         "name": "Meowth",
         "formName": "",
@@ -954,6 +964,7 @@
     ],
     "forms": {
       "65": {
+        "defaultForm": true,
         "id": "PERSIAN",
         "name": "Persian",
         "formName": "",
@@ -1265,6 +1276,7 @@
     ],
     "forms": {
       "67": {
+        "defaultForm": true,
         "id": "GEODUDE",
         "name": "Geodude",
         "formName": "",
@@ -1296,6 +1308,7 @@
     ],
     "forms": {
       "69": {
+        "defaultForm": true,
         "id": "GRAVELER",
         "name": "Graveler",
         "formName": "",
@@ -1327,6 +1340,7 @@
     ],
     "forms": {
       "71": {
+        "defaultForm": true,
         "id": "GOLEM",
         "name": "Golem",
         "formName": "",
@@ -1525,6 +1539,7 @@
     ],
     "forms": {
       "73": {
+        "defaultForm": true,
         "id": "GRIMER",
         "name": "Grimer",
         "formName": "",
@@ -1552,6 +1567,7 @@
     ],
     "forms": {
       "75": {
+        "defaultForm": true,
         "id": "MUK",
         "name": "Muk",
         "formName": "",
@@ -1764,6 +1780,7 @@
     ],
     "forms": {
       "77": {
+        "defaultForm": true,
         "id": "EXEGGUTOR",
         "name": "Exeggutor",
         "formName": "",
@@ -1808,6 +1825,7 @@
     ],
     "forms": {
       "79": {
+        "defaultForm": true,
         "id": "MAROWAK",
         "name": "Marowak",
         "formName": "",
@@ -2448,17 +2466,18 @@
   "150": {
     "name": "Mewtwo",
     "forms": {
-      "0": {
-        "id": "MEWTWO_NORMAL",
-        "name": "Mewtwo",
-        "formName": "",
-        "assetId": "00"
-      },
       "133": {
         "id": "MEWTWO_A",
         "name": "A",
         "formName": "Armored",
         "assetSuffix": "pm0150_00_pgo_a"
+      },
+      "135": {
+        "defaultForm": true,
+        "id": "MEWTWO_NORMAL",
+        "name": "Mewtwo",
+        "formName": "",
+        "assetId": "00"
       }
     },
     "types": [
@@ -3020,6 +3039,7 @@
     "name": "Unown",
     "forms": {
       "1": {
+        "defaultForm": true,
         "id": "UNOWN_A",
         "name": "Unown A",
         "formName": "A",
@@ -4576,6 +4596,7 @@
     "name": "Spinda",
     "forms": {
       "37": {
+        "defaultForm": true,
         "id": "SPINDA_00",
         "name": "Spinda 00",
         "formName": "00",
@@ -4912,6 +4933,7 @@
     "name": "Castform",
     "forms": {
       "29": {
+        "defaultForm": true,
         "id": "CASTFORM",
         "name": "Castform",
         "formName": "",
@@ -5305,6 +5327,7 @@
     "name": "Deoxys",
     "forms": {
       "33": {
+        "defaultForm": true,
         "id": "DEOXYS",
         "name": "Deoxys",
         "formName": "",
@@ -5613,6 +5636,7 @@
     "name": "Burmy",
     "forms": {
       "118": {
+        "defaultForm": true,
         "id": "BURMY_PLANT",
         "name": "Burmy Plant",
         "formName": "Plant",
@@ -5646,6 +5670,7 @@
     "name": "Wormadam",
     "forms": {
       "87": {
+        "defaultForm": true,
         "id": "WORMADAM_PLANT",
         "name": "Wormadam Plant",
         "formName": "Plant",
@@ -5750,6 +5775,7 @@
     "name": "Cherrim",
     "forms": {
       "94": {
+        "defaultForm": true,
         "id": "CHERRIM_OVERCAST",
         "name": "Cherrim Overcast",
         "formName": "Overcast",
@@ -5773,6 +5799,7 @@
     "name": "Shellos",
     "forms": {
       "96": {
+        "defaultForm": true,
         "id": "SHELLOS_WEST_SEA",
         "name": "Shellos West Sea",
         "formName": "West Sea",
@@ -5800,6 +5827,7 @@
     "name": "Gastrodon",
     "forms": {
       "98": {
+        "defaultForm": true,
         "id": "GASTRODON_WEST_SEA",
         "name": "Gastrodon West Sea",
         "formName": "West Sea",
@@ -6446,6 +6474,7 @@
     "name": "Rotom",
     "forms": {
       "81": {
+        "defaultForm": true,
         "id": "ROTOM",
         "name": "Rotom",
         "formName": "",
@@ -6568,6 +6597,7 @@
     "name": "Giratina",
     "forms": {
       "90": {
+        "defaultForm": true,
         "id": "GIRATINA_ALTERED",
         "name": "Giratina Altered",
         "formName": "Altered",
@@ -6631,6 +6661,7 @@
     "name": "Shaymin",
     "forms": {
       "92": {
+        "defaultForm": true,
         "id": "SHAYMIN_SKY",
         "name": "Shaymin Sky",
         "formName": "Sky",
@@ -6654,6 +6685,7 @@
     "name": "Arceus",
     "forms": {
       "100": {
+        "defaultForm": true,
         "id": "ARCEUS",
         "name": "Arceus",
         "formName": "",

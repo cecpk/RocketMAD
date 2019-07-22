@@ -28,6 +28,9 @@ from time import strftime
 from timeit import default_timer
 
 from . import dyn_img
+from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import (
+    WeatherCondition, CLEAR, RAINY,
+    PARTLY_CLOUDY, OVERCAST, WINDY, SNOW, FOG)
 
 log = logging.getLogger(__name__)
 
@@ -121,6 +124,9 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables quests from the map.'),
+                        action='store_true', default=False)
+    parser.add_argument('-wi', '--weather-icons',
+                        help=('Add weather icons to pokemon icons.'),
                         action='store_true', default=False)
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
@@ -290,32 +296,9 @@ def get_args():
 
 
 def init_dynamic_images(args):
-    if args.generate_images:
-        if is_imagemagick_available():
-            dyn_img.generate_images = True
-            log.info("Generating icons using ImageMagick. ")
-
-            if args.pogo_assets:
-                decr_assets_dir = Path(args.pogo_assets) / 'pokemon_icons'
-                if decr_assets_dir.is_dir():
-                    log.info("Using PogoAssets repository at '{}'".format(
-                        args.pogo_assets))
-                    dyn_img.pogo_assets = Path(args.pogo_assets)
-                    dyn_img.pogo_assets_icons = decr_assets_dir
-                    # Pregenerate pokemon icons.
-                    dyn_img.generate_icons()
-                else:
-                    log.error(("Could not find PogoAssets repository at '{}'. "
-                               "Clone via 'git clone -depth 1 "
-                               "https://github.com/ZeChrales/PogoAssets.git'")
-                              .format(args.pogo_assets))
-
-            dyn_img.generate_sprite_sheet()
-        else:
-            log.error("Could not find ImageMagick executable. Make sure "
-                      "you can execute 'magick' (ImageMagick 7). "
-                      "Otherwise you cannot use --generate-images")
-            sys.exit(1)
+    if is_imagemagick_available():
+        dyn_img.generate_images = True
+        log.info("Generating icons using ImageMagick.")
 
 
 def is_imagemagick_available():
@@ -395,7 +378,7 @@ def get_pokemon_data(pokemon_id):
             args.data_dir,
             'pokemon.min.json')
 
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             get_pokemon_data.pokemon = json.loads(
                 f.read(), object_pairs_hook=OrderedDict)
     return get_pokemon_data.pokemon[str(pokemon_id)]
@@ -409,9 +392,10 @@ def get_all_pokemon_data():
             args.data_dir,
             'pokemon.min.json')
 
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             get_all_pokemon_data.pokemons = json.loads(
                 f.read(), object_pairs_hook=OrderedDict)
+        print('not cached')
     return get_all_pokemon_data.pokemons
 
 
@@ -438,8 +422,19 @@ def get_pokemon_types(pokemon_id):
             pokemon_types]
 
 
-def get_form_data(pokemon_id):
+def get_forms(pokemon_id):
     return get_pokemon_data(pokemon_id).get('forms')
+
+
+def get_form_data(pokemon_id, form_id):
+    form_id = str(form_id)
+    forms = get_forms(pokemon_id)
+    if form_id in forms:
+        return forms[form_id]
+    else:
+        for form_data in forms.values():
+            if 'defaultForm' in form_data:
+                return form_data
 
 
 def get_moves_data(move_id):
@@ -470,6 +465,30 @@ def get_move_energy(move_id):
 def get_move_type(move_id):
     move_type = get_moves_data(move_id)['type']
     return {'type': i8ln(move_type), 'type_en': move_type}
+
+def get_weather(type_name):
+    type = type_name.lower()
+    weathers = {
+        "normal": PARTLY_CLOUDY,
+        "water": RAINY,
+        "electric": RAINY,
+        "fighting": OVERCAST,
+        "ground": CLEAR,
+        "psychic": WINDY,
+        "rock": PARTLY_CLOUDY,
+        "dark": FOG,
+        "steel": SNOW,
+        "fire": CLEAR,
+        "grass": CLEAR,
+        "ice": SNOW,
+        "poison": OVERCAST,
+        "flying": WINDY,
+        "bug": RAINY,
+        "ghost": FOG,
+        "dragon": WINDY,
+        "fairy": OVERCAST
+    }
+    return weathers[type]
 
 
 def dottedQuadToNum(ip):

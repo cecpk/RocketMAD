@@ -409,7 +409,7 @@ function getPokemonIcon(item, sprite, displayHeight) {
     var scaledIconOffset = [0, 0]
     var scaledIconCenterOffset = [scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2]
 
-    let iconUrl = getPokemonIconUrl(item)
+    let iconUrl = getMapPokemonIconUrl(item)
 
     return {
         iconUrl: iconUrl,
@@ -586,5 +586,13 @@ function getPokemonIconUrl(pokemon) {
     var costume = pokemon.costume ? pokemon.costume : '0'
     var shiny = pokemon.shiny ? '_s' : ''
 
-    return `static/icons/${pokemon.pokemon_id}_${pokemon.gender}_${form}_${costume}${shiny}.png`
+    return `static/images/pokemon/${pokemon.pokemon_id}_${pokemon.gender}_${form}_${costume}${shiny}.png`
+}
+
+function getMapPokemonIconUrl(pokemon) {
+    var form = pokemon.form ? pokemon.from : '0'
+    var costume = pokemon.costume ? pokemon.costume : '0'
+    var weather = showConfig.weather_icons && pokemon.weather_boosted_condition ? pokemon.weather_boosted_condition : '0'
+
+    return `static/images/pokemon-map/${pokemon.pokemon_id}_${pokemon.gender}_${form}_${costume}_${weather}.png`
 }
