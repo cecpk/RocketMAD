@@ -44,6 +44,19 @@ egg_images_assets = {
     5: os.path.join('static_assets', 'png', 'ic_raid_egg_legendary.png'),
 }
 
+costume_names = {
+    1: 'HOLIDAY_2016',
+    2: 'ANNIVERSARY',
+    3: 'ONE_YEAR_ANNIVERSARY',
+    4: 'HALLOWEEN_2017',
+    5: 'SUMMER_2018',
+    6: 'FALL_2018',
+    7: 'NOVEMBER_2018',
+    8: 'WINTER_2018',
+    9: 'FEB_2019',
+    10: 'MAY_2019_NOEVOLVE'
+}
+
 weather_images = {
     CLEAR:          os.path.join(path_weather, 'weather_sunny.png'),
     RAINY:          os.path.join(path_weather, 'weather_rain.png'),
@@ -303,7 +316,7 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
 
     if costume:
         costume_assets_suffix = '_{:02d}'.format(costume)
-        costume_suffix = '_{}'.format(Costume.Name(costume))
+        costume_suffix = '_{}'.format(costume_names[costume])
 
     if (
         not gender_assets_suffix and
