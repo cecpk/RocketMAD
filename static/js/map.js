@@ -2173,16 +2173,16 @@ function isPokestopSatisfiesFilters(pokestop) {
     if (Store.get('showPokestops')) {
         let showEventPokestopsOnly = Store.get('showEventPokestopsOnly')
         if (showEventPokestopsOnly == 1) {
-            if (pokestop['incident_start'] && pokestop['incident_expiration'] > new Date()) {
+            if (pokestop.incident_expiration && pokestop.incident_expiration > new Date()) {
                 return true
             }
         } else if (showEventPokestopsOnly > 1) {
-            if (pokestop['lure_expiration'] && pokestop['lure_expiration'] > new Date()) {
+            if (pokestop.lure_expiration && pokestop.lure_expiration > new Date()) {
               if (showEventPokestopsOnly == 2 ||
-                      showEventPokestopsOnly == 3 && pokestop['active_fort_modifier'] === 501 ||
-                      showEventPokestopsOnly == 4 && pokestop['active_fort_modifier'] === 502 ||
-                      showEventPokestopsOnly == 5 && pokestop['active_fort_modifier'] === 504 ||
-                      showEventPokestopsOnly == 6 && pokestop['active_fort_modifier'] === 503) {
+                      showEventPokestopsOnly == 3 && pokestop.active_fort_modifier === 501 ||
+                      showEventPokestopsOnly == 4 && pokestop.active_fort_modifier === 502 ||
+                      showEventPokestopsOnly == 5 && pokestop.active_fort_modifier === 504 ||
+                      showEventPokestopsOnly == 6 && pokestop.active_fort_modifier === 503) {
                   return true
               }
             }
