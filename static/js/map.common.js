@@ -170,7 +170,7 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showLuredPokestopsOnly': {
+    'showEventPokestopsOnly': {
         default: 0,
         type: StoreTypes.Number
     },
