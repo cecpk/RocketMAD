@@ -1648,8 +1648,6 @@ function updatePokestopMarker(pokestop, marker) {
 
     marker.setIcon(PokestopIcon)
     marker.setZIndexOffset = lureExpiration ? 3 : 2
-
-    return marker
 }
 
 function getColorByDate(value) {
@@ -2246,7 +2244,6 @@ function updateEventPokestops() {
     $.each(incidentPokestops, function (key, pokestop) {
         if (pokestop.incident_expiration && pokestop.incident_expiration <= now) {
             if (isPokestopSatisfiesFilters(pokestop)) {
-                mapData.pokestops[pokestop.pokestop_id].incident_start = null
                 mapData.pokestops[pokestop.pokestop_id].incident_expiration = null
                 updatePokestopMarker(mapData.pokestops[pokestop.pokestop_id], mapData.pokestops[pokestop.pokestop_id].marker)
                 delete incidentPokestops[pokestop.pokestop_id]
@@ -2262,6 +2259,8 @@ function processPokestop(i, pokestop) {
         return false // in case the checkbox was unchecked in the meantime.
     }
 
+    const now = Date.now()
+
     if (!mapData.pokestops[pokestop.pokestop_id]) {
         if (!isPokestopSatisfiesFilters(pokestop)) {
             return true
@@ -2269,15 +2268,17 @@ function processPokestop(i, pokestop) {
         // New pokestop, add marker to map and item to dict.
         pokestop.marker = setupPokestopMarker(pokestop)
         mapData.pokestops[pokestop.pokestop_id] = pokestop
-        if (pokestop.lure_expiration && pokestop.lure_expiration > new Date()) {
+        if (pokestop.lure_expiration && pokestop.lure_expiration > now) {
             luredPokestops[pokestop.pokestop_id] = pokestop
+        }
+        if (pokestop.incident_expiration && pokestop.incident_expiration > now) {
+            incidentPokestops[pokestop.pokestop_id] = pokestop
         }
     } else {
         // Existing pokestop, update marker and dict item if necessary.
-        let pokestop2 = mapData.pokestops[pokestop.pokestop_id]
-        let now = Date.now()
-        let newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
-        let newIncident = pokestop.incident_expiration && pokestop.incident_expiration > now && !pokestop2.incident_expiration
+        const pokestop2 = mapData.pokestops[pokestop.pokestop_id]
+        const newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
+        const newIncident = pokestop.incident_expiration && pokestop.incident_expiration > now && !pokestop2.incident_expiration
         if (newLure || newIncident || !!pokestop.quest !== !!pokestop2.quest) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 var marker = mapData.pokestops[pokestop.pokestop_id].marker
