@@ -370,7 +370,7 @@ class Pokestop(LatLongModel):
                          Pokestop.image, Pokestop.latitude, Pokestop.longitude,
                          Pokestop.last_updated, Pokestop.last_modified,
                          Pokestop.active_fort_modifier,
-                         Pokestop.lure_expiration, Pokestop.incident_start,
+                         Pokestop.lure_expiration,
                          Pokestop.incident_expiration))
 
         if not (swLat and swLng and neLat and neLng):

@@ -984,7 +984,6 @@ function gymLabel(gym) {
 function pokestopLabel(pokestop) {
     const pokestopName = pokestop.name ? pokestop.name : 'PokéStop'
     const lureExpireTime = pokestop.lure_expiration
-    const incidentStartTime = pokestop.incident_start
     const incidentExpireTime = pokestop.incident_expiration
     const quest = pokestop.quest
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
@@ -1035,7 +1034,7 @@ function pokestopLabel(pokestop) {
         lureClass = 'no-lure'
     }
 
-    if (incidentStartTime && incidentExpireTime > now) {
+    if (incidentExpireTime && incidentExpireTime > now) {
         incidentDisplay = `
             <div class='pokestop incident-container'>
               <div>
@@ -1140,6 +1139,12 @@ function pokestopLabel(pokestop) {
 
 function updatePokestopLabel(pokestop, marker) {
     marker._popup.setContent(pokestopLabel(pokestop))
+    const now = Date.now()
+    if (pokestop.lure_expiration && pokestop.lure_expiration > now ||
+            pokestop.incident_expiration && pokestop.incident_expiration > now) {
+        // Update countdown time to prevent a countdown time of 0.
+        updateLabelDiffTime()
+    }
 }
 
 function formatSpawnTime(seconds) {
@@ -1628,7 +1633,7 @@ function updatePokestopMarker(pokestop, marker) {
             }
         }
 
-        if (pokestop.incident_start && pokestop.incident_expiration > now) {
+        if (pokestop.incident_expiration && pokestop.incident_expiration > now) {
             markerImage += '_i'
         }
     }
