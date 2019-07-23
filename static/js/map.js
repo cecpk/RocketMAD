@@ -1004,17 +1004,17 @@ function pokestopLabel(pokestop) {
                 pokestopImageSource = 'static/images/pokestop/pokestop_lured_glacial.png'
                 lureTypeText = 'Glacial Lure'
                 lureClass = 'lure-glacial'
-                break;
+                break
             case 503:
                 pokestopImageSource = 'static/images/pokestop/pokestop_lured_mossy.png'
                 lureTypeText = 'Mossy Lure'
                 lureClass = 'lure-mossy'
-                break;
+                break
             case 504:
                 pokestopImageSource = 'static/images/pokestop/pokestop_lured_magnetic.png'
                 lureTypeText = 'Magnetic Lure'
                 lureClass = 'lure-magnetic'
-                break;
+                break
             default:
                 pokestopImageSource = 'static/images/pokestop/pokestop_lured.png'
                 lureTypeText = 'Normal Lure'
@@ -1616,7 +1616,6 @@ function updatePokestopMarker(pokestop, marker) {
     if (Store.get('showPokestops')) {
         if (lureExpiration && lureExpiration > now) {
             const showEventPokestopsOnly = Store.get('showEventPokestopsOnly')
-            console.log(showEventPokestopsOnly)
             const showAllLuredPokestops = showEventPokestopsOnly == 0 || showEventPokestopsOnly == 2 || showEventPokestopsOnly == 3
             if ((showAllLuredPokestops) && activeFortModifier === 501) {
                 markerImage += '_501'
