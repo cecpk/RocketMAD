@@ -31,7 +31,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 33
+db_schema_version = 34
 
 
 class RetryOperationalError(object):
@@ -354,6 +354,8 @@ class Pokestop(LatLongModel):
     last_modified = DateTimeField(index=True)
     lure_expiration = DateTimeField(null=True, index=True)
     active_fort_modifier = SmallIntegerField(null=True, index=True)
+    incident_start = DateTimeField(null=True)
+    incident_expiration = DateTimeField(null=True)
     last_updated = DateTimeField(
         null=True, index=True, default=datetime.utcnow)
 
@@ -1597,7 +1599,7 @@ def database_migrate(db, old_ver):
                        '(`latest_seen` <= 3600);')
 
     if old_ver < 30:
-        # Column might already exist if created by MAD
+        # Column might already exist if created by MAD.
         if not does_column_exist(db, 'gym', 'is_ex_raid_eligible'):
             migrate(
                 migrator.add_column(
@@ -1608,7 +1610,7 @@ def database_migrate(db, old_ver):
             )
 
     if old_ver < 31:
-        # Column might already exist if created by MAD
+        # Column might already exist if created by MAD.
         if not does_column_exist(db, 'raid', 'form'):
             migrate(
                 migrator.add_column(
@@ -1618,7 +1620,7 @@ def database_migrate(db, old_ver):
                 )
             )
 
-        # Column might already exist if created by MAD
+        # Column might already exist if created by MAD.
         if not does_column_exist(db, 'raid', 'is_exclusive'):
             migrate(
                 migrator.add_column(
@@ -1629,7 +1631,7 @@ def database_migrate(db, old_ver):
             )
 
     if old_ver < 32:
-        # Column might already exist if created by MAD
+        # Column might already exist if created by MAD.
         if not does_column_exist(db, 'raid', 'gender'):
             migrate(
                 migrator.add_column(
@@ -1652,6 +1654,27 @@ def database_migrate(db, old_ver):
         db.execute_sql('DROP TABLE `trainer`;')
         db.execute_sql('DROP TABLE `token`;')
         db.execute_sql('DROP TABLE `hashkeys`;')
+
+    if old_ver < 34:
+        # Column might already exist if created by MAD.
+        if not does_column_exist(db, 'pokestop', 'incident_start'):
+            migrate(
+                migrator.add_column(
+                    'pokestop',
+                    'incident_start',
+                    DateTimeField(null=True)
+                )
+            )
+
+        # Column might already exist if created by MAD.
+        if not does_column_exist(db, 'pokestop', 'incident_expiration'):
+            migrate(
+                migrator.add_column(
+                    'pokestop',
+                    'incident_expiration',
+                    DateTimeField(null=True)
+                )
+            )
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
