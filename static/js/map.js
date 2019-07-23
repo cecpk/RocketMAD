@@ -1570,10 +1570,11 @@ function updatePokestopMarker(pokestop, marker) {
     const quest = pokestop.quest
     const lureExpiration = pokestop.lure_expiration
     const activeFortModifier = pokestop.active_fort_modifier
-    var markerImage
+    var markerImage = 'stop'
     var shadowImage
     var shadowSize
     var shadowAnchor
+    var now = new Date()
 
     if (Store.get('showQuests') && quest) {
         const questItemId = quest.item_id
@@ -1585,7 +1586,7 @@ function updatePokestopMarker(pokestop, marker) {
                     shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
                     shadowSize = [30, 30]
                     shadowAnchor = [30, 20]
-                    markerImage = 'pokestop_quest'
+                    markerImage += '_q'
                 }
                 break
             case 3:
@@ -1593,7 +1594,7 @@ function updatePokestopMarker(pokestop, marker) {
                     shadowImage = 'static/images/quest/reward_stardust.png'
                     shadowSize = [30, 30]
                     shadowAnchor = [30, 20]
-                    markerImage = 'pokestop_quest'
+                    markerImage += '_q'
                 }
                 break
             case 7:
@@ -1607,27 +1608,30 @@ function updatePokestopMarker(pokestop, marker) {
                         shadowSize = [40, 40]
                         shadowAnchor = [30, 30]
                     }
-                    markerImage = 'pokestop_quest'
+                    markerImage += '_q'
                 }
         }
     }
 
-    if (Store.get('showPokestops') && lureExpiration && lureExpiration > new Date()) {
-        let showEventPokestopsOnly = Store.get('showEventPokestopsOnly')
-        const showAllLuredPokestops = showEventPokestopsOnly == 2 || showEventPokestopsOnly == 3
-        if ((showAllLuredPokestops) && activeFortModifier === 501) {
-            markerImage = 'pokestop_lured'
-        } else if ((showAllLuredPokestops || showEventPokestopsOnly == 4) && activeFortModifier === 502) {
-            markerImage = 'pokestop_lured_glacial'
-        } else if ((showAllLuredPokestops || showEventPokestopsOnly == 5) && activeFortModifier === 504) {
-            markerImage = 'pokestop_lured_magnetic'
-        } else if ((showAllLuredPokestops || showEventPokestopsOnly == 6) && activeFortModifier === 503) {
-            markerImage = 'pokestop_lured_mossy'
+    if (Store.get('showPokestops')) {
+        if (lureExpiration && lureExpiration > now) {
+            const showEventPokestopsOnly = Store.get('showEventPokestopsOnly')
+            console.log(showEventPokestopsOnly)
+            const showAllLuredPokestops = showEventPokestopsOnly == 0 || showEventPokestopsOnly == 2 || showEventPokestopsOnly == 3
+            if ((showAllLuredPokestops) && activeFortModifier === 501) {
+                markerImage += '_501'
+            } else if ((showAllLuredPokestops || showEventPokestopsOnly == 4) && activeFortModifier === 502) {
+                markerImage += '_502'
+            } else if ((showAllLuredPokestops || showEventPokestopsOnly == 5) && activeFortModifier === 504) {
+                markerImage += '_504'
+            } else if ((showAllLuredPokestops || showEventPokestopsOnly == 6) && activeFortModifier === 503) {
+                markerImage += '_503'
+            }
         }
-    }
 
-    if (!markerImage) {
-        markerImage = 'pokestop'
+        if (pokestop.incident_start && pokestop.incident_expiration > now) {
+            markerImage += '_i'
+        }
     }
 
     var PokestopIcon = new L.icon({
@@ -1639,7 +1643,7 @@ function updatePokestopMarker(pokestop, marker) {
     })
 
     marker.setIcon(PokestopIcon)
-    marker.setZIndexOffset = pokestop['lure_expiration'] ? 3 : 2
+    marker.setZIndexOffset = lureExpiration ? 3 : 2
 
     return marker
 }
