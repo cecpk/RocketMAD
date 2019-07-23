@@ -294,15 +294,10 @@
     ],
     "forms": {
       "45": {
-        "defaultForm": true,
-        "id": "RATTATA",
-        "name": "Rattata",
         "formName": "",
         "assetId": "00"
       },
       "46": {
-        "id": "RATTATA_ALOLA",
-        "name": "Rattata Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -322,15 +317,10 @@
     ],
     "forms": {
       "47": {
-        "defaultForm": true,
-        "id": "RATICATE",
-        "name": "Raticate",
         "formName": "",
         "assetId": "00"
       },
       "48": {
-        "id": "RATICATE_ALOLA",
-        "name": "Raticate Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -420,6 +410,18 @@
       9,
       10
     ],
+    "forms": {
+      "599": {
+        "formName": "",
+        "assetId": "00",
+        "hasCostume": true
+      },
+      "600": {
+        "formName": "",
+        "assetId": "00",
+        "hasCostume": true
+      }
+    },
     "types": [
       {
         "type": "Electric",
@@ -435,16 +437,11 @@
     ],
     "forms": {
       "49": {
-        "defaultForm": true,
-        "id": "RAICHU",
-        "name": "Raichu",
         "formName": "",
         "assetId": "00",
         "hasCostume": true
       },
       "50": {
-        "id": "RAICHU_ALOLA",
-        "name": "Raichu Alola",
         "formName": "Alola",
         "assetId": "61",
         "hasCostume": false
@@ -476,15 +473,10 @@
     ],
     "forms": {
       "51": {
-        "defaultForm": true,
-        "id": "SANDSHREW",
-        "name": "Sandshrew",
         "formName": "",
         "assetId": "00"
       },
       "52": {
-        "id": "SANDSHREW_ALOLA",
-        "name": "Sandshrew Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -504,15 +496,10 @@
     ],
     "forms": {
       "53": {
-        "defaultForm": true,
-        "id": "SANDSLASH",
-        "name": "Sandslash",
         "formName": "",
         "assetId": "00"
       },
       "54": {
-        "id": "SANDSLASH_ALOLA",
-        "name": "Sandslash Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -525,7 +512,7 @@
     ]
   },
   "29": {
-    "name": "Nidoran♀",
+    "name": "Nidoran\u2640",
     "gender": [
       2
     ],
@@ -565,7 +552,7 @@
     ]
   },
   "32": {
-    "name": "Nidoran♂",
+    "name": "Nidoran\u2642",
     "gender": [
       1
     ],
@@ -638,15 +625,10 @@
     ],
     "forms": {
       "55": {
-        "defaultForm": true,
-        "id": "VULPIX",
-        "name": "Vulpix",
         "formName": "",
         "assetId": "00"
       },
       "56": {
-        "id": "VULPIX_ALOLA",
-        "name": "Vulpix Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -666,15 +648,10 @@
     ],
     "forms": {
       "57": {
-        "defaultForm": true,
-        "id": "NINETALES",
-        "name": "Ninetales",
         "formName": "",
         "assetId": "00"
       },
       "58": {
-        "id": "NINETALES_ALOLA",
-        "name": "Ninetales Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -881,15 +858,10 @@
     ],
     "forms": {
       "59": {
-        "defaultForm": true,
-        "id": "DIGLETT",
-        "name": "Diglett",
         "formName": "",
         "assetId": "00"
       },
       "60": {
-        "id": "DIGLETT_ALOLA",
-        "name": "Diglett Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -909,15 +881,10 @@
     ],
     "forms": {
       "61": {
-        "defaultForm": true,
-        "id": "DUGTRIO",
-        "name": "Dugtrio",
         "formName": "",
         "assetId": "00"
       },
       "62": {
-        "id": "DUGTRIO_ALOLA",
-        "name": "Dugtrio Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -937,15 +904,10 @@
     ],
     "forms": {
       "63": {
-        "defaultForm": true,
-        "id": "MEOWTH",
-        "name": "Meowth",
         "formName": "",
         "assetId": "00"
       },
       "64": {
-        "id": "MEOWTH_ALOLA",
-        "name": "Meowth Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -965,15 +927,10 @@
     ],
     "forms": {
       "65": {
-        "defaultForm": true,
-        "id": "PERSIAN",
-        "name": "Persian",
         "formName": "",
         "assetId": "00"
       },
       "66": {
-        "id": "PERSIAN_ALOLA",
-        "name": "Persian Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -1277,15 +1234,10 @@
     ],
     "forms": {
       "67": {
-        "defaultForm": true,
-        "id": "GEODUDE",
-        "name": "Geodude",
         "formName": "",
         "assetId": "00"
       },
       "68": {
-        "id": "GEODUDE_ALOLA",
-        "name": "Geodude Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -1309,15 +1261,10 @@
     ],
     "forms": {
       "69": {
-        "defaultForm": true,
-        "id": "GRAVELER",
-        "name": "Graveler",
         "formName": "",
         "assetId": "00"
       },
       "70": {
-        "id": "GRAVELER_ALOLA",
-        "name": "Graveler Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -1341,15 +1288,10 @@
     ],
     "forms": {
       "71": {
-        "defaultForm": true,
-        "id": "GOLEM",
-        "name": "Golem",
         "formName": "",
         "assetId": "00"
       },
       "72": {
-        "id": "GOLEM_ALOLA",
-        "name": "Golem Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -1540,15 +1482,10 @@
     ],
     "forms": {
       "73": {
-        "defaultForm": true,
-        "id": "GRIMER",
-        "name": "Grimer",
         "formName": "",
         "assetId": "00"
       },
       "74": {
-        "id": "GRIMER_ALOLA",
-        "name": "Grimer Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -1568,15 +1505,10 @@
     ],
     "forms": {
       "75": {
-        "defaultForm": true,
-        "id": "MUK",
-        "name": "Muk",
         "formName": "",
         "assetId": "00"
       },
       "76": {
-        "id": "MUK_ALOLA",
-        "name": "Muk Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -1781,15 +1713,10 @@
     ],
     "forms": {
       "77": {
-        "defaultForm": true,
-        "id": "EXEGGUTOR",
-        "name": "Exeggutor",
         "formName": "",
         "assetId": "00"
       },
       "78": {
-        "id": "EXEGGUTOR_ALOLA",
-        "name": "Exeggutor Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -1826,15 +1753,10 @@
     ],
     "forms": {
       "79": {
-        "defaultForm": true,
-        "id": "MAROWAK",
-        "name": "Marowak",
         "formName": "",
         "assetId": "00"
       },
       "80": {
-        "id": "MAROWAK_ALOLA",
-        "name": "Marowak Alola",
         "formName": "Alola",
         "assetId": "61"
       }
@@ -2468,15 +2390,14 @@
     "name": "Mewtwo",
     "forms": {
       "133": {
-        "id": "MEWTWO_A",
-        "name": "A",
         "formName": "Armored",
         "assetSuffix": "pm0150_00_pgo_a"
       },
+      "134": {
+        "formName": "Armored Intro",
+        "assetSuffix": "pm0150_00_pgo_a"
+      },
       "135": {
-        "defaultForm": true,
-        "id": "MEWTWO_NORMAL",
-        "name": "Mewtwo",
         "formName": "",
         "assetId": "00"
       }
@@ -2498,105 +2419,154 @@
     ]
   },
   "152": {
+    "name": "Chikorita",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Chikorita"
+    ]
   },
   "153": {
+    "name": "Bayleef",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Bayleef"
+    ]
   },
   "154": {
+    "name": "Meganium",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Meganium"
+    ]
   },
   "155": {
+    "name": "Cyndaquil",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Cyndaquil"
+    ]
   },
   "156": {
+    "name": "Quilava",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Quilava"
+    ]
   },
   "157": {
+    "name": "Typhlosion",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Typhlosion"
+    ]
   },
   "158": {
+    "name": "Totodile",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Totodile"
+    ]
   },
   "159": {
+    "name": "Croconaw",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Croconaw"
+    ]
   },
   "160": {
+    "name": "Feraligatr",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Feraligatr"
+    ]
   },
   "161": {
+    "name": "Sentret",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Sentret"
+    ]
   },
   "162": {
+    "name": "Furret",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Furret"
+    ]
   },
   "163": {
+    "name": "Hoothoot",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -2606,10 +2576,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Hoothoot"
+    ]
   },
   "164": {
+    "name": "Noctowl",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -2619,10 +2593,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Noctowl"
+    ]
   },
   "165": {
+    "name": "Ledyba",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -2632,10 +2610,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Ledyba"
+    ]
   },
   "166": {
+    "name": "Ledian",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -2645,10 +2627,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Ledian"
+    ]
   },
   "167": {
+    "name": "Spinarak",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -2658,10 +2644,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Spinarak"
+    ]
   },
   "168": {
+    "name": "Ariados",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -2671,10 +2661,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Ariados"
+    ]
   },
   "169": {
+    "name": "Crobat",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -2684,10 +2678,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Crobat"
+    ]
   },
   "170": {
+    "name": "Chinchou",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -2697,10 +2695,14 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Chinchou"
+    ]
   },
   "171": {
+    "name": "Lanturn",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -2710,28 +2712,40 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Lanturn"
+    ]
   },
   "172": {
+    "name": "Pichu",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Pichu"
+    ]
   },
   "173": {
+    "name": "Cleffa",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Cleffa"
+    ]
   },
   "174": {
+    "name": "Igglybuff",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -2741,19 +2755,27 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Igglybuff"
+    ]
   },
   "175": {
+    "name": "Togepi",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Togepi"
+    ]
   },
   "176": {
+    "name": "Togetic",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
@@ -2763,10 +2785,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Togetic"
+    ]
   },
   "177": {
+    "name": "Natu",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -2776,10 +2802,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Natu"
+    ]
   },
   "178": {
+    "name": "Xatu",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -2789,46 +2819,66 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Xatu"
+    ]
   },
   "179": {
+    "name": "Mareep",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Mareep"
+    ]
   },
   "180": {
+    "name": "Flaaffy",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Flaaffy"
+    ]
   },
   "181": {
+    "name": "Ampharos",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Ampharos"
+    ]
   },
   "182": {
+    "name": "Bellossom",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Bellossom"
+    ]
   },
   "183": {
+    "name": "Marill",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -2838,10 +2888,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Marill"
+    ]
   },
   "184": {
+    "name": "Azumarill",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -2851,28 +2905,40 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Azumarill"
+    ]
   },
   "185": {
+    "name": "Sudowoodo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Sudowoodo"
+    ]
   },
   "186": {
+    "name": "Politoed",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Politoed"
+    ]
   },
   "187": {
+    "name": "Hoppip",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -2882,10 +2948,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Hoppip"
+    ]
   },
   "188": {
+    "name": "Skiploom",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -2895,10 +2965,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Skiploom"
+    ]
   },
   "189": {
+    "name": "Jumpluff",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -2908,37 +2982,53 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Jumpluff"
+    ]
   },
   "190": {
+    "name": "Aipom",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Aipom"
+    ]
   },
   "191": {
+    "name": "Sunkern",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Sunkern"
+    ]
   },
   "192": {
+    "name": "Sunflora",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Sunflora"
+    ]
   },
   "193": {
+    "name": "Yanma",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -2948,10 +3038,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Yanma"
+    ]
   },
   "194": {
+    "name": "Wooper",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -2961,10 +3055,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Wooper"
+    ]
   },
   "195": {
+    "name": "Quagsire",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -2974,28 +3072,40 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Quagsire"
+    ]
   },
   "196": {
+    "name": "Espeon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Espeon"
+    ]
   },
   "197": {
+    "name": "Umbreon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Umbreon"
+    ]
   },
   "198": {
+    "name": "Murkrow",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -3005,10 +3115,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Murkrow"
+    ]
   },
   "199": {
+    "name": "Slowking",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3018,208 +3132,163 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Slowking"
+    ]
   },
   "200": {
+    "name": "Misdreavus",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Misdreavus"
+    ]
   },
   "201": {
-    "types": [
-      {
-        "type": "Psychic",
-        "color": "#f85888"
-      }
-    ],
     "name": "Unown",
     "forms": {
       "1": {
-        "defaultForm": true,
-        "id": "UNOWN_A",
-        "name": "Unown A",
         "formName": "A",
         "assetId": "11"
       },
       "2": {
-        "id": "UNOWN_B",
-        "name": "Unown B",
         "formName": "B",
         "assetId": "12"
       },
       "3": {
-        "id": "UNOWN_C",
-        "name": "Unown C",
         "formName": "C",
         "assetId": "13"
       },
       "4": {
-        "id": "UNOWN_D",
-        "name": "Unown D",
         "formName": "D",
         "assetId": "14"
       },
       "5": {
-        "id": "UNOWN_E",
-        "name": "Unown E",
         "formName": "E",
         "assetId": "15"
       },
       "6": {
-        "id": "UNOWN_F",
-        "name": "Unown F",
         "formName": "F",
         "assetId": "16"
       },
       "7": {
-        "id": "UNOWN_G",
-        "name": "Unown G",
         "formName": "G",
         "assetId": "17"
       },
       "8": {
-        "id": "UNOWN_H",
-        "name": "Unown H",
         "formName": "H",
         "assetId": "18"
       },
       "9": {
-        "id": "UNOWN_I",
-        "name": "Unown I",
         "formName": "I",
         "assetId": "19"
       },
       "10": {
-        "id": "UNOWN_J",
-        "name": "Unown J",
         "formName": "J",
         "assetId": "20"
       },
       "11": {
-        "id": "UNOWN_K",
-        "name": "Unown K",
         "formName": "K",
         "assetId": "21"
       },
       "12": {
-        "id": "UNOWN_L",
-        "name": "Unown L",
         "formName": "L",
         "assetId": "22"
       },
       "13": {
-        "id": "UNOWN_M",
-        "name": "Unown M",
         "formName": "M",
         "assetId": "23"
       },
       "14": {
-        "id": "UNOWN_N",
-        "name": "Unown N",
         "formName": "N",
         "assetId": "24"
       },
       "15": {
-        "id": "UNOWN_O",
-        "name": "Unown O",
         "formName": "O",
         "assetId": "25"
       },
       "16": {
-        "id": "UNOWN_P",
-        "name": "Unown P",
         "formName": "P",
         "assetId": "26"
       },
       "17": {
-        "id": "UNOWN_Q",
-        "name": "Unown Q",
         "formName": "Q",
         "assetId": "27"
       },
       "18": {
-        "id": "UNOWN_R",
-        "name": "Unown R",
         "formName": "R",
         "assetId": "28"
       },
       "19": {
-        "id": "UNOWN_S",
-        "name": "Unown S",
         "formName": "S",
         "assetId": "29"
       },
       "20": {
-        "id": "UNOWN_T",
-        "name": "Unown T",
         "formName": "T",
         "assetId": "30"
       },
       "21": {
-        "id": "UNOWN_U",
-        "name": "Unown U",
         "formName": "U",
         "assetId": "31"
       },
       "22": {
-        "id": "UNOWN_V",
-        "name": "Unown V",
         "formName": "V",
         "assetId": "32"
       },
       "23": {
-        "id": "UNOWN_W",
-        "name": "Unown W",
         "formName": "W",
         "assetId": "33"
       },
       "24": {
-        "id": "UNOWN_X",
-        "name": "Unown X",
         "formName": "X",
         "assetId": "34"
       },
       "25": {
-        "id": "UNOWN_Y",
-        "name": "Unown Y",
         "formName": "Y",
         "assetId": "35"
       },
       "26": {
-        "id": "UNOWN_Z",
-        "name": "Unown Z",
         "formName": "Z",
         "assetId": "36"
       },
       "27": {
-        "id": "UNOWN_EXCLAMATION_POINT",
-        "name": "Unown Exclamation Point",
         "formName": "!",
         "assetId": "37"
       },
       "28": {
-        "id": "UNOWN_QUESTION_MARK",
-        "name": "Unown Question Mark",
         "formName": "?",
         "assetId": "38"
       }
-    }
-  },
-  "202": {
+    },
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
+    ]
+  },
+  "202": {
+    "name": "Wobbuffet",
+    "gender": [
+      1,
+      2
     ],
-    "name": "Wobbuffet"
+    "types": [
+      {
+        "type": "Psychic",
+        "color": "#f85888"
+      }
+    ]
   },
   "203": {
+    "name": "Girafarig",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -3229,19 +3298,27 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Girafarig"
+    ]
   },
   "204": {
+    "name": "Pineco",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Pineco"
+    ]
   },
   "205": {
+    "name": "Forretress",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -3251,19 +3328,27 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Forretress"
+    ]
   },
   "206": {
+    "name": "Dunsparce",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Dunsparce"
+    ]
   },
   "207": {
+    "name": "Gligar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -3273,10 +3358,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Gligar"
+    ]
   },
   "208": {
+    "name": "Steelix",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -3286,28 +3375,40 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Steelix"
+    ]
   },
   "209": {
+    "name": "Snubbull",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Snubbull"
+    ]
   },
   "210": {
+    "name": "Granbull",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Granbull"
+    ]
   },
   "211": {
+    "name": "Qwilfish",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3317,10 +3418,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Qwilfish"
+    ]
   },
   "212": {
+    "name": "Scizor",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -3330,10 +3435,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Scizor"
+    ]
   },
   "213": {
+    "name": "Shuckle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -3343,10 +3452,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Shuckle"
+    ]
   },
   "214": {
+    "name": "Heracross",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -3356,10 +3469,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Heracross"
+    ]
   },
   "215": {
+    "name": "Sneasel",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -3369,37 +3486,53 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Sneasel"
+    ]
   },
   "216": {
+    "name": "Teddiursa",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Teddiursa"
+    ]
   },
   "217": {
+    "name": "Ursaring",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Ursaring"
+    ]
   },
   "218": {
+    "name": "Slugma",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Slugma"
+    ]
   },
   "219": {
+    "name": "Magcargo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -3409,10 +3542,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Magcargo"
+    ]
   },
   "220": {
+    "name": "Swinub",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -3422,10 +3559,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Swinub"
+    ]
   },
   "221": {
+    "name": "Piloswine",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -3435,10 +3576,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Piloswine"
+    ]
   },
   "222": {
+    "name": "Corsola",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3448,28 +3593,40 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Corsola"
+    ]
   },
   "223": {
+    "name": "Remoraid",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Remoraid"
+    ]
   },
   "224": {
+    "name": "Octillery",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Octillery"
+    ]
   },
   "225": {
+    "name": "Delibird",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -3479,10 +3636,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Delibird"
+    ]
   },
   "226": {
+    "name": "Mantine",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3492,10 +3653,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Mantine"
+    ]
   },
   "227": {
+    "name": "Skarmory",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -3505,10 +3670,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Skarmory"
+    ]
   },
   "228": {
+    "name": "Houndour",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -3518,10 +3687,14 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Houndour"
+    ]
   },
   "229": {
+    "name": "Houndoom",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -3531,10 +3704,14 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Houndoom"
+    ]
   },
   "230": {
+    "name": "Kingdra",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3544,73 +3721,98 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Kingdra"
+    ]
   },
   "231": {
+    "name": "Phanpy",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Phanpy"
+    ]
   },
   "232": {
+    "name": "Donphan",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Donphan"
+    ]
   },
   "233": {
+    "name": "Porygon2",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Porygon2"
+    ]
   },
   "234": {
+    "name": "Stantler",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Stantler"
+    ]
   },
   "235": {
+    "name": "Smeargle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Smeargle"
+    ]
   },
   "236": {
+    "name": "Tyrogue",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Tyrogue"
+    ]
   },
   "237": {
+    "name": "Hitmontop",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Hitmontop"
+    ]
   },
   "238": {
+    "name": "Smoochum",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -3620,73 +3822,91 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Smoochum"
+    ]
   },
   "239": {
+    "name": "Elekid",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Elekid"
+    ]
   },
   "240": {
+    "name": "Magby",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Magby"
+    ]
   },
   "241": {
+    "name": "Miltank",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Miltank"
+    ]
   },
   "242": {
+    "name": "Blissey",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Blissey"
+    ]
   },
   "243": {
+    "name": "Raikou",
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Raikou"
+    ]
   },
   "244": {
+    "name": "Entei",
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Entei"
+    ]
   },
   "245": {
+    "name": "Suicune",
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Suicune"
+    ]
   },
   "246": {
+    "name": "Larvitar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -3696,10 +3916,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Larvitar"
+    ]
   },
   "247": {
+    "name": "Pupitar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -3709,10 +3933,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Pupitar"
+    ]
   },
   "248": {
+    "name": "Tyranitar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -3722,10 +3950,10 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Tyranitar"
+    ]
   },
   "249": {
+    "name": "Lugia",
     "types": [
       {
         "type": "Psychic",
@@ -3735,10 +3963,10 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Lugia"
+    ]
   },
   "250": {
+    "name": "Ho-Oh",
     "types": [
       {
         "type": "Fire",
@@ -3748,10 +3976,10 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Ho-Oh"
+    ]
   },
   "251": {
+    "name": "Celebi",
     "types": [
       {
         "type": "Psychic",
@@ -3761,46 +3989,66 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Celebi"
+    ]
   },
   "252": {
+    "name": "Treecko",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Treecko"
+    ]
   },
   "253": {
+    "name": "Grovyle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Grovyle"
+    ]
   },
   "254": {
+    "name": "Sceptile",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Sceptile"
+    ]
   },
   "255": {
+    "name": "Torchic",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Torchic"
+    ]
   },
   "256": {
+    "name": "Combusken",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -3810,10 +4058,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Combusken"
+    ]
   },
   "257": {
+    "name": "Blaziken",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -3823,19 +4075,27 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Blaziken"
+    ]
   },
   "258": {
+    "name": "Mudkip",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Mudkip"
+    ]
   },
   "259": {
+    "name": "Marshtomp",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3845,10 +4105,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Marshtomp"
+    ]
   },
   "260": {
+    "name": "Swampert",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3858,64 +4122,92 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Swampert"
+    ]
   },
   "261": {
+    "name": "Poochyena",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Poochyena"
+    ]
   },
   "262": {
+    "name": "Mightyena",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Mightyena"
+    ]
   },
   "263": {
+    "name": "Zigzagoon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Zigzagoon"
+    ]
   },
   "264": {
+    "name": "Linoone",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Linoone"
+    ]
   },
   "265": {
+    "name": "Wurmple",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Wurmple"
+    ]
   },
   "266": {
+    "name": "Silcoon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Silcoon"
+    ]
   },
   "267": {
+    "name": "Beautifly",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -3925,19 +4217,27 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Beautifly"
+    ]
   },
   "268": {
+    "name": "Cascoon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Cascoon"
+    ]
   },
   "269": {
+    "name": "Dustox",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -3947,10 +4247,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Dustox"
+    ]
   },
   "270": {
+    "name": "Lotad",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3960,10 +4264,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Lotad"
+    ]
   },
   "271": {
+    "name": "Lombre",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3973,10 +4281,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Lombre"
+    ]
   },
   "272": {
+    "name": "Ludicolo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -3986,19 +4298,27 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Ludicolo"
+    ]
   },
   "273": {
+    "name": "Seedot",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Seedot"
+    ]
   },
   "274": {
+    "name": "Nuzleaf",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -4008,10 +4328,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Nuzleaf"
+    ]
   },
   "275": {
+    "name": "Shiftry",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -4021,10 +4345,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Shiftry"
+    ]
   },
   "276": {
+    "name": "Taillow",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -4034,10 +4362,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Taillow"
+    ]
   },
   "277": {
+    "name": "Swellow",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -4047,10 +4379,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Swellow"
+    ]
   },
   "278": {
+    "name": "Wingull",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -4060,10 +4396,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Wingull"
+    ]
   },
   "279": {
+    "name": "Pelipper",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -4073,10 +4413,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Pelipper"
+    ]
   },
   "280": {
+    "name": "Ralts",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -4086,10 +4430,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Ralts"
+    ]
   },
   "281": {
+    "name": "Kirlia",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -4099,10 +4447,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Kirlia"
+    ]
   },
   "282": {
+    "name": "Gardevoir",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -4112,10 +4464,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Gardevoir"
+    ]
   },
   "283": {
+    "name": "Surskit",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -4125,10 +4481,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Surskit"
+    ]
   },
   "284": {
+    "name": "Masquerain",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -4138,19 +4498,27 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Masquerain"
+    ]
   },
   "285": {
+    "name": "Shroomish",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Shroomish"
+    ]
   },
   "286": {
+    "name": "Breloom",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -4160,37 +4528,53 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Breloom"
+    ]
   },
   "287": {
+    "name": "Slakoth",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Slakoth"
+    ]
   },
   "288": {
+    "name": "Vigoroth",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Vigoroth"
+    ]
   },
   "289": {
+    "name": "Slaking",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Slaking"
+    ]
   },
   "290": {
+    "name": "Nincada",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -4200,10 +4584,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Nincada"
+    ]
   },
   "291": {
+    "name": "Ninjask",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -4213,10 +4601,10 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Ninjask"
+    ]
   },
   "292": {
+    "name": "Shedinja",
     "types": [
       {
         "type": "Bug",
@@ -4226,55 +4614,79 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Shedinja"
+    ]
   },
   "293": {
+    "name": "Whismur",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Whismur"
+    ]
   },
   "294": {
+    "name": "Loudred",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Loudred"
+    ]
   },
   "295": {
+    "name": "Exploud",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Exploud"
+    ]
   },
   "296": {
+    "name": "Makuhita",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Makuhita"
+    ]
   },
   "297": {
+    "name": "Hariyama",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Hariyama"
+    ]
   },
   "298": {
+    "name": "Azurill",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -4284,37 +4696,53 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Azurill"
+    ]
   },
   "299": {
+    "name": "Nosepass",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Nosepass"
+    ]
   },
   "300": {
+    "name": "Skitty",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Skitty"
+    ]
   },
   "301": {
+    "name": "Delcatty",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Delcatty"
+    ]
   },
   "302": {
+    "name": "Sableye",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -4324,10 +4752,14 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Sableye"
+    ]
   },
   "303": {
+    "name": "Mawile",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -4337,10 +4769,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Mawile"
+    ]
   },
   "304": {
+    "name": "Aron",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -4350,10 +4786,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Aron"
+    ]
   },
   "305": {
+    "name": "Lairon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -4363,10 +4803,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Lairon"
+    ]
   },
   "306": {
+    "name": "Aggron",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -4376,10 +4820,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Aggron"
+    ]
   },
   "307": {
+    "name": "Meditite",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
@@ -4389,10 +4837,14 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Meditite"
+    ]
   },
   "308": {
+    "name": "Medicham",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
@@ -4402,64 +4854,90 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Medicham"
+    ]
   },
   "309": {
+    "name": "Electrike",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Electrike"
+    ]
   },
   "310": {
+    "name": "Manectric",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Manectric"
+    ]
   },
   "311": {
+    "name": "Plusle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Plusle"
+    ]
   },
   "312": {
+    "name": "Minun",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Minun"
+    ]
   },
   "313": {
+    "name": "Volbeat",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Volbeat"
+    ]
   },
   "314": {
+    "name": "Illumise",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Illumise"
+    ]
   },
   "315": {
+    "name": "Roselia",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -4469,28 +4947,40 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Roselia"
+    ]
   },
   "316": {
+    "name": "Gulpin",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Gulpin"
+    ]
   },
   "317": {
+    "name": "Swalot",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Swalot"
+    ]
   },
   "318": {
+    "name": "Carvanha",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -4500,10 +4990,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Carvanha"
+    ]
   },
   "319": {
+    "name": "Sharpedo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -4513,28 +5007,40 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Sharpedo"
+    ]
   },
   "320": {
+    "name": "Wailmer",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Wailmer"
+    ]
   },
   "321": {
+    "name": "Wailord",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Wailord"
+    ]
   },
   "322": {
+    "name": "Numel",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -4544,10 +5050,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Numel"
+    ]
   },
   "323": {
+    "name": "Camerupt",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -4557,112 +5067,117 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Camerupt"
+    ]
   },
   "324": {
+    "name": "Torkoal",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Torkoal"
+    ]
   },
   "325": {
+    "name": "Spoink",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Spoink"
+    ]
   },
   "326": {
+    "name": "Grumpig",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Grumpig"
+    ]
   },
   "327": {
-    "types": [
-      {
-        "type": "Normal",
-        "color": "#8a8a59"
-      }
-    ],
     "name": "Spinda",
+    "gender": [
+      1,
+      2
+    ],
     "forms": {
       "37": {
-        "defaultForm": true,
-        "id": "SPINDA_00",
-        "name": "Spinda 00",
-        "formName": "00",
+        "formName": "1",
         "assetId": "11"
       },
       "38": {
-        "id": "SPINDA_01",
-        "name": "Spinda 01",
-        "formName": "01",
+        "formName": "2",
         "assetId": "12"
       },
       "39": {
-        "id": "SPINDA_02",
-        "name": "Spinda 02",
-        "formName": "02",
+        "formName": "3",
         "assetId": "13"
       },
       "40": {
-        "id": "SPINDA_03",
-        "name": "Spinda 03",
-        "formName": "03",
+        "formName": "4",
         "assetId": "14"
       },
       "41": {
-        "id": "SPINDA_04",
-        "name": "Spinda 04",
-        "formName": "04",
+        "formName": "5",
         "assetId": "15"
       },
       "42": {
-        "id": "SPINDA_05",
-        "name": "Spinda 05",
-        "formName": "05",
+        "formName": "6",
         "assetId": "16"
       },
       "43": {
-        "id": "SPINDA_06",
-        "name": "Spinda 06",
-        "formName": "06",
+        "formName": "7",
         "assetId": "17"
       },
       "44": {
-        "id": "SPINDA_07",
-        "name": "Spinda 07",
-        "formName": "07",
+        "formName": "8",
         "assetId": "18"
       },
       "121": {
-        "id": "SPINDA_08",
-        "name": "Spinda 08",
-        "formName": "08",
+        "formName": "9",
         "assetId": "19"
       }
-    }
+    },
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ]
   },
   "328": {
+    "name": "Trapinch",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Trapinch"
+    ]
   },
   "329": {
+    "name": "Vibrava",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -4672,10 +5187,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Vibrava"
+    ]
   },
   "330": {
+    "name": "Flygon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -4685,19 +5204,27 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Flygon"
+    ]
   },
   "331": {
+    "name": "Cacnea",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Cacnea"
+    ]
   },
   "332": {
+    "name": "Cacturne",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -4707,10 +5234,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Cacturne"
+    ]
   },
   "333": {
+    "name": "Swablu",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -4720,10 +5251,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Swablu"
+    ]
   },
   "334": {
+    "name": "Altaria",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -4733,28 +5268,36 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Altaria"
+    ]
   },
   "335": {
+    "name": "Zangoose",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Zangoose"
+    ]
   },
   "336": {
+    "name": "Seviper",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Seviper"
+    ]
   },
   "337": {
+    "name": "Lunatone",
     "types": [
       {
         "type": "Rock",
@@ -4764,10 +5307,10 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Lunatone"
+    ]
   },
   "338": {
+    "name": "Solrock",
     "types": [
       {
         "type": "Rock",
@@ -4777,10 +5320,14 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Solrock"
+    ]
   },
   "339": {
+    "name": "Barboach",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -4790,10 +5337,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Barboach"
+    ]
   },
   "340": {
+    "name": "Whiscash",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -4803,19 +5354,27 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Whiscash"
+    ]
   },
   "341": {
+    "name": "Corphish",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Corphish"
+    ]
   },
   "342": {
+    "name": "Crawdaunt",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -4825,10 +5384,10 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Crawdaunt"
+    ]
   },
   "343": {
+    "name": "Baltoy",
     "types": [
       {
         "type": "Ground",
@@ -4838,10 +5397,10 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Baltoy"
+    ]
   },
   "344": {
+    "name": "Claydol",
     "types": [
       {
         "type": "Ground",
@@ -4851,10 +5410,14 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Claydol"
+    ]
   },
   "345": {
+    "name": "Lileep",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -4864,10 +5427,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Lileep"
+    ]
   },
   "346": {
+    "name": "Cradily",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -4877,10 +5444,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Cradily"
+    ]
   },
   "347": {
+    "name": "Anorith",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -4890,10 +5461,14 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Anorith"
+    ]
   },
   "348": {
+    "name": "Armaldo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -4903,109 +5478,136 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Armaldo"
+    ]
   },
   "349": {
+    "name": "Feebas",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Feebas"
+    ]
   },
   "350": {
+    "name": "Milotic",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Milotic"
+    ]
   },
   "351": {
-    "types": [
-      {
-        "type": "Normal",
-        "color": "#8a8a59"
-      }
-    ],
     "name": "Castform",
+    "gender": [
+      1,
+      2
+    ],
     "forms": {
       "29": {
-        "defaultForm": true,
-        "id": "CASTFORM",
-        "name": "Castform",
         "formName": "",
         "assetId": "11"
       },
       "30": {
-        "id": "CASTFORM_SUNNY",
-        "name": "Castform Sunny",
         "formName": "Sunny",
         "assetId": "12"
       },
       "31": {
-        "id": "CASTFORM_RAINY",
-        "name": "Castform Rainy",
         "formName": "Rainy",
         "assetId": "13"
       },
       "32": {
-        "id": "CASTFORM_SNOWY",
-        "name": "Castform Snowy",
         "formName": "Snowy",
         "assetId": "14"
       }
-    }
-  },
-  "352": {
+    },
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
+    ]
+  },
+  "352": {
+    "name": "Kecleon",
+    "gender": [
+      1,
+      2
     ],
-    "name": "Kecleon"
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ]
   },
   "353": {
+    "name": "Shuppet",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Shuppet"
+    ]
   },
   "354": {
+    "name": "Banette",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Banette"
+    ]
   },
   "355": {
+    "name": "Duskull",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Duskull"
+    ]
   },
   "356": {
+    "name": "Dusclops",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Dusclops"
+    ]
   },
   "357": {
+    "name": "Tropius",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -5015,55 +5617,79 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Tropius"
+    ]
   },
   "358": {
+    "name": "Chimecho",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Chimecho"
+    ]
   },
   "359": {
+    "name": "Absol",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Absol"
+    ]
   },
   "360": {
+    "name": "Wynaut",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Wynaut"
+    ]
   },
   "361": {
+    "name": "Snorunt",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Snorunt"
+    ]
   },
   "362": {
+    "name": "Glalie",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Glalie"
+    ]
   },
   "363": {
+    "name": "Spheal",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -5073,10 +5699,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Spheal"
+    ]
   },
   "364": {
+    "name": "Sealeo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -5086,10 +5716,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Sealeo"
+    ]
   },
   "365": {
+    "name": "Walrein",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -5099,37 +5733,53 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Walrein"
+    ]
   },
   "366": {
+    "name": "Clamperl",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Clamperl"
+    ]
   },
   "367": {
+    "name": "Huntail",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Huntail"
+    ]
   },
   "368": {
+    "name": "Gorebyss",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Gorebyss"
+    ]
   },
   "369": {
+    "name": "Relicanth",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -5139,37 +5789,53 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Relicanth"
+    ]
   },
   "370": {
+    "name": "Luvdisc",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Luvdisc"
+    ]
   },
   "371": {
+    "name": "Bagon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Bagon"
+    ]
   },
   "372": {
+    "name": "Shelgon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Shelgon"
+    ]
   },
   "373": {
+    "name": "Salamence",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -5179,10 +5845,10 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Salamence"
+    ]
   },
   "374": {
+    "name": "Beldum",
     "types": [
       {
         "type": "Steel",
@@ -5192,10 +5858,10 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Beldum"
+    ]
   },
   "375": {
+    "name": "Metang",
     "types": [
       {
         "type": "Steel",
@@ -5205,10 +5871,10 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Metang"
+    ]
   },
   "376": {
+    "name": "Metagross",
     "types": [
       {
         "type": "Steel",
@@ -5218,37 +5884,40 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Metagross"
+    ]
   },
   "377": {
+    "name": "Regirock",
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Regirock"
+    ]
   },
   "378": {
+    "name": "Regice",
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Regice"
+    ]
   },
   "379": {
+    "name": "Registeel",
     "types": [
       {
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Registeel"
+    ]
   },
   "380": {
+    "name": "Latias",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -5258,10 +5927,13 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Latias"
+    ]
   },
   "381": {
+    "name": "Latios",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -5271,28 +5943,28 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Latios"
+    ]
   },
   "382": {
+    "name": "Kyogre",
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Kyogre"
+    ]
   },
   "383": {
+    "name": "Groudon",
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Groudon"
+    ]
   },
   "384": {
+    "name": "Rayquaza",
     "types": [
       {
         "type": "Dragon",
@@ -5302,10 +5974,10 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Rayquaza"
+    ]
   },
   "385": {
+    "name": "Jirachi",
     "types": [
       {
         "type": "Steel",
@@ -5315,64 +5987,67 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Jirachi"
+    ]
   },
   "386": {
-    "types": [
-      {
-        "type": "Psychic",
-        "color": "#f85888"
-      }
-    ],
     "name": "Deoxys",
     "forms": {
       "33": {
-        "defaultForm": true,
-        "id": "DEOXYS",
-        "name": "Deoxys",
         "formName": "",
         "assetId": "11"
       },
       "34": {
-        "id": "DEOXYS_ATTACK",
-        "name": "Deoxys Attack",
         "formName": "Attack",
         "assetId": "12"
       },
       "35": {
-        "id": "DEOXYS_DEFENSE",
-        "name": "Deoxys Defense",
         "formName": "Defense",
         "assetId": "13"
       },
       "36": {
-        "id": "DEOXYS_SPEED",
-        "name": "Deoxys Speed",
         "formName": "Speed",
         "assetId": "14"
       }
-    }
+    },
+    "types": [
+      {
+        "type": "Psychic",
+        "color": "#f85888"
+      }
+    ]
   },
   "387": {
+    "name": "Turtwig",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Turtwig"
+    ]
   },
   "388": {
+    "name": "Grotle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Grotle"
+    ]
   },
   "389": {
+    "name": "Torterra",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -5382,19 +6057,27 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Torterra"
+    ]
   },
   "390": {
+    "name": "Chimchar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Chimchar"
+    ]
   },
   "391": {
+    "name": "Monferno",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -5404,10 +6087,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Monferno"
+    ]
   },
   "392": {
+    "name": "Infernape",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -5417,28 +6104,40 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Infernape"
+    ]
   },
   "393": {
+    "name": "Piplup",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Piplup"
+    ]
   },
   "394": {
+    "name": "Prinplup",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Prinplup"
+    ]
   },
   "395": {
+    "name": "Empoleon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -5448,10 +6147,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Empoleon"
+    ]
   },
   "396": {
+    "name": "Starly",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -5461,10 +6164,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Starly"
+    ]
   },
   "397": {
+    "name": "Staravia",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -5474,10 +6181,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Staravia"
+    ]
   },
   "398": {
+    "name": "Staraptor",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -5487,19 +6198,27 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Staraptor"
+    ]
   },
   "399": {
+    "name": "Bidoof",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Bidoof"
+    ]
   },
   "400": {
+    "name": "Bibarel",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -5509,55 +6228,79 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Bibarel"
+    ]
   },
   "401": {
+    "name": "Kricketot",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Kricketot"
+    ]
   },
   "402": {
+    "name": "Kricketune",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Kricketune"
+    ]
   },
   "403": {
+    "name": "Shinx",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Shinx"
+    ]
   },
   "404": {
+    "name": "Luxio",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Luxio"
+    ]
   },
   "405": {
+    "name": "Luxray",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Luxray"
+    ]
   },
   "406": {
+    "name": "Budew",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -5567,10 +6310,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Budew"
+    ]
   },
   "407": {
+    "name": "Roserade",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -5580,28 +6327,40 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Roserade"
+    ]
   },
   "408": {
+    "name": "Cranidos",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Cranidos"
+    ]
   },
   "409": {
+    "name": "Rampardos",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Rampardos"
+    ]
   },
   "410": {
+    "name": "Shieldon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -5611,10 +6370,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Shieldon"
+    ]
   },
   "411": {
+    "name": "Bastiodon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -5624,74 +6387,70 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Bastiodon"
+    ]
   },
   "412": {
-    "types": [
-      {
-        "type": "Bug",
-        "color": "#a8b820"
-      }
-    ],
     "name": "Burmy",
+    "gender": [
+      1,
+      2
+    ],
     "forms": {
       "118": {
-        "defaultForm": true,
-        "id": "BURMY_PLANT",
-        "name": "Burmy Plant",
         "formName": "Plant",
         "assetId": "11"
       },
       "119": {
-        "id": "BURMY_SANDY",
-        "name": "Burmy Sandy",
         "formName": "Sandy",
         "assetId": "12"
       },
       "120": {
-        "id": "BURMY_TRASH",
-        "name": "Burmy Trash",
         "formName": "Trash",
         "assetId": "13"
       }
-    }
-  },
-  "413": {
+    },
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
-      },
-      {
-        "type": "Steel",
-        "color": "#b8b8d0"
       }
-    ],
+    ]
+  },
+  "413": {
     "name": "Wormadam",
+    "gender": [
+      2
+    ],
     "forms": {
       "87": {
-        "defaultForm": true,
-        "id": "WORMADAM_PLANT",
-        "name": "Wormadam Plant",
         "formName": "Plant",
         "assetId": "11"
       },
       "88": {
-        "id": "WORMADAM_SANDY",
-        "name": "Wormadam Sandy",
         "formName": "Sandy",
         "assetId": "12"
       },
       "89": {
-        "id": "WORMADAM_TRASH",
-        "name": "Wormadam Trash",
         "formName": "Trash",
         "assetId": "13"
       }
-    }
+    },
+    "types": [
+      {
+        "type": "Bug",
+        "color": "#a8b820"
+      },
+      {
+        "type": "Steel",
+        "color": "#b8b8d0"
+      }
+    ]
   },
   "414": {
+    "name": "Mothim",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Bug",
@@ -5701,10 +6460,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Mothim"
+    ]
   },
   "415": {
+    "name": "Combee",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -5714,10 +6477,13 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Combee"
+    ]
   },
   "416": {
+    "name": "Vespiquen",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -5727,131 +6493,152 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Vespiquen"
+    ]
   },
   "417": {
+    "name": "Pachirisu",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Pachirisu"
+    ]
   },
   "418": {
+    "name": "Buizel",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Buizel"
+    ]
   },
   "419": {
+    "name": "Floatzel",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Floatzel"
+    ]
   },
   "420": {
+    "name": "Cherubi",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Cherubi"
+    ]
   },
   "421": {
-    "types": [
-      {
-        "type": "Grass",
-        "color": "#78c850"
-      }
-    ],
     "name": "Cherrim",
+    "gender": [
+      1,
+      2
+    ],
     "forms": {
       "94": {
-        "defaultForm": true,
-        "id": "CHERRIM_OVERCAST",
-        "name": "Cherrim Overcast",
         "formName": "Overcast",
         "assetId": "11"
       },
       "95": {
-        "id": "CHERRIM_SUNNY",
-        "name": "Cherrim Sunny",
         "formName": "Sunny",
         "assetId": "12"
       }
-    }
-  },
-  "422": {
+    },
     "types": [
       {
-        "type": "Water",
-        "color": "#6890f0"
+        "type": "Grass",
+        "color": "#78c850"
       }
-    ],
+    ]
+  },
+  "422": {
     "name": "Shellos",
+    "gender": [
+      1,
+      2
+    ],
     "forms": {
       "96": {
-        "defaultForm": true,
-        "id": "SHELLOS_WEST_SEA",
-        "name": "Shellos West Sea",
         "formName": "West Sea",
         "assetId": "11"
       },
       "97": {
-        "id": "SHELLOS_EAST_SEA",
-        "name": "Shellos East Sea",
         "formName": "East Sea",
         "assetId": "12"
       }
-    }
-  },
-  "423": {
+    },
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
-      },
-      {
-        "type": "Ground",
-        "color": "#e0c068"
       }
-    ],
+    ]
+  },
+  "423": {
     "name": "Gastrodon",
+    "gender": [
+      1,
+      2
+    ],
     "forms": {
       "98": {
-        "defaultForm": true,
-        "id": "GASTRODON_WEST_SEA",
-        "name": "Gastrodon West Sea",
         "formName": "West Sea",
         "assetId": "11"
       },
       "99": {
-        "id": "GASTRODON_EAST_SEA",
-        "name": "Gastrodon East Sea",
         "formName": "East Sea",
         "assetId": "12"
       }
-    }
+    },
+    "types": [
+      {
+        "type": "Water",
+        "color": "#6890f0"
+      },
+      {
+        "type": "Ground",
+        "color": "#e0c068"
+      }
+    ]
   },
   "424": {
+    "name": "Ambipom",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Ambipom"
+    ]
   },
   "425": {
+    "name": "Drifloon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -5861,10 +6648,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Drifloon"
+    ]
   },
   "426": {
+    "name": "Drifblim",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -5874,37 +6665,53 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Drifblim"
+    ]
   },
   "427": {
+    "name": "Buneary",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Buneary"
+    ]
   },
   "428": {
+    "name": "Lopunny",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Lopunny"
+    ]
   },
   "429": {
+    "name": "Mismagius",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Mismagius"
+    ]
   },
   "430": {
+    "name": "Honchkrow",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -5914,37 +6721,53 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Honchkrow"
+    ]
   },
   "431": {
+    "name": "Glameow",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Glameow"
+    ]
   },
   "432": {
+    "name": "Purugly",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Purugly"
+    ]
   },
   "433": {
+    "name": "Chingling",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Chingling"
+    ]
   },
   "434": {
+    "name": "Stunky",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -5954,10 +6777,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Stunky"
+    ]
   },
   "435": {
+    "name": "Skuntank",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -5967,10 +6794,10 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Skuntank"
+    ]
   },
   "436": {
+    "name": "Bronzor",
     "types": [
       {
         "type": "Steel",
@@ -5980,10 +6807,10 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Bronzor"
+    ]
   },
   "437": {
+    "name": "Bronzong",
     "types": [
       {
         "type": "Steel",
@@ -5993,19 +6820,27 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Bronzong"
+    ]
   },
   "438": {
+    "name": "Bonsly",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Bonsly"
+    ]
   },
   "439": {
+    "name": "Mime Jr.",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -6015,19 +6850,26 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Mime Jr."
+    ]
   },
   "440": {
+    "name": "Happiny",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Happiny"
+    ]
   },
   "441": {
+    "name": "Chatot",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -6037,10 +6879,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Chatot"
+    ]
   },
   "442": {
+    "name": "Spiritomb",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -6050,10 +6896,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Spiritomb"
+    ]
   },
   "443": {
+    "name": "Gible",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -6063,10 +6913,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Gible"
+    ]
   },
   "444": {
+    "name": "Gabite",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -6076,10 +6930,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Gabite"
+    ]
   },
   "445": {
+    "name": "Garchomp",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -6089,28 +6947,40 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Garchomp"
+    ]
   },
   "446": {
+    "name": "Munchlax",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Munchlax"
+    ]
   },
   "447": {
+    "name": "Riolu",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Riolu"
+    ]
   },
   "448": {
+    "name": "Lucario",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
@@ -6120,28 +6990,40 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Lucario"
+    ]
   },
   "449": {
+    "name": "Hippopotas",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Hippopotas"
+    ]
   },
   "450": {
+    "name": "Hippowdon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Hippowdon"
+    ]
   },
   "451": {
+    "name": "Skorupi",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -6151,10 +7033,14 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Skorupi"
+    ]
   },
   "452": {
+    "name": "Drapion",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -6164,10 +7050,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Drapion"
+    ]
   },
   "453": {
+    "name": "Croagunk",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -6177,10 +7067,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Croagunk"
+    ]
   },
   "454": {
+    "name": "Toxicroak",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -6190,37 +7084,53 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Toxicroak"
+    ]
   },
   "455": {
+    "name": "Carnivine",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Carnivine"
+    ]
   },
   "456": {
+    "name": "Finneon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Finneon"
+    ]
   },
   "457": {
+    "name": "Lumineon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Lumineon"
+    ]
   },
   "458": {
+    "name": "Mantyke",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -6230,10 +7140,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Mantyke"
+    ]
   },
   "459": {
+    "name": "Snover",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -6243,10 +7157,14 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Snover"
+    ]
   },
   "460": {
+    "name": "Abomasnow",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -6256,10 +7174,14 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Abomasnow"
+    ]
   },
   "461": {
+    "name": "Weavile",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -6269,10 +7191,10 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Weavile"
+    ]
   },
   "462": {
+    "name": "Magnezone",
     "types": [
       {
         "type": "Electric",
@@ -6282,19 +7204,27 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Magnezone"
+    ]
   },
   "463": {
+    "name": "Lickilicky",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Lickilicky"
+    ]
   },
   "464": {
+    "name": "Rhyperior",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -6304,37 +7234,53 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Rhyperior"
+    ]
   },
   "465": {
+    "name": "Tangrowth",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Tangrowth"
+    ]
   },
   "466": {
+    "name": "Electivire",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Electivire"
+    ]
   },
   "467": {
+    "name": "Magmortar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Magmortar"
+    ]
   },
   "468": {
+    "name": "Togekiss",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
@@ -6344,10 +7290,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Togekiss"
+    ]
   },
   "469": {
+    "name": "Yanmega",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -6357,28 +7307,40 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Yanmega"
+    ]
   },
   "470": {
+    "name": "Leafeon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Leafeon"
+    ]
   },
   "471": {
+    "name": "Glaceon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Glaceon"
+    ]
   },
   "472": {
+    "name": "Gliscor",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -6388,10 +7350,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Gliscor"
+    ]
   },
   "473": {
+    "name": "Mamoswine",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -6401,19 +7367,22 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Mamoswine"
+    ]
   },
   "474": {
+    "name": "Porygon-Z",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Porygon-Z"
+    ]
   },
   "475": {
+    "name": "Gallade",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -6423,10 +7392,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Gallade"
+    ]
   },
   "476": {
+    "name": "Probopass",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -6436,19 +7409,26 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Probopass"
+    ]
   },
   "477": {
+    "name": "Dusknoir",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Dusknoir"
+    ]
   },
   "478": {
+    "name": "Froslass",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Ice",
@@ -6458,89 +7438,76 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Froslass"
+    ]
   },
   "479": {
-    "types": [
-      {
-        "type": "Electric",
-        "color": "#f8d030"
-      },
-      {
-        "type": "Ghost",
-        "color": "#705898"
-      }
-    ],
     "name": "Rotom",
     "forms": {
       "81": {
-        "defaultForm": true,
-        "id": "ROTOM",
-        "name": "Rotom",
         "formName": "",
         "assetId": "00"
       },
       "82": {
-        "id": "ROTOM_FROST",
-        "name": "Rotom Frost",
         "formName": "Frost",
         "assetId": "14"
       },
       "83": {
-        "id": "ROTOM_FAN",
-        "name": "Rotom Fan",
         "formName": "Fan",
         "assetId": "15"
       },
       "84": {
-        "id": "ROTOM_MOW",
-        "name": "Rotom Mow",
         "formName": "Mow",
         "assetId": "16"
       },
       "85": {
-        "id": "ROTOM_WASH",
-        "name": "Rotom Wash",
         "formName": "Wash",
         "assetId": "13"
       },
       "86": {
-        "id": "ROTOM_HEAT",
-        "name": "Rotom Heat",
         "formName": "Heat",
         "assetId": "12"
       }
-    }
+    },
+    "types": [
+      {
+        "type": "Electric",
+        "color": "#f8d030"
+      },
+      {
+        "type": "Ghost",
+        "color": "#705898"
+      }
+    ]
   },
   "480": {
+    "name": "Uxie",
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Uxie"
+    ]
   },
   "481": {
+    "name": "Mesprit",
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Mesprit"
+    ]
   },
   "482": {
+    "name": "Azelf",
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Azelf"
+    ]
   },
   "483": {
+    "name": "Dialga",
     "types": [
       {
         "type": "Steel",
@@ -6550,10 +7517,10 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Dialga"
+    ]
   },
   "484": {
+    "name": "Palkia",
     "types": [
       {
         "type": "Water",
@@ -6563,10 +7530,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Palkia"
+    ]
   },
   "485": {
+    "name": "Heatran",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -6576,227 +7547,183 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Heatran"
+    ]
   },
   "486": {
+    "name": "Regigigas",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Regigigas"
+    ]
   },
   "487": {
-    "types": [
-      {
-        "type": "Ghost",
-        "color": "#705898"
-      }
-    ],
     "name": "Giratina",
     "forms": {
       "90": {
-        "defaultForm": true,
-        "id": "GIRATINA_ALTERED",
-        "name": "Giratina Altered",
         "formName": "Altered",
         "assetId": "11"
       },
       "91": {
-        "id": "GIRATINA_ORIGIN",
-        "name": "Giratina Origin",
         "formName": "Origin",
         "assetId": "12"
       }
-    }
+    },
+    "types": [
+      {
+        "type": "Ghost",
+        "color": "#705898"
+      }
+    ]
   },
   "488": {
+    "name": "Cresselia",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Cresselia"
+    ]
   },
   "489": {
+    "name": "Phione",
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Phione"
+    ]
   },
   "490": {
+    "name": "Manaphy",
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Manaphy"
+    ]
   },
   "491": {
+    "name": "Darkrai",
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Darkrai"
+    ]
   },
   "492": {
-    "types": [
-      {
-        "type": "Grass",
-        "color": "#78c850"
-      },
-      {
-        "type": "Flying",
-        "color": "#a890f0"
-      }
-    ],
     "name": "Shaymin",
     "forms": {
       "92": {
-        "defaultForm": true,
-        "id": "SHAYMIN_SKY",
-        "name": "Shaymin Sky",
         "formName": "Sky",
         "assetId": "12"
       },
       "93": {
-        "id": "SHAYMIN_LAND",
-        "name": "Shaymin Land",
         "formName": "Land",
         "assetId": "11"
       }
-    }
-  },
-  "493": {
+    },
     "types": [
       {
-        "type": "Normal",
-        "color": "#8a8a59"
+        "type": "Grass",
+        "color": "#78c850"
+      },
+      {
+        "type": "Flying",
+        "color": "#a890f0"
       }
-    ],
+    ]
+  },
+  "493": {
     "name": "Arceus",
     "forms": {
       "100": {
-        "defaultForm": true,
-        "id": "ARCEUS",
-        "name": "Arceus",
         "formName": "",
         "assetId": "00"
       },
       "101": {
-        "id": "ARCEUS_FIGHTING",
-        "name": "Arceus Fighting",
         "formName": "Fighting",
         "assetId": "12"
       },
       "102": {
-        "id": "ARCEUS_FLYING",
-        "name": "Arceus Flying",
         "formName": "Flying",
         "assetId": "13"
       },
       "103": {
-        "id": "ARCEUS_POISON",
-        "name": "Arceus Poison",
         "formName": "Poison",
         "assetId": "14"
       },
       "104": {
-        "id": "ARCEUS_GROUND",
-        "name": "Arceus Ground",
         "formName": "Ground",
         "assetId": "15"
       },
       "105": {
-        "id": "ARCEUS_ROCK",
-        "name": "Arceus Rock",
         "formName": "Rock",
         "assetId": "16"
       },
       "106": {
-        "id": "ARCEUS_BUG",
-        "name": "Arceus Bug",
         "formName": "Bug",
         "assetId": "17"
       },
       "107": {
-        "id": "ARCEUS_GHOST",
-        "name": "Arceus Ghost",
         "formName": "Ghost",
         "assetId": "18"
       },
       "108": {
-        "id": "ARCEUS_STEEL",
-        "name": "Arceus Steel",
         "formName": "Steel",
         "assetId": "19"
       },
       "109": {
-        "id": "ARCEUS_FIRE",
-        "name": "Arceus Fire",
         "formName": "Fire",
         "assetId": "20"
       },
       "110": {
-        "id": "ARCEUS_WATER",
-        "name": "Arceus Water",
         "formName": "Water",
         "assetId": "21"
       },
       "111": {
-        "id": "ARCEUS_GRASS",
-        "name": "Arceus Grass",
         "formName": "Grass",
         "assetId": "22"
       },
       "112": {
-        "id": "ARCEUS_ELECTRIC",
-        "name": "Arceus Electric",
         "formName": "Electric",
         "assetId": "23"
       },
       "113": {
-        "id": "ARCEUS_PSYCHIC",
-        "name": "Arceus Psychic",
         "formName": "Psychic",
         "assetId": "24"
       },
       "114": {
-        "id": "ARCEUS_ICE",
-        "name": "Arceus Ice",
         "formName": "Ice",
         "assetId": "25"
       },
       "115": {
-        "id": "ARCEUS_DRAGON",
-        "name": "Arceus Dragon",
         "formName": "Dragon",
         "assetId": "26"
       },
       "116": {
-        "id": "ARCEUS_DARK",
-        "name": "Arceus Dark",
         "formName": "Dark",
         "assetId": "27"
       },
       "117": {
-        "id": "ARCEUS_FAIRY",
-        "name": "Arceus Fairy",
         "formName": "Fairy",
         "assetId": "28"
       }
-    }
+    },
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ]
   },
   "494": {
+    "name": "Victini",
     "types": [
       {
         "type": "Psychic",
@@ -6806,46 +7733,66 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Victini"
+    ]
   },
   "495": {
+    "name": "Snivy",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Snivy"
+    ]
   },
   "496": {
+    "name": "Servine",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Servine"
+    ]
   },
   "497": {
+    "name": "Serperior",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Serperior"
+    ]
   },
   "498": {
+    "name": "Tepig",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Tepig"
+    ]
   },
   "499": {
+    "name": "Pignite",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -6855,10 +7802,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Pignite"
+    ]
   },
   "500": {
+    "name": "Emboar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -6868,172 +7819,248 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Emboar"
+    ]
   },
   "501": {
+    "name": "Oshawott",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Oshawott"
+    ]
   },
   "502": {
+    "name": "Dewott",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Dewott"
+    ]
   },
   "503": {
+    "name": "Samurott",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Samurott"
+    ]
   },
   "504": {
+    "name": "Patrat",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Patrat"
+    ]
   },
   "505": {
+    "name": "Watchog",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Watchog"
+    ]
   },
   "506": {
+    "name": "Lillipup",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Lillipup"
+    ]
   },
   "507": {
+    "name": "Herdier",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Herdier"
+    ]
   },
   "508": {
+    "name": "Stoutland",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Stoutland"
+    ]
   },
   "509": {
+    "name": "Purrloin",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Purrloin"
+    ]
   },
   "510": {
+    "name": "Liepard",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Liepard"
+    ]
   },
   "511": {
+    "name": "Pansage",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Pansage"
+    ]
   },
   "512": {
+    "name": "Simisage",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Simisage"
+    ]
   },
   "513": {
+    "name": "Pansear",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Pansear"
+    ]
   },
   "514": {
+    "name": "Simisear",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Simisear"
+    ]
   },
   "515": {
+    "name": "Panpour",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Panpour"
+    ]
   },
   "516": {
+    "name": "Simipour",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Simipour"
+    ]
   },
   "517": {
+    "name": "Munna",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Munna"
+    ]
   },
   "518": {
+    "name": "Musharna",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Musharna"
+    ]
   },
   "519": {
+    "name": "Pidove",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -7043,10 +8070,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Pidove"
+    ]
   },
   "520": {
+    "name": "Tranquill",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -7056,10 +8087,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Tranquill"
+    ]
   },
   "521": {
+    "name": "Unfezant",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -7069,55 +8104,79 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Unfezant"
+    ]
   },
   "522": {
+    "name": "Blitzle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Blitzle"
+    ]
   },
   "523": {
+    "name": "Zebstrika",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Zebstrika"
+    ]
   },
   "524": {
+    "name": "Roggenrola",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Roggenrola"
+    ]
   },
   "525": {
+    "name": "Boldore",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Boldore"
+    ]
   },
   "526": {
+    "name": "Gigalith",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Gigalith"
+    ]
   },
   "527": {
+    "name": "Woobat",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -7127,10 +8186,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Woobat"
+    ]
   },
   "528": {
+    "name": "Swoobat",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -7140,19 +8203,27 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Swoobat"
+    ]
   },
   "529": {
+    "name": "Drilbur",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Drilbur"
+    ]
   },
   "530": {
+    "name": "Excadrill",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -7162,55 +8233,79 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Excadrill"
+    ]
   },
   "531": {
+    "name": "Audino",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Audino"
+    ]
   },
   "532": {
+    "name": "Timburr",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Timburr"
+    ]
   },
   "533": {
+    "name": "Gurdurr",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Gurdurr"
+    ]
   },
   "534": {
+    "name": "Conkeldurr",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Conkeldurr"
+    ]
   },
   "535": {
+    "name": "Tympole",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Tympole"
+    ]
   },
   "536": {
+    "name": "Palpitoad",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7220,10 +8315,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Palpitoad"
+    ]
   },
   "537": {
+    "name": "Seismitoad",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7233,28 +8332,38 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Seismitoad"
+    ]
   },
   "538": {
+    "name": "Throh",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Throh"
+    ]
   },
   "539": {
+    "name": "Sawk",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Sawk"
+    ]
   },
   "540": {
+    "name": "Sewaddle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7264,10 +8373,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Sewaddle"
+    ]
   },
   "541": {
+    "name": "Swadloon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7277,10 +8390,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Swadloon"
+    ]
   },
   "542": {
+    "name": "Leavanny",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7290,10 +8407,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Leavanny"
+    ]
   },
   "543": {
+    "name": "Venipede",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7303,10 +8424,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Venipede"
+    ]
   },
   "544": {
+    "name": "Whirlipede",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7316,10 +8441,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Whirlipede"
+    ]
   },
   "545": {
+    "name": "Scolipede",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7329,10 +8458,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Scolipede"
+    ]
   },
   "546": {
+    "name": "Cottonee",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -7342,10 +8475,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Cottonee"
+    ]
   },
   "547": {
+    "name": "Whimsicott",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -7355,37 +8492,51 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Whimsicott"
+    ]
   },
   "548": {
+    "name": "Petilil",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Petilil"
+    ]
   },
   "549": {
+    "name": "Lilligant",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Lilligant"
+    ]
   },
   "550": {
+    "name": "Basculin",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Basculin"
+    ]
   },
   "551": {
+    "name": "Sandile",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -7395,10 +8546,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Sandile"
+    ]
   },
   "552": {
+    "name": "Krokorok",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -7408,10 +8563,14 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Krokorok"
+    ]
   },
   "553": {
+    "name": "Krookodile",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -7421,37 +8580,53 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Krookodile"
+    ]
   },
   "554": {
+    "name": "Darumaka",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Darumaka"
+    ]
   },
   "555": {
+    "name": "Darmanitan",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Darmanitan"
+    ]
   },
   "556": {
+    "name": "Maractus",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Maractus"
+    ]
   },
   "557": {
+    "name": "Dwebble",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7461,10 +8636,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Dwebble"
+    ]
   },
   "558": {
+    "name": "Crustle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7474,10 +8653,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Crustle"
+    ]
   },
   "559": {
+    "name": "Scraggy",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -7487,10 +8670,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Scraggy"
+    ]
   },
   "560": {
+    "name": "Scrafty",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -7500,10 +8687,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Scrafty"
+    ]
   },
   "561": {
+    "name": "Sigilyph",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
@@ -7513,28 +8704,40 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Sigilyph"
+    ]
   },
   "562": {
+    "name": "Yamask",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Yamask"
+    ]
   },
   "563": {
+    "name": "Cohagrigus",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Cohagrigus"
+    ]
   },
   "564": {
+    "name": "Tirtouga",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7544,10 +8747,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Tirtouga"
+    ]
   },
   "565": {
+    "name": "Carracosta",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7557,10 +8764,14 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Carracosta"
+    ]
   },
   "566": {
+    "name": "Archen",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -7570,10 +8781,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Archen"
+    ]
   },
   "567": {
+    "name": "Archeops",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -7583,118 +8798,170 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Archeops"
+    ]
   },
   "568": {
+    "name": "Trubbish",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Trubbish"
+    ]
   },
   "569": {
+    "name": "Garbodor",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Garbodor"
+    ]
   },
   "570": {
+    "name": "Zorua",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Zorua"
+    ]
   },
   "571": {
+    "name": "Zoroark",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Zoroark"
+    ]
   },
   "572": {
+    "name": "Minccino",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Minccino"
+    ]
   },
   "573": {
+    "name": "Cinccino",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Cinccino"
+    ]
   },
   "574": {
+    "name": "Gothita",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Gothita"
+    ]
   },
   "575": {
+    "name": "Gothorita",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Gothorita"
+    ]
   },
   "576": {
+    "name": "Gothitelle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Gothitelle"
+    ]
   },
   "577": {
+    "name": "Solosis",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Solosis"
+    ]
   },
   "578": {
+    "name": "Duosion",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Duosion"
+    ]
   },
   "579": {
+    "name": "Reuniclus",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Reuniclus"
+    ]
   },
   "580": {
+    "name": "Ducklett",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7704,10 +8971,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Ducklett"
+    ]
   },
   "581": {
+    "name": "Swanna",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7717,37 +8988,53 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Swanna"
+    ]
   },
   "582": {
+    "name": "Vanillite",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Vanillite"
+    ]
   },
   "583": {
+    "name": "Vanillish",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Vanillish"
+    ]
   },
   "584": {
+    "name": "Vanilluxe",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Vanilluxe"
+    ]
   },
   "585": {
+    "name": "Deerling",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -7757,10 +9044,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Deerling"
+    ]
   },
   "586": {
+    "name": "Sawsbuck",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -7770,10 +9061,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Sawsbuck"
+    ]
   },
   "587": {
+    "name": "Emolga",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
@@ -7783,19 +9078,27 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Emolga"
+    ]
   },
   "588": {
+    "name": "Karrablast",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Karrablast"
+    ]
   },
   "589": {
+    "name": "Escavalier",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7805,10 +9108,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Escavalier"
+    ]
   },
   "590": {
+    "name": "Foongus",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -7818,10 +9125,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Foongus"
+    ]
   },
   "591": {
+    "name": "Amoonguss",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -7831,10 +9142,14 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Amoonguss"
+    ]
   },
   "592": {
+    "name": "Frillish",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7844,10 +9159,14 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Frillish"
+    ]
   },
   "593": {
+    "name": "Jellicent",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -7857,19 +9176,27 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Jellicent"
+    ]
   },
   "594": {
+    "name": "Alomomola",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Alomomola"
+    ]
   },
   "595": {
+    "name": "Joltik",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7879,10 +9206,14 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Joltik"
+    ]
   },
   "596": {
+    "name": "Galvantula",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -7892,10 +9223,14 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Galvantula"
+    ]
   },
   "597": {
+    "name": "Ferroseed",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -7905,10 +9240,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Ferroseed"
+    ]
   },
   "598": {
+    "name": "Ferrothorn",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -7918,82 +9257,106 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Ferrothorn"
+    ]
   },
   "599": {
+    "name": "Klink",
     "types": [
       {
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Klink"
+    ]
   },
   "600": {
+    "name": "Klang",
     "types": [
       {
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Klang"
+    ]
   },
   "601": {
+    "name": "Klinklang",
     "types": [
       {
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Klinklang"
+    ]
   },
   "602": {
+    "name": "Tynamo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Tynamo"
+    ]
   },
   "603": {
+    "name": "Eelektrik",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Eelektrik"
+    ]
   },
   "604": {
+    "name": "Eelektross",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Eelektross"
+    ]
   },
   "605": {
+    "name": "Elgyem",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Elgyem"
+    ]
   },
   "606": {
+    "name": "Beheeyem",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Beheeyem"
+    ]
   },
   "607": {
+    "name": "Litwick",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -8003,10 +9366,14 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Litwick"
+    ]
   },
   "608": {
+    "name": "Lampent",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -8016,10 +9383,14 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Lampent"
+    ]
   },
   "609": {
+    "name": "Chandelure",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -8029,82 +9400,114 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Chandelure"
+    ]
   },
   "610": {
+    "name": "Axew",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Axew"
+    ]
   },
   "611": {
+    "name": "Fraxure",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Fraxure"
+    ]
   },
   "612": {
+    "name": "Haxorus",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Haxorus"
+    ]
   },
   "613": {
+    "name": "Cubchoo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Cubchoo"
+    ]
   },
   "614": {
+    "name": "Beartic",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Beartic"
+    ]
   },
   "615": {
+    "name": "Cryogonal",
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Cryogonal"
+    ]
   },
   "616": {
+    "name": "Shelmet",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Shelmet"
+    ]
   },
   "617": {
+    "name": "Accelgor",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Accelgor"
+    ]
   },
   "618": {
+    "name": "Stunfisk",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
@@ -8114,37 +9517,49 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Stunfisk"
+    ]
   },
   "619": {
+    "name": "Mienfoo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Mienfoo"
+    ]
   },
   "620": {
+    "name": "Mienshao",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Mienshao"
+    ]
   },
   "621": {
+    "name": "Druddigon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Druddigon"
+    ]
   },
   "622": {
+    "name": "Golett",
     "types": [
       {
         "type": "Ground",
@@ -8154,10 +9569,10 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Golett"
+    ]
   },
   "623": {
+    "name": "Golurk",
     "types": [
       {
         "type": "Ground",
@@ -8167,10 +9582,14 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Golurk"
+    ]
   },
   "624": {
+    "name": "Pawniard",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8180,10 +9599,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Pawniard"
+    ]
   },
   "625": {
+    "name": "Bisharp",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8193,19 +9616,26 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Bisharp"
+    ]
   },
   "626": {
+    "name": "Bouffalant",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Bouffalant"
+    ]
   },
   "627": {
+    "name": "Rufflet",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Normal",
@@ -8215,10 +9645,13 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Rufflet"
+    ]
   },
   "628": {
+    "name": "Braviary",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Normal",
@@ -8228,10 +9661,13 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Braviary"
+    ]
   },
   "629": {
+    "name": "Vullaby",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8241,10 +9677,13 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Vullaby"
+    ]
   },
   "630": {
+    "name": "Mandibuzz",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8254,19 +9693,27 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Mandibuzz"
+    ]
   },
   "631": {
+    "name": "Heatmor",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Heatmor"
+    ]
   },
   "632": {
+    "name": "Durant",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -8276,10 +9723,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Durant"
+    ]
   },
   "633": {
+    "name": "Deino",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8289,10 +9740,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Deino"
+    ]
   },
   "634": {
+    "name": "Zweilous",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8302,10 +9757,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Zweilous"
+    ]
   },
   "635": {
+    "name": "Hydreigon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8315,10 +9774,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Hydreigon"
+    ]
   },
   "636": {
+    "name": "Larvesta",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -8328,10 +9791,14 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Larvesta"
+    ]
   },
   "637": {
+    "name": "Volcarona",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -8341,10 +9808,10 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Volcarona"
+    ]
   },
   "638": {
+    "name": "Cobalion",
     "types": [
       {
         "type": "Steel",
@@ -8354,10 +9821,10 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Cobalion"
+    ]
   },
   "639": {
+    "name": "Terrakion",
     "types": [
       {
         "type": "Rock",
@@ -8367,10 +9834,10 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Terrakion"
+    ]
   },
   "640": {
+    "name": "Virizion",
     "types": [
       {
         "type": "Grass",
@@ -8380,11 +9847,13 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Virizion"
+    ]
   },
   "641": {
     "name": "Tornadus",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Flying",
@@ -8394,6 +9863,9 @@
   },
   "642": {
     "name": "Thundurus",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Electric",
@@ -8406,6 +9878,7 @@
     ]
   },
   "643": {
+    "name": "Reshiram",
     "types": [
       {
         "type": "Dragon",
@@ -8415,10 +9888,10 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Reshiram"
+    ]
   },
   "644": {
+    "name": "Zekrom",
     "types": [
       {
         "type": "Dragon",
@@ -8428,11 +9901,13 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Zekrom"
+    ]
   },
   "645": {
     "name": "Landorus",
+    "gender": [
+      1
+    ],
     "types": [
       {
         "type": "Ground",
@@ -8445,6 +9920,7 @@
     ]
   },
   "646": {
+    "name": "Kyurem",
     "types": [
       {
         "type": "Dragon",
@@ -8454,10 +9930,10 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Kyurem"
+    ]
   },
   "647": {
+    "name": "Keldeo",
     "types": [
       {
         "type": "Water",
@@ -8467,8 +9943,7 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Keldeo"
+    ]
   },
   "648": {
     "name": "Meloetta",
@@ -8484,6 +9959,7 @@
     ]
   },
   "649": {
+    "name": "Genesect",
     "types": [
       {
         "type": "Bug",
@@ -8493,28 +9969,40 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Genesect"
+    ]
   },
   "650": {
+    "name": "Chespin",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Chespin"
+    ]
   },
   "651": {
+    "name": "Quilladin",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Quilladin"
+    ]
   },
   "652": {
+    "name": "Chesnaught",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -8524,28 +10012,40 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Chesnaught"
+    ]
   },
   "653": {
+    "name": "Fennekin",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Fennekin"
+    ]
   },
   "654": {
+    "name": "Braixen",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Braixen"
+    ]
   },
   "655": {
+    "name": "Delphox",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -8555,28 +10055,40 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Delphox"
+    ]
   },
   "656": {
+    "name": "Froakie",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Froakie"
+    ]
   },
   "657": {
+    "name": "Frogadier",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Frogadier"
+    ]
   },
   "658": {
+    "name": "Greninja",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -8586,19 +10098,27 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Greninja"
+    ]
   },
   "659": {
+    "name": "Bunnelby",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Bunnelby"
+    ]
   },
   "660": {
+    "name": "Diggersby",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -8608,10 +10128,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Diggersby"
+    ]
   },
   "661": {
+    "name": "Fletchling",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -8621,10 +10145,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Fletchling"
+    ]
   },
   "662": {
+    "name": "Fletchinder",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -8634,10 +10162,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Fletchinder"
+    ]
   },
   "663": {
+    "name": "Talonflame",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -8647,28 +10179,40 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Talonflame"
+    ]
   },
   "664": {
+    "name": "Scatterbug",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Scatterbug"
+    ]
   },
   "665": {
+    "name": "Spewpa",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Spewpa"
+    ]
   },
   "666": {
+    "name": "Vivillon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -8678,10 +10222,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Vivillon"
+    ]
   },
   "667": {
+    "name": "Litleo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -8691,10 +10239,14 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Litleo"
+    ]
   },
   "668": {
+    "name": "Pyroar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -8704,64 +10256,89 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Pyroar"
+    ]
   },
   "669": {
+    "name": "Flabébé",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Flabébé"
+    ]
   },
   "670": {
+    "name": "Floette",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Floette"
+    ]
   },
   "671": {
+    "name": "Florges",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Florges"
+    ]
   },
   "672": {
+    "name": "Skiddo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Skiddo"
+    ]
   },
   "673": {
+    "name": "Gogoat",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Gogoat"
+    ]
   },
   "674": {
+    "name": "Pancham",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Pancham"
+    ]
   },
   "675": {
+    "name": "Pangoro",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
@@ -8771,37 +10348,53 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Pangoro"
+    ]
   },
   "676": {
+    "name": "Furfrou",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Furfrou"
+    ]
   },
   "677": {
+    "name": "Espurr",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Espurr"
+    ]
   },
   "678": {
+    "name": "Meowstic",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Meowstic"
+    ]
   },
   "679": {
+    "name": "Honedge",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -8811,10 +10404,14 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Honedge"
+    ]
   },
   "680": {
+    "name": "Doublade",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -8824,11 +10421,14 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Doublade"
+    ]
   },
   "681": {
     "name": "Aegislash",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -8841,42 +10441,63 @@
     ]
   },
   "682": {
+    "name": "Spritzee",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Spritzee"
+    ]
   },
   "683": {
+    "name": "Aromatisse",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Aromatisse"
+    ]
   },
   "684": {
+    "name": "Swirlix",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Swirlix"
+    ]
   },
   "685": {
+    "name": "Slurpuff",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Slurpuff"
+    ]
   },
   "686": {
+    "name": "Inkay",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8886,10 +10507,14 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Inkay"
+    ]
   },
   "687": {
+    "name": "Malamar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dark",
@@ -8899,10 +10524,14 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Malamar"
+    ]
   },
   "688": {
+    "name": "Binacle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -8912,10 +10541,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Binacle"
+    ]
   },
   "689": {
+    "name": "Barbaracle",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -8925,10 +10558,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Barbaracle"
+    ]
   },
   "690": {
+    "name": "Skrelp",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -8938,10 +10575,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Skrelp"
+    ]
   },
   "691": {
+    "name": "Dragalge",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -8951,28 +10592,40 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Dragalge"
+    ]
   },
   "692": {
+    "name": "Clauncher",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Clauncher"
+    ]
   },
   "693": {
+    "name": "Clawitzer",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Clawitzer"
+    ]
   },
   "694": {
+    "name": "Helioptile",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
@@ -8982,10 +10635,14 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Helioptile"
+    ]
   },
   "695": {
+    "name": "Heliolisk",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
@@ -8995,10 +10652,14 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Heliolisk"
+    ]
   },
   "696": {
+    "name": "Tyrunt",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -9008,10 +10669,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Tyrunt"
+    ]
   },
   "697": {
+    "name": "Tyrantrum",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -9021,10 +10686,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Tyrantrum"
+    ]
   },
   "698": {
+    "name": "Amaura",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -9034,10 +10703,14 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Amaura"
+    ]
   },
   "699": {
+    "name": "Aurorus",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
@@ -9047,19 +10720,27 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Aurorus"
+    ]
   },
   "700": {
+    "name": "Sylveon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Sylveon"
+    ]
   },
   "701": {
+    "name": "Hawlucha",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
@@ -9069,10 +10750,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Hawlucha"
+    ]
   },
   "702": {
+    "name": "Dedenne",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
@@ -9082,10 +10767,10 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Dedenne"
+    ]
   },
   "703": {
+    "name": "Carbink",
     "types": [
       {
         "type": "Rock",
@@ -9095,37 +10780,53 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Carbink"
+    ]
   },
   "704": {
+    "name": "Goomy",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Goomy"
+    ]
   },
   "705": {
+    "name": "Sliggoo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Sliggoo"
+    ]
   },
   "706": {
+    "name": "Goodra",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Goodra"
+    ]
   },
   "707": {
+    "name": "Klefki",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Steel",
@@ -9135,10 +10836,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Klefki"
+    ]
   },
   "708": {
+    "name": "Phantump",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -9148,10 +10853,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Phantump"
+    ]
   },
   "709": {
+    "name": "Trevenant",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -9161,10 +10870,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Trevenant"
+    ]
   },
   "710": {
+    "name": "Pumpkaboo",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -9174,10 +10887,14 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Pumpkaboo"
+    ]
   },
   "711": {
+    "name": "Gourgeist",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -9187,28 +10904,40 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Gourgeist"
+    ]
   },
   "712": {
+    "name": "Bergmite",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Bergmite"
+    ]
   },
   "713": {
+    "name": "Avalugg",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Avalugg"
+    ]
   },
   "714": {
+    "name": "Noibat",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Flying",
@@ -9218,10 +10947,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Noibat"
+    ]
   },
   "715": {
+    "name": "Noivern",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Flying",
@@ -9231,19 +10964,19 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Noivern"
+    ]
   },
   "716": {
+    "name": "Xerneas",
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Xerneas"
+    ]
   },
   "717": {
+    "name": "Yveltal",
     "types": [
       {
         "type": "Dark",
@@ -9253,10 +10986,10 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Yveltal"
+    ]
   },
   "718": {
+    "name": "Zygarde",
     "types": [
       {
         "type": "Dragon",
@@ -9266,10 +10999,10 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Zygarde"
+    ]
   },
   "719": {
+    "name": "Diancie",
     "types": [
       {
         "type": "Rock",
@@ -9279,21 +11012,20 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Diancie"
+    ]
   },
   "720": {
+    "name": "Hoopa",
     "types": [
       {
-        "type": "Rock",
+        "type": "Psychic",
         "color": "#b8a038"
       },
       {
-        "type": "Fairy",
+        "type": "Ghost",
         "color": "#e898e8"
       }
-    ],
-    "name": "Diancie"
+    ]
   },
   "721": {
     "name": "Volcanion",
@@ -9309,6 +11041,11 @@
     ]
   },
   "722": {
+    "name": "Rowlet",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -9318,10 +11055,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Rowlet"
+    ]
   },
   "723": {
+    "name": "Dartrix",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -9331,10 +11072,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Dartrix"
+    ]
   },
   "724": {
+    "name": "Decidueye",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -9344,28 +11089,40 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Decidueye"
+    ]
   },
   "725": {
+    "name": "Litten",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Litten"
+    ]
   },
   "726": {
+    "name": "Torracat",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Torracat"
+    ]
   },
   "727": {
+    "name": "Incineroar",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -9375,28 +11132,40 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ],
-    "name": "Incineroar"
+    ]
   },
   "728": {
+    "name": "Popplio",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Popplio"
+    ]
   },
   "729": {
+    "name": "Brionne",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Brionne"
+    ]
   },
   "730": {
+    "name": "Primarina",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -9406,10 +11175,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Primarina"
+    ]
   },
   "731": {
+    "name": "Pikipek",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -9419,10 +11192,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Pikipek"
+    ]
   },
   "732": {
+    "name": "Trumbeak",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -9432,10 +11209,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Trumbeak"
+    ]
   },
   "733": {
+    "name": "Toucannon",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -9445,37 +11226,53 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Toucannon"
+    ]
   },
   "734": {
+    "name": "Yungoos",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Yungoos"
+    ]
   },
   "735": {
+    "name": "Gumshoos",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Gumshoos"
+    ]
   },
   "736": {
+    "name": "Grubbin",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Grubbin"
+    ]
   },
   "737": {
+    "name": "Charjabug",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -9485,10 +11282,14 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Charjabug"
+    ]
   },
   "738": {
+    "name": "Vikavolt",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -9498,19 +11299,27 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Vikavolt"
+    ]
   },
   "739": {
+    "name": "Crabrawler",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Crabrawler"
+    ]
   },
   "740": {
+    "name": "Crabominable",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
@@ -9520,10 +11329,14 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ],
-    "name": "Crabominable"
+    ]
   },
   "741": {
+    "name": "Oricorio",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -9533,10 +11346,14 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Oricorio"
+    ]
   },
   "742": {
+    "name": "Cutiefly",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -9546,10 +11363,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Cutiefly"
+    ]
   },
   "743": {
+    "name": "Ribombee",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -9559,37 +11380,53 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Ribombee"
+    ]
   },
   "744": {
+    "name": "Rockruff",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Rockruff"
+    ]
   },
   "745": {
+    "name": "Lycanroc",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Rock",
         "color": "#b8a038"
       }
-    ],
-    "name": "Lycanroc"
+    ]
   },
   "746": {
+    "name": "Wishiwashi",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Wishiwashi"
+    ]
   },
   "747": {
+    "name": "Mareanie",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -9599,10 +11436,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Mareanie"
+    ]
   },
   "748": {
+    "name": "Toxapex",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -9612,28 +11453,40 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Toxapex"
+    ]
   },
   "749": {
+    "name": "Mudbray",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Mudbray"
+    ]
   },
   "750": {
+    "name": "Mudsdale",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Mudsdale"
+    ]
   },
   "751": {
+    "name": "Dewpider",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -9643,10 +11496,14 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Dewpider"
+    ]
   },
   "752": {
+    "name": "Araquanid",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -9656,28 +11513,40 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ],
-    "name": "Araquanid"
+    ]
   },
   "753": {
+    "name": "Fomantis",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Fomantis"
+    ]
   },
   "754": {
+    "name": "Lurantis",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Lurantis"
+    ]
   },
   "755": {
+    "name": "Morelull",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -9687,10 +11556,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Morelull"
+    ]
   },
   "756": {
+    "name": "Shiinotic",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Grass",
@@ -9700,10 +11573,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Shiinotic"
+    ]
   },
   "757": {
+    "name": "Salandit",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -9713,10 +11590,13 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Salandit"
+    ]
   },
   "758": {
+    "name": "Salazzle",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Poison",
@@ -9726,10 +11606,14 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ],
-    "name": "Salazzle"
+    ]
   },
   "759": {
+    "name": "Stufful",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -9739,10 +11623,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Stufful"
+    ]
   },
   "760": {
+    "name": "Bewear",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -9752,46 +11640,63 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Bewear"
+    ]
   },
   "761": {
+    "name": "Bounsweet",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Bounsweet"
+    ]
   },
   "762": {
+    "name": "Steenee",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Steenee"
+    ]
   },
   "763": {
+    "name": "Tsareena",
+    "gender": [
+      2
+    ],
     "types": [
       {
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Tsareena"
+    ]
   },
   "764": {
+    "name": "Comfey",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Comfey"
+    ]
   },
   "765": {
+    "name": "Oranguru",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -9801,19 +11706,27 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Oranguru"
+    ]
   },
   "766": {
+    "name": "Passimian",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Passimian"
+    ]
   },
   "767": {
+    "name": "Wimpod",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -9823,10 +11736,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Wimpod"
+    ]
   },
   "768": {
+    "name": "Golisopod",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Bug",
@@ -9836,10 +11753,14 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Golisopod"
+    ]
   },
   "769": {
+    "name": "Sandygast",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -9849,10 +11770,14 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Sandygast"
+    ]
   },
   "770": {
+    "name": "Palossand",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -9862,37 +11787,41 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ],
-    "name": "Palossand"
+    ]
   },
   "771": {
+    "name": "Pyukumuku",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
         "color": "#6890f0"
       }
-    ],
-    "name": "Pyukumuku"
+    ]
   },
   "772": {
+    "name": "Type: Null",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Type: Null"
+    ]
   },
   "773": {
+    "name": "Silvally",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Silvally"
+    ]
   },
   "774": {
+    "name": "Minior",
     "types": [
       {
         "type": "Rock",
@@ -9902,19 +11831,27 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Minior (Core)"
+    ]
   },
   "775": {
+    "name": "Komala",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ],
-    "name": "Komala"
+    ]
   },
   "776": {
+    "name": "Turtonator",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Fire",
@@ -9924,10 +11861,14 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Turtonator"
+    ]
   },
   "777": {
+    "name": "Togedemaru",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Electric",
@@ -9937,10 +11878,14 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Togedemaru"
+    ]
   },
   "778": {
+    "name": "Mimikyu",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Ghost",
@@ -9950,10 +11895,14 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Mimikyu"
+    ]
   },
   "779": {
+    "name": "Bruxish",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Water",
@@ -9963,10 +11912,14 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Bruxish"
+    ]
   },
   "780": {
+    "name": "Drampa",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Normal",
@@ -9976,10 +11929,10 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Drampa"
+    ]
   },
   "781": {
+    "name": "Dhelmise",
     "types": [
       {
         "type": "Ghost",
@@ -9989,19 +11942,27 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ],
-    "name": "Dhelmise"
+    ]
   },
   "782": {
+    "name": "Jangmo-o",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Jangmo-o"
+    ]
   },
   "783": {
+    "name": "Hakamo-o",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -10011,10 +11972,14 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Hakamo-o"
+    ]
   },
   "784": {
+    "name": "Kommo-o",
+    "gender": [
+      1,
+      2
+    ],
     "types": [
       {
         "type": "Dragon",
@@ -10024,10 +11989,10 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Kommo-o"
+    ]
   },
   "785": {
+    "name": "Tapu Koko",
     "types": [
       {
         "type": "Electric",
@@ -10037,10 +12002,10 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Tapu Koko"
+    ]
   },
   "786": {
+    "name": "Tapu Lele",
     "types": [
       {
         "type": "Psychic",
@@ -10050,10 +12015,10 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Tapu Lele"
+    ]
   },
   "787": {
+    "name": "Tapu Bulu",
     "types": [
       {
         "type": "Grass",
@@ -10063,10 +12028,10 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Tapu Bulu"
+    ]
   },
   "788": {
+    "name": "Tapu Fini",
     "types": [
       {
         "type": "Water",
@@ -10076,28 +12041,28 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Tapu Fini"
+    ]
   },
   "789": {
+    "name": "Cosmog",
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Cosmog"
+    ]
   },
   "790": {
+    "name": "Cosmoem",
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Cosmoem"
+    ]
   },
   "791": {
+    "name": "Solgaleo",
     "types": [
       {
         "type": "Psychic",
@@ -10107,10 +12072,10 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Solgaleo"
+    ]
   },
   "792": {
+    "name": "Lunala",
     "types": [
       {
         "type": "Psychic",
@@ -10120,10 +12085,10 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Lunala"
+    ]
   },
   "793": {
+    "name": "Nihilego",
     "types": [
       {
         "type": "Rock",
@@ -10133,10 +12098,10 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Nihilego"
+    ]
   },
   "794": {
+    "name": "Buzzwole",
     "types": [
       {
         "type": "Bug",
@@ -10146,10 +12111,10 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Buzzwole"
+    ]
   },
   "795": {
+    "name": "Pheromosa",
     "types": [
       {
         "type": "Bug",
@@ -10159,19 +12124,19 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ],
-    "name": "Pheromosa"
+    ]
   },
   "796": {
+    "name": "Xurkitree",
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Xurkitree"
+    ]
   },
   "797": {
+    "name": "Celesteela",
     "types": [
       {
         "type": "Steel",
@@ -10181,10 +12146,10 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ],
-    "name": "Celesteela"
+    ]
   },
   "798": {
+    "name": "Kartana",
     "types": [
       {
         "type": "Grass",
@@ -10194,10 +12159,10 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Kartana"
+    ]
   },
   "799": {
+    "name": "Guzzlord",
     "types": [
       {
         "type": "Dark",
@@ -10207,19 +12172,19 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Guzzlord"
+    ]
   },
   "800": {
+    "name": "Necrozma",
     "types": [
       {
         "type": "Psychic",
         "color": "#f85888"
       }
-    ],
-    "name": "Necrozma"
+    ]
   },
   "801": {
+    "name": "Magearna",
     "types": [
       {
         "type": "Steel",
@@ -10229,10 +12194,10 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ],
-    "name": "Magearna"
+    ]
   },
   "802": {
+    "name": "Marshadow",
     "types": [
       {
         "type": "Fighting",
@@ -10242,19 +12207,19 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Marshadow"
+    ]
   },
   "803": {
+    "name": "Poipole",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ],
-    "name": "Poipole"
+    ]
   },
   "804": {
+    "name": "Naganadel",
     "types": [
       {
         "type": "Poison",
@@ -10264,10 +12229,10 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ],
-    "name": "Naganadel"
+    ]
   },
   "805": {
+    "name": "Stakataka",
     "types": [
       {
         "type": "Rock",
@@ -10277,10 +12242,10 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Stakataka"
+    ]
   },
   "806": {
+    "name": "Blacephalon",
     "types": [
       {
         "type": "Fire",
@@ -10290,34 +12255,33 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ],
-    "name": "Blacephalon"
+    ]
   },
   "807": {
+    "name": "Zeraora",
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ],
-    "name": "Zeraora"
+    ]
   },
   "808": {
+    "name": "Meltan",
     "types": [
       {
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Meltan"
+    ]
   },
   "809": {
+    "name": "Melmetal",
     "types": [
       {
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ],
-    "name": "Melmetal"
+    ]
   }
 }

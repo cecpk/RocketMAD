@@ -9,10 +9,12 @@ if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
           .format(py_version.major, py_version.minor))
     sys.exit(1)
 import os
+import copy
 import logging
 import re
 import ssl
 import requests
+import json
 
 from threading import Thread
 from pathlib import Path
@@ -92,7 +94,7 @@ log = logging.getLogger()
 log.addHandler(stdout_hdlr)
 log.addHandler(stderr_hdlr)
 
-releasedPokemonCount = 493
+released_pokemon_count = 493
 
 
 # Patch to make exceptions in threads cause an exception.
@@ -139,7 +141,7 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 def validate_custom_pokemon_icons():
     custom_icons_path = Path.cwd() / 'static/images/pokemon-custom'
-    for id in range(releasedPokemonCount + 1):
+    for id in range(released_pokemon_count + 1):
         file = custom_icons_path / '{}.png'.format(id)
         if not file.is_file():
             return False
@@ -168,11 +170,8 @@ def validate_pokemon_icons():
             gender = [GENDERLESS]
 
         if 'forms' in pokemon:
-            forms = pokemon['forms']
-            form_data = get_form_data(id, 0)
-            if form_data['formName'] == '':
-                # Pokemon has normal form.
-                forms['0'] = ''
+            forms = copy.deepcopy(pokemon['forms'])
+            forms['0'] = ''
         else:
             forms = OrderedDict([('0', '')])
 
@@ -229,7 +228,7 @@ def validate_pokemon_icons():
                                 'Could not find pokemon icon {}.'.format(file))
                             return False
 
-        if (id == 151):
+        if (id == released_pokemon_count):
             return True
 
 
@@ -285,7 +284,7 @@ def validate_assets(args):
 
     if not validate_pokemon_icons():
         if dyn_img.generate_images and not dyn_img.safe_icons:
-            dyn_img.generate_pokemon_icons()
+            dyn_img.generate_all_pokemon_icons()
             if not validate_pokemon_icons():
                 return False
         else:
@@ -380,7 +379,7 @@ def main():
     set_log_and_verbosity(log)
 
     args.root_path = os.path.dirname(os.path.abspath(__file__))
-    init_dynamic_images(args)
+    init_dynamic_images(args, released_pokemon_count)
 
     # Stop if we're just looking for a debug dump.
     if args.dump:

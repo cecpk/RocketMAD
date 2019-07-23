@@ -582,7 +582,7 @@ function getPokemonRawIconUrl(p) {
 }
 
 function getPokemonIconUrl(pokemon) {
-    var form = pokemon.form ? pokemon.from : '0'
+    var form = pokemon.form ? pokemon.form : '0'
     var costume = pokemon.costume ? pokemon.costume : '0'
     var shiny = pokemon.shiny ? '_s' : ''
 
@@ -590,9 +590,10 @@ function getPokemonIconUrl(pokemon) {
 }
 
 function getMapPokemonIconUrl(pokemon) {
-    var form = pokemon.form ? pokemon.from : '0'
+    console.log(pokemon.pokemon_id + ' ' + pokemon.form)
+    var form = pokemon.form ? pokemon.form : '0'
     var costume = pokemon.costume ? pokemon.costume : '0'
-    var weather = showConfig.weather_icons && pokemon.weather_boosted_condition ? pokemon.weather_boosted_condition : '0'
+    var weather = pokemon.weather_boosted_condition ? pokemon.weather_boosted_condition : '0'
 
     return `static/images/pokemon-map/${pokemon.pokemon_id}_${pokemon.gender}_${form}_${costume}_${weather}.png`
 }

@@ -1,3 +1,4 @@
+import copy
 import logging
 import sys
 import os
@@ -15,7 +16,7 @@ from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import (
     PARTLY_CLOUDY, OVERCAST, WINDY, SNOW, FOG)
 
 from pogom.utils import (get_args, get_all_pokemon_data,
-    get_pokemon_data, get_forms, get_form_data)
+    get_pokemon_data, get_forms, get_form_data, get_weather)
 
 log = logging.getLogger(__name__)
 
@@ -117,6 +118,8 @@ type_colors = {
      "Dragon": "#7038f8",
      "Fairy": "#e898e8"
 }
+
+released_pokemon_count = 0
 
 font = path_static / 'Arial Black.ttf'
 font_pointsize = 25
@@ -314,59 +317,6 @@ def battle_indicator_swords():
     ]
 
 
-def get_pokemon_asset_path(pkm, gender=GENDER_UNSET, form=None, costume=None,
-                           shiny=False):
-    if pkm == 0:
-        return pogo_assets_icons / 'pokemon_icon_000.png'
-
-    gender_form_suffix = ''
-    costume_suffix = '_{:02d}'.format(costume) if costume else ''
-    shiny_suffix = '_shiny' if shiny else ''
-
-    if gender in (MALE, FEMALE):
-        gender_form_suffix = '_{:02d}'.format(gender - 1)
-    else:
-        # Use male if gender is undefined.
-        gender_form_suffix = '_00'
-
-    should_use_suffix = False
-    forms = get_forms(pkm)
-    if forms:
-        if form and str(form) in forms:
-            form_data = forms[str(form)]
-        else:
-            # Form undefined, pick default form from data.
-            form_data = get_form_data(pkm, form)
-
-        if 'assetId' in form_data:
-            asset_id = form_data['assetId']
-        elif 'assetSuffix' in form_data:
-            should_use_suffix = True
-            asset_id = form_data['assetSuffix']
-
-        # In case of normal form, gender is used instead of form.
-        if form_data['formName'] != '':
-            gender_form_suffix = '_' + asset_id
-
-    if should_use_suffix:
-        asset_name = pogo_assets_icons / 'pokemon_icon{}{}.png'.format(
-                gender_form_suffix, shiny_suffix)
-    else:
-        asset_name = (pogo_assets_icons /
-            'pokemon_icon_{:03d}{}{}{}.png'.format(
-                pkm, gender_form_suffix, costume_suffix,
-                shiny_suffix))
-
-    if asset_name.is_file():
-        return asset_name
-    else:
-        if gender == 1:
-            log.critical("Cannot find PogoAssets file {}".format(asset_name))
-            return None
-        return get_pokemon_asset_path(pkm, gender=1, form=form,
-                                      costume=costume, shiny=shiny)
-
-
 def draw_gym_subject(image, size, gravity='north', trim=False):
     trim_cmd = ' -fuzz 0.5% -trim +repage' if trim else ''
     lines = [
@@ -414,48 +364,60 @@ def default_gym_image(team, level, raidlevel, pkm):
     return os.path.join(path, icon)
 
 
-def generate_sprite_sheet():
-    sprite_sheet_file = path_static / 'icons-sprite.png'
-    if sprite_sheet_file.is_file():
-        return
+def get_pokemon_asset_path(pkm, gender=GENDER_UNSET, form=None, costume=None,
+                           shiny=False):
+    if pkm == 0:
+        return pogo_assets_icons / 'pokemon_icon_000.png'
 
-    im_lines = ['-mode concatenate -tile 28x -background none'
-                ' @static/temp.txt']
+    gender_form_suffix = ''
+    costume_suffix = '_{:02d}'.format(costume) if costume else ''
+    shiny_suffix = '_shiny' if shiny else ''
 
-    # Use temp file to store image names, otherwise command will be too long.
-    f = open("static/temp.txt", "w")
+    if gender in (MALE, FEMALE):
+        gender_form_suffix = '_{:02d}'.format(gender - 1)
+    else:
+        # Use male if gender is undefined.
+        gender_form_suffix = '_00'
 
-    pokemon_data = get_all_pokemon_data()
-    for id in pokemon_data:
-        icon_file = path_icons / (id + '.png')
-        if not icon_file.is_file():
-            # Use placeholder.
-            icon_file = path_icons / '0.png'
-        f.write('{} '.format(icon_file))
+    should_use_suffix = False
+    forms = get_forms(pkm)
+    if forms:
+        if form and str(form) in forms:
+            form_data = forms[str(form)]
+        else:
+            # Form undefined, pick default form from data.
+            form_data = get_form_data(pkm, 0)
 
-    f.close()
+        if 'assetId' in form_data:
+            asset_id = form_data['assetId']
+        elif 'assetSuffix' in form_data:
+            should_use_suffix = True
+            asset_id = form_data['assetSuffix']
 
-    run_imagemagick_montage(im_lines, sprite_sheet_file)
-    os.remove("static/temp.txt")
+        # In case of normal, shadow, purified form,
+        # gender is used instead of form.
+        if (form_data['formName'] != '' and
+                form_data['formName'] != 'Shadow' and
+                form_data['formName'] != 'Purified'):
+            gender_form_suffix = '_' + asset_id
 
+    if should_use_suffix:
+        asset_name = pogo_assets_icons / 'pokemon_icon{}{}.png'.format(
+                gender_form_suffix, shiny_suffix)
+    else:
+        asset_name = (pogo_assets_icons /
+            'pokemon_icon_{:03d}{}{}{}.png'.format(
+                pkm, gender_form_suffix, costume_suffix,
+                shiny_suffix))
 
-def draw_weather_icon(source_file, weather, out_file):
-    im = Image.open(source_file)
-    width, height = im.size
-
-    radius = width / 4
-    x = width - radius - 1
-    y = radius
-    y2 = 0
-
-    im_lines = [
-        '-gravity northeast'
-        ' -fill "#FFFD" -stroke black -draw "circle {x},{y} {x},{y2}"'
-        ' -draw "image over 0,0 {w},{h} \'{weather_img}\'"'.format(
-            x=x, y=y, y2=y2, w=radius*2, h=radius*2,
-            weather_img=weather_images[weather])]
-
-    run_imagemagick_convert(source_file, im_lines, out_file)
+    if asset_name.is_file():
+        return asset_name
+    else:
+        if gender == 1:
+            log.critical("Cannot find PogoAssets file {}".format(asset_name))
+            return None
+        return get_pokemon_asset_path(pkm, gender=MALE, form=form,
+                                      costume=costume, shiny=shiny)
 
 
 def generate_pokemon_icon(id, gender, form, costume, shiny, map_icon, weather):
@@ -561,7 +523,7 @@ def generate_pokemon_icon(id, gender, form, costume, shiny, map_icon, weather):
 
         if map_icon and weather:
             target_size = 64
-            radius = target_size / 4
+            radius = target_size / 5
             x = target_size - radius - 1
             y = radius
             y2 = 0
@@ -586,130 +548,102 @@ def generate_pokemon_icon(id, gender, form, costume, shiny, map_icon, weather):
     return target_file
 
 
-def generate_pokemon_icons():
+def generate_pokemon_icons(pokemon_id):
     args = get_args()
 
     im_lines = ['-fuzz 0.5% -trim +repage'
                 ' -scale "64x64>" -unsharp 0x1'
                 ' -background none -gravity center -extent 64x64']
 
-    type_to_weather = {
-        "Normal": PARTLY_CLOUDY,
-        "Water": RAINY,
-        "Electric": RAINY,
-        "Fighting": OVERCAST,
-        "Ground": CLEAR,
-        "Psychic": WINDY,
-        "Rock": PARTLY_CLOUDY,
-        "Dark": FOG,
-        "Steel": SNOW,
-        "Fire": CLEAR,
-        "Grass": CLEAR,
-        "Ice": SNOW,
-        "Poison": OVERCAST,
-        "Flying": WINDY,
-        "Bug": RAINY,
-        "Ghost": FOG,
-        "Dragon": WINDY,
-        "Fairy": OVERCAST
-    }
+    if pokemon_id == 0:
+        # Placeholder image.
+        generate_pokemon_icon(0, MALE, 0, 0, False, False, None)
+        return
 
+    pokemon = get_pokemon_data(pokemon_id)
+
+    if 'gender' in pokemon:
+        gender = pokemon['gender']
+    else:
+        # Assume pokemon is genderless.
+        gender = [GENDERLESS]
+
+    if 'forms' in pokemon:
+        forms = copy.deepcopy(pokemon['forms'])
+        # Also generate icon for form 0, just in case...
+        forms['0'] = ''
+    else:
+        forms = OrderedDict([('0', '')])
+
+    costumes = [0]
+    if 'costumes' in pokemon:
+        costumes.extend(pokemon['costumes'])
+
+    # Generate basic icon ({pokemon_id}.png) first.
+    file = generate_pokemon_icon(pokemon_id, MALE, 0, 0, False, False, None)
+    simple_file = path_icons / '{}.png'.format(pokemon_id)
+    if not simple_file.is_file():
+        os.rename(file, simple_file)
+
+    for g in gender:
+        for form_id, form_data in forms.items():
+            form_id = int(form_id)
+
+            for c in costumes:
+                if (c > 0 and form_id > 0 and 'hasCostume' in form_data and
+                        not form_data['hasCostume']):
+                    # Pokemon with this form doesn't have a custome.
+                    # Skip next costumes.
+                    break
+                generate_pokemon_icon(pokemon_id, g, form_id, c, False, False,
+                    None)
+                # Shiny.
+                generate_pokemon_icon(pokemon_id, g, form_id, c, True, False,
+                    None)
+                # Regular map icon.
+                generate_pokemon_icon(pokemon_id, g, form_id, c, False, True,
+                    None)
+                # Map icons with weather boost.
+                for t in pokemon['types']:
+                    weather = get_weather(t['type'])
+                    generate_pokemon_icon(pokemon_id, g, form_id, c, False, True,
+                        weather)
+
+
+def generate_all_pokemon_icons():
     # Placeholder image.
-    generate_pokemon_icon(0, MALE, 0, 0, False, False, None)
+    generate_pokemon_icons(0)
+    for id in range(1, released_pokemon_count + 1):
+        generate_pokemon_icons(id)
+    # Meltan.
+    generate_pokemon_icons(808)
+    # Melmetal
+    generate_pokemon_icons(809)
+
+
+def generate_sprite_sheet():
+    sprite_sheet_file = path_static / 'icons-sprite.png'
+    if sprite_sheet_file.is_file():
+        return
+
+    im_lines = ['-mode concatenate -tile 28x -background none'
+                ' @static/temp.txt']
+
+    # Use temp file to store image names, otherwise command will be too long.
+    f = open("static/temp.txt", "w")
 
     pokemon_data = get_all_pokemon_data()
-    for id, pokemon in pokemon_data.items():
-        id = int(id)
+    for id in pokemon_data:
+        icon_file = path_icons / (id + '.png')
+        if not icon_file.is_file():
+            # Use placeholder.
+            icon_file = path_icons / '0.png'
+        f.write('{} '.format(icon_file))
 
-        if 'gender' in pokemon:
-            gender = pokemon['gender']
-        else:
-            # Assume pokemon is genderless.
-            gender = [GENDERLESS]
+    f.close()
 
-        if 'forms' in pokemon:
-            forms = pokemon['forms']
-            form_data = get_form_data(id, 0)
-            if form_data['formName'] == '':
-                # Pokemon has normal form.
-                forms['0'] = ''
-        else:
-            forms = OrderedDict([('0', '')])
-
-        costumes = [0]
-        if 'costumes' in pokemon:
-            costumes.extend(pokemon['costumes'])
-
-        # Generate basic icon ({id}.png) first.
-        file = generate_pokemon_icon(id, MALE, 0, 0, False, False, None)
-        simple_file = path_icons / '{}.png'.format(id)
-        if not simple_file.is_file():
-            os.rename(file, simple_file)
-
-        for g in gender:
-            for form_id, form_data in forms.items():
-                form_id = int(form_id)
-
-                for c in costumes:
-                    if (c > 0 and form_id > 0 and 'hasCostume' in form_data and
-                            not form_data['hasCostume']):
-                        # Pokemon with this form doesn't have a custome.
-                        # Skip next costumes.
-                        break
-                    generate_pokemon_icon(id, g, form_id, c, False, False,
-                        None)
-                    # Shiny.
-                    generate_pokemon_icon(id, g, form_id, c, True, False,
-                        None)
-                    # Regular map icon.
-                    generate_pokemon_icon(id, g, form_id, c, False, True,
-                        None)
-                    # Map icons with weather boost.
-                    for t in pokemon['types']:
-                        weather = type_to_weather[t['type']]
-                        generate_pokemon_icon(id, g, form_id, c, False, True,
-                            weather)
-
-        if (id == 151):
-            return
-
-
-def generate_safe_icons():
-    pokemon_data = get_all_pokemon_data()
-    for id, pokemon in pokemon_data.items():
-        id = int(id)
-
-        if 'gender' in pokemon:
-            gender = pokemon['gender']
-        else:
-            # Assume pokemon is genderless.
-            gender = [GENDERLESS]
-
-        if 'forms' in pokemon:
-            forms = pokemon['forms']
-            form_data = next(iter(forms.values()))
-            if form_data['formName'] == '':
-                # Pokemon has normal form.
-                forms['0'] = ''
-        else:
-            forms = OrderedDict([('0', '')])
-
-        for g in gender:
-            for form_id, form_data in forms.items():
-                form_id = int(form_id)
-                pokemon_icon = generate_pokemon_icon(id, g, form_id, 0, False,
-                    False, None, True)
-                simple_name = path_icons / (str(id) + '.png')
-                if not simple_name.is_file():
-                    os.rename(pokemon_icon, simple_name)
-                    generate_pokemon_icon(id, g, form_id, 0, False, False,
-                        None, True)
-                # Map icon.
-                generate_pokemon_icon(id, g, form_id, 0, False, True, None,
-                    True)
-
-        #if id == 151:
-        #    return
+    run_imagemagick_montage(im_lines, sprite_sheet_file)
+    os.remove("static/temp.txt")
 
 
 def run_imagemagick(tool, source, im_lines, out_filename):

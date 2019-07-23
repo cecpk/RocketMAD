@@ -5,6 +5,7 @@ import sys
 from threading import Thread
 
 import configargparse
+import copy
 import os
 import json
 import logging
@@ -124,9 +125,6 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables quests from the map.'),
-                        action='store_true', default=False)
-    parser.add_argument('-wi', '--weather-icons',
-                        help=('Add weather icons to pokemon icons.'),
                         action='store_true', default=False)
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
@@ -295,9 +293,10 @@ def get_args():
     return args
 
 
-def init_dynamic_images(args):
+def init_dynamic_images(args, pkm_count):
     if is_imagemagick_available():
         dyn_img.generate_images = True
+        dyn_img.released_pokemon_count = pkm_count
         log.info("Generating icons using ImageMagick.")
 
 
@@ -370,20 +369,6 @@ def i8ln(word):
         return word
 
 
-def get_pokemon_data(pokemon_id):
-    if not hasattr(get_pokemon_data, 'pokemon'):
-        args = get_args()
-        file_path = os.path.join(
-            args.root_path,
-            args.data_dir,
-            'pokemon.min.json')
-
-        with open(file_path, 'r', encoding='utf-8') as f:
-            get_pokemon_data.pokemon = json.loads(
-                f.read(), object_pairs_hook=OrderedDict)
-    return get_pokemon_data.pokemon[str(pokemon_id)]
-
-
 def get_all_pokemon_data():
     if not hasattr(get_all_pokemon_data, 'pokemons'):
         args = get_args()
@@ -395,8 +380,11 @@ def get_all_pokemon_data():
         with open(file_path, 'r', encoding='utf-8') as f:
             get_all_pokemon_data.pokemons = json.loads(
                 f.read(), object_pairs_hook=OrderedDict)
-        print('not cached')
     return get_all_pokemon_data.pokemons
+
+
+def get_pokemon_data(pokemon_id):
+    return get_all_pokemon_data()[str(pokemon_id)]
 
 
 def get_pokemon_id(pokemon_name):
@@ -432,9 +420,11 @@ def get_form_data(pokemon_id, form_id):
     if form_id in forms:
         return forms[form_id]
     else:
-        for form_data in forms.values():
-            if 'defaultForm' in form_data:
-                return form_data
+        for form in forms.values():
+            if form['formName'] == '':
+                return form
+        # No normal form found, return first form.
+        return next(iter(forms.values()))
 
 
 def get_moves_data(move_id):
