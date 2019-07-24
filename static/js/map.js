@@ -1052,6 +1052,10 @@ function pokestopLabel(pokestop) {
     if (lureExpireTime && lureExpireTime > now) {
         let lureTypeText = ''
         switch(pokestop.active_fort_modifier) {
+            case 501:
+                pokestopImageSource = 'static/images/pokestop/pokestop_lured.png'
+                lureTypeText = 'Normal Lure'
+                lureClass = 'lure-normal'
             case 502:
                 pokestopImageSource = 'static/images/pokestop/pokestop_lured_glacial.png'
                 lureTypeText = 'Glacial Lure'
@@ -1067,10 +1071,6 @@ function pokestopLabel(pokestop) {
                 lureTypeText = 'Magnetic Lure'
                 lureClass = 'lure-magnetic'
                 break
-            default:
-                pokestopImageSource = 'static/images/pokestop/pokestop_lured.png'
-                lureTypeText = 'Normal Lure'
-                lureClass = 'lure-normal'
         }
 
         lureDisplay = `
