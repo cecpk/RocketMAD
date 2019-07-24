@@ -170,6 +170,10 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'showPokestopsNoEvent': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'showQuests': {
         default: true,
         type: StoreTypes.Boolean
