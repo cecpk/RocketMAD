@@ -1030,7 +1030,7 @@ function pokestopLabel(pokestop) {
               </div>
             </div>`
     } else {
-        pokestopImageSource = 'static/images/pokestop/pokestop.png'
+        pokestopImageSource = 'static/images/pokestop/stop.png'
         lureClass = 'no-lure'
     }
 
