@@ -41,6 +41,8 @@ function countMarkers(map) { // eslint-disable-line no-unused-vars
             }
         })
 
+        document.getElementById('stats-pkmn-label').innerHTML = 'Pokémon (' + pkmnTotal + ')'
+
         var pokeCounts = []
 
         for (i = 0; i < pkmnCount.length; i++) {
