@@ -1000,22 +1000,22 @@ function pokestopLabel(pokestop) {
 
         switch(pokestop.active_fort_modifier) {
             case 502:
-                pokestopImageSource = 'static/images/pokestop/pokestop_lured_glacial.png'
+                pokestopImageSource = 'static/images/pokestop/stop_502.png'
                 lureTypeText = 'Glacial Lure'
                 lureClass = 'lure-glacial'
                 break
             case 503:
-                pokestopImageSource = 'static/images/pokestop/pokestop_lured_mossy.png'
+                pokestopImageSource = 'static/images/pokestop/stop_503.png'
                 lureTypeText = 'Mossy Lure'
                 lureClass = 'lure-mossy'
                 break
             case 504:
-                pokestopImageSource = 'static/images/pokestop/pokestop_lured_magnetic.png'
+                pokestopImageSource = 'static/images/pokestop/stop_504.png'
                 lureTypeText = 'Magnetic Lure'
                 lureClass = 'lure-magnetic'
                 break
             default:
-                pokestopImageSource = 'static/images/pokestop/pokestop_lured.png'
+                pokestopImageSource = 'static/images/pokestop/stop_501.png'
                 lureTypeText = 'Normal Lure'
                 lureClass = 'lure-normal'
         }
@@ -1030,7 +1030,7 @@ function pokestopLabel(pokestop) {
               </div>
             </div>`
     } else {
-        pokestopImageSource = 'static/images/pokestop/pokestop.png'
+        pokestopImageSource = 'static/images/pokestop/stop.png'
         lureClass = 'no-lure'
     }
 
