@@ -14,8 +14,6 @@ WORKDIR /usr/src/app
 # Set Entrypoint with hard-coded options
 ENTRYPOINT ["dumb-init", "-r", "15:2", "python", "./runserver.py", "--host", "0.0.0.0"]
 
-# Set default options when container is run without any command line arguments
-CMD ["--only-server"]
 
 COPY requirements.txt /usr/src/app/
 
@@ -30,7 +28,7 @@ COPY static /usr/src/app/static
 
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential curl unzip \
  && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
- && apt-get install -y --no-install-recommends nodejs 
+ && apt-get install -y --no-install-recommends nodejs npm 
 
 RUN npm install
 RUN npm install -g grunt-cli
