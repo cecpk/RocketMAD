@@ -31,7 +31,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 34
+db_schema_version = 35
 
 
 class RetryOperationalError(object):
@@ -901,8 +901,8 @@ class Versions(BaseModel):
 
 class GymDetails(BaseModel):
     gym_id = Utf8mb4CharField(primary_key=True, max_length=50)
-    name = Utf8mb4CharField()
-    description = TextField(null=True, default="")
+    name = Utf8mb4CharField(null=True)
+    description = TextField(null=True)
     url = Utf8mb4CharField()
     last_scanned = DateTimeField(default=datetime.utcnow)
 
@@ -1676,6 +1676,15 @@ def database_migrate(db, old_ver):
                     DateTimeField(null=True)
                 )
             )
+
+    if old_ver < 35:
+        migrate(
+            migrator.drop_not_null('gymdetails', 'name')
+        )
+
+        db.execute_sql('UPDATE gymdetails ' +
+                       'SET name = NULL ' +
+                       'WHERE name = \'unknown\'')
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
