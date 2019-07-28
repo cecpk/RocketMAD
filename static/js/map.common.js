@@ -167,15 +167,35 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'showPokestops': {
-        default: false,
+        default: true,
         type: StoreTypes.Boolean
     },
-    'showEventPokestopsOnly': {
-        default: 0,
-        type: StoreTypes.Number
+    'showPokestopsNoEvent': {
+        default: true,
+        type: StoreTypes.Boolean
     },
     'showQuests': {
-        default: false,
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showInvasions': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showNormalLures': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showGlacialLures': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showMagneticLures': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showMossyLures': {
+        default: true,
         type: StoreTypes.Boolean
     },
     'showScanned': {

@@ -116,7 +116,7 @@
     border: 2px solid #CCCCCC;
     border-radius: 20px;
     background-color: #FFFFFF;
-    transition: background-color 0.3s ease-in;
+    transition: background-color 0.1s ease-in;
   }
   .onoffswitch-label:before {
     content: "";
@@ -130,7 +130,7 @@
     right: 30px;
     border: 2px solid #CCCCCC;
     border-radius: 20px;
-    transition: all 0.3s ease-in 0s;
+    transition: all 0.1s ease-in 0s;
   }
 }
 

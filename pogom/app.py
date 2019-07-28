@@ -254,23 +254,27 @@ class Pogom(Flask):
         lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
 
-        luredonly = request.args.get('luredonly', 'false') == 'true'
+        pokestops = request.args.get('pokestops', 'true') == 'true'
+        pokestopsNoEvent = request.args.get('pokestopsNoEvent', 'true') == 'true'
+        quests = request.args.get('quests', 'true') == 'true'
+        invasions = request.args.get('invasions', 'true') == 'true'
+        lures = request.args.get('lures', 'true') == 'true'
 
         # Current switch settings saved for next request.
         if request.args.get('gyms', 'true') == 'true':
-            d['lastgyms'] = request.args.get('gyms', 'true')
+            d['lastgyms'] = True
 
-        if request.args.get('pokestops', 'true') == 'true':
-            d['lastpokestops'] = request.args.get('pokestops', 'true')
+        if pokestops and (pokestopsNoEvent or quests or invasions or lures):
+            d['lastpokestops'] = True
 
         if request.args.get('pokemon', 'true') == 'true':
-            d['lastpokemon'] = request.args.get('pokemon', 'true')
+            d['lastpokemon'] = True
 
         if request.args.get('scanned', 'true') == 'true':
-            d['lastslocs'] = request.args.get('scanned', 'true')
+            d['lastslocs'] = True
 
         if request.args.get('spawnpoints', 'false') == 'true':
-            d['lastspawns'] = request.args.get('spawnpoints', 'false')
+            d['lastspawns'] = True
 
         if (oSwLat is not None and oSwLng is not None and
                 oNeLat is not None and oNeLng is not None):
@@ -341,20 +345,24 @@ class Pogom(Flask):
                                                  neLng)))
                 d['reids'] = reids
 
-        if (request.args.get('pokestops', 'true') == 'true' and
-                not args.no_pokestops):
+        if (not args.no_pokestops and pokestops and (pokestopsNoEvent or
+                quests or invasions or lures)):
             if lastpokestops != 'true':
-                d['pokestops'] = Pokestop.get_stops(swLat, swLng, neLat, neLng,
-                                                    lured=luredonly)
+                d['pokestops'] = Pokestop.get_stops(
+                    swLat, swLng, neLat, neLng, pokestopsNoEvent=pokestopsNoEvent,
+                    quests=quests, invasions=invasions, lures=lures)
             else:
                 d['pokestops'] = Pokestop.get_stops(swLat, swLng, neLat, neLng,
-                                                    timestamp=timestamp)
+                                                    timestamp=timestamp, pokestopsNoEvent=pokestopsNoEvent,
+                                                    quests=quests, invasions=invasions, lures=lures)
                 if newArea:
                     d['pokestops'].update(
                         Pokestop.get_stops(swLat, swLng, neLat, neLng,
                                            oSwLat=oSwLat, oSwLng=oSwLng,
                                            oNeLat=oNeLat, oNeLng=oNeLng,
-                                           lured=luredonly))
+                                           pokestopsNoEvent=pokestopsNoEvent,
+                                           quests=quests, invasions=invasions,
+                                           lures=lures))
 
         if request.args.get('gyms', 'true') == 'true' and not args.no_gyms:
             if lastgyms != 'true':

@@ -364,72 +364,95 @@ class Pokestop(LatLongModel):
 
     @staticmethod
     def get_stops(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
-                  oSwLng=None, oNeLat=None, oNeLng=None, lured=False):
-        query = (Pokestop
-                 .select(Pokestop.pokestop_id, Pokestop.name, Pokestop.enabled,
-                         Pokestop.image, Pokestop.latitude, Pokestop.longitude,
-                         Pokestop.last_updated, Pokestop.last_modified,
-                         Pokestop.active_fort_modifier,
-                         Pokestop.lure_expiration,
-                         Pokestop.incident_expiration))
-
-        if not (swLat and swLng and neLat and neLng):
-            query = (query
-                     .dicts())
-        elif timestamp > 0:
-            query = (query
-                     .where((Pokestop.last_updated >
-                             datetime.utcfromtimestamp(timestamp / 1000)) &
-                            (Pokestop.latitude >= swLat) &
-                            (Pokestop.longitude >= swLng) &
-                            (Pokestop.latitude <= neLat) &
-                            (Pokestop.longitude <= neLng))
-                     .dicts())
-        elif oSwLat and oSwLng and oNeLat and oNeLng and lured:
-            query = (query
-                     .where((((Pokestop.latitude >= swLat) &
-                              (Pokestop.longitude >= swLng) &
-                              (Pokestop.latitude <= neLat) &
-                              (Pokestop.longitude <= neLng)) &
-                             (Pokestop.active_fort_modifier.is_null(False))) &
-                            ~((Pokestop.latitude >= oSwLat) &
-                              (Pokestop.longitude >= oSwLng) &
-                              (Pokestop.latitude <= oNeLat) &
-                              (Pokestop.longitude <= oNeLng)) &
-                             (Pokestop.active_fort_modifier.is_null(False)))
-                     .dicts())
-        elif oSwLat and oSwLng and oNeLat and oNeLng:
-            # Send stops in view but exclude those within old boundaries. Only
-            # send newly uncovered stops.
-            query = (query
-                     .where(((Pokestop.latitude >= swLat) &
-                             (Pokestop.longitude >= swLng) &
-                             (Pokestop.latitude <= neLat) &
-                             (Pokestop.longitude <= neLng)) &
-                            ~((Pokestop.latitude >= oSwLat) &
-                              (Pokestop.longitude >= oSwLng) &
-                              (Pokestop.latitude <= oNeLat) &
-                              (Pokestop.longitude <= oNeLng)))
-                     .dicts())
-        elif lured:
-            query = (query
-                     .where(((Pokestop.last_updated >
-                              datetime.utcfromtimestamp(timestamp / 1000))) &
-                            ((Pokestop.latitude >= swLat) &
-                             (Pokestop.longitude >= swLng) &
-                             (Pokestop.latitude <= neLat) &
-                             (Pokestop.longitude <= neLng)) &
-                            (Pokestop.active_fort_modifier.is_null(False)))
-                     .dicts())
-
+                  oSwLng=None, oNeLat=None, oNeLng=None, pokestopsNoEvent=False,
+                  quests=False, invasions=False, lures=False):
+        if invasions and lures:
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated,
+                             Pokestop.last_modified,
+                             Pokestop.incident_expiration,
+                             Pokestop.active_fort_modifier,
+                             Pokestop.lure_expiration))
+        elif invasions:
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated,
+                             Pokestop.last_modified,
+                             Pokestop.incident_expiration))
+        elif lures:
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated,
+                             Pokestop.last_modified,
+                             Pokestop.active_fort_modifier,
+                             Pokestop.lure_expiration))
         else:
-            query = (query
-                     .where((Pokestop.latitude >= swLat) &
-                            (Pokestop.longitude >= swLng) &
-                            (Pokestop.latitude <= neLat) &
-                            (Pokestop.longitude <= neLng))
-                     .dicts())
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated,
+                             Pokestop.last_modified))
 
+        if swLat and swLng and neLat and neLng:
+            if oSwLat and oSwLng and oNeLat and oNeLng:
+                # Send stops in view but exclude those within old boundaries. Only
+                # send newly uncovered stops.
+                query = (query
+                         .where(((Pokestop.latitude >= swLat) &
+                                 (Pokestop.longitude >= swLng) &
+                                 (Pokestop.latitude <= neLat) &
+                                 (Pokestop.longitude <= neLng)) &
+                                ~((Pokestop.latitude >= oSwLat) &
+                                  (Pokestop.longitude >= oSwLng) &
+                                  (Pokestop.latitude <= oNeLat) &
+                                  (Pokestop.longitude <= oNeLng))))
+            else:
+                query = (query
+                         .where((Pokestop.latitude >= swLat) &
+                                (Pokestop.longitude >= swLng) &
+                                (Pokestop.latitude <= neLat) &
+                                (Pokestop.longitude <= neLng)))
+
+        if timestamp > 0:
+            query = (query
+                     .where(Pokestop.last_updated >
+                            datetime.utcfromtimestamp(timestamp / 1000)))
+
+        if not pokestopsNoEvent:
+            if quests and invasions and lures:
+                query = (query
+                        .where((Pokestop.incident_expiration.is_null(False)) |
+                               (Pokestop.active_fort_modifier.is_null(False)) |
+                               (Pokestop.pokestop_id <<
+                                Trs_Quest.select(Trs_Quest.GUID))))
+            elif quests and invasions:
+                query = (query
+                        .where((Pokestop.incident_expiration.is_null(False)) |
+                               (Pokestop.pokestop_id <<
+                                Trs_Quest.select(Trs_Quest.GUID))))
+            elif quests and lures:
+                query = (query
+                        .where((Pokestop.active_fort_modifier.is_null(False)) |
+                               (Pokestop.pokestop_id <<
+                                Trs_Quest.select(Trs_Quest.GUID))))
+            elif invasions and lures:
+                query = (query
+                        .where((Pokestop.incident_expiration.is_null(False)) |
+                               (Pokestop.active_fort_modifier.is_null(False))))
+            elif quests:
+                query = (query
+                        .where(Pokestop.pokestop_id <<
+                         Trs_Quest.select(Trs_Quest.GUID)))
+            elif invasions:
+                query = (query
+                        .where(Pokestop.incident_expiration.is_null(False)))
+            elif lures:
+                query = (query
+                        .where(Pokestop.active_fort_modifier.is_null(False)))
 
         # Performance:  disable the garbage collector prior to creating a
         # (potentially) large dict with append().
@@ -437,7 +460,7 @@ class Pokestop(LatLongModel):
 
         pokestops = {}
         pokestop_ids = []
-        for p in query:
+        for p in query.dicts():
             if args.china:
                 p['latitude'], p['longitude'] = \
                     transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
@@ -445,7 +468,7 @@ class Pokestop(LatLongModel):
             pokestops[p['pokestop_id']] = p
             pokestop_ids.append(p['pokestop_id'])
 
-        if len(pokestop_ids) > 0:
+        if quests and len(pokestop_ids) > 0:
             today = datetime.today() #local time
             today_timestamp = datetime.timestamp(
                 datetime.combine(today, datetime.min.time()))
