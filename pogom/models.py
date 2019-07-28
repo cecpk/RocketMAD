@@ -31,7 +31,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 34
+db_schema_version = 35
 
 
 class RetryOperationalError(object):

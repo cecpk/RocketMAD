@@ -528,6 +528,7 @@ function initSidebar() {
     $('#last-update-gyms-switch').val(Store.get('showLastUpdatedGymsOnly'))
     $('#pokemon-stats-switch').prop('checked', Store.get('showPokemonStats'))
     $('#pokemon-switch').prop('checked', Store.get('showPokemon'))
+    $('#pokemons-filter-wrapper').toggle(Store.get('showPokemon'))
     $('#pokestops-switch').prop('checked', Store.get('showPokestops'))
     $('#pokestops-filter-wrapper').toggle(Store.get('showPokestops'))
     $('#pokestops-no-event-switch').prop('checked', Store.get('showPokestopsNoEvent'))
@@ -3891,7 +3892,6 @@ $(function () {
         redrawPokemon(mapData.lurePokemons)
     }
 
-
     function resetGymFilter() {
         Store.set('showTeamGymsOnly', 0)
         Store.set('minGymLevel', 0)
@@ -3915,7 +3915,6 @@ $(function () {
     }
 
     // Setup UI element interactions
-
 
     $('#gyms-switch').change(function () {
         resetGymFilter()
@@ -3953,6 +3952,8 @@ $(function () {
         buildSwitchChangeListener(mapData, ['gyms'], 'showRaids').bind(this)()
     })
     $('#pokemon-switch').change(function () {
+        var wrapper = $('#pokemons-filter-wrapper')
+        this.checked ? wrapper.show() : wrapper.hide()
         buildSwitchChangeListener(mapData, ['pokemons'], 'showPokemon').bind(this)()
         markers.refreshClusters()
     })
