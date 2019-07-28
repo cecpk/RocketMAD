@@ -3918,42 +3918,36 @@ $(function () {
 
 
     $('#gyms-switch').change(function () {
-        var options = {
-            'duration': 500
-        }
         resetGymFilter()
         var wrapperGyms = $('#gyms-filter-wrapper')
         var switchRaids = $('#raids-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
         if (this.checked) {
             lastgyms = false
-            wrapperGyms.show(options)
-            wrapperSidebar.show(options)
+            wrapperGyms.show()
+            wrapperSidebar.show()
         } else {
             lastgyms = false
-            wrapperGyms.hide(options)
+            wrapperGyms.hide()
             if (!switchRaids.prop('checked')) {
-                wrapperSidebar.hide(options)
+                wrapperSidebar.hide()
             }
         }
         buildSwitchChangeListener(mapData, ['gyms'], 'showGyms').bind(this)()
     })
     $('#raids-switch').change(function () {
-        var options = {
-            'duration': 500
-        }
         var wrapperRaids = $('#raids-filter-wrapper')
         var switchGyms = $('#gyms-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
         if (this.checked) {
             lastgyms = false
-            wrapperRaids.show(options)
-            wrapperSidebar.show(options)
+            wrapperRaids.show()
+            wrapperSidebar.show()
         } else {
             lastgyms = false
-            wrapperRaids.hide(options)
+            wrapperRaids.hide()
             if (!switchGyms.prop('checked')) {
-                wrapperSidebar.hide(options)
+                wrapperSidebar.hide()
             }
         }
         buildSwitchChangeListener(mapData, ['gyms'], 'showRaids').bind(this)()
@@ -3964,14 +3958,11 @@ $(function () {
     })
     $('#pokemon-stats-switch').change(function () {
         Store.set('showPokemonStats', this.checked)
-        var options = {
-            'duration': 500
-        }
         const $wrapper = $('#notify-perfection-wrapper')
         if (this.checked) {
-            $wrapper.show(options)
+            $wrapper.show()
         } else {
-            $wrapper.hide(options)
+            $wrapper.hide()
         }
         updatePokemonLabels(mapData.pokemons)
         // Only redraw Pokémon which are notified of perfection.
@@ -4048,14 +4039,11 @@ $(function () {
 
     $('#sound-switch').change(function () {
         Store.set('playSound', this.checked)
-        var options = {
-            'duration': 500
-        }
         var criesWrapper = $('#pokemoncries')
         if (this.checked) {
-            criesWrapper.show(options)
+            criesWrapper.show()
         } else {
-            criesWrapper.hide(options)
+            criesWrapper.hide()
         }
     })
 
