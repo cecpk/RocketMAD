@@ -123,7 +123,7 @@ var StoreOptions = {
         type: StoreTypes.Number
     },
     'showGyms': {
-        default: false,
+        default: true,
         type: StoreTypes.Boolean
     },
     'useGymSidebar': {
