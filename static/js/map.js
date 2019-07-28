@@ -539,7 +539,7 @@ function initSidebar() {
     $('#mossy-lures-switch').prop('checked', Store.get('showMossyLures'))
     $('#quests-filter-wrapper').toggle(Store.get('showQuests'))
     $('#geoloc-switch').prop('checked', Store.get('geoLocate'))
-    $('#lock-marker-switch').prop('checked', Store.get('lockStartLocationMarker'))
+    $('#lock-start-marker-switch').prop('checked', Store.get('lockStartLocationMarker'))
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
     $('#follow-my-location-switch').prop('checked', Store.get('followMyLocation'))
     $('#scanned-switch').prop('checked', Store.get('showScanned'))
@@ -4092,10 +4092,10 @@ $(function () {
         }
     })
 
-    $('#lock-marker-switch').change(function () {
+    $('#lock-start-marker-switch').change(function () {
         Store.set('lockStartLocationMarker', this.checked)
         if (startLocationMarker) {
-            startLocationMarker.draggable = (!this.checked)
+            this.checked ? startLocationMarker.dragging.disable() : startLocationMarker.dragging.enable()
         }
     })
 
