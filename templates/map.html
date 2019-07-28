@@ -128,9 +128,9 @@
             </div>
           </div>
             {% endif %}
+            {% if show.gyms %}
           <h3><i class="fas fa-landmark fa-fw"></i>Gyms</h3>
           <div>
-              {% if show.gyms %}
             <div class="form-control switch-container">
               <h3>Gyms</h3>
               <div class="onoffswitch">
@@ -229,7 +229,6 @@
                 </select>
               </div>
             </div>
-              {% endif %}
               {% if show.raids %}
             <div class="form-control switch-container">
               <h3>Raids</h3>
@@ -285,6 +284,7 @@
             </div>
               {% endif %}
           </div>
+            {% endif %}
             {% if show.pokestops %}
           <h3><i class="fas fa-monument fa-fw"></i>PokéStops</h3>
           <div>
