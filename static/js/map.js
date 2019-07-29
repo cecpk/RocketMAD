@@ -999,6 +999,7 @@ function pokestopLabel(pokestop) {
     const pokestopName = pokestop.name ? pokestop.name : 'PokéStop'
     const lureExpireTime = pokestop.lure_expiration
     const invasionExpireTime = pokestop.incident_expiration
+    const invasionGruntType = pokestop.incident_grunt_type
     const quest = pokestop.quest
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
     var pokestopImageSource = ''
@@ -1063,10 +1064,92 @@ function pokestopLabel(pokestop) {
 
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
         pokestopImage += '_i'
+
+        let gruntTypeText = ''
+        switch(invasionGruntType) {
+            case 4:
+            case 5:
+                gruntTypeText = 'Random'
+                break
+            case 6:
+            case 7:
+                gruntTypeText = 'Bug'
+                break
+            case 8:
+            case 9:
+                gruntTypeText = 'Ghost'
+                break
+            case 10:
+            case 11:
+                gruntTypeText = 'Dark'
+                break
+            case 12:
+            case 13:
+                gruntTypeText = 'Dragon'
+                break
+            case 14:
+            case 15:
+                gruntTypeText = 'Fairy'
+                break
+            case 16:
+            case 17:
+                gruntTypeText = 'Fighting'
+                break
+            case 18:
+            case 19:
+                gruntTypeText = 'Fire'
+                break
+            case 20:
+            case 21:
+                gruntTypeText = 'Flying'
+                break
+            case 22:
+            case 23:
+                gruntTypeText = 'Grass'
+                break
+            case 24:
+            case 25:
+                gruntTypeText = 'Ground'
+                break
+            case 26:
+            case 27:
+                gruntTypeText = 'Ice'
+                break
+            case 28:
+            case 29:
+                gruntTypeText = 'Metal'
+                break
+            case 30:
+            case 31:
+                gruntTypeText = 'Normal'
+                break
+            case 32:
+            case 33:
+                gruntTypeText = 'Poison'
+                break
+            case 34:
+            case 35:
+                gruntTypeText = 'Psychic'
+                break
+            case 36:
+            case 37:
+                gruntTypeText = 'Rock'
+                break
+            case 38:
+            case 39:
+                gruntTypeText = 'Water'
+                break
+            default:
+                gruntTypeText = 'None'
+        }
+
         invasionDisplay = `
             <div class='pokestop invasion-container'>
               <div>
                 Team Rocket Invasion
+              </div>
+              <div>
+                Grunt Type: ${gruntTypeText}
               </div>
               <div>
                 <span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span> left (${moment(invasionExpireTime).format('HH:mm')})
@@ -2287,6 +2370,7 @@ function updateEventPokestops() {
         if (pokestop.incident_expiration && pokestop.incident_expiration <= now) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 mapData.pokestops[pokestop.pokestop_id].incident_expiration = null
+                mapData.pokestops[pokestop.pokestop_id].incident_grunt_type = null
                 updatePokestopMarker(mapData.pokestops[pokestop.pokestop_id], mapData.pokestops[pokestop.pokestop_id].marker)
                 delete invadedPokestops[pokestop.pokestop_id]
             } else {
@@ -2332,6 +2416,7 @@ function processPokestop(i, pokestop) {
                 }
                 if (newInvasion) {
                     mapData.pokestops[pokestop.pokestop_id].incident_expiration = pokestop.incident_expiration
+                    mapData.pokestops[pokestop.pokestop_id].incident_grunt_type = pokestop.incident_grunt_type
                     invadedPokestops[pokestop.pokestop_id] = pokestop
                 }
                 if (questChange) {

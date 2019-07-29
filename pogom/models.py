@@ -31,7 +31,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 34
+db_schema_version = 35
 
 
 class RetryOperationalError(object):
@@ -356,6 +356,7 @@ class Pokestop(LatLongModel):
     active_fort_modifier = SmallIntegerField(null=True, index=True)
     incident_start = DateTimeField(null=True)
     incident_expiration = DateTimeField(null=True)
+    incident_grunt_type = SmallIntegerField(null=True, index=True)
     last_updated = DateTimeField(
         null=True, index=True, default=datetime.utcnow)
 
@@ -373,6 +374,7 @@ class Pokestop(LatLongModel):
                              Pokestop.longitude, Pokestop.last_updated,
                              Pokestop.last_modified,
                              Pokestop.incident_expiration,
+                             Pokestop.incident_grunt_type,
                              Pokestop.active_fort_modifier,
                              Pokestop.lure_expiration))
         elif invasions:
@@ -381,7 +383,8 @@ class Pokestop(LatLongModel):
                              Pokestop.image, Pokestop.latitude,
                              Pokestop.longitude, Pokestop.last_updated,
                              Pokestop.last_modified,
-                             Pokestop.incident_expiration))
+                             Pokestop.incident_expiration,
+                             Pokestop.incident_grunt_type))
         elif lures:
             query = (Pokestop
                      .select(Pokestop.pokestop_id, Pokestop.name,
@@ -1711,6 +1714,16 @@ def database_migrate(db, old_ver):
                 )
             )
 
+    if old_ver < 35:
+        # Column might already exist if created by MAD.
+        if not does_column_exist(db, 'pokestop', 'incident_grunt_type'):
+            migrate(
+                migrator.add_column(
+                    'pokestop',
+                    'incident_grunt_type',
+                    SmallIntegerField(null=True)
+                )
+            )
     # Always log that we're done.
     log.info('Schema upgrade complete.')
     return True
