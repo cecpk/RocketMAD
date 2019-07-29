@@ -991,7 +991,7 @@ function pokestopLabel(pokestop) {
     const pokestopName = pokestop.name ? pokestop.name : 'PokéStop'
     const lureExpireTime = pokestop.lure_expiration
     const invasionExpireTime = pokestop.incident_expiration
-    const gruntType = pokestop.grunt_type
+    const invasionGruntType = pokestop.incident_grunt_type
     const quest = pokestop.quest
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
     var pokestopImageSource = ''
@@ -1058,7 +1058,7 @@ function pokestopLabel(pokestop) {
         pokestopImage += '_i'
 
         let gruntTypeText = ''
-        switch(gruntType) {
+        switch(invasionGruntType) {
             case 4:
             case 5:
                 gruntTypeText = 'Random'
@@ -2362,7 +2362,7 @@ function updateEventPokestops() {
         if (pokestop.incident_expiration && pokestop.incident_expiration <= now) {
             if (isPokestopSatisfiesFilters(pokestop)) {
                 mapData.pokestops[pokestop.pokestop_id].incident_expiration = null
-                mapData.pokestops[pokestop.pokestop_id].grunt_type = null
+                mapData.pokestops[pokestop.pokestop_id].incident_grunt_type = null
                 updatePokestopMarker(mapData.pokestops[pokestop.pokestop_id], mapData.pokestops[pokestop.pokestop_id].marker)
                 delete invadedPokestops[pokestop.pokestop_id]
             } else {
@@ -2408,7 +2408,7 @@ function processPokestop(i, pokestop) {
                 }
                 if (newInvasion) {
                     mapData.pokestops[pokestop.pokestop_id].incident_expiration = pokestop.incident_expiration
-                    mapData.pokestops[pokestop.pokestop_id].grunt_type = pokestop.grunt_type
+                    mapData.pokestops[pokestop.pokestop_id].incident_grunt_type = pokestop.incident_grunt_type
                     invadedPokestops[pokestop.pokestop_id] = pokestop
                 }
                 if (questChange) {
