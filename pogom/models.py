@@ -398,61 +398,72 @@ class Pokestop(LatLongModel):
                              Pokestop.last_modified))
 
         if swLat and swLng and neLat and neLng:
+            query = (query
+                     .where((Pokestop.latitude >= swLat) &
+                            (Pokestop.longitude >= swLng) &
+                            (Pokestop.latitude <= neLat) &
+                            (Pokestop.longitude <= neLng)))
+
             if oSwLat and oSwLng and oNeLat and oNeLng:
-                # Send stops in view but exclude those within old boundaries. Only
-                # send newly uncovered stops.
+                # Send stops in view but exclude those within old boundaries.
                 query = (query
-                         .where(((Pokestop.latitude >= swLat) &
-                                 (Pokestop.longitude >= swLng) &
-                                 (Pokestop.latitude <= neLat) &
-                                 (Pokestop.longitude <= neLng)) &
-                                ~((Pokestop.latitude >= oSwLat) &
+                         .where(~((Pokestop.latitude >= oSwLat) &
                                   (Pokestop.longitude >= oSwLng) &
                                   (Pokestop.latitude <= oNeLat) &
                                   (Pokestop.longitude <= oNeLng))))
+            elif timestamp > 0:
+                query = (query
+                         .where(Pokestop.last_updated >
+                                datetime.utcfromtimestamp(timestamp / 1000)))
+
+                expression = None
+                if quests:
+                    quest_query = (Trs_Quest
+                                   .select(Trs_Quest.GUID)
+                                   .where(Trs_Quest.quest_timestamp >=
+                                        timestamp))
+                    expression = Pokestop.pokestop_id << quest_query
+                if invasions:
+                    if expression is None:
+                        expression = Pokestop.incident_start.is_null(False)
+                    else:
+                        expression |= Pokestop.incident_start.is_null(False)
+                if lures:
+                    if expression is None:
+                        expression = Pokestop.active_fort_modifier.is_null(
+                            False)
+                    else:
+                        expression |= Pokestop.active_fort_modifier.is_null(
+                            False)
+
+                if expression is not None:
+                    query = query.where(expression)
+                else:
+                    return {}
             else:
-                query = (query
-                         .where((Pokestop.latitude >= swLat) &
-                                (Pokestop.longitude >= swLng) &
-                                (Pokestop.latitude <= neLat) &
-                                (Pokestop.longitude <= neLng)))
+                if not pokestopsNoEvent:
+                    expression = None
+                    if quests:
+                        expression = (Trs_Quest.select(Trs_Quest.GUID) <<
+                            quest_query)
+                    if invasions:
+                        if expression is None:
+                            expression = Pokestop.incident_expiration.is_null(
+                                False)
+                        else:
+                            expression |= Pokestop.incident_expiration.is_null(
+                                False)
+                    if lures:
+                        if expression is None:
+                            expression = Pokestop.active_fort_modifier.is_null(
+                                False)
+                        else:
+                            expression |= (Pokestop.active_fort_modifier
+                                           .is_null(False))
 
-        if timestamp > 0:
-            query = (query
-                     .where(Pokestop.last_updated >
-                            datetime.utcfromtimestamp(timestamp / 1000)))
+                    if expression is not None:
+                        query = query.where(expression)
 
-        if not pokestopsNoEvent:
-            if quests and invasions and lures:
-                query = (query
-                        .where((Pokestop.incident_expiration.is_null(False)) |
-                               (Pokestop.active_fort_modifier.is_null(False)) |
-                               (Pokestop.pokestop_id <<
-                                Trs_Quest.select(Trs_Quest.GUID))))
-            elif quests and invasions:
-                query = (query
-                        .where((Pokestop.incident_expiration.is_null(False)) |
-                               (Pokestop.pokestop_id <<
-                                Trs_Quest.select(Trs_Quest.GUID))))
-            elif quests and lures:
-                query = (query
-                        .where((Pokestop.active_fort_modifier.is_null(False)) |
-                               (Pokestop.pokestop_id <<
-                                Trs_Quest.select(Trs_Quest.GUID))))
-            elif invasions and lures:
-                query = (query
-                        .where((Pokestop.incident_expiration.is_null(False)) |
-                               (Pokestop.active_fort_modifier.is_null(False))))
-            elif quests:
-                query = (query
-                        .where(Pokestop.pokestop_id <<
-                         Trs_Quest.select(Trs_Quest.GUID)))
-            elif invasions:
-                query = (query
-                        .where(Pokestop.incident_expiration.is_null(False)))
-            elif lures:
-                query = (query
-                        .where(Pokestop.active_fort_modifier.is_null(False)))
 
         # Performance:  disable the garbage collector prior to creating a
         # (potentially) large dict with append().
