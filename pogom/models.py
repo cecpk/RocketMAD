@@ -447,8 +447,11 @@ class Pokestop(LatLongModel):
                 if not pokestopsNoEvent:
                     expression = None
                     if quests:
-                        expression = (Trs_Quest.select(Trs_Quest.GUID) <<
-                            quest_query)
+                        quest_query = (Trs_Quest
+                                       .select(Trs_Quest.GUID)
+                                       .where(Trs_Quest.quest_timestamp >=
+                                            timestamp))
+                        expression = Pokestop.pokestop_id << quest_query
                     if invasions:
                         if expression is None:
                             expression = Pokestop.incident_expiration.is_null(
