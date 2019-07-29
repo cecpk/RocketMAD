@@ -2422,6 +2422,7 @@ function processPokestop(i, pokestop) {
                 if (questChange) {
                     mapData.pokestops[pokestop.pokestop_id].quest = pokestop.quest
                 }
+                mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
                 mapData.pokestops[pokestop.pokestop_id].isUpdated = true
             } else {
                 removePokestop(pokestop)

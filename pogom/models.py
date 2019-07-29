@@ -408,7 +408,7 @@ class Pokestop(LatLongModel):
                             (Pokestop.longitude <= neLng)))
 
             if oSwLat and oSwLng and oNeLat and oNeLng:
-                # Send stops in view but exclude those within old boundaries.
+                # Send stops in view, but exclude those within old boundaries.
                 query = (query
                          .where(~((Pokestop.latitude >= oSwLat) &
                                   (Pokestop.longitude >= oSwLng) &
@@ -423,8 +423,8 @@ class Pokestop(LatLongModel):
                 if quests:
                     quest_query = (Trs_Quest
                                    .select(Trs_Quest.GUID)
-                                   .where(Trs_Quest.quest_timestamp >=
-                                        timestamp))
+                                   .where(Trs_Quest.quest_timestamp >
+                                        timestamp / 1000))
                     expression = Pokestop.pokestop_id << quest_query
                 if invasions:
                     if expression is None:
@@ -447,11 +447,8 @@ class Pokestop(LatLongModel):
                 if not pokestopsNoEvent:
                     expression = None
                     if quests:
-                        quest_query = (Trs_Quest
-                                       .select(Trs_Quest.GUID)
-                                       .where(Trs_Quest.quest_timestamp >=
-                                            timestamp))
-                        expression = Pokestop.pokestop_id << quest_query
+                        expression = Pokestop.pokestop_id << Trs_Quest.select(
+                            Trs_Quest.GUID)
                     if invasions:
                         if expression is None:
                             expression = Pokestop.incident_expiration.is_null(
@@ -486,7 +483,7 @@ class Pokestop(LatLongModel):
             pokestop_ids.append(p['pokestop_id'])
 
         if quests and len(pokestop_ids) > 0:
-            today = datetime.today() #local time
+            today = datetime.today() # Local time.
             today_timestamp = datetime.timestamp(
                 datetime.combine(today, datetime.min.time()))
             quests = (Trs_Quest
