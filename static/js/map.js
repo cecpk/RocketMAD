@@ -1190,9 +1190,6 @@ function pokestopLabel(pokestop) {
                   Last scanned: <span class='info'>${timestampToDate(pokestop.last_updated)}</span>
                 </div>
                 <div>
-                  Last modified: <span class='info'>${timestampToDateTime(pokestop.last_modified)}</span>
-                </div>
-                <div>
                   <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'>${pokestop.latitude.toFixed(7)}, ${pokestop.longitude.toFixed(7)}</a>
                 </div>
               </div>

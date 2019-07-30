@@ -372,7 +372,6 @@ class Pokestop(LatLongModel):
                      .select(Pokestop.pokestop_id, Pokestop.name,
                              Pokestop.image, Pokestop.latitude,
                              Pokestop.longitude, Pokestop.last_updated,
-                             Pokestop.last_modified,
                              Pokestop.incident_expiration,
                              Pokestop.incident_grunt_type,
                              Pokestop.active_fort_modifier,
@@ -382,7 +381,6 @@ class Pokestop(LatLongModel):
                      .select(Pokestop.pokestop_id, Pokestop.name,
                              Pokestop.image, Pokestop.latitude,
                              Pokestop.longitude, Pokestop.last_updated,
-                             Pokestop.last_modified,
                              Pokestop.incident_expiration,
                              Pokestop.incident_grunt_type))
         elif lures:
@@ -390,15 +388,13 @@ class Pokestop(LatLongModel):
                      .select(Pokestop.pokestop_id, Pokestop.name,
                              Pokestop.image, Pokestop.latitude,
                              Pokestop.longitude, Pokestop.last_updated,
-                             Pokestop.last_modified,
                              Pokestop.active_fort_modifier,
                              Pokestop.lure_expiration))
         else:
             query = (Pokestop
                      .select(Pokestop.pokestop_id, Pokestop.name,
                              Pokestop.image, Pokestop.latitude,
-                             Pokestop.longitude, Pokestop.last_updated,
-                             Pokestop.last_modified))
+                             Pokestop.longitude, Pokestop.last_updated))
 
         if swLat and swLng and neLat and neLng:
             query = (query
