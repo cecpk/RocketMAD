@@ -992,10 +992,10 @@ function pokestopLabel(pokestop) {
                   <div class='quest container content-right'>
                     <div>
                       <div>
-                        Quest task: <span class='info'>${quest.task}</span>
+                        Quest: <span class='info'>${quest.task}</span>
                       </div>
                       <div>
-                        Quest reward: <span class='info'>${rewardText}</span>
+                        Reward: <span class='info'>${rewardText}</span>
                       </div>
                     </div>
                   </div>
