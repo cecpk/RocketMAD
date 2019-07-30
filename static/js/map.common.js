@@ -604,3 +604,33 @@ function getPokemonRawIconUrl(p) {
     }
     return url
 }
+
+// Converts timestamp to readable date String
+function timestampToDate(timestamp) {
+    var dateStr = 'Unknown'
+    if (timestamp) {
+        if (moment(timestamp).isSame(moment(), 'day')) {
+            dateStr = 'Today'
+        } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
+            dateStr = 'Yesterday'
+        } else {
+            dateStr = moment(timestamp).format('YYYY-MM-DD')
+        }
+    }
+    return dateStr
+}
+
+// Converts timestamp to readable date and time String
+function timestampToDateTime(timestamp) {
+    var dateStr = 'Unknown'
+    if (timestamp) {
+        if (moment(timestamp).isSame(moment(), 'day')) {
+            dateStr = 'Today ' + moment(timestamp).format('HH:mm:ss')
+        } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
+            dateStr = 'Yesterday ' + moment(timestamp).format('HH:mm:ss')
+        } else {
+            dateStr = moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
+        }
+    }
+    return dateStr
+}
