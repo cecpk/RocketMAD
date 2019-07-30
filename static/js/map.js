@@ -940,7 +940,7 @@ function pokestopLabel(pokestop) {
     const pokestopName = pokestop.name ? pokestop.name : 'PokéStop'
     const lureExpireTime = pokestop.lure_expiration
     const invasionExpireTime = pokestop.incident_expiration
-    const invasionGruntType = pokestop.incident_grunt_type
+    const invasionId = pokestop.incident_grunt_type
     const quest = pokestop.quest
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
     var pokestopImageSource = ''
@@ -1009,82 +1009,93 @@ function pokestopLabel(pokestop) {
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
         pokestopImage += '_i'
 
-        let gruntTypeText = ''
-        switch(invasionGruntType) {
+        let pokemonType
+        switch(invasionId) {
             case 4:
             case 5:
-                gruntTypeText = 'Random'
+                pokemonType = 'Any'
                 break
             case 6:
             case 7:
-                gruntTypeText = 'Bug'
+                pokemonType = 'Bug'
                 break
             case 8:
             case 9:
-                gruntTypeText = 'Ghost'
+                pokemonType = 'Ghost'
                 break
             case 10:
             case 11:
-                gruntTypeText = 'Dark'
+                pokemonType = 'Dark'
                 break
             case 12:
             case 13:
-                gruntTypeText = 'Dragon'
+                pokemonType = 'Dragon'
                 break
             case 14:
             case 15:
-                gruntTypeText = 'Fairy'
+                pokemonType = 'Fairy'
                 break
             case 16:
             case 17:
-                gruntTypeText = 'Fighting'
+                pokemonType = 'Fighting'
                 break
             case 18:
             case 19:
-                gruntTypeText = 'Fire'
+                pokemonType = 'Fire'
                 break
             case 20:
             case 21:
-                gruntTypeText = 'Flying'
+                pokemonType = 'Flying'
                 break
             case 22:
             case 23:
-                gruntTypeText = 'Grass'
+                pokemonType = 'Grass'
                 break
             case 24:
             case 25:
-                gruntTypeText = 'Ground'
+                pokemonType = 'Ground'
                 break
             case 26:
             case 27:
-                gruntTypeText = 'Ice'
+                pokemonType = 'Ice'
                 break
             case 28:
             case 29:
-                gruntTypeText = 'Metal'
+                pokemonType = 'Metal'
                 break
             case 30:
             case 31:
-                gruntTypeText = 'Normal'
+                pokemonType = 'Normal'
                 break
             case 32:
             case 33:
-                gruntTypeText = 'Poison'
+                pokemonType = 'Poison'
                 break
             case 34:
             case 35:
-                gruntTypeText = 'Psychic'
+                pokemonType = 'Psychic'
                 break
             case 36:
             case 37:
-                gruntTypeText = 'Rock'
+                pokemonType = 'Rock'
                 break
             case 38:
             case 39:
-                gruntTypeText = 'Water'
+                pokemonType = 'Water'
                 break
             default:
-                gruntTypeText = 'None'
+                pokemonType = 'None'
+        }
+
+        let gruntGender
+        if (invasionId == 4) {
+            gruntGender = 'Male'
+        } else if (invasionId == 5) {
+            gruntGender = 'Female'
+        } else if (invasionId % 2 == 0) {
+            gruntGender = 'Female'
+        } else {
+            gruntGender = 'Male'
         }
 
         invasionDisplay = `
@@ -1108,7 +1119,10 @@ function pokestopLabel(pokestop) {
                     </div>
                   </div>
                   <div>
-                    Grunt Type: <span class='info'>${gruntTypeText}<span>
+                    Pokémon type: <span class='info'>${pokemonType}<span>
+                  </div>
+                  <div>
+                    Grunt gender: <span class='info'>${gruntGender}<span>
                   </div>
                 </div>
               </div>
