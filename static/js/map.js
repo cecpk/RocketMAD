@@ -981,18 +981,21 @@ function pokestopLabel(pokestop) {
             pokestopImage += '_q'
             questDisplay = `
                 <div class='section-divider'></div>
-                <div class='quest container'>
-                  <div class='quest container content-left'>
+                <div class='pokestop container'>
+                  <div class='pokestop container content-left'>
                     <div>
                       <div>
-                        <img class='quest image' src="${rewardImageSource}" width='64px' height='64px'/>
+                        <img class='pokestop image' src="${rewardImageSource}" width='64px' height='64px'/>
                       </div>
                     </div>
                   </div>
-                  <div class='quest container content-right'>
+                  <div class='pokestop container content-right'>
                     <div>
+                      <div class='pokestop title'>
+                        Quest
+                      </div>
                       <div>
-                        Quest: <span class='info'>${quest.task}</span>
+                        Task: <span class='info'>${quest.task}</span>
                       </div>
                       <div>
                         Reward: <span class='info'>${rewardText}</span>
@@ -1085,15 +1088,29 @@ function pokestopLabel(pokestop) {
         }
 
         invasionDisplay = `
-            <div class='pokestop invasion-container'>
-              <div>
-                Team Rocket Invasion
+            <div class='section-divider'></div>
+            <div class='pokestop container'>
+              <div class='pokestop container content-left'>
+                <div>
+                  <div>
+                    <img class='pokestop image' src="static/images/pokestop/rocket_r.png" width='64px' height='64px'/>
+                  </div>
+                </div>
               </div>
-              <div>
-                Grunt Type: ${gruntTypeText}
-              </div>
-              <div>
-                <span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span> left (${moment(invasionExpireTime).format('HH:mm')})
+              <div class='pokestop container content-right'>
+                <div>
+                  <div class='pokestop title'>
+                    <div>
+                      Team Rocket Invasion
+                    </div>
+                    <div>
+                      <span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span> left (${moment(invasionExpireTime).format('HH:mm')})
+                    </div>
+                  </div>
+                  <div>
+                    Grunt Type: <span class='info'>${gruntTypeText}<span>
+                  </div>
+                </div>
               </div>
             </div>`
     }
@@ -1155,9 +1172,6 @@ function pokestopLabel(pokestop) {
 
     return `
         <div>
-          <div class='pokestop name ${lureClass}'>
-            ${pokestopName}
-          </div>
           <div class='pokestop container'>
             <div class='pokestop container content-left'>
               <div>
@@ -1168,8 +1182,10 @@ function pokestopLabel(pokestop) {
             </div>
             <div class='pokestop container content-right'>
               <div>
+                <div class='pokestop title ${lureClass}'>
+                  ${pokestopName}
+                </div>
                 ${lureDisplay}
-                ${invasionDisplay}
                 <div>
                   Last scanned: <span class='info'>${timestampToDate(pokestop.last_updated)}</span>
                 </div>
@@ -1182,6 +1198,7 @@ function pokestopLabel(pokestop) {
               </div>
             </div>
           </div>
+          ${invasionDisplay}
           ${questDisplay}
         </div>`
 }

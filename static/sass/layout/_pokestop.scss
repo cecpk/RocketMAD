@@ -2,6 +2,12 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 11px;
 
+  &.title, &.lure-container {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
   &.container {
     display: flex;
 
@@ -56,12 +62,6 @@
       display: block;
   }
 
-  &.lure-container, &.invasion-container {
-    font-size: 14px;
-    font-weight: 900;
-    margin-bottom: 13px;
-  }
-
   &.lure-normal {
     color: rgb(249, 53, 133);
   }
@@ -76,27 +76,5 @@
 
   &.lure-mossy {
     color: rgb(112, 188, 23);
-  }
-}
-
-.quest {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
-
-  &.container {
-    display: flex;
-
-    &.content-left {
-      margin-right: 19px;
-    }
-
-    &.content-right {
-      margin-top: auto;
-      margin-bottom: auto;
-    }
-  }
-
-  &.image {
-    display: block;
   }
 }
