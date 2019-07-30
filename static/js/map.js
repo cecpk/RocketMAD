@@ -608,50 +608,6 @@ function getDateStr(timestamp) {
     return dateStr
 }
 
-function scout(encounterId) { // eslint-disable-line no-unused-vars
-    var infoEl = $('#scoutInfo' + encounterId)
-    $.ajax({
-        url: 'scout',
-        type: 'GET',
-        data: {
-            'encounter_id': encounterId
-        },
-        dataType: 'json',
-        cache: false,
-        beforeSend: function () {
-            infoEl.text('Scouting, please wait...')
-            infoEl.show()
-        },
-        error: function () {
-            infoEl.text('Error scouting, try again?')
-        },
-        success: function (data, textStatus, jqXHR) {
-            if (data.success) {
-                // update local values
-                var pkm = mapData.pokemons[encounterId]
-                pkm['individual_attack'] = data.iv_attack
-                pkm['individual_defense'] = data.iv_defense
-                pkm['individual_stamina'] = data.iv_stamina
-                pkm['move_1'] = data.move_1
-                pkm['move_2'] = data.move_2
-                pkm['weight'] = data.weight
-                pkm['height'] = data.height
-                pkm['gender'] = data.gender
-                pkm['cp'] = data.cp
-                pkm['cp_multiplier'] = data.cp_multiplier
-                pkm['catch_prob_1'] = data.catch_prob_1
-                pkm['catch_prob_2'] = data.catch_prob_2
-                pkm['catch_prob_3'] = data.catch_prob_3
-                pkm['rating_attack'] = data.rating_attack
-                pkm['rating_defense'] = data.rating_defense
-                pkm.marker.infoWindow.setContent(pokemonLabel(pkm))
-            } else {
-                infoEl.text(data.error)
-            }
-        }
-    })
-}
-
 function pokemonLabel(item) {
     const pokemonRarity = getPokemonRarity(item['pokemon_id'])
     var name = item['pokemon_name']
