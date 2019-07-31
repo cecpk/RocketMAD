@@ -1007,80 +1007,63 @@ function pokestopLabel(pokestop) {
     }
 
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
-        pokestopImage += '_i'
+        const typeId = invasionId % 2 == 0 ? invasionId : invasionId - 1
+        pokestopImage += '_i_' + typeId
 
         let pokemonType
-        switch(invasionId) {
+        switch(typeId) {
             case 4:
-            case 5:
-                pokemonType = 'Any'
+                pokemonType = '-'
                 break
             case 6:
-            case 7:
                 pokemonType = 'Bug'
                 break
             case 8:
-            case 9:
                 pokemonType = 'Ghost'
                 break
             case 10:
-            case 11:
                 pokemonType = 'Dark'
                 break
             case 12:
-            case 13:
                 pokemonType = 'Dragon'
                 break
             case 14:
-            case 15:
                 pokemonType = 'Fairy'
                 break
             case 16:
-            case 17:
                 pokemonType = 'Fighting'
                 break
             case 18:
-            case 19:
                 pokemonType = 'Fire'
                 break
             case 20:
-            case 21:
                 pokemonType = 'Flying'
                 break
             case 22:
-            case 23:
                 pokemonType = 'Grass'
                 break
             case 24:
-            case 25:
                 pokemonType = 'Ground'
                 break
             case 26:
-            case 27:
                 pokemonType = 'Ice'
                 break
             case 28:
-            case 29:
-                pokemonType = 'Metal'
+                pokemonType = 'Steel'
                 break
             case 30:
-            case 31:
                 pokemonType = 'Normal'
                 break
             case 32:
-            case 33:
                 pokemonType = 'Poison'
                 break
             case 34:
-            case 35:
                 pokemonType = 'Psychic'
                 break
             case 36:
-            case 37:
                 pokemonType = 'Rock'
                 break
             case 38:
-            case 39:
                 pokemonType = 'Water'
                 break
             default:
@@ -1119,7 +1102,7 @@ function pokestopLabel(pokestop) {
                     </div>
                   </div>
                   <div>
-                    Pokémon type: <span class='info'>${pokemonType}<span>
+                    Most common type: <span class='info'>${pokemonType}<span>
                   </div>
                   <div>
                     Grunt gender: <span class='info'>${gruntGender}<span>
@@ -1159,7 +1142,7 @@ function pokestopLabel(pokestop) {
         }
 
         if (lureTypeText) {
-            pokestopImage += '_' + pokestop.active_fort_modifier
+            pokestopImage += '_l_' + pokestop.active_fort_modifier
             lureDisplay = `
                 <div class='pokestop lure-container ${lureClass}'>
                   <div>
@@ -1652,6 +1635,7 @@ function updatePokestopMarker(pokestop, marker) {
     const quest = pokestop.quest
     const lureExpireTime = pokestop.lure_expiration
     const activeFortModifier = pokestop.active_fort_modifier
+    const invasionId = pokestop.incident_grunt_type
     var markerImage = 'stop'
     var shadowImage
     var shadowSize
@@ -1696,29 +1680,30 @@ function updatePokestopMarker(pokestop, marker) {
     }
 
     if (Store.get('showInvasions') && pokestop.incident_expiration && pokestop.incident_expiration > now) {
-        markerImage += '_i'
+        const typeId = invasionId % 2 == 0 ? invasionId : invasionId - 1
+        markerImage += '_i_' + typeId
     }
 
     if (lureExpireTime && lureExpireTime > now) {
         switch(pokestop.active_fort_modifier) {
             case 501:
                 if (Store.get('showNormalLures')) {
-                    markerImage += '_501'
+                    markerImage += '_l_501'
                 }
                 break
             case 502:
                 if (Store.get('showGlacialLures')) {
-                    markerImage += '_502'
+                    markerImage += '_l_502'
                 }
                 break
             case 503:
                 if (Store.get('showMossyLures')) {
-                    markerImage += '_503'
+                    markerImage += '_l_503'
                 }
                 break
             case 504:
                 if (Store.get('showMagneticLures')) {
-                    markerImage += '_504'
+                    markerImage += '_l_504'
                 }
                 break
         }
