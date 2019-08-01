@@ -210,6 +210,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showS2Cells': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showS2CellsLevel10': {
         default: false,
         type: StoreTypes.Boolean
@@ -227,10 +231,6 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'showWeatherCells': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showS2Cells': {
         default: false,
         type: StoreTypes.Boolean
     },

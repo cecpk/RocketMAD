@@ -585,6 +585,8 @@ function initSidebar() {
     $('#scanned-switch').prop('checked', Store.get('showScanned'))
     $('#spawnpoints-switch').prop('checked', Store.get('showSpawnpoints'))
     $('#ranges-switch').prop('checked', Store.get('showRanges'))
+    $('#s2-cells-switch').prop('checked', Store.get('showS2Cells'))
+    $('#s2-cells-wrapper').toggle(Store.get('showS2Cells'))
     $('#s2-level10-switch').prop('checked', Store.get('showS2CellsLevel10'))
     $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
     $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
@@ -1986,43 +1988,45 @@ function showS2Cells(level, style) {
 }
 
 function updateS2Overlay() {
-    if (Store.get('showS2CellsLevel10')) {
-        s2Level10LayerGroup.clearLayers()
-        if (map.getZoom() > 7) {
-            showS2Cells(10, {color: 'black', weight: '7'})
-        } else {
-            toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather trigger cells are currently hidden'))
-            toastr.options = toastrOptions
+    if (Store.get('showS2Cells')) {
+        if (Store.get('showS2CellsLevel10')) {
+            s2Level10LayerGroup.clearLayers()
+            if (map.getZoom() > 7) {
+                showS2Cells(10, {color: 'black', weight: '7'})
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather trigger cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
         }
-    }
 
-    if (Store.get('showS2CellsLevel13')) {
-        s2Level13LayerGroup.clearLayers()
-        if (map.getZoom() > 10) {
-            showS2Cells(13, {color: 'red', weight: '5'})
-        } else {
-            toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
-            toastr.options = toastrOptions
+        if (Store.get('showS2CellsLevel13')) {
+            s2Level13LayerGroup.clearLayers()
+            if (map.getZoom() > 10) {
+                showS2Cells(13, {color: 'red', weight: '5'})
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
         }
-    }
 
-    if (Store.get('showS2CellsLevel14')) {
-        s2Level14LayerGroup.clearLayers()
-        if (map.getZoom() > 11) {
-            showS2Cells(14, {color: 'green', weight: '3'})
-        } else {
-            toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
-            toastr.options = toastrOptions
+        if (Store.get('showS2CellsLevel14')) {
+            s2Level14LayerGroup.clearLayers()
+            if (map.getZoom() > 11) {
+                showS2Cells(14, {color: 'green', weight: '3'})
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
         }
-    }
 
-    if (Store.get('showS2CellsLevel17')) {
-        s2Level17LayerGroup.clearLayers()
-        if (map.getZoom() > 14) {
-            showS2Cells(17, {color: 'blue'})
-        } else {
-            toastr['error'](i8ln('Zoom in more to show them.'), i8ln('PokéStop cells are currently hidden'))
-            toastr.options = toastrOptions
+        if (Store.get('showS2CellsLevel17')) {
+            s2Level17LayerGroup.clearLayers()
+            if (map.getZoom() > 14) {
+                showS2Cells(17, {color: 'blue'})
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('PokéStop cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
         }
     }
 }
@@ -4137,6 +4141,21 @@ $(function () {
         buildSwitchChangeListener(mapData, ['spawnpoints'], 'showSpawnpoints').bind(this)()
     })
     $('#ranges-switch').change(buildSwitchChangeListener(mapData, ['gyms', 'pokemons', 'pokestops'], 'showRanges'))
+
+    $('#s2-cells-switch').change(function () {
+        Store.set('showS2Cells', this.checked)
+        var wrapper = $('#s2-cells-wrapper')
+        if (this.checked) {
+            wrapper.show()
+            updateS2Overlay()
+        } else {
+            wrapper.hide()
+            s2Level10LayerGroup.clearLayers()
+            s2Level13LayerGroup.clearLayers()
+            s2Level14LayerGroup.clearLayers()
+            s2Level17LayerGroup.clearLayers()
+        }
+    })
 
     $('#s2-level10-switch').change(function () {
         Store.set('showS2CellsLevel10', this.checked)
