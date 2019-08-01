@@ -1994,7 +1994,7 @@ function updateS2Overlay() {
             if (map.getZoom() > 7) {
                 showS2Cells(10, {color: 'black', weight: '7'})
             } else {
-                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather trigger cells are currently hidden'))
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather cells are currently hidden'))
                 toastr.options = toastrOptions
             }
         }
