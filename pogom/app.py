@@ -15,8 +15,7 @@ from flask.json import JSONEncoder
 from flask_compress import Compress
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
-from pogom.weather import (get_weather_cells,
-                           get_s2_coverage, get_weather_alerts)
+from pogom.weather import (get_weather_cells, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation, SpawnPoint)
 from .utils import (get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
@@ -421,8 +420,6 @@ class Pogom(Flask):
 
         if request.args.get('weather', 'false') == 'true':
             d['weather'] = get_weather_cells(swLat, swLng, neLat, neLng)
-        if request.args.get('s2cells', 'false') == 'true':
-            d['s2cells'] = get_s2_coverage(swLat, swLng, neLat, neLng)
         if request.args.get('weatherAlerts', 'false') == 'true':
             d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
 
