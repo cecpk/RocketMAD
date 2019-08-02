@@ -1933,7 +1933,7 @@ function setupSpawnpointMarker(item) {
     return circle
 }
 
-function showS2Cells(level, style) {
+function showS2Cells(level, color, weight) {
     const bounds = map.getBounds()
     const swPoint = bounds.getSouthWest()
     const nePoint = bounds.getNorthEast()
@@ -1945,7 +1945,7 @@ function showS2Cells(level, style) {
     function addPoly(cell) {
         const vertices = cell.getCornerLatLngs()
         const poly = L.polygon(vertices,
-            Object.assign({color: 'blue', opacity: 0.5, weight: 1, fillOpacity: 0.0}, style))
+            Object.assign({color: color, opacity: 0.5, weight: weight, fillOpacity: 0.0}))
         if (cell.level === 10) {
             s2Level10LayerGroup.addLayer(poly)
         } else if (cell.level === 13) {
@@ -1992,7 +1992,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel10')) {
             s2Level10LayerGroup.clearLayers()
             if (map.getZoom() > 7) {
-                showS2Cells(10, {color: 'black', weight: '7'})
+                showS2Cells(10, 'black', 4)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2002,7 +2002,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel13')) {
             s2Level13LayerGroup.clearLayers()
             if (map.getZoom() > 10) {
-                showS2Cells(13, {color: 'red', weight: '5'})
+                showS2Cells(13, 'red', 3)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2012,7 +2012,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel14')) {
             s2Level14LayerGroup.clearLayers()
             if (map.getZoom() > 11) {
-                showS2Cells(14, {color: 'green', weight: '3'})
+                showS2Cells(14, 'green', 2)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2022,7 +2022,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel17')) {
             s2Level17LayerGroup.clearLayers()
             if (map.getZoom() > 14) {
-                showS2Cells(17, {color: 'blue'})
+                showS2Cells(17, 'blue', 1)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('PokéStop cells are currently hidden'))
                 toastr.options = toastrOptions
