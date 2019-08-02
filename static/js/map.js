@@ -86,6 +86,12 @@ var markers
 var markersnotify
 var _oldlayer = 'stylemapnik'
 
+var S2
+var s2Level10LayerGroup = new L.LayerGroup()
+var s2Level13LayerGroup = new L.LayerGroup()
+var s2Level14LayerGroup = new L.LayerGroup()
+var s2Level17LayerGroup = new L.LayerGroup()
+
 var lastpokestops
 var lastgyms
 var lastpokemon
@@ -102,6 +108,24 @@ const gymTypes = ['Uncontested', 'Mystic', 'Valor', 'Instinct']
 
 const audio = new Audio('static/sounds/ding.mp3')
 const cryFileTypes = ['wav', 'mp3']
+
+const toastrOptions = {
+    'closeButton': true,
+    'debug': false,
+    'newestOnTop': true,
+    'progressBar': false,
+    'positionClass': 'toast-top-right',
+    'preventDuplicates': true,
+    'onclick': null,
+    'showDuration': '300',
+    'hideDuration': '1000',
+    'timeOut': '25000',
+    'extendedTimeOut': '1000',
+    'showEasing': 'swing',
+    'hideEasing': 'linear',
+    'showMethod': 'fadeIn',
+    'hideMethod': 'fadeOut'
+}
 
 const genderType = ['♂', '♀', '⚲']
 const unownForm = ['unset', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '!', '?']
@@ -321,7 +345,8 @@ function initMap() { // eslint-disable-line no-unused-vars
         center: [Number(getParameterByName('lat')) || lat, Number(getParameterByName('lon')) || lng],
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         maxZoom: 18,
-        zoomControl: false
+        zoomControl: false,
+        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup]
     })
 
     setTitleLayer(Store.get('map_style'))
@@ -401,6 +426,12 @@ function initMap() { // eslint-disable-line no-unused-vars
     if (Push._agents.chrome.isSupported()) {
         createServiceWorkerReceiver()
     }
+
+    updateS2Overlay()
+
+    map.on('moveend', function () {
+        updateS2Overlay()
+    })
 }
 
 var stylemapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
@@ -554,6 +585,12 @@ function initSidebar() {
     $('#scanned-switch').prop('checked', Store.get('showScanned'))
     $('#spawnpoints-switch').prop('checked', Store.get('showSpawnpoints'))
     $('#ranges-switch').prop('checked', Store.get('showRanges'))
+    $('#s2-cells-switch').prop('checked', Store.get('showS2Cells'))
+    $('#s2-cells-wrapper').toggle(Store.get('showS2Cells'))
+    $('#s2-level10-switch').prop('checked', Store.get('showS2CellsLevel10'))
+    $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
+    $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
+    $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
     $('#notify-perfection-wrapper').toggle(Store.get('showPokemonStats'))
     $('#hideunnotified-switch').prop('checked', Store.get('hideNotNotified'))
     $('#popups-switch').prop('checked', Store.get('showPopups'))
@@ -563,7 +600,6 @@ function initSidebar() {
     $('#cries-switch').prop('checked', Store.get('playCries'))
     $('#map-service-provider').val(Store.get('mapServiceProvider'))
     $('#weather-cells-switch').prop('checked', Store.get('showWeatherCells'))
-    $('#s2cells-switch').prop('checked', Store.get('showS2Cells'))
     $('#weather-alerts-switch').prop('checked', Store.get('showWeatherAlerts'))
     $('#prio-notify-switch').prop('checked', Store.get('prioNotify'))
     $('#medal-rattata-switch').prop('checked', Store.get('showMedalRattata'))
@@ -1897,6 +1933,104 @@ function setupSpawnpointMarker(item) {
     return circle
 }
 
+function showS2Cells(level, color, weight) {
+    const bounds = map.getBounds()
+    const swPoint = bounds.getSouthWest()
+    const nePoint = bounds.getNorthEast()
+    const swLat = swPoint.lat
+    const swLng = swPoint.lng
+    const neLat = nePoint.lat
+    const neLng = nePoint.lng
+
+    function addPoly(cell) {
+        const vertices = cell.getCornerLatLngs()
+        const poly = L.polygon(vertices,
+            Object.assign({color: color, opacity: 0.5, weight: weight, fillOpacity: 0.0}))
+        if (cell.level === 10) {
+            s2Level10LayerGroup.addLayer(poly)
+        } else if (cell.level === 13) {
+            s2Level13LayerGroup.addLayer(poly)
+        } else if (cell.level === 14) {
+            s2Level14LayerGroup.addLayer(poly)
+        } else if (cell.level === 17) {
+            s2Level17LayerGroup.addLayer(poly)
+        }
+    }
+
+    let processedCells = {}
+    let stack = []
+
+    const centerCell = S2.S2Cell.FromLatLng(bounds.getCenter(), level)
+    processedCells[centerCell.toString()] = true
+    stack.push(centerCell)
+    addPoly(centerCell)
+
+    // Find all cells within view with a slighty modified version of the BFS algorithm.
+    while (stack.length > 0) {
+        const cell = stack.pop()
+        const neighbors = cell.getNeighbors()
+        neighbors.forEach(function (ncell, index) {
+            if (processedCells[ncell.toString()] != true) {
+                const cornerLatLngs = ncell.getCornerLatLngs()
+                for (let i = 0 ; i < 4; i++) {
+                    const item = cornerLatLngs[i]
+                    if (item.lat >= swLat && item.lng >= swLng &&
+                            item.lat <= neLat && item.lng <= neLng) {
+                        processedCells[ncell.toString()] = true
+                        stack.push(ncell)
+                        addPoly(ncell)
+                        break
+                    }
+                }
+            }
+        })
+    }
+}
+
+function updateS2Overlay() {
+    if (Store.get('showS2Cells')) {
+        if (Store.get('showS2CellsLevel10')) {
+            s2Level10LayerGroup.clearLayers()
+            if (map.getZoom() > 7) {
+                showS2Cells(10, 'black', 4)
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
+        }
+
+        if (Store.get('showS2CellsLevel13')) {
+            s2Level13LayerGroup.clearLayers()
+            if (map.getZoom() > 10) {
+                showS2Cells(13, 'red', 3)
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
+        }
+
+        if (Store.get('showS2CellsLevel14')) {
+            s2Level14LayerGroup.clearLayers()
+            if (map.getZoom() > 11) {
+                showS2Cells(14, 'green', 2)
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
+        }
+
+        if (Store.get('showS2CellsLevel17')) {
+            s2Level17LayerGroup.clearLayers()
+            if (map.getZoom() > 14) {
+                showS2Cells(17, 'blue', 1)
+            } else {
+                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('PokéStop cells are currently hidden'))
+                toastr.options = toastrOptions
+            }
+        }
+    }
+}
+
 function clearSelection() {
     if (document.selection) {
         document.selection.empty()
@@ -2041,7 +2175,6 @@ function loadRawData() {
     var loadScanned = Store.get('showScanned')
     var loadSpawnpoints = Store.get('showSpawnpoints')
     var loadWeather = Store.get('showWeatherCells')
-    var loadS2Cells = Store.get('showS2Cells')
     var loadWeatherAlerts = Store.get('showWeatherAlerts')
     var prionotifyactiv = Store.get('prioNotify')
 
@@ -2073,7 +2206,6 @@ function loadRawData() {
             'lastslocs': lastslocs,
             'spawnpoints': loadSpawnpoints,
             'weather': loadWeather,
-            's2cells': loadS2Cells,
             'weatherAlerts': loadWeatherAlerts,
             'lastspawns': lastspawns,
             'swLat': swLat,
@@ -2100,23 +2232,7 @@ function loadRawData() {
         error: function () {
             // Display error toast
             toastr['error']('Please check connectivity or reduce marker settings.', 'Error getting data')
-            toastr.options = {
-                'closeButton': true,
-                'debug': false,
-                'newestOnTop': true,
-                'progressBar': false,
-                'positionClass': 'toast-top-right',
-                'preventDuplicates': true,
-                'onclick': null,
-                'showDuration': '300',
-                'hideDuration': '1000',
-                'timeOut': '25000',
-                'extendedTimeOut': '1000',
-                'showEasing': 'swing',
-                'hideEasing': 'linear',
-                'showMethod': 'fadeIn',
-                'hideMethod': 'fadeOut'
-            }
+            toastr.options = toastrOptions
         },
         success: function (data) {
             if (data.auth_redirect) {
@@ -2558,7 +2674,6 @@ function updateMap() {
         $.each(result.scanned, processScanned)
         $.each(result.spawnpoints, processSpawnpoint)
         $.each(result.weather, processWeather)
-        $.each(result.s2cells, processS2Cell)
         processWeatherAlerts(result.weatherAlerts)
         updateMainCellWeather()
         showInBoundsMarkers(mapData.lurePokemons, 'pokemon')
@@ -2567,7 +2682,6 @@ function updateMap() {
         showInBoundsMarkers(mapData.scanned, 'scanned')
         showInBoundsMarkers(mapData.spawnpoints, 'inbound')
         showInBoundsMarkers(mapData.weather, 'weather')
-        showInBoundsMarkers(mapData.s2cells, 's2cell')
         showInBoundsMarkers(mapData.weatherAlerts, 's2cell')
         clearStaleMarkers()
 
@@ -4028,12 +4142,59 @@ $(function () {
     })
     $('#ranges-switch').change(buildSwitchChangeListener(mapData, ['gyms', 'pokemons', 'pokestops'], 'showRanges'))
 
-    $('#weather-cells-switch').change(function () {
-        buildSwitchChangeListener(mapData, ['weather'], 'showWeatherCells').bind(this)()
+    $('#s2-cells-switch').change(function () {
+        Store.set('showS2Cells', this.checked)
+        var wrapper = $('#s2-cells-wrapper')
+        if (this.checked) {
+            wrapper.show()
+            updateS2Overlay()
+        } else {
+            wrapper.hide()
+            s2Level10LayerGroup.clearLayers()
+            s2Level13LayerGroup.clearLayers()
+            s2Level14LayerGroup.clearLayers()
+            s2Level17LayerGroup.clearLayers()
+        }
     })
 
-    $('#s2cells-switch').change(function () {
-        buildSwitchChangeListener(mapData, ['s2cells'], 'showS2Cells').bind(this)()
+    $('#s2-level10-switch').change(function () {
+        Store.set('showS2CellsLevel10', this.checked)
+        if (this.checked) {
+            updateS2Overlay()
+        } else {
+            s2Level10LayerGroup.clearLayers()
+        }
+    })
+
+    $('#s2-level13-switch').change(function () {
+        Store.set('showS2CellsLevel13', this.checked)
+        if (this.checked) {
+            updateS2Overlay()
+        } else {
+            s2Level13LayerGroup.clearLayers()
+        }
+    })
+
+    $('#s2-level14-switch').change(function () {
+        Store.set('showS2CellsLevel14', this.checked)
+        if (this.checked) {
+            updateS2Overlay()
+        } else {
+            s2Level14LayerGroup.clearLayers()
+        }
+    })
+
+    $('#s2-level17-switch').change(function () {
+        Store.set('showS2CellsLevel17', this.checked)
+        if (this.checked) {
+            updateS2Overlay()
+        } else {
+            s2Level17LayerGroup.clearLayers()
+        }
+    })
+
+    $('#weather-cells-switch').change(function () {
+        buildSwitchChangeListener(mapData, ['weather'], 'showWeatherCells').bind(this)()
     })
 
     $('#weather-alerts-switch').change(function () {

@@ -33,26 +33,6 @@ function processWeather(i, item) {
 
 
 /**
- * Parses info about s2cell and draws polygon
- * @param i i index from $.each()
- * @param item s2cell data
- * @returns {boolean}
- */
-function processS2Cell(i, item) {
-    if (!Store.get('showS2Cells')) {
-        return false
-    }
-
-    var s2CellId = item.s2_cell_id
-    if (!(s2CellId in mapData.s2cells)) {
-        safeDelMarker(item)
-        item.marker = setupS2CellPolygon(item)
-        mapData.s2cells[s2CellId] = item
-    }
-}
-
-
-/**
  * Do main work with array of weather alerts
  * @param weatherAlerts
  */
