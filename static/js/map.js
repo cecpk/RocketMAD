@@ -336,10 +336,16 @@ function loadDefaultImages() {
 
 
 function initMap() { // eslint-disable-line no-unused-vars
-    var position = Store.get('startLocationPosition')
-    var useStartLocation = Store.get('showStartLocationMarker') && 'lat' in position && 'lng' in position
-    var lat = useStartLocation ? position.lat : centerLat
-    var lng = useStartLocation ? position.lng : centerLng
+    if (Store.get('startAtLastLocation')) {
+        var position = Store.get('startAtLastLocationPosition')
+        var lat = position.lat
+        var lng = position.lng
+    } else {
+        var position = Store.get('startLocationPosition')
+        var useStartLocation = Store.get('showStartLocationMarker') && 'lat' in position && 'lng' in position
+        var lat = useStartLocation ? position.lat : centerLat
+        var lng = useStartLocation ? position.lng : centerLng
+    }
 
     map = L.map('map', {
         center: [Number(getParameterByName('lat')) || lat, Number(getParameterByName('lon')) || lng],
@@ -431,6 +437,11 @@ function initMap() { // eslint-disable-line no-unused-vars
 
     map.on('moveend', function () {
         updateS2Overlay()
+        const position = map.getCenter()
+        Store.set('startAtLastLocationPosition', {
+            lat: position.lat,
+            lng: position.lng
+        })
     })
 }
 
@@ -579,8 +590,9 @@ function initSidebar() {
     $('#mossy-lures-switch').prop('checked', Store.get('showMossyLures'))
     $('#quests-filter-wrapper').toggle(Store.get('showQuests'))
     $('#geoloc-switch').prop('checked', Store.get('geoLocate'))
-    $('#lock-start-marker-switch').prop('checked', Store.get('lockStartLocationMarker'))
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
+    $('#start-at-last-location-switch').prop('checked', Store.get('startAtLastLocation'))
+    $('#lock-start-marker-switch').prop('checked', Store.get('lockStartLocationMarker'))
     $('#follow-my-location-switch').prop('checked', Store.get('followMyLocation'))
     $('#scanned-switch').prop('checked', Store.get('showScanned'))
     $('#spawnpoints-switch').prop('checked', Store.get('showSpawnpoints'))
@@ -4310,7 +4322,27 @@ $(function () {
     })
 
     $('#start-at-user-location-switch').change(function () {
+        if (Store.get('startAtLastLocation') && this.checked) {
+            $('#start-at-last-location-switch').prop('checked', false)
+            Store.set('startAtLastLocation', false)
+        }
         Store.set('startAtUserLocation', this.checked)
+    })
+
+    $('#start-at-last-location-switch').change(function () {
+        if (this.checked) {
+            const position = map.getCenter()
+            Store.set('startAtLastLocationPosition', {
+                lat: position.lat,
+                lng: position.lng
+            })
+
+            if (Store.get('startAtUserLocation')) {
+                $('#start-at-user-location-switch').prop('checked', false)
+                Store.set('startAtUserLocation', false)
+            }
+        }
+        Store.set('startAtLastLocation', this.checked)
     })
 
     $('#follow-my-location-switch').change(function () {

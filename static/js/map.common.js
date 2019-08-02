@@ -258,13 +258,21 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'lockStartLocationMarker': {
+    'startAtLastLocation': {
         default: false,
         type: StoreTypes.Boolean
+    },
+    'startAtLastLocationPosition': {
+        default: [],
+        type: StoreTypes.JSON
     },
     'startAtUserLocation': {
         default: false,
         type: StoreTypes.Boolean
+    },
+    'startLocationPosition': {
+        default: [],
+        type: StoreTypes.JSON
     },
     'followMyLocation': {
         default: false,
@@ -342,12 +350,12 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'startLocationPosition': {
-        default: [],
-        type: StoreTypes.JSON
-    },
     'showStartLocationMarker': {
         default: true,
+        type: StoreTypes.Boolean
+    },
+    'lockStartLocationMarker': {
+        default: false,
         type: StoreTypes.Boolean
     },
     'isStartLocationMarkerMovable': {
