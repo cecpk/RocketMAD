@@ -1760,6 +1760,8 @@ function updatePokestopMarker(pokestop, marker) {
     var PokestopIcon = new L.icon({
         iconUrl: 'static/images/pokestop/' + markerImage + '.png',
         iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0,-16],
         shadowUrl: shadowImage,
         shadowSize: shadowSize,
         shadowAnchor: shadowAnchor
