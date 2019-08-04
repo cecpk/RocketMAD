@@ -6,7 +6,7 @@
     display: flex;
 
     &.content-left {
-      margin-right: 19px;
+      margin: auto 19px auto 0;
       text-align: center;
     }
   }
@@ -14,9 +14,7 @@
   &.title {
     font-size: 14px;
     font-weight: 900;
-    text-align: center;
     vertical-align: middle;
-    margin-bottom: 13px;
 
     .title-text {
       vertical-align: middle;
@@ -26,7 +24,7 @@
   &.sprite {
     display: block;
     width: 64px;
-    margin-bottom: 13px;
+    margin-bottom: 6px;
   }
 
   &.type {
@@ -46,12 +44,16 @@
   &.disappear {
     font-size: 14px;
     font-weight: 900;
-    margin-bottom: 13px;
+    margin-bottom: 6px;
     white-space: nowrap;
   }
 
-  &.types, &.cp-level, &.weight-height, &.probs {
-    margin-bottom: 13px;
+  &.cp-level, &.weight-height {
+    margin-bottom: 6px;
+  }
+
+  &.types {
+    margin-bottom: 4px;
   }
 
   &.ball {

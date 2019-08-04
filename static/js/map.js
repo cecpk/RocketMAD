@@ -661,9 +661,6 @@ function pokemonLabel(item) {
     var form = item['form']
     var cp = item['cp']
     var cpMultiplier = item['cp_multiplier']
-    var prob1 = item['catch_prob_1']
-    var prob2 = item['catch_prob_2']
-    var prob3 = item['catch_prob_3']
     var weatherBoostedCondition = item['weather_boosted_condition']
 
     var pokemonIcon = getPokemonRawIconUrl(item)
@@ -675,7 +672,6 @@ function pokemonLabel(item) {
     var weatherBoostDisplay = ''
     var typesDisplay = ''
     var statsDisplay = ''
-    var catchProbsDisplay = ''
 
     if (id === 29 || id === 32) {
         name = name.slice(0, -1)
@@ -729,16 +725,6 @@ function pokemonLabel(item) {
               Weight: <span class='pokemon encounter'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon encounter'>${height.toFixed(2)}m</span>
             </div>`
       }
-
-      if (prob1 !== null && prob2 !== null && prob3 !== null) {
-        catchProbsDisplay = `
-            <div class='pokemon probs'>
-              Probs:
-              <img class='pokemon ball' src='static/images/markers/pokeball.png'> <span class='pokemon encounter'>${(prob1 * 100).toFixed(0)}%</span>
-              <img class='pokemon ball' src='static/images/markers/greatball.png'> <span class='pokemon encounter'>${(prob2 * 100).toFixed(0)}%</span>
-              <img class='pokemon ball' src='static/images/markers/ultraball.png'> <span class='pokemon encounter'>${(prob3 * 100).toFixed(0)}%</span>
-            </div>`
-      }
     }
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
@@ -746,27 +732,26 @@ function pokemonLabel(item) {
     const notifyLabel = notifiedPokemon.indexOf(id) < 0 ? 'Notify' : 'Unnotify'
 
     return `
-    <div class='pokemon title'>
-      <span class='title-text'>${name} ${formDisplay} ${genderType[gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span>${weatherBoostDisplay}
-    </div>
     <div class='pokemon container'>
       <div class='pokemon container content-left'>
         <div>
           <img class='pokemon sprite' src='${pokemonIcon}'>
           ${typesDisplay}
-          <div>
-            Gen: <span class='pokemon gen'>${gen}</span>
-          </div>
           ${rarityDisplay}
+          <div>
+            <span class='pokemon gen'>Gen ${gen}</span>
+          </div>
         </div>
       </div>
       <div class='pokemon container content-right'>
         <div>
+          <div class='pokemon title'>
+            <span class='title-text'>${name} ${formDisplay} ${genderType[gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span>${weatherBoostDisplay}
+          </div>
           <div class='pokemon disappear'>
             <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
           </div>
           ${statsDisplay}
-          ${catchProbsDisplay}
           <div class='pokemon coords'>
             <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in ${mapLabel} Maps'>${latitude.toFixed(7)}, ${longitude.toFixed(7)}</a>
           </div>
