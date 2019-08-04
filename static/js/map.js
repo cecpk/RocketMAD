@@ -817,8 +817,8 @@ function gymLabel(gym) {
 
     if (gym.is_ex_raid_eligible) {
         exRaidDisplay = `
-            <div>
-              <img src='static/images/gym/ex_raid_gym.png' width='24px'>
+            <div class='gym ex-gym'>
+              Ex Gym
             </div>`
     }
 
@@ -851,8 +851,8 @@ function gymLabel(gym) {
             </div>`
 
         teamDisplay = `
-            <div class='gym team-container'>
-              <span class='gym team ${teamName.toLowerCase()}'>${teamName}</span>
+            <div class='gym team ${teamName.toLowerCase()}'>
+              ${teamName}
             </div>`
     }
 
@@ -885,25 +885,27 @@ function gymLabel(gym) {
 
             raidDisplay = `
                 <div class='section-divider'></div>
-                <div class='raid title'>
-                  <div>
-                    <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
-                  </div>
-                  <div>
-                    ${pokemonName} ${genderType[raid.gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a> Raid
-                  </div>
-                  <div>
-                    <span class='label-countdown' disappears-at='${raid.end}'>00m00s</span> left (${moment(raid.end).format('HH:mm')})
-                  </div>
-                </div>
                 <div class='raid container'>
                   <div class='raid container content-left'>
                     <div>
-                      <img src='${pokemonIconUrl}' width='64px'>
+                      <div>
+                        <img src='${pokemonIconUrl}' width='64px'>
+                      </div>
+                      <div class='raid stars'>
+                        <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
+                      </div>
                     </div>
                   </div>
                   <div class='raid container content-right'>
-                    <div>
+                      <div>
+                      <div class='raid title'>
+                        <div>
+                          ${pokemonName} ${genderType[raid.gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
+                        </div>
+                        <div>
+                          <span class='label-countdown' disappears-at='${raid.end}'>00m00s</span> left (${moment(raid.end).format('HH:mm')})
+                        </div>
+                      </div>
                       <div>
                         CP: <span class='info'>${raid.cp}</span>
                       </div>
@@ -935,7 +937,7 @@ function gymLabel(gym) {
         } else if (isRaidUpcoming) {
             raidDisplay = `
                 <div class='section-divider'></div>
-                <div class='raid title'>
+                <div class='raid title upcoming'>
                   <div>
                     <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span> Raid
                   </div>
@@ -948,9 +950,6 @@ function gymLabel(gym) {
 
     return `
         <div>
-        <div class='gym name-container'>
-          <span class='gym name ${teamName.toLowerCase()}'>${titleText}</span>
-        </div>
           <div class='gym container'>
             <div class='gym container content-left'>
               <div>
@@ -961,6 +960,9 @@ function gymLabel(gym) {
             </div>
             <div class='gym container content-right'>
               <div>
+                <div class='gym title ${teamName.toLowerCase()}'>
+                  ${titleText}
+                </div>
                 <div class='gym gym-info'>
                   ${strenghtDisplay}
                   <div>
@@ -968,11 +970,13 @@ function gymLabel(gym) {
                   </div>
                   ${gymLeaderDisplay}
                 </div>
-                <div>
-                  Last scanned: <span class='info'>${timestampToDateTime(gym.last_scanned)}</span>
-                </div>
-                <div>
-                  Last modified: <span class='info'>${timestampToDateTime(gym.last_modified)}</span>
+                <div class='gym gym-info'>
+                  <div>
+                    Last scanned: <span class='info'>${timestampToDateTime(gym.last_scanned)}</span>
+                  </div>
+                  <div>
+                    Last modified: <span class='info'>${timestampToDateTime(gym.last_modified)}</span>
+                  </div>
                 </div>
                 <div>
                   <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'>${gym.latitude.toFixed(7)}, ${gym.longitude.toFixed(7)}</a>

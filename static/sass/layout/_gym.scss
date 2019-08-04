@@ -12,18 +12,29 @@
     }
   }
 
+  &.title {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
   &.container {
     display: flex;
 
     &.content-left {
-      margin-right: 19px;
+      margin: auto 19px auto 0;
       text-align: center;
+    }
+
+    &.content-right {
+      margin: auto 0 auto 0;
     }
   }
 
   &.image {
     display: block;
     border-radius: 32px;
+    margin-bottom: 6px;
 
     &.mystic {
       border: 3px solid rgba(0,134,255,1);
@@ -40,15 +51,12 @@
 
   &.sprite {
     display: block;
+    margin-bottom: 6px;
   }
 
-  &.team-container {
-    margin-bottom: 2px;
-
-    .team {
-      font-size: 14px;
-      font-weight: 900;
-    }
+  &.team, &.ex-gym {
+    font-size: 14px;
+    font-weight: 900;
   }
 
   &.mystic {
@@ -64,7 +72,7 @@
   }
 
   &.gym-info {
-    margin-bottom: 13px;
+    margin-bottom: 6px;
   }
 
   &.pokemon {
@@ -97,16 +105,29 @@
   &.title {
     font-size: 14px;
     font-weight: 900;
-    text-align: center;
-    margin-bottom: 13px;
+    margin-bottom: 6px;
+
+    &.upcoming {
+      text-align: center;
+    }
   }
 
   &.container {
     display: flex;
 
     &.content-left {
-      margin-right: 19px;
+      margin: auto 19px auto 0;
     }
+
+    &.content-right {
+      margin: auto 0 auto 0;
+    }
+  }
+
+  &.stars {
+    font-size: 14px;
+    font-weight: 900;
+    text-align: center;
   }
 
   .move {
@@ -123,7 +144,7 @@
     }
 
     &.type {
-      font-size: 9px;
+      font-size: 8px;
       display: inline-block;
       text-transform: uppercase;
       padding: 2px 3px;
