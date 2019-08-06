@@ -1995,7 +1995,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel10')) {
             s2Level10LayerGroup.clearLayers()
             if (map.getZoom() > 7) {
-                showS2Cells(10, 'black', 4)
+                showS2Cells(10, 'black', 7)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2005,7 +2005,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel13')) {
             s2Level13LayerGroup.clearLayers()
             if (map.getZoom() > 10) {
-                showS2Cells(13, 'red', 3)
+                showS2Cells(13, 'red', 5)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2015,7 +2015,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel14')) {
             s2Level14LayerGroup.clearLayers()
             if (map.getZoom() > 11) {
-                showS2Cells(14, 'green', 2)
+                showS2Cells(14, 'green', 3)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
                 toastr.options = toastrOptions
