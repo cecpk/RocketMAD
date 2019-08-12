@@ -415,30 +415,29 @@ class Pokestop(LatLongModel):
                          .where(Pokestop.last_updated >
                                 datetime.utcfromtimestamp(timestamp / 1000)))
 
-                expression = None
-                if quests:
-                    quest_query = (Trs_Quest
-                                   .select(Trs_Quest.GUID)
-                                   .where(Trs_Quest.quest_timestamp >
-                                        timestamp / 1000))
-                    expression = Pokestop.pokestop_id << quest_query
-                if invasions:
-                    if expression is None:
-                        expression = Pokestop.incident_start.is_null(False)
-                    else:
-                        expression |= Pokestop.incident_start.is_null(False)
-                if lures:
-                    if expression is None:
-                        expression = Pokestop.active_fort_modifier.is_null(
-                            False)
-                    else:
-                        expression |= Pokestop.active_fort_modifier.is_null(
-                            False)
+                if not pokestopsNoEvent:
+                    expression = None
+                    if quests:
+                        quest_query = (Trs_Quest
+                                       .select(Trs_Quest.GUID)
+                                       .where(Trs_Quest.quest_timestamp >
+                                            timestamp / 1000))
+                        expression = Pokestop.pokestop_id << quest_query
+                    if invasions:
+                        if expression is None:
+                            expression = Pokestop.incident_start.is_null(False)
+                        else:
+                            expression |= Pokestop.incident_start.is_null(False)
+                    if lures:
+                        if expression is None:
+                            expression = Pokestop.active_fort_modifier.is_null(
+                                False)
+                        else:
+                            expression |= Pokestop.active_fort_modifier.is_null(
+                                False)
 
-                if expression is not None:
-                    query = query.where(expression)
-                else:
-                    return {}
+                    if expression is not None:
+                        query = query.where(expression)
             else:
                 if not pokestopsNoEvent:
                     expression = None
