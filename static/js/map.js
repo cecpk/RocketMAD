@@ -695,7 +695,11 @@ function pokemonLabel(item) {
 
     typesDisplay = `<div class='pokemon types'>`
     $.each(types, function (index, type) {
-        typesDisplay += `<div class='pokemon type' style='background-color: ${type['color']};'>${type['type']}</div>`
+        if (index == 1) {
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14' style='margin-left:4px;'>`
+        } else {
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14'>`
+        }
     })
     typesDisplay += `</div>`
 
@@ -711,7 +715,7 @@ function pokemonLabel(item) {
 
       statsDisplay = `
           <div>
-            IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon encounter'>${atk}</span> / D<span class='pokemon encounter'>${def}</span> / S<span class='pokemon encounter'>${sta}</span>)
+            IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
           </div>
           <div class='pokemon cp-level'>
             CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
