@@ -1625,7 +1625,7 @@ function updatePokestopMarker(pokestop, marker) {
                 if (excludedQuestItems.indexOf(parseInt(questItemId)) === -1) {
                     shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
                     shadowSize = [30, 30]
-                    shadowAnchor = [30, 20]
+                    shadowAnchor = [30, 30]
                     markerImage += '_q'
                 }
                 break
@@ -1633,7 +1633,7 @@ function updatePokestopMarker(pokestop, marker) {
                 if (excludedQuestItems.indexOf(6) === -1) {
                     shadowImage = 'static/images/quest/reward_stardust.png'
                     shadowSize = [30, 30]
-                    shadowAnchor = [30, 20]
+                    shadowAnchor = [30, 30]
                     markerImage += '_q'
                 }
                 break
