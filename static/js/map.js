@@ -41,6 +41,7 @@ pokemonGen.fill(7, 722, 808)
 
 const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
 var idToPokemon = {}
+var idToInvasion = {}
 var i8lnDictionary = {}
 var languageLookups = 0
 var languageLookupThreshold = 3
@@ -1044,78 +1045,10 @@ function pokestopLabel(pokestop) {
     }
 
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
-        const typeId = invasionId % 2 == 0 ? invasionId : invasionId - 1
-        pokestopImage += '_i_' + typeId
-
-        let pokemonType
-        switch(typeId) {
-            case 4:
-                pokemonType = '-'
-                break
-            case 6:
-                pokemonType = 'Bug'
-                break
-            case 8:
-                pokemonType = 'Ghost'
-                break
-            case 10:
-                pokemonType = 'Dark'
-                break
-            case 12:
-                pokemonType = 'Dragon'
-                break
-            case 14:
-                pokemonType = 'Fairy'
-                break
-            case 16:
-                pokemonType = 'Fighting'
-                break
-            case 18:
-                pokemonType = 'Fire'
-                break
-            case 20:
-                pokemonType = 'Flying'
-                break
-            case 22:
-                pokemonType = 'Grass'
-                break
-            case 24:
-                pokemonType = 'Ground'
-                break
-            case 26:
-                pokemonType = 'Ice'
-                break
-            case 28:
-                pokemonType = 'Steel'
-                break
-            case 30:
-                pokemonType = 'Normal'
-                break
-            case 32:
-                pokemonType = 'Poison'
-                break
-            case 34:
-                pokemonType = 'Psychic'
-                break
-            case 36:
-                pokemonType = 'Rock'
-                break
-            case 38:
-                pokemonType = 'Water'
-                break
-            default:
-                pokemonType = 'None'
-        }
-
-        let gruntGender
-        if (invasionId == 4) {
-            gruntGender = 'Male'
-        } else if (invasionId == 5) {
-            gruntGender = 'Female'
-        } else if (invasionId % 2 == 0) {
-            gruntGender = 'Female'
+        if (invasionId == 4 || invasionId == 5) {
+            pokestopImage += '_i'
         } else {
-            gruntGender = 'Male'
+            pokestopImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
         }
 
         invasionDisplay = `
@@ -1139,10 +1072,10 @@ function pokestopLabel(pokestop) {
                     </div>
                   </div>
                   <div>
-                    Most common type: <span class='info'>${pokemonType}<span>
+                    Invasion type: <span class='info'>${idToInvasion[invasionId].type}<span>
                   </div>
                   <div>
-                    Grunt gender: <span class='info'>${gruntGender}<span>
+                    Grunt gender: <span class='info'>${idToInvasion[invasionId].gruntGender}<span>
                   </div>
                 </div>
               </div>
@@ -1717,8 +1650,11 @@ function updatePokestopMarker(pokestop, marker) {
     }
 
     if (Store.get('showInvasions') && pokestop.incident_expiration && pokestop.incident_expiration > now) {
-        const typeId = invasionId % 2 == 0 ? invasionId : invasionId - 1
-        markerImage += '_i_' + typeId
+        if (invasionId == 4 || invasionId == 5) {
+            markerImage += '_i'
+        } else {
+            markerImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
+        }
     }
 
     if (lureExpireTime && lureExpireTime > now) {
@@ -3910,6 +3846,13 @@ $(function () {
             $('.select2-search input').prop('readonly', true)
         }
         $selectExcludeRarity.val(Store.get('excludedRarity')).trigger('change')
+    })
+
+    // Load invasion data.
+    $.getJSON('static/dist/data/invasions.min.json').done(function (data) {
+        for (var id in data) {
+            idToInvasion[id] = data[id]
+        }
     })
 
     // run interval timers to regularly update map, rarity and timediffs
