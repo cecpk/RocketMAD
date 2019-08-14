@@ -259,7 +259,7 @@ $(function () {
         if (motdIsUpdated || !motdShowOnlyOnce) {
             window.localStorage.setItem('lastMOTD', motd)
 
-            Swal.fire({
+            swal({
                 title: motdTitle,
                 text: motd
             })
