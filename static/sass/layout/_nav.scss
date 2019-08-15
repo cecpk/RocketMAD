@@ -21,6 +21,7 @@
     h3 {
       font-size: 18px;
       color: darken(_palette(accent2, bg), 12);
+      font-family: 'Open Sans',sans-serif;
     }
     p {
       margin-bottom: 20px;
@@ -64,9 +65,10 @@
       font-weight: initial;
       height: initial;
       line-height: initial;
+      font-family: 'Open Sans',sans-serif;
       outline: none;
       margin-top: 0px;
-      padding: 3px 6px;
+      padding: 2px 6px 3px 6px;
       background-color: #3b3b3b;
     }
 
@@ -115,6 +117,14 @@
       @include vendor('transform', 'translateX(0)');
       box-shadow: 0 0 1.5em 0 rgba(0,0,0,0.2);
       visibility: visible;
+    }
+
+    .ui-widget {
+      font-family: 'Open Sans',sans-serif;
+
+      input {
+        font-family: 'Open Sans',sans-serif;
+      }
     }
 
     .ui-accordion-content {
@@ -201,11 +211,12 @@
     }
 
     .search {
-        background-color: #fff;
-        border: 1px solid #aaa;
-        padding: 0 10px;
-        margin-bottom: 5px;
-        width: 100%;
+      font-family: 'Open Sans',sans-serif;
+      background-color: #fff;
+      border: 1px solid #aaa;
+      padding: 0 10px;
+      margin-bottom: 5px;
+      width: 100%;
     }
 
     #pkid_list {
