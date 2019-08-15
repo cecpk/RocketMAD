@@ -61,21 +61,6 @@
       }
     }
 
-    button {
-      font-weight: initial;
-      height: initial;
-      line-height: initial;
-      font-family: 'Open Sans',sans-serif;
-      outline: none;
-      margin-top: 0px;
-      padding: 2px 6px 3px 6px;
-      background-color: #3b3b3b;
-    }
-
-    button:hover {
-      background-color: #5a5a5a;
-    }
-
     .form-control > select,
     .form-control > span {
       float: right;
@@ -204,6 +189,23 @@
 
     .quest-item-list {
         height: 293px;
+    }
+
+    .pokemon-select-all, .pokemon-deselect-all, .pokemon-select-filtered, .pokemon-deselect-filtered {
+      font-weight: initial;
+      height: initial;
+      line-height: initial;
+      font-family: 'Open Sans',sans-serif;
+      outline: none;
+      color: #454545 !important;
+      margin-top: 0px;
+      padding: 1px 6px 3px 6px;
+      background-color: #f6f6f6;
+      border: 1px solid #d3d3d3;
+    }
+
+    .pokemon-select-all:hover, .pokemon-deselect-all:hover, .pokemon-select-filtered:hover, .pokemon-deselect-filtered:hover {
+        background-color: #ededed;
     }
 
     .pokemon-select-icon {
