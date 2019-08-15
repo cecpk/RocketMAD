@@ -428,7 +428,7 @@ def get_pokemon_name(pokemon_id):
 
 def get_pokemon_types(pokemon_id):
     pokemon_types = get_pokemon_data(pokemon_id)['types']
-    return [{"type": i8ln(x['type']), "color": x['color']} for x in
+    return [{"type": x['type'], "color": x['color']} for x in
             pokemon_types]
 
 
