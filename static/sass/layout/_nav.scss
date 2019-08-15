@@ -191,7 +191,7 @@
         height: 293px;
     }
 
-    .pokemon-select-all, .pokemon-deselect-all, .pokemon-select-filtered, .pokemon-deselect-filtered {
+    .pokemon-select-all, .pokemon-deselect-all, .pokemon-select-filtered, .pokemon-deselect-filtered, .quest-item-select-all, .quest-item-deselect-all {
       font-weight: initial;
       height: initial;
       line-height: initial;
@@ -204,7 +204,7 @@
       border: 1px solid #d3d3d3;
     }
 
-    .pokemon-select-all:hover, .pokemon-deselect-all:hover, .pokemon-select-filtered:hover, .pokemon-deselect-filtered:hover {
+    .pokemon-select-all:hover, .pokemon-deselect-all:hover, .pokemon-select-filtered:hover, .pokemon-deselect-filtered:hover, .quest-item-select-all:hover, .quest-item-deselect-all:hover {
         background-color: #ededed;
     }
 
