@@ -398,6 +398,10 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'twelveHourTime': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showMedalRattata': {
         default: false,
         type: StoreTypes.Boolean
@@ -657,7 +661,16 @@ function getPokemonRawIconUrl(p) {
     return url
 }
 
-// Converts timestamp to readable date String
+// Converts timestamp to readable time String.
+function timestampToTime(timestamp) {
+    var timeStr = 'Unknown'
+    if (timestamp) {
+        timeStr = Store.get('twelveHourTime') ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
+    }
+    return timeStr
+}
+
+// Converts timestamp to readable date String.
 function timestampToDate(timestamp) {
     var dateStr = 'Unknown'
     if (timestamp) {
@@ -672,16 +685,17 @@ function timestampToDate(timestamp) {
     return dateStr
 }
 
-// Converts timestamp to readable date and time String
+// Converts timestamp to readable date and time String.
 function timestampToDateTime(timestamp) {
     var dateStr = 'Unknown'
     if (timestamp) {
+        var time = Store.get('twelveHourTime') ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
         if (moment(timestamp).isSame(moment(), 'day')) {
-            dateStr = 'Today ' + moment(timestamp).format('HH:mm:ss')
+            dateStr = 'Today ' + time
         } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
-            dateStr = 'Yesterday ' + moment(timestamp).format('HH:mm:ss')
+            dateStr = 'Yesterday ' + time
         } else {
-            dateStr = moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
+            dateStr = moment(timestamp).format('YYYY-MM-DD') + ' ' + time
         }
     }
     return dateStr

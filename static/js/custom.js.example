@@ -10,6 +10,8 @@ $(function () {
     const upscalePokemon = false // Enable upscaling of certain Pokemon (upscaledPokemon and notify list). Default: false.
     const upscaledPokemon = [] // Add Pokémon IDs separated by commas (e.g. [1, 2, 3]) to upscale icons. Default: [].
 
+    const twelveHourTime = false // Use 12-hour clock.
+
     // Google Analytics property ID. Leave empty to disable.
     // Looks like 'UA-XXXXX-Y'.
     const analyticsKey = ''
@@ -213,6 +215,7 @@ $(function () {
     Store.set('isStartLocationMarkerMovable', isStartLocationMarkerMovable)
     Store.set('showLocationMarker', showUserLocationMarker)
     Store.set('hidepresets', hidepresets)
+    Store.set('twelveHourTime', twelveHourTime)
 
     // Set rarities sprites
     Store.set('rarityCommon', rarityCommon)

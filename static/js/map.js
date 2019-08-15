@@ -748,7 +748,7 @@ function pokemonLabel(item) {
             <span class='title-text'>${name} ${formDisplay} ${genderType[gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span>${weatherBoostDisplay}
           </div>
           <div class='pokemon disappear'>
-            <span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span> left (${moment(disappearTime).format('HH:mm')})
+            ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
           </div>
           ${statsDisplay}
           <div class='pokemon coords'>
@@ -887,7 +887,7 @@ function gymLabel(gym) {
                           ${pokemonName} ${genderType[raid.gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
                         </div>
                         <div>
-                          <span class='label-countdown' disappears-at='${raid.end}'>00m00s</span> left (${moment(raid.end).format('HH:mm')})
+                          ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
                         </div>
                       </div>
                       <div>
@@ -926,8 +926,7 @@ function gymLabel(gym) {
                     <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span> Raid
                   </div>
                   <div>
-                    Starts in <span class='label-countdown' disappears-at='${raid.start}'>00m00s</span> (${moment(raid.start).format('HH:mm')})
-                  </div>
+                    Starts at ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)
                 </div>`
         }
     }
@@ -1066,7 +1065,7 @@ function pokestopLabel(pokestop) {
                       Team Rocket Invasion
                     </div>
                     <div>
-                      <span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span> left (${moment(invasionExpireTime).format('HH:mm')})
+                      ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
                     </div>
                   </div>
                   <div>
@@ -1117,7 +1116,7 @@ function pokestopLabel(pokestop) {
                     ${lureTypeText}
                   </div>
                   <div>
-                    <span class='label-countdown' disappears-at='${lureExpireTime}'>00m00s</span> left (${moment(lureExpireTime).format('HH:mm')})
+                    ${timestampToTime(lureExpireTime)} (<span class='label-countdown' disappears-at='${lureExpireTime}'>00m00s</span>)
                   </div>
                 </div>`
         }
@@ -2678,8 +2677,10 @@ var updateLabelDiffTime = function () {
 
         if (disappearsAt.ttime < disappearsAt.now) {
             timestring = '(expired)'
+        } else if(hours > 0) {
+            timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
         } else {
-            timestring = lpad(hours, 2, 0) + ':' + lpad(minutes, 2, 0) + ':' + lpad(seconds, 2, 0)
+            timestring = lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
         }
 
         $(element).text(timestring)
