@@ -66,19 +66,19 @@ var StoreOptions = {
         default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikipedia
         type: StoreTypes.String
     },
-    'remember_select_exclude': {
+    'remember_select_include_pokemon': {
         default: [],
         type: StoreTypes.JSON
     },
-    'remember_select_exclude_quest_pokemon': {
+    'remember_select_include_quest_pokemon': {
         default: [],
         type: StoreTypes.JSON
     },
-    'remember_select_exclude_quest_items': {
+    'remember_select_include_quest_items': {
         default: [],
         type: StoreTypes.JSON
     },
-    'remember_select_notify': {
+    'remember_select_notify_pokemon': {
         default: [],
         type: StoreTypes.JSON
     },

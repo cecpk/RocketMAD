@@ -20,121 +20,121 @@ $(function () {
        PokemonID: 149,
        Name: "Dragon Types Only",
        Searchstring: ['Dragon'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 230,
        Name: "Water Types Only",
        Searchstring: ['Water'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 208,
        Name: "Steel Types Only",
        Searchstring: ['Steel'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 25,
        Name: "Electric Types Only",
        Searchstring: ['Electric'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 4,
        Name: "Fire Types Only",
        Searchstring: ['Fire'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 198,
        Name: "Dark Types Only",
        Searchstring: ['Dark'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 10,
        Name: "Bug Types Only",
        Searchstring: ['Bug'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 16,
        Name: "Normal Types Only",
        Searchstring: ['Normal'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 66,
        Name: "Fighting Types Only",
        Searchstring: ['Fighting'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 92,
        Name: "Ghost Types Only",
        Searchstring: ['Ghost'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 63,
        Name: "Psychic Types Only",
        Searchstring: ['Psychic'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 12,
        Name: "Flying Types Only",
        Searchstring: ['Flying'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 1,
        Name: "Grass Types Only",
        Searchstring: ['Grass'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 29,
        Name: "Poison Types Only",
        Searchstring: ['Poison'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 35,
        Name: "Fairy Types Only",
        Searchstring: ['Fairy'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 364,
        Name: "Ice Types Only",
        Searchstring: ['Ice'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 1,
        Name: "Generation 1 Only",
        Searchstring: ['gen1'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 152,
        Name: "Generation 2 Only",
        Searchstring: ['gen2'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 252,
        Name: "Generation 3 Only",
        Searchstring: ['gen3'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 387,
        Name: "Generation 4 Only",
        Searchstring: ['gen4'],
-       Invert: true
+       Invert: false
      }
     ]
 
