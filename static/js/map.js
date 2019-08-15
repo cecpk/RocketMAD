@@ -1021,7 +1021,7 @@ function pokestopLabel(pokestop) {
                   <div class='pokestop container content-left'>
                     <div>
                       <div>
-                        <img class='pokestop image' src="${rewardImageSource}" width='64px' height='64px'/>
+                        <img class='pokestop quest-image' src="${rewardImageSource}" width='64px' height='64px'/>
                       </div>
                     </div>
                   </div>
@@ -1055,7 +1055,7 @@ function pokestopLabel(pokestop) {
               <div class='pokestop container content-left'>
                 <div>
                   <div>
-                    <img class='pokestop image' src="static/images/pokestop/rocket_r.png" width='64px' height='64px'/>
+                    <img class='pokestop rocket-image' src="static/images/pokestop/rocket_r.png" width='64px' height='64px'/>
                   </div>
                 </div>
               </div>

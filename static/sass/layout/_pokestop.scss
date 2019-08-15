@@ -58,6 +58,12 @@
     }
   }
 
+  &.rocket-image, &.quest-image {
+    display: block;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   &.sprite {
       display: block;
   }
