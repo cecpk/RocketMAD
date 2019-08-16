@@ -2365,6 +2365,11 @@ function updateEventPokestops() {
                 mapData.pokestops[pokestop.pokestop_id].lure_expiration = null
                 mapData.pokestops[pokestop.pokestop_id].active_fort_modifier = null
                 updatePokestopMarker(mapData.pokestops[pokestop.pokestop_id], mapData.pokestops[pokestop.pokestop_id].marker)
+                if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
+                    updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                }
+                // Set isUpdated to true so label gets updated next time it's opened.
+                mapData.pokestops[pokestop.pokestop_id].isUpdated = true
                 delete luredPokestops[pokestop.pokestop_id]
             } else {
                 removePokestop(pokestop)
@@ -2378,6 +2383,11 @@ function updateEventPokestops() {
                 mapData.pokestops[pokestop.pokestop_id].incident_expiration = null
                 mapData.pokestops[pokestop.pokestop_id].incident_grunt_type = null
                 updatePokestopMarker(mapData.pokestops[pokestop.pokestop_id], mapData.pokestops[pokestop.pokestop_id].marker)
+                if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
+                    updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                }
+                // Set isUpdated to true so label gets updated next time it's opened.
+                mapData.pokestops[pokestop.pokestop_id].isUpdated = true
                 delete invadedPokestops[pokestop.pokestop_id]
             } else {
                 removePokestop(pokestop)
