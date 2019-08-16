@@ -1,4 +1,4 @@
-/* global alertTexts map jsts weatherImages weatherNames */
+/* global L markersNoCluster alertTexts map jsts weatherImages weatherNames */
 /* eslint no-unused-vars: "off" */
 
 /**
@@ -7,9 +7,6 @@
  * @param item weather cell data
  * @returns {boolean}
  */
-var L
-var markersnotify
-
 function processWeather(i, item) {
     if (!Store.get('showWeatherCells') || item.gameplay_weather == null) {
         return false
@@ -24,7 +21,7 @@ function processWeather(i, item) {
         mapData.weather[s2CellId] = item
     } else if (itemOld.gameplay_weather !== item.gameplay_weather ||
         itemOld.severity !== item.severity) { // if weather changed
-        markersnotify.removeLayer(itemOld)
+        markersNoCluster.removeLayer(itemOld)
         item.marker = setupWeatherMarker(item)
         mapData.weather[s2CellId] = item
     }
@@ -59,7 +56,7 @@ function processWeatherAlert(i, item) {
         item.marker = createCellAlert(item)
         mapData.weatherAlerts[s2CellId] = item
     } else if (itemOld.severity !== item.severity) {
-        markersnotify.removeLayer(itemOld)
+        markersNoCluster.removeLayer(itemOld)
         item.marker = createCellAlert(item)
         mapData.weatherAlerts[s2CellId] = item
     }
@@ -90,7 +87,7 @@ function deleteObsoleteWeatherAlerts(newAlerts) {
  */
 function safeDelMarker(item) {
     if (item.marker) {
-        markersnotify.removeLayer(item.marker)
+        markersNoCluster.removeLayer(item.marker)
     }
 }
 
@@ -138,7 +135,7 @@ function setupWeatherMarker(item) {
     })
 
     var weatherMarker = L.marker([item['latitude'], item['longitude']], {icon: image})
-    markersnotify.addLayer(weatherMarker)
+    markersNoCluster.addLayer(weatherMarker)
     return weatherMarker
 }
 
@@ -156,7 +153,7 @@ function setupS2CellPolygon(item) {
         fillOpacity: 0,
         fillColor: '#00ff00'
     })
-    markersnotify.addLayer(s2CellPolygon)
+    markersNoCluster.addLayer(s2CellPolygon)
     return s2CellPolygon
 }
 

@@ -1,4 +1,4 @@
-/* global i8ln, L, markers, markersnotify, pokemonGen */
+/* global i8ln, L, markers, markersNoCluster, pokemonGen */
 /* eslint no-unused-vars: "off" */
 
 function pokemonSprites(pokemonID) {
@@ -607,7 +607,7 @@ function setupPokemonMarker(item, map, scaleByRarity = true, isNotifyPkmn = fals
     if (!isNotifyPkmn) {
         pokemonMarker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 100 + markerDetails.rarityValue}).addTo(markers)
     } else {
-        pokemonMarker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 1000 + markerDetails.rarityValue}).addTo(markersnotify)
+        pokemonMarker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 1000 + markerDetails.rarityValue}).addTo(markersNoCluster)
     }
     return pokemonMarker
 }

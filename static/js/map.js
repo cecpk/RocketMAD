@@ -82,7 +82,7 @@ var oNeLng
 var L
 var map
 var markers
-var markersnotify
+var markersNoCluster
 var _oldlayer = 'stylemapnik'
 
 var S2
@@ -246,14 +246,14 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
 function removePokemonMarker(encounterId) { // eslint-disable-line no-unused-vars
     if (mapData.pokemons[encounterId].marker.rangeCircle) {
         markers.removeLayer(mapData.pokemons[encounterId].marker.rangeCircle)
-        markersnotify.removeLayer(mapData.pokemons[encounterId].marker.rangeCircle)
+        markersNoCluster.removeLayer(mapData.pokemons[encounterId].marker.rangeCircle)
         delete mapData.pokemons[encounterId].marker.rangeCircle
     }
     if (mapData.pokemons[encounterId].marker.infoWindowIsOpen) {
         mapData.pokemons[encounterId].marker.infoWindowIsOpen = false
     }
     markers.removeLayer(mapData.pokemons[encounterId].marker)
-    markersnotify.removeLayer(mapData.pokemons[encounterId].marker)
+    markersNoCluster.removeLayer(mapData.pokemons[encounterId].marker)
 }
 
 function createServiceWorkerReceiver() {
@@ -349,12 +349,12 @@ function initMap() { // eslint-disable-line no-unused-vars
         removeOutsideVisibleBounds: true
     })
 
+    map.addLayer(markers)
+    markersNoCluster = L.layerGroup().addTo(map)
+
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map)
-
-    map.addLayer(markers)
-    markersnotify = L.layerGroup().addTo(map)
 
     var GeoSearchControl = window.GeoSearch.GeoSearchControl
     var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
@@ -480,7 +480,7 @@ function createUserLocationMarker() {
     var lat = ('lat' in position) ? position.lat : centerLat
     var lng = ('lng' in position) ? position.lng : centerLng
 
-    var marker = L.marker([lat, lng]).addTo(markersnotify).bindPopup('<div><b>My Location</b></div>')
+    var marker = L.marker([lat, lng]).addTo(markersNoCluster).bindPopup('<div><b>My Location</b></div>')
     addListeners(marker)
 
     marker.on('dragend', function () {
@@ -526,7 +526,7 @@ function createStartLocationMarker() {
     var lng = useStartLocation ? position.lng : centerLng
 
     var isMovable = !Store.get('lockStartLocationMarker') && Store.get('isStartLocationMarkerMovable')
-    var marker = L.marker([lat, lng], {draggable: isMovable}).addTo(markersnotify).bindPopup('<div><b>Start Location</b></div>')
+    var marker = L.marker([lat, lng], {draggable: isMovable}).addTo(markersNoCluster).bindPopup('<div><b>Start Location</b></div>')
     // Display marker on top of everything else so it doesn't get stuck.
     marker.setZIndexOffset(1000)
     addListeners(marker)
@@ -1709,7 +1709,7 @@ function setupScannedMarker(item) {
     }
 
     var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts)
-    markersnotify.addLayer(circle)
+    markersNoCluster.addLayer(circle)
     return circle
 }
 
@@ -1811,7 +1811,7 @@ function setupSpawnpointMarker(item) {
 
     var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts).bindPopup(spawnpointLabel(item))
     addListeners(circle)
-    markersnotify.addLayer(circle)
+    markersNoCluster.addLayer(circle)
     return circle
 }
 
@@ -1977,12 +1977,12 @@ function clearStaleMarkers() {
 
                 if (oldMarker.rangeCircle) {
                     markers.removeLayer(oldMarker.rangeCircle)
-                    markersnotify.removeLayer(oldMarker.rangeCircle)
+                    markersNoCluster.removeLayer(oldMarker.rangeCircle)
                     delete oldMarker.rangeCircle
                 }
 
                 markers.removeLayer(oldMarker)
-                markersnotify.removeLayer(oldMarker)
+                markersNoCluster.removeLayer(oldMarker)
                 delete mapData.pokemons[key]
             }
         }
@@ -1992,7 +1992,7 @@ function clearStaleMarkers() {
         if (lurePokemon['lure_expiration'] < new Date().getTime() ||
             getExcludedPokemon().indexOf(lurePokemon['pokemon_id']) >= 0) {
             markers.removeLayer(lurePokemon.marker)
-            markersnotify.removeLayer(lurePokemon.marker)
+            markersNoCluster.removeLayer(lurePokemon.marker)
             delete mapData.lurePokemons[key]
         }
     })
@@ -2000,7 +2000,7 @@ function clearStaleMarkers() {
     $.each(mapData.scanned, function (key, scanned) {
         // If older than 15mins remove
         if (scanned['last_modified'] < (new Date().getTime() - 15 * 60 * 1000)) {
-            markersnotify.removeLayer(scanned.marker)
+            markersNoCluster.removeLayer(scanned.marker)
             delete mapData.scanned[key]
         }
     })
@@ -2037,7 +2037,7 @@ function showInBoundsMarkers(markersInput, type) {
                     markers.addLayer(marker.rangeCircle)
                 } else {
                     markers.removeLayer(marker.rangeCircle)
-                    markersnotify.removeLayer(marker.rangeCircle)
+                    markersNoCluster.removeLayer(marker.rangeCircle)
                     delete marker.rangeCircle
                 }
             }
@@ -2159,7 +2159,7 @@ function processPokemonChunked(pokemon, chunkSize) {
 
         if (newMarker) {
             if (isNotifyPkmn) {
-                markersnotify.addLayer(newMarker)
+                markersNoCluster.addLayer(newMarker)
             } else {
                 markers.addLayer(newMarker)
             }
@@ -2167,7 +2167,7 @@ function processPokemonChunked(pokemon, chunkSize) {
 
         if (oldMarker) {
             markers.removeLayer(oldMarker)
-            markersnotify.removeLayer(oldMarker)
+            markersNoCluster.removeLayer(oldMarker)
         }
     })
 
@@ -2200,7 +2200,7 @@ function processPokemon(item) {
             const scaleByRarity = Store.get('scaleByRarity')
             if (item.marker) {
                 markers.removeLayer(item)
-                markersnotify.removeLayer(item)
+                markersNoCluster.removeLayer(item)
             }
             newMarker = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
             customizePokemonMarker(newMarker, item, !Store.get('showPopups'))
@@ -2500,7 +2500,7 @@ function processScanned(i, item) {
 
     if (!(scanId in mapData.scanned)) { // add marker to map and item to dict
         if (item.marker) {
-            markersnotify.removeLayer(item.marker)
+            markersNoCluster.removeLayer(item.marker)
         }
         item.marker = setupScannedMarker(item)
         mapData.scanned[scanId] = item
@@ -2531,7 +2531,7 @@ function processSpawnpoint(i, item) {
 
     if (!(id in mapData.spawnpoints)) { // add marker to map and item to dict
         if (item.marker) {
-            markersnotify.removeLayer(item.marker)
+            markersNoCluster.removeLayer(item.marker)
         }
         item.marker = setupSpawnpointMarker(item)
         mapData.spawnpoints[id] = item
@@ -3860,11 +3860,11 @@ $(function () {
                             // for any marker you're turning off, you'll want to wipe off the range
                             if (data[dType][key].marker.rangeCircle) {
                                 markers.removeLayer(data[dType][key].marker.rangeCircle)
-                                markersnotify.removeLayer(data[dType][key].marker.rangeCircle)
+                                markersNoCluster.removeLayer(data[dType][key].marker.rangeCircle)
                                 delete data[dType][key].marker.rangeCircle
                             }
                             markers.removeLayer(data[dType][key].marker)
-                            markersnotify.removeLayer(data[dType][key].marker)
+                            markersNoCluster.removeLayer(data[dType][key].marker)
                             delete data[dType][key].marker
                         })
                         data[dType] = {}
@@ -3877,12 +3877,12 @@ $(function () {
                         // for any marker you're turning off, you'll want to wipe off the range
                         if (data[dType][key].marker.rangeCircle) {
                             markers.removeLayer(data[dType][key].marker.rangeCircle)
-                            markersnotify.removeLayer(data[dType][key].marker.rangeCircle)
+                            markersNoCluster.removeLayer(data[dType][key].marker.rangeCircle)
                             delete data[dType][key].marker.rangeCircle
                         }
                         if (storageKey !== 'showRanges') {
                             markers.removeLayer(data[dType][key].marker)
-                            markersnotify.removeLayer(data[dType][key].marker)
+                            markersNoCluster.removeLayer(data[dType][key].marker)
                             if (dType === 'pokemons') {
                                 oldPokeMarkers.push(data[dType][key].marker)
                             }
@@ -3891,7 +3891,7 @@ $(function () {
                     // If the type was "pokemons".
                     if (oldPokeMarkers.length > 0) {
                         markers.removeLayer(oldPokeMarkers)
-                        markersnotify.removeLayer(oldPokeMarkers)
+                        markersNoCluster.removeLayer(oldPokeMarkers)
                     }
                     if (storageKey !== 'showRanges') data[dType] = {}
                 })
