@@ -1,4 +1,4 @@
-/*global i8ln, L, markers, markersnotify*/
+/*global i8ln, L, markers, markersnotify, pokemonGen*/
 /* eslint no-unused-vars: "off" */
 function pokemonSprites(pokemonID) {
     var sprite = {
@@ -476,6 +476,10 @@ var mapData = {
     weather: {},
     s2cells: {},
     weatherAlerts: {}
+}
+
+function getPokemonGen(p) {
+    return pokemonGen[p] || '?'
 }
 
 function getPokemonIcon(item, sprite, displayHeight) {

@@ -2194,10 +2194,6 @@ function processPokemons(pokemon) {
     processPokemonChunked(pokemon, Store.get('processPokemonChunkSize'))
 }
 
-function getPokemonGen(p) {
-    return pokemonGen[p] || '?'
-}
-
 function processPokemonChunked(pokemon, chunkSize) {
     // Early skip if we have nothing to process.
     if (typeof pokemon === 'undefined' || pokemon.length === 0) {
@@ -2358,7 +2354,7 @@ function updatePokestops() {
     updateMap()
 }
 
-// For each lured pokestop change the marker to unlured if the lure has expired.
+// For each invaded/lured pokestop update the marker if the invasion/lure has expired.
 function updateEventPokestops() {
     const now = new Date()
 
