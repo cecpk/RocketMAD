@@ -1,8 +1,8 @@
 # MAD's RocketMap
 
-![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg) ![License](https://img.shields.io/github/license/RocketMap/RocketMap.svg) [![Build Status](https://travis-ci.org/RocketMap/RocketMap.svg?branch=develop)](https://travis-ci.org/RocketMap/RocketMap)
+![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg) ![License](https://img.shields.io/github/license/RocketMap/RocketMap.svg) [![Build Status](https://travis-ci.org/RocketMap/RocketMap.svg?branch=develop)](https://travis-ci.org/RocketMap/RocketMap)
 
-Fork of RocketMap used as [MAD](https://github.com/Map-A-Droid/MAD)'s frontend. Does not work as standalone and the code have been heavily modified to only works with MAD.
+Fork of RocketMap used as [MAD](https://github.com/Map-A-Droid/MAD)'s frontend. Does not work as standalone and the code has been heavily modified to only work with MAD.
 
 ![Map](https://github.com/RocketMap/RocketMap/blob/develop/static/RocketMap.png)
 
@@ -12,7 +12,6 @@ Fork of RocketMap used as [MAD](https://github.com/Map-A-Droid/MAD)'s frontend. 
 ## Installation
 
 For instructions on how to setup and run the tool, please refer to [RocketMap's documentation](https://rocketmap.readthedocs.io).
-Then you should run the project with the `only-server` option.
 
 ## Contributions
 
