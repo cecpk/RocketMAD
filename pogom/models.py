@@ -31,7 +31,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 35
+db_schema_version = 36
 
 
 class RetryOperationalError(object):
@@ -66,7 +66,7 @@ class TinyIntegerField(IntegerField):
 
 
 class UBigIntegerField(BigIntegerField):
-    db_field = 'bigint unsigned'
+    field_type = 'bigint unsigned'
 
 
 def init_database(app):
@@ -1719,6 +1719,13 @@ def database_migrate(db, old_ver):
                     SmallIntegerField(null=True)
                 )
             )
+
+    if old_ver < 36:
+        db.execute_sql('ALTER TABLE spawnpoint MODIFY id bigint(20) unsigned NOT NULL;')
+        db.execute_sql('ALTER TABLE scannedlocation MODIFY cellid bigint(20) unsigned NOT NULL;')
+        db.execute_sql('ALTER TABLE pokemon MODIFY encounter_id bigint(20) unsigned NOT NULL;')
+        db.execute_sql('ALTER TABLE pokemon MODIFY spawnpoint_id bigint(20) unsigned NOT NULL;')
+
     # Always log that we're done.
     log.info('Schema upgrade complete.')
     return True
