@@ -94,6 +94,7 @@
                   </div>
                 </div>
               </div>
+                {% if show.rarity %}
               <div class="form-control switch-container" id="exclude-rarity-wrapper">
                 <h3>Exclude Rarity</h3>
                 <select name="exclude-rarity" id="exclude-rarity">
@@ -105,6 +106,7 @@
                   <option value="5">Ultra Rare and below</option>
                 </select>
               </div>
+                {% endif %}
                 {% if show.encounter %}
               <div class="form-control switch-container">
                 <h3>Pokémon Stats</h3>
@@ -570,6 +572,7 @@
               </div>
               <div id="tabs_notify-11">
                 <div class="notify-container">
+                    {% if show.rarity %}
                   <div class="form-control">
                     <label for="notify-rarity">
                       <h3>Notify of Rarity</h3>
@@ -578,6 +581,7 @@
                       </div>
                     </label>
                   </div>
+                    {% endif %}
                     {% if show.encounter %}
                   <div id="notify-perfection-wrapper" style="display:none">
                     <div class="form-control">

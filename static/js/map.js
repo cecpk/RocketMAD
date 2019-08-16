@@ -637,7 +637,6 @@ function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
 }
 
 function pokemonLabel(item) {
-    const pokemonRarity = getPokemonRarity(item['pokemon_id'])
     var name = item['pokemon_name']
     var types = item['pokemon_types']
     var encounterId = item['encounter_id']
@@ -676,11 +675,14 @@ function pokemonLabel(item) {
         formDisplay += `(${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 
-    if (pokemonRarity) {
-      rarityDisplay = `
-         <div class='pokemon rarity'>
-           ${pokemonRarity}
-         </div>`
+    if (showConfig.rarity) {
+        const rarity = getPokemonRarity(item['pokemon_id'])
+        if (rarity) {
+            rarityDisplay = `
+                <div class='pokemon rarity'>
+                 ${rarity}
+               </div>`
+        }
     }
 
     if (weatherBoostedCondition) {
@@ -1419,7 +1421,7 @@ function sizeRatio(height, weight, baseHeight, baseWeight) {
 }
 
 function isNotifyPoke(poke) {
-    const isOnNotifyList = notifiedPokemon.indexOf(poke['pokemon_id']) > -1 || notifiedRarity.indexOf(poke['pokemon_rarity']) > -1
+    const isOnNotifyList = notifiedPokemon.indexOf(poke['pokemon_id']) > -1 || (showConfig.rarity && notifiedRarity.indexOf(poke['pokemon_rarity']) > -1)
     const isNotifyPerfectionPkmn = isNotifyPerfectionPoke(poke)
     const showStats = Store.get('showPokemonStats')
 
@@ -2016,9 +2018,9 @@ function clearStaleMarkers() {
         const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
         const excludedRarity = excludedRaritiesList[excludedRarityOption]
         const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
-        const isRarityExcluded = excludedRarity.indexOf(pokemonRarity) !== -1
+        const isRarityExcluded = showConfig.rarity && excludedRarity.indexOf(pokemonRarity) !== -1
         const isNotifyPkmn = isNotifyPoke(pokemon)
-        var prionotifyactiv = Store.get('prioNotify')
+        const prionotifyactiv = Store.get('prioNotify')
 
         if (isPokeExpired || isPokeExcluded || isRarityExcluded) {
             if ((isNotifyPkmn && !prionotifyactiv) || (!isNotifyPkmn)) {
@@ -2246,7 +2248,7 @@ function processPokemon(item) {
     const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
     const excludedRarity = excludedRaritiesList[excludedRarityOption]
     const pokemonRarity = getPokemonRarity(item['pokemon_id'])
-    const isRarityExcluded = (excludedRarity.indexOf(pokemonRarity) !== -1)
+    const isRarityExcluded = showConfig.rarity && excludedRarity.indexOf(pokemonRarity) !== -1
     const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
     const isNotifyPkmn = isNotifyPoke(item)
     var prionotifyactiv = Store.get('prioNotify')
@@ -3157,7 +3159,9 @@ $(function () {
     $selectStyle = $('#map-style')
 
     // Load dynamic rarity.
-    updatePokemonRarities()
+    if (showConfig.rarity) {
+        updatePokemonRarities()
+    }
 
     // Load Stylenames, translate entries, and populate lists
     $.getJSON('static/dist/data/mapstyle.min.json').done(function (data) {
@@ -3870,7 +3874,9 @@ $(function () {
     // run interval timers to regularly update map, rarity and timediffs
     window.setInterval(updateLabelDiffTime, 1000)
     window.setInterval(updateMap, 2000)
-    window.setInterval(updatePokemonRarities, 300000)
+    if (showConfig.rarity) {
+        window.setInterval(updatePokemonRarities, 300000)
+    }
     window.setInterval(updateGeoLocation, 1000)
 
     createUpdateWorker()

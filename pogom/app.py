@@ -191,6 +191,7 @@ class Pogom(Flask):
             'quests': not args.no_quests,
             'raids': not args.no_raids,
             'gym_sidebar': not args.no_gym_sidebar,
+            'rarity': args.rarity_update_frequency > 0,
             'encounter': args.encounter,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,
@@ -202,12 +203,12 @@ class Pogom(Flask):
             lat=self.location[0],
             lng=self.location[1],
             showAllZoomLevel=args.show_all_zoom_level,
-            generateImages=str(args.generate_images).lower(),
             lang=args.locale,
-            show=visibility_flags,
-            rarityFileName=args.rarity_filename,
             mapTitle=args.map_title,
-            madminUrl=args.madmin_url)
+            madminUrl=args.madmin_url,
+            show=visibility_flags,
+            generateImages=str(args.generate_images).lower(),
+            rarityFileName=args.rarity_filename)
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.
@@ -487,10 +488,10 @@ class Pogom(Flask):
             'statistics.html',
             lat=self.location[0],
             lng=self.location[1],
-            generateImages=str(args.generate_images).lower(),
-            show=visibility_flags,
             mapTitle=args.map_title,
-            madminUrl=args.madmin_url)
+            madminUrl=args.madmin_url,
+            show=visibility_flags,
+            generateImages=str(args.generate_images).lower())
 
     def get_gymdata(self):
         gym_id = request.args.get('id')
