@@ -8,6 +8,6 @@ git+https://github.com/Map-A-Droid/pgoapi.git#egg=pgoapi
 configargparse
 psutil
 cHaversine
-peewee
+peewee==3.10
 cachetools
 PyMySQL
