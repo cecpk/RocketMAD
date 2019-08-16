@@ -1420,9 +1420,10 @@ function sizeRatio(height, weight, baseHeight, baseWeight) {
     return heightRatio + weightRatio
 }
 
-function isNotifyPoke(poke) {
-    const isOnNotifyList = notifiedPokemon.indexOf(poke['pokemon_id']) > -1 || (showConfig.rarity && notifiedRarity.indexOf(poke['pokemon_rarity']) > -1)
-    const isNotifyPerfectionPkmn = isNotifyPerfectionPoke(poke)
+function isNotifyPoke(pokemon) {
+    const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
+    const isOnNotifyList = notifiedPokemon.indexOf(pokemon['pokemon_id']) > -1 || (showConfig.rarity && notifiedRarity.includes(pokemonRarity))
+    const isNotifyPerfectionPkmn = isNotifyPerfectionPoke(pokemon)
     const showStats = Store.get('showPokemonStats')
 
     return isOnNotifyList || (showStats && isNotifyPerfectionPkmn)
