@@ -1,5 +1,5 @@
-/*global showAllZoomLevel cssPercentageCircle getS2CellBounds processWeather processS2Cell processWeatherAlerts updateMainCellWeather getPokemonRawIconUrl*/
-/* eslint no-unused-vars: "off" */
+/* global showAllZoomLevel getS2CellBounds processWeather processWeatherAlerts updateMainCellWeather getPercentageCssColor getPokemonGen getPokemonRawIconUrl timestampToTime timestampToDateTime */
+
 //
 // Global map.js variables
 //
@@ -24,7 +24,6 @@ var $selectTeamGymsOnly
 var $selectLastUpdateGymsOnly
 var $selectMinGymLevel
 var $selectMaxGymLevel
-var $selectEventPokestopsOnly
 var $selectSearchIconMarker
 var $selectLocationIconMarker
 var $switchGymSidebar
@@ -68,7 +67,6 @@ var luredPokestops = {}
 var invadedPokestops = {}
 
 // var map
-var markerCluster = window.markerCluster = {}
 var rawDataIsLoading = false
 var startLocationMarker
 var userLocationMarker
@@ -179,6 +177,7 @@ const weatherImages = {
     16: 'weather_extreme.png'
 }
 
+/* eslint-disable no-unused-vars */
 const weatherNames = {
     1: 'Clear',
     2: 'Rain',
@@ -193,6 +192,7 @@ const alertTexts = {
     1: 'Moderate',
     2: 'Extreme'
 }
+/* eslint-enable no-unused-vars */
 
 const excludedRaritiesList = [
   [],
@@ -233,17 +233,6 @@ function isShowAllZoom() {
 
 function getExcludedPokemon() {
     return isShowAllZoom() ? [] : excludedPokemon
-}
-
-function toggleSelectItem($select, id) {
-    var values = $select.val()
-    var idx = values.indexOf(id.toString())
-    if (idx >= 0) {
-        values.splice(idx, 1)
-    } else {
-        values = values.concat(id)
-    }
-    $select.val(values).change()
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
@@ -335,10 +324,10 @@ function initMap() { // eslint-disable-line no-unused-vars
         var lat = position.lat
         var lng = position.lng
     } else {
-        var position = Store.get('startLocationPosition')
-        var useStartLocation = Store.get('showStartLocationMarker') && 'lat' in position && 'lng' in position
-        var lat = useStartLocation ? position.lat : centerLat
-        var lng = useStartLocation ? position.lng : centerLng
+        position = Store.get('startLocationPosition')
+        const useStartLocation = Store.get('showStartLocationMarker') && 'lat' in position && 'lng' in position
+        lat = useStartLocation ? position.lat : centerLat
+        lng = useStartLocation ? position.lng : centerLng
     }
 
     map = L.map('map', {
@@ -439,6 +428,7 @@ function initMap() { // eslint-disable-line no-unused-vars
     })
 }
 
+/* eslint-disable no-unused-vars */
 var stylemapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
 var styletopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
 var stylesatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'})
@@ -448,12 +438,12 @@ var stylecartodbdarkmatternolabels = L.tileLayer('https://{s}.basemaps.cartocdn.
 var stylecartodbpositron = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
 var stylecartodbpositronnolabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
 var stylecartodbvoyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-
+/* eslint-enable no-unused-vars */
 
 function setTitleLayer(layername) {
     // fallback in case layername does not exist (anymore)
     if (!window.hasOwnProperty(layername)) {
-        layername = "stylemapnik";
+        layername = 'stylemapnik'
     }
 
     if (map.hasLayer(window[_oldlayer])) { map.removeLayer(window[_oldlayer]) }
@@ -690,7 +680,7 @@ function pokemonLabel(item) {
 
     typesDisplay = `<div class='pokemon types'>`
     $.each(types, function (index, type) {
-        if (index == 1) {
+        if (index === 1) {
             typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14' style='margin-left:4px;'>`
         } else {
             typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14'>`
@@ -699,32 +689,32 @@ function pokemonLabel(item) {
     typesDisplay += `</div>`
 
     if (showStats && cp !== null && cpMultiplier !== null) {
-      var iv = 0
-      if (atk !== null && def !== null && sta !== null) {
-          iv = getIv(atk, def, sta)
-      }
+        var iv = 0
+        if (atk !== null && def !== null && sta !== null) {
+            iv = getIv(atk, def, sta)
+        }
 
-      var ivColor = getPercentageCssColor(iv, 100, 82, 66, 51)
+        var ivColor = getPercentageCssColor(iv, 100, 82, 66, 51)
 
-      var level = getPokemonLevel(cpMultiplier)
+        var level = getPokemonLevel(cpMultiplier)
 
-      statsDisplay = `
-          <div>
-            IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
-          </div>
-          <div class='pokemon cp-level'>
-            CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
-          </div>
-          <div>
-           Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
-          </div>`
-
-      if (weight !== null && height !== null) {
-        statsDisplay += `
-            <div class='pokemon weight-height'>
-              Weight: <span class='pokemon encounter'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon encounter'>${height.toFixed(2)}m</span>
+        statsDisplay = `
+            <div>
+              IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
+            </div>
+            <div class='pokemon cp-level'>
+              CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
+            </div>
+            <div>
+             Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
             </div>`
-      }
+
+        if (weight !== null && height !== null) {
+            statsDisplay += `
+                <div class='pokemon weight-height'>
+                  Weight: <span class='pokemon encounter'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon encounter'>${height.toFixed(2)}m</span>
+                </div>`
+        }
     }
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
@@ -824,10 +814,10 @@ function gymLabel(gym) {
     }
 
     if (gym.team_id !== 0) {
-        /*strenghtDisplay = `
+        /* strenghtDisplay = `
             <div>
               Strength: <span class='info'>${gym.total_cp}</span>
-            </div>`*/
+            </div>` */
 
         gymLeaderDisplay = `
             <div>
@@ -848,24 +838,24 @@ function gymLabel(gym) {
         if (isRaidOngoing && raid.pokemon_id) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid)
 
-            let pokemonName = raid.pokemon_name;
+            let pokemonName = raid.pokemon_name
             if (raid.form && 'forms' in idToPokemon[raid.pokemon_id] && raid.form in idToPokemon[raid.pokemon_id].forms && idToPokemon[raid.pokemon_id].forms[raid.form].formName !== '') {
-                pokemonName += ` (${i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].formName)})`;
+                pokemonName += ` (${i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].formName)})`
             }
 
-            let fastMoveName = 'unknown';
-            let chargeMoveName = 'unknown';
-            let fastMoveType = '';
-            let chargeMoveType = '';
+            let fastMoveName = 'unknown'
+            let chargeMoveName = 'unknown'
+            let fastMoveType = ''
+            let chargeMoveType = ''
 
             if (raid.move_1 in moves) {
-                fastMoveName = i8ln(moves[raid.move_1].name);
-                fastMoveType = moves[raid.move_1].type;
+                fastMoveName = i8ln(moves[raid.move_1].name)
+                fastMoveType = moves[raid.move_1].type
             }
 
             if (raid.move_2 in moves) {
-                chargeMoveName = i8ln(moves[raid.move_2].name);
-                chargeMoveType = moves[raid.move_2].type;
+                chargeMoveName = i8ln(moves[raid.move_2].name)
+                chargeMoveType = moves[raid.move_2].type
             }
 
             raidDisplay = `
@@ -986,7 +976,7 @@ function pokestopLabel(pokestop) {
     var lureClass = ''
     var invasionDisplay = ''
     var questDisplay = ''
-    var now =  Date.now()
+    var now = Date.now()
 
     if (Store.get('showQuests') && quest) {
         let rewardImageSource = ''
@@ -1043,7 +1033,7 @@ function pokestopLabel(pokestop) {
     }
 
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
-        if (invasionId == 4 || invasionId == 5) {
+        if (invasionId === 4 || invasionId === 5) {
             pokestopImage += '_i'
         } else {
             pokestopImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
@@ -1082,7 +1072,7 @@ function pokestopLabel(pokestop) {
 
     if (lureExpireTime && lureExpireTime > now) {
         let lureTypeText = ''
-        switch(pokestop.active_fort_modifier) {
+        switch (pokestop.active_fort_modifier) {
             case 501:
                 if (Store.get('showNormalLures')) {
                     lureTypeText = 'Normal Lure'
@@ -1168,8 +1158,8 @@ function pokestopLabel(pokestop) {
 function updatePokestopLabel(pokestop, marker) {
     marker._popup.setContent(pokestopLabel(pokestop))
     const now = Date.now()
-    if (marker.infoWindowIsOpen && (pokestop.lure_expiration && pokestop.lure_expiration > now ||
-            pokestop.incident_expiration && pokestop.incident_expiration > now)) {
+    if (marker.infoWindowIsOpen && ((pokestop.lure_expiration && pokestop.lure_expiration > now) ||
+            (pokestop.incident_expiration && pokestop.incident_expiration > now))) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -1202,7 +1192,6 @@ function spawnpointLabel(item) {
 }
 
 function addRangeCircle(marker, map, type, teamId) {
-    var targetmap = null
     var markerPos = marker.getLatLng()
     var lat = markerPos.lat
     var lng = markerPos.lng
@@ -1229,8 +1218,6 @@ function addRangeCircle(marker, map, type, teamId) {
             range = 40
             break
     }
-
-    if (map) targetmap = map
 
     var rangeCircleOpts = {
         radius: range, // meters
@@ -1602,9 +1589,10 @@ function setupPokestopMarker(pokestop) {
 
 function updatePokestopMarker(pokestop, marker) {
     const quest = pokestop.quest
-    const lureExpireTime = pokestop.lure_expiration
     const activeFortModifier = pokestop.active_fort_modifier
+    const lureExpireTime = pokestop.lure_expiration
     const invasionId = pokestop.incident_grunt_type
+    const invasionExpireTime = pokestop.incident_expiration
     var markerImage = 'stop'
     var shadowImage
     var shadowSize
@@ -1614,8 +1602,9 @@ function updatePokestopMarker(pokestop, marker) {
     if (Store.get('showQuests') && quest) {
         const questItemId = quest.item_id
         const questPokemonId = quest.pokemon_id
+        const questRewardType = quest.reward_type
 
-        switch (quest.reward_type) {
+        switch (questRewardType) {
             case 2:
                 if (includedQuestItems.includes(parseInt(questItemId))) {
                     shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
@@ -1648,8 +1637,8 @@ function updatePokestopMarker(pokestop, marker) {
         }
     }
 
-    if (Store.get('showInvasions') && pokestop.incident_expiration && pokestop.incident_expiration > now) {
-        if (invasionId == 4 || invasionId == 5) {
+    if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
+        if (invasionId === 4 || invasionId === 5) {
             markerImage += '_i'
         } else {
             markerImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
@@ -1657,7 +1646,7 @@ function updatePokestopMarker(pokestop, marker) {
     }
 
     if (lureExpireTime && lureExpireTime > now) {
-        switch(pokestop.active_fort_modifier) {
+        switch (activeFortModifier) {
             case 501:
                 if (Store.get('showNormalLures')) {
                     markerImage += '_l_501'
@@ -1681,11 +1670,11 @@ function updatePokestopMarker(pokestop, marker) {
         }
     }
 
-    var PokestopIcon = new L.icon({
+    var PokestopIcon = new L.icon({ // eslint-disable-line new-cap
         iconUrl: 'static/images/pokestop/' + markerImage + '.png',
         iconSize: [32, 32],
         iconAnchor: [16, 32],
-        popupAnchor: [0,-16],
+        popupAnchor: [0, -16],
         shadowUrl: shadowImage,
         shadowSize: shadowSize,
         shadowAnchor: shadowAnchor
@@ -1776,10 +1765,6 @@ var colourConversion = (function () {
         return hexString
     }
 
-    function mod(n, m) {
-        return ((n % m) + m) % m
-    }
-
     function hsvToRgb(hue, sat, val) {
         let hder = Math.floor(hue / 60)
         let f = hue / 60 - hder
@@ -1811,47 +1796,6 @@ var colourConversion = (function () {
     }
     return self
 })()
-
-function changeSpawnIcon(color, zoom) {
-    var urlColor = ''
-    if (color === 275) {
-        urlColor = './static/icons/hsl-275-light.png'
-    } else {
-        urlColor = './static/icons/hsl-' + color + '.png'
-    }
-    var zoomScale = 1.6 // adjust this value to change the size of the spawnpoint icons
-    var minimumSize = 1
-    var newSize = Math.round(zoomScale * (zoom - 10)) // this scales the icon based on zoom
-    if (newSize < minimumSize) {
-        newSize = minimumSize
-    }
-
-    var newIcon = L.icon({
-        iconUrl: urlColor,
-        iconSize: [newSize, newSize],
-        iconAnchor: [newSize / 2, newSize / 2]
-    })
-
-    return newIcon
-}
-
-function spawnPointIndex(color) {
-    var newIndex = 1
-    var scale = 0
-    if (color >= 0 && color <= 120) { // high to low over 15 minutes of active spawn
-        scale = color / 120
-        newIndex = 100 + scale * 100
-    } else if (color >= 200 && color <= 250) { // low to high over 5 minutes til spawn
-        scale = (color - 200) / 50
-        newIndex = scale * 100
-    }
-
-    return newIndex
-}
-
-function rgbToHex(r, g, b) {
-    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
-}
 
 function setupSpawnpointMarker(item) {
     var hue = getColorBySpawnTime(item.appear_time)
@@ -1908,9 +1852,9 @@ function showS2Cells(level, color, weight) {
         const cell = stack.pop()
         const neighbors = cell.getNeighbors()
         neighbors.forEach(function (ncell, index) {
-            if (processedCells[ncell.toString()] != true) {
+            if (processedCells[ncell.toString()] !== true) {
                 const cornerLatLngs = ncell.getCornerLatLngs()
-                for (let i = 0 ; i < 4; i++) {
+                for (let i = 0; i < 4; i++) {
                     const item = cornerLatLngs[i]
                     if (item.lat >= swLat && item.lng >= swLng &&
                             item.lat <= neLat && item.lng <= neLng) {
@@ -2198,8 +2142,6 @@ function processPokemonChunked(pokemon, chunkSize) {
     if (typeof pokemon === 'undefined' || pokemon.length === 0) {
         return
     }
-    const oldMarkers = []
-    const newMarkers = []
     const chunk = pokemon.splice(-1 * chunkSize)
 
     $.each(chunk, function (i, poke) {
@@ -2255,7 +2197,6 @@ function processPokemon(item) {
     // Add marker to map and item to dict.
         const isNotifyPkmn = isNotifyPoke(item)
         if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
-            const isBounceDisabled = Store.get('isBounceDisabled')
             const scaleByRarity = Store.get('scaleByRarity')
             if (item.marker) {
                 markers.removeLayer(item)
@@ -2286,7 +2227,7 @@ function isPokestopSatisfiesFilters(pokestop) {
     }
 
     if (Store.get('showQuests') && pokestop.quest) {
-        switch(pokestop.quest.reward_type) {
+        switch (pokestop.quest.reward_type) {
             case 2:
                 if (includedQuestItems.includes(parseInt(pokestop.quest.item_id))) {
                     return true
@@ -2312,7 +2253,7 @@ function isPokestopSatisfiesFilters(pokestop) {
     }
 
     if (pokestop.lure_expiration && pokestop.lure_expiration > now) {
-        switch(pokestop.active_fort_modifier) {
+        switch (pokestop.active_fort_modifier) {
             case 501:
                 return Store.get('showNormalLures')
             case 502:
@@ -2328,16 +2269,16 @@ function isPokestopSatisfiesFilters(pokestop) {
 }
 
 function removePokestop(pokestop) {
-  if (mapData.pokestops[pokestop.pokestop_id] && mapData.pokestops[pokestop.pokestop_id].marker) {
-      if (mapData.pokestops[pokestop.pokestop_id].marker.rangeCircle) {
-          markers.removeLayer(mapData.pokestops[pokestop.pokestop_id].marker.rangeCircle)
-      }
-      markers.removeLayer(mapData.pokestops[pokestop.pokestop_id].marker)
-      delete mapData.pokestops[pokestop.pokestop_id]
-      if (luredPokestops[pokestop.pokestop_id]) {
-          delete luredPokestops[pokestop.pokestop_id]
-      }
-  }
+    if (mapData.pokestops[pokestop.pokestop_id] && mapData.pokestops[pokestop.pokestop_id].marker) {
+        if (mapData.pokestops[pokestop.pokestop_id].marker.rangeCircle) {
+            markers.removeLayer(mapData.pokestops[pokestop.pokestop_id].marker.rangeCircle)
+        }
+        markers.removeLayer(mapData.pokestops[pokestop.pokestop_id].marker)
+        delete mapData.pokestops[pokestop.pokestop_id]
+        if (luredPokestops[pokestop.pokestop_id]) {
+            delete luredPokestops[pokestop.pokestop_id]
+        }
+    }
 }
 
 function updatePokestops() {
@@ -2397,7 +2338,7 @@ function updateEventPokestops() {
 function processPokestop(i, pokestop) {
     const now = Date.now()
 
-    if (!mapData.pokestops[pokestop.pokestop_id]) {
+    if (!mapData.pokestops.hasOwnProperty(pokestop.pokestop_id)) {
         if (!isPokestopSatisfiesFilters(pokestop)) {
             return true
         }
@@ -2685,7 +2626,7 @@ var updateLabelDiffTime = function () {
 
         if (disappearsAt.ttime < disappearsAt.now) {
             timestring = 'expired'
-        } else if(hours > 0) {
+        } else if (hours > 0) {
             timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
         } else {
             timestring = lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
@@ -2893,15 +2834,6 @@ function updateGeoLocation() {
             var lng = position.coords.longitude
             var center = new L.LatLng(lat, lng)
 
-            if (Store.get('geoLocate')) {
-                // The search function makes any small movements cause a loop. Need to increase resolution.
-                if ((typeof startLocationMarker !== 'undefined') && (getPointDistance(searchMarker.getLatLng(), center) > 40)) {
-                    $.post('next_loc?lat=' + lat + '&lon=' + lng).done(function () {
-                        map.panTo(center)
-                        startLocationMarker.setLatLng(center)
-                    })
-                }
-            }
             if (Store.get('followMyLocation')) {
                 if ((typeof userLocationMarker !== 'undefined') && (getPointDistance(userLocationMarker.getLatLng(), center) >= 5)) {
                     map.panTo(center)
@@ -2997,7 +2929,7 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
     })
 }
 
-function getSidebarGymMember(pokemon) {
+function getSidebarGymMember(pokemon) { // eslint-disable-line no-unused-vars
     var perfectPercent = getIv(pokemon.iv_attack, pokemon.iv_defense, pokemon.iv_stamina)
     var moveEnergy = Math.round(100 / pokemon.move_2_energy)
     const motivationZone = ['Good', 'Average', 'Bad']
@@ -3415,21 +3347,6 @@ $(function () {
 })
 $(function () {
     moment.locale(language)
-    function formatState(state) {
-        if (!state.id) {
-            return state.text
-        }
-        var pokemonIcon
-        if (generateImages) {
-            pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': state.element.value.toString()})}'>`
-        } else {
-            pokemonIcon = `<i class="pokemon-sprite n${state.element.value.toString()}"></i>`
-        }
-        var $state = $(
-            `<span>${pokemonIcon} ${state.text}</span>`
-        )
-        return $state
-    }
 
     function formatRarityState(state) {
         if (!state.id) {
@@ -3514,30 +3431,31 @@ $(function () {
         var pokemonIds = []
 
         function populateLists(id, pokemonData) {
-          if (generateImages) {
-              pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': id})}'>`
-          } else {
-              pokemonIcon = `<i class="pokemon-sprite n${id}"></i>`
-          }
-          pokemonData['name'] = i8ln(pokemonData['name'])
-          $.each(pokemonData['types'], function (id, pokemonType) {
-              typestring[id] = i8ln(pokemonType['type'])
-              if (id < 1) {
-                  typestring[id+1] = i8ln(pokemonType['type'])
-              }
-          })
-          pokemonData['gen'] = getPokemonGen(id)
-          $('.list').append('<div class=pokemon-icon-sprite data-gen=gen' + pokemonData['gen'] + ' data-pkm=' + i8ln(pokemonData['name']) + ' data-value=' + id + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + id + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(pokemonData['name']) + '</div></div>')
-          idToPokemon[id] = pokemonData
-          pokeSearchList.push({
-              value: id,
-              pkm: i8ln(pokemonData['name']),
-              gen: 'gen' + pokemonData['gen'],
-              type1: typestring[0],
-              type2: typestring[1],
-              allpokemon: 'allpokemon'
-          })
+            if (generateImages) {
+                pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': id})}'>`
+            } else {
+                pokemonIcon = `<i class="pokemon-sprite n${id}"></i>`
+            }
+            pokemonData['name'] = i8ln(pokemonData['name'])
+            $.each(pokemonData['types'], function (id, pokemonType) {
+                typestring[id] = i8ln(pokemonType['type'])
+                if (id < 1) {
+                    typestring[id + 1] = i8ln(pokemonType['type'])
+                }
+            })
+            pokemonData['gen'] = getPokemonGen(id)
+            $('.list').append('<div class=pokemon-icon-sprite data-gen=gen' + pokemonData['gen'] + ' data-pkm=' + i8ln(pokemonData['name']) + ' data-value=' + id + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + id + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(pokemonData['name']) + '</div></div>')
+            idToPokemon[id] = pokemonData
+            pokeSearchList.push({
+                value: id,
+                pkm: i8ln(pokemonData['name']),
+                gen: 'gen' + pokemonData['gen'],
+                type1: typestring[0],
+                type2: typestring[1],
+                allpokemon: 'allpokemon'
+            })
         }
+
         var id
         for (id = 1; id <= numberOfPokemon; id++) {
             populateLists(id, data[id])
@@ -3648,7 +3566,7 @@ $(function () {
             visibleActiveIconElements.removeClass('active')
             $.each(visibleActiveIconElements, function (i, item) {
                 var id = $(this).data('value').toString()
-                selectedPokemons = selectedPokemons.filter(function(item) {
+                selectedPokemons = selectedPokemons.filter(function (item) {
                     return item !== id
                 })
             })
@@ -3718,7 +3636,7 @@ $(function () {
             e.preventDefault()
             var parent = $(this).parent().parent()
             parent.find('.quest-item-list .quest-item-sprite').addClass('active')
-            parent.find('input[id$=items]').val(questItemIds.concat(new Array("6")).join(',')).trigger('change')
+            parent.find('input[id$=items]').val(questItemIds.concat(new Array('6')).join(',')).trigger('change')
         })
 
         $('.quest-item-deselect-all').on('click', function (e) {
@@ -3998,13 +3916,13 @@ $(function () {
     }
 
     function generatePokemonInclude(value, invert) {
-        var pokemonIds = [];
+        var pokemonIds = []
         for (var id = 1; id <= 493; id++) {
-            pokemonIds.push(id.toString());
+            pokemonIds.push(id.toString())
         }
         // Meltan and Melmetal.
-        pokemonIds.push('808');
-        pokemonIds.push('809');
+        pokemonIds.push('808')
+        pokemonIds.push('809')
 
         value = value.toString()
         if (invert === false) {
@@ -4094,8 +4012,6 @@ $(function () {
         // Only redraw Pokémon which are notified of perfection.
         var notifyPerfectionPkmn = getNotifyPerfectionPokemons(mapData.pokemons)
         redrawPokemon(notifyPerfectionPkmn)
-
-        markerCluster.redraw()
     })
     $('#scanned-switch').change(function () {
         buildSwitchChangeListener(mapData, ['scanned'], 'showScanned').bind(this)()
