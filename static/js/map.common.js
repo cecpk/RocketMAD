@@ -154,7 +154,7 @@ var StoreOptions = {
     'showRaidFilter': {
         default: true,
         type: StoreTypes.Boolean
-    }
+    },
     'showGyms': {
         default: true,
         type: StoreTypes.Boolean
