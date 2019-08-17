@@ -11,9 +11,9 @@ $(function () {
     const upscaledPokemon = [] // Add Pokémon IDs separated by commas (e.g. [1, 2, 3]) to upscale icons. Default: [].
 
     const twelveHourTime = false // Use 12-hour clock.
-	
-	const showRaidFilter = false // hide Raid filter NavBar.
-	const showGymFilter = false // hide Gym filter NavBar.
+
+    const showRaidFilter = false // hide Raid filter NavBar.
+    const showGymFilter = false // hide Gym filter NavBar.
 
     // Google Analytics property ID. Leave empty to disable.
     // Looks like 'UA-XXXXX-Y'.
@@ -219,8 +219,8 @@ $(function () {
     Store.set('showLocationMarker', showUserLocationMarker)
     Store.set('hidepresets', hidepresets)
     Store.set('twelveHourTime', twelveHourTime)
-	Store.set('showRaidFilter', showRaidFilter)
-	Store.set('showGymFilter', showGymFilter)
+    Store.set('showRaidFilter', showRaidFilter)
+    Store.set('showGymFilter', showGymFilter)
 
     // Set rarities sprites
     Store.set('rarityCommon', rarityCommon)
