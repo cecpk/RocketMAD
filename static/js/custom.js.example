@@ -12,8 +12,8 @@ $(function () {
 
     const twelveHourTime = false // Use 12-hour clock.
 
-    const showRaidFilter = false // hide Raid filter NavBar.
-    const showGymFilter = false // hide Gym filter NavBar.
+    const showRaidFilter = false // hide Raid filter on NavBar.
+    const showGymFilter = false // hide Gym filter on NavBar.
 
     // Google Analytics property ID. Leave empty to disable.
     // Looks like 'UA-XXXXX-Y'.
