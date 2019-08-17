@@ -151,8 +151,8 @@ var StoreOptions = {
         default: 5,
         type: StoreTypes.Number
     },
-    'hideRaidFilter': {
-        default: false,
+    'showRaidFilter': {
+        default: true,
         type: StoreTypes.Boolean
     }
     'showGyms': {
@@ -191,8 +191,8 @@ var StoreOptions = {
         default: 6,
         type: StoreTypes.Number
     },
-    'hideGymFilter': {
-        default: false,
+    'showGymFilter': {
+        default: true,
         type: StoreTypes.Boolean
     },	
     'showPokemon': {
