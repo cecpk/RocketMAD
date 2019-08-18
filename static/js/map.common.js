@@ -135,6 +135,10 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'showRaidFilter': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'showParkRaidsOnly': {
         default: false,
         type: StoreTypes.Boolean
@@ -151,16 +155,16 @@ var StoreOptions = {
         default: 5,
         type: StoreTypes.Number
     },
-    'showRaidFilter': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
     'showGyms': {
         default: true,
         type: StoreTypes.Boolean
     },
     'useGymSidebar': {
         default: false,
+        type: StoreTypes.Boolean
+    },
+    'showGymFilter': {
+        default: true,
         type: StoreTypes.Boolean
     },
     'showParkGymsOnly': {
@@ -191,10 +195,6 @@ var StoreOptions = {
         default: 6,
         type: StoreTypes.Number
     },
-    'showGymFilter': {
-        default: true,
-        type: StoreTypes.Boolean
-    },	
     'showPokemon': {
         default: true,
         type: StoreTypes.Boolean

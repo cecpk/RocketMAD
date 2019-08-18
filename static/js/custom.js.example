@@ -12,8 +12,8 @@ $(function () {
 
     const twelveHourTime = false // Use 12-hour clock.
 
-    const showRaidFilter = false // hide Raid filter on NavBar.
-    const showGymFilter = false // hide Gym filter on NavBar.
+    const showGymFilter = true // Show gym filter on nav bar.
+    const showRaidFilter = true // Show raid filter on nav bar.
 
     // Google Analytics property ID. Leave empty to disable.
     // Looks like 'UA-XXXXX-Y'.
@@ -219,8 +219,8 @@ $(function () {
     Store.set('showLocationMarker', showUserLocationMarker)
     Store.set('hidepresets', hidepresets)
     Store.set('twelveHourTime', twelveHourTime)
-    Store.set('showRaidFilter', showRaidFilter)
     Store.set('showGymFilter', showGymFilter)
+    Store.set('showRaidFilter', showRaidFilter)
 
     // Set rarities sprites
     Store.set('rarityCommon', rarityCommon)

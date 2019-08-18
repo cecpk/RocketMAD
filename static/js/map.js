@@ -3968,9 +3968,11 @@ $(function () {
         var wrapperGyms = $('#gyms-filter-wrapper')
         var switchRaids = $('#raids-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
-        if (this.checked && Store.get('showGymFilter')) {
+        if (this.checked) {
             lastgyms = false
-            wrapperGyms.show()
+            if (Store.get('showGymFilter')) {
+                wrapperGyms.show()
+            }
             wrapperSidebar.show()
         } else {
             lastgyms = false
@@ -3985,9 +3987,11 @@ $(function () {
         var wrapperRaids = $('#raids-filter-wrapper')
         var switchGyms = $('#gyms-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
-        if (this.checked && Store.get('showRaidFilter')) {
+        if (this.checked) {
             lastgyms = false
-            wrapperRaids.show()
+            if (Store.get('showRaidFilter')) {
+                wrapperRaids.show()
+            }
             wrapperSidebar.show()
         } else {
             lastgyms = false
