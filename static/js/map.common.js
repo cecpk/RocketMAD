@@ -64,7 +64,7 @@ var StoreTypes = {
 // set the default parameters for you map here
 var StoreOptions = {
     'map_style': {
-        default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikipedia
+        default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikimedia
         type: StoreTypes.String
     },
     'remember_select_include_pokemon': {
