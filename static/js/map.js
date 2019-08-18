@@ -550,14 +550,14 @@ function initSidebar() {
     $('#gyms-switch').prop('checked', Store.get('showGyms'))
     $('#gym-sidebar-switch').prop('checked', Store.get('useGymSidebar'))
     $('#gym-sidebar-wrapper').toggle(Store.get('showGyms') || Store.get('showRaids'))
-    $('#gyms-filter-wrapper').toggle(Store.get('showGyms'))
+    if (Store.get('showGymFilter')) $('#gyms-filter-wrapper').toggle(Store.get('showGyms'))
     $('#team-gyms-only-switch').val(Store.get('showTeamGymsOnly'))
     $('#raids-switch').prop('checked', Store.get('showRaids'))
     $('#raid-park-gym-switch').prop('checked', Store.get('showParkRaidsOnly'))
     $('#raid-active-gym-switch').prop('checked', Store.get('showActiveRaidsOnly'))
     $('#raid-min-level-only-switch').val(Store.get('showRaidMinLevel'))
     $('#raid-max-level-only-switch').val(Store.get('showRaidMaxLevel'))
-    $('#raids-filter-wrapper').toggle(Store.get('showRaids'))
+    if (Store.get('showRaidFilter')) $('#raids-filter-wrapper').toggle(Store.get('showRaids'))
     $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
     $('#park-gyms-only-switch').prop('checked', Store.get('showParkGymsOnly'))
     $('#gym-in-battle-switch').prop('checked', Store.get('showGymInBattle'))
@@ -3968,7 +3968,7 @@ $(function () {
         var wrapperGyms = $('#gyms-filter-wrapper')
         var switchRaids = $('#raids-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
-        if (this.checked) {
+        if (this.checked && Store.get('showGymFilter')) {
             lastgyms = false
             wrapperGyms.show()
             wrapperSidebar.show()
@@ -3985,7 +3985,7 @@ $(function () {
         var wrapperRaids = $('#raids-filter-wrapper')
         var switchGyms = $('#gyms-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
-        if (this.checked) {
+        if (this.checked && Store.get('showRaidFilter')) {
             lastgyms = false
             wrapperRaids.show()
             wrapperSidebar.show()
