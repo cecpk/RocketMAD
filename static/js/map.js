@@ -356,24 +356,6 @@ function initMap() { // eslint-disable-line no-unused-vars
         position: 'bottomright'
     }).addTo(map)
 
-    var GeoSearchControl = window.GeoSearch.GeoSearchControl
-    var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
-    var provider = new OpenStreetMapProvider()
-
-    const search = new GeoSearchControl({
-        provider: provider,
-        position: 'bottomright',
-        autoClose: true,
-        keepResult: false,
-        showMarker: false
-    })
-
-    map.addControl(search)
-
-    map.on('geosearch/showlocation', function (e) {
-        changeLocation(e.location.y, e.location.x)
-    })
-
     map.on('zoom', function () {
         if (storeZoom === true) {
             Store.set('zoomLevel', map.getZoom())
@@ -405,7 +387,29 @@ function initMap() { // eslint-disable-line no-unused-vars
     if (Store.get('showLocationMarker')) {
         userLocationMarker = createUserLocationMarker()
     }
+
     createMyLocationButton()
+
+    map.addControl(new L.Control.Fullscreen({
+        position: 'topright'
+    }))
+
+    var GeoSearchControl = window.GeoSearch.GeoSearchControl
+    var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
+    var provider = new OpenStreetMapProvider()
+    const search = new GeoSearchControl({
+        provider: provider,
+        position: 'topright',
+        autoClose: true,
+        keepResult: false,
+        showMarker: false
+    })
+    map.addControl(search)
+
+    map.on('geosearch/showlocation', function (e) {
+        changeLocation(e.location.y, e.location.x)
+    })
+
     initSidebar()
 
     $('#tabs_marker').tabs()

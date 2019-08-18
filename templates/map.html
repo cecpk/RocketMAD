@@ -50,720 +50,721 @@
           {% endif %}
         <span id="weatherInfo" style="float: right; vertical-align: middle;"></span>
       </header>
-      <!-- NAV -->
-      <nav id="nav">
-        <div id="nav-accordion">
-            {% if show.pokemons %}
-          <h3><i class="fas fa-paw fa-fw"></i>Pokémon</h3>
-          <div>
-            <div class="form-control switch-container">
-              <h3>Pokémon</h3>
-              <div class="onoffswitch">
-                <input id="pokemon-switch" type="checkbox" name="pokemon-switch" class="onoffswitch-checkbox" checked>
-                <label class="onoffswitch-label" for="pokemon-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div id="pokemons-filter-wrapper" style="display:none;">
+      <div class="main-container">
+        <!-- NAV -->
+        <nav id="nav">
+          <div id="nav-accordion">
+              {% if show.pokemons %}
+            <h3><i class="fas fa-paw fa-fw"></i>Pokémon</h3>
+            <div>
               <div class="form-control switch-container">
-                <div id="tabs_marker">
-                  <ul id="tabs_marker_ul">
-                    <li><a href="#tabs_marker-1">Pokémon</a></li>
-                    <li><a href="#tabs_marker-2">Presets</a></li>
-                  </ul>
-                  <div id="tabs_marker-1">
-                    <label for="include-pokemon">
-                      <div class="pokemon-container">
-                        <input id="include-pokemon" type="text" readonly="true" style="display:none;">
-                        <div class="list"></div>
-                        <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
-                        <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
-                        <center><button type="button" class="pokemon-select-all">Show all</button>
-                        <button type="button" class="pokemon-deselect-all">Hide all</button></center>
-                      </div>
-                    </label>
+                <h3>Pokémon</h3>
+                <div class="onoffswitch">
+                  <input id="pokemon-switch" type="checkbox" name="pokemon-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="pokemon-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div id="pokemons-filter-wrapper" style="display:none;">
+                <div class="form-control switch-container">
+                  <div id="tabs_marker">
+                    <ul id="tabs_marker_ul">
+                      <li><a href="#tabs_marker-1">Pokémon</a></li>
+                      <li><a href="#tabs_marker-2">Presets</a></li>
+                    </ul>
+                    <div id="tabs_marker-1">
+                      <label for="include-pokemon">
+                        <div class="pokemon-container">
+                          <input id="include-pokemon" type="text" readonly="true" style="display:none;">
+                          <div class="list"></div>
+                          <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
+                          <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
+                          <center><button type="button" class="pokemon-select-all">Show all</button>
+                          <button type="button" class="pokemon-deselect-all">Hide all</button></center>
+                        </div>
+                      </label>
+                    </div>
+                    <div id="tabs_marker-2">
+                      <label for="exclude-items">
+                        <div class="pokemon-container">
+                          <div class="exclude_templates"></div>
+                        </div>
+                      </label>
+                    </div>
                   </div>
-                  <div id="tabs_marker-2">
-                    <label for="exclude-items">
-                      <div class="pokemon-container">
-                        <div class="exclude_templates"></div>
-                      </div>
+                </div>
+                  {% if show.rarity %}
+                <div class="form-control switch-container" id="exclude-rarity-wrapper">
+                  <h3>Exclude Rarity</h3>
+                  <select name="exclude-rarity" id="exclude-rarity">
+                    <option value="0">None</option>
+                    <option value="1">Common</option>
+                    <option value="2">Uncommon and below</option>
+                    <option value="3">Rare and below</option>
+                    <option value="4">Very Rare and below</option>
+                    <option value="5">Ultra Rare and below</option>
+                  </select>
+                </div>
+                  {% endif %}
+                  {% if show.encounter %}
+                <div class="form-control switch-container">
+                  <h3>Pokémon Stats</h3>
+                  <div class="onoffswitch">
+                    <input id="pokemon-stats-switch" type="checkbox" name="pokemon-stats-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="pokemon-stats-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
                     </label>
                   </div>
                 </div>
+      				    {% endif %}
               </div>
-                {% if show.rarity %}
-              <div class="form-control switch-container" id="exclude-rarity-wrapper">
-                <h3>Exclude Rarity</h3>
-                <select name="exclude-rarity" id="exclude-rarity">
-                  <option value="0">None</option>
-                  <option value="1">Common</option>
-                  <option value="2">Uncommon and below</option>
-                  <option value="3">Rare and below</option>
-                  <option value="4">Very Rare and below</option>
-                  <option value="5">Ultra Rare and below</option>
-                </select>
+            </div>
+              {% endif %}
+              {% if show.gyms %}
+            <h3><i class="fas fa-landmark fa-fw"></i>Gyms</h3>
+            <div>
+              <div class="form-control switch-container">
+                <h3>Gyms</h3>
+                <div class="onoffswitch">
+                  <input id="gyms-switch" type="checkbox" name="gyms-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="gyms-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+                {% if show.gym_sidebar %}
+              <div class="form-control switch-container" id="gym-sidebar-wrapper" style="display:none">
+                <h3>Gym Sidebar</h3>
+                <div class="onoffswitch">
+                  <input id="gym-sidebar-switch" type="checkbox" name="gym-sidebar-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="gym-sidebar-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
               </div>
                 {% endif %}
-                {% if show.encounter %}
-              <div class="form-control switch-container">
-                <h3>Pokémon Stats</h3>
-                <div class="onoffswitch">
-                  <input id="pokemon-stats-switch" type="checkbox" name="pokemon-stats-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="pokemon-stats-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
+              <div id="gyms-filter-wrapper" style="display:none">
+                <div class="form-control switch-container" id="team-gyms-only-wrapper">
+                  <h3>Team</h3>
+                  <select name="team-gyms-filter-switch" id="team-gyms-only-switch">
+                    <option value="0">All</option>
+                    <option value="1">Mystic</option>
+                    <option value="2">Valor</option>
+                    <option value="3">Instinct</option>
+                  </select>
                 </div>
-              </div>
-    				    {% endif %}
-            </div>
-          </div>
-            {% endif %}
-            {% if show.gyms %}
-          <h3><i class="fas fa-landmark fa-fw"></i>Gyms</h3>
-          <div>
-            <div class="form-control switch-container">
-              <h3>Gyms</h3>
-              <div class="onoffswitch">
-                <input id="gyms-switch" type="checkbox" name="gyms-switch" class="onoffswitch-checkbox" checked>
-                <label class="onoffswitch-label" for="gyms-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-              {% if show.gym_sidebar %}
-            <div class="form-control switch-container" id="gym-sidebar-wrapper" style="display:none">
-              <h3>Gym Sidebar</h3>
-              <div class="onoffswitch">
-                <input id="gym-sidebar-switch" type="checkbox" name="gym-sidebar-switch" class="onoffswitch-checkbox" checked>
-                <label class="onoffswitch-label" for="gym-sidebar-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-              {% endif %}
-            <div id="gyms-filter-wrapper" style="display:none">
-              <div class="form-control switch-container" id="team-gyms-only-wrapper">
-                <h3>Team</h3>
-                <select name="team-gyms-filter-switch" id="team-gyms-only-switch">
-                  <option value="0">All</option>
-                  <option value="1">Mystic</option>
-                  <option value="2">Valor</option>
-                  <option value="3">Instinct</option>
-                </select>
-              </div>
-              <div class="form-control switch-container" id="open-gyms-only-wrapper">
-                <h3>Open Spot</h3>
-                <div class="onoffswitch">
-                  <input id="open-gyms-only-switch" type="checkbox" name="open-gyms-only-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="open-gyms-only-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container" id="park-gyms-only-wrapper">
-                <h3>EX Eligible Gyms Only</h3>
-                <div class="onoffswitch">
-                  <input id="park-gyms-only-switch" type="checkbox" name="park-gyms-only-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="park-gyms-only-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container" id="gym-in-battle-wrapper">
-                <h3>Gyms in Battle</h3>
-                <div class="onoffswitch">
-                  <input id="gym-in-battle-switch" type="checkbox" name="gym-in-battle-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="gym-in-battle-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container" id="min-level-gyms-filter-wrapper">
-                <h3>Minimum Level</h3>
-                <select name="min-level-gyms-filter-switch" id="min-level-gyms-filter-switch">
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                </select>
-              </div>
-              <div class="form-control switch-container" id="max-level-gyms-filter-wrapper">
-                <h3>Maximum Level</h3>
-                <select name="max-level-gyms-filter-switch" id="max-level-gyms-filter-switch">
-                  <option value="0">0</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                </select>
-              </div>
-              <div class="form-control switch-container" id="last-update-gyms-wrapper">
-                <h3>Last Scan</h3>
-                <select name="last-update-gyms-switch" id="last-update-gyms-switch">
-                  <option value="0">All</option>
-                  <option value="1">Last Hour</option>
-                  <option value="6">Last 6 Hours</option>
-                  <option value="12">Last 12 Hours</option>
-                  <option value="24">Last 24 Hours</option>
-                  <option value="168">Last Week</option>
-                </select>
-              </div>
-            </div>
-              {% if show.raids %}
-            <div class="form-control switch-container">
-              <h3>Raids</h3>
-              <div class="onoffswitch">
-                <input id="raids-switch" type="checkbox" name="raids-switch" class="onoffswitch-checkbox" checked>
-                <label class="onoffswitch-label" for="raids-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div id="raids-filter-wrapper" style="display:none">
-              <div class="form-control switch-container" id="raid-active-gym-wrapper">
-                <h3>Show Active Raids Only</h3>
-                <div class="onoffswitch">
-                  <input id="raid-active-gym-switch" type="checkbox" name="raid-active-gym-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="raid-active-gym-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container" id="park-active-gym-wrapper">
-                <h3>EX Eligible Raids Only</h3>
-                <div class="onoffswitch">
-                  <input id="raid-park-gym-switch" type="checkbox" name="raid-park-gym-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="raid-park-gym-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container" id="min-raid-level-only-wrapper">
-                <h3>Minimum Raid Level</h3>
-                <select name="raid-min-level-only-switch" id="raid-min-level-only-switch">
-                  <option value="1">Level 1</option>
-                  <option value="2">Level 2</option>
-                  <option value="3">Level 3</option>
-                  <option value="4">Level 4</option>
-                  <option value="5">Level 5</option>
-                </select>
-              </div>
-              <div class="form-control switch-container" id="max-raid-level-only-wrapper">
-                <h3>Maximum Raid Level</h3>
-                <select name="raid-max-level-only-switch" id="raid-max-level-only-switch">
-                  <option value="1">Level 1</option>
-                  <option value="2">Level 2</option>
-                  <option value="3">Level 3</option>
-                  <option value="4">Level 4</option>
-                  <option value="5">Level 5</option>
-                </select>
-              </div>
-            </div>
-              {% endif %}
-          </div>
-            {% endif %}
-            {% if show.pokestops %}
-          <h3><i class="fas fa-monument fa-fw"></i>PokéStops</h3>
-          <div>
-            <div class="form-control switch-container">
-              <h3>PokéStops</h3>
-              <div class="onoffswitch">
-                <input id="pokestops-switch" type="checkbox" name="pokestops-switch" class="onoffswitch-checkbox" checked>
-                <label class="onoffswitch-label" for="pokestops-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div id="pokestops-filter-wrapper" style="display:none">
-              <div class="form-control switch-container">
-                <h3>PokéStops without Event</h3>
-                <div class="onoffswitch">
-                  <input id="pokestops-no-event-switch" type="checkbox" name="pokestops-no-event-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="pokestops-no-event-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Team Rocket Invasions</h3>
-                <div class="onoffswitch">
-                  <input id="invasions-switch" type="checkbox" name="invasions-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="invasions-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Normal Lures</h3>
-                <div class="onoffswitch">
-                  <input id="normal-lures-switch" type="checkbox" name="normal-lures-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="normal-lures-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Glacial Lures</h3>
-                <div class="onoffswitch">
-                  <input id="glacial-lures-switch" type="checkbox" name="glacial-lures-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="glacial-lures-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Magnetic Lures</h3>
-                <div class="onoffswitch">
-                  <input id="magnetic-lures-switch" type="checkbox" name="magnetic-lures-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="magnetic-lures-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Mossy Lures</h3>
-                <div class="onoffswitch">
-                  <input id="mossy-lures-switch" type="checkbox" name="mossy-lures-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="mossy-lures-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-                {% if show.quests %}
-              <div class="form-control switch-container">
-                <h3>Quests</h3>
-                <div class="onoffswitch">
-                  <input id="quests-switch" type="checkbox" name="quests-switch" class="onoffswitch-checkbox" checked>
-                  <label class="onoffswitch-label" for="quests-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container" id="quests-filter-wrapper" style="display:none">
-                <div id="tabs_quest">
-                  <ul id="tabs_quest_ul">
-                    <li><a href="#tabs_quest-1">Quest Pokémon</a></li>
-                    <li><a href="#tabs_quest-2">Quest Items</a></li>
-                  </ul>
-                  <div id="tabs_quest-1">
-                    <label for="include-quest-pokemon">
-                      <div class="pokemon-container">
-                        <input id="include-quest-pokemon" type="text" readonly="true" style="display:none;" >
-                        <div class="list"></div>
-                        <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
-                        <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
-                        <center><button type="button" class="pokemon-select-all">Show all</button>
-                        <button type="button" class="pokemon-deselect-all">Hide all</button></center>
-                      </div>
+                <div class="form-control switch-container" id="open-gyms-only-wrapper">
+                  <h3>Open Spot</h3>
+                  <div class="onoffswitch">
+                    <input id="open-gyms-only-switch" type="checkbox" name="open-gyms-only-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="open-gyms-only-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
                     </label>
                   </div>
-                  <div id="tabs_quest-2">
-                    <label for="include-quest-items">
-                      <div class="quest-item-container">
-                        <input id="include-quest-items" type="text" readonly="true" style="display:none;" >
-                        <div class="quest-item-list"></div>
-                        <center><button type="button" class="quest-item-select-all">Show all</button>
-                        <button type="button" class="quest-item-deselect-all">Hide all</button></center>
-                      </div>
+                </div>
+                <div class="form-control switch-container" id="park-gyms-only-wrapper">
+                  <h3>EX Eligible Gyms Only</h3>
+                  <div class="onoffswitch">
+                    <input id="park-gyms-only-switch" type="checkbox" name="park-gyms-only-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="park-gyms-only-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
                     </label>
                   </div>
+                </div>
+                <div class="form-control switch-container" id="gym-in-battle-wrapper">
+                  <h3>Gyms in Battle</h3>
+                  <div class="onoffswitch">
+                    <input id="gym-in-battle-switch" type="checkbox" name="gym-in-battle-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="gym-in-battle-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container" id="min-level-gyms-filter-wrapper">
+                  <h3>Minimum Level</h3>
+                  <select name="min-level-gyms-filter-switch" id="min-level-gyms-filter-switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+                <div class="form-control switch-container" id="max-level-gyms-filter-wrapper">
+                  <h3>Maximum Level</h3>
+                  <select name="max-level-gyms-filter-switch" id="max-level-gyms-filter-switch">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+                <div class="form-control switch-container" id="last-update-gyms-wrapper">
+                  <h3>Last Scan</h3>
+                  <select name="last-update-gyms-switch" id="last-update-gyms-switch">
+                    <option value="0">All</option>
+                    <option value="1">Last Hour</option>
+                    <option value="6">Last 6 Hours</option>
+                    <option value="12">Last 12 Hours</option>
+                    <option value="24">Last 24 Hours</option>
+                    <option value="168">Last Week</option>
+                  </select>
+                </div>
+              </div>
+                {% if show.raids %}
+              <div class="form-control switch-container">
+                <h3>Raids</h3>
+                <div class="onoffswitch">
+                  <input id="raids-switch" type="checkbox" name="raids-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="raids-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div id="raids-filter-wrapper" style="display:none">
+                <div class="form-control switch-container" id="raid-active-gym-wrapper">
+                  <h3>Show Active Raids Only</h3>
+                  <div class="onoffswitch">
+                    <input id="raid-active-gym-switch" type="checkbox" name="raid-active-gym-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="raid-active-gym-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container" id="park-active-gym-wrapper">
+                  <h3>EX Eligible Raids Only</h3>
+                  <div class="onoffswitch">
+                    <input id="raid-park-gym-switch" type="checkbox" name="raid-park-gym-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="raid-park-gym-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container" id="min-raid-level-only-wrapper">
+                  <h3>Minimum Raid Level</h3>
+                  <select name="raid-min-level-only-switch" id="raid-min-level-only-switch">
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                  </select>
+                </div>
+                <div class="form-control switch-container" id="max-raid-level-only-wrapper">
+                  <h3>Maximum Raid Level</h3>
+                  <select name="raid-max-level-only-switch" id="raid-max-level-only-switch">
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                  </select>
                 </div>
               </div>
                 {% endif %}
             </div>
-          </div>
-            {% endif%}
-          <h3><i class="fas fa-cloud-moon fa-fw"></i>Weather</h3>
-          <div>
-            <div class="form-control switch-container">
-                <h3>Weather</h3>
+              {% endif %}
+              {% if show.pokestops %}
+            <h3><i class="fas fa-monument fa-fw"></i>PokéStops</h3>
+            <div>
+              <div class="form-control switch-container">
+                <h3>PokéStops</h3>
                 <div class="onoffswitch">
-                    <input id="weather-cells-switch" type="checkbox" name="weather-cells-switch" class="onoffswitch-checkbox">
-                    <label class="onoffswitch-label" for="weather-cells-switch">
+                  <input id="pokestops-switch" type="checkbox" name="pokestops-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="pokestops-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div id="pokestops-filter-wrapper" style="display:none">
+                <div class="form-control switch-container">
+                  <h3>PokéStops without Event</h3>
+                  <div class="onoffswitch">
+                    <input id="pokestops-no-event-switch" type="checkbox" name="pokestops-no-event-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="pokestops-no-event-switch">
                       <span class="switch-label" data-on="On" data-off="Off"></span>
                       <span class="switch-handle"></span>
                     </label>
+                  </div>
                 </div>
-            </div>
-            <div class="form-control switch-container">
-                <h3>Weather Alerts</h3>
-                <div class="onoffswitch">
-                    <input id="weather-alerts-switch" type="checkbox" name="weather-alerts-switch" class="onoffswitch-checkbox">
-                    <label class="onoffswitch-label" for="weather-alerts-switch">
+                <div class="form-control switch-container">
+                  <h3>Team Rocket Invasions</h3>
+                  <div class="onoffswitch">
+                    <input id="invasions-switch" type="checkbox" name="invasions-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="invasions-switch">
                       <span class="switch-label" data-on="On" data-off="Off"></span>
                       <span class="switch-handle"></span>
                     </label>
-                </div>
-            </div>
-          </div>
-          <h3><i class="fas fa-map-marked-alt fa-fw"></i>Map</h3>
-          <div>
-            <div class="form-control switch-container">
-              <h3>Spawn Points</h3>
-              <div class="onoffswitch">
-                <input id="spawnpoints-switch" type="checkbox" name="spawnpoints-switch" class="onoffswitch-checkbox">
-                <label class="onoffswitch-label" for="spawnpoints-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div class="form-control switch-container">
-              <h3>Scanned Locations</h3>
-              <div class="onoffswitch">
-                <input id="scanned-switch" type="checkbox" name="scanned-switch" class="onoffswitch-checkbox">
-                <label class="onoffswitch-label" for="scanned-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div class="form-control switch-container">
-              <h3>Ranges</h3>
-              <div class="onoffswitch">
-                <input id="ranges-switch" type="checkbox" name="ranges-switch" class="onoffswitch-checkbox">
-                <label class="onoffswitch-label" for="ranges-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div class="form-control switch-container">
-              <h3>S2 Cells</h3>
-              <div class="onoffswitch">
-                <input id="s2-cells-switch" type="checkbox" name="s2-cells-switch" class="onoffswitch-checkbox">
-                <label class="onoffswitch-label" for="s2-cells-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div id="s2-cells-wrapper" style="display:none">
-              <div class="form-control switch-container">
-                <h3>Weather Cells (S2 L10)</h3>
-                <div class="onoffswitch">
-                  <input id="s2-level10-switch" type="checkbox" name="s2-level10-switch" class="onoffswitch-checkbox">
-                  <label class="onoffswitch-label" for="s2-level10-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Ex Trigger Cells (S2 L13)</h3>
-                <div class="onoffswitch">
-                  <input id="s2-level13-switch" type="checkbox" name="s2-level13-switch" class="onoffswitch-checkbox">
-                  <label class="onoffswitch-label" for="s2-level13-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Gym Cells (S2 L14)</h3>
-                <div class="onoffswitch">
-                  <input id="s2-level14-switch" type="checkbox" name="s2-level14-switch" class="onoffswitch-checkbox">
-                  <label class="onoffswitch-label" for="s2-level14-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>PokéStop Cells (S2 L17)</h3>
-                <div class="onoffswitch">
-                  <input id="s2-level17-switch" type="checkbox" name="s2-level17-switch" class="onoffswitch-checkbox">
-                  <label class="onoffswitch-label" for="s2-level17-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <h3><i class="fas fa-map-marker-alt fa-fw"></i>Location</h3>
-          <div>
-            <div class="form-control switch-container" >
-              <h3>Start Map at My Position</h3>
-              <div class="onoffswitch">
-                <input id="start-at-user-location-switch" type="checkbox" name="start-at-user-location-switch" class="onoffswitch-checkbox" checked/>
-                <label class="onoffswitch-label" for="start-at-user-location-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div class="form-control switch-container" >
-              <h3>Start Map at Last Position</h3>
-              <div class="onoffswitch">
-                <input id="start-at-last-location-switch" type="checkbox" name="start-at-last-location-switch" class="onoffswitch-checkbox" checked/>
-                <label class="onoffswitch-label" for="start-at-last-location-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div class="form-control switch-container">
-              <h3>Lock Start Location Marker</h3>
-              <div class="onoffswitch">
-                <input id="lock-start-marker-switch" type="checkbox" name="lock-start-marker-switch" class="onoffswitch-checkbox" checked/>
-                <label class="onoffswitch-label" for="lock-start-marker-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-            <div class="form-control switch-container">
-              <h3>Follow Me</h3>
-              <div class="onoffswitch">
-                <input id="follow-my-location-switch" type="checkbox" name="follow-my-location-switch" class="onoffswitch-checkbox" checked/>
-                <label class="onoffswitch-label" for="follow-my-location-switch">
-                  <span class="switch-label" data-on="On" data-off="Off"></span>
-                  <span class="switch-handle"></span>
-                </label>
-              </div>
-            </div>
-          </div>
-            {% if show.pokemons %}
-          <h3><i class="fas fa-bell fa-fw"></i>Notifications</h3>
-          <div>
-            <div id="tabs_notify">
-              <ul id="tabs_notify_ul">
-                <li><a href="#tabs_notify-10">Notify of Pokémon</a></li>
-                <li><a href="#tabs_notify-11">Notify of Values</a></li>
-                <li><a href="#tabs_notify-12">Notification Settings</a></li>
-              </ul>
-              <div id="tabs_notify-10">
-                <label for="notify-pokemon">
-                  <div class="pokemon-container">
-                    <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
-                    <div class="list"></div>
-                    <center><button type="button" class="pokemon-select-filtered" style="display:none;">Notify filtered</button>
-                    <button type="button" class="pokemon-deselect-filtered" style="display:none;">Unnotify filtered</button></center>
-                    <center><button type="button" class="pokemon-select-all">Notify all</button>
-                    <button type="button" class="pokemon-deselect-all">Unnotify all</button></center>
                   </div>
-                </label>
-              </div>
-              <div id="tabs_notify-11">
-                <div class="notify-container">
-                    {% if show.rarity %}
-                  <div class="form-control">
-                    <label for="notify-rarity">
-                      <h3>Notify of Rarity</h3>
-                      <div style="max-height:165px;overflow-y:auto">
-                        <select id="notify-rarity" multiple="multiple"></select>
-                      </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Normal Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="normal-lures-switch" type="checkbox" name="normal-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="normal-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
                     </label>
                   </div>
-                    {% endif %}
-                    {% if show.encounter %}
-                  <div id="notify-perfection-wrapper" style="display:none">
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Glacial Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="glacial-lures-switch" type="checkbox" name="glacial-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="glacial-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Magnetic Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="magnetic-lures-switch" type="checkbox" name="magnetic-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="magnetic-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Mossy Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="mossy-lures-switch" type="checkbox" name="mossy-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="mossy-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                  {% if show.quests %}
+                <div class="form-control switch-container">
+                  <h3>Quests</h3>
+                  <div class="onoffswitch">
+                    <input id="quests-switch" type="checkbox" name="quests-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="quests-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container" id="quests-filter-wrapper" style="display:none">
+                  <div id="tabs_quest">
+                    <ul id="tabs_quest_ul">
+                      <li><a href="#tabs_quest-1">Quest Pokémon</a></li>
+                      <li><a href="#tabs_quest-2">Quest Items</a></li>
+                    </ul>
+                    <div id="tabs_quest-1">
+                      <label for="include-quest-pokemon">
+                        <div class="pokemon-container">
+                          <input id="include-quest-pokemon" type="text" readonly="true" style="display:none;" >
+                          <div class="list"></div>
+                          <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
+                          <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
+                          <center><button type="button" class="pokemon-select-all">Show all</button>
+                          <button type="button" class="pokemon-deselect-all">Hide all</button></center>
+                        </div>
+                      </label>
+                    </div>
+                    <div id="tabs_quest-2">
+                      <label for="include-quest-items">
+                        <div class="quest-item-container">
+                          <input id="include-quest-items" type="text" readonly="true" style="display:none;" >
+                          <div class="quest-item-list"></div>
+                          <center><button type="button" class="quest-item-select-all">Show all</button>
+                          <button type="button" class="quest-item-deselect-all">Hide all</button></center>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                  {% endif %}
+              </div>
+            </div>
+              {% endif%}
+            <h3><i class="fas fa-cloud-moon fa-fw"></i>Weather</h3>
+            <div>
+              <div class="form-control switch-container">
+                  <h3>Weather</h3>
+                  <div class="onoffswitch">
+                      <input id="weather-cells-switch" type="checkbox" name="weather-cells-switch" class="onoffswitch-checkbox">
+                      <label class="onoffswitch-label" for="weather-cells-switch">
+                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                        <span class="switch-handle"></span>
+                      </label>
+                  </div>
+              </div>
+              <div class="form-control switch-container">
+                  <h3>Weather Alerts</h3>
+                  <div class="onoffswitch">
+                      <input id="weather-alerts-switch" type="checkbox" name="weather-alerts-switch" class="onoffswitch-checkbox">
+                      <label class="onoffswitch-label" for="weather-alerts-switch">
+                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                        <span class="switch-handle"></span>
+                      </label>
+                  </div>
+              </div>
+            </div>
+            <h3><i class="fas fa-map-marked-alt fa-fw"></i>Map</h3>
+            <div>
+              <div class="form-control switch-container">
+                <h3>Spawn Points</h3>
+                <div class="onoffswitch">
+                  <input id="spawnpoints-switch" type="checkbox" name="spawnpoints-switch" class="onoffswitch-checkbox">
+                  <label class="onoffswitch-label" for="spawnpoints-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Scanned Locations</h3>
+                <div class="onoffswitch">
+                  <input id="scanned-switch" type="checkbox" name="scanned-switch" class="onoffswitch-checkbox">
+                  <label class="onoffswitch-label" for="scanned-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Ranges</h3>
+                <div class="onoffswitch">
+                  <input id="ranges-switch" type="checkbox" name="ranges-switch" class="onoffswitch-checkbox">
+                  <label class="onoffswitch-label" for="ranges-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>S2 Cells</h3>
+                <div class="onoffswitch">
+                  <input id="s2-cells-switch" type="checkbox" name="s2-cells-switch" class="onoffswitch-checkbox">
+                  <label class="onoffswitch-label" for="s2-cells-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div id="s2-cells-wrapper" style="display:none">
+                <div class="form-control switch-container">
+                  <h3>Weather Cells (S2 L10)</h3>
+                  <div class="onoffswitch">
+                    <input id="s2-level10-switch" type="checkbox" name="s2-level10-switch" class="onoffswitch-checkbox">
+                    <label class="onoffswitch-label" for="s2-level10-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Ex Trigger Cells (S2 L13)</h3>
+                  <div class="onoffswitch">
+                    <input id="s2-level13-switch" type="checkbox" name="s2-level13-switch" class="onoffswitch-checkbox">
+                    <label class="onoffswitch-label" for="s2-level13-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Gym Cells (S2 L14)</h3>
+                  <div class="onoffswitch">
+                    <input id="s2-level14-switch" type="checkbox" name="s2-level14-switch" class="onoffswitch-checkbox">
+                    <label class="onoffswitch-label" for="s2-level14-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>PokéStop Cells (S2 L17)</h3>
+                  <div class="onoffswitch">
+                    <input id="s2-level17-switch" type="checkbox" name="s2-level17-switch" class="onoffswitch-checkbox">
+                    <label class="onoffswitch-label" for="s2-level17-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3><i class="fas fa-map-marker-alt fa-fw"></i>Location</h3>
+            <div>
+              <div class="form-control switch-container" >
+                <h3>Start Map at My Position</h3>
+                <div class="onoffswitch">
+                  <input id="start-at-user-location-switch" type="checkbox" name="start-at-user-location-switch" class="onoffswitch-checkbox" checked/>
+                  <label class="onoffswitch-label" for="start-at-user-location-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container" >
+                <h3>Start Map at Last Position</h3>
+                <div class="onoffswitch">
+                  <input id="start-at-last-location-switch" type="checkbox" name="start-at-last-location-switch" class="onoffswitch-checkbox" checked/>
+                  <label class="onoffswitch-label" for="start-at-last-location-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Lock Start Location Marker</h3>
+                <div class="onoffswitch">
+                  <input id="lock-start-marker-switch" type="checkbox" name="lock-start-marker-switch" class="onoffswitch-checkbox" checked/>
+                  <label class="onoffswitch-label" for="lock-start-marker-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Follow Me</h3>
+                <div class="onoffswitch">
+                  <input id="follow-my-location-switch" type="checkbox" name="follow-my-location-switch" class="onoffswitch-checkbox" checked/>
+                  <label class="onoffswitch-label" for="follow-my-location-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+              {% if show.pokemons %}
+            <h3><i class="fas fa-bell fa-fw"></i>Notifications</h3>
+            <div>
+              <div id="tabs_notify">
+                <ul id="tabs_notify_ul">
+                  <li><a href="#tabs_notify-10">Notify of Pokémon</a></li>
+                  <li><a href="#tabs_notify-11">Notify of Values</a></li>
+                  <li><a href="#tabs_notify-12">Notification Settings</a></li>
+                </ul>
+                <div id="tabs_notify-10">
+                  <label for="notify-pokemon">
+                    <div class="pokemon-container">
+                      <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
+                      <div class="list"></div>
+                      <center><button type="button" class="pokemon-select-filtered" style="display:none;">Notify filtered</button>
+                      <button type="button" class="pokemon-deselect-filtered" style="display:none;">Unnotify filtered</button></center>
+                      <center><button type="button" class="pokemon-select-all">Notify all</button>
+                      <button type="button" class="pokemon-deselect-all">Unnotify all</button></center>
+                    </div>
+                  </label>
+                </div>
+                <div id="tabs_notify-11">
+                  <div class="notify-container">
+                      {% if show.rarity %}
                     <div class="form-control">
-                      <label for="notify-perfection">
-                        <h3>Notify of Perfection</h3>
-                        <input id="notify-perfection" type="text" name="notify-perfection" placeholder="Minimum perfection %"/>
+                      <label for="notify-rarity">
+                        <h3>Notify of Rarity</h3>
+                        <div style="max-height:165px;overflow-y:auto">
+                          <select id="notify-rarity" multiple="multiple"></select>
+                        </div>
                       </label>
                     </div>
+                      {% endif %}
+                      {% if show.encounter %}
+                    <div id="notify-perfection-wrapper" style="display:none">
+                      <div class="form-control">
+                        <label for="notify-perfection">
+                          <h3>Notify of Perfection</h3>
+                          <input id="notify-perfection" type="text" name="notify-perfection" placeholder="Minimum perfection %"/>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-control">
+                      <label for="notify-level">
+                        <h3>Notify of Level</h3>
+                        <input id="notify-level" type="text" name="notify-level" placeholder="Minimum level"/>
+                      </label>
+                    </div>
+                      {% endif %}
                   </div>
-                  <div class="form-control">
-                    <label for="notify-level">
-                      <h3>Notify of Level</h3>
-                      <input id="notify-level" type="text" name="notify-level" placeholder="Minimum level"/>
-                    </label>
+                </div>
+                <div id="tabs_notify-12">
+                  <div class="notify-container">
+                    <div class="form-control  switch-container">
+                      <h3>Prio Notify</h3>
+                      <div class="onoffswitch">
+                        <input id="prio-notify-switch" type="checkbox" name="prio-notify-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="prio-notify-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
+                      {% if show.medalpokemon %}
+                    <div class="form-control switch-container" id="medal-rattata-wrapper">
+                      <h3>Tiny Rattata</h3>
+                      <div class="onoffswitch">
+                        <input id="medal-rattata-switch" type="checkbox" name="medal-rattata-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="medal-rattata-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-control switch-container" id="medal-magikarp-wrapper">
+                      <h3>Big Magikarp</h3>
+                      <div class="onoffswitch">
+                        <input id="medal-magikarp-switch" type="checkbox" name="medal-magikarp-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="medal-magikarp-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
+                      {% endif %}
+                    <div class="form-control switch-container">
+                      <h3>Hide unnotified pokemon</h3>
+                      <div class="onoffswitch">
+                        <input id="hideunnotified-switch" type="checkbox" name="hideunnotified-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="hideunnotified-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-control switch-container">
+                      <h3>Show browser popups</h3>
+                      <div class="onoffswitch">
+                        <input id="popups-switch" type="checkbox" name="popups-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="popups-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-control switch-container">
+                      <h3>Disable bouncing</h3>
+                      <div class="onoffswitch">
+                        <input id="bounce-switch" type="checkbox" name="bounce-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="bounce-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-control switch-container">
+                      <h3>Notify with sound</h3>
+                      <div class="onoffswitch">
+                        <input id="sound-switch" type="checkbox" name="sound-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="sound-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-control switch-container">
+                      <h3>Use Pokémon cries</h3>
+                      <div class="onoffswitch">
+                        <input id="cries-switch" type="checkbox" name="cries-switch" class="onoffswitch-checkbox" checked>
+                        <label class="onoffswitch-label" for="cries-switch">
+                          <span class="switch-label" data-on="On" data-off="Off"></span>
+                          <span class="switch-handle"></span>
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                    {% endif %}
                 </div>
               </div>
-              <div id="tabs_notify-12">
-                <div class="notify-container">
-                  <div class="form-control  switch-container">
-                    <h3>Prio Notify</h3>
-                    <div class="onoffswitch">
-                      <input id="prio-notify-switch" type="checkbox" name="prio-notify-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="prio-notify-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                    {% if show.medalpokemon %}
-                  <div class="form-control switch-container" id="medal-rattata-wrapper">
-                    <h3>Tiny Rattata</h3>
-                    <div class="onoffswitch">
-                      <input id="medal-rattata-switch" type="checkbox" name="medal-rattata-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="medal-rattata-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-control switch-container" id="medal-magikarp-wrapper">
-                    <h3>Big Magikarp</h3>
-                    <div class="onoffswitch">
-                      <input id="medal-magikarp-switch" type="checkbox" name="medal-magikarp-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="medal-magikarp-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                    {% endif %}
-                  <div class="form-control switch-container">
-                    <h3>Hide unnotified pokemon</h3>
-                    <div class="onoffswitch">
-                      <input id="hideunnotified-switch" type="checkbox" name="hideunnotified-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="hideunnotified-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-control switch-container">
-                    <h3>Show browser popups</h3>
-                    <div class="onoffswitch">
-                      <input id="popups-switch" type="checkbox" name="popups-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="popups-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-control switch-container">
-                    <h3>Disable bouncing</h3>
-                    <div class="onoffswitch">
-                      <input id="bounce-switch" type="checkbox" name="bounce-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="bounce-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-control switch-container">
-                    <h3>Notify with sound</h3>
-                    <div class="onoffswitch">
-                      <input id="sound-switch" type="checkbox" name="sound-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="sound-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="form-control switch-container">
-                    <h3>Use Pokémon cries</h3>
-                    <div class="onoffswitch">
-                      <input id="cries-switch" type="checkbox" name="cries-switch" class="onoffswitch-checkbox" checked>
-                      <label class="onoffswitch-label" for="cries-switch">
-                        <span class="switch-label" data-on="On" data-off="Off"></span>
-                        <span class="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
+            </div>
+              {% endif %}
+            <h3><i class="fas fa-palette fa-fw"></i>Style</h3>
+            <div>
+              <div class="form-control switch-container">
+                <h3>Map Style</h3>
+                <select id="map-style"></select>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Map Service Provider</h3>
+                <select name="map-service-provider" id="map-service-provider">
+                  <option value="googlemaps">Google Maps</option>
+                  <option value="applemaps">Apple Maps</option>
+                </select>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Icon Size</h3>
+                <select name="pokemon-icon-size" id="pokemon-icon-size">
+                  <option value="-8">Small</option>
+                  <option value="0">Normal</option>
+                  <option value="10">Large</option>
+                  <option value="20">X-Large</option>
+                </select>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Start Location Marker Icon</h3>
+                <select name="iconmarker-style" id="iconmarker-style"></select>
+              </div>
+              <div class="form-control switch-container">
+                <h3>My Location Marker Icon</h3>
+                <select name="locationmarker-style" id="locationmarker-style"></select>
               </div>
             </div>
           </div>
-            {% endif %}
-          <h3><i class="fas fa-palette fa-fw"></i>Style</h3>
-          <div>
-            <div class="form-control switch-container">
-              <h3>Map Style</h3>
-              <select id="map-style"></select>
-            </div>
-            <div class="form-control switch-container">
-              <h3>Map Service Provider</h3>
-              <select name="map-service-provider" id="map-service-provider">
-                <option value="googlemaps">Google Maps</option>
-                <option value="applemaps">Apple Maps</option>
-              </select>
-            </div>
-            <div class="form-control switch-container">
-              <h3>Icon Size</h3>
-              <select name="pokemon-icon-size" id="pokemon-icon-size">
-                <option value="-8">Small</option>
-                <option value="0">Normal</option>
-                <option value="10">Large</option>
-                <option value="20">X-Large</option>
-              </select>
-            </div>
-            <div class="form-control switch-container">
-              <h3>Start Location Marker Icon</h3>
-              <select name="iconmarker-style" id="iconmarker-style"></select>
-            </div>
-            <div class="form-control switch-container">
-              <h3>My Location Marker Icon</h3>
-              <select name="locationmarker-style" id="locationmarker-style"></select>
-            </div>
-          </div>
+        <div>
+          <center><button class="settings" onclick="downloadSettings('RocketMap', JSON.stringify(localStorage))"><i class="fas fa-upload fa-fw"></i>Export Settings</button></center>
+          <center><input id="settingsFileInput" type="file" style="display:none;" onchange="loadSettingsFile(event)"> <button class="settings" onclick="document.getElementById('settingsFileInput').click()"><i class="fas fa-download fa-fw"></i>Import Settings</button></center>
+          <center><button class="settings" onclick="confirm('Are you sure you want to reset settings to default values?') ? (localStorage.clear(), window.location.reload()) : false"><i class="fas fa-sync-alt fa-fw"></i>Reset Settings</button></center>
         </div>
-      <div>
-        <center><button class="settings" onclick="downloadSettings('RocketMap', JSON.stringify(localStorage))"><i class="fas fa-upload fa-fw"></i>Export Settings</button></center>
-        <center><input id="settingsFileInput" type="file" style="display:none;" onchange="loadSettingsFile(event)"> <button class="settings" onclick="document.getElementById('settingsFileInput').click()"><i class="fas fa-download fa-fw"></i>Import Settings</button></center>
-        <center><button class="settings" onclick="confirm('Are you sure you want to reset settings to default values?') ? (localStorage.clear(), window.location.reload()) : false"><i class="fas fa-sync-alt fa-fw"></i>Reset Settings</button></center>
+        </nav>
+        <nav id="stats">
+          <div class="switch-container">
+            <div class="switch-container">
+              <div><center><a href="stats">Full Stats</a></center></div>
+            </div>
+            <div class="switch-container">
+              <center><h1 id="stats-ldg-label">Loading...</h1></center>
+            </div>
+            <div class="stats-label-container">
+              <center><h1 id="stats-pkmn-label"></h1></center>
+            </div>
+            <div id="pokemonList" style="color: black;">
+              <table id="pokemonList_table" class="display" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>Icon</th> <th>Name</th> <th>Count</th> <th>%</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <div id="pokeStatStatus" style="color: black;"></div>
+            </div>
+            <div class="stats-label-container">
+              <center><h1 id="stats-gym-label"></h1></center>
+            </div>
+            <div id="arenaList" style="color: black;"></div>
+            <div class="stats-label-container">
+              <center><h1 id="stats-pkstop-label"></h1></center>
+            </div>
+            <div id="pokestopList" style="color: black;"></div>
+          </div>
+        </nav>
+        <nav id="gym-details">
+          <center><h1>Loading...</h1></center>
+        </nav>
+        <div id="map"></div>
       </div>
-      </nav>
-      <nav id="stats">
-        <div class="switch-container">
-          <div class="switch-container">
-            <div><center><a href="stats">Full Stats</a></center></div>
-          </div>
-          <div class="switch-container">
-            <center><h1 id="stats-ldg-label">Loading...</h1></center>
-          </div>
-          <div class="stats-label-container">
-            <center><h1 id="stats-pkmn-label"></h1></center>
-          </div>
-          <div id="pokemonList" style="color: black;">
-            <table id="pokemonList_table" class="display" cellspacing="0" width="100%">
-              <thead>
-                <tr>
-                  <th>Icon</th> <th>Name</th> <th>Count</th> <th>%</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <div id="pokeStatStatus" style="color: black;"></div>
-          </div>
-          <div class="stats-label-container">
-            <center><h1 id="stats-gym-label"></h1></center>
-          </div>
-          <div id="arenaList" style="color: black;"></div>
-          <div class="stats-label-container">
-            <center><h1 id="stats-pkstop-label"></h1></center>
-          </div>
-          <div id="pokestopList" style="color: black;"></div>
-        </div>
-      </nav>
-      <nav id="gym-details">
-        <center><h1>Loading...</h1></center>
-      </nav>
-      <div id="map"></div>
-      <div class="fab" id="scan-here" style="display:none"></div>
     </div>
     <!-- Load JS libs before custom scripts. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -793,6 +794,8 @@
     <script src="https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
     <link  href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet" />
     <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
 
     <script src="{{ url_for('static', filename='dist/js/app.min.js').lstrip('/') }}"></script>
     <script src="{{ url_for('static', filename='dist/js/map.common.min.js').lstrip('/') }}"></script>
