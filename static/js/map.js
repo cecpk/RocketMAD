@@ -1045,7 +1045,7 @@ function pokestopLabel(pokestop) {
               <div class='pokestop container content-left'>
                 <div>
                   <div>
-                    <img class='pokestop rocket-image' src="static/images/pokestop/rocket_r.png" width='64px' height='64px'/>
+                    <img class='pokestop invasion-image' src="static/images/invasion/${invasionId}.png" width='64px' height='64px'/>
                   </div>
                 </div>
               </div>
