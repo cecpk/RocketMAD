@@ -1642,11 +1642,7 @@ function updatePokestopMarker(pokestop, marker) {
     }
 
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
-        if (invasionId === 4 || invasionId === 5) {
-            markerImage += '_i'
-        } else {
-            markerImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
-        }
+        markerImage += '_i_' + invasionId
     }
 
     if (lureExpireTime && lureExpireTime > now) {
