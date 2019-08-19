@@ -1037,11 +1037,7 @@ function pokestopLabel(pokestop) {
     }
 
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
-        if (invasionId === 4 || invasionId === 5) {
-            pokestopImage += '_i'
-        } else {
-            pokestopImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
-        }
+        pokestopImage += '_i_' + invasionId
 
         invasionDisplay = `
             <div class='section-divider'></div>
