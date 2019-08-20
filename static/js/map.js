@@ -1264,7 +1264,7 @@ function getPokemonLevel(cpMultiplier) {
 }
 
 function getGymLevel(gym) {
-    return 6 - gym['slots_available']
+    return 6 - gym.slots_available
 }
 
 function getRaidLevel(raid) {
@@ -1506,6 +1506,12 @@ function updateGymMarker(gym, marker) {
     let raidLevel = getRaidLevel(gym.raid)
     let markerImage = ''
     var zIndexOffset
+
+    if (gym.raid != null && isGymSatisfiesRaidFilters(gym)) {
+        const raid = gym.raid
+
+        if ()
+    }
 
     if (gym.raid && isOngoingRaid(gym.raid) && Store.get('showRaids') && raidLevel >= Store.get('showRaidMinLevel') && raidLevel <= Store.get('showRaidMaxLevel') && isGymSatisfiesRaidExEligibleFilter(gym)) {
         markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + getGymLevel(gym) + '&raidlevel=' + gym['raid']['level'] + '&pkm=' + gym['raid']['pokemon_id']
@@ -2222,7 +2228,7 @@ function processPokemon(item) {
 }
 
 function isPokestopSatisfiesFilters(pokestop) {
-    if (!Store.get('showPokestops')) {
+    if (!Store.get('showPokestops') || pokestop == null) {
         return false
     }
 
@@ -2270,6 +2276,66 @@ function isPokestopSatisfiesFilters(pokestop) {
     }
 
     return false
+}
+
+function processPokestop(i, pokestop) {
+    const now = Date.now()
+
+    if (!mapData.pokestops.hasOwnProperty(pokestop.pokestop_id)) {
+        if (!isPokestopSatisfiesFilters(pokestop)) {
+            return true
+        }
+        // New pokestop, add marker to map and item to dict.
+        pokestop.marker = setupPokestopMarker(pokestop)
+        mapData.pokestops[pokestop.pokestop_id] = pokestop
+        if (pokestop.lure_expiration && pokestop.lure_expiration > now) {
+            luredPokestops[pokestop.pokestop_id] = pokestop
+        }
+        if (pokestop.incident_expiration && pokestop.incident_expiration > now) {
+            invadedPokestops[pokestop.pokestop_id] = pokestop
+        }
+    } else {
+        // Existing pokestop, update marker and dict item if necessary.
+        const pokestop2 = mapData.pokestops[pokestop.pokestop_id]
+        const newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
+        const newInvasion = pokestop.incident_expiration && pokestop.incident_expiration > now && !pokestop2.incident_expiration
+        const questChange = !!pokestop.quest !== !!pokestop2.quest
+
+        if (newLure || newInvasion || questChange) {
+            if (isPokestopSatisfiesFilters(pokestop)) {
+                if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
+                    updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                }
+                updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                if (newLure) {
+                    mapData.pokestops[pokestop.pokestop_id].lure_expiration = pokestop.lure_expiration
+                    mapData.pokestops[pokestop.pokestop_id].active_fort_modifier = pokestop.active_fort_modifier
+                    luredPokestops[pokestop.pokestop_id] = pokestop
+                }
+                if (newInvasion) {
+                    mapData.pokestops[pokestop.pokestop_id].incident_expiration = pokestop.incident_expiration
+                    mapData.pokestops[pokestop.pokestop_id].incident_grunt_type = pokestop.incident_grunt_type
+                    invadedPokestops[pokestop.pokestop_id] = pokestop
+                }
+                if (questChange) {
+                    mapData.pokestops[pokestop.pokestop_id].quest = pokestop.quest
+                }
+                mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
+                mapData.pokestops[pokestop.pokestop_id].isUpdated = true
+            } else {
+                removePokestop(pokestop)
+            }
+            return true
+        }
+
+        if (pokestop.last_updated > pokestop2.last_updated) {
+            if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
+                updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+            }
+            mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
+            mapData.pokestops[pokestop.pokestop_id].isUpdated = true
+        }
+    }
 }
 
 function removePokestop(pokestop) {
@@ -2339,72 +2405,70 @@ function updateEventPokestops() {
     })
 }
 
-function processPokestop(i, pokestop) {
-    const now = Date.now()
+function isGymSatisfiesGymFilters(gym) {
+    if (Store.get('showGyms') && gym != null) {
+        const gymLevel = getGymLevel(gym)
 
-    if (!mapData.pokestops.hasOwnProperty(pokestop.pokestop_id)) {
-        if (!isPokestopSatisfiesFilters(pokestop)) {
-            return true
+        if ((Store.get('showTeamGymsOnly') !== 0 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
+                (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
+                (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
+                (Store.get('showGymInBattle') && !gym.is_in_battle) ||
+                (gymLevel < Store.get('minGymLevel') || gymLevel > Store.get('maxGymLevel'))) {
+            return false
         }
-        // New pokestop, add marker to map and item to dict.
-        pokestop.marker = setupPokestopMarker(pokestop)
-        mapData.pokestops[pokestop.pokestop_id] = pokestop
-        if (pokestop.lure_expiration && pokestop.lure_expiration > now) {
-            luredPokestops[pokestop.pokestop_id] = pokestop
-        }
-        if (pokestop.incident_expiration && pokestop.incident_expiration > now) {
-            invadedPokestops[pokestop.pokestop_id] = pokestop
-        }
-    } else {
-        // Existing pokestop, update marker and dict item if necessary.
-        const pokestop2 = mapData.pokestops[pokestop.pokestop_id]
-        const newLure = pokestop.lure_expiration && pokestop.lure_expiration > now && !pokestop2.lure_expiration
-        const newInvasion = pokestop.incident_expiration && pokestop.incident_expiration > now && !pokestop2.incident_expiration
-        const questChange = !!pokestop.quest !== !!pokestop2.quest
 
-        if (newLure || newInvasion || questChange) {
-            if (isPokestopSatisfiesFilters(pokestop)) {
-                if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
-                    updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-                }
-                updatePokestopMarker(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-                if (newLure) {
-                    mapData.pokestops[pokestop.pokestop_id].lure_expiration = pokestop.lure_expiration
-                    mapData.pokestops[pokestop.pokestop_id].active_fort_modifier = pokestop.active_fort_modifier
-                    luredPokestops[pokestop.pokestop_id] = pokestop
-                }
-                if (newInvasion) {
-                    mapData.pokestops[pokestop.pokestop_id].incident_expiration = pokestop.incident_expiration
-                    mapData.pokestops[pokestop.pokestop_id].incident_grunt_type = pokestop.incident_grunt_type
-                    invadedPokestops[pokestop.pokestop_id] = pokestop
-                }
-                if (questChange) {
-                    mapData.pokestops[pokestop.pokestop_id].quest = pokestop.quest
-                }
-                mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
-                mapData.pokestops[pokestop.pokestop_id].isUpdated = true
-            } else {
-                removePokestop(pokestop)
+        if (Store.get('showLastUpdatedGymsOnly') !== 0) {
+            const now = Date.now()
+            if ((Store.get('showLastUpdatedGymsOnly') * 3600 * 1000) + gym.last_scanned < now.getTime()) {
+                return false
             }
-            return true
-        }
-
-        if (pokestop.last_updated > pokestop2.last_updated) {
-            if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
-                updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
-            }
-            mapData.pokestops[pokestop.pokestop_id].last_updated = pokestop.last_updated
-            mapData.pokestops[pokestop.pokestop_id].isUpdated = true
         }
     }
+
+    return true
 }
 
-function processGym(i, item) {
+function isGymSatisfiesRaidFilters(gym) {
+    if (Store.get('showRaids') && gym.raid != null) {
+        const raid = gym.raid
+        const raidLevel = getRaidLevel(raid)
+
+        if ((Store.get('showParkRaidsOnly') && !gym.is_ex_raid_eligible) ||
+                (raidLevel < Store.get('showRaidMinLevel') || raidLevel > Store.get('showRaidMaxLevel'))) {
+            return false
+        }
+
+        if (Store.get('showActiveRaidsOnly')) {
+            const now = Date.now()
+            if (now < raid.start || now > raid.end) {
+                return false
+            }
+        }
+    }
+
+    return true
+}
+
+function processGym(i, gym) {
     var gymLevel = getGymLevel(item)
     var raidLevel = getRaidLevel(item.raid)
 
     if (!Store.get('showGyms') && !Store.get('showRaids')) {
         return false // in case the checkbox was unchecked in the meantime.
+    }
+
+    if (!mapData.gyms.hasOwnProperty(gym.gym_id)) {
+        if (!isGymSatisfiesGymFilters(gym) && !isGymSatisfiesRaidFilters()) {
+            return true
+        }
+        // New gym, add marker to map and item to dict.
+        gym.marker = setupGymMarker(gym)
+        mapData.gyms[gym.gym_id] = gym
+        // Maybe add gym with raid to special array? (like lures/invasions)
+    } else {
+        // Existing gym, update marker and dict item if necessary.
+        const gym2 = mapData.gyms[gym.gym_id]
+        // Check for new raid/egg.
     }
 
     var removeGymFromMap = function (gymid) {
