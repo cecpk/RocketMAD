@@ -559,6 +559,54 @@ function getGoogleSprite(index, sprite, displayHeight) {
     }
 }
 
+function isGymSatisfiesGymFilters(gym) {
+    if (Store.get('showGyms') && gym != null) {
+        const gymLevel = getGymLevel(gym)
+
+        if ((Store.get('showTeamGymsOnly') !== 0 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
+                (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
+                (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
+                (Store.get('showGymInBattle') && !gym.is_in_battle) ||
+                (gymLevel < Store.get('minGymLevel') || gymLevel > Store.get('maxGymLevel'))) {
+            return false
+        }
+
+        if (Store.get('showLastUpdatedGymsOnly') !== 0) {
+            const now = Date.now()
+            if ((Store.get('showLastUpdatedGymsOnly') * 3600 * 1000) + gym.last_scanned < now.getTime()) {
+                return false
+            }
+        }
+    }
+
+    return true
+}
+
+function isGymSatisfiesRaidFilters(gym) {
+    if (Store.get('showRaids') && gym.raid != null) {
+        const raid = gym.raid
+        const raidLevel = getRaidLevel(raid)
+
+        if ((Store.get('showParkRaidsOnly') && !gym.is_ex_raid_eligible) ||
+                (raidLevel < Store.get('showRaidMinLevel') || raidLevel > Store.get('showRaidMaxLevel'))) {
+            return false
+        }
+
+        if (Store.get('showActiveRaidsOnly')) {
+            const now = Date.now()
+            if (now < raid.start || now > raid.end) {
+                return false
+            }
+        }
+    }
+
+    return true
+}
+
+function isGymSatisfiesFilters(gym) {
+    return isGymSatisfiesGymFilters(gym) || isGymSatisfiesRaidFilters(gym)
+}
+
 function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
     const pokemonIndex = item['pokemon_id']
     const sprite = pokemonSprites(pokemonIndex)
