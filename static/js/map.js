@@ -1982,19 +1982,20 @@ function addListeners(marker, type) {
 }
 
 function updateStaleMarkers() {
-    const now = new Date()
+    const now = Date.now()
 
     $.each(onGoingRaidGyms, function (key, gym) {
         if (gym.raid.end <= now) {
-            if (isGymSatisfiesFilters(pokestop)) {
+            if (isGymSatisfiesFilters(gym)) {
                 mapData.gyms[gym.gym_id].raid = null
                 updateGymMarker(mapData.gyms[gym.gym_id], mapData.gyms[gym.gym_id].marker)
                 if (mapData.gyms[gym.gym_id].marker.infoWindowIsOpen) {
                     updateGymLabel(gym, mapData.gyms[gym.gym_id].marker)
+                } else {
+                    // Set isUpdated to true so label gets updated next time it's opened.
+                    mapData.gyms[gym.gym_id].isUpdated = true
                 }
-                // Set isUpdated to true so label gets updated next time it's opened.
-                mapData.gyms[gym.gym_id].isUpdated = true
-                delete onGoingRaidGyms[gym.pokestop_id]
+                delete onGoingRaidGyms[gym.gym_id]
             } else {
                 removeGym(gym)
             }
@@ -2009,9 +2010,10 @@ function updateStaleMarkers() {
                 updatePokestopMarker(mapData.pokestops[pokestop.pokestop_id], mapData.pokestops[pokestop.pokestop_id].marker)
                 if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
                     updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                } else {
+                    // Set isUpdated to true so label gets updated next time it's opened.
+                    mapData.pokestops[pokestop.pokestop_id].isUpdated = true
                 }
-                // Set isUpdated to true so label gets updated next time it's opened.
-                mapData.pokestops[pokestop.pokestop_id].isUpdated = true
                 delete luredPokestops[pokestop.pokestop_id]
             } else {
                 removePokestop(pokestop)
@@ -2027,9 +2029,10 @@ function updateStaleMarkers() {
                 updatePokestopMarker(mapData.pokestops[pokestop.pokestop_id], mapData.pokestops[pokestop.pokestop_id].marker)
                 if (mapData.pokestops[pokestop.pokestop_id].marker.infoWindowIsOpen) {
                     updatePokestopLabel(pokestop, mapData.pokestops[pokestop.pokestop_id].marker)
+                } else {
+                    // Set isUpdated to true so label gets updated next time it's opened.
+                    mapData.pokestops[pokestop.pokestop_id].isUpdated = true
                 }
-                // Set isUpdated to true so label gets updated next time it's opened.
-                mapData.pokestops[pokestop.pokestop_id].isUpdated = true
                 delete invadedPokestops[pokestop.pokestop_id]
             } else {
                 removePokestop(pokestop)
@@ -2501,12 +2504,14 @@ function processGym(i, gym) {
     } else {
         // Existing gym, update marker and dict item if necessary.
         const gym2 = mapData.gyms[gym.gym_id]
-        if ((gym.last_modified !== gym2.last_modified) ||
-                (gym.raid != null && gym2.raid != null && gym.raid.cp > 0 && gym2.raid.cp === 0 && gym.raid.end > now) ||
-                (gym.is_in_battle !== gym2.is_in_battle)) {
+        const newOngoingRaid = gym.raid != null && gym2.raid != null && gym.raid.cp > 0 && gym2.raid.cp === 0 && gym.raid.end > now
+        if ((gym.last_modified !== gym2.last_modified) || newOngoingRaid || gym.is_in_battle !== gym2.is_in_battle) {
             if (isGymSatisfiesFilters(gym)) {
                 gym.marker = updateGymMarker(gym, mapData.gyms[gym.gym_id].marker)
                 mapData.gyms[gym.gym_id] = gym
+                if (newOngoingRaid) {
+                    onGoingRaidGyms[gym.gym_id] = gym
+                }
             } else {
                 removeGym(gym)
             }
