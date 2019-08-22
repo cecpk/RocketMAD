@@ -131,29 +131,13 @@ var StoreOptions = {
         default: 0, // 0: none, 1: <=Common, 2: <=Uncommon, 3: <=Rare, 4: <=Very Rare, 5: <=Ultra Rare
         type: StoreTypes.Number
     },
-    'showRaids': {
+    'showPokemon': {
         default: true,
         type: StoreTypes.Boolean
     },
-    'showRaidFilter': {
+    'showPokemonStats': {
         default: true,
         type: StoreTypes.Boolean
-    },
-    'showParkRaidsOnly': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showActiveRaidsOnly': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showRaidMinLevel': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'showRaidMaxLevel': {
-        default: 5,
-        type: StoreTypes.Number
     },
     'showGyms': {
         default: true,
@@ -167,25 +151,21 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-    'showParkGymsOnly': {
+    'showTeamGymsOnly': {
+        default: -1,
+        type: StoreTypes.Number
+    },
+    'showOpenGymsOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showOpenGymsOnly': {
+    'showParkGymsOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
     'showGymInBattle': {
         default: false,
         type: StoreTypes.Boolean
-    },
-    'showTeamGymsOnly': {
-        default: 0,
-        type: StoreTypes.Number
-    },
-    'showLastUpdatedGymsOnly': {
-        default: 0,
-        type: StoreTypes.Number
     },
     'minGymLevel': {
         default: 0,
@@ -195,23 +175,47 @@ var StoreOptions = {
         default: 6,
         type: StoreTypes.Number
     },
-    'showPokemon': {
+    'showLastUpdatedGymsOnly': {
+        default: 0,
+        type: StoreTypes.Number
+    },
+    'showRaids': {
         default: true,
         type: StoreTypes.Boolean
     },
-    'showPokemonStats': {
+    'showRaidFilter': {
         default: true,
         type: StoreTypes.Boolean
+    },
+    'showActiveRaidsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showParkRaidsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showEggMinLevel': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'showEggMaxLevel': {
+        default: 5,
+        type: StoreTypes.Number
+    },
+    'showRaidMinLevel': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'showRaidMaxLevel': {
+        default: 5,
+        type: StoreTypes.Number
     },
     'showPokestops': {
         default: true,
         type: StoreTypes.Boolean
     },
     'showPokestopsNoEvent': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'showQuests': {
         default: true,
         type: StoreTypes.Boolean
     },
@@ -232,6 +236,10 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'showMossyLures': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showQuests': {
         default: true,
         type: StoreTypes.Boolean
     },
@@ -559,52 +567,91 @@ function getGoogleSprite(index, sprite, displayHeight) {
     }
 }
 
+function isValidRaid(raid) {
+    return raid != null && raid.end > Date.now()
+}
+
+function isUpcomingRaid(raid) {
+    return raid != null && raid.start > Date.now()
+}
+
+function isOngoingRaid(raid) {
+    return raid != null && raid.start <= Date.now() && raid.end > Date.now()
+}
+
 function isGymSatisfiesGymFilters(gym) {
-    if (Store.get('showGyms') && gym != null) {
-        const gymLevel = getGymLevel(gym)
+    const gymLevel = getGymLevel(gym)
 
-        if ((Store.get('showTeamGymsOnly') !== 0 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
-                (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
-                (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
-                (Store.get('showGymInBattle') && !gym.is_in_battle) ||
-                (gymLevel < Store.get('minGymLevel') || gymLevel > Store.get('maxGymLevel'))) {
-            return false
-        }
-
-        if (Store.get('showLastUpdatedGymsOnly') !== 0) {
-            const now = Date.now()
-            if ((Store.get('showLastUpdatedGymsOnly') * 3600 * 1000) + gym.last_scanned < now.getTime()) {
-                return false
-            }
-        }
-    }
-
-    return true
+    return Store.get('showGyms') && gym != null &&
+        !((Store.get('showTeamGymsOnly') !== -1 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
+          (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
+          (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
+          (Store.get('showGymInBattle') && !gym.is_in_battle) ||
+          (gymLevel < Store.get('minGymLevel') || gymLevel > Store.get('maxGymLevel')) ||
+          (Store.get('showLastUpdatedGymsOnly') !== 0 && Store.get('showLastUpdatedGymsOnly') * 3600 * 1000 + gym.last_scanned < Date.now()))
 }
 
 function isGymSatisfiesRaidFilters(gym) {
-    if (Store.get('showRaids') && gym.raid != null) {
-        const raid = gym.raid
-        const raidLevel = getRaidLevel(raid)
+    const raid = gym.raid
+    const raidLevel = getRaidLevel(raid)
 
-        if ((Store.get('showParkRaidsOnly') && !gym.is_ex_raid_eligible) ||
-                (raidLevel < Store.get('showRaidMinLevel') || raidLevel > Store.get('showRaidMaxLevel'))) {
-            return false
-        }
-
-        if (Store.get('showActiveRaidsOnly')) {
-            const now = Date.now()
-            if (now < raid.start || now > raid.end) {
-                return false
-            }
-        }
-    }
-
-    return true
+    return Store.get('showRaids') && isValidRaid(gym.raid) &&
+        !((Store.get('showParkRaidsOnly') && !gym.is_ex_raid_eligible) ||
+          (Store.get('showActiveRaidsOnly') && !isOngoingRaid(raid)) ||
+          (isUpcomingRaid(raid) && (raidLevel < Store.get('showEggMinLevel') || raidLevel > Store.get('showEggMaxLevel'))) ||
+          (isOngoingRaid(raid) && (raidLevel < Store.get('showRaidMinLevel') || raidLevel > Store.get('showRaidMaxLevel'))))
 }
 
 function isGymSatisfiesFilters(gym) {
     return isGymSatisfiesGymFilters(gym) || isGymSatisfiesRaidFilters(gym)
+}
+
+function isQuestSatisfiesFilters(quest) {
+    if (Store.get('showQuests') && quest != null) {
+        switch (quest.reward_type) {
+            case 2:
+                if (includedQuestItems.includes(parseInt(quest.item_id))) {
+                    return true
+                }
+                break
+            case 3:
+                if (includedQuestItems.includes(6)) {
+                    return true
+                }
+                break
+            case 7:
+                if (includedQuestPokemon.includes(parseInt(quest.pokemon_id))) {
+                    return true
+                }
+                break
+        }
+    }
+
+    return false
+}
+
+function isPokestopSatisfiesInvasionFilters(pokestop) {
+    return Store.get('showInvasions') && pokestop != null && pokestop.incident_expiration && pokestop.incident_expiration > Date.now()
+}
+
+function isPokestopSatisfiesLureFilters(pokestop) {
+    if (pokestop != null && pokestop.lure_expiration && pokestop.lure_expiration > Date.now()) {
+        switch (pokestop.active_fort_modifier) {
+            case 501:
+                return Store.get('showNormalLures')
+            case 502:
+                return Store.get('showGlacialLures')
+            case 503:
+                return Store.get('showMossyLures')
+            case 504:
+                return Store.get('showMagneticLures')
+        }
+    }
+}
+
+function isPokestopSatisfiesFilters(pokestop) {
+    return (Store.get('showPokestops') && pokestop != null) &&
+        (Store.get('showPokestopsNoEvent') || isQuestSatisfiesFilters(pokestop.quest) || isPokestopSatisfiesInvasionFilters(pokestop) || isPokestopSatisfiesLureFilters(pokestop))
 }
 
 function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
