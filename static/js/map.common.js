@@ -567,6 +567,18 @@ function getGoogleSprite(index, sprite, displayHeight) {
     }
 }
 
+function getGymLevel(gym) {
+    return 6 - gym.slots_available
+}
+
+function getRaidLevel(raid) {
+    if (raid != null) {
+        return raid.level
+    } else {
+        return 0
+    }
+}
+
 function isValidRaid(raid) {
     return raid != null && raid.end > Date.now()
 }
@@ -610,20 +622,11 @@ function isQuestSatisfiesFilters(quest) {
     if (Store.get('showQuests') && quest != null) {
         switch (quest.reward_type) {
             case 2:
-                if (includedQuestItems.includes(parseInt(quest.item_id))) {
-                    return true
-                }
-                break
+                return includedQuestItems.includes(parseInt(quest.item_id))
             case 3:
-                if (includedQuestItems.includes(6)) {
-                    return true
-                }
-                break
+                return includedQuestItems.includes(6)
             case 7:
-                if (includedQuestPokemon.includes(parseInt(quest.pokemon_id))) {
-                    return true
-                }
-                break
+                return includedQuestPokemon.includes(parseInt(quest.pokemon_id))
         }
     }
 
@@ -631,7 +634,7 @@ function isQuestSatisfiesFilters(quest) {
 }
 
 function isPokestopSatisfiesInvasionFilters(pokestop) {
-    return Store.get('showInvasions') && pokestop != null && pokestop.incident_expiration && pokestop.incident_expiration > Date.now()
+    return Store.get('showInvasions') && pokestop != null && pokestop.incident_expiration != null && pokestop.incident_expiration > Date.now()
 }
 
 function isPokestopSatisfiesLureFilters(pokestop) {
