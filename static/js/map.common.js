@@ -591,6 +591,14 @@ function isOngoingRaid(raid) {
     return raid != null && raid.start <= Date.now() && raid.end > Date.now()
 }
 
+function isInvadedPokestop(pokestop) {
+    return pokestop != null && pokestop.incident_expiration != null && pokestop.incident_expiration > Date.now()
+}
+
+function isLuredPokestop(pokestop) {
+    return pokestop != null && pokestop.lure_expiration != null && pokestop.lure_expiration > Date.now()
+}
+
 function isGymSatisfiesGymFilters(gym) {
     const gymLevel = getGymLevel(gym)
 
