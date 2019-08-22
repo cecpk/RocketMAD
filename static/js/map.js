@@ -1008,11 +1008,7 @@ function pokestopLabel(pokestop) {
     }
 
     if (isPokestopSatisfiesInvasionFilters(pokestop)) {
-        if (invasionId === 4 || invasionId === 5) {
-            pokestopImage += '_i'
-        } else {
-            pokestopImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
-        }
+        pokestopImage += '_i_' + invasionId
 
         invasionDisplay = `
             <div class='section-divider'></div>
@@ -1020,7 +1016,7 @@ function pokestopLabel(pokestop) {
               <div class='pokestop container content-left'>
                 <div>
                   <div>
-                    <img class='pokestop rocket-image' src="static/images/pokestop/rocket_r.png" width='64px' height='64px'/>
+                    <img class='pokestop invasion-image' src="static/images/invasion/${invasionId}.png" width='64px' height='64px'/>
                   </div>
                 </div>
               </div>
@@ -1574,11 +1570,7 @@ function updatePokestopMarker(pokestop, marker) {
     }
 
     if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
-        if (invasionId === 4 || invasionId === 5) {
-            markerImage += '_i'
-        } else {
-            markerImage += '_i_' + idToInvasion[invasionId].type.toLowerCase()
-        }
+        markerImage += '_i_' + invasionId
     }
 
     if (lureExpireTime && lureExpireTime > now) {
