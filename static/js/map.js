@@ -749,10 +749,6 @@ function pokemonLabel(item) {
     </div>`
 }
 
-function isRaidSatisfiesRaidMinMaxFilter(raid) {
-    return raid && raid['level'] <= Store.get('showRaidMaxLevel') && raid['level'] >= Store.get('showRaidMinLevel')
-}
-
 function gymLabel(gym) {
     const teamName = gymTypes[gym.team_id]
     const titleText = gym.name ? gym.name : (gym.team_id === 0 ? teamName : 'Team ' + teamName)
@@ -940,7 +936,7 @@ function gymLabel(gym) {
 
 function updateGymLabel(gym, marker) {
     marker._popup.setContent(gymLabel(gym))
-    if (marker.infoWindowIsOpen && gym.raid != null) {
+    if (marker.infoWindowIsOpen && isValidRaid(gym.raid)) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -1216,18 +1212,6 @@ function getPokemonLevel(cpMultiplier) {
     pokemonLevel = (Math.round(pokemonLevel) * 2) / 2
 
     return pokemonLevel
-}
-
-function getGymLevel(gym) {
-    return 6 - gym.slots_available
-}
-
-function getRaidLevel(raid) {
-    if (raid) {
-        return raid['level']
-    } else {
-        return 0
-    }
 }
 
 function lpad(str, len, padstr) {
