@@ -2357,7 +2357,7 @@ function processGym(i, gym) {
     } else {
         // Existing gym, update marker and dict item if necessary.
         const gym2 = mapData.gyms[gym.gym_id]
-        const newOngoingRaid = isOngoingRaid(gym.raid) && isUpcomingRaid(gym2.raid)
+        const newOngoingRaid = isValidRaid(gym.raid) && gym.raid.cp > 0 && gym2.raid.cp === 0
         if (gym.last_modified !== gym2.last_modified || newOngoingRaid || gym.is_in_battle !== gym2.is_in_battle) {
             if (isGymSatisfiesFilters(gym)) {
                 gym.marker = updateGymMarker(gym, mapData.gyms[gym.gym_id].marker)
