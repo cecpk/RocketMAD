@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css">
     <!-- Custom CSS code-->
       {% if show.custom_css %}
     <link rel="stylesheet" type="text/css" href="static/css/custom.css">
@@ -152,10 +153,11 @@
                 <div class="form-control switch-container" id="team-gyms-only-wrapper">
                   <h3>Team</h3>
                   <select name="team-gyms-filter-switch" id="team-gyms-only-switch">
-                    <option value="0">All</option>
+                    <option value="-1">All</option>
                     <option value="1">Mystic</option>
                     <option value="2">Valor</option>
                     <option value="3">Instinct</option>
+                    <option value="0">Uncontested</option>
                   </select>
                 </div>
                 <div class="form-control switch-container" id="open-gyms-only-wrapper">
@@ -191,25 +193,25 @@
                 <div class="form-control switch-container" id="min-level-gyms-filter-wrapper">
                   <h3>Minimum Level</h3>
                   <select name="min-level-gyms-filter-switch" id="min-level-gyms-filter-switch">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
+                    <option value="0">Level 0</option>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                    <option value="6">Level 6</option>
                   </select>
                 </div>
                 <div class="form-control switch-container" id="max-level-gyms-filter-wrapper">
                   <h3>Maximum Level</h3>
                   <select name="max-level-gyms-filter-switch" id="max-level-gyms-filter-switch">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
+                    <option value="0">Level 0</option>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                    <option value="6">Level 6</option>
                   </select>
                 </div>
                 <div class="form-control switch-container" id="last-update-gyms-wrapper">
@@ -237,7 +239,7 @@
               </div>
               <div id="raids-filter-wrapper" style="display:none">
                 <div class="form-control switch-container" id="raid-active-gym-wrapper">
-                  <h3>Show Active Raids Only</h3>
+                  <h3>Active Raids Only</h3>
                   <div class="onoffswitch">
                     <input id="raid-active-gym-switch" type="checkbox" name="raid-active-gym-switch" class="onoffswitch-checkbox" checked>
                     <label class="onoffswitch-label" for="raid-active-gym-switch">
@@ -255,6 +257,26 @@
                       <span class="switch-handle"></span>
                     </label>
                   </div>
+                </div>
+                <div class="form-control switch-container" id="min-egg-level-only-wrapper">
+                  <h3>Minimum Egg Level</h3>
+                  <select name="egg-min-level-only-switch" id="egg-min-level-only-switch">
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                  </select>
+                </div>
+                <div class="form-control switch-container" id="max-egg-level-only-wrapper">
+                  <h3>Maximum Egg Level</h3>
+                  <select name="egg-max-level-only-switch" id="egg-max-level-only-switch">
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                  </select>
                 </div>
                 <div class="form-control switch-container" id="min-raid-level-only-wrapper">
                   <h3>Minimum Raid Level</h3>
@@ -769,7 +791,7 @@
     <!-- Load JS libs before custom scripts. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.4/push.min.js"></script>
