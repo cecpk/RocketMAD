@@ -298,6 +298,25 @@
                     <option value="5">Level 5</option>
                   </select>
                 </div>
+                <div class="form-control switch-container">
+                  <div id="tabs_raid">
+                    <ul id="tabs_raid_ul">
+                      <li><a href="#tabs_raid-1">Raid Bosses</a></li>
+                    </ul>
+                    <div id="tabs_raid-1">
+                      <label for="include-raid-pokemon">
+                        <div class="pokemon-container">
+                          <input id="include-raid-pokemon" type="text" readonly="true" style="display:none;" >
+                          <div class="list"></div>
+                          <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
+                          <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
+                          <center><button type="button" class="pokemon-select-all">Show all</button>
+                          <button type="button" class="pokemon-deselect-all">Hide all</button></center>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
                 {% endif %}
             </div>

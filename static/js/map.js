@@ -5,6 +5,7 @@
 //
 
 var $selectIncludePokemon
+var $selectIncludeRaidPokemon
 var $selectIncludeQuestPokemon
 var $selectIncludeQuestItems
 var $selectNotifyPokemon
@@ -38,6 +39,7 @@ var searchMarkerStyles
 
 var timestamp
 var excludedPokemon = []
+var includedRaidPokemon = []
 var includedQuestPokemon = []
 var includedQuestItems = []
 var excludedPokemonByRarity = []
@@ -276,31 +278,38 @@ function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
 }
 
 function loadDefaultImages() {
-    var ep = Store.get('remember_select_include_pokemon')
-    var eqp = Store.get('remember_select_include_quest_pokemon')
-    var eqi = Store.get('remember_select_include_quest_items')
-    var en = Store.get('remember_select_notify_pokemon')
+    var ip = Store.get('remember_select_include_pokemon')
+    var irp = Store.get('remember_select_include_raid_pokemon')
+    var iqp = Store.get('remember_select_include_quest_pokemon')
+    var iqi = Store.get('remember_select_include_quest_items')
+    var inp = Store.get('remember_select_notify_pokemon')
     $('label[for="include-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="include-pokemon"] .list .pokemon-icon-sprite').each(function () {
-        if (ep.indexOf($(this).data('value')) !== -1) {
+        if (ip.indexOf($(this).data('value')) !== -1) {
+            $(this).addClass('active')
+        }
+    })
+    $('label[for="include-raid-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
+    $('label[for="include-raid-pokemon"] .list .pokemon-icon-sprite').each(function () {
+        if (irp.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
         }
     })
     $('label[for="include-quest-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="include-quest-pokemon"] .list .pokemon-icon-sprite').each(function () {
-        if (eqp.indexOf($(this).data('value')) !== -1) {
+        if (iqp.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
         }
     })
     $('label[for="include-quest-items"] .quest-item-list .quest-item-sprite').removeClass('active')
     $('label[for="include-quest-items"] .quest-item-list .quest-item-sprite').each(function () {
-        if (eqi.indexOf($(this).data('value')) !== -1) {
+        if (iqi.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
         }
     })
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').each(function () {
-        if (en.indexOf($(this).data('value')) !== -1) {
+        if (inp.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
             $('.notify-filter-active').css('color', 'limegreen')
             $('.notify-filter-active').text('*** Active Filter  ***')
@@ -404,6 +413,7 @@ function initMap() { // eslint-disable-line no-unused-vars
     initSidebar()
 
     $('#tabs_marker').tabs()
+    $('#tabs_raid').tabs()
     $('#tabs_quest').tabs()
     $('#tabs_notify').tabs()
 
@@ -3220,6 +3230,7 @@ $(function () {
 
     $selectIncludePokemon = $('#include-pokemon')
     $selectIncludeQuestPokemon = $('#include-quest-pokemon')
+    $selectIncludeRaidPokemon = $('#include-raid-pokemon')
     $selectIncludeQuestItems = $('#include-quest-items')
     $selectExcludeRarity = $('#exclude-rarity')
     $selectNotifyPokemon = $('#notify-pokemon')
@@ -3493,6 +3504,23 @@ $(function () {
             Store.set('remember_select_include_pokemon', includedPokemon)
         })
 
+        $selectIncludeRaidPokemon.on('change', function (e) {
+            if ($selectIncludeRaidPokemon.val().length > 0) {
+                includedRaidPokemon = $selectIncludeRaidPokemon.val().split(',').map(Number).sort(function (a, b) {
+                    return a - b
+                })
+            } else {
+                includedRaidPokemon = []
+            }
+            if (includedRaidPokemon.length === pokemonIds.length) {
+                $('a[href$="#tabs_raid-1"]').text('Raid Bosses (All)')
+            } else {
+                $('a[href$="#tabs_raid-1"]').text(`Raid Bosses (${includedRaidPokemon.length})`)
+            }
+            updateGyms()
+            Store.set('remember_select_include_raid_pokemon', includedRaidPokemon)
+        })
+
         $selectIncludeQuestPokemon.on('change', function (e) {
             if ($selectIncludeQuestPokemon.val().length > 0) {
                 includedQuestPokemon = $selectIncludeQuestPokemon.val().split(',').map(Number).sort(function (a, b) {
@@ -3588,6 +3616,7 @@ $(function () {
 
         // Recall saved lists.
         $selectIncludePokemon.val(Store.get('remember_select_include_pokemon')).trigger('change')
+        $selectIncludeRaidPokemon.val(Store.get('remember_select_include_raid_pokemon')).trigger('change')
         $selectIncludeQuestPokemon.val(Store.get('remember_select_include_quest_pokemon')).trigger('change')
         $selectIncludeQuestItems.val(Store.get('remember_select_include_quest_items')).trigger('change')
         $selectNotifyPokemon.val(Store.get('remember_select_notify_pokemon')).trigger('change')

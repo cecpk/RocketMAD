@@ -161,7 +161,7 @@
       }
     }
 
-    label[for="include-pokemon"], label[for="include-quest-pokemon"], label[for="include-quest-items"], label[for="notify-pokemon"] {
+    label[for="include-pokemon"], label[for="include-raid-pokemon"], label[for="include-quest-pokemon"], label[for="include-quest-items"], label[for="notify-pokemon"] {
       .list .active, .quest-item-list .active {
         border: 1px solid #D3D3D3;
         background: #f6f6f6;
@@ -246,7 +246,7 @@
         margin-bottom: 5px;
     }
 
-    #tabs_marker, #tabs_quest, #tabs_notify {
+    #tabs_marker, #tabs_raid, #tabs_quest, #tabs_notify {
           padding:0;
           border:0;
           &:after{
