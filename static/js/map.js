@@ -54,7 +54,8 @@ var reids = []
 
 var luredPokestops = {}
 var invadedPokestops = {}
-var onGoingRaidGyms = {}
+var upcomingRaidGyms = {} // Contains only raids with known raid boss.
+var raidGyms = {}
 
 // var map
 var rawDataIsLoading = false
@@ -1910,7 +1911,7 @@ function addListeners(marker, type) {
 function updateStaleMarkers() {
     const now = Date.now()
 
-    $.each(onGoingRaidGyms, function (key, gym) {
+    $.each(raidGyms, function (key, gym) {
         if (gym.raid.end <= now) {
             if (isGymSatisfiesFilters(gym)) {
                 mapData.gyms[gym.gym_id].raid = null
@@ -1921,7 +1922,24 @@ function updateStaleMarkers() {
                     // Set isUpdated to true so label gets updated next time it's opened.
                     mapData.gyms[gym.gym_id].isUpdated = true
                 }
-                delete onGoingRaidGyms[gym.gym_id]
+                delete raidGyms[gym.gym_id]
+            } else {
+                removeGym(gym)
+            }
+        }
+    })
+
+    $.each(upcomingRaidGyms, function (key, gym) {
+        if (gym.raid.start <= now) {
+            if (isGymSatisfiesFilters(gym)) {
+                updateGymMarker(mapData.gyms[gym.gym_id], mapData.gyms[gym.gym_id].marker)
+                if (mapData.gyms[gym.gym_id].marker.infoWindowIsOpen) {
+                    updateGymLabel(gym, mapData.gyms[gym.gym_id].marker)
+                } else {
+                    // Set isUpdated to true so label gets updated next time it's opened.
+                    mapData.gyms[gym.gym_id].isUpdated = true
+                }
+                delete upcomingRaidGyms[gym.gym_id]
             } else {
                 removeGym(gym)
             }
@@ -2351,19 +2369,27 @@ function processGym(i, gym) {
         // New gym, add marker to map and item to dict.
         gym.marker = setupGymMarker(gym)
         mapData.gyms[gym.gym_id] = gym
-        if (isOngoingRaid(gym.raid)) {
-            onGoingRaidGyms[gym.gym_id] = gym
+        if (isValidRaid(gym.raid)) {
+            raidGyms[gym.gym_id] = gym
+            if (isUpcomingRaid(gym.raid) && gym.raid.pokemon_id != null) {
+                upcomingRaidGyms[gym.gym_id] = gym
+            }
         }
     } else {
         // Existing gym, update marker and dict item if necessary.
         const gym2 = mapData.gyms[gym.gym_id]
-        const newOngoingRaid = isValidRaid(gym.raid) && gym.raid.cp > 0 && gym2.raid.cp === 0
-        if (gym.last_modified !== gym2.last_modified || newOngoingRaid || gym.is_in_battle !== gym2.is_in_battle) {
+        const newRaid = isValidRaid(gym.raid) && !raidGyms.hasOwnProperty(gym.gym_id)
+        const newUpcomingRaid = isUpcomingRaid(gym.raid) && gym.raid.pokemon_id != null && !upcomingRaidGyms.hasOwnProperty(gym.gym_id)
+        const newOngoingRaid = isOngoingRaid(gym.raid) && gym2.raid.pokemon == null
+        if (gym.last_modified !== gym2.last_modified || newRaid || newUpcomingRaid || newOngoingRaid || gym.is_in_battle !== gym2.is_in_battle) {
             if (isGymSatisfiesFilters(gym)) {
                 gym.marker = updateGymMarker(gym, mapData.gyms[gym.gym_id].marker)
                 mapData.gyms[gym.gym_id] = gym
-                if (newOngoingRaid) {
-                    onGoingRaidGyms[gym.gym_id] = gym
+                if (newRaid) {
+                    raidGyms[gym.gym_id] = gym
+                }
+                if (newUpcomingRaid) {
+                    upcomingRaidGyms[gym.gym_id] = gym
                 }
             } else {
                 removeGym(gym)
@@ -2387,8 +2413,11 @@ function removeGym(gym) {
         }
         markers.removeLayer(mapData.gyms[gym.gym_id].marker)
         delete mapData.gyms[gym.gym_id]
-        if (onGoingRaidGyms.hasOwnProperty(gym.gym_id)) {
-            delete onGoingRaidGyms[gym.gym_id]
+        if (raidGyms.hasOwnProperty(gym.gym_id)) {
+            delete raidGyms[gym.gym_id]
+        }
+        if (upcomingRaidGyms.hasOwnProperty(gym.gym_id)) {
+            delete upcomingRaidGyms[gym.gym_id]
         }
     }
 }
