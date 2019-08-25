@@ -7,6 +7,7 @@
 var $selectIncludePokemon
 var $selectIncludeRaidPokemon
 var $selectIncludeQuestPokemon
+var $selectIncludeInvasions
 var $selectIncludeQuestItems
 var $selectNotifyPokemon
 var $selectRarityNotify
@@ -40,6 +41,7 @@ var searchMarkerStyles
 var timestamp
 var excludedPokemon = []
 var includedRaidPokemon = []
+var includedInvasions = []
 var includedQuestPokemon = []
 var includedQuestItems = []
 var excludedPokemonByRarity = []
@@ -280,6 +282,7 @@ function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
 function loadDefaultImages() {
     var ip = Store.get('remember_select_include_pokemon')
     var irp = Store.get('remember_select_include_raid_pokemon')
+    var ii = Store.get('remember_select_include_invasions')
     var iqp = Store.get('remember_select_include_quest_pokemon')
     var iqi = Store.get('remember_select_include_quest_items')
     var inp = Store.get('remember_select_notify_pokemon')
@@ -292,6 +295,12 @@ function loadDefaultImages() {
     $('label[for="include-raid-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="include-raid-pokemon"] .list .pokemon-icon-sprite').each(function () {
         if (irp.indexOf($(this).data('value')) !== -1) {
+            $(this).addClass('active')
+        }
+    })
+    $('label[for="include-invasions"] .invasion-list .invasion-sprite').removeClass('active')
+    $('label[for="include-invasions"] .invasion-list .invasion-sprite').each(function () {
+        if (ii.indexOf($(this).data('value')) !== -1) {
             $(this).addClass('active')
         }
     })
@@ -414,6 +423,7 @@ function initMap() { // eslint-disable-line no-unused-vars
 
     $('#tabs_marker').tabs()
     $('#tabs_raid').tabs()
+    $('#tabs_invasion').tabs()
     $('#tabs_quest').tabs()
     $('#tabs_notify').tabs()
 
@@ -575,6 +585,7 @@ function initSidebar() {
     $('#pokestops-no-event-switch').prop('checked', Store.get('showPokestopsNoEvent'))
     $('#quests-switch').prop('checked', Store.get('showQuests'))
     $('#invasions-switch').prop('checked', Store.get('showInvasions'))
+    $('#invasions-filter-wrapper').toggle(Store.get('showInvasions'))
     $('#normal-lures-switch').prop('checked', Store.get('showNormalLures'))
     $('#glacial-lures-switch').prop('checked', Store.get('showGlacialLures'))
     $('#magnetic-lures-switch').prop('checked', Store.get('showMagneticLures'))
@@ -3174,8 +3185,6 @@ $(function () {
         })
 
         $selectLocationIconMarker.val(Store.get('locationMarkerStyle')).trigger('change')
-
-        loadDefaultImages()
     })
 })
 $(function () {
@@ -3231,6 +3240,7 @@ $(function () {
     $selectIncludePokemon = $('#include-pokemon')
     $selectIncludeQuestPokemon = $('#include-quest-pokemon')
     $selectIncludeRaidPokemon = $('#include-raid-pokemon')
+    $selectIncludeInvasions = $('#include-invasions')
     $selectIncludeQuestItems = $('#include-quest-items')
     $selectExcludeRarity = $('#exclude-rarity')
     $selectNotifyPokemon = $('#notify-pokemon')
@@ -3630,11 +3640,65 @@ $(function () {
         }
     })
 
-    // Load invasion data.
+    // Load invasion data and populate list.
     $.getJSON('static/dist/data/invasions.min.json').done(function (data) {
+        let invasionIds = []
         for (var id in data) {
             idToInvasion[id] = data[id]
+            $('.invasion-list').append(`<div class='invasion-sprite' data-value='${id}'><div id='invasion-type-list'>${idToInvasion[id].type}</div><img class='invasion-select-icon' src='static/images/invasion/${id}.png' width='32px'><div id='invasion-gender-list'>${idToInvasion[id].gruntGender} Grunt</div></div>`)
+            invasionIds.push(id)
         }
+
+        $('.invasion-list').on('click', '.invasion-sprite', function () {
+            var img = $(this)
+            var inputElement = $(this).parent().parent().find('input[id$=invasions]')
+            var value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
+            var id = img.data('value').toString()
+            if (img.hasClass('active')) {
+                inputElement.val(value.filter(function (elem) {
+                    return elem !== id
+                }).join(',')).trigger('change')
+                img.removeClass('active')
+            } else {
+                inputElement.val((value.concat(id).join(','))).trigger('change')
+                img.addClass('active')
+            }
+        })
+
+        loadDefaultImages()
+
+        $('.invasion-select-all').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
+            parent.find('.invasion-list .invasion-sprite').addClass('active')
+            parent.find('input[id$=invasions]').val(invasionIds.join(',')).trigger('change')
+        })
+
+        $('.invasion-deselect-all').on('click', function (e) {
+            e.preventDefault()
+            var parent = $(this).parent().parent()
+            parent.find('.invasion-list .invasion-sprite').removeClass('active')
+            parent.find('input[id$=invasions]').val('').trigger('change')
+        })
+
+        $selectIncludeInvasions.on('change', function (e) {
+            if ($selectIncludeInvasions.val().length > 0) {
+                includedInvasions = $selectIncludeInvasions.val().split(',').map(Number).sort(function (a, b) {
+                    return a - b
+                })
+            } else {
+                includedInvasions = []
+            }
+            if (includedInvasions.length === invasionIds.length) {
+                $('a[href$="#tabs_invasion-1"]').text('Team Rocket Invasions (All)')
+            } else {
+                $('a[href$="#tabs_invasion-1"]').text(`Team Rocket Invasions (${includedInvasions.length})`)
+            }
+            updatePokestops()
+            Store.set('remember_select_include_invasions', includedInvasions)
+        })
+
+        $selectIncludeInvasions.val(Store.get('remember_select_include_invasions')).trigger('change')
     })
 
     // run interval timers to regularly update map, rarity and timediffs
@@ -4037,6 +4101,9 @@ $(function () {
     })
 
     $('#invasions-switch').change(function () {
+        var wrapper = $('#invasions-filter-wrapper')
+        this.checked ? wrapper.show() : wrapper.hide()
+
         Store.set('showInvasions', this.checked)
         updatePokestops()
     })

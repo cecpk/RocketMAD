@@ -121,6 +121,10 @@ var StoreOptions = {
             484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 808, 809],
         type: StoreTypes.JSON
     },
+    'remember_select_include_invasions': {
+        default: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
+        type: StoreTypes.JSON
+    },
     'remember_select_include_quest_items': {
         default: [1, 2, 3, 6, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402],
         type: StoreTypes.JSON
@@ -675,7 +679,7 @@ function isQuestSatisfiesFilters(quest) {
 }
 
 function isPokestopSatisfiesInvasionFilters(pokestop) {
-    return Store.get('showInvasions') && pokestop != null && pokestop.incident_expiration != null && pokestop.incident_expiration > Date.now()
+    return Store.get('showInvasions') && pokestop != null && pokestop.incident_expiration != null && pokestop.incident_expiration > Date.now() && includedInvasions.includes(pokestop.incident_grunt_type)
 }
 
 function isPokestopSatisfiesLureFilters(pokestop) {

@@ -80,10 +80,10 @@
                         <div class="pokemon-container">
                           <input id="include-pokemon" type="text" readonly="true" style="display:none;">
                           <div class="list"></div>
-                          <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
-                          <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
-                          <center><button type="button" class="pokemon-select-all">Show all</button>
-                          <button type="button" class="pokemon-deselect-all">Hide all</button></center>
+                          <center><button type="button" class="pokemon-select-filtered select-all-button" style="display:none;">Show filtered</button>
+                          <button type="button" class="pokemon-deselect-filtered deselect-all-button" style="display:none;">Hide filtered</button></center>
+                          <center><button type="button" class="pokemon-select-all select-all-button">Show all</button>
+                          <button type="button" class="pokemon-deselect-all deselect-all-button">Hide all</button></center>
                         </div>
                       </label>
                     </div>
@@ -308,10 +308,10 @@
                         <div class="pokemon-container">
                           <input id="include-raid-pokemon" type="text" readonly="true" style="display:none;" >
                           <div class="list"></div>
-                          <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
-                          <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
-                          <center><button type="button" class="pokemon-select-all">Show all</button>
-                          <button type="button" class="pokemon-deselect-all">Hide all</button></center>
+                          <center><button type="button" class="pokemon-select-filtered select-all-button" style="display:none;">Show filtered</button>
+                          <button type="button" class="pokemon-deselect-filtered deselect-all-button" style="display:none;">Hide filtered</button></center>
+                          <center><button type="button" class="pokemon-select-all select-all-button">Show all</button>
+                          <button type="button" class="pokemon-deselect-all deselect-all-button">Hide all</button></center>
                         </div>
                       </label>
                     </div>
@@ -353,6 +353,23 @@
                       <span class="switch-label" data-on="On" data-off="Off"></span>
                       <span class="switch-handle"></span>
                     </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container" id="invasions-filter-wrapper">
+                  <div id="tabs_invasion">
+                    <ul id="tabs_invasion_ul">
+                      <li><a href="#tabs_invasion-1">Team Rocket Invasions</a></li>
+                    </ul>
+                    <div id="tabs_invasion-1">
+                      <label for="include-invasions">
+                        <div class="invasion-container">
+                          <input id="include-invasions" type="text" readonly="true" style="display:none;" >
+                          <div class="invasion-list"></div>
+                          <center><button type="button" class="invasion-select-all select-all-button">Show all</button>
+                          <button type="button" class="invasion-deselect-all deselect-all-button">Hide all</button></center>
+                        </div>
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div class="form-control switch-container">
@@ -419,8 +436,8 @@
                           <div class="list"></div>
                           <center><button type="button" class="pokemon-select-filtered" style="display:none;">Show filtered</button>
                           <button type="button" class="pokemon-deselect-filtered" style="display:none;">Hide filtered</button></center>
-                          <center><button type="button" class="pokemon-select-all">Show all</button>
-                          <button type="button" class="pokemon-deselect-all">Hide all</button></center>
+                          <center><button type="button" class="pokemon-select-all select-all-button">Show all</button>
+                          <button type="button" class="pokemon-deselect-all deselect-all-button">Hide all</button></center>
                         </div>
                       </label>
                     </div>
@@ -429,8 +446,8 @@
                         <div class="quest-item-container">
                           <input id="include-quest-items" type="text" readonly="true" style="display:none;" >
                           <div class="quest-item-list"></div>
-                          <center><button type="button" class="quest-item-select-all">Show all</button>
-                          <button type="button" class="quest-item-deselect-all">Hide all</button></center>
+                          <center><button type="button" class="quest-item-select-all select-all-button">Show all</button>
+                          <button type="button" class="quest-item-deselect-all deselect-all-button">Hide all</button></center>
                         </div>
                       </label>
                     </div>
@@ -605,10 +622,10 @@
                     <div class="pokemon-container">
                       <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
                       <div class="list"></div>
-                      <center><button type="button" class="pokemon-select-filtered" style="display:none;">Notify filtered</button>
-                      <button type="button" class="pokemon-deselect-filtered" style="display:none;">Unnotify filtered</button></center>
-                      <center><button type="button" class="pokemon-select-all">Notify all</button>
-                      <button type="button" class="pokemon-deselect-all">Unnotify all</button></center>
+                      <center><button type="button" class="pokemon-select-filtered select-all-button" style="display:none;">Notify filtered</button>
+                      <button type="button" class="pokemon-deselect-filtered deselect-all-button" style="display:none;">Unnotify filtered</button></center>
+                      <center><button type="button" class="pokemon-select-all select-all-button">Notify all</button>
+                      <button type="button" class="pokemon-deselect-all deselect-all-button">Unnotify all</button></center>
                     </div>
                   </label>
                 </div>
