@@ -69,7 +69,7 @@
                 </div>
               </div>
               <div id="pokemons-filter-wrapper" style="display:none;">
-                <div class="form-control switch-container">
+                <div class="form-control">
                   <div id="tabs_marker">
                     <ul id="tabs_marker_ul">
                       <li><a href="#tabs_marker-1">Pokémon</a></li>
@@ -298,7 +298,7 @@
                     <option value="5">Level 5</option>
                   </select>
                 </div>
-                <div class="form-control switch-container">
+                <div class="form-control">
                   <div id="tabs_raid">
                     <ul id="tabs_raid_ul">
                       <li><a href="#tabs_raid-1">Raid Bosses</a></li>
@@ -355,10 +355,10 @@
                     </label>
                   </div>
                 </div>
-                <div class="form-control switch-container" id="invasions-filter-wrapper">
+                <div class="form-control" id="invasions-filter-wrapper">
                   <div id="tabs_invasion">
                     <ul id="tabs_invasion_ul">
-                      <li><a href="#tabs_invasion-1">Team Rocket Invasions</a></li>
+                      <li><a href="#tabs_invasion-1">Invasions</a></li>
                     </ul>
                     <div id="tabs_invasion-1">
                       <label for="include-invasions">
@@ -423,7 +423,7 @@
                     </label>
                   </div>
                 </div>
-                <div class="form-control switch-container" id="quests-filter-wrapper" style="display:none">
+                <div class="form-control" id="quests-filter-wrapper" style="display:none">
                   <div id="tabs_quest">
                     <ul id="tabs_quest_ul">
                       <li><a href="#tabs_quest-1">Quest Pokémon</a></li>
@@ -611,139 +611,222 @@
               {% if show.pokemons %}
             <h3><i class="fas fa-bell fa-fw"></i>Notifications</h3>
             <div>
-              <div id="tabs_notify">
-                <ul id="tabs_notify_ul">
-                  <li><a href="#tabs_notify-10">Notify of Pokémon</a></li>
-                  <li><a href="#tabs_notify-11">Notify of Values</a></li>
-                  <li><a href="#tabs_notify-12">Notification Settings</a></li>
-                </ul>
-                <div id="tabs_notify-10">
-                  <label for="notify-pokemon">
-                    <div class="pokemon-container">
-                      <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
-                      <div class="list"></div>
-                      <center><button type="button" class="pokemon-select-filtered select-all-button" style="display:none;">Notify filtered</button>
-                      <button type="button" class="pokemon-deselect-filtered deselect-all-button" style="display:none;">Unnotify filtered</button></center>
-                      <center><button type="button" class="pokemon-select-all select-all-button">Notify all</button>
-                      <button type="button" class="pokemon-deselect-all deselect-all-button">Unnotify all</button></center>
-                    </div>
+              <div class="form-control switch-container">
+                <h3>Pokémon Notifications</h3>
+                <div class="onoffswitch">
+                  <input id="notify-pokemon-switch" type="checkbox" name="notify-pokemon-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="notify-pokemon-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
                   </label>
                 </div>
-                <div id="tabs_notify-11">
-                  <div class="notify-container">
-                      {% if show.rarity %}
-                    <div class="form-control">
-                      <label for="notify-rarity">
-                        <h3>Notify of Rarity</h3>
-                        <div style="max-height:165px;overflow-y:auto">
-                          <select id="notify-rarity" multiple="multiple"></select>
+              </div>
+              <div id="notify-pokemon-filter-wrapper" style="display:none;">
+                <div class="form-control">
+                  <div id="tabs_notify">
+                    <ul id="tabs_notify_ul">
+                      <li><a href="#tabs_notify-10">Pokémon</a></li>
+                      <li><a href="#tabs_notify-11">Pokémon Values</a></li>
+                    </ul>
+                    <div id="tabs_notify-10">
+                      <label for="notify-pokemon">
+                        <div class="pokemon-container">
+                          <input id="notify-pokemon" type="text" readonly="true" style="display:none;" >
+                          <div class="list"></div>
+                          <center><button type="button" class="pokemon-select-filtered select-all-button" style="display:none;">Notify filtered</button>
+                          <button type="button" class="pokemon-deselect-filtered deselect-all-button" style="display:none;">Unnotify filtered</button></center>
+                          <center><button type="button" class="pokemon-select-all select-all-button">Notify all</button>
+                          <button type="button" class="pokemon-deselect-all deselect-all-button">Unnotify all</button></center>
                         </div>
                       </label>
                     </div>
-                      {% endif %}
-                      {% if show.encounter %}
-                    <div id="notify-perfection-wrapper" style="display:none">
-                      <div class="form-control">
-                        <label for="notify-perfection">
-                          <h3>Notify of Perfection</h3>
-                          <input id="notify-perfection" type="text" name="notify-perfection" placeholder="Minimum perfection %"/>
-                        </label>
+                    <div id="tabs_notify-11">
+                      <div class="notify-container">
+                          {% if show.encounter %}
+                        <div id="notify-perfection-wrapper" style="display:none">
+                          <div class="form-control">
+                            <label for="notify-perfection">
+                              <h3>Notify of Perfection</h3>
+                              <input id="notify-perfection" type="text" name="notify-perfection" placeholder="Minimum perfection %"/>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="form-control">
+                          <label for="notify-level">
+                            <h3>Notify of Level</h3>
+                            <input id="notify-level" type="text" name="notify-level" placeholder="Minimum level"/>
+                          </label>
+                        </div>
+                          {% endif %}
+                          {% if show.rarity %}
+                        <div class="form-control">
+                          <label for="notify-rarity">
+                            <h3>Notify of Rarity</h3>
+                            <div style="max-height: 165px; width:100%; overflow-y: auto">
+                              <select id="notify-rarity" multiple="multiple"></select>
+                            </div>
+                          </label>
+                        </div>
+                          {% endif %}
                       </div>
                     </div>
-                    <div class="form-control">
-                      <label for="notify-level">
-                        <h3>Notify of Level</h3>
-                        <input id="notify-level" type="text" name="notify-level" placeholder="Minimum level"/>
-                      </label>
-                    </div>
-                      {% endif %}
                   </div>
                 </div>
-                <div id="tabs_notify-12">
-                  <div class="notify-container">
-                    <div class="form-control  switch-container">
-                      <h3>Prio Notify</h3>
-                      <div class="onoffswitch">
-                        <input id="prio-notify-switch" type="checkbox" name="prio-notify-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="prio-notify-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
-                      </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>PokéStop Notifications</h3>
+                <div class="onoffswitch">
+                  <input id="notify-pokestops-switch" type="checkbox" name="notify-pokestops-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="notify-pokestops-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div id="notify-pokestops-filter-wrapper" style="display:none;">
+                <div class="form-control">
+                  <div id="tabs_notify_pokestop">
+                    <ul id="tabs_notify_pokestop_ul">
+                      <li><a href="#tabs_notify_invasion-1">Invasions</a></li>
+                      <li><a href="#tabs_notify_lure-2">Lures</a></li>
+                    </ul>
+                    <div id="tabs_notify_invasion-1">
+                      <label for="notify-invasions">
+                        <div class="invasion-container">
+                          <input id="notify-invasions" type="text" readonly="true" style="display:none;" >
+                          <div class="invasion-list"></div>
+                          <center><button type="button" class="invasion-select-all select-all-button">Notify all</button>
+                          <button type="button" class="invasion-deselect-all deselect-all-button">Unnotify all</button></center>
+                        </div>
+                      </label>
                     </div>
-                      {% if show.medalpokemon %}
-                    <div class="form-control switch-container" id="medal-rattata-wrapper">
-                      <h3>Tiny Rattata</h3>
-                      <div class="onoffswitch">
-                        <input id="medal-rattata-switch" type="checkbox" name="medal-rattata-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="medal-rattata-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="form-control switch-container" id="medal-magikarp-wrapper">
-                      <h3>Big Magikarp</h3>
-                      <div class="onoffswitch">
-                        <input id="medal-magikarp-switch" type="checkbox" name="medal-magikarp-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="medal-magikarp-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
-                      </div>
-                    </div>
-                      {% endif %}
-                    <div class="form-control switch-container">
-                      <h3>Hide unnotified pokemon</h3>
-                      <div class="onoffswitch">
-                        <input id="hideunnotified-switch" type="checkbox" name="hideunnotified-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="hideunnotified-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="form-control switch-container">
-                      <h3>Show browser popups</h3>
-                      <div class="onoffswitch">
-                        <input id="popups-switch" type="checkbox" name="popups-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="popups-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="form-control switch-container">
-                      <h3>Disable bouncing</h3>
-                      <div class="onoffswitch">
-                        <input id="bounce-switch" type="checkbox" name="bounce-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="bounce-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="form-control switch-container">
-                      <h3>Notify with sound</h3>
-                      <div class="onoffswitch">
-                        <input id="sound-switch" type="checkbox" name="sound-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="sound-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="form-control switch-container">
-                      <h3>Use Pokémon cries</h3>
-                      <div class="onoffswitch">
-                        <input id="cries-switch" type="checkbox" name="cries-switch" class="onoffswitch-checkbox" checked>
-                        <label class="onoffswitch-label" for="cries-switch">
-                          <span class="switch-label" data-on="On" data-off="Off"></span>
-                          <span class="switch-handle"></span>
-                        </label>
+                    <div id="tabs_notify_lure-2">
+                      <div class="notify-container">
+                        <div class="form-control switch-container">
+                          <h3>Notify of Normal Lures</h3>
+                          <div class="onoffswitch">
+                            <input id="notify-normal-lures-switch" type="checkbox" name="notify-normal-lures-switch" class="onoffswitch-checkbox" checked>
+                            <label class="onoffswitch-label" for="notify-normal-lures-switch">
+                              <span class="switch-label" data-on="On" data-off="Off"></span>
+                              <span class="switch-handle"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="form-control switch-container">
+                          <h3>Notify of Glacial Lures</h3>
+                          <div class="onoffswitch">
+                            <input id="notify-glacial-lures-switch" type="checkbox" name="notify-glacial-lures-switch" class="onoffswitch-checkbox" checked>
+                            <label class="onoffswitch-label" for="notify-glacial-lures-switch">
+                              <span class="switch-label" data-on="On" data-off="Off"></span>
+                              <span class="switch-handle"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="form-control switch-container">
+                          <h3>Notify of Magnetic Lures</h3>
+                          <div class="onoffswitch">
+                            <input id="notify-magnetic-lures-switch" type="checkbox" name="notify-magnetic-lures-switch" class="onoffswitch-checkbox" checked>
+                            <label class="onoffswitch-label" for="notify-magnetic-lures-switch">
+                              <span class="switch-label" data-on="On" data-off="Off"></span>
+                              <span class="switch-handle"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="form-control switch-container">
+                          <h3>Notify of Mossy Lures</h3>
+                          <div class="onoffswitch">
+                            <input id="notify-mossy-lures-switch" type="checkbox" name="notify-mossy-lures-switch" class="onoffswitch-checkbox" checked>
+                            <label class="onoffswitch-label" for="notify-mossy-lures-switch">
+                              <span class="switch-label" data-on="On" data-off="Off"></span>
+                              <span class="switch-handle"></span>
+                            </label>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div class="form-control  switch-container">
+                <h3>Prio Notify</h3>
+                <div class="onoffswitch">
+                  <input id="prio-notify-switch" type="checkbox" name="prio-notify-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="prio-notify-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+                {% if show.medalpokemon %}
+              <div class="form-control switch-container" id="medal-rattata-wrapper">
+                <h3>Tiny Rattata</h3>
+                <div class="onoffswitch">
+                  <input id="medal-rattata-switch" type="checkbox" name="medal-rattata-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="medal-rattata-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container" id="medal-magikarp-wrapper">
+                <h3>Big Magikarp</h3>
+                <div class="onoffswitch">
+                  <input id="medal-magikarp-switch" type="checkbox" name="medal-magikarp-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="medal-magikarp-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+                {% endif %}
+              <div class="form-control switch-container">
+                <h3>Hide unnotified pokemon</h3>
+                <div class="onoffswitch">
+                  <input id="hideunnotified-switch" type="checkbox" name="hideunnotified-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="hideunnotified-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Show browser popups</h3>
+                <div class="onoffswitch">
+                  <input id="popups-switch" type="checkbox" name="popups-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="popups-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Disable bouncing</h3>
+                <div class="onoffswitch">
+                  <input id="bounce-switch" type="checkbox" name="bounce-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="bounce-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Notify with sound</h3>
+                <div class="onoffswitch">
+                  <input id="sound-switch" type="checkbox" name="sound-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="sound-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Use Pokémon cries</h3>
+                <div class="onoffswitch">
+                  <input id="cries-switch" type="checkbox" name="cries-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="cries-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
                 </div>
               </div>
             </div>
