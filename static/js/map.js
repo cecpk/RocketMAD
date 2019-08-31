@@ -123,6 +123,8 @@ const toastrOptions = {
     'hideMethod': 'fadeOut'
 }
 
+const availablePokemonCount = 649
+
 const genderType = ['♂', '♀', '⚲']
 
 const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
@@ -3248,7 +3250,6 @@ $(function () {
     $selectRarityNotify = $('#notify-rarity')
     $textPerfectionNotify = $('#notify-perfection')
     $textLevelNotify = $('#notify-level')
-    var numberOfPokemon = 493
 
     $('.list').before('<input type="search" class="search" placeholder="Search for Name, ID or Type...">')
 
@@ -3302,7 +3303,7 @@ $(function () {
         }
 
         var id
-        for (id = 1; id <= numberOfPokemon; id++) {
+        for (id = 1; id <= availablePokemonCount; id++) {
             populateLists(id, data[id])
             pokemonIds.push(id)
         }
