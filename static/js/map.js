@@ -10,6 +10,7 @@ var $selectIncludeQuestPokemon
 var $selectIncludeInvasions
 var $selectIncludeQuestItems
 var $selectNotifyPokemon
+var $selectNotifyInvasions
 var $selectRarityNotify
 var $textPerfectionNotify
 var $textLevelNotify
@@ -48,6 +49,7 @@ var excludedPokemonByRarity = []
 var excludedRarity
 
 var notifiedPokemon = []
+var notifyInvasions = []
 var notifiedRarity = []
 var notifiedMinPerfection = null
 var notifiedMinLevel = null
@@ -156,6 +158,15 @@ const questItemNames = {
     1402: 'Premium Raid Pass',
     1404: 'Star Piece',
     1405: 'Gift'
+}
+
+const ActiveFortModifierEnum = Object.freeze({'normal':501, 'glacial':502, 'mossy':503, 'magnetic':504})
+
+const lureTypes = {
+    501: 'Normal',
+    502: 'Glacial',
+    503: 'Mossy',
+    504: 'Magnetic'
 }
 
 const weatherImages = {
@@ -285,43 +296,55 @@ function loadDefaultImages() {
     var ii = Store.get('remember_select_include_invasions')
     var iqp = Store.get('remember_select_include_quest_pokemon')
     var iqi = Store.get('remember_select_include_quest_items')
-    var inp = Store.get('remember_select_notify_pokemon')
+    var np = Store.get('remember_select_notify_pokemon')
+    var ni = Store.get('remember_select_notify_invasions')
+
     $('label[for="include-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="include-pokemon"] .list .pokemon-icon-sprite').each(function () {
-        if (ip.indexOf($(this).data('value')) !== -1) {
+        if (ip.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
     })
+
     $('label[for="include-raid-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="include-raid-pokemon"] .list .pokemon-icon-sprite').each(function () {
-        if (irp.indexOf($(this).data('value')) !== -1) {
+        if (irp.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
     })
+
     $('label[for="include-invasions"] .invasion-list .invasion-sprite').removeClass('active')
     $('label[for="include-invasions"] .invasion-list .invasion-sprite').each(function () {
-        if (ii.indexOf($(this).data('value')) !== -1) {
+        if (ii.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
     })
+
     $('label[for="include-quest-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="include-quest-pokemon"] .list .pokemon-icon-sprite').each(function () {
-        if (iqp.indexOf($(this).data('value')) !== -1) {
+        if (iqp.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
     })
+
     $('label[for="include-quest-items"] .quest-item-list .quest-item-sprite').removeClass('active')
     $('label[for="include-quest-items"] .quest-item-list .quest-item-sprite').each(function () {
-        if (iqi.indexOf($(this).data('value')) !== -1) {
+        if (iqi.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
     })
+
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').removeClass('active')
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite').each(function () {
-        if (inp.indexOf($(this).data('value')) !== -1) {
+        if (np.includes($(this).data('value'))) {
             $(this).addClass('active')
-            $('.notify-filter-active').css('color', 'limegreen')
-            $('.notify-filter-active').text('*** Active Filter  ***')
+        }
+    })
+
+    $('label[for="notify-invasions"] .invasion-list .invasion-sprite').removeClass('active')
+    $('label[for="notify-invasions"] .invasion-list .invasion-sprite').each(function () {
+        if (ni.includes($(this).data('value'))) {
+            $(this).addClass('active')
         }
     })
 }
@@ -426,6 +449,7 @@ function initMap() { // eslint-disable-line no-unused-vars
     $('#tabs_invasion').tabs()
     $('#tabs_quest').tabs()
     $('#tabs_notify').tabs()
+    $('#tabs_notify_pokestop').tabs()
 
     if (Push._agents.chrome.isSupported()) {
         createServiceWorkerReceiver()
@@ -618,6 +642,15 @@ function initSidebar() {
     $('#prio-notify-switch').prop('checked', Store.get('prioNotify'))
     $('#medal-rattata-switch').prop('checked', Store.get('showMedalRattata'))
     $('#medal-magikarp-switch').prop('checked', Store.get('showMedalMagikarp'))
+    $('#notify-pokemon-switch').prop('checked', Store.get('notifyPokemon'))
+    $('#notify-pokemon-filter-wrapper').toggle(Store.get('notifyPokemon'))
+    $('#notify-pokestops-switch').prop('checked', Store.get('notifyPokestops'))
+    $('#notify-pokestops-filter-wrapper').toggle(Store.get('notifyPokestops'))
+    $('#notify-normal-lures-switch').prop('checked', Store.get('notifyNormalLures'))
+    $('#notify-glacial-lures-switch').prop('checked', Store.get('notifyGlacialLures'))
+    $('#notify-magnetic-lures-switch').prop('checked', Store.get('notifyMagneticLures'))
+    $('#notify-mossy-lures-switch').prop('checked', Store.get('notifyMossyLures'))
+
 
     $('select').each(
         function (id, element) {
@@ -737,7 +770,7 @@ function pokemonLabel(item) {
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    const notifyLabel = notifiedPokemon.indexOf(id) < 0 ? 'Notify' : 'Unnotify'
+    const notifyLabel = notifiedPokemon.includes(id) ? 'Notify' : 'Unnotify'
 
     return `
     <div class='pokemon container'>
@@ -965,47 +998,50 @@ function updateGymLabel(gym, marker) {
 }
 
 function pokestopLabel(pokestop) {
-    const pokestopName = pokestop.name ? pokestop.name : 'PokéStop'
-    const lureExpireTime = pokestop.lure_expiration
-    const invasionExpireTime = pokestop.incident_expiration
-    const invasionId = pokestop.incident_grunt_type
-    const quest = pokestop.quest
+    const pokestopName = pokestop.name != null && pokestop.name != '' ? pokestop.name : 'PokéStop'
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
-    var pokestopImageSource = ''
-    var pokestopImage = 'stop'
-    var pokestopImageClass = ''
+    var imageUrl = ''
+    var imageClass = ''
     var lureDisplay = ''
     var lureClass = ''
     var invasionDisplay = ''
     var questDisplay = ''
 
-    if (isQuestSatisfiesFilters(quest)) {
-        let rewardImageSource = ''
+    if (pokestop.image != null && pokestop.image != '') {
+        imageUrl = pokestop.image
+        imageClass = 'image'
+    } else {
+        imageUrl = getPokestopIconUrlFiltered(pokestop)
+        imageClass = 'sprite'
+    }
+
+    if (isQuestSatisfiesFilters(pokestop.quest)) {
+        const quest = pokestop.quest
+        let rewardImageUrl = ''
         let rewardText = ''
 
         switch (quest.reward_type) {
             case 2:
-                rewardImageSource = 'static/images/quest/reward_' + quest.item_id + '_1.png'
+                rewardImageUrl = 'static/images/quest/reward_' + quest.item_id + '_1.png'
                 rewardText = quest.item_amount + ' ' + i8ln(questItemNames[quest.item_id])
                 break
             case 3:
-                rewardImageSource = 'static/images/quest/reward_stardust.png'
+                rewardImageUrl = 'static/images/quest/reward_stardust.png'
                 rewardText = quest.stardust + ' Stardust'
                 break
             case 7:
-                rewardImageSource = getPokemonRawIconUrl(quest)
+                rewardImageUrl = getPokemonRawIconUrl(quest)
                 rewardText = `${idToPokemon[quest.pokemon_id].name} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
                 break
         }
 
-        pokestopImage += '_q'
         questDisplay = `
             <div class='section-divider'></div>
               <div class='pokestop container'>
                 <div class='pokestop container content-left'>
                   <div>
                     <div>
-                      <img class='pokestop quest-image' src="${rewardImageSource}" width='64px' height='64px'/>
+                      <img class='pokestop quest-image' src="${rewardImageUrl}" width='64px' height='64px'/>
                     </div>
                   </div>
                 </div>
@@ -1026,8 +1062,8 @@ function pokestopLabel(pokestop) {
     }
 
     if (isPokestopSatisfiesInvasionFilters(pokestop)) {
-        pokestopImage += '_i_' + invasionId
-
+        const invasionId = pokestop.incident_grunt_type
+        const invasionExpireTime = pokestop.incident_expiration
         invasionDisplay = `
             <div class='section-divider'></div>
             <div class='pokestop container'>
@@ -1060,31 +1096,12 @@ function pokestopLabel(pokestop) {
     }
 
     if (isPokestopSatisfiesLureFilters(pokestop)) {
-        let lureTypeText = ''
-        switch (pokestop.active_fort_modifier) {
-            case 501:
-                lureTypeText = 'Normal Lure'
-                lureClass = 'lure-normal'
-                break
-            case 502:
-                lureTypeText = 'Glacial Lure'
-                lureClass = 'lure-glacial'
-                break
-            case 503:
-                lureTypeText = 'Mossy Lure'
-                lureClass = 'lure-mossy'
-                break
-            case 504:
-                lureTypeText = 'Magnetic Lure'
-                lureClass = 'lure-magnetic'
-                break
-        }
-
-        pokestopImage += '_l_' + pokestop.active_fort_modifier
+        const lureExpireTime = pokestop.lure_expiration
+        lureClass = 'lure-' + lureTypes[pokestop.activeFortModifier].toLowerCase()
         lureDisplay = `
             <div class='pokestop lure-container ${lureClass}'>
               <div>
-                ${lureTypeText}
+                ${lureTypes[pokestop.active_fort_modifier]} Lure
               </div>
               <div>
                 ${timestampToTime(lureExpireTime)} (<span class='label-countdown' disappears-at='${lureExpireTime}'>00m00s</span>)
@@ -1094,21 +1111,13 @@ function pokestopLabel(pokestop) {
         lureClass = 'no-lure'
     }
 
-    if (pokestop.image) {
-        pokestopImageSource = pokestop.image
-        pokestopImageClass = 'image'
-    } else {
-        pokestopImageSource = 'static/images/pokestop/' + pokestopImage + '.png'
-        pokestopImageClass = 'sprite'
-    }
-
     return `
         <div>
           <div class='pokestop container'>
             <div class='pokestop container content-left'>
               <div>
                 <div>
-                  <img class='pokestop ${pokestopImageClass} ${lureClass}' src='${pokestopImageSource}' width='64px' height='64px'>
+                  <img class='pokestop ${imageClass} ${lureClass}' src='${imageUrl}' width='64px' height='64px'>
                 </div>
               </div>
             </div>
@@ -1289,6 +1298,30 @@ function getNotifyText(item) {
     }
 }
 
+function getPokestopNotifyText(pokestop) {
+    var notifyTitle = pokestop.name != null && pokestop.name != '' ? 'PokéStop ' + pokestop.name : 'PokéStop'
+    var notifyText = ''
+    if (isInvadedPokestop(pokestop)) {
+        let expireTime = timestampToTime(pokestop.incident_expiration)
+        let timeUntil = getTimeUntil(pokestop.incident_expiration)
+        let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
+        expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m ${lpad(timeUntil.sec, 2, 0)}s`
+        notifyText = `Team Rocket invasion (${idToInvasion[pokestop.incident_grunt_type].type}, ${idToInvasion[pokestop.incident_grunt_type].gruntGender}) until ${expireTime} (${expireTimeCountdown})\n`
+    }
+    if (isLuredPokestop(pokestop)) {
+        let expireTime = timestampToTime(pokestop.lure_expiration)
+        let timeUntil = getTimeUntil(pokestop.lure_expiration)
+        let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
+        expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m ${lpad(timeUntil.sec, 2, 0)}s`
+        notifyText += `${lureTypes[pokestop.active_fort_modifier]} lure until ${expireTime} (${expireTimeCountdown})`
+    }
+
+    return {
+        'title': notifyTitle,
+        'text': notifyText
+    }
+}
+
 function playPokemonSound(pokemonID, cryFileTypes) {
     if (!Store.get('playSound')) {
         return
@@ -1372,6 +1405,10 @@ function sizeRatio(height, weight, baseHeight, baseWeight) {
 }
 
 function isNotifyPoke(pokemon) {
+    if (!Store.get('notifyPokemon')) {
+        return false
+    }
+
     const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
     const isOnNotifyList = notifiedPokemon.indexOf(pokemon['pokemon_id']) > -1 || (showConfig.rarity && notifiedRarity.includes(pokemonRarity))
     const isNotifyPerfectionPkmn = isNotifyPerfectionPoke(pokemon)
@@ -1526,86 +1563,39 @@ function setupPokestopMarker(pokestop) {
 }
 
 function updatePokestopMarker(pokestop, marker) {
-    const quest = pokestop.quest
-    const activeFortModifier = pokestop.active_fort_modifier
-    const lureExpireTime = pokestop.lure_expiration
-    const invasionId = pokestop.incident_grunt_type
-    const invasionExpireTime = pokestop.incident_expiration
-    var markerImage = 'stop'
     var shadowImage
     var shadowSize
     var shadowAnchor
-    var now = new Date()
 
-    if (Store.get('showQuests') && quest) {
-        const questItemId = quest.item_id
-        const questPokemonId = quest.pokemon_id
-        const questRewardType = quest.reward_type
-
-        switch (questRewardType) {
+    if (isQuestSatisfiesFilters(pokestop.quest)) {
+        const quest = pokestop.quest
+        switch (quest.reward_type) {
             case 2:
-                if (includedQuestItems.includes(parseInt(questItemId))) {
-                    shadowImage = 'static/images/quest/reward_' + questItemId + '_1.png'
-                    shadowSize = [30, 30]
-                    shadowAnchor = [30, 30]
-                    markerImage += '_q'
-                }
+                shadowImage = 'static/images/quest/reward_' + quest.item_id + '_1.png'
+                shadowSize = [30, 30]
+                shadowAnchor = [30, 30]
                 break
             case 3:
-                if (includedQuestItems.includes(6)) {
-                    shadowImage = 'static/images/quest/reward_stardust.png'
-                    shadowSize = [30, 30]
-                    shadowAnchor = [30, 30]
-                    markerImage += '_q'
-                }
+                shadowImage = 'static/images/quest/reward_stardust.png'
+                shadowSize = [30, 30]
+                shadowAnchor = [30, 30]
                 break
             case 7:
-                if (includedQuestPokemon.includes(parseInt(questPokemonId))) {
-                    if (generateImages) {
-                        shadowImage = `pkm_img?pkm=${questPokemonId}`
-                        shadowSize = [35, 35]
-                        shadowAnchor = [30, 30]
-                    } else {
-                        shadowImage = pokemonSprites(questPokemonId).filename
-                        shadowSize = [40, 40]
-                        shadowAnchor = [30, 30]
-                    }
-                    markerImage += '_q'
-                }
-        }
-    }
-
-    if (Store.get('showInvasions') && invasionExpireTime && invasionExpireTime > now) {
-        markerImage += '_i_' + invasionId
-    }
-
-    if (lureExpireTime && lureExpireTime > now) {
-        switch (activeFortModifier) {
-            case 501:
-                if (Store.get('showNormalLures')) {
-                    markerImage += '_l_501'
-                }
-                break
-            case 502:
-                if (Store.get('showGlacialLures')) {
-                    markerImage += '_l_502'
-                }
-                break
-            case 503:
-                if (Store.get('showMossyLures')) {
-                    markerImage += '_l_503'
-                }
-                break
-            case 504:
-                if (Store.get('showMagneticLures')) {
-                    markerImage += '_l_504'
+                if (generateImages) {
+                    shadowImage = `pkm_img?pkm=${quest.pokemon_id}`
+                    shadowSize = [35, 35]
+                    shadowAnchor = [30, 30]
+                } else {
+                    shadowImage = pokemonSprites(quest.pokemon_id).filename
+                    shadowSize = [40, 40]
+                    shadowAnchor = [30, 30]
                 }
                 break
         }
     }
 
     var PokestopIcon = new L.icon({ // eslint-disable-line new-cap
-        iconUrl: 'static/images/pokestop/' + markerImage + '.png',
+        iconUrl: getPokestopIconUrlFiltered(pokestop),
         iconSize: [32, 32],
         iconAnchor: [16, 32],
         popupAnchor: [0, -16],
@@ -1615,7 +1605,7 @@ function updatePokestopMarker(pokestop, marker) {
     })
 
     marker.setIcon(PokestopIcon)
-    marker.setZIndexOffset = lureExpireTime ? 3 : 2
+    marker.setZIndexOffset = pokestop.lure_expiration ? 3 : 2
 
     return marker
 }
@@ -2284,6 +2274,11 @@ function processPokestop(i, pokestop) {
         if (isInvadedPokestop(pokestop)) {
             invadedPokestops[pokestop.pokestop_id] = pokestop
         }
+
+        if (isNotifyPokestop(pokestop)) {
+            let notifyText = getPokestopNotifyText(pokestop)
+            sendNotification(notifyText.title, notifyText.text, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
+        }
     } else {
         // Existing pokestop, update marker and dict item if necessary.
         const pokestop2 = mapData.pokestops[pokestop.pokestop_id]
@@ -2299,6 +2294,11 @@ function processPokestop(i, pokestop) {
                 }
                 if (newInvasion) {
                     invadedPokestops[pokestop.pokestop_id] = pokestop
+                }
+
+                if (isNotifyPokestop(pokestop)) {
+                    let notifyText = getPokestopNotifyText(pokestop)
+                    sendNotification(notifyText.title, notifyText.text, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
                 }
             } else {
                 removePokestop(pokestop)
@@ -3244,6 +3244,7 @@ $(function () {
     $selectIncludeQuestItems = $('#include-quest-items')
     $selectExcludeRarity = $('#exclude-rarity')
     $selectNotifyPokemon = $('#notify-pokemon')
+    $selectNotifyInvasions = $('#notify-invasions')
     $selectRarityNotify = $('#notify-rarity')
     $textPerfectionNotify = $('#notify-perfection')
     $textLevelNotify = $('#notify-level')
@@ -3588,9 +3589,9 @@ $(function () {
             reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
             clearStaleMarkers()
             if (notifiedPokemon.length === pokemonIds.length) {
-                $('a[href$="#tabs_notify-10"]').text('Notify of Pokémon (All)')
+                $('a[href$="#tabs_notify-10"]').text('Pokémon (All)')
             } else {
-                $('a[href$="#tabs_notify-10"]').text(`Notify of Pokémon (${notifiedPokemon.length})`)
+                $('a[href$="#tabs_notify-10"]').text(`Pokémon (${notifiedPokemon.length})`)
             }
             Store.set('remember_select_notify_pokemon', notifiedPokemon)
         })
@@ -3690,15 +3691,33 @@ $(function () {
                 includedInvasions = []
             }
             if (includedInvasions.length === invasionIds.length) {
-                $('a[href$="#tabs_invasion-1"]').text('Team Rocket Invasions (All)')
+                $('a[href$="#tabs_invasion-1"]').text('Invasions (All)')
             } else {
-                $('a[href$="#tabs_invasion-1"]').text(`Team Rocket Invasions (${includedInvasions.length})`)
+                $('a[href$="#tabs_invasion-1"]').text(`Invasions (${includedInvasions.length})`)
             }
             updatePokestops()
             Store.set('remember_select_include_invasions', includedInvasions)
         })
 
+        $selectNotifyInvasions.on('change', function (e) {
+            if ($selectNotifyInvasions.val().length > 0) {
+                notifyInvasions = $selectNotifyInvasions.val().split(',').map(Number).sort(function (a, b) {
+                    return a - b
+                })
+            } else {
+                notifyInvasions = []
+            }
+            if (notifyInvasions.length === invasionIds.length) {
+                $('a[href$="#tabs_notify_invasion-1"]').text('Invasions (All)')
+            } else {
+                $('a[href$="#tabs_notify_invasion-1"]').text(`Invasions (${notifyInvasions.length})`)
+            }
+            updatePokestops()
+            Store.set('remember_select_notify_invasions', notifyInvasions)
+        })
+
         $selectIncludeInvasions.val(Store.get('remember_select_include_invasions')).trigger('change')
+        $selectNotifyInvasions.val(Store.get('remember_select_notify_invasions')).trigger('change')
     })
 
     // run interval timers to regularly update map, rarity and timediffs
@@ -4082,7 +4101,6 @@ $(function () {
     $('#pokestops-switch').change(function () {
         var wrapper = $('#pokestops-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
-
         Store.set('showPokestops', this.checked)
         updatePokestops()
     })
@@ -4095,7 +4113,6 @@ $(function () {
     $('#quests-switch').change(function () {
         var wrapper = $('#quests-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
-
         Store.set('showQuests', this.checked)
         updatePokestops()
     })
@@ -4103,7 +4120,6 @@ $(function () {
     $('#invasions-switch').change(function () {
         var wrapper = $('#invasions-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
-
         Store.set('showInvasions', this.checked)
         updatePokestops()
     })
@@ -4146,6 +4162,34 @@ $(function () {
     $('#prio-notify-switch').change(function () {
         Store.set('prioNotify', this.checked)
         location.reload()
+    })
+
+    $('#notify-pokemon-switch').change(function () {
+        var wrapper = $('#notify-pokemon-filter-wrapper')
+        this.checked ? wrapper.show() : wrapper.hide()
+        Store.set('notifyPokemon', this.checked)
+    })
+
+    $('#notify-pokestops-switch').change(function () {
+        var wrapper = $('#notify-pokestops-filter-wrapper')
+        this.checked ? wrapper.show() : wrapper.hide()
+        Store.set('notifyPokestops', this.checked)
+    })
+
+    $('#notify-normal-lures-switch').change(function () {
+        Store.set('notifyNormalLures', this.checked)
+    })
+
+    $('#notify-glacial-lures-switch').change(function () {
+        Store.set('notifyGlacialLures', this.checked)
+    })
+
+    $('#notify-magnetic-lures-switch').change(function () {
+        Store.set('notifyMagneticLures', this.checked)
+    })
+
+    $('#notify-mossy-lures-switch').change(function () {
+        Store.set('notifyMossyLures', this.checked)
     })
 
     $('#hideunnotified-switch').change(function () {

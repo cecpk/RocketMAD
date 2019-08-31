@@ -147,7 +147,7 @@
       margin: 0px 5px 0px 0px;
     }
 
-    label[for="notify-perfection"], label[for="notify-level"] {
+    label[for="notify-perfection"], label[for="notify-level"], label[for="notify-rarity"] {
       h3 {
         float:left;
         display: -webkit-box;
@@ -161,7 +161,7 @@
       }
     }
 
-    label[for="include-pokemon"], label[for="include-raid-pokemon"], label[for="include-invasions"], label[for="include-quest-pokemon"], label[for="include-quest-items"], label[for="notify-pokemon"] {
+    label[for="include-pokemon"], label[for="include-raid-pokemon"], label[for="include-invasions"], label[for="include-quest-pokemon"], label[for="include-quest-items"], label[for="notify-pokemon"], label[for="notify-invasions"] {
       .list .active, .invasion-list .active, .quest-item-list .active {
         border: 1px solid #D3D3D3;
         background: #f6f6f6;
@@ -252,7 +252,7 @@
         border-radius: 4px;
     }
 
-    #tabs_marker, #tabs_raid, #tabs_invasion, #tabs_quest, #tabs_notify {
+    #tabs_marker, #tabs_raid, #tabs_invasion, #tabs_quest, #tabs_notify, #tabs_notify_pokestop {
           padding:0;
           border:0;
           &:after{

@@ -133,6 +133,10 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'remember_select_notify_invasions': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'prioNotify': {
         default: false,
         type: StoreTypes.Boolean
@@ -306,6 +310,30 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'hideNotNotified': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyPokemon': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyPokestops': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyNormalLures': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyGlacialLures': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyMagneticLures': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyMossyLures': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -590,15 +618,11 @@ function getGoogleSprite(index, sprite, displayHeight) {
 }
 
 function getGymLevel(gym) {
-    return 6 - gym.slots_available
+    return gym != null ? 6 - gym.slots_available : 0
 }
 
 function getRaidLevel(raid) {
-    if (raid != null) {
-        return raid.level
-    } else {
-        return 0
-    }
+    return raid != null ? raid.level : 0
 }
 
 function isValidRaid(raid) {
@@ -679,27 +703,62 @@ function isQuestSatisfiesFilters(quest) {
 }
 
 function isPokestopSatisfiesInvasionFilters(pokestop) {
-    return Store.get('showInvasions') && pokestop != null && pokestop.incident_expiration != null && pokestop.incident_expiration > Date.now() && includedInvasions.includes(pokestop.incident_grunt_type)
+    return Store.get('showInvasions') && isInvadedPokestop(pokestop) && includedInvasions.includes(pokestop.incident_grunt_type)
 }
 
 function isPokestopSatisfiesLureFilters(pokestop) {
-    if (pokestop != null && pokestop.lure_expiration && pokestop.lure_expiration > Date.now()) {
+    if (isLuredPokestop(pokestop)) {
         switch (pokestop.active_fort_modifier) {
-            case 501:
+            case ActiveFortModifierEnum.normal:
                 return Store.get('showNormalLures')
-            case 502:
+            case ActiveFortModifierEnum.glacial:
                 return Store.get('showGlacialLures')
-            case 503:
-                return Store.get('showMossyLures')
-            case 504:
+            case ActiveFortModifierEnum.magnetic:
                 return Store.get('showMagneticLures')
+            case ActiveFortModifierEnum.mossy:
+                return Store.get('showMossyLures')
         }
     }
+
+    return false
 }
 
 function isPokestopSatisfiesFilters(pokestop) {
     return (Store.get('showPokestops') && pokestop != null) &&
         (Store.get('showPokestopsNoEvent') || isQuestSatisfiesFilters(pokestop.quest) || isPokestopSatisfiesInvasionFilters(pokestop) || isPokestopSatisfiesLureFilters(pokestop))
+}
+
+function isNotifyPokestop(pokestop) {
+    if (!Store.get('notifyPokestops')) {
+        return false
+    }
+
+    if (isInvadedPokestop(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)) {
+        return true
+    }
+
+    if (isLuredPokestop(pokestop)) {
+        switch (pokestop.active_fort_modifier) {
+            case ActiveFortModifierEnum.normal:
+                if (Store.get('notifyNormalLures')) {
+                    return true
+                }
+            case ActiveFortModifierEnum.glacial:
+                if (Store.get('notifyGlacialLures')) {
+                    return true
+                }
+            case ActiveFortModifierEnum.magnetic:
+                if (Store.get('notifyMagneticLures')) {
+                    return true
+                }
+            case ActiveFortModifierEnum.mossy:
+                if (Store.get('notifyMossyLures')) {
+                    return true
+                }
+        }
+    }
+
+    return false
 }
 
 function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
@@ -815,6 +874,36 @@ function getPokemonRawIconUrl(p) {
         }
     }
     return url
+}
+
+function getPokestopIconUrl(pokestop) {
+    var imageName = 'stop'
+    if (pokestop.quest != null) {
+        imageName += '_q'
+    }
+    if (isInvadedPokestop(pokestop)) {
+        imageName += '_i_' + pokestop.incident_grunt_type
+    }
+    if (isLuredPokestop(pokestop)) {
+        imageName += '_l_' + pokestop.active_fort_modifier
+    }
+
+    return 'static/images/pokestop/' + imageName + '.png'
+}
+
+function getPokestopIconUrlFiltered(pokestop) {
+    var imageName = 'stop'
+    if (isQuestSatisfiesFilters(pokestop.quest)) {
+        imageName += '_q'
+    }
+    if (isPokestopSatisfiesInvasionFilters(pokestop)) {
+        imageName += '_i_' + pokestop.incident_grunt_type
+    }
+    if (isPokestopSatisfiesLureFilters(pokestop)) {
+        imageName += '_l_' + pokestop.active_fort_modifier
+    }
+
+    return 'static/images/pokestop/' + imageName + '.png'
 }
 
 // Converts timestamp to readable time String.
