@@ -48,7 +48,7 @@ var includedQuestItems = []
 var excludedPokemonByRarity = []
 var excludedRarity
 
-var notifiedPokemon = []
+var notifyPokemon = []
 var notifyInvasions = []
 var notifiedRarity = []
 var notifiedMinPerfection = null
@@ -62,6 +62,9 @@ var luredPokestops = {}
 var invadedPokestops = {}
 var upcomingRaidGyms = {} // Contains only raids with known raid boss.
 var raidGyms = {}
+
+var notifiedPokemon = {}
+var notifiedPokestops = {}
 
 // var map
 var rawDataIsLoading = false
@@ -771,7 +774,7 @@ function pokemonLabel(item) {
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    const notifyLabel = notifiedPokemon.includes(id) ? 'Notify' : 'Unnotify'
+    const notifyLabel = notifyPokemon.includes(id) ? 'Notify' : 'Unnotify'
 
     return `
     <div class='pokemon container'>
@@ -1411,7 +1414,7 @@ function isNotifyPoke(pokemon) {
     }
 
     const pokemonRarity = getPokemonRarity(pokemon['pokemon_id'])
-    const isOnNotifyList = notifiedPokemon.indexOf(pokemon['pokemon_id']) > -1 || (showConfig.rarity && notifiedRarity.includes(pokemonRarity))
+    const isOnNotifyList = notifyPokemon.indexOf(pokemon['pokemon_id']) > -1 || (showConfig.rarity && notifiedRarity.includes(pokemonRarity))
     const isNotifyPerfectionPkmn = isNotifyPerfectionPoke(pokemon)
     const showStats = Store.get('showPokemonStats')
 
@@ -1452,7 +1455,7 @@ function customizePokemonMarker(marker, item, skipNotification) {
     if (isNotifyPoke(item)) {
         if (!skipNotification) {
             playPokemonSound(item['pokemon_id'], cryFileTypes)
-            sendNotification(notifyText.fav_title, notifyText.fav_text, getPokemonRawIconUrl(item), item['latitude'], item['longitude'], getNotificationHash(item, 'pokemon'))
+            sendNotification(notifyText.fav_title, notifyText.fav_text, getPokemonRawIconUrl(item), item['latitude'], item['longitude'])
         }
         if (!marker.animationDisabled && !Store.get('isBounceDisabled')) {
             marker.bounce()
@@ -1608,9 +1611,10 @@ function updatePokestopMarker(pokestop, marker) {
     marker.setIcon(PokestopIcon)
     marker.setZIndexOffset = pokestop.lure_expiration ? 3 : 2
 
-    if (isNotifyPokestop(pokestop)) {
+    if (isNewNotifyPokestop(pokestop)) {
         const notifyText = getPokestopNotifyText(pokestop)
-        sendNotification(notifyText.title, notifyText.text, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude, getNotificationHash(pokestop, 'pokestop'))
+        sendNotification(notifyText.title, notifyText.text, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
+        notifiedPokestops[pokestop.pokestop_id] = pokestop
     }
 
     return marker
@@ -2616,12 +2620,8 @@ function toRadian(degree) {
     return degree * Math.PI / 180
 }
 
-function sendNotification(title, text, icon, lat, lon, hash) {
-    if (hashedNotifications.hasOwnProperty(hash)) {
-        return
-    }
-
-    var notificationDetails = {
+function sendNotification(title, text, icon, lat, lon) {
+   var notificationDetails = {
         icon: icon,
         body: text,
         data: {
@@ -2650,9 +2650,6 @@ function sendNotification(title, text, icon, lat, lon, hash) {
          * permission, it means they don't want notifications. Push.js
          * will fall back to toastr if Notifications are not supported. */
     })
-
-    // Make sure notification is only send once.
-    hashedNotifications[hash] = true
 }
 
 function sendToastrPokemonNotification(title, text, icon, lat, lon) {
@@ -3579,25 +3576,25 @@ $(function () {
         })
 
         $selectNotifyPokemon.on('change', function (e) {
-            buffer = notifiedPokemon
+            buffer = notifyPokemon
             if ($selectNotifyPokemon.val().length > 0) {
-                notifiedPokemon = $selectNotifyPokemon.val().split(',').map(Number).sort(function (a, b) {
+                notifyPokemon = $selectNotifyPokemon.val().split(',').map(Number).sort(function (a, b) {
                     return a - b
                 })
             } else {
-                notifiedPokemon = []
+                notifyPokemon = []
             }
             buffer = buffer.filter(function (e) {
                 return this.indexOf(e) < 0
-            }, notifiedPokemon)
+            }, notifyPokemon)
             reincludedPokemon = reincludedPokemon.concat(buffer).map(String)
             clearStaleMarkers()
-            if (notifiedPokemon.length === pokemonIds.length) {
+            if (notifyPokemon.length === pokemonIds.length) {
                 $('a[href$="#tabs_notify-10"]').text('Pokémon (All)')
             } else {
-                $('a[href$="#tabs_notify-10"]').text(`Pokémon (${notifiedPokemon.length})`)
+                $('a[href$="#tabs_notify-10"]').text(`Pokémon (${notifyPokemon.length})`)
             }
-            Store.set('remember_select_notify_pokemon', notifiedPokemon)
+            Store.set('remember_select_notify_pokemon', notifyPokemon)
         })
 
         $selectRarityNotify.on('change', function (e) {
