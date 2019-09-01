@@ -733,11 +733,11 @@ function isNotifyPokestop(pokestop) {
         return false
     }
 
-    if (isInvadedPokestop(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)) {
+    if (isPokestopSatisfiesInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)) {
         return true
     }
 
-    if (isLuredPokestop(pokestop)) {
+    if (isPokestopSatisfiesLureFilters(pokestop)) {
         switch (pokestop.active_fort_modifier) {
             case ActiveFortModifierEnum.normal:
                 if (Store.get('notifyNormalLures')) {
@@ -944,4 +944,39 @@ function timestampToDateTime(timestamp) {
         }
     }
     return dateStr
+}
+
+function hashString(s) {
+    var hash = 0
+    if (s.length == 0) {
+        return hash
+    }
+    for (var i = 0; i < s.length; i++) {
+        var char = s.charCodeAt(i)
+        hash = ((hash<<5)-hash)+char
+        hash = hash & hash // Convert to 32-bit integer.
+    }
+    return hash
+}
+
+function getNotificationHash(item, type) {
+    switch (type) {
+        case 'pokemon':
+            if (item.individual_attack != null) {
+                return hashString(item.encounter_id + item.individual_attack)
+            } else {
+                return hashString(item.encounter_id)
+            }
+        case 'gym':
+            return 0
+        case 'pokestop':
+            let s = item.pokestop_id
+            if (isInvadedPokestop(item)) {
+                s += item.incident_expiration
+            }
+            if (isLuredPokestop(item)) {
+                s += item.lure_expiration
+            }
+            return hashString(s)
+    }
 }

@@ -104,6 +104,7 @@ const gymTypes = ['Uncontested', 'Mystic', 'Valor', 'Instinct']
 
 const audio = new Audio('static/sounds/ding.mp3')
 const cryFileTypes = ['wav', 'mp3']
+var hashedNotifications = {}
 
 const toastrOptions = {
     'closeButton': true,
@@ -1451,7 +1452,7 @@ function customizePokemonMarker(marker, item, skipNotification) {
     if (isNotifyPoke(item)) {
         if (!skipNotification) {
             playPokemonSound(item['pokemon_id'], cryFileTypes)
-            sendNotification(notifyText.fav_title, notifyText.fav_text, getPokemonRawIconUrl(item), item['latitude'], item['longitude'])
+            sendNotification(notifyText.fav_title, notifyText.fav_text, getPokemonRawIconUrl(item), item['latitude'], item['longitude'], getNotificationHash(item, 'pokemon'))
         }
         if (!marker.animationDisabled && !Store.get('isBounceDisabled')) {
             marker.bounce()
@@ -1606,6 +1607,11 @@ function updatePokestopMarker(pokestop, marker) {
 
     marker.setIcon(PokestopIcon)
     marker.setZIndexOffset = pokestop.lure_expiration ? 3 : 2
+
+    if (isNotifyPokestop(pokestop)) {
+        const notifyText = getPokestopNotifyText(pokestop)
+        sendNotification(notifyText.title, notifyText.text, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude, getNotificationHash(pokestop, 'pokestop'))
+    }
 
     return marker
 }
@@ -2268,16 +2274,12 @@ function processPokestop(i, pokestop) {
         // New pokestop, add marker to map and item to dict.
         pokestop.marker = setupPokestopMarker(pokestop)
         mapData.pokestops[pokestop.pokestop_id] = pokestop
+
         if (isLuredPokestop(pokestop)) {
             luredPokestops[pokestop.pokestop_id] = pokestop
         }
         if (isInvadedPokestop(pokestop)) {
             invadedPokestops[pokestop.pokestop_id] = pokestop
-        }
-
-        if (isNotifyPokestop(pokestop)) {
-            let notifyText = getPokestopNotifyText(pokestop)
-            sendNotification(notifyText.title, notifyText.text, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
         }
     } else {
         // Existing pokestop, update marker and dict item if necessary.
@@ -2294,11 +2296,6 @@ function processPokestop(i, pokestop) {
                 }
                 if (newInvasion) {
                     invadedPokestops[pokestop.pokestop_id] = pokestop
-                }
-
-                if (isNotifyPokestop(pokestop)) {
-                    let notifyText = getPokestopNotifyText(pokestop)
-                    sendNotification(notifyText.title, notifyText.text, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
                 }
             } else {
                 removePokestop(pokestop)
@@ -2619,7 +2616,11 @@ function toRadian(degree) {
     return degree * Math.PI / 180
 }
 
-function sendNotification(title, text, icon, lat, lon) {
+function sendNotification(title, text, icon, lat, lon, hash) {
+    if (hashedNotifications.hasOwnProperty(hash)) {
+        return
+    }
+
     var notificationDetails = {
         icon: icon,
         body: text,
@@ -2649,6 +2650,9 @@ function sendNotification(title, text, icon, lat, lon) {
          * permission, it means they don't want notifications. Push.js
          * will fall back to toastr if Notifications are not supported. */
     })
+
+    // Make sure notification is only send once.
+    hashedNotifications[hash] = true
 }
 
 function sendToastrPokemonNotification(title, text, icon, lat, lon) {
