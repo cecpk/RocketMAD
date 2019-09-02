@@ -6861,7 +6861,17 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "136": {
+        "formName": "Red-Striped",
+        "assetId": "00"
+      },
+      "137": {
+        "formName": "Blue-Striped",
+        "assetId": "00"
+      }
+    }
   },
   "551": {
     "name": "Sandile",
@@ -6918,7 +6928,16 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "138": {
+        "formName": "Standard Mode",
+        "assetId": "00"
+      },
+      "139": {
+        "formName": "Zen Mode",
+        "assetId": "00"
+      }
   },
   "556": {
     "name": "Maractus",
@@ -7236,7 +7255,24 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "585": {
+        "formName": "Spring",
+        "assetId": "00"
+      },
+      "586": {
+        "formName": "Summer",
+        "assetId": "00"
+      },
+      "587": {
+        "formName": "Autumn",
+        "assetId": "00"
+      },
+      "588": {
+        "formName": "Winter",
+        "assetId": "00"
+      }
   },
   "586": {
     "name": "Sawsbuck",
@@ -7249,7 +7285,24 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "589": {
+        "formName": "Spring",
+        "assetId": "00"
+      },
+      "590": {
+        "formName": "Summer",
+        "assetId": "00"
+      },
+      "591": {
+        "formName": "Autumn",
+        "assetId": "00"
+      },
+      "592": {
+        "formName": "Winter",
+        "assetId": "00"
+      }
   },
   "587": {
     "name": "Emolga",
@@ -7868,7 +7921,16 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "140": {
+        "formName": "Incarnate",
+        "assetId": "00"
+      },
+      "141": {
+        "formName": "Therian",
+        "assetId": "00"
+      }
   },
   "642": {
     "name": "Thundurus",
@@ -7881,7 +7943,16 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "142": {
+        "formName": "Incarnate",
+        "assetId": "00"
+      },
+      "143": {
+        "formName": "Therian",
+        "assetId": "00"
+      }
   },
   "643": {
     "name": "Reshiram",
@@ -7920,7 +7991,16 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "144": {
+        "formName": "Incarnate",
+        "assetId": "00"
+      },
+      "145": {
+        "formName": "Therian",
+        "assetId": "00"
+      }
   },
   "646": {
     "name": "Kyurem",
@@ -7933,7 +8013,21 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ]
+    ],
+    "forms": {
+      "146": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "147": {
+        "formName": "White",
+        "assetId": "00"
+      },
+      "148": {
+        "formName": "Black",
+        "assetId": "00"
+      }
+    }
   },
   "647": {
     "name": "Keldeo",
@@ -7946,7 +8040,17 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "149": {
+        "formName": "Ordinary",
+        "assetId": "00"
+      },
+      "150": {
+        "formName": "Resolute",
+        "assetId": "00"
+      }
+    }
   },
   "648": {
     "name": "Meloetta",
@@ -7959,7 +8063,17 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "151": {
+        "formName": "Aria",
+        "assetId": "00"
+      },
+      "152": {
+        "formName": "Pirouette",
+        "assetId": "00"
+      }
+    }
   },
   "649": {
     "name": "Genesect",
@@ -7972,7 +8086,29 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ]
+    ],
+    "forms": {
+      "593": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "594": {
+        "formName": "Shock",
+        "assetId": "00"
+      },
+      "595": {
+        "formName": "Burn",
+        "assetId": "00"
+      },
+      "596": {
+        "formName": "Chill",
+        "assetId": "00"
+      },
+      "597": {
+        "formName": "Douse",
+        "assetId": "00"
+      }
+    }
   },
   "650": {
     "name": "Chespin",
