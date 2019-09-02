@@ -441,8 +441,16 @@ var StoreOptions = {
         default: 'googlemaps',
         type: StoreTypes.String
     },
-    'isBounceDisabled': {
-        default: false,
+    'bouncePokemon': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'bouncePokestops': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'upscalePokestops': {
+        default: true,
         type: StoreTypes.Boolean
     },
     'showStartLocationMarker': {
@@ -645,7 +653,7 @@ function isLuredPokestop(pokestop) {
     return pokestop != null && pokestop.lure_expiration != null && pokestop.lure_expiration > Date.now()
 }
 
-function isGymSatisfiesGymFilters(gym) {
+function isGymMeetsGymFilters(gym) {
     const gymLevel = getGymLevel(gym)
 
     return Store.get('showGyms') && gym != null &&
@@ -657,7 +665,7 @@ function isGymSatisfiesGymFilters(gym) {
           (Store.get('showLastUpdatedGymsOnly') !== 0 && Store.get('showLastUpdatedGymsOnly') * 3600 * 1000 + gym.last_scanned < Date.now()))
 }
 
-function isGymSatisfiesRaidFilters(gym) {
+function isGymMeetsRaidFilters(gym) {
     if (Store.get('showRaids') && isValidRaid(gym.raid)) {
         const raid = gym.raid
         const raidLevel = getRaidLevel(raid)
@@ -684,10 +692,10 @@ function isGymSatisfiesRaidFilters(gym) {
 }
 
 function isGymSatisfiesFilters(gym) {
-    return isGymSatisfiesGymFilters(gym) || isGymSatisfiesRaidFilters(gym)
+    return isGymMeetsGymFilters(gym) || isGymMeetsRaidFilters(gym)
 }
 
-function isQuestSatisfiesFilters(quest) {
+function isQuestMeetsFilters(quest) {
     if (Store.get('showQuests') && quest != null) {
         switch (quest.reward_type) {
             case 2:
@@ -702,11 +710,11 @@ function isQuestSatisfiesFilters(quest) {
     return false
 }
 
-function isPokestopSatisfiesInvasionFilters(pokestop) {
+function isPokestopMeetsInvasionFilters(pokestop) {
     return Store.get('showInvasions') && isInvadedPokestop(pokestop) && includedInvasions.includes(pokestop.incident_grunt_type)
 }
 
-function isPokestopSatisfiesLureFilters(pokestop) {
+function isPokestopMeetsLureFilters(pokestop) {
     if (isLuredPokestop(pokestop)) {
         switch (pokestop.active_fort_modifier) {
             case ActiveFortModifierEnum.normal:
@@ -723,17 +731,17 @@ function isPokestopSatisfiesLureFilters(pokestop) {
     return false
 }
 
-function isPokestopSatisfiesFilters(pokestop) {
+function isPokestopMeetsFilters(pokestop) {
     return (Store.get('showPokestops') && pokestop != null) &&
-        (Store.get('showPokestopsNoEvent') || isQuestSatisfiesFilters(pokestop.quest) || isPokestopSatisfiesInvasionFilters(pokestop) || isPokestopSatisfiesLureFilters(pokestop))
+        (Store.get('showPokestopsNoEvent') || isQuestMeetsFilters(pokestop.quest) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
 }
 
 function isPokestopMeetsNotifyInvasionFilters(pokestop) {
-    return isPokestopSatisfiesInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)
+    return isPokestopMeetsInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)
 }
 
 function isPokestopMeetsNotifyLureFilters(pokestop) {
-    if (isPokestopSatisfiesLureFilters(pokestop)) {
+    if (isPokestopMeetsLureFilters(pokestop)) {
         switch (pokestop.active_fort_modifier) {
             case ActiveFortModifierEnum.normal:
                 return Store.get('notifyNormalLures')
@@ -754,21 +762,9 @@ function isNotifyPokestop(pokestop) {
 }
 
 function isNewNotifyPokestop(pokestop) {
-    if (!Store.get('notifyPokestops')) {
-        return false
-    }
-
-    if (isPokestopMeetsNotifyInvasionFilters(pokestop) &&
-            (!notifiedPokestops.hasOwnProperty(pokestop.pokestop_id) || notifiedPokestops[pokestop.pokestop_id].incident_expiration !== pokestop.incident_expiration)) {
-        return true
-    }
-
-    if (isPokestopMeetsNotifyLureFilters(pokestop) &&
-            (!notifiedPokestops.hasOwnProperty(pokestop.pokestop_id) || notifiedPokestops[pokestop.pokestop_id].lure_expiration !== pokestop.lure_expiration)) {
-        return true
-    }
-
-    return false
+    return !notifiedPokestops.hasOwnProperty(pokestop.pokestop_id) ||
+        (isPokestopMeetsInvasionFilters(pokestop) && notifiedPokestops[pokestop.pokestop_id].incident_expiration !== pokestop.incident_expiration) ||
+        (isPokestopMeetsLureFilters(pokestop) && notifiedPokestops[pokestop.pokestop_id].lure_expiration !== pokestop.lure_expiration)
 }
 
 function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
@@ -903,13 +899,13 @@ function getPokestopIconUrl(pokestop) {
 
 function getPokestopIconUrlFiltered(pokestop) {
     var imageName = 'stop'
-    if (isQuestSatisfiesFilters(pokestop.quest)) {
+    if (isQuestMeetsFilters(pokestop.quest)) {
         imageName += '_q'
     }
-    if (isPokestopSatisfiesInvasionFilters(pokestop)) {
+    if (isPokestopMeetsInvasionFilters(pokestop)) {
         imageName += '_i_' + pokestop.incident_grunt_type
     }
-    if (isPokestopSatisfiesLureFilters(pokestop)) {
+    if (isPokestopMeetsLureFilters(pokestop)) {
         imageName += '_l_' + pokestop.active_fort_modifier
     }
 

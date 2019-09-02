@@ -30,7 +30,21 @@
  *
  * @author Alexei KLENIN <alexey_klenin@hotmail.fr>
  */
-;(function(L) {
+;(function (factory, window) {
+
+    /* Define an AMD module that relies on 'leaflet' */
+    if (typeof define === 'function' && define.amd) {
+        define(['leaflet'], factory);
+
+        /* Define a Common JS module that relies on 'leaflet'*/
+    } else if (typeof exports === 'object') {
+        module.exports = factory(require('leaflet'));
+    }
+
+    if (typeof window !== 'undefined' && window.L) {
+        factory(L);
+    }
+}(function (L) {
 
     'use strict';
 
@@ -100,6 +114,7 @@
         for (key in styleDefinitions) {
             cssText += key + ': ' + styleDefinitions[key] + '; '
         }
+
         return cssText;
     }
 
@@ -305,7 +320,7 @@
      */
     // TODO: fix & deploy this function
     function calculateShadowResizeTransforms(x, y, width, height,
-            contractHeight, angle) {
+                                             contractHeight, angle) {
         var t = [],                     // array of transformation definitions
             p = calculateLine(width, height, angle + Math.PI, contractHeight),
             dH = contractHeight + 1;    // delta height
@@ -753,7 +768,9 @@
                 setTimeout(function() {
                     if (motion.isBouncing) {
                         move();
-                    }
+                    } else {
+                        marker.fire('bounceend');
+                  }
                 }, resizeDelays[nbResizeSteps - 1]);
             }
 
@@ -990,20 +1007,24 @@
     L.Marker.prototype.setIcon = function(icon) {
         oldSetIcon.call(this, icon);
 
-        /* Create base cssText */
-if (this._icon) {       
- var styles = parseCssText(this._icon.style.cssText);
-        delete styles[transform];    // delete old trasform style definition
-        delete styles['z-index'];    // delete old z-index
+        var styles = {};
 
-        /* Restores opacity when marker (re)added :
-         * 1) checks opacityWhenUnclustered option used by cluster plugin
-         * 2) checks opacity option
-         * 3) assumes opacity is 1 */
-        styles.opacity = this.options.opacityWhenUnclustered
-            || this.options.opacity
-            || 1;
-}
+        if (this._icon) {
+
+            /* Create base cssText */
+            styles = parseCssText(this._icon.style.cssText);
+            delete styles[transform];    // delete old trasform style definition
+            delete styles['z-index'];    // delete old z-index
+
+            /* Restores opacity when marker (re)added :
+             * 1) checks opacityWhenUnclustered option used by cluster plugin
+             * 2) checks opacity option
+             * 3) assumes opacity is 1 */
+            styles.opacity = this.options.opacityWhenUnclustered
+                || this.options.opacity
+                || 1;
+        }
+
         this._bouncingMotion.baseIconCssText = renderCssText(styles);
 
         if (this._shadow) {
@@ -1022,8 +1043,8 @@ if (this._icon) {
 
             fn.call(this, event);
         };
-        
+
         oldOn.call(this, type, newFn, context);
     };
 
-})(L);
+}, window));
