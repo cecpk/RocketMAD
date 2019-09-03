@@ -33,9 +33,6 @@ from pogom.models import (init_database, create_tables, drop_tables,
 
 from time import strftime
 
-import json
-from collections import OrderedDict
-
 
 class LogFilter(logging.Filter):
 
