@@ -33,6 +33,9 @@ from pogom.models import (init_database, create_tables, drop_tables,
 
 from time import strftime
 
+import json
+from collections import OrderedDict
+
 
 class LogFilter(logging.Filter):
 
@@ -361,6 +364,19 @@ def set_log_and_verbosity(log):
         handler = logging.FileHandler(filename)
         logger.setLevel(logging.INFO)
         logger.addHandler(handler)
+
+    new_data = OrderedDict()
+    with open('static/data/pokemon.json') as json_file:
+        data = json.load(json_file)
+        for id, value in data.items():
+            new_value = OrderedDict()
+            new_value['name'] = value['name']
+            new_value['types'] = value['types']
+            if 'forms' in value:
+                new_value['forms'] = value['forms']
+            new_data[id] = new_value
+    print(json.dumps(new_data))
+
 
 
 if __name__ == '__main__':

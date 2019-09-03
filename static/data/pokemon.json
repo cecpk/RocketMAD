@@ -387,6 +387,12 @@
   },
   "19": {
     "name": "Rattata",
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ],
     "forms": {
       "45": {
         "formName": "",
@@ -404,16 +410,16 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "20": {
+    "name": "Raticate",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
-  },
-  "20": {
-    "name": "Raticate",
+    ],
     "forms": {
       "47": {
         "formName": "",
@@ -431,13 +437,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Normal",
-        "color": "#8a8a59"
-      }
-    ]
+    }
   },
   "21": {
     "name": "Spearow",
@@ -513,6 +513,12 @@
   },
   "25": {
     "name": "Pikachu",
+    "types": [
+      {
+        "type": "Electric",
+        "color": "#f8d030"
+      }
+    ],
     "forms": {
       "598": {
         "formName": "",
@@ -522,16 +528,16 @@
         "formName": "",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "26": {
+    "name": "Raichu",
     "types": [
       {
         "type": "Electric",
         "color": "#f8d030"
       }
-    ]
-  },
-  "26": {
-    "name": "Raichu",
+    ],
     "forms": {
       "49": {
         "formName": "",
@@ -541,16 +547,16 @@
         "formName": "Alola",
         "assetId": "61"
       }
-    },
-    "types": [
-      {
-        "type": "Electric",
-        "color": "#f8d030"
-      }
-    ]
+    }
   },
   "27": {
     "name": "Sandshrew",
+    "types": [
+      {
+        "type": "Ground",
+        "color": "#e0c068"
+      }
+    ],
     "forms": {
       "51": {
         "formName": "",
@@ -568,16 +574,16 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "28": {
+    "name": "Sandslash",
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
-  },
-  "28": {
-    "name": "Sandslash",
+    ],
     "forms": {
       "53": {
         "formName": "",
@@ -595,13 +601,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Ground",
-        "color": "#e0c068"
-      }
-    ]
+    }
   },
   "29": {
     "name": "Nidoran♀",
@@ -677,7 +677,7 @@
     }
   },
   "32": {
-    "name": "Nidoran♂‚",
+    "name": "Nidoran♂",
     "types": [
       {
         "type": "Poison",
@@ -755,6 +755,12 @@
   },
   "37": {
     "name": "Vulpix",
+    "types": [
+      {
+        "type": "Fire",
+        "color": "#f08030"
+      }
+    ],
     "forms": {
       "55": {
         "formName": "",
@@ -772,16 +778,16 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "38": {
+    "name": "Ninetales",
     "types": [
       {
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
-  },
-  "38": {
-    "name": "Ninetales",
+    ],
     "forms": {
       "57": {
         "formName": "",
@@ -799,13 +805,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Fire",
-        "color": "#f08030"
-      }
-    ]
+    }
   },
   "39": {
     "name": "Jigglypuff",
@@ -1050,6 +1050,12 @@
   },
   "50": {
     "name": "Diglett",
+    "types": [
+      {
+        "type": "Ground",
+        "color": "#e0c068"
+      }
+    ],
     "forms": {
       "59": {
         "formName": "",
@@ -1067,16 +1073,16 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "51": {
+    "name": "Dugtrio",
     "types": [
       {
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
-  },
-  "51": {
-    "name": "Dugtrio",
+    ],
     "forms": {
       "61": {
         "formName": "",
@@ -1094,16 +1100,16 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Ground",
-        "color": "#e0c068"
-      }
-    ]
+    }
   },
   "52": {
     "name": "Meowth",
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ],
     "forms": {
       "63": {
         "formName": "",
@@ -1121,16 +1127,16 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "53": {
+    "name": "Persian",
     "types": [
       {
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
-  },
-  "53": {
-    "name": "Persian",
+    ],
     "forms": {
       "65": {
         "formName": "",
@@ -1148,13 +1154,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Normal",
-        "color": "#8a8a59"
-      }
-    ]
+    }
   },
   "54": {
     "name": "Psyduck",
@@ -1586,6 +1586,16 @@
   },
   "74": {
     "name": "Geodude",
+    "types": [
+      {
+        "type": "Rock",
+        "color": "#b8a038"
+      },
+      {
+        "type": "Ground",
+        "color": "#e0c068"
+      }
+    ],
     "forms": {
       "67": {
         "formName": "",
@@ -1603,7 +1613,10 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "75": {
+    "name": "Graveler",
     "types": [
       {
         "type": "Rock",
@@ -1613,10 +1626,7 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
-  },
-  "75": {
-    "name": "Graveler",
+    ],
     "forms": {
       "69": {
         "formName": "",
@@ -1634,7 +1644,10 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "76": {
+    "name": "Golem",
     "types": [
       {
         "type": "Rock",
@@ -1644,10 +1657,7 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
-  },
-  "76": {
-    "name": "Golem",
+    ],
     "forms": {
       "71": {
         "formName": "",
@@ -1665,17 +1675,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Rock",
-        "color": "#b8a038"
-      },
-      {
-        "type": "Ground",
-        "color": "#e0c068"
-      }
-    ]
+    }
   },
   "77": {
     "name": "Ponyta",
@@ -1838,6 +1838,12 @@
   },
   "88": {
     "name": "Grimer",
+    "types": [
+      {
+        "type": "Poison",
+        "color": "#a040a0"
+      }
+    ],
     "forms": {
       "73": {
         "formName": "",
@@ -1855,16 +1861,16 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
+    }
+  },
+  "89": {
+    "name": "Muk",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
-  },
-  "89": {
-    "name": "Muk",
+    ],
     "forms": {
       "75": {
         "formName": "",
@@ -1882,13 +1888,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Poison",
-        "color": "#a040a0"
-      }
-    ]
+    }
   },
   "90": {
     "name": "Shellder",
@@ -2131,6 +2131,16 @@
   },
   "103": {
     "name": "Exeggutor",
+    "types": [
+      {
+        "type": "Grass",
+        "color": "#78c850"
+      },
+      {
+        "type": "Psychic",
+        "color": "#f85888"
+      }
+    ],
     "forms": {
       "77": {
         "formName": "",
@@ -2148,17 +2158,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Grass",
-        "color": "#78c850"
-      },
-      {
-        "type": "Psychic",
-        "color": "#f85888"
-      }
-    ]
+    }
   },
   "104": {
     "name": "Cubone",
@@ -2185,6 +2185,12 @@
   },
   "105": {
     "name": "Marowak",
+    "types": [
+      {
+        "type": "Ground",
+        "color": "#e0c068"
+      }
+    ],
     "forms": {
       "79": {
         "formName": "",
@@ -2202,13 +2208,7 @@
         "formName": "Purified",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Ground",
-        "color": "#e0c068"
-      }
-    ]
+    }
   },
   "106": {
     "name": "Hitmonlee",
@@ -2219,16 +2219,16 @@
       }
     ],
     "forms": {
+      "175": {
+        "formName": "Purified",
+        "assetId": "00"
+      },
       "713": {
         "formName": "",
         "assetId": "00"
       },
       "714": {
         "formName": "Shadow",
-        "assetId": "00"
-      },
-      "175": {
-        "formName": "Purified",
         "assetId": "00"
       }
     }
@@ -3012,6 +3012,12 @@
   },
   "150": {
     "name": "Mewtwo",
+    "types": [
+      {
+        "type": "Psychic",
+        "color": "#f85888"
+      }
+    ],
     "forms": {
       "133": {
         "formName": "Armored",
@@ -3021,13 +3027,7 @@
         "formName": "",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Psychic",
-        "color": "#f85888"
-      }
-    ]
+    }
   },
   "151": {
     "name": "Mew",
@@ -3685,6 +3685,12 @@
   },
   "201": {
     "name": "Unown",
+    "types": [
+      {
+        "type": "Psychic",
+        "color": "#f85888"
+      }
+    ],
     "forms": {
       "1": {
         "formName": "A",
@@ -3798,13 +3804,7 @@
         "formName": "?",
         "assetId": "38"
       }
-    },
-    "types": [
-      {
-        "type": "Psychic",
-        "color": "#f85888"
-      }
-    ]
+    }
   },
   "202": {
     "name": "Wobbuffet",
@@ -5513,6 +5513,12 @@
   },
   "327": {
     "name": "Spinda",
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ],
     "forms": {
       "37": {
         "formName": "1",
@@ -5594,13 +5600,7 @@
         "formName": "20",
         "assetId": "00"
       }
-    },
-    "types": [
-      {
-        "type": "Normal",
-        "color": "#8a8a59"
-      }
-    ]
+    }
   },
   "328": {
     "name": "Trapinch",
@@ -5945,6 +5945,12 @@
   },
   "351": {
     "name": "Castform",
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ],
     "forms": {
       "29": {
         "formName": "",
@@ -5962,13 +5968,7 @@
         "formName": "Snowy",
         "assetId": "14"
       }
-    },
-    "types": [
-      {
-        "type": "Normal",
-        "color": "#8a8a59"
-      }
-    ]
+    }
   },
   "352": {
     "name": "Kecleon",
@@ -6428,6 +6428,12 @@
   },
   "386": {
     "name": "Deoxys",
+    "types": [
+      {
+        "type": "Psychic",
+        "color": "#f85888"
+      }
+    ],
     "forms": {
       "33": {
         "formName": "",
@@ -6445,13 +6451,7 @@
         "formName": "Speed",
         "assetId": "14"
       }
-    },
-    "types": [
-      {
-        "type": "Psychic",
-        "color": "#f85888"
-      }
-    ]
+    }
   },
   "387": {
     "name": "Turtwig",
@@ -6812,6 +6812,12 @@
   },
   "412": {
     "name": "Burmy",
+    "types": [
+      {
+        "type": "Bug",
+        "color": "#a8b820"
+      }
+    ],
     "forms": {
       "118": {
         "formName": "Plant",
@@ -6825,16 +6831,20 @@
         "formName": "Trash",
         "assetId": "13"
       }
-    },
+    }
+  },
+  "413": {
+    "name": "Wormadam",
     "types": [
       {
         "type": "Bug",
         "color": "#a8b820"
+      },
+      {
+        "type": "Steel",
+        "color": "#b8b8d0"
       }
-    ]
-  },
-  "413": {
-    "name": "Wormadam",
+    ],
     "forms": {
       "87": {
         "formName": "Plant",
@@ -6848,17 +6858,7 @@
         "formName": "Trash",
         "assetId": "13"
       }
-    },
-    "types": [
-      {
-        "type": "Bug",
-        "color": "#a8b820"
-      },
-      {
-        "type": "Steel",
-        "color": "#b8b8d0"
-      }
-    ]
+    }
   },
   "414": {
     "name": "Mothim",
@@ -6937,6 +6937,12 @@
   },
   "421": {
     "name": "Cherrim",
+    "types": [
+      {
+        "type": "Grass",
+        "color": "#78c850"
+      }
+    ],
     "forms": {
       "94": {
         "formName": "Overcast",
@@ -6946,16 +6952,16 @@
         "formName": "Sunny",
         "assetId": "12"
       }
-    },
-    "types": [
-      {
-        "type": "Grass",
-        "color": "#78c850"
-      }
-    ]
+    }
   },
   "422": {
     "name": "Shellos",
+    "types": [
+      {
+        "type": "Water",
+        "color": "#6890f0"
+      }
+    ],
     "forms": {
       "96": {
         "formName": "West Sea",
@@ -6965,26 +6971,10 @@
         "formName": "East Sea",
         "assetId": "12"
       }
-    },
-    "types": [
-      {
-        "type": "Water",
-        "color": "#6890f0"
-      }
-    ]
+    }
   },
   "423": {
     "name": "Gastrodon",
-    "forms": {
-      "98": {
-        "formName": "West Sea",
-        "assetId": "11"
-      },
-      "99": {
-        "formName": "East Sea",
-        "assetId": "12"
-      }
-    },
     "types": [
       {
         "type": "Water",
@@ -6994,7 +6984,17 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "98": {
+        "formName": "West Sea",
+        "assetId": "11"
+      },
+      "99": {
+        "formName": "East Sea",
+        "assetId": "12"
+      }
+    }
   },
   "424": {
     "name": "Ambipom",
@@ -7855,6 +7855,16 @@
   },
   "479": {
     "name": "Rotom",
+    "types": [
+      {
+        "type": "Electric",
+        "color": "#f8d030"
+      },
+      {
+        "type": "Ghost",
+        "color": "#705898"
+      }
+    ],
     "forms": {
       "81": {
         "formName": "",
@@ -7880,17 +7890,7 @@
         "formName": "Heat",
         "assetId": "12"
       }
-    },
-    "types": [
-      {
-        "type": "Electric",
-        "color": "#f8d030"
-      },
-      {
-        "type": "Ghost",
-        "color": "#705898"
-      }
-    ]
+    }
   },
   "480": {
     "name": "Uxie",
@@ -7969,6 +7969,12 @@
   },
   "487": {
     "name": "Giratina",
+    "types": [
+      {
+        "type": "Ghost",
+        "color": "#705898"
+      }
+    ],
     "forms": {
       "90": {
         "formName": "Altered",
@@ -7978,13 +7984,7 @@
         "formName": "Origin",
         "assetId": "12"
       }
-    },
-    "types": [
-      {
-        "type": "Ghost",
-        "color": "#705898"
-      }
-    ]
+    }
   },
   "488": {
     "name": "Cresselia",
@@ -8024,16 +8024,6 @@
   },
   "492": {
     "name": "Shaymin",
-    "forms": {
-      "92": {
-        "formName": "Sky",
-        "assetId": "12"
-      },
-      "93": {
-        "formName": "Land",
-        "assetId": "11"
-      }
-    },
     "types": [
       {
         "type": "Grass",
@@ -8043,10 +8033,26 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "92": {
+        "formName": "Sky",
+        "assetId": "12"
+      },
+      "93": {
+        "formName": "Land",
+        "assetId": "11"
+      }
+    }
   },
   "493": {
     "name": "Arceus",
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#8a8a59"
+      }
+    ],
     "forms": {
       "100": {
         "formName": "",
@@ -8120,13 +8126,7 @@
         "formName": "Fairy",
         "assetId": "28"
       }
-    },
-    "types": [
-      {
-        "type": "Normal",
-        "color": "#8a8a59"
-      }
-    ]
+    }
   },
   "494": {
     "name": "Victini",
@@ -10182,7 +10182,7 @@
     ]
   },
   "669": {
-    "name": "FlabÃ©bÃ©",
+    "name": "FlabÃƒÂ©bÃƒÂ©",
     "types": [
       {
         "type": "Fairy",
