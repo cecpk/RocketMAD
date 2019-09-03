@@ -23,6 +23,10 @@
       "165": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "897": {
+        "formName": "",
+        "assetId": "00"
       }
     }
   },
@@ -100,6 +104,10 @@
       "174": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "896": {
+        "formName": "",
+        "assetId": "00"
       }
     }
   },
@@ -155,9 +163,6 @@
   },
   "7": {
     "name": "Squirtle",
-    "costumes": [
-      5
-    ],
     "types": [
       {
         "type": "Water",
@@ -176,14 +181,15 @@
       "183": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "895": {
+        "formName": "",
+        "assetId": "00"
       }
     }
   },
   "8": {
     "name": "Wartortle",
-    "costumes": [
-      5
-    ],
     "types": [
       {
         "type": "Water",
@@ -207,9 +213,6 @@
   },
   "9": {
     "name": "Blastoise",
-    "costumes": [
-      5
-    ],
     "types": [
       {
         "type": "Water",
@@ -273,7 +276,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "616": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "617": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "618": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "14": {
     "name": "Kakuna",
@@ -286,7 +303,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "619": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "620": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "621": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "15": {
     "name": "Beedrill",
@@ -299,7 +330,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "622": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "623": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "624": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "16": {
     "name": "Pidgey",
@@ -427,7 +472,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "697": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "698": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "699": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "24": {
     "name": "Arbok",
@@ -436,32 +495,32 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "700": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "701": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "702": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "25": {
     "name": "Pikachu",
-    "costumes": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
-    ],
     "forms": {
-      "599": {
+      "598": {
         "formName": "",
-        "assetId": "00",
-        "hasCostume": true
+        "assetId": "00"
       },
-      "600": {
+      "894": {
         "formName": "",
-        "assetId": "00",
-        "hasCostume": true
+        "assetId": "00"
       }
     },
     "types": [
@@ -483,17 +542,6 @@
         "assetId": "61"
       }
     },
-    "costumes": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9
-    ],
     "types": [
       {
         "type": "Electric",
@@ -511,6 +559,14 @@
       "52": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "673": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "674": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -530,6 +586,14 @@
       "54": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "675": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "676": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -540,13 +604,27 @@
     ]
   },
   "29": {
-    "name": "Nidoranâ™€",
+    "name": "Nidoran♀",
     "types": [
       {
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "776": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "777": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "778": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "30": {
     "name": "Nidorina",
@@ -555,7 +633,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "779": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "780": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "781": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "31": {
     "name": "Nidoqueen",
@@ -568,10 +660,24 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "782": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "783": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "784": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "32": {
-    "name": "Nidoranâ™‚",
+    "name": "Nidoran♂‚",
     "types": [
       {
         "type": "Poison",
@@ -586,7 +692,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "785": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "786": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "787": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "34": {
     "name": "Nidoking",
@@ -599,7 +719,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "788": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "789": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "790": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "35": {
     "name": "Clefairy",
@@ -629,6 +763,14 @@
       "56": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "725": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "726": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -648,6 +790,14 @@
       "58": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "727": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "728": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -748,7 +898,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "265": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "266": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "267": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "44": {
     "name": "Gloom",
@@ -761,7 +925,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "268": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "269": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "270": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "45": {
     "name": "Vileplume",
@@ -774,7 +952,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "271": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "272": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "273": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "46": {
     "name": "Paras",
@@ -813,7 +1005,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "259": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "260": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "261": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "49": {
     "name": "Venomoth",
@@ -826,7 +1032,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "262": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "263": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "264": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "50": {
     "name": "Diglett",
@@ -838,6 +1058,14 @@
       "60": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "842": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "843": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -857,6 +1085,14 @@
       "62": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "844": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "845": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -876,6 +1112,14 @@
       "64": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "709": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "710": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -895,6 +1139,14 @@
       "66": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "711": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "712": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -911,7 +1163,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "286": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "287": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "288": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "55": {
     "name": "Golduck",
@@ -920,7 +1186,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "289": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "290": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "291": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "56": {
     "name": "Mankey",
@@ -947,7 +1227,21 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "280": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "281": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "282": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "59": {
     "name": "Arcanine",
@@ -956,7 +1250,21 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "283": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "284": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "285": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "60": {
     "name": "Poliwag",
@@ -965,7 +1273,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "235": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "236": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "237": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "61": {
     "name": "Poliwhirl",
@@ -974,7 +1296,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "238": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "239": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "240": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "62": {
     "name": "Poliwrath",
@@ -987,7 +1323,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "241": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "242": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "243": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "63": {
     "name": "Abra",
@@ -996,7 +1346,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "304": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "305": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "306": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "64": {
     "name": "Kadabra",
@@ -1005,7 +1369,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "307": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "308": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "309": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "65": {
     "name": "Alakazam",
@@ -1014,7 +1392,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "310": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "311": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "312": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "66": {
     "name": "Machop",
@@ -1023,7 +1415,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "809": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "810": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "811": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "67": {
     "name": "Machoke",
@@ -1032,7 +1438,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "812": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "813": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "814": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "68": {
     "name": "Machamp",
@@ -1041,7 +1461,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "815": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "816": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "817": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "69": {
     "name": "Bellsprout",
@@ -1054,7 +1488,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "664": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "665": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "666": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "70": {
     "name": "Weepinbell",
@@ -1067,7 +1515,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "667": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "668": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "669": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "71": {
     "name": "Victreebel",
@@ -1080,7 +1542,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "670": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "671": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "672": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "72": {
     "name": "Tentacool",
@@ -1118,6 +1594,14 @@
       "68": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "882": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "883": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -1141,6 +1625,14 @@
       "70": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "884": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "885": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -1164,6 +1656,14 @@
       "72": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "886": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "887": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -1232,7 +1732,21 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ]
+    ],
+    "forms": {
+      "655": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "656": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "657": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "82": {
     "name": "Magneton",
@@ -1245,7 +1759,21 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ]
+    ],
+    "forms": {
+      "658": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "659": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "660": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "83": {
     "name": "Farfetch'd",
@@ -1318,6 +1846,14 @@
       "74": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "220": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "221": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -1337,6 +1873,14 @@
       "76": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "222": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "223": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -1353,7 +1897,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "876": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "877": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "878": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "91": {
     "name": "Cloyster",
@@ -1366,7 +1924,21 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ]
+    ],
+    "forms": {
+      "879": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "880": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "881": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "92": {
     "name": "Gastly",
@@ -1427,7 +1999,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "214": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "215": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "216": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "97": {
     "name": "Hypno",
@@ -1436,7 +2022,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "217": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "218": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "219": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "98": {
     "name": "Krabby",
@@ -1445,7 +2045,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "870": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "871": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "872": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "99": {
     "name": "Kingler",
@@ -1454,7 +2068,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "873": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "874": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "875": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "100": {
     "name": "Voltorb",
@@ -1485,7 +2113,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "729": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "730": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "731": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "103": {
     "name": "Exeggutor",
@@ -1497,6 +2139,14 @@
       "78": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "732": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "733": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -1517,7 +2167,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "224": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "225": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "226": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "105": {
     "name": "Marowak",
@@ -1529,6 +2193,14 @@
       "80": {
         "formName": "Alola",
         "assetId": "61"
+      },
+      "227": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "228": {
+        "formName": "Purified",
+        "assetId": "00"
       }
     },
     "types": [
@@ -1545,7 +2217,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "713": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "714": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "175": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "107": {
     "name": "Hitmonchan",
@@ -1554,7 +2240,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "277": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "278": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "279": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "108": {
     "name": "Lickitung",
@@ -1572,7 +2272,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "703": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "704": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "705": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "110": {
     "name": "Weezing",
@@ -1581,7 +2295,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "706": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "707": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "708": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "111": {
     "name": "Rhyhorn",
@@ -1594,7 +2322,21 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ]
+    ],
+    "forms": {
+      "846": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "847": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "848": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "112": {
     "name": "Rhydon",
@@ -1607,7 +2349,21 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ]
+    ],
+    "forms": {
+      "849": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "850": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "851": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "113": {
     "name": "Chansey",
@@ -1634,7 +2390,21 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "839": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "840": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "841": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "116": {
     "name": "Horsea",
@@ -1718,7 +2488,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "247": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "248": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "249": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "124": {
     "name": "Jynx",
@@ -1740,7 +2524,21 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ]
+    ],
+    "forms": {
+      "640": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "641": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "642": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "126": {
     "name": "Magmar",
@@ -1749,7 +2547,21 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "634": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "635": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "636": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "127": {
     "name": "Pinsir",
@@ -1758,7 +2570,21 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ]
+    ],
+    "forms": {
+      "898": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "899": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "900": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "128": {
     "name": "Tauros",
@@ -1776,7 +2602,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "253": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "254": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "255": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "130": {
     "name": "Gyarados",
@@ -1789,7 +2629,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "256": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "257": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "258": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "131": {
     "name": "Lapras",
@@ -1802,7 +2656,21 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ]
+    ],
+    "forms": {
+      "322": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "323": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "324": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "132": {
     "name": "Ditto",
@@ -1815,9 +2683,6 @@
   },
   "133": {
     "name": "Eevee",
-    "costumes": [
-      7
-    ],
     "types": [
       {
         "type": "Normal",
@@ -1827,9 +2692,6 @@
   },
   "134": {
     "name": "Vaporeon",
-    "costumes": [
-      7
-    ],
     "types": [
       {
         "type": "Water",
@@ -1839,9 +2701,6 @@
   },
   "135": {
     "name": "Jolteon",
-    "costumes": [
-      7
-    ],
     "types": [
       {
         "type": "Electric",
@@ -1851,9 +2710,6 @@
   },
   "136": {
     "name": "Flareon",
-    "costumes": [
-      7
-    ],
     "types": [
       {
         "type": "Fire",
@@ -1868,7 +2724,21 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "677": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "678": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "679": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "138": {
     "name": "Omanyte",
@@ -1881,7 +2751,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "740": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "741": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "742": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "139": {
     "name": "Omastar",
@@ -1894,7 +2778,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "743": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "744": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "745": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "140": {
     "name": "Kabuto",
@@ -1969,7 +2867,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "716": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "717": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "718": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "145": {
     "name": "Zapdos",
@@ -1982,7 +2894,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "773": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "774": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "775": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "146": {
     "name": "Moltres",
@@ -1995,7 +2921,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "836": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "837": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "838": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "147": {
     "name": "Dratini",
@@ -2075,10 +3015,6 @@
     "forms": {
       "133": {
         "formName": "Armored",
-        "assetSuffix": "pm0150_00_pgo_a"
-      },
-      "134": {
-        "formName": "Armored Intro",
         "assetSuffix": "pm0150_00_pgo_a"
       },
       "135": {
@@ -2418,7 +3354,21 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ]
+    ],
+    "forms": {
+      "646": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "647": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "648": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "180": {
     "name": "Flaaffy",
@@ -2427,7 +3377,21 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ]
+    ],
+    "forms": {
+      "649": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "650": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "651": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "181": {
     "name": "Ampharos",
@@ -2436,7 +3400,21 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ]
+    ],
+    "forms": {
+      "652": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "653": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "654": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "182": {
     "name": "Bellossom",
@@ -2445,7 +3423,21 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "274": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "275": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "276": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "183": {
     "name": "Marill",
@@ -2489,7 +3481,21 @@
         "type": "Water",
         "color": "#6890f0"
       }
-    ]
+    ],
+    "forms": {
+      "244": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "245": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "246": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "187": {
     "name": "Hoppip",
@@ -2625,7 +3631,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "855": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "856": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "857": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "199": {
     "name": "Slowking",
@@ -2647,7 +3667,21 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ]
+    ],
+    "forms": {
+      "719": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "720": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "721": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "201": {
     "name": "Unown",
@@ -2779,7 +3813,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "602": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "686": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "687": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "203": {
     "name": "Girafarig",
@@ -2836,7 +3884,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "803": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "804": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "805": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "208": {
     "name": "Steelix",
@@ -2893,7 +3955,21 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ]
+    ],
+    "forms": {
+      "250": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "251": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "252": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "213": {
     "name": "Shuckle",
@@ -2906,7 +3982,21 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ]
+    ],
+    "forms": {
+      "827": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "828": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "829": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "214": {
     "name": "Heracross",
@@ -2932,7 +4022,21 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ]
+    ],
+    "forms": {
+      "797": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "798": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "799": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "216": {
     "name": "Teddiursa",
@@ -3081,7 +4185,21 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "229": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "230": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "231": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "229": {
     "name": "Houndoom",
@@ -3094,7 +4212,21 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "232": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "233": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "234": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "230": {
     "name": "Kingdra",
@@ -3134,7 +4266,21 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "680": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "681": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "682": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "234": {
     "name": "Stantler",
@@ -3259,7 +4405,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "313": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "314": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "315": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "247": {
     "name": "Pupitar",
@@ -3272,7 +4432,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "316": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "317": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "318": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "248": {
     "name": "Tyranitar",
@@ -3285,7 +4459,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "319": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "320": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "321": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "249": {
     "name": "Lugia",
@@ -3508,7 +4696,13 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ]
+    ],
+    "forms": {
+      "600": {
+        "formName": "",
+        "assetId": "00"
+      }
+    }
   },
   "266": {
     "name": "Silcoon",
@@ -3600,7 +4794,21 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "625": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "626": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "627": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "274": {
     "name": "Nuzleaf",
@@ -3613,7 +4821,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "628": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "629": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "630": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "275": {
     "name": "Shiftry",
@@ -3626,7 +4848,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "631": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "632": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "633": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "276": {
     "name": "Taillow",
@@ -3691,7 +4927,21 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "292": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "293": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "294": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "281": {
     "name": "Kirlia",
@@ -3704,7 +4954,21 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "295": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "296": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "297": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "282": {
     "name": "Gardevoir",
@@ -3717,7 +4981,21 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "298": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "299": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "300": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "283": {
     "name": "Surskit",
@@ -3942,7 +5220,21 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "833": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "834": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "835": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "304": {
     "name": "Aron",
@@ -4105,7 +5397,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "734": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "735": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "736": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "319": {
     "name": "Sharpedo",
@@ -4118,7 +5424,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "737": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "738": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "739": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "320": {
     "name": "Wailmer",
@@ -4229,6 +5549,50 @@
       "121": {
         "formName": "9",
         "assetId": "19"
+      },
+      "122": {
+        "formName": "10",
+        "assetId": "19"
+      },
+      "123": {
+        "formName": "11",
+        "assetId": "00"
+      },
+      "124": {
+        "formName": "12",
+        "assetId": "00"
+      },
+      "125": {
+        "formName": "13",
+        "assetId": "00"
+      },
+      "126": {
+        "formName": "14",
+        "assetId": "00"
+      },
+      "127": {
+        "formName": "15",
+        "assetId": "00"
+      },
+      "128": {
+        "formName": "16",
+        "assetId": "00"
+      },
+      "129": {
+        "formName": "17",
+        "assetId": "00"
+      },
+      "130": {
+        "formName": "18",
+        "assetId": "00"
+      },
+      "131": {
+        "formName": "19",
+        "assetId": "00"
+      },
+      "132": {
+        "formName": "20",
+        "assetId": "00"
       }
     },
     "types": [
@@ -4245,7 +5609,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "746": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "747": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "748": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "329": {
     "name": "Vibrava",
@@ -4258,7 +5636,21 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ]
+    ],
+    "forms": {
+      "749": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "750": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "751": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "330": {
     "name": "Flygon",
@@ -4271,7 +5663,21 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ]
+    ],
+    "forms": {
+      "752": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "753": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "754": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "331": {
     "name": "Cacnea",
@@ -4280,7 +5686,21 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "610": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "611": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "612": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "332": {
     "name": "Cacturne",
@@ -4293,7 +5713,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "613": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "614": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "615": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "333": {
     "name": "Swablu",
@@ -4610,7 +6044,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "830": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "831": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "832": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "360": {
     "name": "Wynaut",
@@ -4734,7 +6182,21 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ]
+    ],
+    "forms": {
+      "755": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "756": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "757": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "372": {
     "name": "Shelgon",
@@ -4743,7 +6205,21 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ]
+    ],
+    "forms": {
+      "758": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "759": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "760": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "373": {
     "name": "Salamence",
@@ -4756,7 +6232,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "761": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "762": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "763": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "374": {
     "name": "Beldum",
@@ -4769,7 +6259,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "764": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "765": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "766": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "375": {
     "name": "Metang",
@@ -4782,7 +6286,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "767": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "768": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "769": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "376": {
     "name": "Metagross",
@@ -4795,7 +6313,21 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "770": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "771": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "772": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "377": {
     "name": "Regirock",
@@ -4928,7 +6460,21 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "688": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "689": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "690": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "388": {
     "name": "Grotle",
@@ -4937,7 +6483,21 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "691": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "692": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "693": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "389": {
     "name": "Torterra",
@@ -4950,7 +6510,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "694": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "695": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "696": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "390": {
     "name": "Chimchar",
@@ -4959,7 +6533,21 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "818": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "819": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "820": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "391": {
     "name": "Monferno",
@@ -4972,7 +6560,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "821": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "822": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "823": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "392": {
     "name": "Infernape",
@@ -4985,7 +6587,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "824": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "825": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "826": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "393": {
     "name": "Piplup",
@@ -5440,7 +7056,21 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ]
+    ],
+    "forms": {
+      "722": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "723": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "724": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "430": {
     "name": "Honchkrow",
@@ -5453,7 +7083,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "858": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "859": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "860": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "431": {
     "name": "Glameow",
@@ -5493,7 +7137,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "791": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "792": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "793": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "435": {
     "name": "Skuntank",
@@ -5506,7 +7164,21 @@
         "type": "Dark",
         "color": "#707070"
       }
-    ]
+    ],
+    "forms": {
+      "794": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "795": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "796": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "436": {
     "name": "Bronzor",
@@ -5602,7 +7274,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "861": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "862": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "863": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "444": {
     "name": "Gabite",
@@ -5615,7 +7301,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "864": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "865": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "866": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "445": {
     "name": "Garchomp",
@@ -5628,7 +7328,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "867": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "868": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "869": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "446": {
     "name": "Munchlax",
@@ -5668,7 +7382,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "888": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "889": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "890": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "450": {
     "name": "Hippowdon",
@@ -5677,7 +7405,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "891": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "892": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "893": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "451": {
     "name": "Skorupi",
@@ -5808,7 +7550,21 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ]
+    ],
+    "forms": {
+      "800": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "801": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "802": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "462": {
     "name": "Magnezone",
@@ -5821,7 +7577,21 @@
         "type": "Steel",
         "color": "#b8b8d0"
       }
-    ]
+    ],
+    "forms": {
+      "661": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "662": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "663": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "463": {
     "name": "Lickilicky",
@@ -5843,7 +7613,21 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ]
+    ],
+    "forms": {
+      "852": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "853": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "854": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "465": {
     "name": "Tangrowth",
@@ -5861,7 +7645,21 @@
         "type": "Electric",
         "color": "#f8d030"
       }
-    ]
+    ],
+    "forms": {
+      "643": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "644": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "645": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "467": {
     "name": "Magmortar",
@@ -5870,7 +7668,21 @@
         "type": "Fire",
         "color": "#f08030"
       }
-    ]
+    ],
+    "forms": {
+      "637": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "638": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "639": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "468": {
     "name": "Togekiss",
@@ -5927,7 +7739,21 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "806": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "807": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "808": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "473": {
     "name": "Mamoswine",
@@ -5949,7 +7775,21 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "683": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "684": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "685": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "475": {
     "name": "Gallade",
@@ -5962,7 +7802,21 @@
         "type": "Fighting",
         "color": "#c03028"
       }
-    ]
+    ],
+    "forms": {
+      "301": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "302": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "303": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "476": {
     "name": "Probopass",
