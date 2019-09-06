@@ -728,8 +728,81 @@
                         <div class="form-control switch-container">
                           <h3>Bounce notified Pokémon</h3>
                           <div class="onoffswitch">
-                            <input id="pokemon-bounce-switch" type="checkbox" name="pokmeon-bounce-switch" class="onoffswitch-checkbox" checked>
+                            <input id="pokemon-bounce-switch" type="checkbox" name="pokemon-bounce-switch" class="onoffswitch-checkbox" checked>
                             <label class="onoffswitch-label" for="pokemon-bounce-switch">
+                              <span class="switch-label" data-on="On" data-off="Off"></span>
+                              <span class="switch-handle"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-control switch-container">
+                <h3>Gym Notifications</h3>
+                <div class="onoffswitch">
+                  <input id="notify-gyms-switch" type="checkbox" name="notify-gyms-switch" class="onoffswitch-checkbox" checked>
+                  <label class="onoffswitch-label" for="notify-gyms-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              <div id="notify-gyms-filter-wrapper" style="display:none;">
+                <div class="form-control">
+                  <div id="tabs_notify_gym">
+                    <ul id="tabs_notify_gym_ul">
+                      <li><a href="#tabs_notify_raid_pokemon-1">Raid Bosses</a></li>
+                      <li><a href="#tabs_notify_raid_egg-2">Eggs</a></li>
+                      <li><a href="#tabs_notify_gym_settings-3">Settings</a></li>
+                    </ul>
+                    <div id="tabs_notify_raid_pokemon-1">
+                      <label for="notify-raid-pokemon">
+                        <div class="pokemon-container">
+                          <input id="notify-raid-pokemon" type="text" readonly="true" style="display:none;" >
+                          <div class="list"></div>
+                          <center><button type="button" class="pokemon-select-all select-all-button">Notify all</button>
+                          <button type="button" class="pokemon-deselect-all deselect-all-button">Unnotify all</button></center>
+                        </div>
+                      </label>
+                    </div>
+                    <div id="tabs_notify_raid_egg-2">
+                      <div class="notify-container">
+                        <div class="form-control switch-container">
+                          <label for="notify-eggs">
+                            <h3>Notify of Eggs</h3>
+                            <div style="max-height: 165px; width:100%; overflow-y: auto">
+                              <select id="notify-eggs" multiple="multiple">
+                                <option value=1>Level 1</option>
+                                <option value=2>Level 2</option>
+                                <option value=3>Level 3</option>
+                                <option value=4>Level 4</option>
+                                <option value=5>Level 5</option>
+                              </select>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="tabs_notify_gym_settings-3">
+                      <div class="notify-container">
+                        <div class="form-control switch-container">
+                          <h3>Bounce notified Gyms</h3>
+                          <div class="onoffswitch">
+                            <input id="gym-bounce-switch" type="checkbox" name="gym-bounce-switch" class="onoffswitch-checkbox" checked>
+                            <label class="onoffswitch-label" for="gym-bounce-switch">
+                              <span class="switch-label" data-on="On" data-off="Off"></span>
+                              <span class="switch-handle"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="form-control switch-container">
+                          <h3>Upscale notified Gyms</h3>
+                          <div class="onoffswitch">
+                            <input id="gym-upscale-switch" type="checkbox" name="gym-upscale-switch" class="onoffswitch-checkbox" checked>
+                            <label class="onoffswitch-label" for="gym-upscale-switch">
                               <span class="switch-label" data-on="On" data-off="Off"></span>
                               <span class="switch-handle"></span>
                             </label>

@@ -133,6 +133,14 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'remember_select_notify_raid_pokemon': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'remember_select_notify_eggs': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'remember_select_notify_invasions': {
         default: [],
         type: StoreTypes.JSON
@@ -321,6 +329,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'notifyGyms': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'notifyNormalLures': {
         default: false,
         type: StoreTypes.Boolean
@@ -445,7 +457,15 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'bounceGyms': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'bouncePokestops': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'upscaleGyms': {
         default: true,
         type: StoreTypes.Boolean
     },
@@ -691,7 +711,7 @@ function isGymMeetsRaidFilters(gym) {
     return false
 }
 
-function isGymSatisfiesFilters(gym) {
+function isGymMeetsFilters(gym) {
     return isGymMeetsGymFilters(gym) || isGymMeetsRaidFilters(gym)
 }
 
@@ -736,35 +756,57 @@ function isPokestopMeetsFilters(pokestop) {
         (Store.get('showPokestopsNoEvent') || isQuestMeetsFilters(pokestop.quest) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
 }
 
-function isPokestopMeetsNotifyInvasionFilters(pokestop) {
-    return isPokestopMeetsInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)
-}
-
-function isPokestopMeetsNotifyLureFilters(pokestop) {
-    if (isPokestopMeetsLureFilters(pokestop)) {
-        switch (pokestop.active_fort_modifier) {
-            case ActiveFortModifierEnum.normal:
-                return Store.get('notifyNormalLures')
-            case ActiveFortModifierEnum.glacial:
-                return Store.get('notifyGlacialLures')
-            case ActiveFortModifierEnum.magnetic:
-                return Store.get('notifyMagneticLures')
-            case ActiveFortModifierEnum.mossy:
-                return Store.get('notifyMossyLures')
+function getGymNotificationInfo(gym) {
+    var isEggNotifyGym = false
+    var isRaidPokemonNotifyGym = false
+    var isNewNotifyGym = false
+    if (Store.get('notifyGyms') && isGymMeetsRaidFilters(gym)) {
+        const id = gym.gym_id
+        if (isUpcomingRaid(gym.raid) && notifyEggs.includes(gym.raid.level)) {
+            isEggNotifyGym = true
+            isNewNotifyGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentEggNotification || gym.raid.end > notifiedGymData[id].raidEnd
+        } else if (isOngoingRaid(gym.raid) && notifyRaidPokemon.includes(gym.raid.pokemon_id)) {
+            isRaidPokemonNotifyGym = true
+            isNewNotifyGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentRaidPokemonNotification || gym.raid.end > notifiedGymData[id].raidEnd
         }
     }
 
-    return false
+    return {
+        'isEggNotifyGym': isEggNotifyGym,
+        'isRaidPokemonNotifyGym': isRaidPokemonNotifyGym,
+        'isNewNotifyGym': isNewNotifyGym
+    }
 }
 
-function isNotifyPokestop(pokestop) {
-    return Store.get('notifyPokestops') && (isPokestopMeetsNotifyInvasionFilters(pokestop) || isPokestopMeetsNotifyLureFilters(pokestop))
-}
+function getPokestopNotificationInfo(pokestop) {
+    var isInvasionNotifyPokestop = false
+    var isLureNotifyPokestop = false
+    var isNewNotifyPokestop = false
+    if (Store.get('notifyPokestops')) {
+        const id = pokestop.pokestop_id
+        if (isPokestopMeetsInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)) {
+            isInvasionNotifyPokestop = true
+            isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) || !notifiedPokestopData[id].hasSentInvasionNotification || pokestop.incident_expiration > notifiedPokestopData[id].invasionEnd
+        } else if (isPokestopMeetsLureFilters(pokestop)) {
+            switch (pokestop.active_fort_modifier) {
+                case ActiveFortModifierEnum.normal:
+                    isLureNotifyPokestop = Store.get('notifyNormalLures')
+                case ActiveFortModifierEnum.glacial:
+                    isLureNotifyPokestop = Store.get('notifyGlacialLures')
+                case ActiveFortModifierEnum.magnetic:
+                    isLureNotifyPokestop = Store.get('notifyMagneticLures')
+                case ActiveFortModifierEnum.mossy:
+                    isLureNotifyPokestop = Store.get('notifyMossyLures')
+            }
+            isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) || !notifiedPokestopData[id].hasSentLureNotification || pokestop.lure_expiration > notifiedPokestopData[id].lureEnd
+        }
+    }
 
-function isNewNotifyPokestop(pokestop) {
-    return !notifiedPokestops.hasOwnProperty(pokestop.pokestop_id) ||
-        (isPokestopMeetsInvasionFilters(pokestop) && notifiedPokestops[pokestop.pokestop_id].incident_expiration !== pokestop.incident_expiration) ||
-        (isPokestopMeetsLureFilters(pokestop) && notifiedPokestops[pokestop.pokestop_id].lure_expiration !== pokestop.lure_expiration)
+    return {
+        'isInvasionNotifyPokestop': isInvasionNotifyPokestop,
+        'isLureNotifyPokestop': isLureNotifyPokestop,
+        'isNewNotifyPokestop': isNewNotifyPokestop
+    }
 }
 
 function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
