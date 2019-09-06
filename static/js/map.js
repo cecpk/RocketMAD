@@ -833,7 +833,7 @@ function gymLabel(gym) {
     if (gym.url) {
         gymImageDisplay = `
             <div>
-              <img class='gym image ${teamName.toLowerCase()}' src='${gym.url}' width='64px' height='64px'>
+              <img class='gym image ${teamName.toLowerCase()}' src='${gym.url.replace(/^http:\/\//i, '//')}' width='64px' height='64px'>
             </div>`
     } else {
         let gymUrl = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
@@ -1015,7 +1015,7 @@ function pokestopLabel(pokestop) {
     var questDisplay = ''
 
     if (pokestop.image != null && pokestop.image != '') {
-        imageUrl = pokestop.image
+        imageUrl = pokestop.image.replace(/^http:\/\//i, '//')
         imageClass = 'image'
     } else {
         imageUrl = getPokestopIconUrlFiltered(pokestop)
