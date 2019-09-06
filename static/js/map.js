@@ -2398,6 +2398,7 @@ function processPokemon(item) {
 
 function processGym(i, gym) {
     const id = gym.gym_id
+    const now = Date.now()
     if (!mapData.gyms.hasOwnProperty(id)) {
         if (!isGymMeetsFilters(gym)) {
             return true
@@ -2412,9 +2413,9 @@ function processGym(i, gym) {
         gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
         mapData.gyms[id] = gym
 
-        if (isValidRaid(gym.raid)) {
+        if (gym.raid !== null) {
             raidGymIds.add(id)
-            if (isUpcomingRaid(gym.raid) && gym.raid.pokemon_id != null) {
+            if (gym.raid.start > now && gym.raid.pokemon_id !== null) {
                 upcomingRaidGymIds.add(id)
             }
         }
@@ -2425,17 +2426,16 @@ function processGym(i, gym) {
         gym.updated = true
         mapData.gyms[id] = gym
 
-        const isModified = gym.last_modified > oldGym.last_modified
-        const isInBattle = gym.is_in_battle !== oldGym.is_in_battle
-        const isNewRaid = isValidRaid(gym.raid) && !raidGymIds.has(id)
-        const isNewUpcomingRaid = isUpcomingRaid(gym.raid) && gym.raid.pokemon_id !== null && !upcomingRaidGymIds.has(id)
-        const isNewOngoingRaid = isOngoingRaid(gym.raid) && oldGym.raid.pokemon_id === null
-        updateGym(gym, isModified || isNewRaid || isNewUpcomingRaid || isNewOngoingRaid || isInBattle)
+        const isNewRaid = gym.raid !== null && oldGym.raid === null
+        const isNewRaidPokemon = gym.raid !== null && gym.raid.pokemon_id !== null && (oldGym.raid === null || oldGym.raid.pokemon_id === null)
+        const isNewUpComingRaid = gym.raid !== null && gym.raid.start > now && isNewRaidPokemon
+        const isNewOngoingRaid = gym.raid !== null && gym.raid.start <= now && isNewRaidPokemon
+        updateGym(id, gym.last_modified > oldGym.last_modified || isNewRaid || isNewOngoingRaid || gym.is_in_battle !== oldGym.is_in_battle)
 
         if (isNewRaid) {
             raidGymIds.add(id)
         }
-        if (newUpcomingRaid) {
+        if (isNewUpComingRaid) {
             upcomingRaidGymIds.add(id)
         }
     }

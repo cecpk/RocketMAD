@@ -593,9 +593,11 @@ class Gym(LatLongModel):
                 gyms[d['gym_id']]['name'] = d['name']
                 gyms[d['gym_id']]['url'] = d['url']
 
+            utc_now = datetime.utcnow()
             raids = (Raid
                      .select()
-                     .where(Raid.gym_id << gym_ids)
+                     .where((Raid.gym_id << gym_ids) &
+                            (Raid.end > utc_now))
                      .dicts())
 
             for r in raids:
