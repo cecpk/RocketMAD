@@ -2698,7 +2698,7 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
 
             notifyText = `Gym: ${gymName}\nStarts at ${expireTime} (${expireTimeCountdown})`
             notifyTitle = `Level ${raid.level} Raid`
-            iconUrl = 'static/images/raid/' + raidEggImages[raid.level]
+            iconUrl = 'static/images/gym/' + raidEggImages[raid.level]
         } else {
             let expireTime = timestampToTime(raid.end)
             let timeUntil = getTimeUntil(raid.end)
