@@ -32,9 +32,7 @@
   }
 
   &.image {
-    display: block;
     border-radius: 32px;
-    margin-bottom: 6px;
 
     &.mystic {
       border: 3px solid rgba(0,134,255,1);
@@ -57,6 +55,7 @@
   &.team, &.ex-gym {
     font-size: 14px;
     font-weight: 900;
+    font-style: italic;
   }
 
   &.mystic {

@@ -841,7 +841,6 @@ function gymLabel(gym) {
 
     var exRaidDisplay = ''
     var gymImageDisplay = ''
-    var teamDisplay = ''
     var strenghtDisplay = ''
     var gymLeaderDisplay = ''
     var raidDisplay = ''
@@ -849,7 +848,7 @@ function gymLabel(gym) {
     if (gym.is_ex_raid_eligible) {
         exRaidDisplay = `
             <div class='gym ex-gym'>
-              Ex Gym
+              EX Gym
             </div>`
     }
 
@@ -879,11 +878,6 @@ function gymLabel(gym) {
             <div>
               Gym leader: <span class='info'>${idToPokemon[gym.guard_pokemon_id].name}</span>
               <a class='info' href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>
-            </div>`
-
-        teamDisplay = `
-            <div class='gym team ${teamName.toLowerCase()}'>
-              ${teamName}
             </div>`
     }
 
@@ -985,7 +979,6 @@ function gymLabel(gym) {
             <div class='gym container content-left'>
               <div>
                 ${gymImageDisplay}
-                ${teamDisplay}
                 ${exRaidDisplay}
               </div>
             </div>
@@ -1490,7 +1483,6 @@ function setupGymMarker(gym, isNotifyGym) {
     }
 
     marker.gym_id = gym.gym_id
-    gym.updated = true
 
     if (Store.get('useGymSidebar') && showConfig.gym_sidebar) {
         marker.on('click', function () {
@@ -1993,14 +1985,14 @@ function updateStaleMarkers() {
 
     for (let id of raidGymIds) {
         if (mapData.gyms[id].raid.end <= now) {
-            updateGym(id)
+            processGym(id)
             raidGymIds.delete(id)
         }
     }
 
     for (let id of upcomingRaidGymIds) {
         if (mapData.gyms[id].raid.start <= now) {
-            updateGym(id)
+            processGym(id)
             upcomingRaidGymIds.delete(id)
         }
     }
@@ -2195,36 +2187,6 @@ function loadRawData() {
 }
 
 // Update marker and label + send notification if applicable.
-function updateGym(gymId, updateMarker = true) {
-    if (!mapData.gyms.hasOwnProperty(gymId)) {
-        return
-    }
-
-    const gym = mapData.gyms[gymId]
-    if (isGymMeetsFilters(gym)) {
-        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
-        if (isNewNotifyGym) {
-            sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
-        }
-
-        if (gym.marker.infoWindowIsOpen) {
-            updateGymLabel(gym, gym.marker)
-        }
-        if (updateMarker) {
-            updateGymMarker(gym, mapData.gyms[gymId].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
-        }
-    } else {
-        removeGym(gym)
-    }
-}
-
-function updateGyms(updateMarkers = true) {
-    $.each(mapData.gyms, function (key, gym) {
-        updateGym(gym.gym_id, updateMarkers)
-    })
-}
-
-// Update marker and label + send notification if applicable.
 function updatePokestop(pokestopId, updateMarker = true) {
     if (!mapData.pokestops.hasOwnProperty(pokestopId)) {
         return
@@ -2280,19 +2242,19 @@ function removePokestop(pokestop) {
 function removeGym(gym) {
     const id = gym.gym_id
     if (mapData.gyms.hasOwnProperty(id)) {
-        if (mapData.gyms[id].marker.rangeCircle != null) {
-            markers.removeLayer(mapData.gyms[id].marker.rangeCircle)
-            if (markers.hasLayer(mapData.gyms[id].marker.rangeCircle)) {
-                markers.removeLayer(mapData.gyms[id].marker.rangeCircle)
+        const marker = mapData.gyms[id].marker
+        if (marker.rangeCircle != null) {
+            if (markers.hasLayer(marker.rangeCircle)) {
+                markers.removeLayer(marker.rangeCircle)
             } else {
-                markersNoCluster.removeLayer(mapData.gyms[id].marker.rangeCircle)
+                markersNoCluster.removeLayer(marker.rangeCircle)
             }
         }
 
-        if (markers.hasLayer(mapData.gyms[id].marker)) {
-            markers.removeLayer(mapData.gyms[id].marker)
+        if (markers.hasLayer(marker)) {
+            markers.removeLayer(marker)
         } else {
-            markersNoCluster.removeLayer(mapData.gyms[id].marker)
+            markersNoCluster.removeLayer(marker)
         }
 
         delete mapData.gyms[id]
@@ -2396,49 +2358,112 @@ function processPokemon(item) {
     return [newMarker, oldMarker]
 }
 
-function processGym(i, gym) {
-    const id = gym.gym_id
+function processGym(gymId, gym = null) {
+    if (gymId === null || gymId === undefined) {
+        return false
+    }
+
     const now = Date.now()
-    if (!mapData.gyms.hasOwnProperty(id)) {
-        if (!isGymMeetsFilters(gym)) {
-            return true
-        }
 
-        // New gym, add marker to map and item to dict.
-        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
-        if (isNewNotifyGym) {
-            sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
-        }
+    if (gym !== null) {
+        if (!mapData.gyms.hasOwnProperty(gymId)) {
+            // New gym, add marker to map and item to dict.
+            if (!isGymMeetsFilters(gym)) {
+                return true
+            }
 
-        gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
-        mapData.gyms[id] = gym
+            const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
+            if (isNewNotifyGym) {
+                sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
+            }
 
-        if (gym.raid !== null) {
-            raidGymIds.add(id)
-            if (gym.raid.start > now && gym.raid.pokemon_id !== null) {
-                upcomingRaidGymIds.add(id)
+            gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
+            gym.updated = true
+            mapData.gyms[gymId] = gym
+
+            if (gym.raid !== null) {
+                raidGymIds.add(gymId)
+                if (gym.raid.start > now && gym.raid.pokemon_id !== null) {
+                    upcomingRaidGymIds.add(gymId)
+                }
+            }
+        } else {
+            // Existing gym, update marker and dict item if necessary.
+            if (!isGymMeetsFilters(gym)) {
+                removeGym(gym)
+                return true
+            }
+
+            const oldGym = mapData.gyms[gymId]
+
+            var hasNewRaid = false
+            var hasNewUpComingRaid = false
+            var hasNewOngoingRaid = false
+            if (gym.raid !== null) {
+                const isNewRaidPokemon = gym.raid.pokemon_id !== null && (oldGym.raid === null || oldGym.raid.pokemon_id === null)
+                hasNewRaid = oldGym.raid === null
+                hasNewUpComingRaid = gym.raid.start > now && isNewRaidPokemon
+                hasNewOngoingRaid = gym.raid.start <= now && isNewRaidPokemon
+            }
+
+            if (gym.last_modified > oldGym.last_modified || hasNewRaid || hasNewOngoingRaid || gym.is_in_battle !== oldGym.is_in_battle) {
+                // Visual change, send notification if necessary and update marker.
+                const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
+                if (isNewNotifyGym) {
+                    sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
+                }
+
+                gym.marker = updateGymMarker(gym, oldGym.marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+            } else {
+                gym.marker = oldGym.marker
+            }
+
+            if (gym.marker.infoWindowIsOpen) {
+                updateGymLabel(gym, gym.marker)
+            } else {
+                // Make sure label is updated next time it's opened.
+                gym.updated = true
+            }
+
+            mapData.gyms[gymId] = gym
+
+            if (hasNewRaid) {
+                raidGymIds.add(gymId)
+            }
+            if (hasNewUpComingRaid) {
+                upcomingRaidGymIds.add(gymId)
             }
         }
     } else {
-        // Existing gym, update marker and dict item if necessary.
-        const oldGym = mapData.gyms[id]
-        gym.marker = oldGym.marker
-        gym.updated = true
-        mapData.gyms[id] = gym
-
-        const isNewRaid = gym.raid !== null && oldGym.raid === null
-        const isNewRaidPokemon = gym.raid !== null && gym.raid.pokemon_id !== null && (oldGym.raid === null || oldGym.raid.pokemon_id === null)
-        const isNewUpComingRaid = gym.raid !== null && gym.raid.start > now && isNewRaidPokemon
-        const isNewOngoingRaid = gym.raid !== null && gym.raid.start <= now && isNewRaidPokemon
-        updateGym(id, gym.last_modified > oldGym.last_modified || isNewRaid || isNewOngoingRaid || gym.is_in_battle !== oldGym.is_in_battle)
-
-        if (isNewRaid) {
-            raidGymIds.add(id)
+        if (!mapData.gyms.hasOwnProperty(gymId)) {
+            return true
         }
-        if (isNewUpComingRaid) {
-            upcomingRaidGymIds.add(id)
+
+        if (!isGymMeetsFilters(mapData.gyms[gymId])) {
+            removeGym(mapData.gyms[gymId])
+            return true
+        }
+
+        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(mapData.gyms[gymId])
+        if (isNewNotifyGym) {
+            sendGymNotification(mapData.gyms[gymId], isEggNotifyGym, isRaidPokemonNotifyGym)
+        }
+
+        updateGymMarker(mapData.gyms[gymId], mapData.gyms[gymId].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+
+        if (mapData.gyms[gymId].marker.infoWindowIsOpen) {
+            updateGymLabel(mapData.gyms[gymId], mapData.gyms[gymId].marker)
+        } else {
+            // Make sure label is updated next time it's opened.
+            mapData.gyms[gymId].updated = true
         }
     }
+}
+
+function reprocessGyms() {
+    $.each(mapData.gyms, function (gymId, gym) {
+        processGym(gymId)
+    })
 }
 
 function processPokestop(i, pokestop) {
@@ -3656,7 +3681,7 @@ $(function () {
             } else {
                 $('a[href$="#tabs_raid-1"]').text(`Raid Bosses (${includedRaidPokemon.length})`)
             }
-            updateGyms()
+            reprocessGyms()
             lastgyms = false
             updateMap()
             Store.set('remember_select_include_raid_pokemon', includedRaidPokemon)
@@ -3743,13 +3768,13 @@ $(function () {
             } else {
                 $('a[href$="#tabs_notify_raid_pokemon-1"]').text(`Raid Bosses (${notifyRaidPokemon.length})`)
             }
-            updateGyms()
+            reprocessGyms()
             Store.set('remember_select_notify_raid_pokemon', notifyRaidPokemon)
         })
 
         $selectNotifyEggs.on('change', function (e) {
             notifyEggs = $selectNotifyEggs.val().map(Number)
-            updateGyms()
+            reprocessGyms()
             Store.set('remember_select_notify_eggs', notifyEggs)
         })
 
@@ -4071,7 +4096,7 @@ $(function () {
             }
         }
         Store.set('showGyms', this.checked)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4082,28 +4107,28 @@ $(function () {
     })
     $('#team-gyms-only-switch').on('change', function () {
         Store.set('showTeamGymsOnly', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
 
     $('#open-gyms-only-switch').on('change', function () {
         Store.set('showOpenGymsOnly', this.checked)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
 
     $('#park-gyms-only-switch').on('change', function () {
         Store.set('showParkGymsOnly', this.checked)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
 
     $('#gym-in-battle-switch').on('change', function () {
         Store.set('showGymInBattle', this.checked)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4114,7 +4139,7 @@ $(function () {
     })
     $('#min-level-gyms-filter-switch').on('change', function () {
         Store.set('minGymLevel', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4125,7 +4150,7 @@ $(function () {
     })
     $('#max-level-gyms-filter-switch').on('change', function () {
         Store.set('maxGymLevel', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4136,7 +4161,7 @@ $(function () {
     })
     $('#last-update-gyms-switch').on('change', function () {
         Store.set('showLastUpdatedGymsOnly', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4157,21 +4182,21 @@ $(function () {
             }
         }
         Store.set('showRaids', this.checked)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
 
     $('#raid-active-gym-switch').on('change', function () {
         Store.set('showActiveRaidsOnly', this.checked)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
 
     $('#raid-park-gym-switch').on('change', function () {
         Store.set('showParkRaidsOnly', this.checked)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4182,7 +4207,7 @@ $(function () {
     })
     $('#egg-min-level-only-switch').on('change', function () {
         Store.set('showEggMinLevel', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4193,7 +4218,7 @@ $(function () {
     })
     $('#egg-max-level-only-switch').on('change', function () {
         Store.set('showEggMaxLevel', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4204,7 +4229,7 @@ $(function () {
     })
     $('#raid-min-level-only-switch').on('change', function () {
         Store.set('showRaidMinLevel', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4215,7 +4240,7 @@ $(function () {
     })
     $('#raid-max-level-only-switch').on('change', function () {
         Store.set('showRaidMaxLevel', this.value)
-        updateGyms()
+        reprocessGyms()
         lastgyms = false
         updateMap()
     })
@@ -4368,7 +4393,7 @@ $(function () {
 
     $('#gym-bounce-switch').change(function () {
         Store.set('bounceGyms', this.checked)
-        updateGyms()
+        reprocessGyms()
     })
 
     $('#pokestop-bounce-switch').change(function () {
@@ -4378,7 +4403,7 @@ $(function () {
 
     $('#gym-upscale-switch').change(function () {
         Store.set('upscaleGyms', this.checked)
-        updateGyms()
+        reprocessGyms()
     })
 
     $('#pokestop-upscale-switch').change(function () {
@@ -4401,7 +4426,7 @@ $(function () {
         var wrapper = $('#notify-gyms-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
         Store.set('notifyGyms', this.checked)
-        updateGyms()
+        reprocessGyms()
     })
 
     $('#notify-pokestops-switch').change(function () {
