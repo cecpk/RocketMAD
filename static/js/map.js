@@ -64,8 +64,8 @@ var reids = []
 
 var luredPokestopIds = new Set()
 var invadedPokestopIds = new Set()
-var raidGymIds = new Set()
-var upcomingRaidGymIds = new Set() // Contains only raids with known raid boss.
+var raidids = new Set()
+var upcomingRaidids = new Set() // Contains only raids with known raid boss.
 
 var notifiedGymData = {}
 var notifiedPokestopData = {}
@@ -1981,33 +1981,31 @@ function addListeners(marker, type) {
 }
 
 function updateStaleMarkers() {
-    const now = Date.now()
-
-    for (let id of raidGymIds) {
+    for (let id of raidids) {
         if (!isValidRaid(mapData.gyms[id].raid)) {
             mapData.gyms[id].raid = null
             processGym(id)
-            raidGymIds.delete(id)
+            raidids.delete(id)
         }
     }
 
-    for (let id of upcomingRaidGymIds) {
+    for (let id of upcomingRaidids) {
         if (isOngoingRaid(mapData.gyms[id].raid)) {
             processGym(id)
-            upcomingRaidGymIds.delete(id)
+            upcomingRaidids.delete(id)
         }
     }
 
     for (let id of invadedPokestopIds) {
-        if (mapData.pokestops[id].incident_expiration <= now) {
-            updatePokestop(id)
+        if (!isInvadedPokestop(mapData.pokestops[id])) {
+            processPokestop(id)
             invadedPokestopIds.delete(id)
         }
     }
 
     for (let id of luredPokestopIds) {
-        if (mapData.pokestops[id].lure_expiration <= now) {
-            updatePokestop(id)
+        if (!isLuredPokestop(mapData.pokestops[id])) {
+            processPokestop(id)
             luredPokestopIds.delete(id)
         }
     }
@@ -2240,36 +2238,6 @@ function getPokestopNotificationInfo(pokestop) {
     }
 }
 
-// Update marker and label + send notification if applicable.
-function updatePokestop(pokestopId, updateMarker = true) {
-    if (!mapData.pokestops.hasOwnProperty(pokestopId)) {
-        return
-    }
-
-    const pokestop = mapData.pokestops[pokestopId]
-    if (isPokestopMeetsFilters(pokestop)) {
-        const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
-        if (isNewNotifyPokestop) {
-            sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
-        }
-
-        if (pokestop.marker.infoWindowIsOpen) {
-            updatePokestopLabel(pokestop, pokestop.marker)
-        }
-        if (updateMarker) {
-            updatePokestopMarker(pokestop, mapData.pokestops[pokestopId].marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
-        }
-    } else {
-        removePokestop(pokestop)
-    }
-}
-
-function updatePokestops(updateMarkers = true) {
-    $.each(mapData.pokestops, function (key, pokestop) {
-        updatePokestop(pokestop.pokestop_id, updateMarkers)
-    })
-}
-
 function removeGym(gym) {
     const id = gym.gym_id
     if (mapData.gyms.hasOwnProperty(id)) {
@@ -2290,11 +2258,11 @@ function removeGym(gym) {
 
         delete mapData.gyms[id]
 
-        if (raidGymIds.has(id)) {
-            raidGymIds.delete(id)
+        if (raidids.has(id)) {
+            raidids.delete(id)
         }
-        if (upcomingRaidGymIds.has(id)) {
-            upcomingRaidGymIds.delete(id)
+        if (upcomingRaidids.has(id)) {
+            upcomingRaidids.delete(id)
         }
     }
 }
@@ -2418,15 +2386,13 @@ function processPokemon(item) {
     return [newMarker, oldMarker]
 }
 
-function processGym(gymId, gym = null) {
-    if (gymId === null || gymId === undefined) {
+function processGym(id, gym = null) {
+    if (id === null || id === undefined) {
         return false
     }
 
-    const now = Date.now()
-
     if (gym !== null) {
-        if (!mapData.gyms.hasOwnProperty(gymId)) {
+        if (!mapData.gyms.hasOwnProperty(id)) {
             // New gym, add marker to map and item to dict.
             if (!isGymMeetsFilters(gym)) {
                 return true
@@ -2439,12 +2405,12 @@ function processGym(gymId, gym = null) {
 
             gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
             gym.updated = true
-            mapData.gyms[gymId] = gym
+            mapData.gyms[id] = gym
 
             if (isValidRaid(gym.raid)) {
-                raidGymIds.add(gymId)
+                raidids.add(id)
                 if (isUpcomingRaid(gym.raid) && gym.raid.pokemon_id !== null) {
-                    upcomingRaidGymIds.add(gymId)
+                    upcomingRaidids.add(id)
                 }
             }
         } else {
@@ -2454,7 +2420,7 @@ function processGym(gymId, gym = null) {
                 return true
             }
 
-            const oldGym = mapData.gyms[gymId]
+            const oldGym = mapData.gyms[id]
 
             var hasNewRaid = false
             var hasNewUpComingRaid = false
@@ -2485,61 +2451,97 @@ function processGym(gymId, gym = null) {
                 gym.updated = true
             }
 
-            mapData.gyms[gymId] = gym
+            mapData.gyms[id] = gym
 
             if (hasNewRaid) {
-                raidGymIds.add(gymId)
+                raidids.add(id)
             }
             if (hasNewUpComingRaid) {
-                upcomingRaidGymIds.add(gymId)
+                upcomingRaidids.add(id)
             }
         }
     } else {
-        if (!mapData.gyms.hasOwnProperty(gymId)) {
+        if (!mapData.gyms.hasOwnProperty(id)) {
             return true
         }
 
-        if (!isGymMeetsFilters(mapData.gyms[gymId])) {
-            removeGym(mapData.gyms[gymId])
+        if (!isGymMeetsFilters(mapData.gyms[id])) {
+            removeGym(mapData.gyms[id])
             return true
         }
 
-        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(mapData.gyms[gymId])
+        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(mapData.gyms[id])
         if (isNewNotifyGym) {
-            sendGymNotification(mapData.gyms[gymId], isEggNotifyGym, isRaidPokemonNotifyGym)
+            sendGymNotification(mapData.gyms[id], isEggNotifyGym, isRaidPokemonNotifyGym)
         }
 
-        updateGymMarker(mapData.gyms[gymId], mapData.gyms[gymId].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+        updateGymMarker(mapData.gyms[id], mapData.gyms[id].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
 
-        if (mapData.gyms[gymId].marker.infoWindowIsOpen) {
-            updateGymLabel(mapData.gyms[gymId], mapData.gyms[gymId].marker)
+        if (mapData.gyms[id].marker.infoWindowIsOpen) {
+            updateGymLabel(mapData.gyms[id], mapData.gyms[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
-            mapData.gyms[gymId].updated = true
+            mapData.gyms[id].updated = true
         }
     }
 }
 
 function reprocessGyms() {
-    $.each(mapData.gyms, function (gymId, gym) {
-        processGym(gymId)
+    $.each(mapData.gyms, function (id, gym) {
+        processGym(id)
     })
 }
 
-function processPokestop(i, pokestop) {
-    const id = pokestop.pokestop_id
-    if (!mapData.pokestops.hasOwnProperty(id)) {
-        if (!isPokestopMeetsFilters(pokestop)) {
-            return true
+function processPokestop(id, pokestop = null) {
+    if (id === null || id === undefined) {
+        return false
+    }
+
+    if (pokestop !== null) {
+        if (!mapData.pokestops.hasOwnProperty(id)) {
+            // New pokestop, add marker to map and item to dict.
+            if (!isPokestopMeetsFilters(pokestop)) {
+                return true
+            }
+
+            const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
+            if (isNewNotifyPokestop) {
+                sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
+            }
+
+            pokestop.marker = setupPokestopMarker(pokestop, isInvasionNotifyPokestop || isLureNotifyPokestop)
+            pokestop.updated = true
+        } else {
+            // Existing pokestop, update marker and dict item if necessary.
+            if (!isPokestopMeetsFilters(pokestop)) {
+                removePokestop(pokestop)
+                return true
+            }
+
+            const oldPokestop = mapData.pokestops[id]
+
+            const newInvasion = !isInvadedPokestop(oldPokestop) && isInvadedPokestop(pokestop)
+            const newLure = !isLuredPokestop(oldPokestop) && isLuredPokestop(pokestop)
+            const questChange = JSON.stringify(oldPokestop.quest) !== JSON.stringify(pokestop.quest)
+            if (newInvasion || newLure || questChange) {
+                const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
+                if (isNewNotifyPokestop) {
+                    sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
+                }
+
+                pokestop.marker = updatePokestopMarker(pokestop, oldPokestop.marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
+            } else {
+                pokestop.marker = oldPokestop.marker
+            }
+
+            if (pokestop.marker.infoWindowIsOpen) {
+                updatePokestopLabel(pokestop, pokestop.marker)
+            } else {
+                // Make sure label is updated next time it's opened.
+                pokestop.updated = true
+            }
         }
 
-        // New pokestop, add marker to map and item to dict.
-        const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
-        if (isNewNotifyPokestop) {
-            sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
-        }
-
-        pokestop.marker = setupPokestopMarker(pokestop, isInvasionNotifyPokestop || isLureNotifyPokestop)
         mapData.pokestops[id] = pokestop
 
         if (isInvadedPokestop(pokestop)) {
@@ -2549,24 +2551,35 @@ function processPokestop(i, pokestop) {
             luredPokestopIds.add(id)
         }
     } else {
-        // Existing pokestop, update marker and dict item if necessary.
-        const oldPokestop = mapData.pokestops[id]
-        pokestop.marker = oldPokestop.marker
-        pokestop.updated = true
-        mapData.pokestops[id] = pokestop
-
-        const questChange = JSON.stringify(oldPokestop.quest) !== JSON.stringify(pokestop.quest)
-        const newInvasion = !isInvadedPokestop(oldPokestop) && isInvadedPokestop(pokestop)
-        const newLure = !isLuredPokestop(oldPokestop) && isLuredPokestop(pokestop)
-        updatePokestop(id, questChange || newInvasion || newLure)
-
-        if (newInvasion) {
-            invadedPokestopIds.add(id)
+        if (!mapData.pokestops.hasOwnProperty(id)) {
+            return true
         }
-        if (newLure) {
-            luredPokestopIds.add(id)
+
+        if (!isPokestopMeetsFilters(mapData.pokestops[id])) {
+            removePokestop(mapData.pokestops[id])
+            return true
+        }
+
+        const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
+        if (isNewNotifyPokestop) {
+            sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
+        }
+
+        updatePokestopMarker(mapData.pokestops[id], mapData.pokestops[id].marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
+
+        if (mapData.pokestops[id].marker.infoWindowIsOpen) {
+            updatePokestopLabel(mapData.pokestops[id], mapData.pokestops[id].marker)
+        } else {
+            // Make sure label is updated next time it's opened.
+            mapData.pokestops[id].updated = true
         }
     }
+}
+
+function reprocessPokestops() {
+    $.each(mapData.pokestops, function (id, pokestop) {
+        processPokestop(id)
+    })
 }
 
 function processScanned(i, item) {
@@ -3842,7 +3855,7 @@ $(function () {
             } else {
                 $('a[href$="#tabs_quest-1"]').text(`Quest Pokémon (${includedQuestPokemon.length})`)
             }
-            updatePokestops()
+            reprocessPokestops()
             lastpokestops = false
             updateMap()
             Store.set('remember_select_include_quest_pokemon', includedQuestPokemon)
@@ -3861,7 +3874,7 @@ $(function () {
             } else {
                 $('a[href$="#tabs_quest-2"]').text(`Quest Items (${includedQuestItems.length})`)
             }
-            updatePokestops()
+            reprocessPokestops()
             lastpokestops = false
             updateMap()
             Store.set('remember_select_include_quest_items', includedQuestItems)
@@ -4021,7 +4034,7 @@ $(function () {
             } else {
                 $('a[href$="#tabs_invasion-1"]').text(`Invasions (${includedInvasions.length})`)
             }
-            updatePokestops()
+            reprocessPokestops()
             lastpokestops = false
             updateMap()
             Store.set('remember_select_include_invasions', includedInvasions)
@@ -4040,7 +4053,7 @@ $(function () {
             } else {
                 $('a[href$="#tabs_notify_invasion-1"]').text(`Invasions (${notifyInvasions.length})`)
             }
-            updatePokestops()
+            reprocessPokestops()
             Store.set('remember_select_notify_invasions', notifyInvasions)
         })
 
@@ -4460,14 +4473,14 @@ $(function () {
         var wrapper = $('#pokestops-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
         Store.set('showPokestops', this.checked)
-        updatePokestops(false)
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
 
     $('#pokestops-no-event-switch').change(function () {
         Store.set('showPokestopsNoEvent', this.checked)
-        updatePokestops(false)
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
@@ -4476,7 +4489,7 @@ $(function () {
         var wrapper = $('#quests-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
         Store.set('showQuests', this.checked)
-        updatePokestops()
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
@@ -4485,35 +4498,35 @@ $(function () {
         var wrapper = $('#invasions-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
         Store.set('showInvasions', this.checked)
-        updatePokestops()
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
 
     $('#normal-lures-switch').change(function () {
         Store.set('showNormalLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
 
     $('#glacial-lures-switch').change(function () {
         Store.set('showGlacialLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
 
     $('#magnetic-lures-switch').change(function () {
         Store.set('showMagneticLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
 
     $('#mossy-lures-switch').change(function () {
         Store.set('showMossyLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
         lastpokestops = false
         updateMap()
     })
@@ -4540,7 +4553,7 @@ $(function () {
 
     $('#pokestop-bounce-switch').change(function () {
         Store.set('bouncePokestops', this.checked)
-        updatePokestops()
+        reprocessPokestops()
     })
 
     $('#gym-upscale-switch').change(function () {
@@ -4550,7 +4563,7 @@ $(function () {
 
     $('#pokestop-upscale-switch').change(function () {
         Store.set('upscalePokestops', this.checked)
-        updatePokestops()
+        reprocessPokestops()
     })
 
     $('#prio-notify-switch').change(function () {
@@ -4575,27 +4588,27 @@ $(function () {
         var wrapper = $('#notify-pokestops-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
         Store.set('notifyPokestops', this.checked)
-        updatePokestops()
+        reprocessPokestops()
     })
 
     $('#notify-normal-lures-switch').change(function () {
         Store.set('notifyNormalLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
     })
 
     $('#notify-glacial-lures-switch').change(function () {
         Store.set('notifyGlacialLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
     })
 
     $('#notify-magnetic-lures-switch').change(function () {
         Store.set('notifyMagneticLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
     })
 
     $('#notify-mossy-lures-switch').change(function () {
         Store.set('notifyMossyLures', this.checked)
-        updatePokestops()
+        reprocessPokestops()
     })
 
     $('#hideunnotified-switch').change(function () {

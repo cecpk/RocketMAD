@@ -802,7 +802,7 @@ function getPokestopIconUrl(pokestop) {
 
 function getPokestopIconUrlFiltered(pokestop) {
     var imageName = 'stop'
-    if (isQuestMeetsFilters(pokestop.quest)) {
+    if (isPokestopMeetsQuestFilters(pokestop)) {
         imageName += '_q'
     }
     if (isPokestopMeetsInvasionFilters(pokestop)) {
