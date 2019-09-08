@@ -1120,7 +1120,7 @@ function pokestopLabel(pokestop) {
 
     if (isPokestopMeetsLureFilters(pokestop)) {
         const lureExpireTime = pokestop.lure_expiration
-        lureClass = 'lure-' + lureTypes[pokestop.activeFortModifier].toLowerCase()
+        lureClass = 'lure-' + lureTypes[pokestop.active_fort_modifier].toLowerCase()
         lureDisplay = `
             <div class='pokestop lure-container ${lureClass}'>
               <div>
@@ -1516,7 +1516,7 @@ function setupGymMarker(gym, isNotifyGym) {
 function updateGymMarker(gym, marker, isNotifyGym) {
     var markerImage = ''
     var zIndexOffset
-    const upscaleModifier = Store.get('upscaleGyms') && isNotifyGym ? 1.3 : 1
+    const upscaleModifier = Store.get('upscaleGyms') && isNotifyGym ? 1.2 : 1
     const gymLevel = getGymLevel(gym)
 
     if (isGymMeetsRaidFilters(gym)) {
@@ -2214,21 +2214,27 @@ function getPokestopNotificationInfo(pokestop) {
         const id = pokestop.pokestop_id
         if (isPokestopMeetsInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)) {
             isInvasionNotifyPokestop = true
-            isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) || !notifiedPokestopData[id].hasSentInvasionNotification || pokestop.incident_expiration > notifiedPokestopData[id].invasionEnd
         }
         if (isPokestopMeetsLureFilters(pokestop)) {
             switch (pokestop.active_fort_modifier) {
                 case ActiveFortModifierEnum.normal:
                     isLureNotifyPokestop = Store.get('notifyNormalLures')
+                    break
                 case ActiveFortModifierEnum.glacial:
                     isLureNotifyPokestop = Store.get('notifyGlacialLures')
+                    break
                 case ActiveFortModifierEnum.magnetic:
                     isLureNotifyPokestop = Store.get('notifyMagneticLures')
+                    break
                 case ActiveFortModifierEnum.mossy:
                     isLureNotifyPokestop = Store.get('notifyMossyLures')
+                    break
             }
-            isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) || !notifiedPokestopData[id].hasSentLureNotification || pokestop.lure_expiration > notifiedPokestopData[id].lureEnd
         }
+
+        isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) ||
+            (isInvasionNotifyPokestop && (!notifiedPokestopData[id].hasSentInvasionNotification || pokestop.incident_expiration > notifiedPokestopData[id].invasionEnd)) ||
+            (isLureNotifyPokestop && (!notifiedPokestopData[id].hasSentLureNotification || pokestop.lure_expiration > notifiedPokestopData[id].lureEnd))
     }
 
     return {
@@ -2560,9 +2566,9 @@ function processPokestop(id, pokestop = null) {
             return true
         }
 
-        const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
+        const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(mapData.pokestops[id])
         if (isNewNotifyPokestop) {
-            sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
+            sendPokestopNotification(mapData.pokestops[id], isInvasionNotifyPokestop, isLureNotifyPokestop)
         }
 
         updatePokestopMarker(mapData.pokestops[id], mapData.pokestops[id].marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
@@ -2866,7 +2872,7 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
     }
 
     if (Store.get('showPopups')) {
-        const gymName = gym.name != null && gym.name != '' ? gym.name : 'unknown'
+        const gymName = gym.name !== null && gym.name !== '' ? gym.name : 'unknown'
         var notifyTitle = ''
         var notifyText = ''
         var iconUrl = ''
@@ -2876,8 +2882,8 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            notifyText = `Gym: ${gymName}\nStarts at ${expireTime} (${expireTimeCountdown})`
             notifyTitle = `Level ${raid.level} Raid`
+            notifyText = `Gym: ${gymName}\nStarts at ${expireTime} (${expireTimeCountdown})`
             iconUrl = 'static/images/gym/' + raidEggImages[raid.level]
         } else {
             let expireTime = timestampToTime(raid.end)
@@ -2899,8 +2905,8 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
                 pokemonName += ` (${i8ln(idToPokemon[raid.pokemon_id].forms[raid.form].formName)})`
             }
 
-            notifyText = `Gym: ${gymName}\nEnds at ${expireTime} (${expireTimeCountdown})\nMoves: ${fastMoveName} / ${chargeMoveName}`
             notifyTitle = `${pokemonName} Raid (L${raid.level})`
+            notifyText = `Gym: ${gymName}\nEnds at ${expireTime} (${expireTimeCountdown})\nMoves: ${fastMoveName} / ${chargeMoveName}`
             iconUrl = getPokemonRawIconUrl(raid)
         }
 
@@ -2918,20 +2924,22 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
 }
 
 function sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop) {
-    if (pokestop == null || (!isInvasionNotifyPokestop && !isLureNotifyPokestop)) {
+    if (!isInvasionNotifyPokestop && !isLureNotifyPokestop) {
         return
     }
 
     if (Store.get('showPopups')) {
-        const notifyTitle = pokestop.name != null && pokestop.name != '' ? 'PokéStop ' + pokestop.name : 'PokéStop'
-        var notifyText = ''
+        const pokestopName = pokestop.name !== null && pokestop.name !== '' ? pokestop.name : 'unknown'
+        var notifyTitle = ''
+        var notifyText = 'PokéStop: ' + pokestopName
         if (isInvasionNotifyPokestop) {
             let expireTime = timestampToTime(pokestop.incident_expiration)
             let timeUntil = getTimeUntil(pokestop.incident_expiration)
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            notifyText = `Team Rocket invasion (${idToInvasion[pokestop.incident_grunt_type].type}, ${idToInvasion[pokestop.incident_grunt_type].gruntGender}) until ${expireTime} (${expireTimeCountdown})\n`
+            notifyText += `\nInvasion ends at ${expireTime} (${expireTimeCountdown})`
+            notifyTitle += `${idToInvasion[pokestop.incident_grunt_type].type} (${idToInvasion[pokestop.incident_grunt_type].gruntGender}) Invasion`
         }
         if (isLureNotifyPokestop) {
             let expireTime = timestampToTime(pokestop.lure_expiration)
@@ -2939,7 +2947,11 @@ function sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNoti
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            notifyText += `${lureTypes[pokestop.active_fort_modifier]} lure until ${expireTime} (${expireTimeCountdown})`
+            if (isInvasionNotifyPokestop) {
+                notifyTitle += ' & '
+            }
+            notifyTitle += `${lureTypes[pokestop.active_fort_modifier]} Lure`
+            notifyText += `\nLure ends at ${expireTime} (${expireTimeCountdown})`
         }
 
         sendNotification(notifyTitle, notifyText, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
