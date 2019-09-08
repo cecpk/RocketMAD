@@ -886,7 +886,7 @@ function gymLabel(gym) {
         const raidColor = ['252,112,176', '255,158,22', '184,165,221']
         const levelStr = '★'.repeat(raid.level)
 
-        if (isOngoingRaid(raid) && raid.cp > 0) {
+        if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid)
 
             let pokemonName = raid.pokemon_name
@@ -960,7 +960,7 @@ function gymLabel(gym) {
                     </div>
                   </div>
                 </div>`
-        } else if (isUpcomingRaid(raid)) {
+        } else {
             raidDisplay = `
                 <div class='section-divider'></div>
                 <div class='raid title upcoming'>
@@ -1038,7 +1038,7 @@ function pokestopLabel(pokestop) {
         imageClass = 'sprite'
     }
 
-    if (isQuestMeetsFilters(pokestop.quest)) {
+    if (isPokestopMeetsQuestFilters(pokestop)) {
         const quest = pokestop.quest
         let rewardImageUrl = ''
         let rewardText = ''
@@ -1600,7 +1600,7 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
     var shadowAnchor = null
     const upscaleModifier = Store.get('upscalePokestops') && isNotifyPokestop ? 1.3 : 1
 
-    if (isQuestMeetsFilters(pokestop.quest)) {
+    if (isPokestopMeetsQuestFilters(pokestop)) {
         const quest = pokestop.quest
         shadowAnchor = [30, 30]
         switch (quest.reward_type) {
@@ -1984,14 +1984,15 @@ function updateStaleMarkers() {
     const now = Date.now()
 
     for (let id of raidGymIds) {
-        if (mapData.gyms[id].raid.end <= now) {
+        if (!isValidRaid(mapData.gyms[id].raid)) {
+            mapData.gyms[id].raid = null
             processGym(id)
             raidGymIds.delete(id)
         }
     }
 
     for (let id of upcomingRaidGymIds) {
-        if (mapData.gyms[id].raid.start <= now) {
+        if (isOngoingRaid(mapData.gyms[id].raid)) {
             processGym(id)
             upcomingRaidGymIds.delete(id)
         }
@@ -2104,86 +2105,139 @@ function showInBoundsMarkers(markersInput, type) {
     })
 }
 
-function loadRawData() {
-    var userAuthCode = localStorage.getItem('userAuthCode')
-    var loadPokemon = Store.get('showPokemon')
-    var loadGyms = Store.get('showGyms') || Store.get('showRaids')
-    var loadPokestops = Store.get('showPokestops')
-    var loadPokestopsNoEvent = Store.get('showPokestopsNoEvent')
-    var loadQuests = Store.get('showQuests')
-    var loadInvasions = Store.get('showInvasions')
-    var loadLures = Store.get('showNormalLures') || Store.get('showGlacialLures') || Store.get('showMagneticLures') || Store.get('showMossyLures')
-    var loadScanned = Store.get('showScanned')
-    var loadSpawnpoints = Store.get('showSpawnpoints')
-    var loadWeather = Store.get('showWeatherCells')
-    var loadWeatherAlerts = Store.get('showWeatherAlerts')
-    var prionotifyactiv = Store.get('prioNotify')
+function isGymMeetsGymFilters(gym) {
+    const gymLevel = getGymLevel(gym)
+    return Store.get('showGyms') &&
+        !((Store.get('showTeamGymsOnly') !== -1 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
+          (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
+          (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
+          (Store.get('showGymInBattle') && !gym.is_in_battle) ||
+          (gymLevel < Store.get('minGymLevel') || gymLevel > Store.get('maxGymLevel')) ||
+          (Store.get('showLastUpdatedGymsOnly') !== 0 && Store.get('showLastUpdatedGymsOnly') * 3600 * 1000 + gym.last_scanned < Date.now()))
+}
 
-    var bounds = map.getBounds()
-    var swPoint = bounds.getSouthWest()
-    var nePoint = bounds.getNorthEast()
-    var swLat = swPoint.lat
-    var swLng = swPoint.lng
-    var neLat = nePoint.lat
-    var neLng = nePoint.lng
+function isGymMeetsRaidFilters(gym) {
+    if (Store.get('showRaids') && isValidRaid(gym.raid)) {
+        const raid = gym.raid
 
-    return $.ajax({
-        url: 'raw_data',
-        type: 'GET',
-        data: {
-            'userAuthCode': userAuthCode,
-            'timestamp': timestamp,
-            'pokemon': loadPokemon,
-            'lastpokemon': lastpokemon,
-            'pokestops': loadPokestops,
-            'pokestopsNoEvent': loadPokestopsNoEvent,
-            'lastpokestops': lastpokestops,
-            'quests': loadQuests,
-            'invasions': loadInvasions,
-            'lures': loadLures,
-            'gyms': loadGyms,
-            'lastgyms': lastgyms,
-            'scanned': loadScanned,
-            'lastslocs': lastslocs,
-            'spawnpoints': loadSpawnpoints,
-            'weather': loadWeather,
-            'weatherAlerts': loadWeatherAlerts,
-            'lastspawns': lastspawns,
-            'swLat': swLat,
-            'swLng': swLng,
-            'neLat': neLat,
-            'neLng': neLng,
-            'oSwLat': oSwLat,
-            'oSwLng': oSwLng,
-            'oNeLat': oNeLat,
-            'oNeLng': oNeLng,
-            'reids': String(isShowAllZoom() ? excludedPokemon : reincludedPokemon),
-            'eids': String(getExcludedPokemon()),
-            'prionotify': prionotifyactiv
-        },
-        dataType: 'json',
-        cache: false,
-        beforeSend: function () {
-            if (rawDataIsLoading) {
-                return false
-            } else {
-                rawDataIsLoading = true
-            }
-        },
-        error: function () {
-            // Display error toast
-            toastr['error']('Please check connectivity or reduce marker settings.', 'Error getting data')
-            toastr.options = toastrOptions
-        },
-        success: function (data) {
-            if (data.auth_redirect) {
-                window.location = data.auth_redirect
-            }
-        },
-        complete: function () {
-            rawDataIsLoading = false
+        if (Store.get('showParkRaidsOnly') && !gym.is_ex_raid_eligible) {
+            return false
         }
-    })
+
+        if (isUpcomingRaid(raid)) {
+            if (raid.level < Store.get('showEggMinLevel') || raid.level > Store.get('showEggMaxLevel') || Store.get('showActiveRaidsOnly')) {
+                return false
+            }
+        } else { // Ongoing raid.
+            if ((raid.level < Store.get('showRaidMinLevel') || raid.level > Store.get('showRaidMaxLevel')) ||
+                (raid.pokemon_id !== null && !includedRaidPokemon.includes(raid.pokemon_id))) {
+                    return false
+            }
+        }
+
+        return true
+    }
+
+    return false
+}
+
+function isGymMeetsFilters(gym) {
+    return isGymMeetsGymFilters(gym) || isGymMeetsRaidFilters(gym)
+}
+
+function isPokestopMeetsQuestFilters(pokestop) {
+    if (Store.get('showQuests') && pokestop.quest !== null) {
+        switch (pokestop.quest.reward_type) {
+            case 2:
+                return includedQuestItems.includes(parseInt(pokestop.quest.item_id))
+            case 3:
+                return includedQuestItems.includes(6)
+            case 7:
+                return includedQuestPokemon.includes(parseInt(pokestop.quest.pokemon_id))
+        }
+    }
+
+    return false
+}
+
+function isPokestopMeetsInvasionFilters(pokestop) {
+    return Store.get('showInvasions') && isInvadedPokestop(pokestop) && includedInvasions.includes(pokestop.incident_grunt_type)
+}
+
+function isPokestopMeetsLureFilters(pokestop) {
+    if (isLuredPokestop(pokestop)) {
+        switch (pokestop.active_fort_modifier) {
+            case ActiveFortModifierEnum.normal:
+                return Store.get('showNormalLures')
+            case ActiveFortModifierEnum.glacial:
+                return Store.get('showGlacialLures')
+            case ActiveFortModifierEnum.magnetic:
+                return Store.get('showMagneticLures')
+            case ActiveFortModifierEnum.mossy:
+                return Store.get('showMossyLures')
+        }
+    }
+
+    return false
+}
+
+function isPokestopMeetsFilters(pokestop) {
+    return Store.get('showPokestops') &&
+        (Store.get('showPokestopsNoEvent') || isPokestopMeetsQuestFilters(pokestop) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
+}
+
+function getGymNotificationInfo(gym) {
+    var isEggNotifyGym = false
+    var isRaidPokemonNotifyGym = false
+    var isNewNotifyGym = false
+    if (Store.get('notifyGyms') && isGymMeetsRaidFilters(gym)) {
+        const id = gym.gym_id
+        if (isUpcomingRaid(gym.raid) && notifyEggs.includes(gym.raid.level)) {
+            isEggNotifyGym = true
+            isNewNotifyGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentEggNotification || gym.raid.end > notifiedGymData[id].raidEnd
+        } else if (isOngoingRaid(gym.raid) && notifyRaidPokemon.includes(gym.raid.pokemon_id)) {
+            isRaidPokemonNotifyGym = true
+            isNewNotifyGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentRaidPokemonNotification || gym.raid.end > notifiedGymData[id].raidEnd
+        }
+    }
+
+    return {
+        'isEggNotifyGym': isEggNotifyGym,
+        'isRaidPokemonNotifyGym': isRaidPokemonNotifyGym,
+        'isNewNotifyGym': isNewNotifyGym
+    }
+}
+
+function getPokestopNotificationInfo(pokestop) {
+    var isInvasionNotifyPokestop = false
+    var isLureNotifyPokestop = false
+    var isNewNotifyPokestop = false
+    if (Store.get('notifyPokestops')) {
+        const id = pokestop.pokestop_id
+        if (isPokestopMeetsInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)) {
+            isInvasionNotifyPokestop = true
+            isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) || !notifiedPokestopData[id].hasSentInvasionNotification || pokestop.incident_expiration > notifiedPokestopData[id].invasionEnd
+        }
+        if (isPokestopMeetsLureFilters(pokestop)) {
+            switch (pokestop.active_fort_modifier) {
+                case ActiveFortModifierEnum.normal:
+                    isLureNotifyPokestop = Store.get('notifyNormalLures')
+                case ActiveFortModifierEnum.glacial:
+                    isLureNotifyPokestop = Store.get('notifyGlacialLures')
+                case ActiveFortModifierEnum.magnetic:
+                    isLureNotifyPokestop = Store.get('notifyMagneticLures')
+                case ActiveFortModifierEnum.mossy:
+                    isLureNotifyPokestop = Store.get('notifyMossyLures')
+            }
+            isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) || !notifiedPokestopData[id].hasSentLureNotification || pokestop.lure_expiration > notifiedPokestopData[id].lureEnd
+        }
+    }
+
+    return {
+        'isInvasionNotifyPokestop': isInvasionNotifyPokestop,
+        'isLureNotifyPokestop': isLureNotifyPokestop,
+        'isNewNotifyPokestop': isNewNotifyPokestop
+    }
 }
 
 // Update marker and label + send notification if applicable.
@@ -2216,29 +2270,6 @@ function updatePokestops(updateMarkers = true) {
     })
 }
 
-function removePokestop(pokestop) {
-    const id = pokestop.pokestop_id
-    if (mapData.pokestops.hasOwnProperty(id)) {
-        if (mapData.pokestops[id].marker.rangeCircle != null) {
-            if (markers.hasLayer(mapData.pokestops[id].marker.rangeCircle)) {
-                markers.removeLayer(mapData.pokestops[id].marker.rangeCircle)
-            } else {
-                markersNoCluster.removeLayer(mapData.pokestops[id].marker.rangeCircle)
-            }
-        }
-
-        if (markers.hasLayer(mapData.pokestops[id].marker)) {
-            markers.removeLayer(mapData.pokestops[id].marker)
-        } else {
-            markersNoCluster.removeLayer(mapData.pokestops[id].marker)
-        }
-
-        delete mapData.pokestops[id]
-        invadedPokestopIds.delete(id)
-        luredPokestopIds.delete(id)
-    }
-}
-
 function removeGym(gym) {
     const id = gym.gym_id
     if (mapData.gyms.hasOwnProperty(id)) {
@@ -2264,6 +2295,35 @@ function removeGym(gym) {
         }
         if (upcomingRaidGymIds.has(id)) {
             upcomingRaidGymIds.delete(id)
+        }
+    }
+}
+
+function removePokestop(pokestop) {
+    const id = pokestop.pokestop_id
+    if (mapData.pokestops.hasOwnProperty(id)) {
+        const marker = mapData.pokestops[id].marker
+        if (marker.rangeCircle != null) {
+            if (markers.hasLayer(marker.rangeCircle)) {
+                markers.removeLayer(marker.rangeCircle)
+            } else {
+                markersNoCluster.removeLayer(marker.rangeCircle)
+            }
+        }
+
+        if (markers.hasLayer(marker)) {
+            markers.removeLayer(marker)
+        } else {
+            markersNoCluster.removeLayer(marker)
+        }
+
+        delete mapData.pokestops[id]
+
+        if (invadedPokestopIds.has(id)) {
+            invadedPokestopIds.delete(id)
+        }
+        if (luredPokestopIds.has(id)) {
+            luredPokestopIds.delete(id)
         }
     }
 }
@@ -2381,9 +2441,9 @@ function processGym(gymId, gym = null) {
             gym.updated = true
             mapData.gyms[gymId] = gym
 
-            if (gym.raid !== null) {
+            if (isValidRaid(gym.raid)) {
                 raidGymIds.add(gymId)
-                if (gym.raid.start > now && gym.raid.pokemon_id !== null) {
+                if (isUpcomingRaid(gym.raid) && gym.raid.pokemon_id !== null) {
                     upcomingRaidGymIds.add(gymId)
                 }
             }
@@ -2399,11 +2459,11 @@ function processGym(gymId, gym = null) {
             var hasNewRaid = false
             var hasNewUpComingRaid = false
             var hasNewOngoingRaid = false
-            if (gym.raid !== null) {
+            if (isValidRaid(gym.raid)) {
                 const isNewRaidPokemon = gym.raid.pokemon_id !== null && (oldGym.raid === null || oldGym.raid.pokemon_id === null)
                 hasNewRaid = oldGym.raid === null
-                hasNewUpComingRaid = gym.raid.start > now && isNewRaidPokemon
-                hasNewOngoingRaid = gym.raid.start <= now && isNewRaidPokemon
+                hasNewUpComingRaid = isUpcomingRaid(gym.raid) && isNewRaidPokemon
+                hasNewOngoingRaid = isOngoingRaid(gym.raid) && isNewRaidPokemon
             }
 
             if (gym.last_modified > oldGym.last_modified || hasNewRaid || hasNewOngoingRaid || gym.is_in_battle !== oldGym.is_in_battle) {
@@ -2565,6 +2625,88 @@ function updateSpawnPoints() {
         if (map.getBounds().contains(value.marker.getLatLng())) {
             var hue = getColorBySpawnTime(value['appear_time'])
             value.marker.setStyle({color: hue, fillColor: hue})
+        }
+    })
+}
+
+function loadRawData() {
+    var userAuthCode = localStorage.getItem('userAuthCode')
+    var loadPokemon = Store.get('showPokemon')
+    var loadGyms = Store.get('showGyms') || Store.get('showRaids')
+    var loadPokestops = Store.get('showPokestops')
+    var loadPokestopsNoEvent = Store.get('showPokestopsNoEvent')
+    var loadQuests = Store.get('showQuests')
+    var loadInvasions = Store.get('showInvasions')
+    var loadLures = Store.get('showNormalLures') || Store.get('showGlacialLures') || Store.get('showMagneticLures') || Store.get('showMossyLures')
+    var loadScanned = Store.get('showScanned')
+    var loadSpawnpoints = Store.get('showSpawnpoints')
+    var loadWeather = Store.get('showWeatherCells')
+    var loadWeatherAlerts = Store.get('showWeatherAlerts')
+    var prionotifyactiv = Store.get('prioNotify')
+
+    var bounds = map.getBounds()
+    var swPoint = bounds.getSouthWest()
+    var nePoint = bounds.getNorthEast()
+    var swLat = swPoint.lat
+    var swLng = swPoint.lng
+    var neLat = nePoint.lat
+    var neLng = nePoint.lng
+
+    return $.ajax({
+        url: 'raw_data',
+        type: 'GET',
+        data: {
+            'userAuthCode': userAuthCode,
+            'timestamp': timestamp,
+            'pokemon': loadPokemon,
+            'lastpokemon': lastpokemon,
+            'pokestops': loadPokestops,
+            'pokestopsNoEvent': loadPokestopsNoEvent,
+            'lastpokestops': lastpokestops,
+            'quests': loadQuests,
+            'invasions': loadInvasions,
+            'lures': loadLures,
+            'gyms': loadGyms,
+            'lastgyms': lastgyms,
+            'scanned': loadScanned,
+            'lastslocs': lastslocs,
+            'spawnpoints': loadSpawnpoints,
+            'weather': loadWeather,
+            'weatherAlerts': loadWeatherAlerts,
+            'lastspawns': lastspawns,
+            'swLat': swLat,
+            'swLng': swLng,
+            'neLat': neLat,
+            'neLng': neLng,
+            'oSwLat': oSwLat,
+            'oSwLng': oSwLng,
+            'oNeLat': oNeLat,
+            'oNeLng': oNeLng,
+            'reids': String(isShowAllZoom() ? excludedPokemon : reincludedPokemon),
+            'eids': String(getExcludedPokemon()),
+            'prionotify': prionotifyactiv
+        },
+        dataType: 'json',
+        cache: false,
+        beforeSend: function () {
+            if (rawDataIsLoading) {
+                return false
+            } else {
+                rawDataIsLoading = true
+            }
+        },
+        error: function () {
+            // Display error toast
+            toastr['error']('Please check connectivity or reduce marker settings.', 'Error getting data')
+            toastr.options = toastrOptions
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
+        },
+        complete: function () {
+            rawDataIsLoading = false
         }
     })
 }
