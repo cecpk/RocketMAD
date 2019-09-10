@@ -720,13 +720,6 @@ class ScannedLocation(LatLongModel):
 
     class Meta:
         indexes = ((('latitude', 'longitude'), False),)
-        constraints = [Check('band1 >= -1'), Check('band1 < 3600'),
-                       Check('band2 >= -1'), Check('band2 < 3600'),
-                       Check('band3 >= -1'), Check('band3 < 3600'),
-                       Check('band4 >= -1'), Check('band4 < 3600'),
-                       Check('band5 >= -1'), Check('band5 < 3600'),
-                       Check('midpoint >= -130'), Check('midpoint <= 130'),
-                       Check('width >= 0'), Check('width <= 130')]
 
     @staticmethod
     def get_recent(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
