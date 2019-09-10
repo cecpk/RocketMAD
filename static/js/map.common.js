@@ -53,7 +53,7 @@ var StoreTypes = {
     },
     Number: {
         parse: function (str) {
-            return parseInt(str, 10)
+            return parseFloat(str)
         },
         stringify: function (number) {
             return number.toString()
@@ -149,17 +149,17 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'remember_select_rarity_notify': {
+    'notifyIvsPercentage': {
+        default: '-1',
+        type: StoreTypes.Number
+    },
+    'notifyLevel': {
+        default: '-1',
+        type: StoreTypes.Number
+    },
+    'notifyRarities': {
         default: [], // Common, Uncommon, Rare, Very Rare, Ultra Rare
         type: StoreTypes.JSON
-    },
-    'remember_text_perfection_notify': {
-        default: '',
-        type: StoreTypes.Number
-    },
-    'remember_text_level_notify': {
-        default: '',
-        type: StoreTypes.Number
     },
     'excludedRarity': {
         default: 0, // 0: none, 1: <=Common, 2: <=Uncommon, 3: <=Rare, 4: <=Very Rare, 5: <=Ultra Rare
@@ -401,8 +401,8 @@ var StoreOptions = {
         default: 'highres',
         type: StoreTypes.String
     },
-    'iconSizeModifier': {
-        default: 0,
+    'pokemonIconSizeModifier': {
+        default: 100,
         type: StoreTypes.Number
     },
     'scaleByRarity': {
@@ -441,14 +441,6 @@ var StoreOptions = {
         default: 60,
         type: StoreTypes.Number
     },
-    'processPokemonChunkSize': {
-        default: 100,
-        type: StoreTypes.Number
-    },
-    'processPokemonIntervalMs': {
-        default: 100,
-        type: StoreTypes.Number
-    },
     'mapServiceProvider': {
         default: 'googlemaps',
         type: StoreTypes.String
@@ -462,6 +454,10 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'bouncePokestops': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'upscaleNotifyPokemon': {
         default: true,
         type: StoreTypes.Boolean
     },
@@ -497,11 +493,11 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showMedalRattata': {
+    'notifyTinyRattata': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showMedalMagikarp': {
+    'notifyBigMagikarp': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -645,6 +641,23 @@ function getGoogleSprite(index, sprite, displayHeight) {
     }
 }
 
+function getIvPercentage(attack, defense, stamina) {
+    // Round to 1 decimal place.
+    return Math.round(1000 * (attack + defense + stamina) / 45) / 10
+}
+
+function getPokemonLevel(cpMultiplier) {
+    if (cpMultiplier < 0.734) {
+        var pokemonLevel = (58.35178527 * cpMultiplier * cpMultiplier -
+        2.838007664 * cpMultiplier + 0.8539209906)
+    } else {
+        pokemonLevel = 171.0112688 * cpMultiplier - 95.20425243
+    }
+    pokemonLevel = (Math.round(pokemonLevel) * 2) / 2
+
+    return pokemonLevel
+}
+
 function getGymLevel(gym) {
     return 6 - gym.slots_available
 }
@@ -670,80 +683,13 @@ function isLuredPokestop(pokestop) {
     return pokestop.lure_expiration !== null && pokestop.lure_expiration > Date.now()
 }
 
-function setupPokemonMarkerDetails(item, map, scaleByRarity = true, isNotifyPkmn = false) {
-    const pokemonIndex = item['pokemon_id']
-    const sprite = pokemonSprites(pokemonIndex)
-
-    var markerDetails = {
-        sprite: sprite
-    }
-    var iconSize = (12) * (12) * 0.2 + Store.get('iconSizeModifier')
-    var rarityValue = 2
-
-    if (Store.get('upscalePokemon')) {
-        const upscaledPokemon = Store.get('upscaledPokemon')
-        rarityValue = isNotifyPkmn || (upscaledPokemon.indexOf(item['pokemon_id']) !== -1) ? 29 : 2
-    }
-
-    if (scaleByRarity) {
-        const rarityValues = {
-            'new spawn': 20,
-            'very rare': 20,
-            'ultra rare': 25,
-            'legendary': 30
-        }
-
-        const pokemonRarity = getPokemonRarity(item['pokemon_id']).toLowerCase()
-        if (rarityValues.hasOwnProperty(pokemonRarity)) {
-            rarityValue = rarityValues[pokemonRarity]
-        }
-    }
-
-    iconSize += rarityValue
-    markerDetails.rarityValue = rarityValue
-    markerDetails.icon = generateImages
-        ? getPokemonIcon(item, sprite, iconSize)
-        : getGoogleSprite(pokemonIndex, sprite, iconSize)
-    markerDetails.iconSize = iconSize
-
-    return markerDetails
-}
-
-function updatePokemonMarker(item, map, scaleByRarity = true, isNotifyPkmn = false) {
-    // Scale icon size up with the map exponentially, also size with rarity.
-    const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
-    const icon = L.icon(markerDetails.icon)
-    const marker = item.marker
-
-    marker.setIcon(icon)
-}
-
-function setupPokemonMarker(item, map, scaleByRarity = true, isNotifyPkmn = false) {
-    // Scale icon size up with the map exponentially, also size with rarity.
-    const markerDetails = setupPokemonMarkerDetails(item, map, scaleByRarity, isNotifyPkmn)
-    const icon = L.icon(markerDetails.icon)
-    var pokemonMarker
-    if (!isNotifyPkmn) {
-        pokemonMarker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 100 + markerDetails.rarityValue}).addTo(markers)
-    } else {
-        pokemonMarker = L.marker([item['latitude'], item['longitude']], {icon: icon, zIndexOffset: 1000 + markerDetails.rarityValue}).addTo(markersNoCluster)
-    }
-    return pokemonMarker
-}
-
-function updatePokemonLabel(item) {
-    // Only update label when Pokémon has been encountered.
-    if (item['cp'] !== null && item['cpMultiplier'] !== null) {
-        item.marker.infoWindow.setContent(pokemonLabel(item))
-    }
-}
-
-function updatePokemonLabels(pokemonList) {
-    $.each(pokemonList, function (key, value) {
-        var item = pokemonList[key]
-
-        updatePokemonLabel(item)
+function setupPokemonMarker(pokemon, layerGroup) {
+    var PokemonIcon = new L.icon({ // eslint-disable-line new-cap
+        iconUrl: getPokemonMapIconUrl(pokemon),
+        iconSize: [32, 32]
     })
+
+    return L.marker([pokemon.latitude, pokemon.longitude], {icon: PokemonIcon}).addTo(layerGroup)
 }
 
 function isTouchDevice() {
@@ -783,6 +729,19 @@ function getPokemonRawIconUrl(p) {
         }
     }
     return url
+}
+
+function getPokemonMapIconUrl(pokemon) {
+    if (!generateImages) {
+        return `static/icons/${pokemon.pokemon_id}.png`
+    }
+
+    let genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
+    let formParam = pokemon.form ? `&form=${pokemon.form}` : ''
+    let costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
+    let weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
+
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${weatherParam}`
 }
 
 function getPokestopIconUrl(pokestop) {
