@@ -321,14 +321,10 @@ function closeOverlay() { // eslint-disable-line no-unused-vars
 function processAppearance(i, item) {
     var spawnpointId = item['spawnpoint_id']
     if (!((spawnpointId) in mapData.appearances)) {
-        const scaleByRarity = false   // We don't need this functionality in our heatmap..
-        const isNotifyPkmn = false    // ..nor this.
-
         if (item['marker']) {
             item['marker'].setMap(null)
         }
-        item['marker'] = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
-        markers.addLayer(item['marker'])
+        item['marker'] = setupPokemonMarker(item, markers)
         addListeners(item['marker'])
         item['marker'].spawnpointId = spawnpointId
         mapData.appearances[spawnpointId] = item
@@ -340,12 +336,8 @@ function redrawAppearances(appearances) {
     $.each(appearances, function (key, value) {
         var item = appearances[key]
         if (!item['hidden']) {
-            const scaleByRarity = false   // We don't need this functionality in our heatmap..
-            const isNotifyPkmn = false    // ..nor this.
-
             // item['marker'].setMap(null)
-            const newMarker = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
-            markers.addLayer(newMarker)
+            const newMarker = setupPokemonMarker(item, markers)
             addListeners(newMarker)
             newMarker.spawnpointId = item['spawnpoint_id']
             appearances[key].marker = newMarker
