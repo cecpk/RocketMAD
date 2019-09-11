@@ -6,7 +6,6 @@ $(function () {
     const isStartLocationMarkerMovable = true // Let the user move the start location marker around. Default: true.
     const showUserLocationMarker = true // Show a marker on the visitor's location. Default: true.
 
-    const scaleByRarity = true // Enable scaling by rarity. Default: true.
     const upscalePokemon = false // Enable upscaling of certain Pokemon (upscaledPokemon and notify list). Default: false.
     const upscaledPokemon = [] // Add Pokémon IDs separated by commas (e.g. [1, 2, 3]) to upscale icons. Default: [].
 
@@ -203,7 +202,6 @@ $(function () {
     Store.set('maxClusterZoomLevel', maxClusterZoomLevel)
     Store.set('clusterZoomOnClick', clusterZoomOnClick)
     Store.set('clusterGridSize', clusterGridSize)
-    Store.set('scaleByRarity', scaleByRarity)
     Store.set('upscalePokemon', upscalePokemon)
     Store.set('upscaledPokemon', upscaledPokemon)
     Store.set('showStartLocationMarker', showStartLocationMarker)

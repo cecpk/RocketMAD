@@ -145,7 +145,7 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
-    'prioNotify': {
+    'showNotifiedPokemonAlways': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -317,11 +317,11 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'hideNotNotified': {
+    'notifyPokemon': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'notifyPokemon': {
+    'showNotifiedPokemonOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -641,17 +641,17 @@ function getGoogleSprite(index, sprite, displayHeight) {
     }
 }
 
-function getIvPercentage(attack, defense, stamina) {
+function getIvsPercentage(pokemon) {
     // Round to 1 decimal place.
-    return Math.round(1000 * (attack + defense + stamina) / 45) / 10
+    return Math.round(1000 * (pokemon.individual_attack + pokemon.individual_defense + pokemon.individual_stamina) / 45) / 10
 }
 
-function getPokemonLevel(cpMultiplier) {
-    if (cpMultiplier < 0.734) {
-        var pokemonLevel = (58.35178527 * cpMultiplier * cpMultiplier -
-        2.838007664 * cpMultiplier + 0.8539209906)
+function getPokemonLevel(pokemon) {
+    if (pokemon.cp_multiplier < 0.734) {
+        var pokemonLevel = (58.35178527 * pokemon.cp_multiplier * pokemon.cp_multiplier -
+        2.838007664 * pokemon.cp_multiplier + 0.8539209906)
     } else {
-        pokemonLevel = 171.0112688 * cpMultiplier - 95.20425243
+        pokemonLevel = 171.0112688 * pokemon.cp_multiplier - 95.20425243
     }
     pokemonLevel = (Math.round(pokemonLevel) * 2) / 2
 

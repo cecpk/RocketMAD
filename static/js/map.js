@@ -14,11 +14,9 @@ var $selectNotifyRaidPokemon
 var $selectNotifyEggs
 var $selectNotifyInvasions
 var $selectStyle
-var $selectIconSize
 var $selectSearchIconMarker
 var $selectLocationIconMarker
 var $switchGymSidebar
-var $selectExcludeRarity
 var pokeSearchList = []
 var pokemonGen = new Array(808)
 pokemonGen.fill(1, 1, 152)
@@ -76,6 +74,12 @@ var oSwLng
 var oNeLat
 var oNeLng
 
+var lastpokestops
+var lastgyms
+var lastpokemon
+var lastslocs
+var lastspawns
+
 var L
 var map
 var markers
@@ -88,11 +92,25 @@ var s2Level13LayerGroup = new L.LayerGroup()
 var s2Level14LayerGroup = new L.LayerGroup()
 var s2Level17LayerGroup = new L.LayerGroup()
 
-var lastpokestops
-var lastgyms
-var lastpokemon
-var lastslocs
-var lastspawns
+// Z-index values for various markers.
+const userLocationMarkerZIndex = 0
+const pokestopZIndex = 0
+const gymZIndex = 1000
+const pokemonZIndex = 2000
+const pokemonUncommonZIndex = 3000
+const pokemonRareZIndex = 4000
+const pokestopQuestZIndex = 5000
+const gymEggZIndex = 6000
+const pokestopLureZIndex = 7000
+const pokestopInvasionZIndex = 8000
+const gymRaidBossZIndex = 9000
+const pokemonVeryRareZIndex = 10000
+const pokemonUltraRareZIndex = 11000
+const pokemonNewSpawnZIndex = 120000
+const pokestopNotifiedZIndex = 13000
+const gymNotifiedZIndex = 14000
+const pokemonNotifiedZIndex = 15000
+const startLocationMarkerZIndex = 20000 // Highest value so it doesn't get stuck behind other markers.
 
 var selectedStyle = 'stylemapnik'
 
@@ -104,7 +122,6 @@ const gymTypes = ['Uncontested', 'Mystic', 'Valor', 'Instinct']
 
 const audio = new Audio('static/sounds/ding.mp3')
 const cryFileTypes = ['wav', 'mp3']
-var hashedNotifications = {}
 
 const toastrOptions = {
     'closeButton': true,
@@ -217,26 +234,6 @@ const excludedRaritiesList = [
   [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare')],
   [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare')]
 ]
-
-
-/*
- text place holders:
- <pkm> - pokemon name
- <prc> - iv in percent without percent symbol
- <atk> - attack as number
- <def> - defense as number
- <sta> - stamnia as number
- <lvl> - level as number
- */
-var notifyIvTitle = '<pkm> <prc>% (<atk>/<def>/<sta>) L<lvl>'
-var notifyNoIvTitle = '<pkm>'
-
-/*
- text place holders:
- <dist>  - disappear time
- <udist> - time until disappear
- */
-var notifyText = 'disappears at <dist> (<udist>)'
 
 //
 // Functions
@@ -353,7 +350,6 @@ function loadDefaultImages() {
     })
 }
 
-
 function initMap() { // eslint-disable-line no-unused-vars
     if (Store.get('startAtLastLocation')) {
         var position = Store.get('startAtLastLocationPosition')
@@ -397,6 +393,12 @@ function initMap() { // eslint-disable-line no-unused-vars
             Store.set('zoomLevel', map.getZoom())
         } else {
             storeZoom = true
+        }
+    })
+
+    map.on('zoomend', function () {
+        if ($('#stats').hasClass('visible')) {
+            countMarkers(map)
         }
     })
 
@@ -548,8 +550,7 @@ function createStartLocationMarker() {
 
     var isMovable = !Store.get('lockStartLocationMarker') && Store.get('isStartLocationMarkerMovable')
     var marker = L.marker([lat, lng], {draggable: isMovable}).addTo(markersNoCluster).bindPopup('<div><b>Start Location</b></div>')
-    // Display marker on top of everything else so it doesn't get stuck.
-    marker.setZIndexOffset(1000)
+    marker.setZIndexOffset(startLocationMarkerZIndex)
     addListeners(marker)
 
     marker.on('dragend', function () {
@@ -675,12 +676,15 @@ function initSidebar() {
     // Setup UI element interactions.
 
     $('#pokemon-switch').change(function () {
-        const wrapper = $('#pokemons-filter-wrapper')
+        const filterWrapper = $('#pokemons-filter-wrapper')
+        const notifyWrapper = $('#notify-pokemon-switch-wrapper')
         if (this.checked) {
             lastpokemon = false
-            wrapper.show()
+            filterWrapper.show()
+            notifyWrapper.show()
         } else {
-            wrapper.hide()
+            filterWrapper.hide()
+            notifyWrapper.hide()
         }
         Store.set('showPokemon', this.checked)
         reprocessPokemons()
@@ -691,6 +695,11 @@ function initSidebar() {
         reincludedPokemon = reincludedPokemon.concat(excludedPokemonByRarity)
         excludedPokemonByRarity = []
         Store.set('excludedRarity', excludedRarity)
+        reprocessPokemons()
+    })
+
+    $('#scale-rarity-switch').change(function () {
+        Store.set('scaleByRarity', this.checked)
         reprocessPokemons()
     })
 
@@ -800,16 +809,19 @@ function initSidebar() {
         var wrapperRaids = $('#raids-filter-wrapper')
         var switchGyms = $('#gyms-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
+        var wrapperNotify = $('#notify-gyms-switch-wrapper')
         if (this.checked) {
             if (Store.get('showRaidFilter')) {
                 wrapperRaids.show()
             }
             wrapperSidebar.show()
+            wrapperNotify.show()
         } else {
             wrapperRaids.hide()
             if (!switchGyms.prop('checked')) {
                 wrapperSidebar.hide()
             }
+            wrapperNotify.hide()
         }
         Store.set('showRaids', this.checked)
         reprocessGyms()
@@ -945,8 +957,15 @@ function initSidebar() {
     })
 
     $('#pokestops-switch').change(function () {
-        var wrapper = $('#pokestops-filter-wrapper')
-        this.checked ? wrapper.show() : wrapper.hide()
+        var filterWrapper = $('#pokestops-filter-wrapper')
+        var notifyWrapper = $('#notify-pokestops-switch-wrapper')
+        if (this.checked) {
+            filterWrapper.show()
+            notifyWrapper.show()
+        } else {
+            filterWrapper.hide()
+            notifyWrapper.hide()
+        }
         Store.set('showPokestops', this.checked)
         reprocessPokestops()
         lastpokestops = false
@@ -1008,7 +1027,7 @@ function initSidebar() {
 
     $('#sound-switch').change(function () {
         Store.set('playSound', this.checked)
-        var criesWrapper = $('#pokemoncries')
+        var criesWrapper = $('#cries-wrapper')
         if (this.checked) {
             criesWrapper.show()
         } else {
@@ -1046,15 +1065,11 @@ function initSidebar() {
         reprocessPokestops()
     })
 
-    $('#prio-notify-switch').change(function () {
-        Store.set('prioNotify', this.checked)
-        location.reload()
-    })
-
     $('#notify-pokemon-switch').change(function () {
         var wrapper = $('#notify-pokemon-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
         Store.set('notifyPokemon', this.checked)
+        reprocessPokemons()
     })
 
     $('#notify-gyms-switch').change(function () {
@@ -1091,11 +1106,6 @@ function initSidebar() {
         reprocessPokestops()
     })
 
-    $('#hideunnotified-switch').change(function () {
-        Store.set('hideNotNotified', this.checked)
-        location.reload()
-    })
-
     $('#popups-switch').change(function () {
         Store.set('showPopups', this.checked)
         location.reload()
@@ -1103,16 +1113,6 @@ function initSidebar() {
 
     $('#cries-switch').change(function () {
         Store.set('playCries', this.checked)
-    })
-
-    $('#notify-tiny-rattata-switch').change(function () {
-        Store.set('notifyTinyRattata', this.checked)
-        reprocessPokemons([19], true)
-    })
-
-    $('#notify-big-magikarp-switch').change(function () {
-        Store.set('notifyBigMagikarp', this.checked)
-        reprocessPokemons([129], true)
     })
 
     $('#lock-start-marker-switch').change(function () {
@@ -1165,7 +1165,7 @@ function initSidebar() {
             // Round to 1 decimal place.
             this.value = notifyIvsPercentage = Math.round(notifyIvsPercentage * 10) / 10
         }
-        if (Store.get('hideNotNotified')) {
+        if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
         }
         Store.set('notifyIvsPercentage', notifyIvsPercentage)
@@ -1180,7 +1180,7 @@ function initSidebar() {
         } else if (notifyLevel > 40) {
             this.value = notifyLevel = 40
         }
-        if (Store.get('hideNotNotified')) {
+        if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
         }
         Store.set('notifyLevel', notifyLevel)
@@ -1193,10 +1193,46 @@ function initSidebar() {
         templateResult: formatRarityState
     })
     $('#notify-rarities-select').on('change', function (e) {
-        if (Store.get('hideNotNotified')) {
+        if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
         }
         Store.set('notifyRarities', $('#notify-rarities-select').val())
+        reprocessPokemons()
+    })
+
+    $('#notify-tiny-rattata-switch').change(function () {
+        if (this.checked && (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly'))) {
+            reincludedPokemon.push(19)
+        }
+        Store.set('notifyTinyRattata', this.checked)
+        if (!(Store.get('showNotifiedPokemonOnly') && this.checked)) {
+            reprocessPokemons([19], true)
+        }
+    })
+
+    $('#notify-big-magikarp-switch').change(function () {
+        if (this.checked && (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly'))) {
+            reincludedPokemon.push(129)
+        }
+        Store.set('notifyBigMagikarp', this.checked)
+        if (!(Store.get('showNotifiedPokemonOnly') && this.checked)) {
+            reprocessPokemons([129], true)
+        }
+    })
+
+    $('#notified-pokemon-priority-switch').change(function () {
+        Store.set('showNotifiedPokemonAlways', this.checked)
+        if (!this.checked) {
+            lastpokemon = false
+        }
+        reprocessPokemons()
+    })
+
+    $('#notified-pokemon-only-switch').change(function () {
+        Store.set('showNotifiedPokemonOnly', this.checked)
+        if (!this.checked) {
+            lastpokemon = false
+        }
         reprocessPokemons()
     })
 
@@ -1234,6 +1270,7 @@ function initSidebar() {
     $('#pokemon-switch').prop('checked', Store.get('showPokemon'))
     $('#pokemons-filter-wrapper').toggle(Store.get('showPokemon'))
     $('#exclude-rarity-switch').val(Store.get('excludedRarity'))
+    $('#scale-rarity-switch').prop('checked', Store.get('scaleByRarity'))
     $('#pokemon-stats-switch').prop('checked', Store.get('showPokemonStats')).trigger('change')
 
     // Gyms.
@@ -1292,6 +1329,7 @@ function initSidebar() {
     $('#follow-my-location-switch').prop('checked', Store.get('followMyLocation'))
 
     // Notifications.
+    $('#notify-pokemon-switch-wrapper').toggle(Store.get('showPokemon'))
     $('#notify-pokemon-switch').prop('checked', Store.get('notifyPokemon'))
     $('#notify-pokemon-filter-wrapper').toggle(Store.get('notifyPokemon'))
     $('#notify-ivs-text').val(Store.get('notifyIvsPercentage')).trigger('change')
@@ -1299,17 +1337,18 @@ function initSidebar() {
     $('#notify-rarities-select').val(Store.get('notifyRarities'))
     $('#notify-tiny-rattata-switch').prop('checked', Store.get('notifyTinyRattata'))
     $('#notify-big-magikarp-switch').prop('checked', Store.get('notifyBigMagikarp'))
-    $('#prio-notify-switch').prop('checked', Store.get('prioNotify'))
-    $('#hideunnotified-switch').prop('checked', Store.get('hideNotNotified'))
+    $('#notified-pokemon-priority-switch').prop('checked', Store.get('showNotifiedPokemonAlways'))
+    $('#notified-pokemon-only-switch').prop('checked', Store.get('showNotifiedPokemonOnly'))
     $('#cries-switch').prop('checked', Store.get('playCries'))
-    //TODO: rename to something with wrapper in it.
-    $('#pokemoncries').toggle(Store.get('playSound'))
+    $('#cries-wrapper').toggle(Store.get('playSound'))
     $('#pokemon-bounce-switch').prop('checked', Store.get('bouncePokemon'))
     $('#pokemon-upscale-switch').prop('checked', Store.get('upscaleNotifyPokemon'))
+    $('#notify-gyms-switch-wrapper').toggle(Store.get('showRaids'))
     $('#notify-gyms-switch').prop('checked', Store.get('notifyGyms'))
     $('#notify-gyms-filter-wrapper').toggle(Store.get('notifyGyms'))
     $('#gym-bounce-switch').prop('checked', Store.get('bounceGyms'))
     $('#gym-upscale-switch').prop('checked', Store.get('upscaleGyms'))
+    $('#notify-pokestops-switch-wrapper').toggle(Store.get('showPokestops'))
     $('#notify-pokestops-switch').prop('checked', Store.get('notifyPokestops'))
     $('#notify-pokestops-filter-wrapper').toggle(Store.get('notifyPokestops'))
     $('#notify-normal-lures-switch').prop('checked', Store.get('notifyNormalLures'))
@@ -1412,16 +1451,16 @@ function pokemonLabel(item) {
     if (showStats && cp !== null && cpMultiplier !== null) {
         var iv = 0
         if (atk !== null && def !== null && sta !== null) {
-            iv = getIvPercentage(atk, def, sta)
+            iv = getIvsPercentage(item)
         }
 
         var ivColor = getPercentageCssColor(iv, 100, 82, 66, 51)
 
-        var level = getPokemonLevel(cpMultiplier)
+        var level = getPokemonLevel(item)
 
         statsDisplay = `
             <div>
-              IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv.toFixed(1)}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
+              IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
             </div>
             <div class='pokemon cp-level'>
               CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
@@ -1900,14 +1939,6 @@ function lpad(str, len, padstr) {
     return Array(Math.max(len - String(str).length + 1, 0)).join(padstr) + str
 }
 
-function repArray(text, find, replace) {
-    for (var i = 0; i < find.length; i++) {
-        text = text.replace(find[i], replace[i])
-    }
-
-    return text
-}
-
 function getTimeUntil(time) {
     var now = Date.now()
     var tdiff = time - now
@@ -1923,29 +1954,6 @@ function getTimeUntil(time) {
         'sec': sec,
         'now': now,
         'ttime': time
-    }
-}
-
-function getNotifyText(item) {
-    var iv = getIvPercentage(item['individual_attack'], item['individual_defense'], item['individual_stamina'])
-    var find = ['<prc>', '<pkm>', '<atk>', '<def>', '<sta>', '<lvl>']
-    iv = Math.round(iv)
-    var pokemonlevel = (item['cp_multiplier'] !== null) ? getPokemonLevel(item['cp_multiplier']) : 0
-    var replace = [(iv || ''), item['pokemon_name'], item['individual_attack'],
-        item['individual_defense'], item['individual_stamina'], pokemonlevel]
-    const showStats = Store.get('showPokemonStats')
-    var ntitle = repArray(((showStats && iv) ? notifyIvTitle : notifyNoIvTitle), find, replace)
-    var dist = moment(item['disappear_time']).format('HH:mm:ss')
-    var until = getTimeUntil(item['disappear_time'])
-    var udist = (until.hour > 0) ? until.hour + ':' : ''
-    udist += lpad(until.min, 2, 0) + 'm' + lpad(until.sec, 2, 0) + 's'
-    find = ['<dist>', '<udist>']
-    replace = [dist, udist]
-    var ntext = repArray(notifyText, find, replace)
-
-    return {
-        'fav_title': ntitle,
-        'fav_text': ntext
     }
 }
 
@@ -2009,26 +2017,25 @@ function customizePokemonMarker(pokemon, marker, isNotifyPokemon) {
 function updatePokemonMarker(pokemon, marker, isNotifyPokemon) {
     var iconSize = 32 * (Store.get('pokemonIconSizeModifier') / 100)
     var upscaleModifier = 1
-    if (Store.get('upscaleNotifyPokemon') && isNotifyPokemon) {
-        upscaleModifier = 1.5
+    if (isNotifyPokemon && Store.get('upscaleNotifyPokemon')) {
+        upscaleModifier = 1.3
     } else if (Store.get('upscalePokemon')) {
         const upscaledPokemon = Store.get('upscaledPokemon')
-        if (isNotifyPokemon || upscaledPokemon.includes(pokemon.pokemon_id)) {
-            upscaleModifier = 1.5
+        if (upscaledPokemon.includes(pokemon.pokemon_id)) {
+            upscaleModifier = 1.3
         }
     }
-    if (Store.get('scaleByRarity')) {
+    if (showConfig.rarity && Store.get('scaleByRarity')) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id).toLowerCase()
         switch (pokemonRarity) {
             case 'very rare':
-                upscaleModifier = 1.5
+                upscaleModifier = 1.3
+                break
+            case 'ultra rare':
+                upscaleModifier = 1.4
                 break
             case 'new spawn':
-            case 'ultra rare':
-                upscaleModifier = 1.75
-                break
-            case 'legendary':
-                upscaleModifier = 2
+                upscaleModifier = 1.5
         }
     }
     iconSize *= upscaleModifier
@@ -2036,6 +2043,33 @@ function updatePokemonMarker(pokemon, marker, isNotifyPokemon) {
     var icon = marker.options.icon
     icon.options.iconSize = [iconSize, iconSize]
     marker.setIcon(icon)
+
+    if (isNotifyPokemon) {
+        marker.setZIndexOffset(pokemonNotifiedZIndex)
+    } else if (showConfig.rarity) {
+        const pokemonRarity = getPokemonRarity(pokemon.pokemon_id).toLowerCase()
+        switch (pokemonRarity) {
+            case 'uncommon':
+                marker.setZIndexOffset(pokemonUncommonZIndex)
+                break
+            case 'rare':
+                marker.setZIndexOffset(pokemonRareZIndex)
+                break
+            case 'very rare':
+                marker.setZIndexOffset(pokemonVeryRareZIndex)
+                break
+            case 'ultra rare':
+                marker.setZIndexOffset(pokemonUltraRareZIndex)
+                break
+            case 'new spawn':
+                marker.setZIndexOffset(pokemonNewSpawnZIndex)
+                break
+            default:
+                marker.setZIndexOffset(pokemonZIndex)
+        }
+    } else {
+        marker.setZIndexOffset(pokemonZIndex)
+    }
 
     if (Store.get('bouncePokemon') && isNotifyPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
@@ -2112,25 +2146,24 @@ function setupGymMarker(gym, isNotifyGym) {
 
 function updateGymMarker(gym, marker, isNotifyGym) {
     var markerImage = ''
-    var zIndexOffset
     const upscaleModifier = Store.get('upscaleGyms') && isNotifyGym ? 1.2 : 1
     const gymLevel = getGymLevel(gym)
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
-        if (isOngoingRaid(raid)) {
+        if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
             markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel + '&raidlevel=' + raid.level + '&pkm=' + raid.pokemon_id
             if (raid.form != null && raid.form > 0) {
                 markerImage += '&form=' + raid.form
             }
-            zIndexOffset = 100
+            marker.setZIndexOffset(gymRaidBossZIndex)
         } else { // Upcoming raid.
             markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel + '&raidlevel=' + raid.level
-            zIndexOffset = 20
+            marker.setZIndexOffset(gymEggZIndex)
         }
     } else {
         markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel
-        zIndexOffset = 10
+        marker.setZIndexOffset(gymZIndex)
     }
 
     if (gym.is_in_battle) {
@@ -2142,7 +2175,10 @@ function updateGymMarker(gym, marker, isNotifyGym) {
         iconSize: [48 * upscaleModifier, 48 * upscaleModifier]
     })
     marker.setIcon(GymIcon)
-    marker.setZIndexOffset = zIndexOffset
+
+    if (isNotifyGym) {
+        marker.setZIndexOffset(gymNotifiedZIndex)
+    }
 
     if (Store.get('bounceGyms') && isNotifyGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
@@ -2231,7 +2267,19 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
         shadowAnchor: shadowAnchor
     })
     marker.setIcon(PokestopIcon)
-    marker.setZIndexOffset = pokestop.lure_expiration ? 3 : 2
+
+    if (isNotifyPokestop) {
+        marker.setZIndexOffset(pokestopNotifiedZIndex)
+    } else if (isInvadedPokestop(pokestop)) {
+        marker.setZIndexOffset(pokestopInvasionZIndex)
+    } else if (isLuredPokestop(pokestop)) {
+        marker.setZIndexOffset(pokestopLureZIndex)
+    } else if (shadowImage !== null) {
+        marker.setZIndexOffset(pokestopQuestZIndex)
+    } else {
+        marker.setZIndexOffset(pokestopZIndex)
+    }
+
 
     if (Store.get('bouncePokestops') && isNotifyPokestop && !notifiedPokestopData[pokestop.pokestop_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
@@ -2481,14 +2529,6 @@ function updateS2Overlay() {
     }
 }
 
-function clearSelection() {
-    if (document.selection) {
-        document.selection.empty()
-    } else if (window.getSelection) {
-        window.getSelection().removeAllRanges()
-    }
-}
-
 function addListeners(marker, type) {
     marker.on('click', function () {
         if (!marker.infoWindowIsOpen) {
@@ -2702,11 +2742,11 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
         return false
     }
 
-    if (Store.get('prioNotify') && isNotifyPokemon) {
+    if (Store.get('showNotifiedPokemonAlways') && isNotifyPokemon) {
         return true
     }
 
-    if (getExcludedPokemon().includes(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (Store.get('hideNotNotified') && !isNotifyPokemon)) {
+    if (getExcludedPokemon().includes(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (Store.get('showNotifiedPokemonOnly') && !isNotifyPokemon)) {
         return false
     }
 
@@ -2803,7 +2843,7 @@ function isNotifyPokemon(pokemon) {
         if (pokemon.individual_attack !== null && Store.get('showPokemonStats')) {
             const notifyIvsPercentage = Store.get('notifyIvsPercentage')
             if (notifyIvsPercentage > 0) {
-                const ivsPercentage = getIvPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
+                const ivsPercentage = getIvsPercentage(pokemon)
                 if (ivsPercentage >= notifyIvsPercentage) {
                     return true
                 }
@@ -2811,7 +2851,7 @@ function isNotifyPokemon(pokemon) {
 
             const notifyLevel = Store.get('notifyLevel')
             if (notifyLevel > 0) {
-                const level = getPokemonLevel(pokemon.cp_multiplier)
+                const level = getPokemonLevel(pokemon)
                 if (level >= notifyLevel) {
                     return true
                 }
@@ -3146,7 +3186,7 @@ function processPokemonaa(item) {
             (!(item['encounter_id'] in mapData.pokemons) && isNotifyPkmn && prionotifyactiv)) {
     // Add marker to map and item to dict.
         const isNotifyPkmn = isNotifyPoke(item)
-        if (!item.hidden && (!Store.get('hideNotNotified') || isNotifyPkmn)) {
+        if (!item.hidden && (!Store.get('showNotifiedPokemonOnly') || isNotifyPkmn)) {
             const scaleByRarity = Store.get('scaleByRarity')
             if (item.marker) {
                 markers.removeLayer(item)
@@ -3436,7 +3476,7 @@ function loadRawData() {
     var loadSpawnpoints = Store.get('showSpawnpoints')
     var loadWeather = Store.get('showWeatherCells')
     var loadWeatherAlerts = Store.get('showWeatherAlerts')
-    var prionotifyactiv = Store.get('prioNotify')
+    var prionotifyactiv = Store.get('showNotifiedPokemonAlways')
 
     var bounds = map.getBounds()
     var swPoint = bounds.getSouthWest()
@@ -3525,9 +3565,7 @@ function updateMap() {
         showInBoundsMarkers(mapData.weather, 'weather')
         showInBoundsMarkers(mapData.weatherAlerts, 's2cell')
 
-        // We're done processing. Redraw.
-        markers.refreshClusters()
-
+        // TODO: maybe move this to updateStaleMarkers
         updateScanned()
         updateSpawnPoints()
 
@@ -3555,18 +3593,6 @@ function updateMap() {
         timestamp = result.timestamp
         lastUpdateTime = Date.now()
     })
-}
-
-function redrawPokemon(pokemonList) {
-    /*$.each(pokemonList, function (key, value) {
-        var item = pokemonList[key]
-
-        if (!item.hidden) {
-            const scaleByRarity = Store.get('scaleByRarity')
-            const isNotifyPkmn = isNotifyPoke(item)
-            updatePokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
-        }
-    })*/
 }
 
 var updateLabelDiffTime = function () {
@@ -3642,11 +3668,30 @@ function sendNotification(title, text, icon, lat, lon) {
 }
 
 function sendPokemonNotification(pokemon) {
+    playPokemonSound(pokemon.pokemon_id, cryFileTypes)
+
     if (Store.get('showPopups')) {
         var notifyTitle = pokemon.pokemon_name
-        var notifyText = 'test'
+        var notifyText = ''
 
-        // TODO: play sound
+        if (pokemon.form && 'forms' in idToPokemon[pokemon.pokemon_id] && pokemon.form in idToPokemon[pokemon.pokemon_id].forms && idToPokemon[pokemon.pokemon_id].forms[pokemon.form].formName !== '') {
+            notifyTitle += ` (${i8ln(idToPokemon[pokemon.pokemon_id].forms[pokemon.form].formName)})`
+        }
+
+        let expireTime = timestampToTime(pokemon.disappear_time)
+        let timeUntil = getTimeUntil(pokemon.disappear_time)
+        let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
+        expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
+
+        notifyText = `Disappears at ${expireTime} (${expireTimeCountdown})`
+
+        if (Store.get('showPokemonStats') && pokemon.individual_attack !== null) {
+            notifyTitle += ` ${getIvsPercentage(pokemon)}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon)}`
+            const move1 = moves[pokemon.move_1] !== undefined ? i8ln(moves[pokemon.move_1].name) : 'unknown'
+            const move2 = moves[pokemon.move_2] !== undefined ? i8ln(moves[pokemon.move_2].name) : 'unknown'
+            notifyText += `\nMoves: ${move1} / ${move2}`
+        }
+
         sendNotification(notifyTitle, notifyText, getPokemonRawIconUrl(pokemon), pokemon.latitude, pokemon.longitude)
     }
 
@@ -3665,6 +3710,10 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
     const raid = gym.raid
     if (!isValidRaid(raid) || (!isEggNotifyGym && !isRaidPokemonNotifyGym)) {
         return
+    }
+
+    if (Store.get('playSound')) {
+        audio.play()
     }
 
     if (Store.get('showPopups')) {
@@ -3722,6 +3771,10 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
 function sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop) {
     if (!isInvasionNotifyPokestop && !isLureNotifyPokestop) {
         return
+    }
+
+    if (Store.get('playSound')) {
+        audio.play()
     }
 
     if (Store.get('showPopups')) {
@@ -4008,7 +4061,7 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
 }
 
 function getSidebarGymMember(pokemon) { // eslint-disable-line no-unused-vars
-    var perfectPercent = getIvPercentage(pokemon.iv_attack, pokemon.iv_defense, pokemon.iv_stamina)
+    var perfectPercent = getIvsPercentage(pokemon)
     var moveEnergy = Math.round(100 / pokemon.move_2_energy)
     const motivationZone = ['Good', 'Average', 'Bad']
     const motivationPercentage = (pokemon.cp_decayed / pokemon.pokemon_cp) * 100
@@ -4132,7 +4185,6 @@ function getParameterByName(name, url) {
     }
     return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
-
 
 //
 // Page Ready Execution
@@ -4598,16 +4650,17 @@ $(function () {
         $selectNotifyPokemon.on('change', function (e) {
             const oldNotifyPokemon = notifyPokemon
             notifyPokemon = $selectNotifyPokemon.val().length > 0 ? $selectNotifyPokemon.val().split(',').map(Number) : []
-            if (Store.get('hideNotNotified')) {
-                const newReincludedPokemon = notifyPokemon.filter(id => !oldNotifyPokemon.includes(id))
-                reincludedPokemon = reincludedPokemon.concat(newReincludedPokemon)
-                const notNotifyPokemon = oldNotifyPokemon.filter(id => !notifyPokemon.includes(id))
-                reprocessPokemons(notNotifyPokemon)
+            const newNotifyPokemon = notifyPokemon.filter(id => !oldNotifyPokemon.includes(id))
+            const newNotNotifyPokemon = oldNotifyPokemon.filter(id => !notifyPokemon.includes(id))
+
+            if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
+                reincludedPokemon = reincludedPokemon.concat(newNotifyPokemon)
+                if (!Store.get('showNotifiedPokemonOnly')) {
+                    reprocessPokemons(newNotifyPokemon)
+                }
+                reprocessPokemons(newNotNotifyPokemon)
             } else {
-                const changedNotifyPokemon = oldNotifyPokemon
-                                             .filter(id => !notifyPokemon.includes(id))
-                                             .concat(notifyPokemon.filter(id => !oldNotifyPokemon.includes(id)))
-                reprocessPokemons(changedNotifyPokemon)
+                reprocessPokemons(newNotifyPokemon.concat(newNotNotifyPokemon))
             }
 
             if (notifyPokemon.length === pokemonIds.length) {
@@ -4814,8 +4867,6 @@ $(function () {
             $selectIncludePokemon.val(diffPokemon(pokemonIds, filterpokemon(pokeSearchList, value.replace(/\s/g, '')).map(String))).trigger('change')
         }
         loadDefaultImages()
-        redrawPokemon(mapData.pokemons)
-        redrawPokemon(mapData.lurePokemons)
     }
 
     // Initialize dataTable in statistics sidebar
