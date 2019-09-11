@@ -4335,7 +4335,6 @@ $(function () {
     $selectNotifyRaidPokemon = $('#notify-raid-pokemon')
     $selectNotifyEggs = $('#notify-eggs')
     $selectNotifyInvasions = $('#notify-invasions')
-    var numberOfPokemon = 493
 
     $('.list').before('<input type="search" class="search" placeholder="Search for Name, ID or Type...">')
 
@@ -4389,7 +4388,7 @@ $(function () {
         }
 
         var id
-        for (id = 1; id <= numberOfPokemon; id++) {
+        for (id = 1; id <= availablePokemonCount; id++) {
             populateLists(id, data[id])
             pokemonIds.push(id)
         }
