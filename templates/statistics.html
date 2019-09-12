@@ -37,25 +37,25 @@
 <body class="statisticsPage">
         <!-- Header -->
         <header id="header">
-          <a href="#nav"><span class="label">Options</span></a>
+          <a href="#nav" title="Options"></a>
           <h1><a href="./">{{ mapTitle }}<img class='rocket icon' src='static/images/rocket.png'></a></h1>
             {% if madminUrl %}
-          <a href="{{ madminUrl }}" id="madmin-url" target="_blank" style="float: right;"><span class="label">MADmin</span></a>
+          <a href="{{ madminUrl }}" id="madmin-url" title="MADmin" target="_blank" style="float: right;"></a>
             {% endif %}
             {% if paypalUrl %}
-          <a href="{{ paypalUrl }}" id="paypal-url" target="_blank" style="float: right;"><span class="label">PayPal</span></a>
+          <a href="{{ paypalUrl }}" id="paypal-url" title="PayPal" target="_blank" style="float: right;"></a>
             {% endif %}
             {% if discordUrl %}
-          <a href="{{ discordUrl }}" id="discord-url" target="_blank" style="float: right;"><span class="label">Discord</span></a>
+          <a href="{{ discordUrl }}" id="discord-url" title="Discord" target="_blank" style="float: right;"></a>
             {% endif %}
             {% if messengerUrl %}
-          <a href="{{ messengerUrl }}" id="messenger-url" target="_blank" style="float: right;"><span class="label">Messenger</span></a>
+          <a href="{{ messengerUrl }}" id="messenger-url" title="Messenger" target="_blank" style="float: right;"></a>
             {% endif %}
             {% if telegramUrl %}
-          <a href="{{ telegramUrl }}" id="telegram-url" target="_blank" style="float: right;"><span class="label">Telegram</span></a>
+          <a href="{{ telegramUrl }}" id="telegram-url" title="Telegram" target="_blank" style="float: right;"></a>
             {% endif %}
             {% if whatsappUrl %}
-          <a href="{{ whatsappUrl }}" id="whatsapp-url" target="_blank" style="float: right;"><span class="label">WhatsApp</span></a>
+          <a href="{{ whatsappUrl }}" id="whatsapp-url" title="WhatsApp" target="_blank" style="float: right;"></a>
             {% endif %}
         </header>
         <nav id="nav">

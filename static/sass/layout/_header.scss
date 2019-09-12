@@ -32,6 +32,10 @@
       }
     }
 
+    > #weather-info {
+        margin-left: 0.3em;
+    }
+
     > a {
       @include vendor('transition', 'color #{_duration(transition)} ease-in-out');
       display: inline-block;
@@ -51,7 +55,6 @@
           content: '\f013';
           font-family: "Font Awesome 5 Free";
           font-weight: 900;
-          margin: 0 0.5em 0 0;
         }
       }
 
@@ -85,7 +88,6 @@
           content: '\f059';
           font-family: "Font Awesome 5 Free";
           font-weight: 900;
-          margin: 0 0.5em 0 0;
         }
       }
 
@@ -101,7 +103,6 @@
           content: '\f1ed';
           font-family: "Font Awesome 5 Brands";
           font-weight: 900;
-          margin: 0 0.5em 0 0;
         }
       }
 
@@ -117,7 +118,6 @@
           content: '\f392';
           font-family: "Font Awesome 5 Brands";
           font-weight: 900;
-          margin: 0 0.5em 0 0;
         }
       }
 
@@ -133,7 +133,6 @@
           content: '\f39f';
           font-family: "Font Awesome 5 Brands";
           font-weight: 900;
-          margin: 0 0.5em 0 0;
         }
       }
 
@@ -149,7 +148,6 @@
           content: '\f3fe';
           font-family: "Font Awesome 5 Brands";
           font-weight: 900;
-          margin: 0 0.5em 0 0;
         }
       }
 
@@ -165,7 +163,6 @@
           content: '\f232';
           font-family: "Font Awesome 5 Brands";
           font-weight: 900;
-          margin: 0 0.5em 0 0;
         }
       }
 
@@ -215,18 +212,6 @@
         & + #whatsapp-url:last-child {
           padding-left: 1em;
           margin-left: 0.25em;
-        }
-      }
-
-      @include breakpoint(xsmall) {
-        & > .label {
-          display: none;
-        }
-
-        &[href="#stats"] {
-            &:before {
-                margin: 0;
-            }
         }
       }
     }
