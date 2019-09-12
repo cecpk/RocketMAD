@@ -170,7 +170,7 @@ def get_pokemon_map_icon(pkm, weather=None, gender=None,
     return run_imagemagick(source, im_lines, target)
 
 
-def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form):
+def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible):
     level = int(level)
 
     if not generate_images:
@@ -213,6 +213,11 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form):
     if is_in_battle:
         out_filename = out_filename.replace('.png', '_B.png')
         im_lines.extend(draw_battle_indicator())
+
+    if is_ex_raid_eligible:
+        out_filename = out_filename.replace('.png', '_EX.png')
+        im_lines.extend(draw_ex_raid_eligible_indicator())
+
     gym_image = os.path.join(path_gym, '{}.png'.format(team))
     return run_imagemagick(gym_image, im_lines, out_filename)
 
@@ -251,6 +256,14 @@ def draw_raid_level(raidlevel):
 
 def draw_battle_indicator():
     return battle_indicator_swords()
+
+
+def draw_ex_raid_eligible_indicator():
+    return [
+        '-gravity SouthWest ( "{}" -resize 40x28 ) '.format(
+            os.path.join(path_gym, 'ex.png')),
+        '-geometry +0+0 -composite'
+    ]
 
 
 def battle_indicator_boom():
@@ -429,7 +442,7 @@ def default_gym_image(team, level, raidlevel, pkm):
         icon = "{}_{}.png".format(team, level)
     else:
         icon = "{}.png".format(team)
-    if(os.path.isfile(os.path.join(path, icon))):
+    if os.path.isfile(os.path.join(path, icon)):
         return os.path.join(path, icon)
     else:
         icon = "{}_{}_unknown.png".format(team, raidlevel)

@@ -2172,6 +2172,10 @@ function updateGymMarker(gym, marker, isNotifyGym) {
         markerImage += '&in_battle=1'
     }
 
+    if (gym.is_ex_raid_eligible) {
+        markerImage += '&is_ex_raid_eligible=1'
+    }
+
     var GymIcon = new L.Icon({
         iconUrl: markerImage,
         iconSize: [48 * upscaleModifier, 48 * upscaleModifier]
