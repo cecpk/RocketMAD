@@ -26,6 +26,7 @@
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title                      # Title of the map. (default='RocketMap')
 #discord-url:                   # Discord server invite link. (default=None)
+#telegram-url:                  # Telegram group invite link. (default=None)
 
 
 # Database settings

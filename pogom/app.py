@@ -206,6 +206,7 @@ class Pogom(Flask):
             lang=args.locale,
             mapTitle=args.map_title,
             discordUrl=args.discord_url,
+            telegramUrl=args.telegram_url,
             madminUrl=args.madmin_url,
             show=visibility_flags,
             generateImages=str(args.generate_images).lower(),
@@ -491,6 +492,7 @@ class Pogom(Flask):
             lng=self.location[1],
             mapTitle=args.map_title,
             discordUrl=args.discord_url,
+            telegramUrl=args.telegram_url,
             madminUrl=args.madmin_url,
             show=visibility_flags,
             generateImages=str(args.generate_images).lower())

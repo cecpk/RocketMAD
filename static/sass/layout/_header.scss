@@ -110,6 +110,22 @@
         margin-left: 0.5em;
       }
 
+      &#telegram-url {
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+        &:before {
+          content: '\f3fe';
+          font-family: "Font Awesome 5 Brands";
+          font-weight: 900;
+          margin: 0 0.5em 0 0;
+        }
+      }
+
+      & + #telegram-url:last-child {
+        padding-left: 1.25em;
+        margin-left: 0.5em;
+      }
+
       @include breakpoint(small) {
         padding: 0 0.5em;
 
@@ -129,6 +145,11 @@
         }
 
         & + #discord-url:last-child {
+          padding-left: 1em;
+          margin-left: 0.25em;
+        }
+
+        & + #telegram-url:last-child {
           padding-left: 1em;
           margin-left: 0.25em;
         }

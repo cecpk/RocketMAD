@@ -245,6 +245,8 @@ def get_args():
                         default='RocketMap')
     parser.add_argument('-du', '--discord-url', help='Discord server invite' +
                         ' link.', default=None)
+    parser.add_argument('-tu', '--telegram-url', help='Telegram group invite' +
+                        ' link.', default=None)
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)
     parser.add_argument('-bwb', '--black-white-badges',
