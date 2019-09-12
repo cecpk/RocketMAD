@@ -40,7 +40,10 @@
           <a href="#nav"><span class="label">Options</span></a>
           <h1><a href="./">{{ mapTitle }}<img class='rocket icon' src='static/images/rocket.png'></a></h1>
             {% if madminUrl %}
-          <a href="{{ madminUrl }}" id="madmin" target="_blank" style="float: right;"><span class="label">MADmin</span></a>
+          <a href="{{ madminUrl }}" id="madmin-url" target="_blank" style="float: right;"><span class="label">MADmin</span></a>
+            {% endif %}
+            {% if discordUrl %}
+          <a href="{{ discordUrl }}" id="discord-url" target="_blank" style="float: right;"><span class="label">Discord</span></a>
             {% endif %}
         </header>
         <nav id="nav">

@@ -205,6 +205,7 @@ class Pogom(Flask):
             showAllZoomLevel=args.show_all_zoom_level,
             lang=args.locale,
             mapTitle=args.map_title,
+            discordUrl=args.discord_url,
             madminUrl=args.madmin_url,
             show=visibility_flags,
             generateImages=str(args.generate_images).lower(),
@@ -489,6 +490,7 @@ class Pogom(Flask):
             lat=self.location[0],
             lng=self.location[1],
             mapTitle=args.map_title,
+            discordUrl=args.discord_url,
             madminUrl=args.madmin_url,
             show=visibility_flags,
             generateImages=str(args.generate_images).lower())

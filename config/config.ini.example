@@ -25,6 +25,7 @@
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title                      # Title of the map. (default='RocketMap')
+#discord-url:                   # Discord server invite link. (default=None)
 
 
 # Database settings
