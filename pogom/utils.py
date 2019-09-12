@@ -243,9 +243,15 @@ def get_args():
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),
                         default='RocketMap')
+    parser.add_argument('-pu', '--paypal-url', help='PayPal donation link',
+                        default=None)
     parser.add_argument('-du', '--discord-url', help='Discord server invite' +
                         ' link.', default=None)
+    parser.add_argument('-mru', '--messenger-url', help='Messenger group'
+                        ' invite link.', default=None)
     parser.add_argument('-tu', '--telegram-url', help='Telegram group invite' +
+                        ' link.', default=None)
+    parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
                         ' link.', default=None)
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)

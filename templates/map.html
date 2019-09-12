@@ -49,11 +49,20 @@
           {% if madminUrl %}
         <a href="{{ madminUrl }}" id="madmin-url" target="_blank" style="float: right;"><span class="label">MADmin</span></a>
           {% endif %}
+          {% if paypalUrl %}
+        <a href="{{ paypalUrl }}" id="paypal-url" target="_blank" style="float: right;"><span class="label">PayPal</span></a>
+          {% endif %}
           {% if discordUrl %}
         <a href="{{ discordUrl }}" id="discord-url" target="_blank" style="float: right;"><span class="label">Discord</span></a>
           {% endif %}
+          {% if messengerUrl %}
+        <a href="{{ messengerUrl }}" id="messenger-url" target="_blank" style="float: right;"><span class="label">Messenger</span></a>
+          {% endif %}
           {% if telegramUrl %}
         <a href="{{ telegramUrl }}" id="telegram-url" target="_blank" style="float: right;"><span class="label">Telegram</span></a>
+          {% endif %}
+          {% if whatsappUrl %}
+        <a href="{{ whatsappUrl }}" id="whatsapp-url" target="_blank" style="float: right;"><span class="label">WhatsApp</span></a>
           {% endif %}
         <span id="weatherInfo" style="float: right; vertical-align: middle;"></span>
       </header>
