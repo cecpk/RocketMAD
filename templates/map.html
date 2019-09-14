@@ -778,6 +778,7 @@
                 </div>
               </div>
                 {% endif %}
+                {% if show.gyms %}
               <div id='notify-gyms-switch-wrapper'>
               <div class="form-control switch-container">
                 <h3>Gym Notifications</h3>
@@ -853,6 +854,8 @@
                 </div>
               </div>
               </div>
+                {% endif %}
+                {% if show.pokestops %}
               <div id='notify-pokestops-switch-wrapper'>
               <div class="form-control switch-container">
                 <h3>PokéStop Notifications</h3>
@@ -954,6 +957,7 @@
                 </div>
               </div>
               </div>
+                {% endif %}
               <div class="form-control switch-container">
                 <h3>Show Browser Popups</h3>
                 <div class="onoffswitch">
