@@ -14,6 +14,11 @@
     var $navToggle = document.querySelector('a[href="#nav"]')
     var $navClose
 
+    // Menu.
+    var $menu = document.querySelector('#menu')
+    var $menuToggle = document.querySelector('a[href="#menu"]')
+    var $menuClose
+
     // Stats.
     var $stats = document.querySelector('#stats')
     var $statsToggle = document.querySelector('a[href="#stats"]')
@@ -65,6 +70,13 @@
         event.preventDefault()
         event.stopPropagation()
         $nav.classList.toggle('visible')
+    })
+
+    // Event: Toggle menu on click.
+    $menuToggle.addEventListener('click', function (event) {
+        event.preventDefault()
+        event.stopPropagation()
+        $menu.classList.toggle('visible')
     })
 
     // Event: Toggle stats on click.

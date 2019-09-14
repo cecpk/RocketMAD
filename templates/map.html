@@ -43,28 +43,35 @@
     <div class="wrapper">
       <!-- Header -->
       <header id="header">
-        <a href="#nav" title="Options"></a>
-        <h1><a href="./">{{ mapTitle }}<img class='rocket icon' src='static/images/rocket.png'></a></h1>
-        <span id="weather-info"></span>
-        <a href="#stats" id="statsToggle" class="statsNav" title="Stats" style="float: right;"></a>
-          {% if madminUrl %}
-        <a href="{{ madminUrl }}" id="madmin-url" title="MADmin" target="_blank" style="float: right;"></a>
-          {% endif %}
-          {% if paypalUrl %}
-        <a href="{{ paypalUrl }}" id="paypal-url" title="PayPal" target="_blank" style="float: right;"></a>
-          {% endif %}
-          {% if discordUrl %}
-        <a href="{{ discordUrl }}" id="discord-url" title="Discord" target="_blank" style="float: right;"></a>
-          {% endif %}
-          {% if messengerUrl %}
-        <a href="{{ messengerUrl }}" id="messenger-url" title="Messenger" target="_blank" style="float: right;"></a>
-          {% endif %}
-          {% if telegramUrl %}
-        <a href="{{ telegramUrl }}" id="telegram-url" title="Telegram" target="_blank" style="float: right;"></a>
-          {% endif %}
-          {% if whatsappUrl %}
-        <a href="{{ whatsappUrl }}" id="whatsapp-url" title="WhatsApp" target="_blank" style="float: right;"></a>
-          {% endif %}
+        <div>
+          <a href="#nav" class="header-button" title="Options"></a>
+          <h1><a href="./">{{ mapTitle }}<img class='rocket-icon' src='static/images/rocket.png'></a></a></h1>
+        </div>
+        <div>
+          <span id="weather"></span>
+            <a href="#menu" id="menuToggle" class="header-button" title="Menu"></a>
+            <div id="menu">
+                {% if discordUrl %}
+              <a href="{{ discordUrl }}" id="discord" title="Discord" target="_blank">Discord</a>
+                {% endif %}
+                {% if messengerUrl %}
+              <a href="{{ messengerUrl }}" id="messenger" title="Messenger" target="_blank">Messenger</a>
+                {% endif %}
+                {% if telegramUrl %}
+              <a href="{{ telegramUrl }}" id="telegram" title="Telegram" target="_blank">Telegram</a>
+                {% endif %}
+                {% if whatsappUrl %}
+              <a href="{{ whatsappUrl }}" id="whatsapp" title="WhatsApp" target="_blank">WhatsApp</a>
+                {% endif %}
+                {% if paypalUrl %}
+              <a href="{{ paypalUrl }}" id="paypal" title="PayPal" target="_blank">PayPal</a>
+                {% endif %}
+                {% if madminUrl %}
+              <a href="{{ madminUrl }}" id="madmin" title="MADmin" target="_blank">MADmin</a>
+                {% endif %}
+            </div>
+          <a href="#stats" id="statsToggle" class="statsNav header-button" title="Stats"></a>
+        </div>
       </header>
       <div class="main-container">
         <!-- NAV -->
