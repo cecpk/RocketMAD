@@ -633,9 +633,9 @@
                 </div>
               </div>
             </div>
-              {% if show.pokemons %}
             <h3><i class="fas fa-bell fa-fw"></i>Notifications</h3>
             <div>
+                {% if show.pokemons %}
               <div id='notify-pokemon-switch-wrapper'>
                 <div class="form-control switch-container">
                   <h3>Pokémon Notifications</h3>
@@ -777,6 +777,7 @@
                   </div>
                 </div>
               </div>
+                {% endif %}
               <div id='notify-gyms-switch-wrapper'>
               <div class="form-control switch-container">
                 <h3>Gym Notifications</h3>
@@ -974,7 +975,6 @@
                 </div>
               </div>
             </div>
-              {% endif %}
             <h3><i class="fas fa-palette fa-fw"></i>Style</h3>
             <div>
               <div class="form-control switch-container">
