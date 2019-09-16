@@ -139,6 +139,12 @@ $(function () {
        Name: "Generation 4 Only",
        Searchstring: ['gen4'],
        Invert: false
+     },
+     {
+       PokemonID: 495,
+       Name: "Generation 5 Only",
+       Searchstring: ['gen5'],
+       Invert: false
      }
     ]
 
