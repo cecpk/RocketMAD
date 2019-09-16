@@ -121,41 +121,48 @@
               color: _palette(accent2, fg-bold);
           }
 
+          &#stats-link:before {
+              content: '\f080';
+              font-family: "Font Awesome 5 Free";
+              font-weight: 400;
+              margin-right: 0.75em;
+          }
+
           &#discord:before {
               content: '\f392';
               font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75;
+              margin-right: 0.75em;
           }
 
           &#messenger:before {
               content: '\f39f';
               font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75;
+              margin-right: 0.75em;
           }
 
           &#telegram:before {
               content: '\f3fe';
               font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75;
+              margin-right: 0.75em;
           }
 
           &#whatsapp:before {
               content: '\f232';
               font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75;
+              margin-right: 0.75em;
           }
 
           &#paypal:before {
               content: '\f1ed';
               font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75;
+              margin-right: 0.75em;
           }
 
           &#madmin:before {
               content: '\f05a';
               font-family: "Font Awesome 5 Free";
               font-weight: 900;
-              margin-right: 0.75;
+              margin-right: 0.75em;
           }
         }
       }
