@@ -1001,36 +1001,41 @@
         </div>
         </nav>
         <nav id="menu">
-          <div class="link">
+          <div class="menu-link">
             <a href="stats" id="stats-link">Statistics</a>
           </div>
             {% if madminUrl %}
-          <div class="link">
+          <div class="menu-link">
             <a href="{{ madminUrl }}" id="madmin-link" target="_blank">MADmin</a>
           </div>
             {% endif %}
             {% if donateUrl %}
-          <div class="link">
+          <div class="menu-link">
             <a href="{{ donateUrl }}" id="donate-link" target="_blank">Donate</a>
           </div>
             {% endif %}
+            {% if patreonUrl %}
+          <div class="menu-link">
+            <a href="{{ patreonUrl }}" id="patreon-link" target="_blank">Patreon</a>
+          </div>
+            {% endif %}
             {% if discordUrl %}
-          <div class="link">
+          <div class="menu-link">
             <a href="{{ discordUrl }}" id="discord-link" target="_blank">Discord</a>
           </div>
             {% endif %}
             {% if messengerUrl %}
-          <div class="link">
+          <div class="menu-link">
             <a href="{{ messengerUrl }}" id="messenger-link" target="_blank">Messenger</a>
           </div>
             {% endif %}
             {% if telegramUrl %}
-          <div class="link">
+          <div class="menu-link">
             <a href="{{ telegramUrl }}" id="telegram-link" target="_blank">Telegram</a>
           </div>
             {% endif %}
             {% if whatsappUrl %}
-          <div class="link">
+          <div class="menu-link">
             <a href="{{ whatsappUrl }}" id="whatsapp-link" target="_blank">WhatsApp</a>
           </div>
             {% endif %}

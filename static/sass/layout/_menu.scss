@@ -9,7 +9,7 @@
     visibility: visible;
   }
 
-  > .link {
+  > .menu-link {
     margin: 0 0.75em 0.75em 0.75em;
 
     @include breakpoint(small) {
@@ -50,6 +50,11 @@
         content: '\f4b9';
         font-family: "Font Awesome 5 Free";
         font-weight: 700;
+    }
+
+    &#patreon-link:before {
+        content: '\f3d9';
+        font-family: "Font Awesome 5 Brands";
     }
 
     &#discord-link:before {
