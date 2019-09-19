@@ -839,7 +839,7 @@ def peewee_attr_to_col(cls, field):
 def download_parks():
     args = get_args()
 
-    file_path = os.path.join(args.root_path, 'static/dist/data/parks.json')
+    file_path = os.path.join(args.root_path, 'static/data/parks.json')
     if os.path.isfile(file_path):
         log.info('Parks already downloaded')
         return

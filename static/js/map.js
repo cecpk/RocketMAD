@@ -3623,7 +3623,7 @@ const getAllParks = function () {
         return
     }
 
-    $.getJSON('static/dist/data/parks.json').done(function (parks) {
+    $.getJSON('static/data/parks.json').done(function (parks) {
         if (!parks || !parks.length) {
             return
         }
