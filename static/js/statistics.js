@@ -84,9 +84,6 @@ function processSeen(seen) {
                 ${timestampToDateTime(pokemonItem.disappear_time)}
               </td>
               <td>
-                ${pokemonItem.latitude.toFixed(7)}, ${pokemonItem.longitude.toFixed(7)}
-              </td>
-              <td>
                 <a href="javascript:void(0);" onclick="javascript:showOverlay(${pokemonItem.pokemon_id});">
                   All Locations
                 </a>
@@ -120,7 +117,7 @@ function updateStats() {
             scrollResize: true,
             scrollY: 100,
             'columnDefs': [
-                {'orderable': false, 'targets': [0, 7]},
+                {'orderable': false, 'targets': [0, 6]},
                 {responsivePriority: 1, targets: 0},
                 {responsivePriority: 2, targets: 2},
                 {responsivePriority: 3, targets: 3},
@@ -128,7 +125,6 @@ function updateStats() {
                 {responsivePriority: 5, targets: 5},
                 {responsivePriority: 6, targets: 4},
                 {responsivePriority: 7, targets: 6},
-                {responsivePriority: 8, targets: 7},
             ]
         })
     }).fail(function () {
