@@ -92,6 +92,8 @@ var s2Level13LayerGroup = new L.LayerGroup()
 var s2Level14LayerGroup = new L.LayerGroup()
 var s2Level17LayerGroup = new L.LayerGroup()
 
+var parksLayerGroup = new L.LayerGroup()
+
 // Z-index values for various markers.
 const userLocationMarkerZIndex = 0
 const pokestopZIndex = 0
@@ -369,7 +371,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         maxZoom: 18,
         zoomControl: false,
-        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup]
+        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup, parksLayerGroup]
     })
 
     setTitleLayer(Store.get('map_style'))
@@ -442,9 +444,11 @@ function initMap() { // eslint-disable-line no-unused-vars
     }
 
     updateS2Overlay()
+    getAllParks()
 
     map.on('moveend', function () {
         updateS2Overlay()
+        updateParks()
         const position = map.getCenter()
         Store.set('startAtLastLocationPosition', {
             lat: position.lat,
@@ -950,6 +954,16 @@ function initSidebar() {
         }
     })
 
+    $('#parks-switch').change(function () {
+        Store.set('showParks', this.checked)
+
+        if (this.checked) {
+            updateParks()
+        } else {
+            parksLayerGroup.clearLayers()
+        }
+    })
+
     $('#weather-cells-switch').change(function () {
         buildSwitchChangeListener(mapData, ['weather'], 'showWeatherCells').bind(this)()
     })
@@ -1323,6 +1337,7 @@ function initSidebar() {
     $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
     $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
     $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
+    $('#parks-switch').prop('checked', Store.get('showParks'))
 
     // Location.
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
@@ -3483,6 +3498,7 @@ function loadRawData() {
     var loadWeather = Store.get('showWeatherCells')
     var loadWeatherAlerts = Store.get('showWeatherAlerts')
     var prionotifyactiv = Store.get('showNotifiedPokemonAlways')
+    var loadParks = Store.get('showParks')
 
     var bounds = map.getBounds()
     var swPoint = bounds.getSouthWest()
@@ -3524,7 +3540,8 @@ function loadRawData() {
             'oNeLng': oNeLng,
             'reids': String(isShowAllZoom() ? excludedPokemon : reincludedPokemon),
             'eids': String(getExcludedPokemon()),
-            'prionotify': prionotifyactiv
+            'prionotify': prionotifyactiv,
+            'parks': loadParks
         },
         dataType: 'json',
         cache: false,
@@ -3598,6 +3615,41 @@ function updateMap() {
         }
         timestamp = result.timestamp
         lastUpdateTime = Date.now()
+    })
+}
+
+const getAllParks = function () {
+    if (!showConfig.parks) {
+        return
+    }
+
+    $.getJSON('static/dist/data/parks.json').done(function (parks) {
+        if (!parks || !parks.length) {
+            return
+        }
+
+        mapData.parks = parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+
+        if (Store.get('showParks')) {
+            updateParks()
+        }
+    }).fail(function () {
+        // Maybe it's not downloaded yet
+        console.log("Couldn't load parks JSON.")
+    })
+}
+
+const updateParks = function () {
+    const inBoundParks = mapData.parks.filter(parkPoints => {
+        return parkPoints.some(point => {
+            return map.getBounds().contains(point)
+        })
+    })
+
+    parksLayerGroup.clearLayers()
+
+    inBoundParks.forEach(function (park) {
+        L.polygon(park, {'color': 'limegreen'}).addTo(parksLayerGroup)
     })
 }
 

@@ -324,6 +324,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showParks': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showWeatherCells': {
         default: false,
         type: StoreTypes.Boolean
@@ -581,7 +585,8 @@ var mapData = {
     spawnpoints: {},
     weather: {},
     s2cells: {},
-    weatherAlerts: {}
+    weatherAlerts: {},
+    parks: []
 }
 
 function getPokemonGen(p) {

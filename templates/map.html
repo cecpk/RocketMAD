@@ -589,6 +589,19 @@
                   </div>
                 </div>
               </div>
+
+              {% if show.parks %}
+              <div class="form-control switch-container">
+                <h3>Parks</h3>
+                <div class="onoffswitch">
+                  <input id="parks-switch" type="checkbox" name="parks-switch" class="onoffswitch-checkbox">
+                  <label class="onoffswitch-label" for="parks-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+              {% endif %}
             </div>
             <h3><i class="fas fa-map-marker-alt fa-fw"></i>Location</h3>
             <div>

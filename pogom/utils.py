@@ -14,6 +14,7 @@ import struct
 import psutil
 import subprocess
 import requests
+import overpy
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
@@ -274,6 +275,17 @@ def get_args():
                         help=('Filename of rarity json for different ' +
                               'databases (without .json) Default: rarity'),
                         default='rarity')
+    parser.add_argument('-Par', '--parks',
+                        help='Enable parks downloading and drawing.',
+                        action='store_true', default=False)
+    parser.add_argument('-Parlfp', '--parks-lower-left-point',
+                        help=('Coordinates of the lower left point of' +
+                              ' the box where the parks will be downloaded'),
+                        default=None)
+    parser.add_argument('-Parurp', '--parks-upper-right-point',
+                        help=('Coordinates of the upper right point of' +
+                              ' the box where the parks will be downloaded'),
+                        default=None)
 
     parser.set_defaults(DEBUG=False)
 
@@ -822,3 +834,41 @@ def peewee_attr_to_col(cls, field):
         field_column = field
 
     return field_column
+
+
+def download_parks():
+    args = get_args()
+
+    file_path = os.path.join(args.root_path, 'static/dist/data/parks.json')
+    if os.path.isfile(file_path):
+        log.info('Parks already downloaded')
+        return
+
+    lower_left_point = args.parks_lower_left_point
+    upper_right_point = args.parks_upper_right_point
+
+    log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
+
+    start = default_timer()
+    parks = []
+
+    # all osm parks at 17/07/2016
+    api = overpy.Overpass()
+    request = '[timeout:620][date:"2016-07-17T00:00:00Z"];(way["leisure"="park"];way["landuse"="recreation_ground"];way["leisure"="recreation_ground"];way["leisure"="pitch"];way["leisure"="garden"];way["leisure"="golf_course"];way["leisure"="playground"];way["landuse"="meadow"];way["landuse"="grass"];way["landuse"="greenfield"];way["natural"="scrub"];way["natural"="heath"];way["natural"="grassland"];way["landuse"="farmyard"];way["landuse"="vineyard"];);out;>;out skel qt;'
+    request = '[bbox:{},{}]{}'.format(lower_left_point, upper_right_point, request)
+
+    log.debug('Park request: `%s`', request)
+
+    response = api.query(request)
+
+    duration = default_timer() - start
+    log.info('Park response received in %.2fs', duration)
+
+    for w in response.ways:
+        parks.append([[float(c.lat), float(c.lon)] for c in w.nodes])
+
+    if len(parks) > 0:
+        with open(file_path, 'w') as file:
+            json.dump(parks, file)
+
+    log.info('%d parks downloaded to %s', len(parks), file_path)
