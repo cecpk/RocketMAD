@@ -116,11 +116,19 @@ function updateStats() {
             searching: false,
             info: false,
             order: [[3, 'desc']],
+            responsive: true,
             scrollResize: true,
             scrollY: 100,
-            'scrollX': true,
             'columnDefs': [
-                {'orderable': false, 'targets': [0, 7]}
+                {'orderable': false, 'targets': [0, 7]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: 2},
+                {responsivePriority: 3, targets: 3},
+                {responsivePriority: 4, targets: 1},
+                {responsivePriority: 5, targets: 5},
+                {responsivePriority: 6, targets: 4},
+                {responsivePriority: 7, targets: 6},
+                {responsivePriority: 8, targets: 7},
             ]
         })
     }).fail(function () {
