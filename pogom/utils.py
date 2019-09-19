@@ -15,6 +15,7 @@ import psutil
 import subprocess
 import requests
 import overpy
+from datetime import datetime
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
@@ -836,6 +837,67 @@ def peewee_attr_to_col(cls, field):
     return field_column
 
 
+def build_overpass_query(lower_left_point, upper_right_point, nests_parks=False):
+    ex_gym_tags = """
+    way["leisure"="park"];
+    way["landuse"="recreation_ground"];
+    way["leisure"="recreation_ground"];
+    way["leisure"="pitch"];
+    way["leisure"="garden"];
+    way["leisure"="golf_course"];
+    way["leisure"="playground"];
+    way["landuse"="meadow"];
+    way["landuse"="grass"];
+    way["landuse"="greenfield"];
+    way["natural"="scrub"];
+    way["natural"="heath"];
+    way["natural"="grassland"];
+    way["landuse"="farmyard"];
+    way["landuse"="vineyard"];
+    """
+    ex_gym_date = '2016-07-17T00:00:00Z'
+
+    # Nests have all the tags from EX GYM + those ones
+    nest_tags = """
+    way["landuse"="farmland"];
+    way["landuse"="orchard"];
+    """
+    nest_date = '2019-02-24T00:00:00Z'
+
+    tags = ex_gym_tags.replace("\n", "")
+    date = ex_gym_date
+
+    if nests_parks:
+        tags = ex_gym_tags.replace("\n", "") + nest_tags.replace("\n", "")
+        date = nest_date
+
+    return '[bbox:{},{}][timeout:620][date:"{}"];({});out;>;out skel qt;'.format(
+        lower_left_point,
+        upper_right_point,
+        date,
+        tags
+    )
+
+
+def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
+    start = default_timer()
+    parks = []
+
+    api = overpy.Overpass()
+    request = build_overpass_query(lower_left_point, upper_right_point, nests_parks)
+    log.info('Park request: `%s`', request)
+
+    response = api.query(request)
+
+    duration = default_timer() - start
+    log.info('Park response received in %.2fs', duration)
+
+    for w in response.ways:
+        parks.append([[float(c.lat), float(c.lon)] for c in w.nodes])
+
+    return parks
+
+
 def download_parks():
     args = get_args()
 
@@ -849,26 +911,16 @@ def download_parks():
 
     log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
 
-    start = default_timer()
-    parks = []
+    ex_raids_parks = query_overpass_api(lower_left_point, upper_right_point)
+    nests_parks = query_overpass_api(lower_left_point, upper_right_point, True)
 
-    # all osm parks at 17/07/2016
-    api = overpy.Overpass()
-    request = '[timeout:620][date:"2016-07-17T00:00:00Z"];(way["leisure"="park"];way["landuse"="recreation_ground"];way["leisure"="recreation_ground"];way["leisure"="pitch"];way["leisure"="garden"];way["leisure"="golf_course"];way["leisure"="playground"];way["landuse"="meadow"];way["landuse"="grass"];way["landuse"="greenfield"];way["natural"="scrub"];way["natural"="heath"];way["natural"="grassland"];way["landuse"="farmyard"];way["landuse"="vineyard"];);out;>;out skel qt;'
-    request = '[bbox:{},{}]{}'.format(lower_left_point, upper_right_point, request)
+    parks = {
+        "date": str(datetime.now()),
+        "exRaidsParks": ex_raids_parks,
+        "nestsParks": nests_parks
+    }
 
-    log.debug('Park request: `%s`', request)
+    with open(file_path, 'w') as file:
+        json.dump(parks, file)
 
-    response = api.query(request)
-
-    duration = default_timer() - start
-    log.info('Park response received in %.2fs', duration)
-
-    for w in response.ways:
-        parks.append([[float(c.lat), float(c.lon)] for c in w.nodes])
-
-    if len(parks) > 0:
-        with open(file_path, 'w') as file:
-            json.dump(parks, file)
-
-    log.info('%d parks downloaded to %s', len(parks), file_path)
+    log.info('%d parks downloaded to %s', len(ex_raids_parks) + len(nests_parks), file_path)
