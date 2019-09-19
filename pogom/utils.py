@@ -243,6 +243,9 @@ def get_args():
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),
                         default='RocketMap')
+    parser.add_argument('-hi', '--header-image',
+                         help='Image in header.',
+                         default='rocket.png')
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)
     parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.' +

@@ -25,6 +25,7 @@
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title:                     # Title of the map. (default='RocketMap')
+#header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
 #madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
 #donate-url:                    # Donation link, e.g. PayPal. (default=None)
 #patreon-url:                   # Patreon page link. (default=None)
