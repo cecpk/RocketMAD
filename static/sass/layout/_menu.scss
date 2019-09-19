@@ -40,35 +40,36 @@
       font-weight: 700;
     }
 
-    &#discord:before {
+    &#madmin-link:before {
+        content: '\f05a';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+    }
+
+    &#donate-link:before {
+        content: '\f4b9';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+    }
+
+    &#discord-link:before {
       content: '\f392';
       font-family: "Font Awesome 5 Brands";
     }
 
-    &#messenger:before {
+    &#messenger-link:before {
       content: '\f39f';
       font-family: "Font Awesome 5 Brands";
     }
 
-    &#telegram:before {
+    &#telegram-link:before {
       content: '\f3fe';
       font-family: "Font Awesome 5 Brands";
     }
 
-    &#whatsapp:before {
+    &#whatsapp-link:before {
       content: '\f232';
       font-family: "Font Awesome 5 Brands";
-    }
-
-    &#paypal:before {
-      content: '\f1ed';
-      font-family: "Font Awesome 5 Brands";
-    }
-
-    &#madmin:before {
-      content: '\f05a';
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
     }
   }
 }
