@@ -3640,6 +3640,10 @@ const getAllParks = function () {
 }
 
 const updateParks = function () {
+    if (!showConfig.parks || !Store.get('showParks')) {
+        return
+    }
+
     const inBoundParks = mapData.parks.filter(parkPoints => {
         return parkPoints.some(point => {
             return map.getBounds().contains(point)
