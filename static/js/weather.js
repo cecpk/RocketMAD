@@ -196,7 +196,7 @@ function getS2CellBounds(s2Cell) {
 
 
 // Weather top icon.
-var $weatherInfo = document.querySelector('#weather-info')
+var $weatherInfo = document.querySelector('#weather')
 
 /**
  * Update weather icon on top bar if there is single cell on the screen

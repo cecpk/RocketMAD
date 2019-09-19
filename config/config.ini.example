@@ -25,7 +25,10 @@
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title:                     # Title of the map. (default='RocketMap')
-#paypal-url:                    # PayPal donation link. (default=None)
+#header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
+#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
+#donate-url:                    # Donation link, e.g. PayPal. (default=None)
+#patreon-url:                   # Patreon page link. (default=None)
 #discord-url:                   # Discord server invite link. (default=None)
 #messenger-url:                 # Messenger group invite link. (default=None)
 #telegram-url:                  # Telegram group invite link. (default=None)
@@ -103,12 +106,6 @@
 #uas-discord-guild-invite       # Invite link to redirect user to if user is not in above guild(s)
 #uas-discord-required-roles     # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
 #uas-discord-bot-token          # Token for bot with access to your guild. Only required for required-roles feature
-
-
-# MADmin
-########
-
-#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
 
 
 # Misc

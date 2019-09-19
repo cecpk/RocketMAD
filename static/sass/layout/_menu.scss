@@ -1,0 +1,80 @@
+#menu {
+  position: fixed;
+  visibility: hidden;
+  right: 0;
+  background-color: #3b3b3b;
+  z-index: 5001;
+
+  &.visible {
+    visibility: visible;
+  }
+
+  > .menu-link {
+    margin: 0 0.75em 0.75em 0.75em;
+
+    @include breakpoint(small) {
+      margin: 0 0.5em 0.5em 0.5em;
+    }
+  }
+
+  a {
+    color: _palette(accent2, fg);
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+    &:hover {
+      color: _palette(accent2, fg-bold);
+    }
+
+    &:before {
+      margin-right: 0.75em;
+
+      @include breakpoint(small) {
+        margin-right: 0.5em;
+      }
+    }
+
+    &#stats-link:before {
+      content: '\f200';
+      font-family: "Font Awesome 5 Free";
+      font-weight: 700;
+    }
+
+    &#madmin-link:before {
+        content: '\f05a';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+    }
+
+    &#donate-link:before {
+        content: '\f4b9';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 700;
+    }
+
+    &#patreon-link:before {
+        content: '\f3d9';
+        font-family: "Font Awesome 5 Brands";
+    }
+
+    &#discord-link:before {
+      content: '\f392';
+      font-family: "Font Awesome 5 Brands";
+    }
+
+    &#messenger-link:before {
+      content: '\f39f';
+      font-family: "Font Awesome 5 Brands";
+    }
+
+    &#telegram-link:before {
+      content: '\f3fe';
+      font-family: "Font Awesome 5 Brands";
+    }
+
+    &#whatsapp-link:before {
+      content: '\f232';
+      font-family: "Font Awesome 5 Brands";
+    }
+  }
+}

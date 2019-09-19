@@ -17,17 +17,16 @@ html, body {
   height: 100%;
 }
 
-#header {
-  height: 3.5em;
-  width: 100%;
-}
-
 .main-container {
     position: fixed;
     top: 3.5em;
     bottom: 0;
     right: 0;
     left: 0;
+
+    @include breakpoint(small) {
+      top: 3em;
+    }
 }
 
 #map {
