@@ -21,33 +21,9 @@ $(function () {
     // Hide Presets
     const hidepresets= [
      {
-       PokemonID: 149,
-       Name: "Dragon Types Only",
-       Searchstring: ['Dragon'],
-       Invert: false
-     },
-     {
-       PokemonID: 230,
-       Name: "Water Types Only",
-       Searchstring: ['Water'],
-       Invert: false
-     },
-     {
-       PokemonID: 208,
-       Name: "Steel Types Only",
-       Searchstring: ['Steel'],
-       Invert: false
-     },
-     {
-       PokemonID: 25,
-       Name: "Electric Types Only",
-       Searchstring: ['Electric'],
-       Invert: false
-     },
-     {
-       PokemonID: 4,
-       Name: "Fire Types Only",
-       Searchstring: ['Fire'],
+       PokemonID: 10,
+       Name: "Bug Types Only",
+       Searchstring: ['Bug'],
        Invert: false
      },
      {
@@ -57,51 +33,15 @@ $(function () {
        Invert: false
      },
      {
-       PokemonID: 10,
-       Name: "Bug Types Only",
-       Searchstring: ['Bug'],
+       PokemonID: 149,
+       Name: "Dragon Types Only",
+       Searchstring: ['Dragon'],
        Invert: false
      },
      {
-       PokemonID: 16,
-       Name: "Normal Types Only",
-       Searchstring: ['Normal'],
-       Invert: false
-     },
-     {
-       PokemonID: 66,
-       Name: "Fighting Types Only",
-       Searchstring: ['Fighting'],
-       Invert: false
-     },
-     {
-       PokemonID: 92,
-       Name: "Ghost Types Only",
-       Searchstring: ['Ghost'],
-       Invert: false
-     },
-     {
-       PokemonID: 63,
-       Name: "Psychic Types Only",
-       Searchstring: ['Psychic'],
-       Invert: false
-     },
-     {
-       PokemonID: 12,
-       Name: "Flying Types Only",
-       Searchstring: ['Flying'],
-       Invert: false
-     },
-     {
-       PokemonID: 1,
-       Name: "Grass Types Only",
-       Searchstring: ['Grass'],
-       Invert: false
-     },
-     {
-       PokemonID: 29,
-       Name: "Poison Types Only",
-       Searchstring: ['Poison'],
+       PokemonID: 25,
+       Name: "Electric Types Only",
+       Searchstring: ['Electric'],
        Invert: false
      },
      {
@@ -111,9 +51,81 @@ $(function () {
        Invert: false
      },
      {
+       PokemonID: 66,
+       Name: "Fighting Types Only",
+       Searchstring: ['Fighting'],
+       Invert: false
+     },
+     {
+       PokemonID: 4,
+       Name: "Fire Types Only",
+       Searchstring: ['Fire'],
+       Invert: false
+     },
+     {
+       PokemonID: 12,
+       Name: "Flying Types Only",
+       Searchstring: ['Flying'],
+       Invert: false
+     },
+     {
+       PokemonID: 92,
+       Name: "Ghost Types Only",
+       Searchstring: ['Ghost'],
+       Invert: false
+     },
+     {
+       PokemonID: 1,
+       Name: "Grass Types Only",
+       Searchstring: ['Grass'],
+       Invert: false
+     },
+     {
+       PokemonID: 50,
+       Name: "Ground Types Only",
+       Searchstring: ['Ground'],
+       Invert: false
+     },
+     {
        PokemonID: 364,
        Name: "Ice Types Only",
        Searchstring: ['Ice'],
+       Invert: false
+     },
+     {
+       PokemonID: 16,
+       Name: "Normal Types Only",
+       Searchstring: ['Normal'],
+       Invert: false
+     },
+     {
+       PokemonID: 29,
+       Name: "Poison Types Only",
+       Searchstring: ['Poison'],
+       Invert: false
+     }, 
+     {
+       PokemonID: 63,
+       Name: "Psychic Types Only",
+       Searchstring: ['Psychic'],
+       Invert: false
+     },
+     {
+       PokemonID: 74,
+       Name: "Rock Types Only",
+       Searchstring: ['Rock'],
+       Invert: false
+     },
+     {
+       PokemonID: 208,
+       Name: "Steel Types Only",
+       Searchstring: ['Steel'],
+       Invert: false
+     },
+     {
+       PokemonID: 230,
+       Name: "Water Types Only",
+       Searchstring: ['Water'],
        Invert: false
      },
      {
@@ -138,6 +150,12 @@ $(function () {
        PokemonID: 387,
        Name: "Generation 4 Only",
        Searchstring: ['gen4'],
+       Invert: false
+     },
+     {
+       PokemonID: 495,
+       Name: "Generation 5 Only",
+       Searchstring: ['gen5'],
        Invert: false
      }
     ]
