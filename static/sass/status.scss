@@ -36,7 +36,7 @@ body{
   &.header {
     font-weight: 900;
     color: #ffffff;
-    background: #2980b9;
+    background: #3b3b3b;
   }
   @media screen and (max-width: 580px) {
     padding: 8px 0;
@@ -45,12 +45,7 @@ body{
 }
 
 .status_cell {
-  padding: 6px 1px;
-  display: table-cell;
-  @media screen and (max-width: 580px) {
-    padding: 2px 1px;
-    display: block;
-  }
+
 }
 
 .status_container {

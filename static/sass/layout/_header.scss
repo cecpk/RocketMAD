@@ -1,18 +1,15 @@
 /* Header */
 
-  body {
-    padding-top: 3.125em;
-  }
-
   #header {
     background: darken(_palette(accent2, bg), 12);
     color: _palette(accent2, fg);
     cursor: default;
     display: flex;
     justify-content: space-between;
-    height: 3.50em;
+    height: 3.5em;
     left: 0;
-    line-height: 3.50em;
+    line-height: 3.5em;
+    padding: 0 0.75em;
     position: fixed;
     text-align: left;
     top: 0;
@@ -20,35 +17,51 @@
     z-index: _misc(z-index-base) + 1;
     @include noSelect();
 
+    @include breakpoint(small) {
+      height: 3em;
+      line-height: 3em;
+      padding: 0 0.5em;
+    }
+
     > div > h1 {
       color: _palette(accent2, fg-bold);
       display: inline-block;
       height: inherit;
       line-height: inherit;
-      padding: 0 0.75em;
+      margin: 0 0.75em;
 
       a {
         font-size: 1.25em;
         text-decoration: none;
 
-         @include breakpoint(medium) {
-             font-size: 1em;
+         @include breakpoint(small) {
+           font-size: 1em;
+         }
+
+         .rocket-icon {
+           height: 1.6em;
+           margin-left: 5px;
+           vertical-align: middle;
          }
       }
 
       @include breakpoint(small) {
-        padding: 0 0.5em;
+        margin: 0 0.5em;
       }
     }
 
     > div .header-button {
       @include vendor('transition', 'color #{_duration(transition)} ease-in-out');
       display: inline-block;
-      padding: 0 0.75em;
+      margin: 0 0.75em;
       color: inherit;
       text-decoration: none;
       font-weight: 700;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+      @include breakpoint(small) {
+        margin: 0 0.5em;
+      }
 
       &:hover {
         color: _palette(accent2, fg-bold);
@@ -58,7 +71,6 @@
         content: '\f0c9';
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        padding-left: 0.75em;
       }
 
       &[href="#menu"]:before {
@@ -71,106 +83,15 @@
         content: '\f080';
         font-family: "Font Awesome 5 Free";
         font-weight: 400;
-        padding-right: 0.75em;
-      }
-
-      @include breakpoint(small) {
-        padding: 0 0.5em;
-
-        &[href="#nav"]:before {
-          padding-left: 0.5em;
-        }
-
-        &[href="#stats"]:before {
-          padding-right: 0.5em;
-        }
       }
     }
 
     > div > #weather {
-        padding: 0.5em;
+      margin: 0 0.5em;
 
-        @include breakpoint(small) {
-          padding: 0 0.25em;
-        }
-    }
-      /*&:hover .menu {
-        display:block;
-      }*/
-
-      > div > #menu {
-        position: fixed;
-        right: 0;
-        background-color: #3b3b3b;
-        z-index: 1;
-        visibility: hidden;
-
-        &.visible {
-            visibility: visible;
-        }
-
-        a {
-          color: inherit;
-          padding: 0.75em 0.75em;
-          line-height: initial;
-          text-decoration: none;
-          display: block;
-          -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-          &:hover {
-              color: _palette(accent2, fg-bold);
-          }
-
-          &#stats-link:before {
-              content: '\f080';
-              font-family: "Font Awesome 5 Free";
-              font-weight: 400;
-              margin-right: 0.75em;
-          }
-
-          &#discord:before {
-              content: '\f392';
-              font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75em;
-          }
-
-          &#messenger:before {
-              content: '\f39f';
-              font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75em;
-          }
-
-          &#telegram:before {
-              content: '\f3fe';
-              font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75em;
-          }
-
-          &#whatsapp:before {
-              content: '\f232';
-              font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75em;
-          }
-
-          &#paypal:before {
-              content: '\f1ed';
-              font-family: "Font Awesome 5 Brands";
-              margin-right: 0.75em;
-          }
-
-          &#madmin:before {
-              content: '\f05a';
-              font-family: "Font Awesome 5 Free";
-              font-weight: 900;
-              margin-right: 0.75em;
-          }
-        }
+      @include breakpoint(small) {
+        margin: 0 0.33em;
       }
-  }
-
-  @include breakpoint(medium) {
-    body {
-      padding-top: 44px;
     }
   }
 
@@ -178,14 +99,4 @@
     #header {
       min-width: 320px;
     }
-  }
-
-  .rocket-icon {
-    @media screen and (max-width: 480px) {
-      height: 24px important;
-      width: 24px important;
-    }
-    height: 1.6em;
-    margin-left: 5px;
-    vertical-align: middle;
   }

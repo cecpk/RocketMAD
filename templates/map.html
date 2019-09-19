@@ -4,10 +4,9 @@
     <meta charset="utf-8">
     <title>{{ mapTitle }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="PokeMap">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#3b3b3b">
     <!-- Fav- & Apple-Touch-Icons -->
     <!-- Favicon -->
@@ -31,7 +30,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css').lstrip('/') }}">
     <!-- CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/css/select2.min.css">
     <!-- Custom CSS code-->
@@ -49,28 +48,7 @@
         </div>
         <div>
           <span id="weather"></span>
-            <a href="#menu" id="menuToggle" class="header-button" title="Menu"></a>
-            <div id="menu">
-              <a href="stats" id="stats-link" title="Statistics">Statistics</a>
-                {% if discordUrl %}
-              <a href="{{ discordUrl }}" id="discord" title="Discord" target="_blank">Discord</a>
-                {% endif %}
-                {% if messengerUrl %}
-              <a href="{{ messengerUrl }}" id="messenger" title="Messenger" target="_blank">Messenger</a>
-                {% endif %}
-                {% if telegramUrl %}
-              <a href="{{ telegramUrl }}" id="telegram" title="Telegram" target="_blank">Telegram</a>
-                {% endif %}
-                {% if whatsappUrl %}
-              <a href="{{ whatsappUrl }}" id="whatsapp" title="WhatsApp" target="_blank">WhatsApp</a>
-                {% endif %}
-                {% if paypalUrl %}
-              <a href="{{ paypalUrl }}" id="paypal" title="PayPal" target="_blank">PayPal</a>
-                {% endif %}
-                {% if madminUrl %}
-              <a href="{{ madminUrl }}" id="madmin" title="MADmin" target="_blank">MADmin</a>
-                {% endif %}
-            </div>
+          <a href="#menu" id="menuToggle" class="header-button" title="Menu"></a>
           <a href="#stats" id="statsToggle" class="statsNav header-button" title="Stats"></a>
         </div>
       </header>
@@ -1022,36 +1000,80 @@
           <center><button class="settings" onclick="confirm('Are you sure you want to reset settings to default values?') ? (localStorage.clear(), window.location.reload()) : false"><i class="fas fa-sync-alt fa-fw"></i>Reset Settings</button></center>
         </div>
         </nav>
+        <nav id="menu">
+          <div class="link">
+            <a href="stats" id="stats-link">Statistics</a>
+          </div>
+            {% if madminUrl %}
+          <div class="link">
+            <a href="{{ madminUrl }}" id="madmin" target="_blank">MADmin</a>
+          </div>
+            {% endif %}
+            {% if paypalUrl %}
+          <div class="link">
+            <a href="{{ paypalUrl }}" id="paypal" target="_blank">Donate</a>
+          </div>
+            {% endif %}
+            {% if discordUrl %}
+          <div class="link">
+            <a href="{{ discordUrl }}" id="discord" target="_blank">Discord</a>
+          </div>
+            {% endif %}
+            {% if messengerUrl %}
+          <div class="link">
+            <a href="{{ messengerUrl }}" id="messenger" target="_blank">Messenger</a>
+          </div>
+            {% endif %}
+            {% if telegramUrl %}
+          <div class="link">
+            <a href="{{ telegramUrl }}" id="telegram" target="_blank">Telegram</a>
+          </div>
+            {% endif %}
+            {% if whatsappUrl %}
+          <div class="link">
+            <a href="{{ whatsappUrl }}" id="whatsapp" title="WhatsApp" target="_blank">WhatsApp</a>
+          </div>
+            {% endif %}
+        </nav>
         <nav id="stats">
-          <div class="switch-container">
-            <div class="switch-container">
-              <div><center><a href="stats">Full Stats</a></center></div>
-            </div>
-            <div class="switch-container">
-              <center><h1 id="stats-ldg-label">Loading...</h1></center>
-            </div>
+          <div id="pokemon-stats-container">
             <div class="stats-label-container">
-              <center><h1 id="stats-pkmn-label"></h1></center>
+              <h1 id="stats-pokemon-label">Pokémon</h1>
             </div>
-            <div id="pokemonList" style="color: black;">
-              <table id="pokemonList_table" class="display" cellspacing="0" width="100%">
-                <thead>
-                  <tr>
-                    <th>Icon</th> <th>Name</th> <th>Count</th> <th>%</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-              <div id="pokeStatStatus" style="color: black;"></div>
-            </div>
+            <table id="pokemon-table" class="display" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th></th> <th>ID</th> <th>Name</th> <th>#</th> <th>%</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="gym-stats-container">
             <div class="stats-label-container">
-              <center><h1 id="stats-gym-label"></h1></center>
+              <h1 id="stats-gym-label">Gyms</h1>
             </div>
-            <div id="arenaList" style="color: black;"></div>
+            <table id="gym-table" class="display" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th></th> <th>Team</th> <th>#</th> <th>%</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div id="pokestop-stats-container">
             <div class="stats-label-container">
-              <center><h1 id="stats-pkstop-label"></h1></center>
+              <h1 id="stats-pokestop-label">PokéStops</h1>
             </div>
-            <div id="pokestopList" style="color: black;"></div>
+            <table id="pokestop-table" class="display" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th></th> <th>Status</th> <th>#</th> <th>%</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
         </nav>
         <nav id="gym-details">
@@ -1061,10 +1083,12 @@
       </div>
     </div>
     <!-- Load JS libs before custom scripts. -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.4/push.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -1078,7 +1102,7 @@
       var generateImages = {{generateImages}};
       var rarityFileName = "{{rarityFileName}}";
     </script>
-
+    <!-- Leaflet libs. -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />

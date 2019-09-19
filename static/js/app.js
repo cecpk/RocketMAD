@@ -19,7 +19,7 @@
     // Stats.
     var $stats = document.querySelector('#stats')
     var $statsToggle = document.querySelector('a[href="#stats"]')
-    
+
     // Gym sidebar
     var $gymSidebar = document.querySelector('#gym-details')
     var $gymSidebarClose
@@ -93,6 +93,10 @@
     // Event: Toggle stats on click.
     if ($statsToggle) {
         $statsToggle.addEventListener('click', function (event) {
+            if (!$('#stats').hasClass('visible')) {
+                // Update stats sidebar.
+                countMarkers(map)
+            }
             event.preventDefault()
             event.stopPropagation()
             $stats.classList.toggle('visible')
