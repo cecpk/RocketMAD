@@ -107,23 +107,25 @@
       </div>
         {% endif %}
     </nav>
-    <div class="status-container" id="status-container">
+    <div id="statistics-container">
       <div id="pokemon-seen">Pokémon seen in last day</div>
-      <table id="stats_table" class="display nowrap pageResize" cellspacing="0" width="100%">
-        <thead>
-          <tr>
-            <th></th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Seen</th>
-            <th>Seen (%)</th>
-            <th>Last Seen</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+      <div style="height: 100%;">
+        <table id="stats_table" class="display nowrap pageResize" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Seen</th>
+              <th>Seen (%)</th>
+              <th>Last Seen</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div id="loading"><img src="{{ url_for('static', filename='images/loading.gif').lstrip('/') }}" alt="Loading"/></div>
     <div class="container" id="seen_container">
