@@ -885,7 +885,7 @@ def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
 
     api = overpy.Overpass()
     request = build_overpass_query(lower_left_point, upper_right_point, nests_parks)
-    log.info('Park request: `%s`', request)
+    log.debug('Park request: `%s`', request)
 
     response = api.query(request)
 
@@ -898,29 +898,37 @@ def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
     return parks
 
 
-def download_parks():
-    args = get_args()
+def download_parks(file_path, lower_left_point, upper_right_point, nests_parks=False):
+    log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
 
-    file_path = os.path.join(args.root_path, 'static/data/parks.json')
-    if os.path.isfile(file_path):
-        log.info('Parks already downloaded')
-        return
+    output = {
+        "date": str(datetime.now()),
+        "parks": query_overpass_api(lower_left_point, upper_right_point, nests_parks)
+    }
+
+    if len(output['parks']) > 0:
+        with open(file_path, 'w') as file:
+            json.dump(output, file)
+
+        log.info('%d parks downloaded to %s', len(output['parks']), file_path)
+    else:
+        log.info('0 parks downloaded. Skipping saving to %s', file_path)
+
+
+def download_all_parks():
+    args = get_args()
 
     lower_left_point = args.parks_lower_left_point
     upper_right_point = args.parks_upper_right_point
 
-    log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
+    file_path = os.path.join(args.root_path, 'static/data/parks-ex-raids.json')
+    if not os.path.isfile(file_path):
+        download_parks(file_path, lower_left_point, upper_right_point)
+    else:
+        log.info('EX raids eligible parks already downloaded... Skipping')
 
-    ex_raids_parks = query_overpass_api(lower_left_point, upper_right_point)
-    nests_parks = query_overpass_api(lower_left_point, upper_right_point, True)
-
-    parks = {
-        "date": str(datetime.now()),
-        "exRaidsParks": ex_raids_parks,
-        "nestsParks": nests_parks
-    }
-
-    with open(file_path, 'w') as file:
-        json.dump(parks, file)
-
-    log.info('%d parks downloaded to %s', len(ex_raids_parks) + len(nests_parks), file_path)
+    file_path = os.path.join(args.root_path, 'static/data/parks-nests.json')
+    if not os.path.isfile(file_path):
+        download_parks(file_path, lower_left_point, upper_right_point, True)
+    else:
+        log.info('Nests parks already downloaded... Skipping')

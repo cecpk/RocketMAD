@@ -3636,20 +3636,32 @@ const getAllParks = function () {
         return
     }
 
-    $.getJSON('static/data/parks.json').done(function (parks) {
-        if (!parks || !('exEligibleParks' in parks) || !('nestsParks' in parks)) {
+    $.getJSON('static/data/parks-ex-raids.json').done(function (response) {
+        if (!response || !('parks' in response)) {
             return
         }
 
-        mapData.exEligibleParks = parks.exEligibleParks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
-        mapData.nestsParks = parks.nestsParks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+        mapData.exEligibleParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
 
-        if (Store.get('showExEligibleParks') || Store.get('showNestsParks')) {
+        if (Store.get('showExEligibleParks')) {
             updateParks()
         }
     }).fail(function () {
-        // Maybe it's not downloaded yet
-        console.log("Couldn't load parks JSON.")
+        console.log("Couldn't load ex eligible parks JSON.")
+    })
+
+    $.getJSON('static/data/parks-nests.json').done(function (response) {
+        if (!response || !('parks' in response)) {
+            return
+        }
+
+        mapData.nestsParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+
+        if (Store.get('showNestsParks')) {
+            updateParks()
+        }
+    }).fail(function () {
+        console.log("Couldn't load ex eligible parks JSON.")
     })
 }
 

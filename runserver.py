@@ -25,7 +25,7 @@ from colorlog import ColoredFormatter
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, init_dynamic_images,
                          log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher, get_pos_by_name, download_parks)
+                         dynamic_rarity_refresher, get_pos_by_name, download_all_parks)
 
 from pogom.models import (init_database, create_tables, drop_tables,
                           clean_db_loop, verify_table_encoding,
@@ -287,7 +287,7 @@ def main():
 
     # Parks downloading
     if args.parks:
-        t = Thread(target=download_parks,
+        t = Thread(target=download_all_parks,
                    name='parks')
         t.daemon = True
         log.info('Parks downloading is enabled.')

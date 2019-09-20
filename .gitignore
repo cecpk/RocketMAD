@@ -39,4 +39,5 @@ static/rarity.json
 !static/data/*
 !static/icons/hsl*.png
 !static/app/settings.json
-static/data/parks.json
+static/data/parks-ex-raids.json
+static/data/parks-nests.json
