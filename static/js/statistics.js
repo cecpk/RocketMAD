@@ -60,43 +60,40 @@ function processSeen(seen) {
         var pokemonItem = seen.pokemon[i]
         var seenPercent = (pokemonItem.count / seen.total) * 100
 
-        var pokemonIcon = generateImages ? `<img class='pokemon_icon' src='${getPokemonRawIconUrl(pokemonItem)}'>` : `<i class="pokemon-sprite n${pokemonItem.pokemon_id}"</i>`
-        $('#stats_table > tbody')
-            .append(`<tr class="status_row">
-                        <td class="status_cell">
-                            ${pokemonIcon}
-                        </td>
-                        <td class="status_cell">
-                            ${pokemonItem.pokemon_id}
-                        </td>
-                        <td class="status_cell">
-                            <a href="http://pokemon.gameinfo.io/en/pokemon/${pokemonItem.pokemon_id}" target="_blank" title="View in Pokedex">
-                                ${pokemonItem.pokemon_name}
-                            </a>
-                        </td>
-                        <td class="status_cell" data-sort="${pokemonItem.count}">
-                            ${pokemonItem.count.toLocaleString()}
-                        </td>
-                        <td class="status_cell" data-sort="${seenPercent}">
-                            ${seenPercent.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4})}
-                        </td>
-                        <td class="status_cell">
-                            ${moment(pokemonItem.disappear_time).format('H:mm:ss D MMM YYYY')}
-                        </td>
-                        <td class="status_cell">
-                            ${pokemonItem.latitude.toFixed(7)}, ${pokemonItem.longitude.toFixed(7)}
-                        </td>
-                        <td class="status_cell">
-                            <a href="javascript:void(0);" onclick="javascript:showOverlay(${pokemonItem.pokemon_id});">
-                                All Locations
-                            </a>
-                        </td>
-                     </tr>`)
+        var pokemonIcon = generateImages ? `<img src='${getPokemonRawIconUrl(pokemonItem)}' style='height: 32px;'>` : `<i class="pokemon-sprite n${pokemonItem.pokemon_id}"</i>`
+        $('#stats_table > tbody').append(`
+            <tr>
+              <td>
+                ${pokemonIcon}
+              </td>
+              <td data-sort="${pokemonItem.pokemon_id}">
+                <a href="http://pokemon.gameinfo.io/en/pokemon/${pokemonItem.pokemon_id}" target="_blank" title="View on GamePress">
+                  #${pokemonItem.pokemon_id}
+                </a>
+              </td>
+              <td>
+                ${pokemonItem.pokemon_name}
+              </td>
+              <td data-sort="${pokemonItem.count}">
+                ${pokemonItem.count.toLocaleString()}
+              </td>
+              <td data-sort="${seenPercent}">
+                ${seenPercent.toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4})}%
+              </td>
+              <td data-sort="${pokemonItem.disappear_time}">
+                ${timestampToDateTime(pokemonItem.disappear_time)}
+              </td>
+              <td>
+                <a href="javascript:void(0);" onclick="javascript:showOverlay(${pokemonItem.pokemon_id});">
+                  All Locations
+                </a>
+              </td>
+            </tr>`)
     }
 }
 
 function updateStats() {
-    $('#status_container').hide()
+    $('#statistics-container').hide()
     $('#loading').show()
 
     loadRawData().done(function (result) {
@@ -104,26 +101,32 @@ function updateStats() {
                 .DataTable()
                 .destroy()
 
-        $('#status_container').show()
+        $('#statistics-container').show()
         $('#loading').hide()
 
         processSeen(result.seen)
 
-        var header = 'Pokemon Seen in ' + $('#duration option:selected').text()
-        $('#name').html(header)
-        $('#message').html('Total: ' + result.seen.total.toLocaleString())
-        $('#stats_table')
-            .DataTable({
-                paging: false,
-                searching: false,
-                info: false,
-                order: [[3, 'desc']],
-                'scrollY': '75vh',
-                'stripeClasses': ['status_row'],
-                'columnDefs': [
-                    {'orderable': false, 'targets': [0, 7]}
-                ]
-            })
+        var header = `${result.seen.total.toLocaleString()} Pokémon seen in ${$('#duration option:selected').text().toLowerCase()}`
+        $('#pokemon-seen').html(header)
+        $('#stats_table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            order: [[3, 'desc']],
+            responsive: true,
+            scrollResize: true,
+            scrollY: 100,
+            'columnDefs': [
+                {'orderable': false, 'targets': [0, 6]},
+                {responsivePriority: 1, targets: 0},
+                {responsivePriority: 2, targets: 2},
+                {responsivePriority: 3, targets: 3},
+                {responsivePriority: 4, targets: 1},
+                {responsivePriority: 5, targets: 5},
+                {responsivePriority: 6, targets: 4},
+                {responsivePriority: 7, targets: 6},
+            ]
+        })
     }).fail(function () {
         // Wait for next retry.
         setTimeout(updateStats, 1000)
@@ -268,9 +271,17 @@ function initStat() {
     mapstat = L.map('location_map', {
         center: [centerLat, centerLng],
         zoom: 16,
-        zoomControl: true,
-        maxZoom: 18
+        maxZoom: 18,
+        zoomControl: false,
     })
+
+    L.control.zoom({
+        position: 'bottomright'
+    }).addTo(mapstat)
+
+    mapstat.addControl(new L.Control.Fullscreen({
+        position: 'bottomright'
+    }))
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -278,9 +289,6 @@ function initStat() {
 
     markers = L.layerGroup().addTo(mapstat)
     mapLoaded = true
-    mapstat.on('zoom', function () {
-        redrawAppearances(mapData.appearances)
-    })
 }
 
 function resetMap() {
@@ -332,44 +340,32 @@ function processAppearance(i, item) {
     heatmapPoints.push([item['latitude'], item['longitude'], parseFloat(item['count'])])
 }
 
-function redrawAppearances(appearances) {
-    $.each(appearances, function (key, value) {
-        var item = appearances[key]
-        if (!item['hidden']) {
-            // item['marker'].setMap(null)
-            const newMarker = setupPokemonMarker(item, markers)
-            addListeners(newMarker)
-            newMarker.spawnpointId = item['spawnpoint_id']
-            appearances[key].marker = newMarker
-        }
-    })
-}
-
 function appearanceTab(item) {
     var times = ''
     return loadAppearancesTimes(item['pokemon_id'], item['spawnpoint_id']).then(function (result) {
         $.each(result.appearancesTimes, function (key, value) {
             var saw = new Date(value - spawnTimeMs)
-            saw = moment(saw).format('H:mm:ss D MMM YYYY')
+            saw = timestampToDateTime(saw)
 
             times = '<div class="row' + (key % 2) + '">' + saw + '</div>' + times
         })
-        return `<div>
-                                <a href="javascript:closeTimes();">Close this tab</a>
-                        </div>
-                        <div class="row1">
-                                <strong>Lat:</strong> ${item['latitude'].toFixed(7)}
-                        </div>
-                        <div class="row0">
-                                <strong>Long:</strong> ${item['longitude'].toFixed(7)}
-                        </div>
-                        <div class="row1">
-                            <strong>Appearances:</strong> ${item['count'].toLocaleString()}
-                        </div>
-                        <div class="row0"><strong>Times:</strong></div>
-                        <div>
-                                ${times}
-                        </div>`
+        return `
+            <div>
+              <a href="javascript:closeTimes();"><i class="fas fa-times"></i></a>
+            </div>
+            <div class="row1">
+              <strong>Lat:</strong> ${item['latitude'].toFixed(7)}
+            </div>
+            <div class="row0">
+              <strong>Long:</strong> ${item['longitude'].toFixed(7)}
+            </div>
+            <div class="row1">
+              <strong>Appearances:</strong> ${item['count'].toLocaleString()}
+            </div>
+            <div class="row0"><strong>Times:</strong></div>
+            <div>
+              ${times}
+            </div>`
     })
 }
 

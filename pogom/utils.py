@@ -245,7 +245,14 @@ def get_args():
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),
                         default='RocketMap')
-    parser.add_argument('-pu', '--paypal-url', help='PayPal donation link',
+    parser.add_argument('-hi', '--header-image',
+                         help='Image in header.',
+                         default='rocket.png')
+    parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
+                        default=None)
+    parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.' +
+                        ' PayPal.', default=None)
+    parser.add_argument('-pu', '--patreon-url', help='Patreon page link.',
                         default=None)
     parser.add_argument('-du', '--discord-url', help='Discord server invite' +
                         ' link.', default=None)
@@ -255,8 +262,6 @@ def get_args():
                         ' link.', default=None)
     parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
                         ' link.', default=None)
-    parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
-                        default=None)
     parser.add_argument('-bwb', '--black-white-badges',
                         help='Use black/white background with white/black' +
                         ' text for gym/raid level badge in gym icons.',

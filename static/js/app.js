@@ -12,12 +12,13 @@
     // Nav.
     var $nav = document.querySelector('#nav')
     var $navToggle = document.querySelector('a[href="#nav"]')
-    var $navClose
 
+    // Menu.
+    var $menu = document.querySelector('#menu')
+    var $menuToggle = document.querySelector('a[href="#menu"]')
     // Stats.
     var $stats = document.querySelector('#stats')
     var $statsToggle = document.querySelector('a[href="#stats"]')
-    var $statsClose
 
     // Gym sidebar
     var $gymSidebar = document.querySelector('#gym-details')
@@ -27,6 +28,13 @@
     addEventsListener($nav, 'click touchend', function (event) {
         event.stopPropagation()
     })
+
+    if ($menu) {
+        // Event: Prevent clicks/taps inside the menu from bubbling.
+        addEventsListener($menu, 'click touchend', function (event) {
+            event.stopPropagation()
+        })
+    }
 
     if ($stats) {
         // Event: Prevent clicks/taps inside the stats from bubbling.
@@ -42,7 +50,7 @@
         })
     }
 
-    // Event: Hide nav on body click/tap.
+    // Event: Hide nav, menu and stats on body click/tap.
     addEventsListener($body, 'click touchend', function (event) {
         // on ios safari, when navToggle is clicked,
         // this function executes too, so if the target
@@ -50,10 +58,16 @@
         if (event.target.matches('a[href="#nav"]')) {
             return
         }
+        if ($menu && event.target.matches('a[href="#menu"]')) {
+            return
+        }
         if ($stats && event.target.matches('a[href="#stats"]')) {
             return
         }
         $nav.classList.remove('visible')
+        if ($menu) {
+            $menu.classList.remove('visible')
+        }
         if ($stats) {
             $stats.classList.remove('visible')
         }
@@ -67,9 +81,22 @@
         $nav.classList.toggle('visible')
     })
 
+    // Event: Toggle menu on click.
+    if ($menuToggle) {
+        $menuToggle.addEventListener('click', function (event) {
+            event.preventDefault()
+            event.stopPropagation()
+            $menu.classList.toggle('visible')
+        })
+    }
+
     // Event: Toggle stats on click.
     if ($statsToggle) {
         $statsToggle.addEventListener('click', function (event) {
+            if (!$('#stats').hasClass('visible')) {
+                // Update stats sidebar.
+                countMarkers(map)
+            }
             event.preventDefault()
             event.stopPropagation()
             $stats.classList.toggle('visible')
@@ -79,20 +106,6 @@
     // Close.
 
     // Create elements.
-    $navClose = document.createElement('a')
-    $navClose.href = '#'
-    $navClose.className = 'close'
-    $navClose.tabIndex = 0
-    $nav.appendChild($navClose)
-
-    if ($stats) {
-        $statsClose = document.createElement('a')
-        $statsClose.href = '#'
-        $statsClose.className = 'close'
-        $statsClose.tabIndex = 0
-        $stats.appendChild($statsClose)
-    }
-
     if ($gymSidebar) {
         $gymSidebarClose = document.createElement('a')
         $gymSidebarClose.href = '#'
@@ -113,22 +126,6 @@
             }
         }
     })
-
-    // Event: Hide nav on click.
-    $navClose.addEventListener('click', function (event) {
-        event.preventDefault()
-        event.stopPropagation()
-        $nav.classList.remove('visible')
-    })
-
-    if ($statsClose) {
-        // Event: Hide stats on click.
-        $statsClose.addEventListener('click', function (event) {
-            event.preventDefault()
-            event.stopPropagation()
-            $stats.classList.remove('visible')
-        })
-    }
 
     if ($gymSidebarClose) {
         // Event: Hide stats on click.

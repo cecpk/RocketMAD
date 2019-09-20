@@ -1,16 +1,15 @@
 /* Header */
 
-  body {
-    padding-top: 3.125em;
-  }
-
   #header {
     background: darken(_palette(accent2, bg), 12);
     color: _palette(accent2, fg);
     cursor: default;
-    height: 3.50em;
+    display: flex;
+    justify-content: space-between;
+    height: 3.5em;
     left: 0;
-    line-height: 3.50em;
+    line-height: 3.5em;
+    padding: 0 0.75em;
     position: fixed;
     text-align: left;
     top: 0;
@@ -18,219 +17,80 @@
     z-index: _misc(z-index-base) + 1;
     @include noSelect();
 
-    > h1 {
+    @include breakpoint(small) {
+      height: 3em;
+      line-height: 3em;
+      padding: 0 0.5em;
+    }
+
+    > div > h1 {
       color: _palette(accent2, fg-bold);
       display: inline-block;
       height: inherit;
       line-height: inherit;
-      margin: 0;
-      padding: 0;
+      margin: 0 0.75em;
 
       a {
         font-size: 1.25em;
         text-decoration: none;
+
+         @include breakpoint(small) {
+           font-size: 1em;
+         }
+
+         .rocket-icon {
+           height: 1.6em;
+           margin-left: 5px;
+           vertical-align: middle;
+         }
+      }
+
+      @include breakpoint(small) {
+        margin: 0 0.5em;
       }
     }
 
-    > #weather-info {
-        margin-left: 0.3em;
-    }
-
-    > a {
+    > div .header-button {
       @include vendor('transition', 'color #{_duration(transition)} ease-in-out');
       display: inline-block;
-      padding: 0 0.75em;
+      margin: 0 0.75em;
       color: inherit;
       text-decoration: none;
       font-weight: 700;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+      @include breakpoint(small) {
+        margin: 0 0.5em;
+      }
 
       &:hover {
         color: _palette(accent2, fg-bold);
       }
 
-      &[href="#nav"] {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f013';
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-        }
+      &[href="#nav"]:before {
+        content: '\f0c9';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
       }
 
-      & + a[href="#nav"]:last-child {
-        border-left: solid 1px _palette(accent2, border);
-        padding-left: 1.25em;
-        margin-left: 0.5em;
+      &[href="#menu"]:before {
+        content: '\f00a';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
       }
 
-      &[href="#stats"] {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f080';
-          font-family: "Font Awesome 5 Free";
-          font-weight: 400;
-          margin: 0 0.5em 0 0;
-        }
+      &[href="#stats"]:before {
+        content: '\f080';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 400;
       }
+    }
 
-      & + a[href="#stats"]:last-child {
-        border-left: solid 1px _palette(accent2, border);
-        padding-left: 1.25em;
-        margin-left: 0.5em;
-      }
-
-      &#madmin-url {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f059';
-          font-family: "Font Awesome 5 Free";
-          font-weight: 900;
-        }
-      }
-
-      & + #madmin-url:last-child {
-        padding-left: 1.25em;
-        margin-left: 0.5em;
-      }
-
-      &#paypal-url {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f1ed';
-          font-family: "Font Awesome 5 Brands";
-          font-weight: 900;
-        }
-      }
-
-      & + #paypal-url:last-child {
-        padding-left: 1.25em;
-        margin-left: 0.5em;
-      }
-
-      &#discord-url {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f392';
-          font-family: "Font Awesome 5 Brands";
-          font-weight: 900;
-        }
-      }
-
-      & + #discord-url:last-child {
-        padding-left: 1.25em;
-        margin-left: 0.5em;
-      }
-
-      &#messenger-url {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f39f';
-          font-family: "Font Awesome 5 Brands";
-          font-weight: 900;
-        }
-      }
-
-      & + #messenger-url:last-child {
-        padding-left: 1.25em;
-        margin-left: 0.5em;
-      }
-
-      &#telegram-url {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f3fe';
-          font-family: "Font Awesome 5 Brands";
-          font-weight: 900;
-        }
-      }
-
-      & + #telegram-url:last-child {
-        padding-left: 1.25em;
-        margin-left: 0.5em;
-      }
-
-      &#whatsapp-url {
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-
-        &:before {
-          content: '\f232';
-          font-family: "Font Awesome 5 Brands";
-          font-weight: 900;
-        }
-      }
-
-      & + #whatsapp-url:last-child {
-        padding-left: 1.25em;
-        margin-left: 0.5em;
-      }
+    > div > #weather {
+      margin: 0 0.5em;
 
       @include breakpoint(small) {
-        padding: 0 0.5em;
-
-        & + a[href="#nav"]:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-
-        & + a[href="#stats"]:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-
-        & + #madmin-url:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-
-        & + #paypal-url:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-
-        & + #discord-url:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-
-        & + #messenger-url:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-
-        & + #telegram-url:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-
-        & + #whatsapp-url:last-child {
-          padding-left: 1em;
-          margin-left: 0.25em;
-        }
-      }
-    }
-  }
-
-  @include breakpoint(medium) {
-    body {
-      padding-top: 44px;
-    }
-
-    #header {
-      height: 44px;
-
-      > h1 {
-        left: 1em;
-
-        a {
-          font-size: 1em;
-        }
+        margin: 0 0.33em;
       }
     }
   }
@@ -239,15 +99,4 @@
     #header {
       min-width: 320px;
     }
-  }
-
-  .rocket.icon {
-    @media screen and (max-width: 480px) {
-      height: 24px important;
-      width: 24px important;
-    }
-    height: 32px;
-    width: 32px;
-    margin-left: 5px;
-    vertical-align: middle;
   }

@@ -1,18 +1,15 @@
 /* global getPokemonRawIconUrl */
 function countMarkers(map) { // eslint-disable-line no-unused-vars
-    document.getElementById('stats-ldg-label').innerHTML = ''
-    document.getElementById('stats-pkmn-label').innerHTML = 'Pokémon'
-    document.getElementById('stats-gym-label').innerHTML = 'Gyms'
-    document.getElementById('stats-pkstop-label').innerHTML = 'PokéStops'
-
     var i = 0
-    var arenaCount = []
-    var arenaTotal = 0
+    var gymCount = []
+    var gymTotal = 0
     var pkmnCount = []
     var pkmnTotal = 0
     var pokestopCount = []
     var pokestopTotal = 0
-    var pokeStatTable = $('#pokemonList_table').DataTable()
+    var $pokemonTable = $('#pokemon-table').DataTable()
+    var $gymTable = $('#gym-table').DataTable()
+    var $pokestopTable = $('#pokestop-table').DataTable()
 
     // Bounds of the currently visible map
     var currentVisibleMap = map.getBounds()
@@ -41,39 +38,29 @@ function countMarkers(map) { // eslint-disable-line no-unused-vars
             }
         })
 
-        document.getElementById('stats-pkmn-label').innerHTML = 'Pokémon (' + pkmnTotal + ')'
-
         var pokeCounts = []
-
         for (i = 0; i < pkmnCount.length; i++) {
             if (pkmnCount[i] && pkmnCount[i].Count > 0) {
                 var pokemonIcon = getPokemonRawIconUrl({'pokemon_id': pkmnCount[i].ID})
                 pokeCounts.push(
                     [
                         '<img class="pokemonListString pokemon-icon" src=\'' + pokemonIcon + '\' />',
-                        '<a href=\'http://pokemon.gameinfo.io/en/pokemon/' + pkmnCount[i].ID + '\' target=\'_blank\' title=\'View in Pokédex\' style=\'color: black;\'>' + pkmnCount[i].Name + '</a>',
+                        `<a href='https://pokemongo.gamepress.gg/pokemon/${pkmnCount[i].ID}' target='_blank' title='View on GamePress'>${pkmnCount[i].ID}</a>`,
+                        pkmnCount[i].Name,
                         pkmnCount[i].Count,
-                        (Math.round(pkmnCount[i].Count * 100 / pkmnTotal * 10) / 10) + '%'
+                        ((pkmnCount[i].Count * 100) / pkmnTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
                     ]
                 )
             }
         }
 
+        $('#stats-pokemon-label').text(`Pokémon (${pkmnTotal})`)
         // Clear stale data, add fresh data, redraw
-
-        $('#pokemonList_table').dataTable().show()
-        pokeStatTable
+        $pokemonTable
             .clear()
             .rows.add(pokeCounts)
             .draw()
-    } else {
-        pokeStatTable
-            .clear()
-            .draw()
-
-        document.getElementById('pokeStatStatus').innerHTML = 'Pokémon markers are disabled'
-        $('#pokemonList_table').dataTable().hide()
-    }       // end Pokémon processing
+    }
 
     // begin Gyms processing
     if (Store.get('showGyms')) {
@@ -82,33 +69,35 @@ function countMarkers(map) { // eslint-disable-line no-unused-vars
             thisGymIsVisible = currentVisibleMap.contains(thisGymLocation)
 
             if (thisGymIsVisible) {
-                arenaTotal++
-                if (arenaCount[mapData.gyms[key]['team_id']] === 0 || !arenaCount[mapData.gyms[key]['team_id']]) {
-                    arenaCount[mapData.gyms[key]['team_id']] = 1
+                gymTotal++
+                if (gymCount[mapData.gyms[key]['team_id']] === 0 || !gymCount[mapData.gyms[key]['team_id']]) {
+                    gymCount[mapData.gyms[key]['team_id']] = 1
                 } else {
-                    arenaCount[mapData.gyms[key]['team_id']] += 1
+                    gymCount[mapData.gyms[key]['team_id']] += 1
                 }
             }
         })
 
-        var arenaListString = '<table><th>Icon</th><th>Team Color</th><th>Count</th><th>%</th><tr><td></td><td>Total</td><td>' + arenaTotal + '</td></tr>'
-        for (i = 0; i < arenaCount.length; i++) {
-            if (arenaCount[i] > 0) {
-                if (i === 1) {
-                    arenaListString += '<tr><td><img class="arenaListString" src="static/images/gym/Mystic.png" /></td><td>' + 'Mystic' + '</td><td>' + arenaCount[i] + '</td><td>' + Math.round(arenaCount[i] * 100 / arenaTotal * 10) / 10 + '%</td></tr>'
-                } else if (i === 2) {
-                    arenaListString += '<tr><td><img class="arenaListString" src="static/images/gym/Valor.png" /></td><td>' + 'Valor' + '</td><td>' + arenaCount[i] + '</td><td>' + Math.round(arenaCount[i] * 100 / arenaTotal * 10) / 10 + '%</td></tr>'
-                } else if (i === 3) {
-                    arenaListString += '<tr><td><img class="arenaListString" src="static/images/gym/Instinct.png" /></td><td>' + 'Instinct' + '</td><td>' + arenaCount[i] + '</td><td>' + Math.round(arenaCount[i] * 100 / arenaTotal * 10) / 10 + '%</td></tr>'
-                } else {
-                    arenaListString += '<tr><td><img class="arenaListString" src="static/images/gym/Uncontested.png" /></td><td>' + 'Uncontested' + '</td><td>' + arenaCount[i] + '</td><td>' + Math.round(arenaCount[i] * 100 / arenaTotal * 10) / 10 + '%</td></tr>'
-                }
+        var gymCounts = []
+        for (i = 0; i < gymCount.length; i++) {
+            if (gymCount[i] && gymCount[i] > 0) {
+                gymCounts.push(
+                    [
+                        `<img class="arenaListString" src="static/images/gym/${gymTypes[i]}.png" />`,
+                        gymTypes[i],
+                        gymCount[i],
+                        ((gymCount[i] * 100) / gymTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    ]
+                )
             }
         }
-        arenaListString += '</table>'
-        document.getElementById('arenaList').innerHTML = arenaListString
-    } else {
-        document.getElementById('arenaList').innerHTML = 'Gyms markers are disabled'
+
+        $('#stats-gym-label').text(`Gyms (${gymTotal})`)
+        // Clear stale data, add fresh data, redraw
+        $gymTable
+            .clear()
+            .rows.add(gymCounts)
+            .draw()
     }
 
     if (Store.get('showPokestops')) {
@@ -117,7 +106,7 @@ function countMarkers(map) { // eslint-disable-line no-unused-vars
             thisPokestopIsVisible = currentVisibleMap.contains(thisPokestopLocation)
 
             if (thisPokestopIsVisible) {
-                if (mapData.pokestops[key]['lure_expiration'] && mapData.pokestops[key]['lure_expiration'] > 0) {
+                if (isLuredPokestop(mapData.pokestops[key])) {
                     if (pokestopCount[1] === 0 || !pokestopCount[1]) {
                         pokestopCount[1] = 1
                     } else {
@@ -133,19 +122,28 @@ function countMarkers(map) { // eslint-disable-line no-unused-vars
                 pokestopTotal++
             }
         })
-        var pokestopListString = '<table><th>Icon</th><th>Status</th><th>Count</th><th>%</th><tr><td></td><td>Total</td><td>' + pokestopTotal + '</td></tr>'
+
+        var pokestopCounts = []
         for (i = 0; i < pokestopCount.length; i++) {
-            if (pokestopCount[i] > 0) {
-                if (i === 0) {
-                    pokestopListString += '<tr><td><img class="pokestopListString" src="static/images/pokestop/stop.png" /></td><td>' + 'Not Lured' + '</td><td>' + pokestopCount[i] + '</td><td>' + Math.round(pokestopCount[i] * 100 / pokestopTotal * 10) / 10 + '%</td></tr>'
-                } else if (i === 1) {
-                    pokestopListString += '<tr><td><img class="pokestopListString" src="static/images/pokestop/stop_l_501.png" /></td><td>' + 'Lured' + '</td><td>' + pokestopCount[i] + '</td><td>' + Math.round(pokestopCount[i] * 100 / pokestopTotal * 10) / 10 + '%</td></tr>'
-                }
+            if (pokestopCount[i] && pokestopCount[i] > 0) {
+                const status = i === 0 ? 'Not Lured' : 'Lured'
+                const image = i === 0 ? 'stop' : 'stop_l_501'
+                pokestopCounts.push(
+                    [
+                        `<img class="pokestopListString" src="static/images/pokestop/${image}.png" />`,
+                        status,
+                        pokestopCount[i],
+                        ((pokestopCount[i] * 100) / pokestopTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    ]
+                )
             }
         }
-        pokestopListString += '</table>'
-        document.getElementById('pokestopList').innerHTML = pokestopListString
-    } else {
-        document.getElementById('pokestopList').innerHTML = 'PokéStops markers are disabled'
+
+        $('#stats-pokestop-label').text(`PokéStops (${pokestopTotal})`)
+        // Clear stale data, add fresh data, redraw
+        $pokestopTable
+            .clear()
+            .rows.add(pokestopCounts)
+            .draw()
     }
 }

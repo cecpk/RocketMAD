@@ -686,13 +686,16 @@ function initSidebar() {
     $('#pokemon-switch').change(function () {
         const filterWrapper = $('#pokemons-filter-wrapper')
         const notifyWrapper = $('#notify-pokemon-switch-wrapper')
+        const statsContainer = $('#pokemon-stats-container')
         if (this.checked) {
             lastpokemon = false
             filterWrapper.show()
             notifyWrapper.show()
+            statsContainer.show()
         } else {
             filterWrapper.hide()
             notifyWrapper.hide()
+            statsContainer.hide()
         }
         Store.set('showPokemon', this.checked)
         reprocessPokemons()
@@ -731,16 +734,19 @@ function initSidebar() {
         var wrapperGyms = $('#gyms-filter-wrapper')
         var switchRaids = $('#raids-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
+        var statsContainer = $('#gym-stats-container')
         if (this.checked) {
             if (Store.get('showGymFilter')) {
                 wrapperGyms.show()
             }
             wrapperSidebar.show()
+            statsContainer.show()
         } else {
             wrapperGyms.hide()
             if (!switchRaids.prop('checked')) {
                 wrapperSidebar.hide()
             }
+            statsContainer.hide()
         }
         Store.set('showGyms', this.checked)
         reprocessGyms()
@@ -987,12 +993,15 @@ function initSidebar() {
     $('#pokestops-switch').change(function () {
         var filterWrapper = $('#pokestops-filter-wrapper')
         var notifyWrapper = $('#notify-pokestops-switch-wrapper')
+        var statsContainer = $('#pokestop-stats-container')
         if (this.checked) {
             filterWrapper.show()
             notifyWrapper.show()
+            statsContainer.show()
         } else {
             filterWrapper.hide()
             notifyWrapper.hide()
+            statsContainer.hide()
         }
         Store.set('showPokestops', this.checked)
         reprocessPokestops()
@@ -1390,8 +1399,14 @@ function initSidebar() {
     $('#popups-switch').prop('checked', Store.get('showPopups'))
     $('#sound-switch').prop('checked', Store.get('playSound'))
 
+    // Style.
     $('#map-service-provider').val(Store.get('mapServiceProvider'))
     $('#pokemon-icon-size').val(Store.get('pokemonIconSizeModifier'))
+
+    // Stats sidebar.
+    $('#pokemon-stats-container').toggle(Store.get('showPokemon'))
+    $('#gym-stats-container').toggle(Store.get('showGyms'))
+    $('#pokestop-stats-container').toggle(Store.get('showPokestops'))
 
     $('select').each(
         function (id, element) {
@@ -2676,9 +2691,12 @@ function addListeners(marker, type) {
 }
 
 function updateStaleMarkers() {
+    var markerChange = false
+
     $.each(mapData.pokemons, function (encounterId, pokemon) {
         if (pokemon.disappear_time <= Date.now()) {
             removePokemon(pokemon)
+            markerChange = true
         }
     })
 
@@ -2708,6 +2726,7 @@ function updateStaleMarkers() {
         if (!isLuredPokestop(mapData.pokestops[id])) {
             processPokestop(id)
             luredPokestopIds.delete(id)
+            markerChange = true
         }
     }
 
@@ -2718,6 +2737,11 @@ function updateStaleMarkers() {
             delete mapData.scanned[key]
         }
     })
+
+    if ($('#stats').hasClass('visible') && markerChange) {
+        // Update stats sidebar.
+        countMarkers(map)
+    }
 }
 
 function showInBoundsMarkers(markersInput, type) {
@@ -3200,6 +3224,11 @@ function reprocessPokemons(pokemonIds = [], encounteredOnly = false) {
             processPokemon(encounterId)
         })
     }
+
+    if ($('#stats').hasClass('visible')) {
+        // Update stats sidebar.
+        countMarkers(map)
+    }
 }
 
 function processPokemonaa(item) {
@@ -3345,6 +3374,10 @@ function reprocessGyms() {
     $.each(mapData.gyms, function (id, gym) {
         processGym(id)
     })
+
+    if ($('#stats').hasClass('visible')) {
+        countMarkers(map)
+    }
 }
 
 function processPokestop(id, pokestop = null) {
@@ -3435,6 +3468,10 @@ function reprocessPokestops() {
     $.each(mapData.pokestops, function (id, pokestop) {
         processPokestop(id)
     })
+
+    if ($('#stats').hasClass('visible')) {
+        countMarkers(map)
+    }
 }
 
 function processScanned(i, item) {
@@ -4976,10 +5013,46 @@ $(function () {
     //   - turn off sorting for the 'icon' column
     //   - initially sort 'name' column alphabetically
 
-    $('#pokemonList_table').DataTable({
+    $('#pokemon-table').DataTable({
         paging: false,
         searching: false,
         info: false,
+        'scrollX': true,
+        errMode: 'throw',
+        'language': {
+            'emptyTable': ''
+        },
+        'columns': [
+            { 'orderable': false },
+            null,
+            null,
+            null,
+            null
+        ]
+    }).order([1, 'asc'])
+
+    $('#gym-table').DataTable({
+        paging: false,
+        searching: false,
+        info: false,
+        'scrollX': true,
+        errMode: 'throw',
+        'language': {
+            'emptyTable': ''
+        },
+        'columns': [
+            { 'orderable': false },
+            null,
+            null,
+            null
+        ]
+    }).order([1, 'asc'])
+
+    $('#pokestop-table').DataTable({
+        paging: false,
+        searching: false,
+        info: false,
+        'scrollX': true,
         errMode: 'throw',
         'language': {
             'emptyTable': ''
