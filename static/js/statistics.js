@@ -93,7 +93,7 @@ function processSeen(seen) {
 }
 
 function updateStats() {
-    $('#status-container').hide()
+    $('#statistics-container').hide()
     $('#loading').show()
 
     loadRawData().done(function (result) {
@@ -101,7 +101,7 @@ function updateStats() {
                 .DataTable()
                 .destroy()
 
-        $('#status-container').show()
+        $('#statistics-container').show()
         $('#loading').hide()
 
         processSeen(result.seen)
