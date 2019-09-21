@@ -10,7 +10,7 @@
     height: calc(100% - 3.5em);
     max-width: 80%;
     overflow-y: auto;
-    padding: 1.5em;
+    padding: 1em 1.5em;
     position: fixed;
     right: 0;
     visibility: hidden;
@@ -18,7 +18,7 @@
     z-index: 5000;
 
     @include breakpoint(small) {
-      padding: 1em;
+      padding: 0.67em 1em;
       height: calc(100% - 3em);
     }
 
