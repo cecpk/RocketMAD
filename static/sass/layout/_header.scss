@@ -73,16 +73,89 @@
         font-weight: 900;
       }
 
-      &[href="#menu"]:before {
-        content: '\f00a';
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
+      &[href="#menu"] {
+        display: none;
+
+        &:before {
+          content: '\f00a';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+        }
+
+        @include breakpoint(small) {
+          display: inline-block;
+        }
       }
 
       &[href="#stats"]:before {
         content: '\f080';
         font-family: "Font Awesome 5 Free";
         font-weight: 400;
+      }
+
+      &#statistics-button {
+        &:before {
+          content: '\f200';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 700;
+        }
+      }
+
+      &#madmin-button {
+        &:before {
+          content: '\f05a';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 700;
+        }
+      }
+
+      &#donate-button {
+        &:before {
+          content: '\f4b9';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 700;
+        }
+      }
+
+      &#patreon-button {
+        &:before {
+          content: '\f3d9';
+          font-family: "Font Awesome 5 Brands";
+        }
+      }
+
+      &#discord-button {
+        &:before {
+          content: '\f392';
+          font-family: "Font Awesome 5 Brands";
+        }
+      }
+
+      &#messenger-button {
+        &:before {
+          content: '\f39f';
+          font-family: "Font Awesome 5 Brands";
+        }
+      }
+
+      &#telegram-button {
+        &:before {
+          content: '\f3fe';
+          font-family: "Font Awesome 5 Brands";
+        }
+      }
+
+      &#whatsapp-button {
+        &:before {
+          content: '\f232';
+          font-family: "Font Awesome 5 Brands";
+        }
+      }
+
+      @include breakpoint(small) {
+        &#statistics-button, &#madmin-button, &#donate-button, &#discord-button, &#patreon-button, &#discord-button, &#messenger-button, &#telegram-button, &#whatsapp-button {
+          display: none;
+        }
       }
     }
 
