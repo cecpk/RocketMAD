@@ -145,6 +145,8 @@ const availablePokemonCount = 649
 
 const genderType = ['♂', '♀', '⚲']
 
+const dittoIds = [13, 46, 48, 163, 165, 167, 187, 223, 273, 293, 300, 316, 322, 399]
+
 const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
 const questItemNames = {
     1: 'Poké Ball',
@@ -1413,10 +1415,10 @@ function pokemonLabel(item) {
     var atk = item['individual_attack']
     var def = item['individual_defense']
     var sta = item['individual_stamina']
-    var move1 = (moves[item['move_1']] !== undefined) ? i8ln(moves[item['move_1']]['name']) : 'gen/unknown'
-    var move2 = (moves[item['move_2']] !== undefined) ? i8ln(moves[item['move_2']]['name']) : 'gen/unknown'
-    var weight = item['weight']
-    var height = item['height']
+    var move1 = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : i8ln('unknown')
+    var move2 = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : i8ln('unknown')
+    var weight = item['weight'] !== null ? item['weight'].toFixed(2) + 'kg' : i8ln('unknown')
+    var height = item['height'] !== null ? item['height'].toFixed(2) + 'm' : i8ln('unknown')
     var gender = item['gender']
     var form = item['form']
     var cp = item['cp']
@@ -1470,9 +1472,7 @@ function pokemonLabel(item) {
         if (atk !== null && def !== null && sta !== null) {
             iv = getIvsPercentage(item)
         }
-
         var ivColor = getPercentageCssColor(iv, 100, 82, 66, 51)
-
         var level = getPokemonLevel(item)
 
         statsDisplay = `
@@ -1484,14 +1484,10 @@ function pokemonLabel(item) {
             </div>
             <div>
              Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
+            </div>
+            <div class='pokemon weight-height'>
+              Weight: <span class='pokemon encounter'>${weight}</span> | Height: <span class='pokemon encounter'>${height}</span>
             </div>`
-
-        if (weight !== null && height !== null) {
-            statsDisplay += `
-                <div class='pokemon weight-height'>
-                  Weight: <span class='pokemon encounter'>${weight.toFixed(2)}kg</span> | Height: <span class='pokemon encounter'>${height.toFixed(2)}m</span>
-                </div>`
-        }
     }
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
@@ -2755,6 +2751,11 @@ function showInBoundsMarkers(markersInput, type) {
     })
 }
 
+function isDitto(pokemon) {
+    return dittoIds.includes(pokemon.pokemon_id) && pokemon.weather_boosted_condition > 0 &&
+        pokemon.individual_attack !== null && (pokemon.individual_attack < 4 || pokemon.individual_defense < 4 || pokemon.individual_stamina < 4 || pokemon.cp_multiplier < 0.3)
+}
+
 function isPokemonRarityExcluded(pokemon) {
     if (showConfig.rarity) {
         const excludedRarities = excludedRaritiesList[Store.get('excludedRarity')]
@@ -3097,6 +3098,20 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
     if (pokemon !== null) {
         if (!mapData.pokemons.hasOwnProperty(id)) {
             // New pokemon, add marker to map and item to dict.
+            if (isDitto(pokemon)) {
+                pokemon.pokemon_id = 132
+                pokemon.pokemon_name = i8ln('Ditto')
+                // Moves, weight and height change after transformation.
+                pokemon.move_1 = pokemon.move_2 = pokemon.weight = pokemon.height = null
+                pokemon.pokemon_types = {0: {color: "#8a8a59", type: "Normal"}}
+
+                const attack = 91 + pokemon.individual_attack
+                const defense = 91 + pokemon.individual_defense
+                const stamina = 134 + pokemon.individual_stamina
+                const cp = (attack * Math.sqrt(defense) * Math.sqrt(stamina) * pokemon.cp_multiplier * pokemon.cp_multiplier) / 10
+                pokemon.cp = cp >= 10 ? Math.round(cp) : 10
+            }
+
             const isNotifyPoke = isNotifyPokemon(pokemon)
             if (!isPokemonMeetsFilters(pokemon, isNotifyPoke) || pokemon.disappear_time <= Date.now() + 3000) {
                 if (isPokemonRarityExcluded(pokemon)) {
