@@ -151,7 +151,8 @@ function setupS2CellPolygon(item) {
         opacity: 0.8,
         weight: 1,
         fillOpacity: 0,
-        fillColor: '#00ff00'
+        fillColor: '#00ff00',
+        interactive: false
     })
     markersNoCluster.addLayer(s2CellPolygon)
     return s2CellPolygon

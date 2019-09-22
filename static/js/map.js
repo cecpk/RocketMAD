@@ -2458,8 +2458,13 @@ function showS2Cells(level, color, weight) {
 
     function addPoly(cell) {
         const vertices = cell.getCornerLatLngs()
-        const poly = L.polygon(vertices,
-            Object.assign({color: color, opacity: 0.5, weight: weight, fillOpacity: 0.0}))
+        const poly = L.polygon(vertices, {
+            color: color,
+            opacity: 0.5,
+            weight: weight,
+            fillOpacity: 0.0,
+            interactive: false
+        })
         if (cell.level === 10) {
             s2Level10LayerGroup.addLayer(poly)
         } else if (cell.level === 13) {
