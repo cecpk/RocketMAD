@@ -2431,18 +2431,17 @@ var colourConversion = (function () {
 })()
 
 function setupSpawnpointMarker(item) {
-    var hue = getColorBySpawnTime(item.appear_time)
-    var rangeCircleOpts = {
-        radius: 2, // meters
-        weight: 1,
-        color: hue,
-        opacity: 1,
-        center: [item['latitude'], item['longitude']],
-        fillColor: hue,
-        fillOpacity: 1
-    }
+    const color = getColorBySpawnTime(item.appear_time)
 
-    var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts).bindPopup(spawnpointLabel(item))
+    var circle = L.circle([item['latitude'], item['longitude']], {
+        radius: 2,
+        color: color,
+        fillColor: color,
+        weight: 1,
+        opacity: 0.7,
+        fillOpacity: 0.5,
+    }).bindPopup(spawnpointLabel(item));
+
     addListeners(circle)
     markersNoCluster.addLayer(circle)
     return circle
