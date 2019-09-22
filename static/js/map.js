@@ -1415,10 +1415,10 @@ function pokemonLabel(item) {
     var atk = item['individual_attack']
     var def = item['individual_defense']
     var sta = item['individual_stamina']
-    var move1 = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : i8ln('unknown')
-    var move2 = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : i8ln('unknown')
-    var weight = item['weight'] !== null ? item['weight'].toFixed(2) + 'kg' : i8ln('unknown')
-    var height = item['height'] !== null ? item['height'].toFixed(2) + 'm' : i8ln('unknown')
+    var move1 = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : '?'
+    var move2 = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : '?'
+    var weight = item['weight'] !== null ? item['weight'].toFixed(2) : '?'
+    var height = item['height'] !== null ? item['height'].toFixed(2) : '?'
     var gender = item['gender']
     var form = item['form']
     var cp = item['cp']
@@ -1486,7 +1486,7 @@ function pokemonLabel(item) {
              Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
             </div>
             <div class='pokemon weight-height'>
-              Weight: <span class='pokemon encounter'>${weight}</span> | Height: <span class='pokemon encounter'>${height}</span>
+              Weight: <span class='pokemon encounter'>${weight}kg</span> | Height: <span class='pokemon encounter'>${height}m</span>
             </div>`
     }
 
