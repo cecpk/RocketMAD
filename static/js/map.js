@@ -1453,7 +1453,7 @@ function pokemonLabel(item) {
         }
     }
 
-    if (weatherBoostedCondition) {
+    if (weatherBoostedCondition > 0) {
         weatherBoostDisplay = `<img class='title-text' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
     }
 
@@ -3104,6 +3104,7 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
                 // Moves, weight and height change after transformation.
                 pokemon.move_1 = pokemon.move_2 = pokemon.weight = pokemon.height = null
                 pokemon.pokemon_types = {0: {color: "#8a8a59", type: "Normal"}}
+                pokemon.weather_boosted_condition = 0
 
                 const attack = 91 + pokemon.individual_attack
                 const defense = 91 + pokemon.individual_defense
