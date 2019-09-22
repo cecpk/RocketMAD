@@ -2433,7 +2433,7 @@ var colourConversion = (function () {
 function setupSpawnpointMarker(item) {
     var hue = getColorBySpawnTime(item.appear_time)
     var rangeCircleOpts = {
-        radius: 4, // meters
+        radius: 2, // meters
         weight: 1,
         color: hue,
         opacity: 1,
