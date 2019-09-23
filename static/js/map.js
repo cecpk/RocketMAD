@@ -3233,45 +3233,6 @@ function reprocessPokemons(pokemonIds = [], encounteredOnly = false) {
     }
 }
 
-function processPokemonaa(item) {
-    const isPokeExcluded = getExcludedPokemon().indexOf(item['pokemon_id']) !== -1
-    const isPokeAlive = item['disappear_time'] > Date.now()
-
-    // Limit choice to our options [0, 5].
-    const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
-    const excludedRarity = excludedRaritiesList[excludedRarityOption]
-    const pokemonRarity = getPokemonRarity(item['pokemon_id'])
-    const isRarityExcluded = showConfig.rarity && excludedRarity.indexOf(pokemonRarity) !== -1
-    const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
-    const isNotifyPkmn = isNotifyPoke(item)
-    var prionotifyactiv = Store.get('prioNotify')
-    var oldMarker = null
-    var newMarker = null
-    if ((!(item['encounter_id'] in mapData.pokemons) && !isPokeExcluded && !isRarityExcluded && isPokeAlive) ||
-            (!(item['encounter_id'] in mapData.pokemons) && isNotifyPkmn && prionotifyactiv)) {
-    // Add marker to map and item to dict.
-        const isNotifyPkmn = isNotifyPoke(item)
-        if (!item.hidden && (!Store.get('showNotifiedPokemonOnly') || isNotifyPkmn)) {
-            const scaleByRarity = Store.get('scaleByRarity')
-            if (item.marker) {
-                markers.removeLayer(item)
-                markersNoCluster.removeLayer(item)
-            }
-            newMarker = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
-            customizePokemonMarker(newMarker, item, !Store.get('showPopups'))
-            item.marker = newMarker
-
-            mapData.pokemons[item['encounter_id']] = item
-        } else {
-            oldMarker = item.marker
-        }
-    } else if (isRarityExcluded && !isPokeExcludedByRarity) {
-        excludedPokemonByRarity.push(item['pokemon_id'])
-    }
-
-    return [newMarker, oldMarker]
-}
-
 function processGym(id, gym = null) {
     if (id === null || id === undefined) {
         return false
