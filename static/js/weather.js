@@ -1,6 +1,5 @@
- /*global alertTexts map jsts weatherImages weatherNames*/
+/* global L markersNoCluster alertTexts map jsts weatherImages weatherNames */
 /* eslint no-unused-vars: "off" */
-// Globales variables
 
 /**
  * Parses info about weather cell and draws icon
@@ -8,9 +7,6 @@
  * @param item weather cell data
  * @returns {boolean}
  */
-var L
-var markersnotify
-
 function processWeather(i, item) {
     if (!Store.get('showWeatherCells') || item.gameplay_weather == null) {
         return false
@@ -25,29 +21,9 @@ function processWeather(i, item) {
         mapData.weather[s2CellId] = item
     } else if (itemOld.gameplay_weather !== item.gameplay_weather ||
         itemOld.severity !== item.severity) { // if weather changed
-        markersnotify.removeLayer(itemOld)
+        markersNoCluster.removeLayer(itemOld)
         item.marker = setupWeatherMarker(item)
         mapData.weather[s2CellId] = item
-    }
-}
-
-
-/**
- * Parses info about s2cell and draws polygon
- * @param i i index from $.each()
- * @param item s2cell data
- * @returns {boolean}
- */
-function processS2Cell(i, item) {
-    if (!Store.get('showS2Cells')) {
-        return false
-    }
-
-    var s2CellId = item.s2_cell_id
-    if (!(s2CellId in mapData.s2cells)) {
-        safeDelMarker(item)
-        item.marker = setupS2CellPolygon(item)
-        mapData.s2cells[s2CellId] = item
     }
 }
 
@@ -80,7 +56,7 @@ function processWeatherAlert(i, item) {
         item.marker = createCellAlert(item)
         mapData.weatherAlerts[s2CellId] = item
     } else if (itemOld.severity !== item.severity) {
-        markersnotify.removeLayer(itemOld)
+        markersNoCluster.removeLayer(itemOld)
         item.marker = createCellAlert(item)
         mapData.weatherAlerts[s2CellId] = item
     }
@@ -111,7 +87,7 @@ function deleteObsoleteWeatherAlerts(newAlerts) {
  */
 function safeDelMarker(item) {
     if (item.marker) {
-        markersnotify.removeLayer(item.marker)
+        markersNoCluster.removeLayer(item.marker)
     }
 }
 
@@ -159,7 +135,7 @@ function setupWeatherMarker(item) {
     })
 
     var weatherMarker = L.marker([item['latitude'], item['longitude']], {icon: image})
-    markersnotify.addLayer(weatherMarker)
+    markersNoCluster.addLayer(weatherMarker)
     return weatherMarker
 }
 
@@ -175,9 +151,10 @@ function setupS2CellPolygon(item) {
         opacity: 0.8,
         weight: 1,
         fillOpacity: 0,
-        fillColor: '#00ff00'
+        fillColor: '#00ff00',
+        interactive: false
     })
-    markersnotify.addLayer(s2CellPolygon)
+    markersNoCluster.addLayer(s2CellPolygon)
     return s2CellPolygon
 }
 
@@ -220,7 +197,7 @@ function getS2CellBounds(s2Cell) {
 
 
 // Weather top icon.
-var $weatherInfo = document.querySelector('#weatherInfo')
+var $weatherInfo = document.querySelector('#weather')
 
 /**
  * Update weather icon on top bar if there is single cell on the screen
@@ -243,27 +220,12 @@ function updateMainCellWeather() {
         } else {
             weather = weatherNames[s2Cell.gameplay_weather]
         }
-        var weathertext = document.createElement('span')
-        weathertext.textContent ? weathertext.textContent = weather : weathertext.innerText = weather
-        weathertext.setAttribute('style', 'font-size: 10px; position: relative; left: -2px;')
         // Weather Icon
         var weathericon = document.createElement('img')
         weathericon.setAttribute('src', imgUrl)
-        weathericon.setAttribute('style', 'height: 25px; vertical-align: middle;')
-        // Wind Text
-        var winddirection = degreesToCardinal(s2Cell.wind_direction)
-        var windtext = document.createElement('span')
-        windtext.textContent ? windtext.textContent = winddirection : windtext.innerText = winddirection
-        windtext.setAttribute('style', 'font-size:8px; position:relative; left:-18px; top:4px;')
-        // Wind Icon
-        var windIcon = document.createElement('img')
-        windIcon.setAttribute('src', 'static/images/weather/icons8-windsock-filled-50.png')
-        windIcon.setAttribute('style', 'height: 25px; vertical-align: middle;')
+        weathericon.setAttribute('style', 'height: 2em; vertical-align: middle;')
         // Make It Happen
         $weatherInfo.appendChild(weathericon)
-        $weatherInfo.appendChild(weathertext)
-        $weatherInfo.appendChild(windIcon)
-        $weatherInfo.appendChild(windtext)
     }
 }
 

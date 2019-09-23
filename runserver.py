@@ -1,38 +1,36 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import sys
+py_version = sys.version_info
+if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
+    print("RocketMap requires at least python 3.6! " +
+          "Your version: {}.{}"
+          .format(py_version.major, py_version.minor))
+    sys.exit(1)
+import os
 import logging
-import time
 import re
 import ssl
 import requests
 
-from distutils.version import StrictVersion
+from threading import Thread
 
-from threading import Thread, Event
-
-from mrmime import init_mr_mime
 from queue import Queue
 from flask_cors import CORS
-from flask_cache_bust import init_cache_busting
+from flask_cachebuster import CacheBuster
 
 from colorlog import ColoredFormatter
 
 from pogom.app import Pogom
-from pogom.utils import (get_args, now, gmaps_reverse_geolocate, init_args,
+from pogom.utils import (get_args, now, init_dynamic_images,
                          log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher, get_pos_by_name)
-from pogom.altitude import get_gmaps_altitude
+                         dynamic_rarity_refresher, get_pos_by_name, download_all_parks)
 
 from pogom.models import (init_database, create_tables, drop_tables,
-                          PlayerLocale, db_updater, clean_db_loop,
-                          verify_table_encoding, verify_database_schema)
-from pogom.webhook import wh_updater
+                          clean_db_loop, verify_table_encoding,
+                          verify_database_schema)
 
-from pogom.proxy import initialize_proxies
-from pogom.search import search_overseer_thread
 from time import strftime
 
 
@@ -52,8 +50,8 @@ if not (args.verbose):
     console.setLevel(logging.INFO)
 
 formatter = ColoredFormatter(
-    '%(log_color)s [%(asctime)s] [%(threadName)16s] [%(module)14s]' +
-    ' [%(levelname)8s] %(message)s',
+    ('%(log_color)s [%(asctime)s] [%(threadName)16s] [%(module)14s]'
+     ' [%(levelname)8s] %(message)s'),
     datefmt='%m-%d %H:%M:%S',
     reset=True,
     log_colors={
@@ -65,7 +63,7 @@ formatter = ColoredFormatter(
     },
     secondary_log_colors={},
     style='%'
-    )
+)
 
 console.setFormatter(formatter)
 
@@ -84,17 +82,6 @@ stderr_hdlr.setLevel(logging.WARNING)
 log = logging.getLogger()
 log.addHandler(stdout_hdlr)
 log.addHandler(stderr_hdlr)
-
-
-# Assert pgoapi is installed.
-try:
-    import pgoapi
-    from pgoapi import PGoApi
-except ImportError:
-    log.critical(
-        "It seems `pgoapi` is not installed. Try running " +
-        "pip install --upgrade -r requirements.txt.")
-    sys.exit(1)
 
 
 # Patch to make exceptions in threads cause an exception.
@@ -116,7 +103,7 @@ def install_thread_excepthook():
             raise
         except Exception:
             exc_type, exc_value, exc_trace = sys.exc_info()
-            print repr(sys.exc_info())
+            print(repr(sys.exc_info()))
 
             # Handle Flask's broken pipe when a client prematurely ends
             # the connection.
@@ -141,7 +128,7 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 def validate_assets(args):
     assets_error_log = (
-        'Missing front-end assets (static/dist) -- please run ' +
+        'Missing front-end assets (static/dist) -- please run '
         '"npm install && npm run build" before starting the server.')
 
     root_path = os.path.dirname(__file__)
@@ -184,51 +171,6 @@ def validate_assets(args):
     else:
         args.custom_js = False
         log.info('No file \"custom.js\" found, using default settings.')
-
-    return True
-
-
-def can_start_scanning(args):
-    # Currently supported pgoapi.
-    pgoapi_version = "1.2.0"
-    api_version_error = (
-        'The installed pgoapi is out of date. Please refer to ' +
-        'http://rocketmap.readthedocs.io/en/develop/common-issues/' +
-        'faq.html#i-get-an-error-about-pgoapi-version'
-    )
-
-    # Assert pgoapi >= pgoapi_version.
-    if (not hasattr(pgoapi, "__version__") or
-            StrictVersion(pgoapi.__version__) < StrictVersion(pgoapi_version)):
-        log.critical(api_version_error)
-        return False
-
-    # Abort if we don't have a hash key set.
-    if not args.hash_key:
-        log.critical('Hash key is required for scanning. Exiting.')
-        return False
-
-    # Check the PoGo api pgoapi implements against what RM is expecting.
-    # Some API versions have a non-standard version int, so we map them
-    # to the correct one.
-    api_version_int = int(args.api_version.replace('.', '0'))
-    api_version_map = {
-        8302: 8300,
-        8501: 8500,
-        8705: 8700,
-        8901: 8900,
-        9101: 9100,
-        9102: 9100
-    }
-    mapped_version_int = api_version_map.get(api_version_int, api_version_int)
-
-    try:
-        if PGoApi.get_api_version() != mapped_version_int:
-            log.critical(api_version_error)
-            return False
-    except AttributeError:
-        log.critical(api_version_error)
-        return False
 
     return True
 
@@ -288,30 +230,7 @@ def main():
     set_log_and_verbosity(log)
 
     args.root_path = os.path.dirname(os.path.abspath(__file__))
-    init_args(args)
-
-    # Initialize Mr. Mime library
-    mrmime_cfg = {
-        # We don't want exceptions on captchas because
-        # we handle them differently.
-        'exception_on_captcha': False,
-        # MrMime shouldn't jitter
-        'jitter_gmo': False,
-        'pgpool_system_id': args.status_name
-    }
-    # Don't clear PGPool URL if it's not given in config
-    # but set in MrMime config JSON
-    if args.pgpool_url:
-        mrmime_cfg['pgpool_url'] = args.pgpool_url
-    mrmime_config_file = os.path.join(os.path.dirname(__file__),
-                                      'config/mrmime_config.json')
-    init_mr_mime(config_file=mrmime_config_file, user_cfg=mrmime_cfg)
-
-    # Abort if only-server and no-server are used together
-    if args.only_server and args.no_server:
-        log.critical(
-            "You can't use no-server and only-server at the same time, silly.")
-        sys.exit(1)
+    init_dynamic_images(args)
 
     # Stop if we're just looking for a debug dump.
     if args.dump:
@@ -321,32 +240,11 @@ def main():
                  hastebin_id)
         sys.exit(1)
 
-    # Let's not forget to run Grunt / Only needed when running with webserver.
-    if not args.no_server and not validate_assets(args):
+    # Let's not forget to run Grunt.
+    if not validate_assets(args):
         sys.exit(1)
 
-    if args.no_version_check and not args.only_server:
-        log.warning('You are running RocketMap in No Version Check mode. '
-                    "If you don't know what you're doing, this mode "
-                    'can have negative consequences, and you will not '
-                    'receive support running in NoVC mode. '
-                    'You have been warned.')
-
     position = extract_coordinates(args.location)
-    # Use the latitude and longitude to get the local altitude from Google.
-    (altitude, results) = get_gmaps_altitude(position[0], position[1])
-
-    if altitude is not None:
-        log.debug('Local altitude is: %sm.', altitude)
-        position = (position[0], position[1], altitude)
-    else:
-        if results == 'REQUEST_DENIED':
-            log.error(
-                'OSM API Elevation request was denied.')
-            sys.exit()
-        else:
-            log.error('Unable to retrieve altitude from OSM APIs' +
-                      'setting to 0')
 
     log.info('Parsed location is: %.4f/%.4f/%.4f (lat/lng/alt).',
              position[0], position[1], position[2])
@@ -362,46 +260,14 @@ def main():
              'enabled' if args.encounter else 'disabled')
 
     app = None
-    if not args.no_server and not args.clear_db:
+    if not args.clear_db:
         app = Pogom(__name__,
                     root_path=os.path.dirname(
-                              os.path.abspath(__file__)).decode('utf8'))
+                        os.path.abspath(__file__)))
         app.before_request(app.validate_request)
-        app.set_current_location(position)
+        app.set_location(position)
 
     db = startup_db(app, args.clear_db)
-
-    # Control the search status (running or not) across threads.
-    control_flags = {
-      'on_demand': Event(),
-      'api_watchdog': Event(),
-      'search_control': Event()
-    }
-
-    for flag in control_flags.values():
-        flag.clear()
-
-    if args.on_demand_timeout > 0:
-        control_flags['on_demand'].set()
-
-    heartbeat = [now()]
-
-    # Setup the location tracking queue and push the first location on.
-    new_location_queue = Queue()
-    new_location_queue.put(position)
-
-    # DB Updates
-    db_updates_queue = Queue()
-    if app:
-        app.set_db_updates_queue(db_updates_queue)
-
-    # Thread(s) to process database updates.
-    for i in range(args.db_threads):
-        log.debug('Starting db-updater worker thread %d', i)
-        t = Thread(target=db_updater, name='db-updater-{}'.format(i),
-                   args=(db_updates_queue, db))
-        t.daemon = True
-        t.start()
 
     # Database cleaner; really only need one ever.
     if args.db_cleanup:
@@ -409,110 +275,47 @@ def main():
         t.daemon = True
         t.start()
 
-    # WH updates queue & WH unique key LFU caches.
-    # The LFU caches will stop the server from resending the same data an
-    # infinite number of times. The caches will be instantiated in the
-    # webhook's startup code.
-    wh_updates_queue = Queue()
-    wh_key_cache = {}
-
-    if not args.wh_types:
-        log.info('Webhook disabled.')
+    # Dynamic rarity.
+    if args.rarity_update_frequency:
+        t = Thread(target=dynamic_rarity_refresher,
+                   name='dynamic-rarity')
+        t.daemon = True
+        log.info('Dynamic rarity is enabled.')
+        t.start()
     else:
-        log.info('Webhook enabled for events: sending %s to %s.',
-                 args.wh_types,
-                 args.webhooks)
+        log.info('Dynamic rarity is disabled.')
 
-        # Thread to process webhook updates.
-        for i in range(args.wh_threads):
-            log.debug('Starting wh-updater worker thread %d', i)
-            t = Thread(target=wh_updater, name='wh-updater-{}'.format(i),
-                       args=(args, wh_updates_queue, wh_key_cache))
-            t.daemon = True
-            t.start()
-
-    if not args.only_server:
-        # Speed limit.
-        log.info('Scanning speed limit %s.',
-                 'set to {} km/h'.format(args.kph)
-                 if args.kph > 0 else 'disabled')
-        log.info('High-level speed limit %s.',
-                 'set to {} km/h'.format(args.hlvl_kph)
-                 if args.hlvl_kph > 0 else 'disabled')
-
-        # Check if we are able to scan.
-        if not can_start_scanning(args):
-            sys.exit(1)
-
-        initialize_proxies(args)
-
-        # Update player locale if not set correctly, yet.
-        args.player_locale = PlayerLocale.get_locale(args.location)
-        if not args.player_locale:
-            args.player_locale = gmaps_reverse_geolocate(
-                args.locale,
-                str(position[0]) + ', ' + str(position[1]))
-            db_player_locale = {
-                'location': args.location,
-                'country': args.player_locale['country'],
-                'language': args.player_locale['country'],
-                'timezone': args.player_locale['timezone'],
-            }
-            db_updates_queue.put((PlayerLocale, {0: db_player_locale}))
-        else:
-            log.debug(
-                'Existing player locale has been retrieved from the DB.')
-
-        # Gather the Pokemon!
-
-        argset = (args, new_location_queue, control_flags,
-                  heartbeat, db_updates_queue, wh_updates_queue)
-
-        log.debug('Starting a %s search thread', args.scheduler)
-        search_thread = Thread(target=search_overseer_thread,
-                               name='search-overseer', args=argset)
-        search_thread.daemon = True
-        search_thread.start()
-
-    if args.no_server:
-        # This loop allows for ctrl-c interupts to work since flask won't be
-        # holding the program open.
-        while search_thread.is_alive():
-            time.sleep(60)
+    # Parks downloading
+    if args.parks:
+        t = Thread(target=download_all_parks,
+                   name='parks')
+        t.daemon = True
+        log.info('Parks downloading is enabled.')
+        t.start()
     else:
-        # Dynamic rarity.
-        if args.rarity_update_frequency:
-            t = Thread(target=dynamic_rarity_refresher,
-                       name='dynamic-rarity')
-            t.daemon = True
-            t.start()
-            log.info('Dynamic rarity is enabled.')
-        else:
-            log.info('Dynamic rarity is disabled.')
+        log.info('Parks downloading is disabled.')
 
-        if args.cors:
-            CORS(app)
+    if args.cors:
+        CORS(app)
 
-        # No more stale JS.
-        init_cache_busting(app)
+    # No more stale JS.
+    cache_buster = CacheBuster()
+    cache_buster.init_app(app)
 
-        app.set_control_flags(control_flags)
-        app.set_heartbeat_control(heartbeat)
-        app.set_location_queue(new_location_queue)
-        ssl_context = None
-        if (args.ssl_certificate and args.ssl_privatekey and
-                os.path.exists(args.ssl_certificate) and
-                os.path.exists(args.ssl_privatekey)):
-            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-            ssl_context.load_cert_chain(
-                args.ssl_certificate, args.ssl_privatekey)
-            log.info('Web server in SSL mode.')
-        if args.verbose:
-            app.run(threaded=True, use_reloader=False, debug=True,
-                    host=args.host, port=args.port, ssl_context=ssl_context)
-        else:
-            app.run(threaded=True, use_reloader=False, debug=False,
-                    host=args.host, port=args.port, ssl_context=ssl_context)
+    ssl_context = None
+    if (args.ssl_certificate and args.ssl_privatekey and
+            os.path.exists(args.ssl_certificate) and
+            os.path.exists(args.ssl_privatekey)):
+        ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+        ssl_context.load_cert_chain(
+            args.ssl_certificate, args.ssl_privatekey)
+        log.info('Web server in SSL mode.')
+    if args.verbose:
+        app.run(threaded=True, use_reloader=False, debug=True,
+                host=args.host, port=args.port, ssl_context=ssl_context)
+    else:
+        app.run(threaded=True, use_reloader=False, debug=False,
+                host=args.host, port=args.port, ssl_context=ssl_context)
 
 
 def set_log_and_verbosity(log):
@@ -542,10 +345,7 @@ def set_log_and_verbosity(log):
     # These are very noisy, let's shush them up a bit.
     logging.getLogger('peewee').setLevel(logging.INFO)
     logging.getLogger('requests').setLevel(logging.WARNING)
-    logging.getLogger('pgoapi.pgoapi').setLevel(logging.WARNING)
-    logging.getLogger('pgoapi.rpc_api').setLevel(logging.INFO)
     logging.getLogger('werkzeug').setLevel(logging.ERROR)
-    logging.getLogger('pogom.apiRequests').setLevel(logging.INFO)
 
     # This sneaky one calls log.warning() on every retry.
     urllib3_logger = logging.getLogger(requests.packages.urllib3.__package__)
@@ -553,18 +353,13 @@ def set_log_and_verbosity(log):
 
     # Turn these back up if debugging.
     if args.verbose >= 2:
-        logging.getLogger('pgoapi').setLevel(logging.DEBUG)
-        logging.getLogger('pgoapi.pgoapi').setLevel(logging.DEBUG)
         logging.getLogger('requests').setLevel(logging.DEBUG)
         urllib3_logger.setLevel(logging.INFO)
 
     if args.verbose >= 3:
         logging.getLogger('peewee').setLevel(logging.DEBUG)
-        logging.getLogger('rpc_api').setLevel(logging.DEBUG)
-        logging.getLogger('pgoapi.rpc_api').setLevel(logging.DEBUG)
         logging.getLogger('werkzeug').setLevel(logging.DEBUG)
         logging.addLevelName(5, 'TRACE')
-        logging.getLogger('pogom.apiRequests').setLevel(5)
 
     # Web access logs.
     if args.access_logs:

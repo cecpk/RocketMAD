@@ -1,0 +1,146 @@
+{
+  "4": {
+    "type": "Kanto starter",
+    "gruntGender": "Male"
+  },
+  "5": {
+    "type": "Snorlax",
+    "gruntGender": "Female"
+  },
+  "6": {
+    "type": "Bug",
+    "gruntGender": "Female"
+  },
+  "7": {
+    "type": "Bug",
+    "gruntGender": "Male"
+  },
+  "8": {
+    "type": "Ghost",
+    "gruntGender": "Female"
+  },
+  "9": {
+    "type": "Ghost",
+    "gruntGender": "Male"
+  },
+  "10": {
+    "type": "Dark",
+    "gruntGender": "Female"
+  },
+  "11": {
+    "type": "Dark",
+    "gruntGender": "Male"
+  },
+  "12": {
+    "type": "Dragon",
+    "gruntGender": "Female"
+  },
+  "13": {
+    "type": "Dragon",
+    "gruntGender": "Male"
+  },
+  "14": {
+    "type": "Fairy",
+    "gruntGender": "Female"
+  },
+  "15": {
+    "type": "Fairy",
+    "gruntGender": "Male"
+  },
+  "16": {
+    "type": "Fighting",
+    "gruntGender": "Female"
+  },
+  "17": {
+    "type": "Fighting",
+    "gruntGender": "Male"
+  },
+  "18": {
+    "type": "Fire",
+    "gruntGender": "Female"
+  },
+  "19": {
+    "type": "Fire",
+    "gruntGender": "Male"
+  },
+  "20": {
+    "type": "Flying",
+    "gruntGender": "Female"
+  },
+  "21": {
+    "type": "Flying",
+    "gruntGender": "Male"
+  },
+  "22": {
+    "type": "Grass",
+    "gruntGender": "Female"
+  },
+  "23": {
+    "type": "Grass",
+    "gruntGender": "Male"
+  },
+  "24": {
+    "type": "Ground",
+    "gruntGender": "Female"
+  },
+  "25": {
+    "type": "Ground",
+    "gruntGender": "Male"
+  },
+  "26": {
+    "type": "Ice",
+    "gruntGender": "Female"
+  },
+  "27": {
+    "type": "Ice",
+    "gruntGender": "Male"
+  },
+  "28": {
+    "type": "Steel",
+    "gruntGender": "Female"
+  },
+  "29": {
+    "type": "Steel",
+    "gruntGender": "Male"
+  },
+  "30": {
+    "type": "Normal",
+    "gruntGender": "Female"
+  },
+  "31": {
+    "type": "Normal",
+    "gruntGender": "Male"
+  },
+  "32": {
+    "type": "Poison",
+    "gruntGender": "Female"
+  },
+  "33": {
+    "type": "Poison",
+    "gruntGender": "Male"
+  },
+  "34": {
+    "type": "Psychic",
+    "gruntGender": "Female"
+  },
+  "35": {
+    "type": "Psychic",
+    "gruntGender": "Male"
+  },
+  "36": {
+    "type": "Rock",
+    "gruntGender": "Female"
+  },
+  "37": {
+    "type": "Rock",
+    "gruntGender": "Male"
+  },
+  "38": {
+    "type": "Water",
+    "gruntGender": "Female"
+  },
+  "39": {
+    "type": "Magikarp",
+    "gruntGender": "Male"
+  }
+}

@@ -1,94 +1,76 @@
 .gym {
-  color: rgb(93,109,126);
+  font-family: 'Open Sans', sans-serif;
   font-size: 11px;
-  font-weight: 500;
 
-  &.container {
-    display: grid;
-    justify-content: center;
+  &.name-container {
+    margin-bottom: 13px;
+    text-align: center;
+
+    .name {
+      font-size: 14px;
+      font-weight: 900;
+    }
   }
 
-  &.member_list {
-    padding-right: 4px;
-  }
-
-  &.member {
-    display: inline-block;
-    margin-left: 1px;
-  }
-
-  &.name {
+  &.title {
     font-size: 14px;
     font-weight: 900;
-    margin-bottom: 2px;
-    text-decoration: underline;
-	
-	.team {
-		&.uncontested {
-			color: rgba(85,85,85,1);
-		}
-		&.mystic {
-		color: rgba(0,134,255,1);
-		}
-		&.valor {
-		color: rgba(255,26,26,1);
-		}
-		&.instinct {
-		color: rgba(255,159,25,1);
-		}
-	}
-   }
+    margin-bottom: 6px;
+  }
+
+  &.container {
+    display: flex;
+
+    &.content-left {
+      margin: auto 19px auto 0;
+      text-align: center;
+    }
+
+    &.content-right {
+      margin: auto 0 auto 0;
+    }
+  }
+
+  &.image {
+    border-radius: 32px;
+
+    &.mystic {
+      border: 3px solid rgba(0,134,255,1);
+    }
+
+    &.valor {
+      border: 3px solid rgba(255,26,26,1);
+    }
+
+    &.instinct {
+      border: 3px solid rgba(255,159,25,1);
+    }
+  }
 
   &.sprite {
     display: block;
-    height: 64px;
-    width: 64px;
-    margin: 5px 0px 5px 0px;
-    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #888);
+    margin-bottom: 6px;
   }
 
-  &.info {
+  &.team, &.ex-gym {
+    font-size: 14px;
+    font-weight: 900;
+  }
 
-    &.last-modified:before {
-      content: '\f040';
-      display: inline-block;
-      font-family: FontAwesome;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
+  &.mystic {
+    color: rgba(0,134,255,1);
+  }
 
-    &.last-scanned:before {
-      content: '\f002';
-      display: inline-block;
-      font-family: FontAwesome;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
+  &.valor {
+    color: rgba(255,26,26,1);
+  }
 
-    &.navigate:before {
-      content: '\f018';
-      display: inline-block;
-      font-family: FontAwesome;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
+  &.instinct {
+    color: rgba(255,159,25,1);
+  }
 
-    &.strength {
-      font-weight: 900;
-      height: 12px;
-      width: 12px;
-      vertical-align: middle;
-    }
-
-	&.ex-raid-tag {
-      display: block;
-      height: 12px;
-      width: 48px;
-      filter: drop-shadow(0px 0px 0px #000) drop-shadow(1px 1px 1px #888);
-	}
+  &.gym-info {
+    margin-bottom: 6px;
   }
 
   &.pokemon {
@@ -115,150 +97,139 @@
 }
 
 .raid {
-  color: rgb(93,109,126);
+  font-family: 'Open Sans', sans-serif;
   font-size: 11px;
-  font-weight: 900;
+
+  &.title {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 6px;
+
+    &.upcoming {
+      text-align: center;
+    }
+  }
 
   &.container {
     display: flex;
-    justify-content: center;
 
     &.content-left {
-      width:64px;
+      margin: auto 19px auto 0;
     }
 
     &.content-right {
-      margin-bottom: auto;
-      margin-top: auto;
+      margin: auto 0 auto 0;
     }
   }
 
-  &.countdown {
-
-    &:before {
-      content: '\f017';
-      display: inline-block;
-      font-family: FontAwesome;
-      margin: 0px 0px 0px -2px;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
-  }
-
-  &.pokemon {
-    font-size: 12px;
+  &.stars {
+    font-size: 14px;
     font-weight: 900;
-    float: left;
+    text-align: center;
   }
 
   .move {
-    .name {
-      font-size: 12px;
-      float: left;
-      clear: left;
-      margin: 5px 0px 0px 10px;
+    font-weight: 900;
+
+    &.container {
+      display: flex;
+
+      &.content-left {
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 5px;
+      }
     }
 
-    .type {
-      margin: 5px 0px 0px 10px;
+    &.type {
       font-size: 8px;
       display: inline-block;
       text-transform: uppercase;
       padding: 2px 3px;
       border-radius: 4px;
       color: white;
-      float: right;
-      clear: right;
-
-
-      &.fairy {
-          background-color: #e898e8;
-          // color: _get_text_color(#e898e8);
-      }
-
-      &.ghost {
-          background-color: #705898;
-          // color: _get_text_color(#705898);
-      }
-
-      &.normal {
-          background-color: #8a8a59;
-          // color: _get_text_color(#8a8a59);
-      }
-
-      &.grass {
-          background-color: #78c850;
-          // color: _get_text_color(#78c850);
-      }
-
-      &.water {
-          background-color: #6890f0;
-          // color: _get_text_color(#6890f0);
-      }
 
       &.bug {
           background-color: #a8b820;
-          // color: _get_text_color(#a8b820);
       }
 
-      &.fighting {
-          background-color: #c03028;
-          // color: _get_text_color(#c03028);
-      }
-
-      &.electric {
-          background-color: #f8d030;
-          // color: _get_text_color(#f8d030);
-      }
-
-      &.rock {
-          background-color: #b8a038;
-          // color: _get_text_color(#b8a038);
-      }
-
-      &.fire {
-          background-color: #f08030;
-          // color: _get_text_color(#f08030);
-      }
-
-      &.flying {
-          background-color: #a890f0;
-          // color: _get_text_color(#a890f0);
-      }
-
-      &.ice {
-          background-color: #98d8d8;
-          // color: _get_text_color(#98d8d8);
-      }
-
-      &.ground {
-          background-color: #e0c068;
-          // color: _get_text_color(#e0c068);
-      }
-
-      &.steel {
-          background-color: #b8b8d0;
-          // color: _get_text_color(#b8b8d0);
+      &.dark {
+          background-color: #705848;
       }
 
       &.dragon {
           background-color: #7038f8;
-          // color: _get_text_color(#7038f8);
+      }
+
+      &.electric {
+          background-color: #f8d030;
+      }
+
+      &.fairy {
+          background-color: #e898e8;
+      }
+
+      &.fighting {
+          background-color: #c03028;
+      }
+
+      &.fire {
+          background-color: #f08030;
+      }
+
+      &.flying {
+          background-color: #a890f0;
+      }
+
+      &.ghost {
+          background-color: #705898;
+      }
+
+      &.grass {
+          background-color: #78c850;
+      }
+
+      &.ground {
+          background-color: #e0c068;
+      }
+
+      &.ice {
+          background-color: #98d8d8;
+      }
+
+      &.normal {
+          background-color: #8a8a59;
       }
 
       &.poison {
           background-color: #a040a0;
-          // color: _get_text_color(#a040a0);
       }
 
       &.psychic {
           background-color: #f85888;
-          // color: _get_text_color(#f85888);
       }
-      &.dark {
-          background-color: #705848;
+
+      &.rock {
+          background-color: #b8a038;
+      }
+
+      &.steel {
+          background-color: #b8b8d0;
+      }
+
+      &.water {
+          background-color: #6890f0;
       }
     }
   }
+}
+
+.section-divider {
+  margin: 13px 0 13px 0;
+  border-bottom: 1px solid #e6e6e6;
+  height: 0px;
+}
+
+.info {
+  font-weight: 900;
 }

@@ -3,7 +3,9 @@
 
 import logging
 import requests
-import urllib
+import urllib.request
+import urllib.parse
+import urllib.error
 import datetime
 
 from flask import jsonify
@@ -23,8 +25,8 @@ def check_auth(args, request, user_auth_code_cache):
         if args.uas_discord_required_guilds:
             if not valid_discord_guild(request, user_auth_code_cache, args):
                 return redirect_to_discord_guild_invite(args)
-            if (args.uas_discord_required_roles
-                and not valid_discord_guild_role(
+            if (args.uas_discord_required_roles and
+                not valid_discord_guild_role(
                     request, user_auth_code_cache, args)):
                 return redirect_to_discord_guild_invite(args)
     return False
@@ -35,7 +37,7 @@ def redirect_client_to_auth(host, args):
     d['auth_redirect'] = (
         'https://discordapp.com/api/oauth2/authorize?client_id=' +
         args.uas_client_id + '&redirect_uri=' +
-        urllib.quote(host + 'auth_callback') +
+        urllib.parse.quote(host + 'auth_callback') +
         '&response_type=code&scope=identify%20guilds')
     return jsonify(d)
 

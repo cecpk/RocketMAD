@@ -1,9 +1,10 @@
 {
   "stylemapnik": "Mapnik",
-  "styleblackandwhite": "Black and White",
+  "stylewikimedia": "Wikimedia",
+  "stylecartodbdarkmatter": "CartoDB Darkmatter",
+  "stylecartodbdarkmatternolabels": "CartoDB Darkmatter (No Labels)",
+  "stylecartodbpositron": "CartoDB Positron",
+  "stylecartodbpositronnolabels": "CartoDB Positron (No Labels)",
   "styletopo": "ToPo Map",
-  "stylesatellite": "Satellite",
-  "stylewikipedia": "Wikipedia",
-  "stylecartodbdark": "Dark",
-  "stylecartodbdarknolabels": "Dark (No Labels)"
+  "stylesatellite": "Satellite"
 }

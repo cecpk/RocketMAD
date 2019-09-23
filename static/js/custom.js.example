@@ -2,135 +2,161 @@ $(function () {
     'use strict'
 
     /* Settings. */
-    const showSearchMarker = true // Show a marker on the map's scan location. Default: false.
-    const isSearchMarkerMovable = false // Let the user move the scan location marker around. Doesn't do anything without --no-fixed-location. Default: false.
-    const showLocationMarker = true // Show a marker on the visitor's location. Default: false.
-    const isLocationMarkerMovable = false // Let the user move the visitor marker around. Default: false.
-	
-    const scaleByRarity = true // Enable scaling by rarity. Default: true.
+    const showStartLocationMarker = true // Show a marker on the map's start location. Default: true.
+    const isStartLocationMarkerMovable = true // Let the user move the start location marker around. Default: true.
+    const showUserLocationMarker = true // Show a marker on the visitor's location. Default: true.
+
     const upscalePokemon = false // Enable upscaling of certain Pokemon (upscaledPokemon and notify list). Default: false.
     const upscaledPokemon = [] // Add Pokémon IDs separated by commas (e.g. [1, 2, 3]) to upscale icons. Default: [].
+
+    const twelveHourTime = false // Use 12-hour clock.
+
+    const showGymFilter = true // Show gym filter on nav bar.
+    const showRaidFilter = true // Show raid filter on nav bar.
 
     // Google Analytics property ID. Leave empty to disable.
     // Looks like 'UA-XXXXX-Y'.
     const analyticsKey = ''
 
     // Hide Presets
-
     const hidepresets= [
      {
-       PokemonID: 149,
-       Name: "only Dragon",
-       Searchstring: ['Dragon'],
-       Invert: true
-     },
-     {
-       PokemonID: 230,
-       Name: "only Water",
-       Searchstring: ['Water'],
-       Invert: true
-     },
-     {
-       PokemonID: 208,
-       Name: "only Steel",
-       Searchstring: ['Steel'],
-       Invert: true
-     },
-     {
-       PokemonID: 25,
-       Name: "only Electric",
-       Searchstring: ['Electric'],
-       Invert: true
-     },
-     {
-       PokemonID: 4,
-       Name: "only Fire",
-       Searchstring: ['Fire'],
-       Invert: true
+       PokemonID: 10,
+       Name: "Bug Types Only",
+       Searchstring: ['Bug'],
+       Invert: false
      },
      {
        PokemonID: 198,
-       Name: "only Dark",
+       Name: "Dark Types Only",
        Searchstring: ['Dark'],
-       Invert: true
+       Invert: false
      },
      {
-       PokemonID: 10,
-       Name: "only Bug",
-       Searchstring: ['Bug'],
-       Invert: true
+       PokemonID: 149,
+       Name: "Dragon Types Only",
+       Searchstring: ['Dragon'],
+       Invert: false
      },
      {
-       PokemonID: 16,
-       Name: "only Normal",
-       Searchstring: ['Normal'],
-       Invert: true
-     },
-     {
-       PokemonID: 66,
-       Name: "only Fight",
-       Searchstring: ['Fighting'],
-       Invert: true
-     },
-     {
-       PokemonID: 92,
-       Name: "only Ghost",
-       Searchstring: ['Ghost'],
-       Invert: true
-     },
-     {
-       PokemonID: 63,
-       Name: "only Psychic",
-       Searchstring: ['Psychic'],
-       Invert: true
-     },
-     {
-       PokemonID: 12,
-       Name: "only Flying",
-       Searchstring: ['Flying'],
-       Invert: true
-     },
-     {
-       PokemonID: 1,
-       Name: "only Grass",
-       Searchstring: ['Grass'],
-       Invert: true
-     },
-     {
-       PokemonID: 29,
-       Name: "only Poison",
-       Searchstring: ['Poison'],
-       Invert: true
+       PokemonID: 25,
+       Name: "Electric Types Only",
+       Searchstring: ['Electric'],
+       Invert: false
      },
      {
        PokemonID: 35,
-       Name: "only Fairy",
+       Name: "Fairy Types Only",
        Searchstring: ['Fairy'],
-       Invert: true
+       Invert: false
      },
      {
-       PokemonID: 364,
-       Name: "only Ice",
-       Searchstring: ['Ice'],
-       Invert: true
+       PokemonID: 66,
+       Name: "Fighting Types Only",
+       Searchstring: ['Fighting'],
+       Invert: false
+     },
+     {
+       PokemonID: 4,
+       Name: "Fire Types Only",
+       Searchstring: ['Fire'],
+       Invert: false
+     },
+     {
+       PokemonID: 12,
+       Name: "Flying Types Only",
+       Searchstring: ['Flying'],
+       Invert: false
+     },
+     {
+       PokemonID: 92,
+       Name: "Ghost Types Only",
+       Searchstring: ['Ghost'],
+       Invert: false
      },
      {
        PokemonID: 1,
-       Name: "Generation 1",
+       Name: "Grass Types Only",
+       Searchstring: ['Grass'],
+       Invert: false
+     },
+     {
+       PokemonID: 50,
+       Name: "Ground Types Only",
+       Searchstring: ['Ground'],
+       Invert: false
+     },
+     {
+       PokemonID: 364,
+       Name: "Ice Types Only",
+       Searchstring: ['Ice'],
+       Invert: false
+     },
+     {
+       PokemonID: 16,
+       Name: "Normal Types Only",
+       Searchstring: ['Normal'],
+       Invert: false
+     },
+     {
+       PokemonID: 29,
+       Name: "Poison Types Only",
+       Searchstring: ['Poison'],
+       Invert: false
+     }, 
+     {
+       PokemonID: 63,
+       Name: "Psychic Types Only",
+       Searchstring: ['Psychic'],
+       Invert: false
+     },
+     {
+       PokemonID: 74,
+       Name: "Rock Types Only",
+       Searchstring: ['Rock'],
+       Invert: false
+     },
+     {
+       PokemonID: 208,
+       Name: "Steel Types Only",
+       Searchstring: ['Steel'],
+       Invert: false
+     },
+     {
+       PokemonID: 230,
+       Name: "Water Types Only",
+       Searchstring: ['Water'],
+       Invert: false
+     },
+     {
+       PokemonID: 1,
+       Name: "Generation 1 Only",
        Searchstring: ['gen1'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 152,
-       Name: "Generation 2",
+       Name: "Generation 2 Only",
        Searchstring: ['gen2'],
-       Invert: true
+       Invert: false
      },
      {
        PokemonID: 252,
-       Name: "Generation 3",
+       Name: "Generation 3 Only",
        Searchstring: ['gen3'],
-       Invert: true
+       Invert: false
+     },
+     {
+       PokemonID: 387,
+       Name: "Generation 4 Only",
+       Searchstring: ['gen4'],
+       Invert: false
+     },
+     {
+       PokemonID: 495,
+       Name: "Generation 5 Only",
+       Searchstring: ['gen5'],
+       Invert: false
      }
     ]
 
@@ -163,18 +189,12 @@ $(function () {
     const clusterGridSizeMobile = 60 // Default: 60.
 
     // Rarities Sprites
-    const rarityCommon = 12 // Default: 1. 
-    const rarityUncommon = 20 // Default: 1. 
-    const rarityRare = 100 // Default: 1. 
-    const rarityVeryRare = 147 // Default: 1. 
-    const rarityUltraRare = 149 // Default: 1. 
-    const rarityNewSpawn = 151 // Default: 1. 
-
-    // Process Pokémon in chunks to improve responsiveness.
-    const processPokemonChunkSize = 100 // Default: 100
-    const processPokemonIntervalMs = 100 // Default: 100ms
-    const processPokemonChunkSizeMobile = 100 // Default: 100.
-    const processPokemonIntervalMsMobile = 100 // Default: 100ms.
+    const rarityCommon = 12 // Default: 1.
+    const rarityUncommon = 20 // Default: 1.
+    const rarityRare = 100 // Default: 1.
+    const rarityVeryRare = 147 // Default: 1.
+    const rarityUltraRare = 149 // Default: 1.
+    const rarityNewSpawn = 151 // Default: 1.
 
     /* Feature detection. */
 
@@ -200,16 +220,15 @@ $(function () {
     Store.set('maxClusterZoomLevel', maxClusterZoomLevel)
     Store.set('clusterZoomOnClick', clusterZoomOnClick)
     Store.set('clusterGridSize', clusterGridSize)
-    Store.set('processPokemonChunkSize', processPokemonChunkSize)
-    Store.set('processPokemonIntervalMs', processPokemonIntervalMs)
-    Store.set('scaleByRarity', scaleByRarity)
     Store.set('upscalePokemon', upscalePokemon)
     Store.set('upscaledPokemon', upscaledPokemon)
-    Store.set('showSearchMarker', showSearchMarker)
-    Store.set('isSearchMarkerMovable', isSearchMarkerMovable)
-    Store.set('showLocationMarker', showLocationMarker)
-    Store.set('isLocationMarkerMovable', isLocationMarkerMovable)
+    Store.set('showStartLocationMarker', showStartLocationMarker)
+    Store.set('isStartLocationMarkerMovable', isStartLocationMarkerMovable)
+    Store.set('showLocationMarker', showUserLocationMarker)
     Store.set('hidepresets', hidepresets)
+    Store.set('twelveHourTime', twelveHourTime)
+    Store.set('showGymFilter', showGymFilter)
+    Store.set('showRaidFilter', showRaidFilter)
 
     // Set rarities sprites
     Store.set('rarityCommon', rarityCommon)
@@ -218,13 +237,11 @@ $(function () {
     Store.set('rarityVeryRare', rarityVeryRare)
     Store.set('rarityUltraRare', rarityUltraRare)
     Store.set('rarityNewSpawn', rarityNewSpawn)
-	
+
     if (typeof window.orientation !== 'undefined' || isMobileDevice()) {
         Store.set('maxClusterZoomLevel', maxClusterZoomLevelMobile)
         Store.set('clusterZoomOnClick', clusterZoomOnClickMobile)
         Store.set('clusterGridSize', clusterGridSizeMobile)
-        Store.set('processPokemonChunkSize', processPokemonChunkSizeMobile)
-        Store.set('processPokemonIntervalMs', processPokemonIntervalMsMobile)
     }
 
     if (disableClusters) {

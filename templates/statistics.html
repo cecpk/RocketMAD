@@ -1,122 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>RocketMap - Statistics</title>
-
-    <!-- Fav- & Apple-Touch-Icons -->
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/appicons/favicon.ico').lstrip('/') }}" type="image/x-icon">
-    <!-- non-retina iPhone pre iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/114x114.png').lstrip('/') }}" sizes="57x57">
-    <!-- non-retina iPad pre iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/144x144.png').lstrip('/') }}" sizes="72x72">
-    <!-- non-retina iPad iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/152x152.png').lstrip('/') }}" sizes="76x76">
-    <!-- retina iPhone pre iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/114x114.png').lstrip('/') }}" sizes="114x114">
-    <!-- retina iPhone iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/120x120.png').lstrip('/') }}" sizes="120x120">
-    <!-- retina iPad pre iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/144x144.png').lstrip('/') }}" sizes="144x144">
-    <!-- retina iPad iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/152x152.png').lstrip('/') }}" sizes="152x152">
-    <!-- retina iPhone 6 iOS 7 -->
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/180x180.png').lstrip('/') }}" sizes="180x180">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css').lstrip('/') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/status.min.css').lstrip('/') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/statistics.min.css').lstrip('/') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <!-- Custom CSS code-->
-      {% if show.custom_css %}
-    <link rel="stylesheet" type="text/css" href="static/css/custom.css">
-      {% endif %}
+  <meta charset="UTF-8">
+  <title>{{ mapTitle }} - Statistics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1, minimal-ui">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#3b3b3b">
+  <!-- Fav- & Apple-Touch-Icons -->
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/appicons/favicon.ico').lstrip('/') }}" type="image/x-icon">
+  <!-- non-retina iPhone pre iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/114x114.png').lstrip('/') }}" sizes="57x57">
+  <!-- non-retina iPad pre iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/144x144.png').lstrip('/') }}" sizes="72x72">
+  <!-- non-retina iPad iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/152x152.png').lstrip('/') }}" sizes="76x76">
+  <!-- retina iPhone pre iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/114x114.png').lstrip('/') }}" sizes="114x114">
+  <!-- retina iPhone iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/120x120.png').lstrip('/') }}" sizes="120x120">
+  <!-- retina iPad pre iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/144x144.png').lstrip('/') }}" sizes="144x144">
+  <!-- retina iPad iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/152x152.png').lstrip('/') }}" sizes="152x152">
+  <!-- retina iPhone 6 iOS 7 -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/appicons/180x180.png').lstrip('/') }}" sizes="180x180">
+  <!-- CDN -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css').lstrip('/') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/statistics.min.css').lstrip('/') }}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <!-- Custom CSS code-->
+    {% if show.custom_css %}
+  <link rel="stylesheet" type="text/css" href="static/css/custom.css">
+    {% endif %}
 </head>
 <body class="statisticsPage">
-        <!-- Header -->
-        <header id="header">
-          <a href="#nav"><span class="label">Options</span></a>
-          <h1><a href="./">RocketMap<img class='rocket icon' src='static/images/rocket.png'></a></h1>
-          <a href="status" target="_blank" style="float: right;"><span class="label">Status</span></a>
-        </header>
-        <nav id="nav">
-          <div id="nav-accordion" class="ui-accordion-content">
-            <div class="form-control switch-container">
-              <h3>Duration</h3>
-              <select id="duration" name="duration" class="input">
-                <option value="1">Last Hour</option>
-                <option value="3">Last 3 Hours</option>
-                <option value="6">Last 6 Hours</option>
-                <option value="12">Last 12 Hours</option>
-                <option value="24" selected="">Last Day</option>
-                <option value="168">Last 7 Days</option>
-                <option value="336">Last 14 Days</option>
-                <option value="730">Last Month</option>
-                <option value="2190">Last 3 Months</option>
-                <option value="4380">Last 6 Months</option>
-                <option value="8760">Last Year</option>
-                <option value="876000">Map Lifetime</option>  
-              </select>
-            </div>
-          </div>
-        </nav>
-        <div class="spacing"></div>
-        <div class="status_container" id="status_container">
-            <div id="totals" class="worker">
-                <span id="name" class="name">Pokemon Seen in Last Day</span>
-                <span id="message" class="message"></span>
-            </div>
-            <table id="stats_table" class="status_table">
-                <thead>
-                    <tr class="status_row header">
-                        <td class="status_cell"></td>
-                        <td class="status_cell">Pokedex #</td>
-                        <td class="status_cell">Name</td>
-                        <td class="status_cell">Seen</td>
-                        <td class="status_cell">Seen (%)</td>
-                        <td class="status_cell">Last Seen</td>
-                        <td class="status_cell">Location</td>
-                        <td class="status_cell"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+  <!-- Header -->
+  <header id="header">
+    <div>
+      <a href="#nav" class="header-button" title="Options"></a>
+      <h1><a href="./"><span class='map-title'>{{ mapTitle }}</span><img class='rocket-icon' src='static/images/header/{{ headerImage }}'></a></h1>
+    </div>
+    <div>
+        {% if discordUrl %}
+      <a href="{{ discordUrl }}" id="discord-button" class="header-button" title="Discord" target="_blank"></a>
+        {% endif %}
+        {% if messengerUrl %}
+      <a href="{{ messengerUrl }}" id="messenger-button" class="header-button" title="Messenger" target="_blank"></a>
+        {% endif %}
+        {% if telegramUrl %}
+      <a href="{{ telegramUrl }}" id="telegram-button" class="header-button" title="Telegram" target="_blank"></a>
+        {% endif %}
+        {% if whatsappUrl %}
+      <a href="{{ whatsappUrl }}" id="whatsapp-button" class="header-button" title="WhatsApp" target="_blank"></a>
+        {% endif %}
+        {% if patreonUrl %}
+      <a href="{{ patreonUrl }}" id="patreon-button" class="header-button" title="Patreon" target="_blank"></a>
+        {% endif %}
+        {% if donateUrl %}
+      <a href="{{ donateUrl }}" id="donate-button" class="header-button" title="Donate" target="_blank"></a>
+        {% endif %}
+        {% if madminUrl %}
+      <a href="{{ madminUrl }}" id="madmin-button" class="header-button" title="MADmin" target="_blank"></a>
+        {% endif %}
+      <a href="#menu" id="menuToggle" class="header-button" title="Menu"></a>
+    </div>
+  </header>
+  <div class="main-container">
+    <nav id="nav">
+      <div id="nav-accordion" class="ui-accordion-content">
+        <div class="form-control switch-container">
+          <h3>Duration</h3>
+          <select id="duration" name="duration" class="input">
+            <option value="1">Last Hour</option>
+            <option value="3">Last 3 Hours</option>
+            <option value="6">Last 6 Hours</option>
+            <option value="12">Last 12 Hours</option>
+            <option value="24" selected="">Last Day</option>
+            <option value="168">Last 7 Days</option>
+            <option value="336">Last 14 Days</option>
+            <option value="730">Last Month</option>
+            <option value="2190">Last 3 Months</option>
+            <option value="4380">Last 6 Months</option>
+            <option value="8760">Last Year</option>
+            <option value="876000">Map Lifetime</option>
+          </select>
         </div>
-        <div id="loading"><img src="{{ url_for('static', filename='images/loading.gif').lstrip('/') }}" alt="Loading"/></div>
-        <div class="container" id="seen_container">
-        </div>
-        <div id="location_details" class="overlay">
-            <div class="close" onclick="closeOverlay();"><img src="{{ url_for('static', filename='images/close.png').lstrip('/') }}" alt="Close" /></div>
-            <div class="location_header"><h3 id="location_header"></h3></div>
-            <div class="content">
-                <div id="times_list" style="display: none;"></div>
-                <div id="location_map">
-                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
-                    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-                </div>
-            </div>
-        </div>
-    <!-- Load JS libs before custom scripts. -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script>
-      var centerLat = {{lat}};
-      var centerLng = {{lng}};
-      var generateImages = {{generateImages}};
-    </script>
-    <script src="{{ url_for('static', filename='dist/js/map.common.min.js').lstrip('/') }}"></script>
-    <!-- Load custom JS before statistics.js so it can change Store defaults. -->
-      {% if show.custom_js %}
-    <script src="{{ url_for('static', filename='dist/js/custom.min.js').lstrip('/') }}"></script>
-      {% endif %}
-    <script src="{{ url_for('static', filename='dist/js/app.min.js').lstrip('/') }}"></script>
-    <script src="{{ url_for('static', filename='dist/js/statistics.min.js').lstrip('/') }}"></script>
-    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+      </div>
+    </nav>
+    <nav id="menu">
+        {% if madminUrl %}
+      <div class="menu-link">
+        <a href="{{ madminUrl }}" id="madmin-link" target="_blank">MADmin</a>
+      </div>
+        {% endif %}
+        {% if donateUrl %}
+      <div class="menu-link">
+        <a href="{{ donateUrl }}" id="donate-link" target="_blank">Donate</a>
+      </div>
+        {% endif %}
+        {% if patreonUrl %}
+      <div class="menu-link">
+        <a href="{{ patreonUrl }}" id="patreon-link" target="_blank">Patreon</a>
+      </div>
+        {% endif %}
+        {% if discordUrl %}
+      <div class="menu-link">
+        <a href="{{ discordUrl }}" id="discord-link" target="_blank">Discord</a>
+      </div>
+        {% endif %}
+        {% if messengerUrl %}
+      <div class="menu-link">
+        <a href="{{ messengerUrl }}" id="messenger-link" target="_blank">Messenger</a>
+      </div>
+        {% endif %}
+        {% if telegramUrl %}
+      <div class="menu-link">
+        <a href="{{ telegramUrl }}" id="telegram-link" target="_blank">Telegram</a>
+      </div>
+        {% endif %}
+        {% if whatsappUrl %}
+      <div class="menu-link">
+        <a href="{{ whatsappUrl }}" id="whatsapp-link" target="_blank">WhatsApp</a>
+      </div>
+        {% endif %}
+    </nav>
+    <div id="statistics-container">
+      <div id="pokemon-seen">Pokémon seen in last day</div>
+      <div style="height: 100%;">
+        <table id="stats_table" class="display nowrap pageResize" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Seen</th>
+              <th>Seen (%)</th>
+              <th>Last Seen</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="loading"><img src="{{ url_for('static', filename='images/loading.gif').lstrip('/') }}" alt="Loading"/></div>
+    <div class="container" id="seen_container">
+    </div>
+  </div>
+  <div id="location_details" class="overlay">
+    <div class="close" onclick="closeOverlay();"><i class="fas fa-times"></i></div>
+    <div class="location_header"><h3 id="location_header"></h3></div>
+    <div class="content">
+      <div id="times_list" style="display: none;"></div>
+      <div id="location_map"></div>
+    </div>
+  </div>
+  <!-- Load JS libs before custom scripts. -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+  <script src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/features/scrollResize/dataTables.scrollResize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
+    var centerLat = {{lat}};
+    var centerLng = {{lng}};
+    var generateImages = {{generateImages}};
+  </script>
+  <!-- Leaflet libs. -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
+
+  <script src="{{ url_for('static', filename='dist/js/map.common.min.js').lstrip('/') }}"></script>
+  <!-- Load custom JS before statistics.js so it can change Store defaults. -->
+    {% if show.custom_js %}
+  <script src="{{ url_for('static', filename='dist/js/custom.min.js').lstrip('/') }}"></script>
+    {% endif %}
+  <script src="{{ url_for('static', filename='dist/js/app.min.js').lstrip('/') }}"></script>
+  <script src="{{ url_for('static', filename='dist/js/statistics.min.js').lstrip('/') }}"></script>
 </body>
 </html>

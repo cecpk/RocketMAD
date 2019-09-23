@@ -12,7 +12,7 @@ import sys
 import time
 import json
 import pprint
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 HOST_NAME = sys.argv[1]
 HOST_PORT = int(sys.argv[2])
@@ -28,10 +28,10 @@ class S(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     httpd = HTTPServer((HOST_NAME, HOST_PORT), S)
-    print time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, HOST_PORT)
+    print(time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, HOST_PORT))
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
         pass
     httpd.server_close()
-    print time.asctime(), "Server Stops - %s:%s" % (HOST_NAME, HOST_PORT)
+    print(time.asctime(), "Server Stops - %s:%s" % (HOST_NAME, HOST_PORT))

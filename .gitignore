@@ -17,6 +17,8 @@ src/
 _build
 _build_html
 beehive.*
+static/images/header/*.png
+!static/images/header/rocket.png
 static/images/raid/*.png
 !static/images/raid/*_unknown.png
 static/images/generated/*
@@ -39,3 +41,5 @@ static/rarity.json
 !static/data/*
 !static/icons/hsl*.png
 !static/app/settings.json
+static/data/parks-ex-raids.json
+static/data/parks-nests.json

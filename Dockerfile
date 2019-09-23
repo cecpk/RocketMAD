@@ -3,7 +3,7 @@
 #   docker build -t rocketmap .
 #   docker run -d -P rocketmap -a ptc -u YOURUSERNAME -p YOURPASSWORD -l "Seattle, WA" -st 10 --gmaps-key CHECKTHEWIKI
 
-FROM python:2.7
+FROM python:3.6
 
 # Default port the webserver runs on
 EXPOSE 5000
@@ -14,8 +14,6 @@ WORKDIR /usr/src/app
 # Set Entrypoint with hard-coded options
 ENTRYPOINT ["dumb-init", "-r", "15:2", "python", "./runserver.py", "--host", "0.0.0.0"]
 
-# Set default options when container is run without any command line arguments
-CMD ["-h"]
 
 COPY requirements.txt /usr/src/app/
 
@@ -30,10 +28,15 @@ COPY static /usr/src/app/static
 
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential curl unzip \
  && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
- && apt-get install -y --no-install-recommends nodejs \
- && npm install \
- && npm run build \
- && rm -rf node_modules \
+ && apt-get install -y --no-install-recommends nodejs npm 
+
+RUN npm install
+RUN npm install -g grunt-cli
+RUN npm rebuild node-sass
+RUN grunt build --force
+RUN npm run build
+
+RUN rm -rf node_modules \
  && apt-get purge -y --auto-remove build-essential nodejs \
  && rm -rf /var/lib/apt/lists/*
 

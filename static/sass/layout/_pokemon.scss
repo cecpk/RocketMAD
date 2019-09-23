@@ -1,101 +1,57 @@
-.pokemon.container {
-  display: flex;
-  margin-bottom: 0;
-
-  &.content-left {
-    width: 72px;
-  }
-
-  &.content-right {
-    float: left;
-  }
-}
-
 .pokemon {
-  color: rgb(93,109,126);
+  font-family: 'Open Sans', sans-serif;
   font-size: 11px;
-  margin-bottom: 2px;
 
-  &.cp {
-    display: block;
-    text-align: center;
-    margin-bottom: 5px;
-  }
+  &.container {
+    display: flex;
 
-  &.big {
-    font-size: 13px;
-  }
-
-  &.name {
-    font-size: 13px;
-    font-weight: 900;
-
-    &.pokedex {
-      font-size: 12px;
+    &.content-left {
+      margin: auto 19px auto 0;
+      text-align: center;
     }
   }
 
-  &.encounter {
+  &.title {
+    font-size: 14px;
     font-weight: 900;
+    vertical-align: middle;
+
+    .title-text {
+      vertical-align: middle;
+    }
   }
 
-  &.no-encounter {
-    font-weight: 300;
+  &.sprite {
+    width: 64px;
+    margin-bottom: 6px;
   }
 
-  &.gender.rarity {
-    font-size: 11px;
+  &.gen, &.rarity, &.encounter {
+    font-weight: 900;
   }
 
   &.disappear {
     font-size: 14px;
     font-weight: 900;
-    margin: 10px 0px 10px 0px;
-
-    &:before {
-      content: '\f017';
-      display: inline-block;
-      font-family: FontAwesome;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
+    margin-bottom: 6px;
+    white-space: nowrap;
   }
 
-  &.links {
-    color: rgb(93,109,126);
-    font-size: 12px;
-    margin-bottom: 4px;
-  }
-
-  &.navigate {
-    &.navigate:before {
-      content: '\f018';
-      display: inline-block;
-      font-family: FontAwesome;
-      margin: 1px 3px 0px 0px;
-      height: 16px;
-      width: 16px;
-      -webkit-font-smoothing: antialiased;
-    }
-  }
-
-  &.sprite {
-    display: block;
-    width: 64px;
-    filter: drop-shadow(0px 0px 0px #000) drop-shadow(2px 2px 2px #888);
+  &.cp-level, &.weight-height {
     margin-bottom: 6px;
   }
 
+  &.types {
+    margin-bottom: 4px;
+  }
+
   &.ball {
-    display: inline;
     height: 12px;
     width: 12px;
-    margin-bottom: 0;
     vertical-align: bottom;
   }
 
-  &.scoutinfo {
-    display: hidden;
+  &.coords {
+    margin-bottom: 2px;
   }
 }

@@ -7,21 +7,23 @@
     background: #F8F8F8;
     box-shadow: none;
     color: _palette(accent2, fg-bold);
-    height: -webkit-calc(100% - 3.5em);
-    height: -moz-calc(100% - 3.5em);
     height: calc(100% - 3.5em);
     max-width: 80%;
     overflow-y: auto;
     position: fixed;
-    top: 3.50em;
     left: 0;
     visibility: hidden;
-    width: 20.50em;
+    width: 25em;
     z-index: 1001;
+
+    @include breakpoint(small) {
+      height: calc(100% - 3em);
+    }
+
     h3 {
-      font-size: 18px;
-      font-family: 'Open Sans', sans-serif;
+      font-size: 1em;
       color: darken(_palette(accent2, bg), 12);
+      font-family: 'Open Sans',sans-serif;
     }
     p {
       margin-bottom: 20px;
@@ -104,6 +106,14 @@
       visibility: visible;
     }
 
+    .ui-widget {
+      font-family: 'Open Sans',sans-serif;
+
+      input {
+        font-family: 'Open Sans',sans-serif;
+      }
+    }
+
     .ui-accordion-content {
       padding-top: 0.5em;
       padding-right: 0.5em;
@@ -138,159 +148,187 @@
     .fa-fw {
       margin: 0px 5px 0px 0px;
     }
-  label[for="notify-perfection"],label[for="notify-level"]{
-    h3{
-      float:left;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      height: 34px;
-      -webkit-align-items:center;
-      align-items: center;
-      margin-bottom: 0;
-    }
-  }
-  label[for="notify-pokemon"]{
-    .list .active{
-      border: 1px solid #0089ff;
-      background: rgba(0, 114, 255, 0.4);
-    }
-  }
-  label[for="exclude-pokemon"]{
-    .list .active {
-      border: 1px solid #D3D3D3;
-      background: rgba(211, 211, 211, 0.4);
-    }
-  }
 
-.list {
-    align-items: center;
-    text-align:center;
-    max-width: 100%;
-    overflow: auto;
-    height: 200px;
-    .pokemon-icon-sprite{
-      width: 32%;
-      margin-bottom: 1px;
-      margin-left: 3px;
-      border: 1px solid #D3D3D3;
-      float: left;
-    }
-  }
-.pokemon-select-icon {
-    margin-top: 2px;
-
-  }
-
-.search {
-    margin-bottom: 5px;
-    background-color: #fff;
-    border: 1px solid #aaa;
-    padding: 0 10px;
-    width: 100%;
-}
-
-#pkid_list {
-    font-size: xx-small;
-}
-
-#pkname_list {
-    font-size: smaller;
-}
-
-label a {
-    width: 100%;
-    float: left;
-    background: #ffffff;
-    text-align: center;
-    text-decoration: none;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    margin-top: 5px;
-}
-
-#tabs_marker, #tabs_notify{
-      padding:0;
-      border:0;
-      &:after{
-        display: table;
-        content: "";
-        clear: both;
-      }
-      .ui-tabs-nav{
-        background: transparent;
-        border: 0;
-        padding: 0;
+    label[for="notify-ivs-text"], label[for="notify-level-text"], label[for="notify-rarities-select"] {
+      h3 {
+        float:left;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
         display: flex;
-        li{
-          box-sizing: border-box;
-          margin:0;
-    flex: 1;
-    display: flex;
-    /* If placed in a small width sidebar or something like that disabling nowrap will fix the overflow issue */
-    white-space: normal;
-          border-right:1px solid #fff;
-          &:last-child{
-            border-right-color:#c5c5c5;
-          }
-          &:focus{
+        height: 34px;
+        -webkit-align-items:center;
+        align-items: center;
+        margin-bottom: 0;
+      }
+    }
 
-          }
-          a{
-    flex: 1;
-    /* If you want to align tab titles center */
-    text-align: center;
-            padding: 0.5em 0.1em;
-            text-align: center;
-            width: 100%;
+    label[for="include-pokemon"], label[for="include-raid-pokemon"], label[for="include-invasions"], label[for="include-quest-pokemon"], label[for="include-quest-items"], label[for="notify-pokemon"], label[for="notify-invasions"], , label[for="notify-raid-pokemon"] {
+      .list .active, .invasion-list .active, .quest-item-list .active {
+        border: 1px solid #D3D3D3;
+        background: #f6f6f6;
+      }
+    }
+
+    .list, .invasion-list, .quest-item-list {
+        align-items: center;
+        text-align:center;
+        margin-bottom: 5px;
+        max-width: 100%;
+        overflow: auto;
+        .pokemon-icon-sprite, .invasion-sprite, .quest-item-sprite {
+          width: 24%;
+          margin-bottom: 3px;
+          margin-right: 3px;
+          border: 1px solid #D3D3D3;
+          float: left;
+
+          @include breakpoint(xsmall) {
+            width: 32%;
           }
         }
-      }
     }
-.pokemon-container {
-    border: 1px solid #c5c5c5;
-    padding: 1px;
-    overflow: hidden;
-    min-height: 300px;
-}
 
-.notify-container{
-    border: 1px solid #c5c5c5;
-    padding: 1px;
-    overflow: hidden;
-    min-height: 300px;
-    padding-top: 10px;
-}
+    .list {
+        height: 269px;
+    }
 
-.ui-tabs .ui-tabs-panel {
-    padding: 0 !important;
-}
+    .quest-item-list {
+        height: 293px;
+    }
 
-.exclude_templates {
-    max-width: 100%;
-    overflow: auto;
-    height: 290px;
-    .hidepreset {
-    width: 100%;
-    margin-bottom: 1px;
-    border: 1px solid #d3d3d3;
-    display: table;
+    .invasion-list {
+        height: 317px;
     }
-    .hidepreset.active {
-    background: rgba(211,211,211,.4);
+
+    .select-all-button, .deselect-all-button {
+      font-weight: initial;
+      height: initial;
+      line-height: initial;
+      font-family: 'Open Sans',sans-serif;
+      outline: none;
+      color: #454545 !important;
+      margin-top: 0px;
+      padding: 1px 6px 3px 6px;
+      background-color: #f6f6f6;
+      border: 1px solid #d3d3d3;
     }
-    .hideicon {
-    margin: 5px;
-    float: left;
-    padding-right: 10px;
+
+    .select-all-button:hover, .deselect-all-button:hover {
+        background-color: #ededed;
     }
-    .hidetext {
-    float: left;
-    text-align: center;
-    display: table;
-    margin: 10px;
+
+    .pokemon-select-icon {
+        margin-top: 2px;
+    }
+
+    .invasion-select-icon {
+        margin-top: 3px;
+    }
+
+    .search {
+      font-family: 'Open Sans',sans-serif;
+      background-color: #fff;
+      border: 1px solid #aaa;
+      padding: 0 10px;
+      margin-bottom: 5px;
+      width: 100%;
+    }
+
+    #pkid_list {
+        font-size: xx-small;
+    }
+
+    #pkname_list {
+        font-size: smaller;
+    }
+
+    #invasion-type-list, #invasion-gender-list {
+        font-size: 0.8em;
+        white-space: nowrap;
+    }
+
+    label a {
+        width: 100%;
+        float: left;
+        background: #ffffff;
+        text-align: center;
+        text-decoration: none;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+    }
+
+    #tabs_marker, #tabs_raid, #tabs_invasion, #tabs_quest, #tabs_notify, #tabs_notify_pokestop, #tabs_notify_gym {
+          padding:0;
+          border:0;
+          &:after{
+            display: table;
+            content: "";
+            clear: both;
+          }
+          .ui-tabs-nav{
+            background: transparent;
+            border: 0;
+            padding: 0;
+            display: flex;
+            li{
+              box-sizing: border-box;
+              margin:0;
+        flex: 1;
+        display: flex;
+        /* If placed in a small width sidebar or something like that disabling nowrap will fix the overflow issue */
+        white-space: normal;
+              border-right:1px solid #fff;
+              &:last-child{
+                border-right-color:#c5c5c5;
+              }
+              &:focus{
+
+              }
+              a{
+        flex: 1;
+        /* If you want to align tab titles center */
+        text-align: center;
+                padding: 0.5em 0.1em;
+                text-align: center;
+                width: 100%;
+              }
+            }
+          }
+        }
+    .pokemon-container, .invasion-container, .quest-item-container, .notify-container {
+        border: 1px solid #c5c5c5;
+        padding: 5px;
+        overflow: hidden;
+    }
+
+    .ui-tabs .ui-tabs-panel {
+        padding: 0 !important;
+    }
+
+    .exclude_templates {
+        max-width: 100%;
+        overflow: auto;
+        height: 290px;
+        .hidepreset {
+        width: 100%;
+        margin-bottom: 1px;
+        border: 1px solid #d3d3d3;
+        display: table;
+        }
+        .hidepreset.active {
+        background: #f6f6f6;
+        }
+        .hideicon {
+        margin: 5px;
+        float: left;
+        padding-right: 10px;
+        }
+        .hidetext {
+        float: left;
+        text-align: center;
+        display: table;
+        margin: 10px;
+        }
     }
 }
-
-  }

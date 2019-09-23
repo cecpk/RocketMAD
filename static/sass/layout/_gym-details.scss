@@ -1,8 +1,3 @@
-/* Gym-Details */
-
-
-
-
   #gym-details {
     @include vendor('transform', 'translateX(25em)');
     @include vendor('transition', ('transform #{_duration(stats)} ease', 'box-shadow #{_duration(stats)} ease', 'visibility #{_duration(stats)}'));
@@ -20,7 +15,7 @@
     right: 0;
     visibility: hidden;
     width: 25em;
-    z-index: 500;
+    z-index: 5000;
     line-height:1.65em;
     h3 {
       font-size: 18px;
@@ -66,7 +61,6 @@
     }
 
     .close {
-      @include icon('\f00d');
       @include vendor('transition', 'color #{_duration(transition)} ease-in-out');
       -webkit-tap-highlight-color: rgba(0,0,0,0);
       border: 0;
@@ -78,11 +72,15 @@
       position: absolute;
       right: 0;
       text-align: right;
+      text-decoration: none;
       top: 0;
       vertical-align: middle;
       width: 3em;
 
       &:before {
+        content: '\f00d';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         font-size: 1.25em;
       }
 
@@ -320,11 +318,10 @@
       @media screen and (max-width: 320px) {
         font-size: 9px !important;
       }
-      color: rgb(93,109,126);
       font-size: 14px;
 
       &.container {
-        display: grid;
+        display: flex;
         justify-content: center;
       }
 
@@ -336,7 +333,6 @@
         font-size: 16px;
         font-weight: 900;
         margin-bottom: -5px;
-        text-decoration: underline;
       }
 
       &.sprite {
@@ -401,10 +397,10 @@
         }
       }
 
-      &.pokemon {		  
+      &.pokemon {
         font-size: 12px;
 		line-height: 1rem;
-		
+
         &.motivation.decayed:before {
 			content: '\f004';
 			display: inline-block;
@@ -412,7 +408,7 @@
 			width: 24px;
 			-webkit-font-smoothing: antialiased;
 		}
-		
+
 		&.motivation.decayed {
 			@media screen and (max-width: 480px) {
 				font-size: 9px !important;
@@ -462,7 +458,6 @@
       @media screen and (max-width: 320px) {
         font-size: 9px !important;
       }
-      color: rgb(93,109,126);
       font-size: 14px;
       font-weight: 900;
       @media screen and (max-width: 480px) {

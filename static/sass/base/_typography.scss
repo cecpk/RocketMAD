@@ -5,37 +5,16 @@
 body, input, select, textarea {
   color: _palette(fg);
   font-family: _font(family);
-  font-size: 13pt;
   font-weight: _font(weight);
   line-height: 1.65;
-
-  @include breakpoint(xlarge) {
-    font-size: 11pt;
-  }
-
-  @include breakpoint(large) {
-    font-size: 11pt;
-  }
-
-  @include breakpoint(medium) {
-    font-size: 12pt;
-  }
-
-  @include breakpoint(small) {
-    font-size: 12pt;
-  }
-
-  @include breakpoint(xsmall) {
-    font-size: 12pt;
-  }
 }
 
 a {
   color: _palette(accent1, bg);
-  text-decoration: underline;
+  text-decoration: none;
 
   &:hover {
-    text-decoration: none;
+    text-decoration: underline;
   }
 }
 

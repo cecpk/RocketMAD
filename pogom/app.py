@@ -15,16 +15,10 @@ from flask.json import JSONEncoder
 from flask_compress import Compress
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
-from pogom.pgscout import scout_error, pgscout_encounter, perform_lure
-
-
-from pogom.weather import (get_weather_cells,
-                           get_s2_coverage, get_weather_alerts)
-from .models import (Pokemon, Gym, Pokestop, ScannedLocation,
-                     MainWorker, WorkerStatus, Token, HashKeys,
-                     SpawnPoint, Trs_Quest)
-from .utils import (get_args, get_pokemon_name, get_pokemon_types,
-                    now, dottedQuadToNum)
+from pogom.weather import (get_weather_cells, get_weather_alerts)
+from .models import (Pokemon, Gym, Pokestop, ScannedLocation, SpawnPoint)
+from .utils import (get_args, is_ditto, get_pokemon_name, get_pokemon_types,
+                    calc_pokemon_cp, now, dottedQuadToNum)
 from .client_auth import check_auth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
@@ -41,6 +35,13 @@ def convert_pokemon_list(pokemon):
 
     pokemon_result = []
     for p in pokemon:
+        if is_ditto(p):
+            p['disguise_pokemon_name'] = get_pokemon_name(p['pokemon_id'])
+            p['pokemon_id'] = 132
+            p['cp'] = calc_pokemon_cp(p, 91, 91, 134)
+            p['gender'] = 3 # Ditto is genderless.
+            p['weather_boosted_condition'] = 0
+            p['move_1'] = p['move_2'] = p['weight'] = p['height'] = None
         p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
         p['pokemon_types'] = get_pokemon_types(p['pokemon_id'])
         p['encounter_id'] = str(p['encounter_id'])
@@ -83,46 +84,40 @@ class Pogom(Flask):
         self.route("/", methods=['GET'])(self.fullmap)
         self.route("/auth_callback", methods=['GET'])(self.auth_callback)
         self.route("/raw_data", methods=['GET'])(self.raw_data)
-        self.route("/loc", methods=['GET'])(self.loc)
-        self.route("/next_loc", methods=['POST'])(self.next_loc)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
-        self.route("/search_control", methods=['GET'])(self.get_search_control)
-        self.route("/search_control", methods=['POST'])(
-            self.post_search_control)
         self.route("/stats", methods=['GET'])(self.get_stats)
-        self.route("/status", methods=['GET'])(self.get_status)
-        self.route("/status", methods=['POST'])(self.post_status)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
-        self.route("/bookmarklet", methods=['GET'])(self.get_bookmarklet)
-        self.route("/inject.js", methods=['GET'])(self.render_inject_js)
         self.route("/submit_token", methods=['POST'])(self.submit_token)
-        self.route("/get_stats", methods=['GET'])(self.get_account_stats)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
-        self.route("/scout", methods=['GET'])(self.scout_pokemon)
-        self.route("/lure", methods=['GET'])(self.scout_lure)
-        self.route("/<statusname>", methods=['GET'])(self.fullmap)
 
     def gym_img(self):
         team = request.args.get('team')
         level = request.args.get('level')
         raidlevel = request.args.get('raidlevel')
         pkm = request.args.get('pkm')
+        form = request.args.get('form')
         is_in_battle = 'in_battle' in request.args
+        is_ex_raid_eligible = 'is_ex_raid_eligible' in request.args
 
-        if (level == None or raidlevel == None):
-            return send_file(get_gym_icon(
-                team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
-        
-        elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or int(raidlevel) > 5):
+        if level is None or raidlevel is None:
+            return send_file(
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible),
+                mimetype='image/png'
+            )
+
+        elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or
+              int(raidlevel) > 5):
             return abort(416)
-        
+
         else:
-            return send_file(get_gym_icon(
-                team, level, raidlevel, pkm, is_in_battle), mimetype='image/png')
+            return send_file(
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible),
+                mimetype='image/png'
+            )
 
     def pokemon_img(self):
         raw = 'raw' in request.args
@@ -147,119 +142,11 @@ class Pogom(Flask):
                 gender=gender, form=form, costume=costume)
         return send_file(filename, mimetype='image/png')
 
-    def scout_pokemon(self):
-        args = get_args()
-        if args.pgscout_url:
-            encounterId = request.args.get('encounter_id')
-            p = Pokemon.get(Pokemon.encounter_id == encounterId)
-            pokemon_name = get_pokemon_name(p.pokemon_id)
-            log.info(
-                u"On demand PGScouting a {} at {}, {}.".format(
-                    pokemon_name,
-                    p.latitude,
-                    p.longitude))
-            scout_result = pgscout_encounter(p, forced=1)
-            if scout_result['success']:
-                self.update_scouted_pokemon(p, scout_result)
-                log.info(
-                    u"Successfully PGScouted a {:.1f}% lvl {} {} with {} CP"
-                    u" (scout level {}).".format(
-                        scout_result['iv_percent'], scout_result['level'],
-                        pokemon_name, scout_result['cp'],
-                        scout_result['scout_level']))
-            else:
-                log.warning(u"Failed PGScouting {}: {}".format(pokemon_name,
-                                                               scout_result[
-                                                                   'error']))
-        else:
-            scout_result = scout_error("PGScout URL not configured.")
-        return jsonify(scout_result)
-
-    def scout_lure(self):
-        args = get_args()
-        if args.lure_url:
-            lat = request.args.get('latitude')
-            lng = request.args.get('longitude')
-            log.info(
-                u"On demand luring a stop at lat = {}, long = {}.".format(lat,
-                                                                          lng))
-            stops = Pokestop.get_stop_by_cord(lat, lng)
-            if len(stops) > 1:
-                log.info("Error, more than one stop returned")
-                return None
-            else:
-                p = stops[0]
-            log.info(
-                u"On demand luring a stop {} at {}, {}.".format(
-                    p["pokestop_id"],
-                    p["latitude"],
-                    p["longitude"]))
-            scout_result = perform_lure(p)
-            if scout_result['success']:
-                log.info(
-                    u"Successfully lured pokestop_id {} at {}, {}".format(
-                        p["pokestop_id"], p["latitude"],
-                        p["longitude"]))
-            else:
-                log.warning(u"Failed luring {} at {},{}".format(
-                    p["pokestop_id"],
-                    p["latitude"],
-                    p["longitude"]))
-        else:
-            scout_result = scout_error("URL not configured.")
-        return jsonify(scout_result)
-
-    def update_scouted_pokemon(self, p, response):
-        # Update database
-        update_data = {
-            p.encounter_id: {
-                'encounter_id': p.encounter_id,
-                'spawnpoint_id': p.spawnpoint_id,
-                'pokemon_id': p.pokemon_id,
-                'latitude': p.latitude,
-                'longitude': p.longitude,
-                'disappear_time': p.disappear_time,
-                'individual_attack': response['iv_attack'],
-                'individual_defense': response['iv_defense'],
-                'individual_stamina': response['iv_stamina'],
-                'move_1': response['move_1'],
-                'move_2': response['move_2'],
-                'height': response['height'],
-                'weight': response['weight'],
-                'gender': response['gender'],
-                'form': response.get('form', None),
-                'cp': response['cp'],
-                'cp_multiplier': response['cp_multiplier'],
-                'catch_prob_1': response['catch_prob_1'],
-                'catch_prob_2': response['catch_prob_2'],
-                'catch_prob_3': response['catch_prob_3'],
-                'rating_attack': response['rating_attack'],
-                'rating_defense': response['rating_defense']
-            }
-        }
-        self.db_updates_queue.put((Pokemon, update_data))
-
     def render_robots_txt(self):
         return render_template('robots.txt')
 
     def render_service_worker_js(self):
         return send_from_directory('static/dist/js', 'serviceWorker.min.js')
-
-    def get_bookmarklet(self):
-        args = get_args()
-        return render_template('bookmarklet.html',
-                               domain=args.manual_captcha_domain)
-
-    def render_inject_js(self):
-        args = get_args()
-        src = render_template('inject.js',
-                              domain=args.manual_captcha_domain,
-                              timer=args.manual_captcha_refresh)
-
-        response = make_response(src)
-        response.headers['Content-Type'] = 'application/javascript'
-
-        return response
 
     def submit_token(self):
         response = 'error'
@@ -269,12 +156,6 @@ class Pogom(Flask):
             query.execute()
             response = 'ok'
         r = make_response(response)
-        r.headers.add('Access-Control-Allow-Origin', '*')
-        return r
-
-    def get_account_stats(self):
-        stats = MainWorker.get_account_stats()
-        r = make_response(jsonify(**stats))
         r.headers.add('Access-Control-Allow-Origin', '*')
         return r
 
@@ -296,7 +177,7 @@ class Pogom(Flask):
             return False
 
         # Get the nearest IP range
-        pos = max(bisect_left(self.blacklist_keys, ip) - 1, 0)
+        pos = max(bisect_left(self.blacklist_keys, dottedQuadToNum(ip)) - 1, 0)
         ip_range = self.blacklist[pos]
 
         start = dottedQuadToNum(ip_range[0])
@@ -304,88 +185,47 @@ class Pogom(Flask):
 
         return start <= dottedQuadToNum(ip) <= end
 
-    def set_db_updates_queue(self, db_updates_queue):
-        self.db_updates_queue = db_updates_queue
+    def set_location(self, location):
+        self.location = location
 
-    def set_control_flags(self, control):
-        self.control_flags = control
-
-    def set_heartbeat_control(self, heartb):
-        self.heartbeat = heartb
-
-    def set_location_queue(self, queue):
-        self.location_queue = queue
-
-    def set_current_location(self, location):
-        self.current_location = location
-
-    def get_search_control(self):
-        return jsonify({
-            'status': not self.control_flags['search_control'].is_set()})
-
-    def post_search_control(self):
-        args = get_args()
-        if not args.search_control or args.on_demand_timeout > 0:
-            return 'Search control is disabled', 403
-        action = request.args.get('action', 'none')
-        if action == 'on':
-            self.control_flags['search_control'].clear()
-            log.info('Search thread resumed')
-        elif action == 'off':
-            self.control_flags['search_control'].set()
-            log.info('Search thread paused')
-        else:
-            return jsonify({'message': 'invalid use of api'})
-        return self.get_search_control()
-
-    def auth_callback(self, statusname=None):
+    def auth_callback(self):
         return render_template('auth_callback.html')
 
-    def fullmap(self, statusname=None):
-        self.heartbeat[0] = now()
+    def fullmap(self):
         args = get_args()
-        if args.on_demand_timeout > 0:
-            self.control_flags['on_demand'].clear()
-
-        search_display = (args.search_control and args.on_demand_timeout <= 0)
-
-        scan_display = False if (args.only_server or args.fixed_location or
-                                 args.spawnpoint_scanning) else True
 
         visibility_flags = {
             'gyms': not args.no_gyms,
             'pokemons': not args.no_pokemon,
             'pokestops': not args.no_pokestops,
+            'quests': not args.no_quests,
             'raids': not args.no_raids,
-            'gym_info': args.gym_info,
+            'gym_sidebar': not args.no_gym_sidebar,
+            'parks': args.parks,
+            'rarity': args.rarity_update_frequency > 0,
             'encounter': args.encounter,
-            'scan_display': scan_display,
-            'search_display': search_display,
-            'fixed_display': not args.fixed_location,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js,
             'medalpokemon': args.medalpokemon
         }
 
-        map_lat = False
-        if statusname:
-            coords = WorkerStatus.get_center_of_worker(statusname)
-            if coords:
-                map_lat = coords['lat']
-                map_lng = coords['lng']
-
-        if not map_lat:
-            map_lat = self.current_location[0]
-            map_lng = self.current_location[1]
-
         return render_template(
             'map.html',
-            lat=map_lat,
-            lng=map_lng,
+            lat=self.location[0],
+            lng=self.location[1],
             showAllZoomLevel=args.show_all_zoom_level,
-            generateImages=str(args.generate_images).lower(),
             lang=args.locale,
+            mapTitle=args.map_title,
+            headerImage=args.header_image,
+            madminUrl=args.madmin_url,
+            donateUrl=args.donate_url,
+            patreonUrl=args.patreon_url,
+            discordUrl=args.discord_url,
+            messengerUrl=args.messenger_url,
+            telegramUrl=args.telegram_url,
+            whatsappUrl=args.whatsapp_url,
             show=visibility_flags,
+            generateImages=str(args.generate_images).lower(),
             rarityFileName=args.rarity_filename)
 
     def raw_data(self):
@@ -399,10 +239,7 @@ class Pogom(Flask):
             log.debug('User denied access: blacklisted fingerprint.')
             abort(403)
 
-        self.heartbeat[0] = now()
         args = get_args()
-        if args.on_demand_timeout > 0:
-            self.control_flags['on_demand'].clear()
         d = {}
 
         auth_redirect = check_auth(args, request, self.user_auth_code_cache)
@@ -434,45 +271,41 @@ class Pogom(Flask):
         lastpokemon = request.args.get('lastpokemon')
         lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
-        
-        luredonly = False
-        if request.args.get('luredonly') == '0':
-            luredonly = False
-        elif request.args.get('luredonly') == '1':
-            luredonly = True
-        elif request.args.get('luredonly') == '2':
-            luredonly = False
-        elif request.args.get('luredonly') == '3':
-            luredonly = False
-        elif request.args.get('luredonly') == '4':
-            luredonly = False
 
+        pokestops = request.args.get('pokestops', 'true') == 'true'
+        pokestopsNoEvent = request.args.get('pokestopsNoEvent', 'true') == 'true'
+        quests = request.args.get('quests', 'true') == 'true'
+        invasions = request.args.get('invasions', 'true') == 'true'
+        lures = request.args.get('lures', 'true') == 'true'
 
         # Current switch settings saved for next request.
         if request.args.get('gyms', 'true') == 'true':
-            d['lastgyms'] = request.args.get('gyms', 'true')
+            d['lastgyms'] = True
 
-        if request.args.get('pokestops', 'true') == 'true':
-            d['lastpokestops'] = request.args.get('pokestops', 'true')
+        if pokestops and (pokestopsNoEvent or quests or invasions or lures):
+            d['lastpokestops'] = True
 
         if request.args.get('pokemon', 'true') == 'true':
-            d['lastpokemon'] = request.args.get('pokemon', 'true')
+            d['lastpokemon'] = True
 
         if request.args.get('scanned', 'true') == 'true':
-            d['lastslocs'] = request.args.get('scanned', 'true')
+            d['lastslocs'] = True
 
         if request.args.get('spawnpoints', 'false') == 'true':
-            d['lastspawns'] = request.args.get('spawnpoints', 'false')
+            d['lastspawns'] = True
 
-        # If old coords are not equal to current coords we have moved/zoomed!
-        if (oSwLng < swLng and oSwLat < swLat and
-                oNeLat > neLat and oNeLng > neLng):
-            newArea = False  # We zoomed in no new area uncovered.
-        elif not (oSwLat == swLat and oSwLng == swLng and
-                  oNeLat == neLat and oNeLng == neLng):
-            newArea = True
-        else:
-            newArea = False
+        if (oSwLat is not None and oSwLng is not None and
+                oNeLat is not None and oNeLng is not None):
+            # If old coords are not equal to current coords we have
+            # moved/zoomed!
+            if (oSwLng < swLng and oSwLat < swLat and
+                    oNeLat > neLat and oNeLng > neLng):
+                newArea = False  # We zoomed in no new area uncovered.
+            elif not (oSwLat == swLat and oSwLng == swLng and
+                      oNeLat == neLat and oNeLng == neLng):
+                newArea = True
+            else:
+                newArea = False
 
         # Pass current coords as old coords.
         d['oSwLat'] = swLat
@@ -530,22 +363,24 @@ class Pogom(Flask):
                                                  neLng)))
                 d['reids'] = reids
 
-        if (request.args.get('pokestops', 'true') == 'true' and
-                not args.no_pokestops):
+        if (not args.no_pokestops and pokestops and (pokestopsNoEvent or
+                quests or invasions or lures)):
             if lastpokestops != 'true':
-                d['pokestops'] = Pokestop.get_stops(swLat, swLng, neLat, neLng,
-                                                    lured=luredonly)
+                d['pokestops'] = Pokestop.get_stops(
+                    swLat, swLng, neLat, neLng, pokestopsNoEvent=pokestopsNoEvent,
+                    quests=quests, invasions=invasions, lures=lures)
             else:
                 d['pokestops'] = Pokestop.get_stops(swLat, swLng, neLat, neLng,
-                                                    timestamp=timestamp)
+                                                    timestamp=timestamp, pokestopsNoEvent=pokestopsNoEvent,
+                                                    quests=quests, invasions=invasions, lures=lures)
                 if newArea:
-                    d['pokestops'] = d['pokestops'] + (
+                    d['pokestops'].update(
                         Pokestop.get_stops(swLat, swLng, neLat, neLng,
                                            oSwLat=oSwLat, oSwLng=oSwLng,
                                            oNeLat=oNeLat, oNeLng=oNeLng,
-                                           lured=luredonly))
-                                           
-        #d['quests'] = Trs_Quest.get_quests()
+                                           pokestopsNoEvent=pokestopsNoEvent,
+                                           quests=quests, invasions=invasions,
+                                           lures=lures))
 
         if request.args.get('gyms', 'true') == 'true' and not args.no_gyms:
             if lastgyms != 'true':
@@ -602,60 +437,12 @@ class Pogom(Flask):
                             oSwLat=oSwLat, oSwLng=oSwLng,
                             oNeLat=oNeLat, oNeLng=oNeLng))
 
-        if request.args.get('status', 'false') == 'true':
-            args = get_args()
-            d = {}
-            if args.status_page_password is None:
-                d['error'] = 'Access denied'
-            elif (request.args.get('password', None) ==
-                  args.status_page_password):
-                max_status_age = args.status_page_filter
-                if max_status_age > 0:
-                    d['main_workers'] = MainWorker.get_recent(max_status_age)
-                    d['workers'] = WorkerStatus.get_recent(max_status_age)
-                else:
-                    d['main_workers'] = MainWorker.get_all()
-                    d['workers'] = WorkerStatus.get_all()
-
         if request.args.get('weather', 'false') == 'true':
             d['weather'] = get_weather_cells(swLat, swLng, neLat, neLng)
-        if request.args.get('s2cells', 'false') == 'true':
-            d['s2cells'] = get_s2_coverage(swLat, swLng, neLat, neLng)
         if request.args.get('weatherAlerts', 'false') == 'true':
             d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
 
         return jsonify(d)
-
-    def loc(self):
-        d = {}
-        d['lat'] = self.current_location[0]
-        d['lng'] = self.current_location[1]
-
-        return jsonify(d)
-
-    def next_loc(self):
-        args = get_args()
-        if args.fixed_location:
-            return 'Location changes are turned off', 403
-        lat = None
-        lon = None
-        # Part of query string.
-        if request.args:
-            lat = request.args.get('lat', type=float)
-            lon = request.args.get('lon', type=float)
-        # From post requests.
-        if request.form:
-            lat = request.form.get('lat', type=float)
-            lon = request.form.get('lon', type=float)
-
-        if not (lat and lon):
-            log.warning('Invalid next location: %s,%s', lat, lon)
-            return 'bad parameters', 400
-        else:
-            self.location_queue.put((lat, lon, 0))
-            self.set_current_location((lat, lon, 0))
-            log.info('Changing next location: %s,%s', lat, lon)
-            return self.loc()
 
     def list_pokemon(self):
         # todo: Check if client is Android/iOS/Desktop for geolink, currently
@@ -663,8 +450,8 @@ class Pogom(Flask):
         pokemon_list = []
 
         # Allow client to specify location.
-        lat = request.args.get('lat', self.current_location[0], type=float)
-        lon = request.args.get('lon', self.current_location[1], type=float)
+        lat = request.args.get('lat', self.location[0], type=float)
+        lon = request.args.get('lon', self.location[1], type=float)
         origin_point = LatLng.from_degrees(lat, lon)
 
         for pokemon in convert_pokemon_list(
@@ -717,48 +504,25 @@ class Pogom(Flask):
 
         return render_template(
             'statistics.html',
-            lat=self.current_location[0],
-            lng=self.current_location[1],
-            generateImages=str(args.generate_images).lower(),
-            show=visibility_flags)
+            lat=self.location[0],
+            lng=self.location[1],
+            mapTitle=args.map_title,
+            headerImage=args.header_image,
+            madminUrl=args.madmin_url,
+            donateUrl=args.donate_url,
+            patreonUrl=args.patreon_url,
+            discordUrl=args.discord_url,
+            messengerUrl=args.messenger_url,
+            telegramUrl=args.telegram_url,
+            whatsappUrl=args.whatsapp_url,
+            show=visibility_flags,
+            generateImages=str(args.generate_images).lower())
 
     def get_gymdata(self):
         gym_id = request.args.get('id')
         gym = Gym.get_gym(gym_id)
 
         return jsonify(gym)
-
-    def get_status(self):
-        args = get_args()
-        visibility_flags = {
-            'custom_css': args.custom_css,
-            'custom_js': args.custom_js
-        }
-        if args.status_page_password is None:
-            abort(404)
-
-        return render_template('status.html',
-                               show=visibility_flags)
-
-    def post_status(self):
-        args = get_args()
-        d = {}
-        if args.status_page_password is None:
-            abort(404)
-
-        if request.form.get('password', None) == args.status_page_password:
-            d['login'] = 'ok'
-            max_status_age = args.status_page_filter
-            if max_status_age > 0:
-                d['main_workers'] = MainWorker.get_recent(max_status_age)
-                d['workers'] = WorkerStatus.get_recent(max_status_age)
-            else:
-                d['main_workers'] = MainWorker.get_all()
-                d['workers'] = WorkerStatus.get_all()
-            d['hashkeys'] = HashKeys.get_obfuscated_keys()
-        else:
-            d['login'] = 'failed'
-        return jsonify(d)
 
 
 class CustomJSONEncoder(JSONEncoder):

@@ -8,17 +8,20 @@ import configargparse
 import os
 import json
 import logging
-import random
+import math
 import time
 import socket
 import struct
 import psutil
 import subprocess
 import requests
+import overpy
+from datetime import datetime
 
+from collections import OrderedDict
 from s2sphere import CellId, LatLng
 from geopy.geocoders import Nominatim
-from requests_futures.sessions import FuturesSession
+from requests import Session
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from cHaversine import haversine
@@ -26,15 +29,11 @@ from pprint import pformat
 from time import strftime
 from timeit import default_timer
 
-from pogom import dyn_img
-from pogom.pgpool import pgpool_request_accounts
+from . import dyn_img
 
 log = logging.getLogger(__name__)
 
-
-def parse_unicode(bytestring):
-    decoded_string = bytestring.decode(sys.getfilesystemencoding())
-    return decoded_string
+ditto_ids = [13, 46, 48, 163, 165, 167, 187, 223, 273, 293, 300, 316, 322, 399]
 
 
 def read_pokemon_ids_from_file(f):
@@ -49,7 +48,7 @@ def read_pokemon_ids_from_file(f):
             pid = int(name)
         except ValueError:
             # Perform the usual name -> ID lookup
-            pid = get_pokemon_id(unicode(name, 'utf-8'))
+            pid = get_pokemon_id(str(name, 'utf-8'))
         if pid and not pid == -1:
             pokemon_ids.add(pid)
     return sorted(pokemon_ids)
@@ -84,176 +83,16 @@ def get_args():
                         is_config_file=True, help='Set configuration file')
     parser.add_argument('-scf', '--shared-config',
                         is_config_file=True, help='Set a shared config')
-    parser.add_argument('-a', '--auth-service', type=str.lower,
-                        action='append', default=[],
-                        help=('Auth Services, either one for all accounts ' +
-                              'or one per account: ptc or google. Defaults ' +
-                              'all to ptc.'))
-    parser.add_argument('-u', '--username', action='append', default=[],
-                        help='Usernames, one per account.')
-    parser.add_argument('-p', '--password', action='append', default=[],
-                        help=('Passwords, either single one for all ' +
-                              'accounts or one per account.'))
-    parser.add_argument('-w', '--workers', type=int,
-                        help=('Number of search worker threads to start. ' +
-                              'Defaults to the number of accounts specified.'))
-    parser.add_argument('-hw', '--highlvl-workers', type=int,
-                        default=0,
-                        help=('Load this many high level' +
-                              'workers from PGPool. This requires ' +
-                              '--pgpool-url to be set.'))
-    parser.add_argument('-asi', '--account-search-interval', type=int,
-                        default=0,
-                        help=('Seconds for accounts to search before ' +
-                              'switching to a new account. 0 to disable.'))
-    parser.add_argument('-ari', '--account-rest-interval', type=int,
-                        default=7200,
-                        help=('Seconds for accounts to rest when they fail ' +
-                              'or are switched out.'))
-    parser.add_argument('-ac', '--accountcsv',
-                        help=('Load accounts from CSV file containing ' +
-                              '"auth_service,username,password" lines.'))
-    parser.add_argument('-hlvl', '--high-lvl-accounts',
-                        help=('Load high level accounts from CSV file '
-                              + ' containing '
-                              + '"auth_service,username,password"'
-                              + ' lines.'))
-    parser.add_argument('-bh', '--beehive',
-                        help=('Use beehive configuration for multiple ' +
-                              'accounts, one account per hex.  Make sure ' +
-                              'to keep -st under 5, and -w under the total ' +
-                              'amount of accounts available.'),
-                        action='store_true', default=False)
-    parser.add_argument('-wph', '--workers-per-hive',
-                        help=('Only referenced when using --beehive. Sets ' +
-                              'number of workers per hive. Default value ' +
-                              'is 1.'),
-                        type=int, default=1)
-    parser.add_argument('-l', '--location', type=parse_unicode,
+    parser.add_argument('-l', '--location',
                         help='Location, can be an address or coordinates.')
-    # Default based on the average elevation of cities around the world.
-    # Source: https://www.wikiwand.com/en/List_of_cities_by_elevation
-    parser.add_argument('-alt', '--altitude',
-                        help='Default altitude in meters.',
-                        type=int, default=507)
-    parser.add_argument('-altv', '--altitude-variance',
-                        help='Variance for --altitude in meters',
-                        type=int, default=1)
-    parser.add_argument('-uac', '--use-altitude-cache',
-                        help=('Query the Elevation API for each step,' +
-                              ' rather than only once, and store results in' +
-                              ' the database.'),
-                        action='store_true', default=False)
-    parser.add_argument('-j', '--jitter',
-                        help=('Apply random -5m to +5m jitter to ' +
-                              'location.'),
-                        action='store_true', default=False)
     parser.add_argument('-al', '--access-logs',
                         help=("Write web logs to access.log."),
                         action='store_true', default=False)
-    parser.add_argument('-st', '--step-limit', help='Steps.', type=int,
-                        default=12)
-    parser.add_argument('-gf', '--geofence-file',
-                        help=('Geofence file to define outer borders of the ' +
-                              'scan area.'),
-                        default='')
-    parser.add_argument('-gef', '--geofence-excluded-file',
-                        help=('File to define excluded areas inside scan ' +
-                              'area. Regarded this as inverted geofence. ' +
-                              'Can be combined with geofence-file.'),
-                        default='')
-    parser.add_argument('-sd', '--scan-delay',
-                        help='Time delay between requests in scan threads.',
-                        type=float, default=10)
-    parser.add_argument('--spawn-delay',
-                        help=('Number of seconds after spawn time to wait ' +
-                              'before scanning to be sure the Pokemon ' +
-                              'is there.'),
-                        type=float, default=10)
     parser.add_argument('-enc', '--encounter',
                         help='Start an encounter to gather IVs and moves.',
                         action='store_true', default=False)
     parser.add_argument('-mpm', '--medalpokemon',
                         help='Show notify for tiny rattata and big magikarp.',
-                        action='store_true', default=False)
-    parser.add_argument('-cs', '--captcha-solving',
-                        help='Enables captcha solving.',
-                        action='store_true', default=False)
-    parser.add_argument('-ck', '--captcha-key',
-                        help='2Captcha API key.')
-    parser.add_argument('-cds', '--captcha-dsk',
-                        help='Pokemon Go captcha data-sitekey.',
-                        default="6LeeTScTAAAAADqvhqVMhPpr_vB9D364Ia-1dSgK")
-    parser.add_argument('-mcd', '--manual-captcha-domain',
-                        help='Domain to where captcha tokens will be sent.',
-                        default="http://127.0.0.1:5000")
-    parser.add_argument('-mcr', '--manual-captcha-refresh',
-                        help='Time available before captcha page refreshes.',
-                        type=int, default=30)
-    parser.add_argument('-mct', '--manual-captcha-timeout',
-                        help='Maximum time captchas will wait for manual ' +
-                        'captcha solving. On timeout, if enabled, 2Captcha ' +
-                        'will be used to solve captcha. Default is 0.',
-                        type=int, default=0)
-    parser.add_argument('-ed', '--encounter-delay',
-                        help=('Time delay between encounter pokemon ' +
-                              'in scan threads.'),
-                        type=float, default=1)
-    parser.add_argument('-ignf', '--ignorelist-file',
-                        default='', help='File containing a list of ' +
-                        'Pokemon IDs to ignore, one line per ID. ' +
-                        'Spawnpoints will be saved, but ignored ' +
-                        'Pokemon won\'t be encountered, sent to ' +
-                        'webhooks or saved to the DB.')
-    parser.add_argument('-encwf', '--enc-whitelist-file',
-                        default='', help='File containing a list of '
-                        'Pokemon IDs or names to encounter for'
-                        ' IV/CP scanning. One line per ID.')
-    parser.add_argument('-nostore', '--no-api-store',
-                        help=("Don't store the API objects used by the high"
-                              + ' level accounts in memory. This will increase'
-                              + ' the number of logins per account, but '
-                              + ' decreases memory usage.'),
-                        action='store_true', default=False)
-    parser.add_argument('-apir', '--api-retries',
-                        help=('Number of times to retry an API request.'),
-                        type=int, default=3)
-    webhook_list = parser.add_mutually_exclusive_group()
-    webhook_list.add_argument('-wwhtf', '--webhook-whitelist-file',
-                              default='', help='File containing a list of '
-                                               'Pokemon IDs or names to be '
-                                               'sent to webhooks.')
-    parser.add_argument('-ld', '--login-delay',
-                        help='Time delay between each login attempt.',
-                        type=float, default=6)
-    parser.add_argument('-lr', '--login-retries',
-                        help=('Number of times to retry the login before ' +
-                              'refreshing a thread.'),
-                        type=int, default=3)
-    parser.add_argument('-mf', '--max-failures',
-                        help=('Maximum number of failures to parse ' +
-                              'locations before an account will go into a ' +
-                              'sleep for -ari/--account-rest-interval ' +
-                              'seconds.'),
-                        type=int, default=5)
-    parser.add_argument('-me', '--max-empty',
-                        help=('Maximum number of empty scans before an ' +
-                              'account will go into a sleep for ' +
-                              '-ari/--account-rest-interval seconds.' +
-                              'Reasonable to use with proxies.'),
-                        type=int, default=0)
-    parser.add_argument('-bsr', '--bad-scan-retry',
-                        help=('Number of bad scans before giving up on a ' +
-                              'step. Default 2, 0 to disable.'),
-                        type=int, default=2)
-    parser.add_argument('-msl', '--min-seconds-left',
-                        help=('Time that must be left on a spawn before ' +
-                              'considering it too late and skipping it. ' +
-                              'For example 600 would skip anything with ' +
-                              '< 10 minutes remaining. Default 0.'),
-                        type=int, default=0)
-    parser.add_argument('-dc', '--display-in-console',
-                        help='Display Found Pokemon in Console.',
                         action='store_true', default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host.',
                         default='127.0.0.1')
@@ -266,33 +105,6 @@ def get_args():
     parser.add_argument('-c', '--china',
                         help='Coordinates transformer for China.',
                         action='store_true')
-    parser.add_argument('-m', '--mock', type=str,
-                        help=('Mock mode - point to a fpgo endpoint instead ' +
-                              'of using the real PogoApi, ec: ' +
-                              'http://127.0.0.1:9090'),
-                        default='')
-    parser.add_argument('-ns', '--no-server',
-                        help=('No-Server Mode. Starts the searcher but not ' +
-                              'the Webserver.'),
-                        action='store_true', default=False)
-    parser.add_argument('-os', '--only-server',
-                        help=('Server-Only Mode. Starts only the Webserver ' +
-                              'without the searcher.'),
-                        action='store_true', default=False)
-    parser.add_argument('-sc', '--search-control',
-                        help='Enables search control.',
-                        action='store_true', dest='search_control',
-                        default=False)
-    parser.add_argument('-nfl', '--no-fixed-location',
-                        help='Disables a fixed map location and shows the ' +
-                        'search bar for use in shared maps.',
-                        action='store_false', dest='fixed_location',
-                        default=True)
-    parser.add_argument('--skip-empty',
-                        help=('Enables skipping of empty cells in normal ' +
-                              'scans - requires previously populated ' +
-                              'database (not to be used with -ss)'),
-                        action='store_true', default=False)
     parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
                         action='store_true', default=False)
     parser.add_argument('-cd', '--clear-db',
@@ -300,117 +112,42 @@ def get_args():
                               'starting the Webserver.'),
                         action='store_true', default=False)
     parser.add_argument('-np', '--no-pokemon',
-                        help=('Disables Pokemon from the map (including ' +
-                              'parsing them into local db.)'),
+                        help=('Disables Pokemon from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-ng', '--no-gyms',
-                        help=('Disables Gyms from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables Gyms from the map.'),
                         action='store_true', default=False)
     parser.add_argument('-nr', '--no-raids',
-                        help=('Disables Raids from the map (including ' +
-                              'parsing them into local db).'),
+                        help=('Disables Raids from the map.'),
                         action='store_true', default=False)
-    parser.add_argument('-nk', '--no-pokestops',
-                        help=('Disables PokeStops from the map (including ' +
-                              'parsing them into local db).'),
+    parser.add_argument('-ns', '--no-pokestops',
+                        help=('Disables PokeStops from the map.'),
                         action='store_true', default=False)
-    parser.add_argument('-ss', '--spawnpoint-scanning',
-                        help=('Use spawnpoint scanning (instead of hex ' +
-                              'grid). Scans in a circle based on step_limit ' +
-                              'when on DB.'),
+    parser.add_argument('-nq', '--no-quests',
+                        help=('Disables quests from the map.'),
                         action='store_true', default=False)
-    parser.add_argument('-ssct', '--ss-cluster-time',
-                        help=('Time threshold in seconds for spawn point ' +
-                              'clustering (0 to disable).'),
-                        type=int, default=0)
-    parser.add_argument('-speed', '--speed-scan',
-                        help=('Use speed scanning to identify spawn points ' +
-                              'and then scan closest spawns.'),
+    parser.add_argument('-ngs', '--no-gym-sidebar',
+                        help=('Disable the gym sidebar and toggle.'),
                         action='store_true', default=False)
-    parser.add_argument('-spin', '--pokestop-spinning',
-                        help=('Spin Pokestops with 50%% probability.'),
-                        action='store_true', default=False)
-    parser.add_argument('-ams', '--account-max-spins',
-                        help='Maximum number of Pokestop spins per hour.',
-                        type=int, default=20)
-    parser.add_argument('-kph', '--kph',
-                        help=('Set a maximum speed in km/hour for scanner ' +
-                              'movement. 0 to disable. Default: 35.'),
-                        type=int, default=35)
-    parser.add_argument('-hkph', '--hlvl-kph',
-                        help=('Set a maximum speed in km/hour for scanner ' +
-                              'movement, for high-level (L30) accounts. ' +
-                              '0 to disable. Default: 25.'),
-                        type=int, default=25)
-    parser.add_argument('-ldur', '--lure-duration',
-                        help=('Change duration for lures set on pokestops. ' +
-                              'This is useful for events that extend lure ' +
-                              'duration.'), type=int, default=30)
-    parser.add_argument('-px', '--proxy',
-                        help='Proxy url (e.g. socks5://127.0.0.1:9050)',
-                        action='append')
-    parser.add_argument('-pxsc', '--proxy-skip-check',
-                        help='Disable checking of proxies before start.',
-                        action='store_true', default=False)
-    parser.add_argument('-pxt', '--proxy-test-timeout',
-                        help='Timeout settings for proxy checker in seconds.',
-                        type=int, default=5)
-    parser.add_argument('-pxre', '--proxy-test-retries',
-                        help=('Number of times to retry sending proxy ' +
-                              'test requests on failure.'),
-                        type=int, default=0)
-    parser.add_argument('-pxbf', '--proxy-test-backoff-factor',
-                        help=('Factor (in seconds) by which the delay ' +
-                              'until next retry will increase.'),
-                        type=float, default=0.25)
-    parser.add_argument('-pxc', '--proxy-test-concurrency',
-                        help=('Async requests pool size.'), type=int,
-                        default=0)
-    parser.add_argument('-pxd', '--proxy-display',
-                        help=('Display info on which proxy being used ' +
-                              '(index or full). To be used with -ps.'),
-                        type=str, default='index')
-    parser.add_argument('-pxf', '--proxy-file',
-                        help=('Load proxy list from text file (one proxy ' +
-                              'per line), overrides -px/--proxy.'))
-    parser.add_argument('-pxr', '--proxy-refresh',
-                        help=('Period of proxy file reloading, in seconds. ' +
-                              'Works only with -pxf/--proxy-file. ' +
-                              '(0 to disable).'),
-                        type=int, default=0)
-    parser.add_argument('-pxo', '--proxy-rotation',
-                        help=('Enable proxy rotation with account changing ' +
-                              'for search threads (none/round/random).'),
-                        type=str, default='round')
     group = parser.add_argument_group('Database')
-    group.add_argument(
-        '--db-name', help='Name of the database to be used.', required=True)
-    group.add_argument(
-        '--db-user', help='Username for the database.', required=True)
-    group.add_argument(
-        '--db-pass', help='Password for the database.', required=True)
-    group.add_argument(
-        '--db-host',
-        help='IP or hostname for the database.',
-        default='127.0.0.1')
-    group.add_argument(
-         '--db-port', help='Port for the database.', type=int, default=3306)
-    group.add_argument(
-        '--db-threads',
-        help=('Number of db threads; increase if the db ' +
-              'queue falls behind.'),
-        type=int,
-        default=1)
+    group.add_argument('--db-name',
+                       help='Name of the database to be used.', required=True)
+    group.add_argument('--db-user',
+                       help='Username for the database.', required=True)
+    group.add_argument('--db-pass',
+                       help='Password for the database.', required=True)
+    group.add_argument('--db-host',
+                       help='IP or hostname for the database.',
+                       default='127.0.0.1')
+    group.add_argument('--db-port',
+                       help='Port for the database.', type=int, default=3306)
+    group.add_argument('--db-threads',
+                       help=('Number of db threads; increase if the db ' +
+                             'queue falls behind.'), type=int, default=1)
     group = parser.add_argument_group('Database Cleanup')
     group.add_argument('-DC', '--db-cleanup',
                        help='Enable regular database cleanup thread.',
                        action='store_true', default=False)
-    group.add_argument('-DCw', '--db-cleanup-worker',
-                       help=('Clear worker status from database after X ' +
-                             'minutes of inactivity. ' +
-                             'Default: 30, 0 to disable.'),
-                       type=int, default=30)
     group.add_argument('-DCp', '--db-cleanup-pokemon',
                        help=('Clear pokemon from database X hours ' +
                              'after they disappeared. ' +
@@ -432,90 +169,13 @@ def get_args():
                              'after last valid scan. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
-    parser.add_argument(
-        '-wh',
-        '--webhook',
-        help='Define URL(s) to POST webhook information to.',
-        default=None,
-        dest='webhooks',
-        action='append')
-    parser.add_argument('-gi', '--gym-info',
-                        help=('Get all details about gyms (causes '
-                              'an additional API hit for ' +
-                              'every gym).'),
-                        action='store_true', default=False)
-    parser.add_argument(
-        '--wh-types',
-        help=('Defines the type of messages to send to webhooks.'),
-        choices=[
-            'pokemon', 'gym', 'raid', 'egg', 'tth', 'gym-info',
-            'pokestop', 'lure', 'captcha'
-        ],
-        action='append',
-        default=[])
-    parser.add_argument('--wh-threads',
-                        help=('Number of webhook threads; increase if the ' +
-                              'webhook queue falls behind.'),
-                        type=int, default=1)
-    parser.add_argument('-whc', '--wh-concurrency',
-                        help=('Async requests pool size.'), type=int,
-                        default=25)
-    parser.add_argument('-whr', '--wh-retries',
-                        help=('Number of times to retry sending webhook ' +
-                              'data on failure.'),
-                        type=int, default=3)
-    parser.add_argument('-whct', '--wh-connect-timeout',
-                        help=('Connect timeout (in seconds) for webhook' +
-                              ' requests.'),
-                        type=float, default=1.0)
-    parser.add_argument('-whrt', '--wh-read-timeout',
-                        help=('Read timeout (in seconds) for webhook ' +
-                              'requests.'),
-                        type=float, default=1.0)
-    parser.add_argument('-whbf', '--wh-backoff-factor',
-                        help=('Factor (in seconds) by which the delay ' +
-                              'until next retry will increase.'),
-                        type=float, default=0.25)
-    parser.add_argument('-whlfu', '--wh-lfu-size',
-                        help='Webhook LFU cache max size.', type=int,
-                        default=2500)
-    parser.add_argument('-whfi', '--wh-frame-interval',
-                        help=('Minimum time (in ms) to wait before sending the'
-                              + ' next webhook data frame.'), type=int,
-                        default=500)
     parser.add_argument('--ssl-certificate',
                         help='Path to SSL certificate file.')
     parser.add_argument('--ssl-privatekey',
                         help='Path to SSL private key file.')
-    parser.add_argument('-ps', '--print-status',
-                        help=('Show a status screen instead of log ' +
-                              'messages. Can switch between status and ' +
-                              'logs by pressing enter.  Optionally specify ' +
-                              '"logs" to startup in logging mode.'),
-                        nargs='?', const='status', default=False,
-                        metavar='logs')
-    parser.add_argument('-slt', '--stats-log-timer',
-                        help='In log view, list per hr stats every X seconds',
-                        type=int, default=0)
     parser.add_argument('-sn', '--status-name', default=str(os.getpid()),
                         help=('Enable status page database update using ' +
                               'STATUS_NAME as main worker name.'))
-    parser.add_argument('-hk', '--hash-key', default=None, action='append',
-                        help='Key for hash server')
-    parser.add_argument('-novc', '--no-version-check', action='store_true',
-                        help='Disable API version check.',
-                        default=False)
-    parser.add_argument('-vci', '--version-check-interval', type=int,
-                        help='Interval to check API version in seconds ' +
-                        '(Default: in [60, 300]).',
-                        default=random.randint(60, 300))
-    parser.add_argument('-el', '--encrypt-lib',
-                        help=('Path to encrypt lib to be used instead of ' +
-                              'the shipped ones.'))
-    parser.add_argument('-odt', '--on-demand_timeout',
-                        help=('Pause searching while web UI is inactive ' +
-                              'for this timeout (in seconds).'),
-                        type=int, default=0)
     parser.add_argument('--disable-blacklist',
                         help=('Disable the global anti-scraper IP blacklist.'),
                         action='store_true', default=False)
@@ -524,8 +184,6 @@ def get_args():
                         help=('Enables the use of X-FORWARDED-FOR headers ' +
                               'to identify the IP of clients connecting ' +
                               'through these trusted proxies.'))
-    parser.add_argument('--api-version', default='0.91.2',
-                        help=('API version currently in use.'))
     parser.add_argument('--no-file-logs',
                         help=('Disable logging to files. ' +
                               'Does not disable --access-logs.'),
@@ -534,11 +192,11 @@ def get_args():
                         help=('Defines directory to save log files to.'),
                         default='logs/')
     parser.add_argument('--log-filename',
-                        help=('Defines the log filename to be saved.'
-                              ' Allows date formatting, and replaces <SN>'
-                              " with the instance's status name. Read the"
-                              ' python time module docs for details.'
-                              ' Default: %%Y%%m%%d_%%H%%M_<SN>.log.'),
+                        help=('Defines the log filename to be saved. ' +
+                              'Allows date formatting, and replaces <SN> ' +
+                              'with the instance\'s status name. Read the ' +
+                              'python time module docs for details. ' +
+                              'Default: %%Y%%m%%d_%%H%%M_<SN>.log.'),
                         default='%Y%m%d_%H%M_<SN>.log'),
     parser.add_argument('--dump',
                         help=('Dump censored debug info about the ' +
@@ -559,27 +217,10 @@ def get_args():
                          help=('Show debug messages from RocketMap ' +
                                'and pgoapi.'),
                          type=int, dest='verbose')
-    parser.add_argument('-rst', '--rareless-scans-threshold',
-                        help=('Mark an account as blind/shadowbanned after '
-                              'this many scans without finding any rare '
-                              'Pokemon.'),
-                        type=int, default=10)
-    parser.add_argument('-rb', '--rotate-blind',
-                        help='Rotate out blinded accounts.',
-                        action='store_true', default=False)
-    parser.add_argument('-pgpu', '--pgpool-url', default=None,
-                        help='URL of PGPool account manager.')
-    parser.add_argument('-gxp', '--gain-xp',
-                        help='Do various things to let map accounts gain XP.',
-                        action='store_true', default=False)
     parser.add_argument('-gen', '--generate-images',
                         help=('Use ImageMagick to generate dynamic' +
                               'icons on demand.'),
                         action='store_true', default=False)
-    parser.add_argument('-pgsu', '--pgscout-url', default=None,
-                        help='URL to query PGScout for Pokemon IV/CP.')
-    parser.add_argument('-lurl', '--lure-url', default=None,
-                        help='URL to query lure.')
     parser.add_argument('-pa', '--pogo-assets', default=None,
                         help=('Directory pointing to optional ' +
                               'PogoAssets root directory.'))
@@ -604,6 +245,30 @@ def get_args():
     parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
                         help=('Discord Bot Token for user ' +
                               'external authentication.'))
+    parser.add_argument('-mt', '--map-title',
+                        help=('The title of the map. Default: RocketMap'),
+                        default='RocketMap')
+    parser.add_argument('-hi', '--header-image',
+                         help='Image in header.',
+                         default='rocket.png')
+    parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
+                        default=None)
+    parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.' +
+                        ' PayPal.', default=None)
+    parser.add_argument('-pu', '--patreon-url', help='Patreon page link.',
+                        default=None)
+    parser.add_argument('-du', '--discord-url', help='Discord server invite' +
+                        ' link.', default=None)
+    parser.add_argument('-mru', '--messenger-url', help='Messenger group'
+                        ' invite link.', default=None)
+    parser.add_argument('-tu', '--telegram-url', help='Telegram group invite' +
+                        ' link.', default=None)
+    parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
+                        ' link.', default=None)
+    parser.add_argument('-bwb', '--black-white-badges',
+                        help='Use black/white background with white/black' +
+                        ' text for gym/raid level badge in gym icons.',
+                        action='store_true', default=False)
     rarity = parser.add_argument_group('Dynamic Rarity')
     rarity.add_argument('-Rh', '--rarity-hours',
                         help=('Number of hours of Pokemon data to use' +
@@ -619,13 +284,17 @@ def get_args():
                         help=('Filename of rarity json for different ' +
                               'databases (without .json) Default: rarity'),
                         default='rarity')
-    statusp = parser.add_argument_group('Status Page')
-    statusp.add_argument('-SPp', '--status-page-password', default=None,
-                         help='Set the status page password.')
-    statusp.add_argument('-SPf', '--status-page-filter',
-                         help=('Filter worker status that are inactive for ' +
-                               'X minutes. Default: 30, 0 to disable.'),
-                         type=int, default=30)
+    parser.add_argument('-Par', '--parks',
+                        help='Enable parks downloading and drawing.',
+                        action='store_true', default=False)
+    parser.add_argument('-Parlfp', '--parks-lower-left-point',
+                        help=('Coordinates of the lower left point of' +
+                              ' the box where the parks will be downloaded'),
+                        default=None)
+    parser.add_argument('-Parurp', '--parks-upper-right-point',
+                        help=('Coordinates of the upper right point of' +
+                              ' the box where the parks will be downloaded'),
+                        default=None)
 
     parser.set_defaults(DEBUG=False)
 
@@ -636,292 +305,11 @@ def get_args():
     args.log_filename = args.log_filename.replace('<sn>', '<SN>')
     args.log_filename = args.log_filename.replace('<SN>', args.status_name)
 
-    if args.only_server:
-        if args.location is None:
-            parser.print_usage()
-            print(sys.argv[0] +
-                  ": error: arguments -l/--location is required.")
-            sys.exit(1)
-    else:
-        # If using a CSV file, add the data where needed into the username,
-        # password and auth_service arguments.
-        # CSV file should have lines like "ptc,username,password",
-        # "username,password" or "username".
-        if args.accountcsv is not None and args.pgpool_url is None:
-            # Giving num_fields something it would usually not get.
-            num_fields = -1
-            with open(args.accountcsv, 'r') as f:
-                for num, line in enumerate(f, 1):
-
-                    fields = []
-
-                    # First time around populate num_fields with current field
-                    # count.
-                    if num_fields < 0:
-                        num_fields = line.count(',') + 1
-
-                    csv_input = []
-                    csv_input.append('')
-                    csv_input.append('<username>')
-                    csv_input.append('<username>,<password>')
-                    csv_input.append('<ptc/google>,<username>,<password>')
-
-                    # If the number of fields is different,
-                    # then this is not a CSV.
-                    if num_fields != line.count(',') + 1:
-                        print(sys.argv[0] +
-                              ": Error parsing CSV file on line " + str(num) +
-                              ". Your file started with the following " +
-                              "input, '" + csv_input[num_fields] +
-                              "' but now you gave us '" +
-                              csv_input[line.count(',') + 1] + "'.")
-                        sys.exit(1)
-
-                    field_error = ''
-                    line = line.strip()
-
-                    # Ignore blank lines and comment lines.
-                    if len(line) == 0 or line.startswith('#'):
-                        continue
-
-                    # If number of fields is more than 1 split the line into
-                    # fields and strip them.
-                    if num_fields > 1:
-                        fields = line.split(",")
-                        fields = map(str.strip, fields)
-
-                    # If the number of fields is one then assume this is
-                    # "username". As requested.
-                    if num_fields == 1:
-                        # Empty lines are already ignored.
-                        args.username.append(line)
-
-                    # If the number of fields is two then assume this is
-                    # "username,password". As requested.
-                    if num_fields == 2:
-                        # If field length is not longer than 0 something is
-                        # wrong!
-                        if len(fields[0]) > 0:
-                            args.username.append(fields[0])
-                        else:
-                            field_error = 'username'
-
-                        # If field length is not longer than 0 something is
-                        # wrong!
-                        if len(fields[1]) > 0:
-                            args.password.append(fields[1])
-                        else:
-                            field_error = 'password'
-
-                    # If the number of fields is three then assume this is
-                    # "ptc,username,password". As requested.
-                    if num_fields >= 3:
-                        # If field 0 is not ptc or google something is wrong!
-                        if (fields[0].lower() == 'ptc' or
-                                fields[0].lower() == 'google'):
-                            args.auth_service.append(fields[0])
-                        else:
-                            field_error = 'method'
-
-                        # If field length is not longer then 0 something is
-                        # wrong!
-                        if len(fields[1]) > 0:
-                            args.username.append(fields[1])
-                        else:
-                            field_error = 'username'
-
-                        # If field length is not longer then 0 something is
-                        # wrong!
-                        if len(fields[2]) > 0:
-                            args.password.append(fields[2])
-                        else:
-                            field_error = 'password'
-
-                    # If something is wrong display error.
-                    if field_error != '':
-                        type_error = 'empty!'
-                        if field_error == 'method':
-                            type_error = (
-                                'not ptc or google instead we got \'' +
-                                fields[0] + '\'!')
-                        print(sys.argv[0] +
-                              ": Error parsing CSV file on line " + str(num) +
-                              ". We found " + str(num_fields) + " fields, " +
-                              "so your input should have looked like '" +
-                              csv_input[num_fields] + "'\nBut you gave us '" +
-                              line + "', your " + field_error +
-                              " was " + type_error)
-                        sys.exit(1)
-
-        errors = []
-
-        if args.pgpool_url is None:
-            num_auths = len(args.auth_service)
-            num_usernames = 0
-            num_passwords = 0
-
-            if len(args.username) == 0:
-                errors.append(
-                    'Missing `username` either as -u/--username, csv file ' +
-                    'using -ac, or in config.')
-            else:
-                num_usernames = len(args.username)
-
-            if len(args.password) == 0:
-                errors.append(
-                    'Missing `password` either as -p/--password, csv file, ' +
-                    'or in config.')
-            else:
-                num_passwords = len(args.password)
-
-            if num_auths == 0:
-                args.auth_service = ['ptc']
-
-            num_auths = len(args.auth_service)
-
-            if num_usernames > 1:
-                if num_passwords > 1 and num_usernames != num_passwords:
-                    errors.append((
-                        'The number of provided ' +
-                        'passwords ({}) must match the ' +
-                        'username count ({})').format(num_passwords,
-                                                      num_usernames))
-                if num_auths > 1 and num_usernames != num_auths:
-                    errors.append((
-                        'The number of provided auth ({}) must match the ' +
-                        'username count ({}).').format(num_auths,
-                                                       num_usernames))
-        elif args.workers is None:
-            errors.append(
-                'Missing `workers` either as -w/--workers or in config. ' +
-                'Required when using PGPool.')
-
-        if args.location is None:
-            errors.append(
-                'Missing `location` either as -l/--location or in config.')
-
-        if args.step_limit is None:
-            errors.append(
-                'Missing `step_limit` either as -st/--step-limit or ' +
-                'in config.')
-
-        if len(errors) > 0:
-            parser.print_usage()
-            print(sys.argv[0] + ": errors: \n - " + "\n - ".join(errors))
-            sys.exit(1)
-
-        # Make the accounts list.
-        args.accounts = []
-        args.accounts_L30 = []
-        if args.pgpool_url:
-            # Request initial number of workers from PGPool
-            args.pgpool_initial_accounts = (
-                pgpool_request_accounts(args, initial=True))
-            # Request L30 accounts from PGPool
-            if args.highlvl_workers > 0:
-                args.accounts_L30 = (
-                    pgpool_request_accounts(args, highlvl=True, initial=True))
-        else:
-            # Fill the pass/auth if set to a single value.
-            if num_passwords == 1:
-                args.password = [args.password[0]] * num_usernames
-            if num_auths == 1:
-                args.auth_service = [args.auth_service[0]] * num_usernames
-
-            # Fill the accounts list.
-            args.accounts = []
-            for i, username in enumerate(args.username):
-                args.accounts.append({'username': username,
-                                      'password': args.password[i],
-                                      'auth_service': args.auth_service[i]})
-
-            # Prepare the L30 accounts for the account sets.
-            if args.high_lvl_accounts:
-                # Context processor.
-                with open(args.high_lvl_accounts, 'r') as accs:
-                    for line in accs:
-                        # Make sure it's not an empty line.
-                        if not line.strip():
-                            continue
-
-                        line = line.split(',')
-
-                        # We need "service, username, password".
-                        if len(line) < 3:
-                            raise Exception('L30 account is missing a'
-                                            + ' field. Each line requires: '
-                                            + '"service,user,pass".')
-
-                        # Let's remove trailing whitespace.
-                        service = line[0].strip()
-                        username = line[1].strip()
-                        password = line[2].strip()
-
-                        hlvl_account = {
-                            'auth_service': service,
-                            'username': username,
-                            'password': password,
-                            'captcha': False
-                        }
-
-                        args.accounts_L30.append(hlvl_account)
-
-        # Prepare the IV/CP scanning filters.
-        args.enc_whitelist = []
-
-        # Make max workers equal number of accounts if unspecified, and disable
-        # account switching.
-        if args.pgpool_url is None:
-            if args.workers is None:
-                args.workers = len(args.accounts)
-                args.account_search_interval = None
-
-        # Disable search interval if 0 specified.
-        if args.account_search_interval == 0:
-            args.account_search_interval = None
-
-        # Make sure we don't have an empty account list after adding command
-        # line and CSV accounts.
-        if args.pgpool_url is None:
-            if len(args.accounts) == 0:
-                print(sys.argv[0] +
-                      ': Error: no accounts specified. Use -a, ' +
-                      '-u, and -p or ' +
-                      '--accountcsv to add accounts. Or use ' +
-                      '-pgpu/--pgpool-url to ' +
-                      'specify the URL of PGPool.')
-                sys.exit(1)
-
-        # create an empty set
-        args.ignorelist = []
-        if args.ignorelist_file:
-            with open(args.ignorelist_file) as f:
-                args.ignorelist = frozenset([int(l.strip()) for l in f])
-
-        # Decide which scanning mode to use.
-        if args.spawnpoint_scanning:
-            args.scheduler = 'SpawnScan'
-        elif args.skip_empty:
-            args.scheduler = 'HexSearchSpawnpoint'
-        elif args.speed_scan:
-            args.scheduler = 'SpeedScan'
-        else:
-            args.scheduler = 'HexSearch'
-
-        # Disable webhook scheduler updates if webhooks are disabled
-        if args.webhooks is None:
-            args.wh_types = frozenset()
-        else:
-            args.wh_types = frozenset([i for i in args.wh_types])
-
-    # Normalize PGScout URL
-    if args.pgscout_url:
-        # Remove trailing slashes
-        if args.pgscout_url.endswith('/'):
-            args.pgscout_url = args.pgscout_url[:len(args.pgscout_url) - 1]
-        # Add /iv if needed
-        if not args.pgscout_url.endswith('/iv'):
-            args.pgscout_url = '{}/iv'.format(args.pgscout_url)
+    if args.location is None:
+        parser.print_usage()
+        print((sys.argv[0] +
+               ": error: arguments -l/--location is required."))
+        sys.exit(1)
 
     args.locales_dir = 'static/dist/locales'
     args.data_dir = 'static/dist/data'
@@ -963,8 +351,8 @@ def is_imagemagick_binary(binary):
         process = subprocess.Popen([binary, '-version'],
                                    stdout=subprocess.PIPE)
         out, err = process.communicate()
-        return "ImageMagick" in out
-    except Exception:
+        return "ImageMagick" in out.decode('utf8')
+    except Exception as e:
         return False
 
 
@@ -979,60 +367,9 @@ def determine_imagemagick_binary():
     return None
 
 
-def init_args(args):
-    """
-    Initialize commandline arguments after parsing.
-    Some things need to happen after parsing.
-    :param args: The parsed commandline arguments
-    """
-
-    watchercfg = {}
-    # IV/CP scanning.
-    if args.enc_whitelist_file:
-        log.info("Watching encounter whitelist file {} for changes.".format(
-            args.enc_whitelist_file))
-        watchercfg['enc_whitelist'] = (args.enc_whitelist_file, None)
-
-    # Prepare webhook whitelist - empty list means no restrictions
-    args.webhook_whitelist = []
-    if args.webhook_whitelist_file:
-        log.info("Watching webhook whitelist file {} for changes.".format(
-            args.webhook_whitelist_file))
-        watchercfg['webhook_whitelist'] = (args.webhook_whitelist_file, None)
-
-    t = Thread(target=watch_pokemon_lists, args=(args, watchercfg))
-    t.daemon = True
-    t.start()
-
-    init_dynamic_images(args)
-
-
-def watch_pokemon_lists(args, cfg):
-    while True:
-        for args_key in cfg:
-            filename, tstamp = cfg[args_key]
-
-            statbuf = os.stat(filename)
-            current_mtime = statbuf.st_mtime
-
-            if current_mtime != tstamp:
-                with open(filename) as f:
-                    setattr(args, args_key, read_pokemon_ids_from_file(f))
-                    log.info("File {} changed on disk. Re-read as {}.".format(
-                        filename, args_key))
-                cfg[args_key] = (filename, current_mtime)
-
-        time.sleep(5)
-
-
 def now():
     # The fact that you need this helper...
     return int(time.time())
-
-
-# Gets the seconds past the hour.
-def cur_sec():
-    return (60 * time.gmtime().tm_min) + time.gmtime().tm_sec
 
 
 # Gets the total seconds past the hour for a given date.
@@ -1089,6 +426,19 @@ def i8ln(word):
         return word
 
 
+def is_ditto(pokemon):
+    if (pokemon['pokemon_id'] in ditto_ids and
+            pokemon['weather_boosted_condition'] > 0 and
+            pokemon['individual_attack'] is not None and (
+            pokemon['individual_attack'] < 4 or
+            pokemon['individual_defense'] < 4 or
+            pokemon['individual_stamina'] < 4 or
+            pokemon['cp_multiplier'] < 0.3)):
+        return True
+    else:
+        return False
+
+
 def get_pokemon_data(pokemon_id):
     if not hasattr(get_pokemon_data, 'pokemon'):
         args = get_args()
@@ -1098,7 +448,8 @@ def get_pokemon_data(pokemon_id):
             'pokemon.min.json')
 
         with open(file_path, 'r') as f:
-            get_pokemon_data.pokemon = json.loads(f.read())
+            get_pokemon_data.pokemon = json.loads(
+                f.read(), object_pairs_hook=OrderedDict)
     return get_pokemon_data.pokemon[str(pokemon_id)]
 
 
@@ -1109,7 +460,7 @@ def get_pokemon_id(pokemon_name):
             get_pokemon_data(1)
 
         get_pokemon_id.ids = {}
-        for pokemon_id, data in get_pokemon_data.pokemon.iteritems():
+        for pokemon_id, data in get_pokemon_data.pokemon.items():
             get_pokemon_id.ids[data['name']] = int(pokemon_id)
 
     return get_pokemon_id.ids.get(pokemon_name, -1)
@@ -1121,8 +472,8 @@ def get_pokemon_name(pokemon_id):
 
 def get_pokemon_types(pokemon_id):
     pokemon_types = get_pokemon_data(pokemon_id)['types']
-    return map(lambda x: {"type": i8ln(x['type']), "color": x['color']},
-               pokemon_types)
+    return [{"type": x['type'], "color": x['color']} for x in
+            pokemon_types]
 
 
 def get_moves_data(move_id):
@@ -1159,17 +510,6 @@ def dottedQuadToNum(ip):
     return struct.unpack("!L", socket.inet_aton(ip))[0]
 
 
-def clear_dict_response(response):
-    responses = [
-        'GET_HATCHED_EGGS', 'GET_INVENTORY', 'CHECK_AWARDED_BADGES',
-        'DOWNLOAD_SETTINGS', 'GET_BUDDY_WALKED', 'GET_INBOX'
-    ]
-    for item in responses:
-        if item in response:
-            del response[item]
-    return response
-
-
 def calc_pokemon_level(cp_multiplier):
     if cp_multiplier < 0.734:
         pokemon_level = (58.35178527 * cp_multiplier * cp_multiplier -
@@ -1179,6 +519,16 @@ def calc_pokemon_level(cp_multiplier):
     pokemon_level = int((round(pokemon_level) * 2) / 2)
     return pokemon_level
 
+
+def calc_pokemon_cp(pokemon, base_attack, base_defense, base_stamina):
+    if pokemon['individual_attack'] is None:
+        return 0
+    attack = base_attack + pokemon['individual_attack']
+    defense = base_defense + pokemon['individual_defense']
+    stamina = base_stamina + pokemon['individual_stamina']
+    cp = ((attack * math.sqrt(defense) * math.sqrt(stamina) *
+        pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
+    return int(cp) if cp > 10 else 10
 
 def get_pos_by_name(location_name):
     geolocator = Nominatim()
@@ -1193,50 +543,6 @@ def get_pos_by_name(location_name):
     return (loc.latitude, loc.longitude, loc.altitude)
 
 
-@memoize
-def gmaps_reverse_geolocate(locale, location):
-    # Find the reverse geolocation
-    geolocator = Nominatim()
-
-    player_locale = {
-        'country': 'US',
-        'language': locale,
-        'timezone': 'America/Denver'
-    }
-
-    try:
-        reverse = geolocator.reverse(location)
-        address = reverse[-1].raw['address_components']
-        country_code = 'US'
-
-        # Find country component.
-        for component in address:
-            # Look for country.
-            component_is_country = any([t == 'country'
-                                        for t in component.get('types', [])])
-
-            if component_is_country:
-                country_code = component['short_name']
-                break
-
-        try:
-            timezone = geolocator.timezone(location)
-            player_locale.update({
-                'country': country_code,
-                'timezone': str(timezone)
-            })
-        except Exception as e:
-            log.exception('Exception on  Timezone API. '
-                          + 'Please check that you have Timezone API', e)
-    except Exception as e:
-        log.exception('Exception while obtaining player locale: %s.'
-                      + ' Using default locale.', e)
-
-    return player_locale
-
-
-# Get a future_requests FuturesSession that supports asynchronous workers
-# and retrying requests on failure.
 # Setting up a persistent session that is re-used by multiple requests can
 # speed up requests to the same host, as it'll re-use the underlying TCP
 # connection.
@@ -1248,7 +554,7 @@ def get_async_requests_session(num_retries, backoff_factor, pool_size,
     # code returned is in status_forcelist.
     if status_forcelist is None:
         status_forcelist = [500, 502, 503, 504]
-    session = FuturesSession(max_workers=pool_size)
+    session = Session(max_workers=pool_size)
 
     # If any regular response is generated, no retry is done. Without using
     # the status_forcelist, even a response with status 500 will not be
@@ -1370,46 +676,21 @@ def check_output_catch(command):
 # or 'censored_tag' if not.
 def _censor_args_namespace(args, censored_tag, empty_tag):
     fields_to_censor = [
-        'accounts',
-        'accounts_L30',
-        'username',
-        'password',
-        'auth_service',
-        'proxy',
-        'webhooks',
-        'webhook_blacklist',
-        'webhook_whitelist',
         'config',
-        'accountcsv',
-        'high_lvl_accounts',
-        'geofence_file',
-        'geofence_excluded_file',
-        'ignorelist_file',
-        'enc_whitelist_file',
-        'webhook_whitelist_file',
-        'webhook_blacklist_file',
         'db',
-        'proxy_file',
         'log_path',
         'log_filename',
-        'encrypt_lib',
         'ssl_certificate',
         'ssl_privatekey',
         'location',
-        'captcha_key',
-        'captcha_dsk',
-        'manual_captcha_domain',
         'host',
         'port',
-        'gmaps_key',
         'db_name',
         'db_user',
         'db_pass',
         'db_host',
         'db_port',
         'status_name',
-        'status_page_password',
-        'hash_key',
         'trusted_proxies',
         'data_dir',
         'locales_dir',
@@ -1585,3 +866,100 @@ def peewee_attr_to_col(cls, field):
         field_column = field
 
     return field_column
+
+
+def build_overpass_query(lower_left_point, upper_right_point, nests_parks=False):
+    ex_gym_tags = """
+    way["leisure"="park"];
+    way["landuse"="recreation_ground"];
+    way["leisure"="recreation_ground"];
+    way["leisure"="pitch"];
+    way["leisure"="garden"];
+    way["leisure"="golf_course"];
+    way["leisure"="playground"];
+    way["landuse"="meadow"];
+    way["landuse"="grass"];
+    way["landuse"="greenfield"];
+    way["natural"="scrub"];
+    way["natural"="heath"];
+    way["natural"="grassland"];
+    way["landuse"="farmyard"];
+    way["landuse"="vineyard"];
+    """
+    ex_gym_date = '2016-07-17T00:00:00Z'
+
+    # Nests have all the tags from EX GYM + those ones
+    nest_tags = """
+    way["landuse"="farmland"];
+    way["landuse"="orchard"];
+    """
+    nest_date = '2019-02-24T00:00:00Z'
+
+    tags = ex_gym_tags.replace("\n", "")
+    date = ex_gym_date
+
+    if nests_parks:
+        tags = ex_gym_tags.replace("\n", "") + nest_tags.replace("\n", "")
+        date = nest_date
+
+    return '[bbox:{},{}][timeout:620][date:"{}"];({});out;>;out skel qt;'.format(
+        lower_left_point,
+        upper_right_point,
+        date,
+        tags
+    )
+
+
+def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
+    start = default_timer()
+    parks = []
+
+    api = overpy.Overpass()
+    request = build_overpass_query(lower_left_point, upper_right_point, nests_parks)
+    log.debug('Park request: `%s`', request)
+
+    response = api.query(request)
+
+    duration = default_timer() - start
+    log.info('Park response received in %.2fs', duration)
+
+    for w in response.ways:
+        parks.append([[float(c.lat), float(c.lon)] for c in w.nodes])
+
+    return parks
+
+
+def download_parks(file_path, lower_left_point, upper_right_point, nests_parks=False):
+    log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
+
+    output = {
+        "date": str(datetime.now()),
+        "parks": query_overpass_api(lower_left_point, upper_right_point, nests_parks)
+    }
+
+    if len(output['parks']) > 0:
+        with open(file_path, 'w') as file:
+            json.dump(output, file)
+
+        log.info('%d parks downloaded to %s', len(output['parks']), file_path)
+    else:
+        log.info('0 parks downloaded. Skipping saving to %s', file_path)
+
+
+def download_all_parks():
+    args = get_args()
+
+    lower_left_point = args.parks_lower_left_point
+    upper_right_point = args.parks_upper_right_point
+
+    file_path = os.path.join(args.root_path, 'static/data/parks-ex-raids.json')
+    if not os.path.isfile(file_path):
+        download_parks(file_path, lower_left_point, upper_right_point)
+    else:
+        log.info('EX raids eligible parks already downloaded... Skipping')
+
+    file_path = os.path.join(args.root_path, 'static/data/parks-nests.json')
+    if not os.path.isfile(file_path):
+        download_parks(file_path, lower_left_point, upper_right_point, True)
+    else:
+        log.info('Nests parks already downloaded... Skipping')

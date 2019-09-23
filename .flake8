@@ -1,3 +1,4 @@
 [flake8]
 exclude = node_modules,venv,.git,docs,Tools
 max-line-length = 79
+ignore = E402

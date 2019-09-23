@@ -842,7 +842,7 @@
     "106": {
         "name": "Scald",
         "type": "Water",
-        "damage": 82,
+        "damage": 80,
         "duration": 3700,
         "energy": 50,
         "dps": 21.62
@@ -856,7 +856,7 @@
         "dps": 39.39
     },
     "108": {
-        "name": "Psychic (Move)",
+        "name": "Psychic",
         "type": "Psychic",
         "damage": 100,
         "duration": 2800,
@@ -1064,36 +1064,36 @@
         "dps": 15.91
     },
     "134": {
-        "name": "Scald (Blastoise)",
+        "name": "Scald Blastoise",
         "type": "Water",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 50,
+        "duration": 4700,
+        "energy": 100,
+        "dps": 10.64
     },
     "135": {
-        "name": "Hydro Pump (Blastoise)",
+        "name": "Hydro Pump Blastoise",
         "type": "Water",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 90,
+        "duration": 4500,
+        "energy": 100,
+        "dps": 20
     },
     "136": {
         "name": "Wrap Green",
         "type": "Normal",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 25,
+        "duration": 2900,
+        "energy": 33,
+        "dps": 8.62
     },
     "137": {
         "name": "Wrap Pink",
         "type": "Normal",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 25,
+        "duration": 2900,
+        "energy": 33,
+        "dps": 8.62
     },
     "200": {
         "name": "Fury Cutter",
@@ -1352,12 +1352,12 @@
         "dps": 0
     },
     "232": {
-        "name": "Water Gun (Blastoise)",
-        "type": "",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "name": "Water Gun Blastoise",
+        "type": "Water",
+        "damage": 10,
+        "duration": 1000,
+        "energy": 6,
+        "dps": 10
     },
     "233": {
         "name": "Mud Slap",
@@ -1442,9 +1442,9 @@
     "243": {
         "name": "Counter",
         "type": "Fighting",
-        "damage": 8,
+        "damage": 12,
         "duration": 900,
-        "energy": 12,
+        "energy": 8,
         "dps": 13.33
     },
     "244": {
@@ -1476,7 +1476,7 @@
         "type": "Fighting",
         "damage": 140,
         "duration": 3500,
-        "energy": 140,
+        "energy": 100,
         "dps": 40
     },
     "248": {
@@ -1554,10 +1554,10 @@
     "257": {
         "name": "Sky Attack",
         "type": "Flying",
-        "damage": 70,
+        "damage": 80,
         "duration": 2000,
         "energy": 50,
-        "dps": 35
+        "dps": 40
     },
     "258": {
         "name": "Sand Tomb",
@@ -1757,7 +1757,7 @@
         "damage": 8,
         "duration": 1200,
         "energy": 10,
-        "dps": 6.7
+        "dps": 6.67
     },
     "283": {
         "name": "Waterfall",
@@ -1773,7 +1773,7 @@
         "damage": 65,
         "duration": 1700,
         "energy": 50,
-        "dps": 29.5
+        "dps": 38.24
     },
     "285": {
         "name": "Draco Meteor",
@@ -1781,15 +1781,15 @@
         "damage": 150,
         "duration": 3600,
         "energy": 100,
-        "dps": 36.6
+        "dps": 41.67
     },
     "286": {
         "name": "Doom Desire",
         "type": "Steel",
-        "damage": 80,
+        "damage": 70,
         "duration": 1700,
-        "energy": 50,
-        "dps": 36.4
+        "energy": 33,
+        "dps": 41.18
     },
     "287": {
         "name": "Yawn",
@@ -1805,7 +1805,7 @@
         "damage": 70,
         "duration": 4000,
         "energy": 50,
-        "dps": 15.6
+        "dps": 17.5
     },
     "289": {
         "name": "Origin Pulse",
@@ -1813,7 +1813,7 @@
         "damage": 130,
         "duration": 1700,
         "energy": 100,
-        "dps": 59.1
+        "dps": 76.47
     },
     "290": {
         "name": "Precipice Blades",
@@ -1821,7 +1821,7 @@
         "damage": 130,
         "duration": 1700,
         "energy": 100,
-        "dps": 59.1
+        "dps": 76.47
     },
     "291": {
         "name": "Present",
@@ -1829,7 +1829,7 @@
         "damage": 5,
         "duration": 1300,
         "energy": 20,
-        "dps": 3.8
+        "dps": 3.85
     },
     "292": {
         "name": "Weather Ball",
@@ -1869,7 +1869,7 @@
         "damage": 100,
         "duration": 2600,
         "energy": 50,
-        "dps": 38.5
+        "dps": 38.46
     },
     "297": {
         "name": "Smack Down",
@@ -1877,7 +1877,7 @@
         "damage": 16,
         "duration": 1200,
         "energy": 8,
-        "dps": 13.3
+        "dps": 13.33
     },
     "298": {
         "name": "Blast Burn",
@@ -1885,7 +1885,7 @@
         "damage": 110,
         "duration": 3300,
         "energy": 50,
-        "dps": 33.3
+        "dps": 33.33
     },
     "299": {
         "name": "Hydro Cannon",
@@ -1893,7 +1893,7 @@
         "damage": 90,
         "duration": 1900,
         "energy": 50,
-        "dps": 47.4
+        "dps": 47.37
     },
     "300": {
         "name": "Last Resort",
@@ -1901,7 +1901,7 @@
         "damage": 90,
         "duration": 2900,
         "energy": 50,
-        "dps": 31.0
+        "dps": 31.03
     },
     "301": {
         "name": "Meteor Mash",
@@ -1909,39 +1909,39 @@
         "damage": 100,
         "duration": 2600,
         "energy": 50,
-        "dps": 38.5
+        "dps": 38.46
     },
     "302": {
         "name": "Skull Bash",
         "type": "Normal",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 130,
+        "duration": 3100,
+        "energy": 100,
+        "dps": 41.94
     },
     "303": {
         "name": "Acid Spray",
         "type": "Poison",
         "damage": 20,
         "duration": 3000,
-        "energy": 20,
-        "dps": 38.5
+        "energy": 50,
+        "dps": 6.67
     },
     "304": {
         "name": "Earth Power",
         "type": "Ground",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 100,
+        "duration": 3600,
+        "energy": 50,
+        "dps": 27.78
     },
     "305": {
         "name": "Crabhammer",
         "type": "Water",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 85,
+        "duration": 1900,
+        "energy": 50,
+        "dps": 44.74
     },
     "306": {
         "name": "Lunge",
@@ -1996,8 +1996,8 @@
         "type": "Grass",
         "damage": 45,
         "duration": 3100,
-        "energy": 45,
-        "dps": 38.5
+        "energy": 33,
+        "dps": 14.52
     },
     "313": {
         "name": "Leech Life",
@@ -2026,18 +2026,18 @@
     "316": {
         "name": "Muddy Water",
         "type": "Water",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 50,
+        "duration": 2200,
+        "energy": 33,
+        "dps": 22.73
     },
     "317": {
         "name": "Blaze Kick",
         "type": "Fire",
-        "damage": 0,
-        "duration": 0,
-        "energy": 0,
-        "dps": 0
+        "damage": 45,
+        "duration": 1200,
+        "energy": 33,
+        "dps": 37.5
     },
     "318": {
         "name": "Razor Shell",
@@ -2053,6 +2053,38 @@
         "damage": 50,
         "duration": 2000,
         "energy": 33,
-        "dps": 25.0
+        "dps": 25
+    },
+    "320": {
+        "name": "Charm",
+        "type": "Fairy",
+        "damage": 20,
+        "duration": 1500,
+        "energy": 11,
+        "dps": 13.33
+    },
+    "322": {
+        "name": "Frustration",
+        "type": "Normal",
+        "damage": 10,
+        "duration": 2000,
+        "energy": 33,
+        "dps": 5
+    },
+    "323": {
+        "name": "Return",
+        "type": "Normal",
+        "damage": 35,
+        "duration": 700,
+        "energy": 33,
+        "dps": 50
+    },
+    "324": {
+        "name": "Synchronoise",
+        "type": "Psychic",
+        "damage": 80,
+        "duration": 2600,
+        "energy": 50,
+        "dps": 30.77
     }
 }
