@@ -92,6 +92,9 @@ var s2Level13LayerGroup = new L.LayerGroup()
 var s2Level14LayerGroup = new L.LayerGroup()
 var s2Level17LayerGroup = new L.LayerGroup()
 
+var exEligibleParksLayerGroup = new L.LayerGroup()
+var nestsParksLayerGroup = new L.LayerGroup()
+
 // Z-index values for various markers.
 const userLocationMarkerZIndex = 0
 const pokestopZIndex = 0
@@ -371,7 +374,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         maxZoom: 18,
         zoomControl: false,
-        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup]
+        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup, exEligibleParksLayerGroup, nestsParksLayerGroup]
     })
 
     setTitleLayer(Store.get('map_style'))
@@ -444,9 +447,12 @@ function initMap() { // eslint-disable-line no-unused-vars
     }
 
     updateS2Overlay()
+    getAllParks()
 
     map.on('moveend', function () {
         updateS2Overlay()
+        updateParks()
+
         const position = map.getCenter()
         Store.set('startAtLastLocationPosition', {
             lat: position.lat,
@@ -958,6 +964,26 @@ function initSidebar() {
         }
     })
 
+    $('#ex-eligible-parks-switch').change(function () {
+        Store.set('showExEligibleParks', this.checked)
+
+        if (this.checked) {
+            updateParks()
+        } else {
+            exEligibleParksLayerGroup.clearLayers()
+        }
+    })
+
+    $('#nests-parks-switch').change(function () {
+        Store.set('showNestsParks', this.checked)
+
+        if (this.checked) {
+            updateParks()
+        } else {
+            nestsParksLayerGroup.clearLayers()
+        }
+    })
+
     $('#weather-cells-switch').change(function () {
         buildSwitchChangeListener(mapData, ['weather'], 'showWeatherCells').bind(this)()
     })
@@ -1334,6 +1360,8 @@ function initSidebar() {
     $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
     $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
     $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
+    $('#ex-eligible-parks-switch').prop('checked', Store.get('showExEligibleParks'))
+    $('#nests-parks-switch').prop('checked', Store.get('showNestsParks'))
 
     // Location.
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
@@ -3638,6 +3666,74 @@ function updateMap() {
         timestamp = result.timestamp
         lastUpdateTime = Date.now()
     })
+}
+
+const getAllParks = function () {
+    if (!showConfig.parks) {
+        return
+    }
+
+    $.getJSON('static/data/parks-ex-raids.json').done(function (response) {
+        if (!response || !('parks' in response)) {
+            return
+        }
+
+        mapData.exEligibleParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+
+        if (Store.get('showExEligibleParks')) {
+            updateParks()
+        }
+    }).fail(function () {
+        console.log("Couldn't load ex eligible parks JSON.")
+    })
+
+    $.getJSON('static/data/parks-nests.json').done(function (response) {
+        if (!response || !('parks' in response)) {
+            return
+        }
+
+        mapData.nestsParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+
+        if (Store.get('showNestsParks')) {
+            updateParks()
+        }
+    }).fail(function () {
+        console.log("Couldn't load ex eligible parks JSON.")
+    })
+}
+
+const updateParks = function () {
+    if (!showConfig.parks || (!Store.get('showExEligibleParks') && !Store.get('showNestsParks'))) {
+        return
+    }
+
+    if (Store.get('showExEligibleParks')) {
+        const inBoundParks = mapData.exEligibleParks.filter(parkPoints => {
+            return parkPoints.some(point => {
+                return map.getBounds().contains(point)
+            })
+        })
+
+        exEligibleParksLayerGroup.clearLayers()
+
+        inBoundParks.forEach(function (park) {
+            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(exEligibleParksLayerGroup)
+        })
+    }
+
+    if (Store.get('showNestsParks')) {
+        const inBoundParks = mapData.nestsParks.filter(parkPoints => {
+            return parkPoints.some(point => {
+                return map.getBounds().contains(point)
+            })
+        })
+
+        nestsParksLayerGroup.clearLayers()
+
+        inBoundParks.forEach(function (park) {
+            L.polygon(park, {color: 'maroon', interactive: false}).addTo(nestsParksLayerGroup)
+        })
+    }
 }
 
 var updateLabelDiffTime = function () {

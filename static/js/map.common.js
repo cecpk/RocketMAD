@@ -324,6 +324,14 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showExEligibleParks': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showNestsParks': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showWeatherCells': {
         default: false,
         type: StoreTypes.Boolean
@@ -581,7 +589,9 @@ var mapData = {
     spawnpoints: {},
     weather: {},
     s2cells: {},
-    weatherAlerts: {}
+    weatherAlerts: {},
+    exEligibleParks: [],
+    nestsParks: []
 }
 
 function getPokemonGen(p) {

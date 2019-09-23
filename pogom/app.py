@@ -201,6 +201,7 @@ class Pogom(Flask):
             'quests': not args.no_quests,
             'raids': not args.no_raids,
             'gym_sidebar': not args.no_gym_sidebar,
+            'parks': args.parks,
             'rarity': args.rarity_update_frequency > 0,
             'encounter': args.encounter,
             'custom_css': args.custom_css,

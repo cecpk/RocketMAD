@@ -15,6 +15,8 @@ import struct
 import psutil
 import subprocess
 import requests
+import overpy
+from datetime import datetime
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
@@ -282,6 +284,17 @@ def get_args():
                         help=('Filename of rarity json for different ' +
                               'databases (without .json) Default: rarity'),
                         default='rarity')
+    parser.add_argument('-Par', '--parks',
+                        help='Enable parks downloading and drawing.',
+                        action='store_true', default=False)
+    parser.add_argument('-Parlfp', '--parks-lower-left-point',
+                        help=('Coordinates of the lower left point of' +
+                              ' the box where the parks will be downloaded'),
+                        default=None)
+    parser.add_argument('-Parurp', '--parks-upper-right-point',
+                        help=('Coordinates of the upper right point of' +
+                              ' the box where the parks will be downloaded'),
+                        default=None)
 
     parser.set_defaults(DEBUG=False)
 
@@ -853,3 +866,100 @@ def peewee_attr_to_col(cls, field):
         field_column = field
 
     return field_column
+
+
+def build_overpass_query(lower_left_point, upper_right_point, nests_parks=False):
+    ex_gym_tags = """
+    way["leisure"="park"];
+    way["landuse"="recreation_ground"];
+    way["leisure"="recreation_ground"];
+    way["leisure"="pitch"];
+    way["leisure"="garden"];
+    way["leisure"="golf_course"];
+    way["leisure"="playground"];
+    way["landuse"="meadow"];
+    way["landuse"="grass"];
+    way["landuse"="greenfield"];
+    way["natural"="scrub"];
+    way["natural"="heath"];
+    way["natural"="grassland"];
+    way["landuse"="farmyard"];
+    way["landuse"="vineyard"];
+    """
+    ex_gym_date = '2016-07-17T00:00:00Z'
+
+    # Nests have all the tags from EX GYM + those ones
+    nest_tags = """
+    way["landuse"="farmland"];
+    way["landuse"="orchard"];
+    """
+    nest_date = '2019-02-24T00:00:00Z'
+
+    tags = ex_gym_tags.replace("\n", "")
+    date = ex_gym_date
+
+    if nests_parks:
+        tags = ex_gym_tags.replace("\n", "") + nest_tags.replace("\n", "")
+        date = nest_date
+
+    return '[bbox:{},{}][timeout:620][date:"{}"];({});out;>;out skel qt;'.format(
+        lower_left_point,
+        upper_right_point,
+        date,
+        tags
+    )
+
+
+def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
+    start = default_timer()
+    parks = []
+
+    api = overpy.Overpass()
+    request = build_overpass_query(lower_left_point, upper_right_point, nests_parks)
+    log.debug('Park request: `%s`', request)
+
+    response = api.query(request)
+
+    duration = default_timer() - start
+    log.info('Park response received in %.2fs', duration)
+
+    for w in response.ways:
+        parks.append([[float(c.lat), float(c.lon)] for c in w.nodes])
+
+    return parks
+
+
+def download_parks(file_path, lower_left_point, upper_right_point, nests_parks=False):
+    log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
+
+    output = {
+        "date": str(datetime.now()),
+        "parks": query_overpass_api(lower_left_point, upper_right_point, nests_parks)
+    }
+
+    if len(output['parks']) > 0:
+        with open(file_path, 'w') as file:
+            json.dump(output, file)
+
+        log.info('%d parks downloaded to %s', len(output['parks']), file_path)
+    else:
+        log.info('0 parks downloaded. Skipping saving to %s', file_path)
+
+
+def download_all_parks():
+    args = get_args()
+
+    lower_left_point = args.parks_lower_left_point
+    upper_right_point = args.parks_upper_right_point
+
+    file_path = os.path.join(args.root_path, 'static/data/parks-ex-raids.json')
+    if not os.path.isfile(file_path):
+        download_parks(file_path, lower_left_point, upper_right_point)
+    else:
+        log.info('EX raids eligible parks already downloaded... Skipping')
+
+    file_path = os.path.join(args.root_path, 'static/data/parks-nests.json')
+    if not os.path.isfile(file_path):
+        download_parks(file_path, lower_left_point, upper_right_point, True)
+    else:
+        log.info('Nests parks already downloaded... Skipping')
