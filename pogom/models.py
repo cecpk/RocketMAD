@@ -22,7 +22,7 @@ from timeit import default_timer
 
 from .utils import (get_pokemon_name, get_pokemon_types,
                     get_args, cellid, get_move_name, get_move_damage,
-                    get_move_energy, get_move_type)
+                    get_move_energy, get_move_type, ditto_ids)
 from .transform import transform_from_wgs_to_gcj
 
 log = logging.getLogger(__name__)
@@ -253,31 +253,29 @@ class Pokemon(LatLongModel):
         # Note: pokemon_id+0 forces SQL to ignore the pokemon_id index
         # and should use the disappear_time index and hopefully
         # improve performance
-        pokemon_count_query = (Pokemon
-                               .select((Pokemon.pokemon_id + 0).alias(
-                                   'pokemon_id'),
-                                   fn.COUNT((Pokemon.pokemon_id + 0)).alias(
-                                       'count'),
-                                   fn.MAX(Pokemon.disappear_time).alias(
-                                       'lastappeared'))
-                               .where(Pokemon.disappear_time > timediff)
-                               .group_by((Pokemon.pokemon_id + 0))
-                               .alias('counttable')
-                               )
-        query = (Pokemon
-                 .select(Pokemon.pokemon_id,
-                         Pokemon.disappear_time,
-                         Pokemon.latitude,
-                         Pokemon.longitude,
-                         pokemon_count_query.c.count)
-                 .join(pokemon_count_query,
-                       on=(Pokemon.pokemon_id ==
-                           pokemon_count_query.c.pokemon_id))
-                 .distinct()
-                 .where(Pokemon.disappear_time ==
-                        pokemon_count_query.c.lastappeared)
-                 .dicts()
-                 )
+        pokemon_query = (Pokemon
+                         .select((Pokemon.pokemon_id + 0).alias('pokemon_id'),
+                             fn.COUNT((Pokemon.pokemon_id + 0)).alias('count'),
+                             fn.MAX(Pokemon.disappear_time).alias(
+                                 'disappear_time'))
+                         .where(Pokemon.disappear_time > timediff)
+                         .group_by((Pokemon.pokemon_id + 0))
+                         .dicts())
+
+        ditto_query = (Pokemon
+                       .select(fn.COUNT((Pokemon.pokemon_id + 0)).alias(
+                           'count'),
+                           fn.MAX(Pokemon.disappear_time).alias(
+                               'disappear_time'))
+                       .where((Pokemon.disappear_time > timediff) &
+                              (Pokemon.pokemon_id << ditto_ids) &
+                              (Pokemon.weather_boosted_condition > 0) &
+                              (Pokemon.individual_attack.is_null(False) &
+                               ((Pokemon.individual_attack < 4) |
+                                (Pokemon.individual_defense < 4) |
+                                (Pokemon.individual_stamina < 4) |
+                                (Pokemon.cp_multiplier < 0.3))))
+                       .dicts())
 
         # Performance:  disable the garbage collector prior to creating a
         # (potentially) large dict with append().
@@ -285,10 +283,16 @@ class Pokemon(LatLongModel):
 
         pokemon = []
         total = 0
-        for p in query:
+        for p in pokemon_query:
             p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
             pokemon.append(p)
             total += p['count']
+
+        for p in ditto_query:
+            if p['count'] > 0:
+                p['pokemon_id'] = 132
+                p['pokemon_name'] = get_pokemon_name(132)
+                pokemon.append(p)
 
         # Re-enable the GC.
         gc.enable()
