@@ -3548,7 +3548,6 @@ function loadRawData() {
     var loadWeather = Store.get('showWeatherCells')
     var loadWeatherAlerts = Store.get('showWeatherAlerts')
     var prionotifyactiv = Store.get('showNotifiedPokemonAlways')
-    var loadParks = Store.get('showExEligibleParks')
 
     var bounds = map.getBounds()
     var swPoint = bounds.getSouthWest()
@@ -3590,8 +3589,7 @@ function loadRawData() {
             'oNeLng': oNeLng,
             'reids': String(isShowAllZoom() ? excludedPokemon : reincludedPokemon),
             'eids': String(getExcludedPokemon()),
-            'prionotify': prionotifyactiv,
-            'parks': loadParks
+            'prionotify': prionotifyactiv
         },
         dataType: 'json',
         cache: false,
