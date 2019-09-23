@@ -3715,7 +3715,7 @@ const updateParks = function () {
         exEligibleParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {'color': 'limegreen'}).addTo(exEligibleParksLayerGroup)
+            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(exEligibleParksLayerGroup)
         })
     }
 
@@ -3729,7 +3729,7 @@ const updateParks = function () {
         nestsParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {'color': 'maroon'}).addTo(nestsParksLayerGroup)
+            L.polygon(park, {color: 'maroon', interactive: false}).addTo(nestsParksLayerGroup)
         })
     }
 }
