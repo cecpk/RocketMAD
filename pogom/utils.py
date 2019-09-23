@@ -8,6 +8,7 @@ import configargparse
 import os
 import json
 import logging
+import math
 import time
 import socket
 import struct
@@ -29,6 +30,8 @@ from timeit import default_timer
 from . import dyn_img
 
 log = logging.getLogger(__name__)
+
+ditto_ids = [13, 46, 48, 163, 165, 167, 187, 223, 273, 293, 300, 316, 322, 399]
 
 
 def read_pokemon_ids_from_file(f):
@@ -410,6 +413,19 @@ def i8ln(word):
         return word
 
 
+def is_ditto(pokemon):
+    if (pokemon['pokemon_id'] in ditto_ids and
+            pokemon['weather_boosted_condition'] > 0 and
+            pokemon['individual_attack'] is not None and (
+            pokemon['individual_attack'] < 4 or
+            pokemon['individual_defense'] < 4 or
+            pokemon['individual_stamina'] < 4 or
+            pokemon['cp_multiplier'] < 0.3)):
+        return True
+    else:
+        return False
+
+
 def get_pokemon_data(pokemon_id):
     if not hasattr(get_pokemon_data, 'pokemon'):
         args = get_args()
@@ -490,6 +506,16 @@ def calc_pokemon_level(cp_multiplier):
     pokemon_level = int((round(pokemon_level) * 2) / 2)
     return pokemon_level
 
+
+def calc_pokemon_cp(pokemon, base_attack, base_defense, base_stamina):
+    if pokemon['individual_attack'] is None:
+        return 0
+    attack = base_attack + pokemon['individual_attack']
+    defense = base_defense + pokemon['individual_defense']
+    stamina = base_stamina + pokemon['individual_stamina']
+    cp = ((attack * math.sqrt(defense) * math.sqrt(stamina) *
+        pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
+    return int(cp) if cp > 10 else 10
 
 def get_pos_by_name(location_name):
     geolocator = Nominatim()

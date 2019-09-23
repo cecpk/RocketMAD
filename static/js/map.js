@@ -1439,8 +1439,10 @@ function pokemonLabel(item) {
         name = name.slice(0, -1)
     }
 
-    if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
-        formDisplay += `(${i8ln(idToPokemon[id].forms[form].formName)})`
+    if (id === 132) { // Ditto.
+        formDisplay = `(${item.disguise_pokemon_name})`
+    } else if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
+        formDisplay = `(${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 
     if (showConfig.rarity) {
@@ -2755,11 +2757,6 @@ function showInBoundsMarkers(markersInput, type) {
     })
 }
 
-function isDitto(pokemon) {
-    return dittoIds.includes(pokemon.pokemon_id) && pokemon.weather_boosted_condition > 0 &&
-        pokemon.individual_attack !== null && (pokemon.individual_attack < 4 || pokemon.individual_defense < 4 || pokemon.individual_stamina < 4 || pokemon.cp_multiplier < 0.3)
-}
-
 function isPokemonRarityExcluded(pokemon) {
     if (showConfig.rarity) {
         const excludedRarities = excludedRaritiesList[Store.get('excludedRarity')]
@@ -3102,21 +3099,6 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
     if (pokemon !== null) {
         if (!mapData.pokemons.hasOwnProperty(id)) {
             // New pokemon, add marker to map and item to dict.
-            if (isDitto(pokemon)) {
-                pokemon.pokemon_id = 132
-                pokemon.pokemon_name = i8ln('Ditto')
-                // Moves, weight and height change after transformation.
-                pokemon.move_1 = pokemon.move_2 = pokemon.weight = pokemon.height = null
-                pokemon.pokemon_types = {0: {color: "#8a8a59", type: "Normal"}}
-                pokemon.weather_boosted_condition = 0
-
-                const attack = 91 + pokemon.individual_attack
-                const defense = 91 + pokemon.individual_defense
-                const stamina = 134 + pokemon.individual_stamina
-                const cp = (attack * Math.sqrt(defense) * Math.sqrt(stamina) * pokemon.cp_multiplier * pokemon.cp_multiplier) / 10
-                pokemon.cp = cp >= 10 ? Math.round(cp) : 10
-            }
-
             const isNotifyPoke = isNotifyPokemon(pokemon)
             if (!isPokemonMeetsFilters(pokemon, isNotifyPoke) || pokemon.disappear_time <= Date.now() + 3000) {
                 if (isPokemonRarityExcluded(pokemon)) {
