@@ -308,20 +308,42 @@ class Pokemon(LatLongModel):
         '''
         if timediff:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
-        query = (Pokemon
-                 .select(Pokemon.latitude, Pokemon.longitude,
-                         Pokemon.pokemon_id,
-                         fn.Count(Pokemon.spawnpoint_id).alias('count'),
-                         Pokemon.spawnpoint_id)
-                 .where((Pokemon.pokemon_id == pokemon_id) &
-                        (Pokemon.disappear_time > timediff)
-                        )
-                 .group_by(Pokemon.latitude, Pokemon.longitude,
-                           Pokemon.pokemon_id, Pokemon.spawnpoint_id)
-                 .dicts()
-                 )
+        if pokemon_id == '132': # Ditto.
+            query = (Pokemon
+                     .select(Pokemon.latitude, Pokemon.longitude,
+                             fn.Count(Pokemon.spawnpoint_id).alias('count'),
+                             Pokemon.spawnpoint_id)
+                     .where((Pokemon.pokemon_id << ditto_ids) &
+                            (Pokemon.disappear_time > timediff) &
+                            (Pokemon.weather_boosted_condition > 0) &
+                            (Pokemon.individual_attack.is_null(False) &
+                             ((Pokemon.individual_attack < 4) |
+                              (Pokemon.individual_defense < 4) |
+                              (Pokemon.individual_stamina < 4) |
+                              (Pokemon.cp_multiplier < 0.3))))
+                     .group_by(Pokemon.latitude, Pokemon.longitude,
+                               Pokemon.spawnpoint_id)
+                     .dicts())
 
-        return list(query)
+            pokemon = []
+            for p in query:
+                p['pokemon_id'] = 132
+                pokemon.append(p)
+
+            return pokemon
+        else:
+            query = (Pokemon
+                     .select(Pokemon.latitude, Pokemon.longitude,
+                             Pokemon.pokemon_id,
+                             fn.Count(Pokemon.spawnpoint_id).alias('count'),
+                             Pokemon.spawnpoint_id)
+                     .where((Pokemon.pokemon_id == pokemon_id) &
+                            (Pokemon.disappear_time > timediff))
+                     .group_by(Pokemon.latitude, Pokemon.longitude,
+                               Pokemon.pokemon_id, Pokemon.spawnpoint_id)
+                     .dicts())
+
+            return list(query)
 
     @staticmethod
     def get_appearances_times_by_spawnpoint(pokemon_id, spawnpoint_id,
@@ -335,15 +357,28 @@ class Pokemon(LatLongModel):
         '''
         if timediff:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
-        query = (Pokemon
-                 .select(Pokemon.disappear_time)
-                 .where((Pokemon.pokemon_id == pokemon_id) &
-                        (Pokemon.spawnpoint_id == spawnpoint_id) &
-                        (Pokemon.disappear_time > timediff)
-                        )
-                 .order_by(Pokemon.disappear_time.asc())
-                 .tuples()
-                 )
+        if pokemon_id == '132': # Ditto.
+            query = (Pokemon
+                     .select(Pokemon.disappear_time)
+                     .where((Pokemon.pokemon_id << ditto_ids) &
+                            (Pokemon.spawnpoint_id == spawnpoint_id) &
+                            (Pokemon.disappear_time > timediff) &
+                            (Pokemon.weather_boosted_condition > 0) &
+                            (Pokemon.individual_attack.is_null(False) &
+                             ((Pokemon.individual_attack < 4) |
+                              (Pokemon.individual_defense < 4) |
+                              (Pokemon.individual_stamina < 4) |
+                              (Pokemon.cp_multiplier < 0.3))))
+                     .order_by(Pokemon.disappear_time.asc())
+                     .tuples())
+        else:
+            query = (Pokemon
+                     .select(Pokemon.disappear_time)
+                     .where((Pokemon.pokemon_id == pokemon_id) &
+                            (Pokemon.spawnpoint_id == spawnpoint_id) &
+                            (Pokemon.disappear_time > timediff))
+                     .order_by(Pokemon.disappear_time.asc())
+                     .tuples())
 
         return list(itertools.chain(*query))
 
