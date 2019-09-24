@@ -1,7 +1,4 @@
 .pokemon {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
-
   &.container {
     display: flex;
 
@@ -11,19 +8,17 @@
     }
   }
 
-  &.title {
-    font-size: 14px;
-    font-weight: 900;
-    vertical-align: middle;
-
-    .title-text {
+  &.title span {
       vertical-align: middle;
-    }
+  }
+
+  .type-image, .weather-image {
+    vertical-align: middle;
   }
 
   &.sprite {
     width: 64px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
   }
 
   &.gen, &.rarity, &.encounter {
@@ -33,22 +28,16 @@
   &.disappear {
     font-size: 14px;
     font-weight: 900;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     white-space: nowrap;
   }
 
-  &.cp-level, &.weight-height {
-    margin-bottom: 6px;
+  &.encounter-info {
+    margin-bottom: 10px;
   }
 
   &.types {
-    margin-bottom: 4px;
-  }
-
-  &.ball {
-    height: 12px;
-    width: 12px;
-    vertical-align: bottom;
+    margin-bottom: 8px;
   }
 
   &.coords {

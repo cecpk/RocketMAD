@@ -18,18 +18,30 @@ html, body {
 }
 
 .main-container {
-    position: fixed;
-    top: 3.5em;
-    bottom: 0;
-    right: 0;
-    left: 0;
+  position: fixed;
+  top: 3.5em;
+  bottom: 0;
+  right: 0;
+  left: 0;
 
-    @include breakpoint(small) {
-      top: 3em;
-    }
+  @include breakpoint(small) {
+    top: 3em;
+  }
 }
 
 #map {
   height: 100%;
   width: 100%;
+}
+
+.leaflet-popup {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+
+  .title {
+    font-size: 15px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-align: center;
+  }
 }

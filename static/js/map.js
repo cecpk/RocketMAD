@@ -146,7 +146,8 @@ const toastrOptions = {
 
 const availablePokemonCount = 649
 
-const genderType = ['♂', '♀', '⚲']
+// FontAwesome gender classes.
+const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 
 const dittoIds = [13, 46, 48, 163, 165, 167, 187, 223, 273, 293, 300, 316, 322, 399]
 
@@ -1484,18 +1485,16 @@ function pokemonLabel(item) {
     }
 
     if (weatherBoostedCondition > 0) {
-        weatherBoostDisplay = `<img class='title-text' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
+        weatherBoostDisplay = `<img class='weather-image' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
     }
 
-    typesDisplay = `<div class='pokemon types'>`
     $.each(types, function (index, type) {
         if (index === 1) {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14' style='margin-left:4px;'>`
+            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13px' style='margin-left:4px;'>`
         } else {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14'>`
+            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13px'>`
         }
     })
-    typesDisplay += `</div>`
 
     if (showStats && cp !== null && cpMultiplier !== null) {
         var iv = 0
@@ -1506,17 +1505,19 @@ function pokemonLabel(item) {
         var level = getPokemonLevel(item)
 
         statsDisplay = `
-            <div>
-              IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
-            </div>
-            <div class='pokemon cp-level'>
-              CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
-            </div>
-            <div>
-             Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
-            </div>
-            <div class='pokemon weight-height'>
-              Weight: <span class='pokemon encounter'>${weight}kg</span> | Height: <span class='pokemon encounter'>${height}m</span>
+            <div class='pokemon encounter-info'>
+              <div>
+                IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
+              </div>
+              <div>
+                CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
+              </div>
+              <div>
+               Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
+              </div>
+              <div>
+                Weight: <span class='pokemon encounter'>${weight}kg</span> | Height: <span class='pokemon encounter'>${height}m</span>
+              </div>
             </div>`
     }
 
@@ -1525,11 +1526,13 @@ function pokemonLabel(item) {
     const notifyLabel = notifyPokemon.includes(id) ? 'Unnotify' : 'Notify'
 
     return `
+    <div class='pokemon title'>
+      <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span> ${typesDisplay}${weatherBoostDisplay}
+    </div>
     <div class='pokemon container'>
       <div class='pokemon container content-left'>
         <div>
           <img class='pokemon sprite' src='${pokemonIcon}'>
-          ${typesDisplay}
           ${rarityDisplay}
           <div>
             <span class='pokemon gen'>Gen ${gen}</span>
@@ -1538,9 +1541,6 @@ function pokemonLabel(item) {
       </div>
       <div class='pokemon container content-right'>
         <div>
-          <div class='pokemon title'>
-            <span class='title-text'>${name} ${formDisplay} ${genderType[gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span>${weatherBoostDisplay}
-          </div>
           <div class='pokemon disappear'>
             ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
           </div>
@@ -1656,7 +1656,7 @@ function gymLabel(gym) {
                       <div>
                       <div class='raid title'>
                         <div>
-                          ${pokemonName} ${genderType[raid.gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
+                          ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
                         </div>
                         <div>
                           ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
@@ -1723,8 +1723,6 @@ function gymLabel(gym) {
                     Free slots: <span class='info'>${gym.slots_available}</span>
                   </div>
                   ${gymLeaderDisplay}
-                </div>
-                <div class='gym gym-info'>
                   <div>
                     Last scanned: <span class='info'>${timestampToDateTime(gym.last_scanned)}</span>
                   </div>

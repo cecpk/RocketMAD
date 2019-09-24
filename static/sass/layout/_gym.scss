@@ -1,7 +1,4 @@
 .gym {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
-
   &.name-container {
     margin-bottom: 13px;
     text-align: center;
@@ -10,12 +7,6 @@
       font-size: 14px;
       font-weight: 900;
     }
-  }
-
-  &.title {
-    font-size: 14px;
-    font-weight: 900;
-    margin-bottom: 6px;
   }
 
   &.container {
