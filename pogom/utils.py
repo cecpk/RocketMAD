@@ -869,7 +869,7 @@ def peewee_attr_to_col(cls, field):
 
 
 def build_overpass_query(lower_left_point, upper_right_point, nests_parks=False):
-    ex_gym_tags = """
+    tags = """
     way["leisure"="park"];
     way["landuse"="recreation_ground"];
     way["leisure"="recreation_ground"];
@@ -885,28 +885,22 @@ def build_overpass_query(lower_left_point, upper_right_point, nests_parks=False)
     way["natural"="grassland"];
     way["landuse"="farmyard"];
     way["landuse"="vineyard"];
-    """
-    ex_gym_date = '2016-07-17T00:00:00Z'
-
-    # Nests have all the tags from EX GYM + those ones
-    nest_tags = """
     way["landuse"="farmland"];
     way["landuse"="orchard"];
     """
+    ex_gym_date = '2016-07-16T00:00:00Z'
     nest_date = '2019-02-24T00:00:00Z'
 
-    tags = ex_gym_tags.replace("\n", "")
     date = ex_gym_date
 
     if nests_parks:
-        tags = ex_gym_tags.replace("\n", "") + nest_tags.replace("\n", "")
         date = nest_date
 
     return '[bbox:{},{}][timeout:620][date:"{}"];({});out;>;out skel qt;'.format(
         lower_left_point,
         upper_right_point,
         date,
-        tags
+        tags.replace("\n", "")
     )
 
 
@@ -923,8 +917,8 @@ def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
     duration = default_timer() - start
     log.info('Park response received in %.2fs', duration)
 
-    for w in response.ways:
-        parks.append([[float(c.lat), float(c.lon)] for c in w.nodes])
+    for way in response.ways:
+        parks.append([[float(node.lat), float(node.lon)] for node in way.nodes])
 
     return parks
 
