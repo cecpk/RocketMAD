@@ -868,39 +868,66 @@ def peewee_attr_to_col(cls, field):
     return field_column
 
 
-def build_overpass_query(lower_left_point, upper_right_point, nests_parks=False):
+def build_overpass_query(lower_left_point, upper_right_point,
+                         nest_parks=False):
+    # Tags used for both EX and nest parks.
     tags = """
-    way["leisure"="park"];
-    way["landuse"="recreation_ground"];
-    way["leisure"="recreation_ground"];
-    way["leisure"="pitch"];
-    way["leisure"="garden"];
-    way["leisure"="golf_course"];
-    way["leisure"="playground"];
-    way["landuse"="meadow"];
-    way["landuse"="grass"];
-    way["landuse"="greenfield"];
-    way["natural"="scrub"];
-    way["natural"="heath"];
-    way["natural"="grassland"];
-    way["landuse"="farmyard"];
-    way["landuse"="vineyard"];
-    way["landuse"="farmland"];
-    way["landuse"="orchard"];
+    way[leisure=park];
+    way[landuse=recreation_ground];
+    way[leisure=recreation_ground];
+    way[leisure=pitch];
+    way[leisure=garden];
+    way[leisure=golf_course];
+    way[leisure=playground];
+    way[landuse=meadow];
+    way[landuse=grass];
+    way[landuse=greenfield];
+    way[natural=scrub];
+    way[natural=heath];
+    way[natural=grassland];
+    way[landuse=farmyard];
+    way[landuse=vineyard];
+    way[landuse=farmland];
+    way[landuse=orchard];
     """
-    ex_gym_date = '2016-07-16T00:00:00Z'
-    nest_date = '2019-02-24T00:00:00Z'
 
-    date = ex_gym_date
+    # Tags used only for nests.
+    nest_tags = """
+    way[natural=plateau];
+    way[natural=valley];
+    way[natural=moor];
+    rel[leisure=park];
+    rel[landuse=recreation_ground];
+    rel[leisure=recreation_ground];
+    rel[leisure=pitch];
+    rel[leisure=garden];
+    rel[leisure=golf_course];
+    rel[leisure=playground];
+    rel[landuse=meadow];
+    rel[landuse=grass];
+    rel[landuse=greenfield];
+    rel[natural=scrub];
+    rel[natural=heath];
+    rel[natural=grassland];
+    rel[landuse=farmyard];
+    rel[landuse=vineyard];
+    rel[landuse=farmland];
+    rel[landuse=orchard];
+    rel[natural=plateau];
+    rel[natural=valley];
+    rel[natural=moor];
+    """
 
-    if nests_parks:
-        date = nest_date
+    if nest_parks:
+        tags += nest_tags
+
+    date = '2019-02-25T01:30:00Z' if nest_parks else '2016-07-16T00:00:00Z'
 
     return '[bbox:{},{}][timeout:620][date:"{}"];({});out;>;out skel qt;'.format(
         lower_left_point,
         upper_right_point,
         date,
-        tags.replace("\n", "")
+        tags
     )
 
 
@@ -950,10 +977,10 @@ def download_all_parks():
     if not os.path.isfile(file_path):
         download_parks(file_path, lower_left_point, upper_right_point)
     else:
-        log.info('EX raids eligible parks already downloaded... Skipping')
+        log.info('EX raids eligible parks already downloaded... Skipping.')
 
     file_path = os.path.join(args.root_path, 'static/data/parks-nests.json')
     if not os.path.isfile(file_path):
         download_parks(file_path, lower_left_point, upper_right_point, True)
     else:
-        log.info('Nests parks already downloaded... Skipping')
+        log.info('Nests parks already downloaded... Skipping.')
