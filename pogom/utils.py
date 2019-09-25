@@ -293,6 +293,10 @@ def get_args():
                         help=('Coordinates of the upper right point of' +
                               ' the box where the parks will be downloaded'),
                         default=None)
+    parser.add_argument('-pqt', '--parks-query-timeout',
+                        help=('The maximum allowed runtime for the parks' +
+                              ' query in seconds.'),
+                        type=int, default=600)
 
     parser.set_defaults(DEBUG=False)
 
@@ -856,6 +860,8 @@ def peewee_attr_to_col(cls, field):
 
 def build_overpass_query(lower_left_point, upper_right_point,
                          nest_parks=False):
+    args = get_args()
+
     # Tags used for both EX and nest parks.
     tags = """
     way[leisure=park];
@@ -909,9 +915,10 @@ def build_overpass_query(lower_left_point, upper_right_point,
 
     date = '2019-02-25T01:30:00Z' if nest_parks else '2016-07-16T00:00:00Z'
 
-    return '[bbox:{},{}][timeout:620][date:"{}"];({});out;>;out skel qt;'.format(
+    return '[bbox:{},{}][timeout:{}][date:"{}"];({});out;>;out skel qt;'.format(
         lower_left_point,
         upper_right_point,
+        args.parks_query_timeout,
         date,
         tags
     )
