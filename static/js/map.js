@@ -148,8 +148,6 @@ const availablePokemonCount = 649
 
 const genderType = ['♂', '♀', '⚲']
 
-const dittoIds = [13, 46, 48, 163, 165, 167, 187, 223, 273, 293, 300, 316, 322, 399]
-
 const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
 const questItemNames = {
     1: 'Poké Ball',
@@ -1467,9 +1465,7 @@ function pokemonLabel(item) {
         name = name.slice(0, -1)
     }
 
-    if (id === 132) { // Ditto.
-        formDisplay = `(${item.disguise_pokemon_name})`
-    } else if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
+    if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
         formDisplay = `(${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 

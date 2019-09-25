@@ -17,8 +17,8 @@ from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
 from pogom.weather import (get_weather_cells, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation, SpawnPoint)
-from .utils import (get_args, is_ditto, get_pokemon_name, get_pokemon_types,
-                    calc_pokemon_cp, now, dottedQuadToNum)
+from .utils import (get_args, get_pokemon_name, get_pokemon_types, now,
+                    dottedQuadToNum)
 from .client_auth import check_auth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
@@ -35,13 +35,6 @@ def convert_pokemon_list(pokemon):
 
     pokemon_result = []
     for p in pokemon:
-        if is_ditto(p):
-            p['disguise_pokemon_name'] = get_pokemon_name(p['pokemon_id'])
-            p['pokemon_id'] = 132
-            p['cp'] = calc_pokemon_cp(p, 91, 91, 134)
-            p['gender'] = 3 # Ditto is genderless.
-            p['weather_boosted_condition'] = 0
-            p['move_1'] = p['move_2'] = p['weight'] = p['height'] = None
         p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
         p['pokemon_types'] = get_pokemon_types(p['pokemon_id'])
         p['encounter_id'] = str(p['encounter_id'])
