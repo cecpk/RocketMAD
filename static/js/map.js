@@ -1478,21 +1478,21 @@ function pokemonLabel(item) {
         const rarity = getPokemonRarity(item['pokemon_id'])
         if (rarity) {
             rarityDisplay = `
-                <div class='pokemon rarity'>
-                 ${rarity}
-               </div>`
+                <div>
+                  Rarity: <strong>${rarity}</strong>
+                </div>`
         }
     }
 
     if (weatherBoostedCondition > 0) {
-        weatherBoostDisplay = `<img class='weather-image' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
+        weatherBoostDisplay = `<img class='weather-image' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
     }
 
     $.each(types, function (index, type) {
         if (index === 1) {
-            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13px' style='margin-left:4px;'>`
+            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13' style='margin-left:4px;'>`
         } else {
-            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13px'>`
+            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13'>`
         }
     })
 
@@ -1505,54 +1505,48 @@ function pokemonLabel(item) {
         var level = getPokemonLevel(item)
 
         statsDisplay = `
-            <div class='pokemon encounter-info'>
+            <div class='info-container'>
               <div>
-                IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
+                IV: <strong><span style='color: ${ivColor};'>${iv}%</span></strong> (A<strong>${atk}</strong> | D<strong>${def}</strong> | S<strong>${sta}</strong>)
               </div>
               <div>
-                CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
+                CP: <strong>${cp}</strong> | Level: <strong>${level}</strong>
               </div>
               <div>
-               Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
+               Moves: <strong>${move1}</strong> / <strong>${move2}</strong>
               </div>
               <div>
-                Weight: <span class='pokemon encounter'>${weight}kg</span> | Height: <span class='pokemon encounter'>${height}m</span>
+                Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
               </div>
             </div>`
     }
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    const notifyLabel = notifyPokemon.includes(id) ? 'Unnotify' : 'Notify'
+    const notifyText = notifyPokemon.includes(id) ? 'Unnotify' : 'Notify'
+    const notifyIconClass = notifyPokemon.includes(id) ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
-    <div class='pokemon title'>
-      <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span> ${typesDisplay}${weatherBoostDisplay}
-    </div>
-    <div class='pokemon container'>
-      <div class='pokemon container content-left'>
-        <div>
-          <img class='pokemon sprite' src='${pokemonIcon}'>
+    <div class='pokemon-container'>
+        <div class='title'>
+          <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> #${id}</span> ${typesDisplay}${weatherBoostDisplay}
+        </div>
+        <div class='disappear'>
+          ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
+        </div>
+        ${statsDisplay}
+        <div class='info-container'>
           ${rarityDisplay}
           <div>
-            <span class='pokemon gen'>Gen ${gen}</span>
+            Generation: <strong>${gen}</strong>
           </div>
         </div>
-      </div>
-      <div class='pokemon container content-right'>
-        <div>
-          <div class='pokemon disappear'>
-            ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
-          </div>
-          ${statsDisplay}
-          <div class='pokemon coords'>
-            <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in ${mapLabel} Maps'>${latitude.toFixed(7)}, ${longitude.toFixed(7)}</a>
-          </div>
-          <a href='javascript:excludePokemon(${id}, "${encounterId}")'>Hide</a> |
-          <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a> |
-          <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
-        </div>
-      </div>
+        <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+        <a href='javascript:excludePokemon(${id}, "${encounterId}")' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+        <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
+        <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i></a>
+        <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
+        <img class='pokemon sprite' src='${pokemonIcon}' width='64'>
     </div>`
 }
 

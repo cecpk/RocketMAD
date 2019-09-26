@@ -1,14 +1,5 @@
-.pokemon {
-  &.container {
-    display: flex;
-
-    &.content-left {
-      margin: auto 19px auto 0;
-      text-align: center;
-    }
-  }
-
-  &.title span {
+.pokemon-container {
+  .title span {
       vertical-align: middle;
   }
 
@@ -16,31 +7,17 @@
     vertical-align: middle;
   }
 
-  &.sprite {
-    width: 64px;
-    margin-bottom: 10px;
+  .sprite {
+    position: fixed;
+    bottom: -24px;
+    right: -32px;
+    filter: drop-shadow(6px 3px 2px #000);
   }
 
-  &.gen, &.rarity, &.encounter {
-    font-weight: 900;
-  }
-
-  &.disappear {
+  .disappear {
     font-size: 14px;
     font-weight: 900;
     margin-bottom: 10px;
     white-space: nowrap;
-  }
-
-  &.encounter-info {
-    margin-bottom: 10px;
-  }
-
-  &.types {
-    margin-bottom: 8px;
-  }
-
-  &.coords {
-    margin-bottom: 2px;
   }
 }
