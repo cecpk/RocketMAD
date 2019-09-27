@@ -13,7 +13,7 @@
     ],
     "forms": {
       "163": {
-        "formName": "",
+        "formName": "Normal",
         "assetId": "00"
       },
       "164": {
@@ -8719,11 +8719,11 @@
     "forms": {
       "136": {
         "formName": "Red-Striped",
-        "assetId": "00"
+        "assetId": "11"
       },
       "137": {
         "formName": "Blue-Striped",
-        "assetId": "00"
+        "assetId": "12"
       }
     }
   },
@@ -8786,11 +8786,11 @@
     "forms": {
       "138": {
         "formName": "Standard Mode",
-        "assetId": "00"
+        "assetId": "11"
       },
       "139": {
         "formName": "Zen Mode",
-        "assetId": "00"
+        "assetId": "12"
       }
     }
   },
@@ -9114,19 +9114,19 @@
     "forms": {
       "585": {
         "formName": "Spring",
-        "assetId": "00"
+        "assetId": "11"
       },
       "586": {
         "formName": "Summer",
-        "assetId": "00"
+        "assetId": "12"
       },
       "587": {
         "formName": "Autumn",
-        "assetId": "00"
+        "assetId": "13"
       },
       "588": {
         "formName": "Winter",
-        "assetId": "00"
+        "assetId": "14"
       }
     }
   },
@@ -9145,19 +9145,19 @@
     "forms": {
       "589": {
         "formName": "Spring",
-        "assetId": "00"
+        "assetId": "11"
       },
       "590": {
         "formName": "Summer",
-        "assetId": "00"
+        "assetId": "12"
       },
       "591": {
         "formName": "Autumn",
-        "assetId": "00"
+        "assetId": "13"
       },
       "592": {
         "formName": "Winter",
-        "assetId": "00"
+        "assetId": "14"
       }
     }
   },
@@ -9782,11 +9782,11 @@
     "forms": {
       "140": {
         "formName": "Incarnate",
-        "assetId": "00"
+        "assetId": "11"
       },
       "141": {
         "formName": "Therian",
-        "assetId": "00"
+        "assetId": "12"
       }
     }
   },
@@ -9805,11 +9805,11 @@
     "forms": {
       "142": {
         "formName": "Incarnate",
-        "assetId": "00"
+        "assetId": "11"
       },
       "143": {
         "formName": "Therian",
-        "assetId": "00"
+        "assetId": "12"
       }
     }
   },
@@ -9854,11 +9854,11 @@
     "forms": {
       "144": {
         "formName": "Incarnate",
-        "assetId": "00"
+        "assetId": "11"
       },
       "145": {
         "formName": "Therian",
-        "assetId": "00"
+        "assetId": "12"
       }
     }
   },
@@ -9877,15 +9877,15 @@
     "forms": {
       "146": {
         "formName": "Normal",
-        "assetId": "00"
+        "assetId": "11"
       },
       "147": {
-        "formName": "White",
-        "assetId": "00"
+        "formName": "Black",
+        "assetId": "12"
       },
       "148": {
-        "formName": "Black",
-        "assetId": "00"
+        "formName": "White",
+        "assetId": "13"
       }
     }
   },
@@ -9904,11 +9904,11 @@
     "forms": {
       "149": {
         "formName": "Ordinary",
-        "assetId": "00"
+        "assetId": "11"
       },
       "150": {
         "formName": "Resolute",
-        "assetId": "00"
+        "assetId": "12"
       }
     }
   },
@@ -9927,11 +9927,11 @@
     "forms": {
       "151": {
         "formName": "Aria",
-        "assetId": "00"
+        "assetId": "11"
       },
       "152": {
         "formName": "Pirouette",
-        "assetId": "00"
+        "assetId": "12"
       }
     }
   },
@@ -9950,23 +9950,23 @@
     "forms": {
       "593": {
         "formName": "Normal",
-        "assetId": "00"
+        "assetId": "11"
       },
       "594": {
         "formName": "Shock",
-        "assetId": "00"
+        "assetId": "12"
       },
       "595": {
         "formName": "Burn",
-        "assetId": "00"
+        "assetId": "13"
       },
       "596": {
         "formName": "Chill",
-        "assetId": "00"
+        "assetId": "14"
       },
       "597": {
         "formName": "Douse",
-        "assetId": "00"
+        "assetId": "15"
       }
     }
   },
