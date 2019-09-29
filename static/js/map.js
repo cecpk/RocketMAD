@@ -702,6 +702,7 @@ function initSidebar() {
     })
 
     $('#filter-ivs-text').change(function () {
+        const oldValue = Store.get('filterIvsPercentage')
         let filterIvsPercentage = parseFloat(this.value)
         if (isNaN(filterIvsPercentage) || filterIvsPercentage <= 0) {
             this.value = ''
@@ -713,7 +714,9 @@ function initSidebar() {
             this.value = filterIvsPercentage = Math.round(filterIvsPercentage * 10) / 10
         }
         Store.set('filterIvsPercentage', filterIvsPercentage)
-        lastpokemon = false
+        if (filterIvsPercentage < oldValue) {
+            lastpokemon = false
+        }
         reprocessPokemons([], true)
     })
 
