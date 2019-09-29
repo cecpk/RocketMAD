@@ -748,8 +748,10 @@ function initSidebar() {
         Store.set('showPokemonStats', this.checked)
         if (Store.get('filterIvsPercentage') > 0) {
             lastpokemon = false
+            reprocessPokemons([], false)
+        } else {
+            reprocessPokemons([], true)
         }
-        reprocessPokemons([], true)
     })
 
     $('#gyms-switch').change(function () {
@@ -2830,13 +2832,13 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
     }
 
     const filterIvsPercentage = Store.get('filterIvsPercentage')
-    if (filterIvsPercentage > 0) {
-        if (pokemon.individual_attack !== null && Store.get('showPokemonStats')) {
+    if (Store.get('showPokemonStats') && filterIvsPercentage > 0) {
+        if (pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon)
             if (ivsPercentage < filterIvsPercentage) {
                 return false
             }
-        } else if (Store.get('showPokemonStats')) {
+        } else {
             return false
         }
     }
