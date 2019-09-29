@@ -36,6 +36,9 @@ var languageLookupThreshold = 3
 
 var searchMarkerStyles
 
+// Settings variables.
+var showPokemonValues
+
 var timestamp
 var excludedPokemon = []
 var includedRaidPokemon = []
@@ -438,6 +441,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         changeLocation(e.location.y, e.location.x)
     })
 
+    initSettingVariables()
     initSidebar()
 
     if (Push._agents.chrome.isSupported()) {
@@ -570,6 +574,10 @@ function createStartLocationMarker() {
     })
 
     return marker
+}
+
+function initSettingVariables() {
+    showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonStats')
 }
 
 function initSidebar() {
@@ -745,6 +753,7 @@ function initSidebar() {
             }
             $tabNotify.tabs("disable", 1)
         }
+        showPokemonValues = this.checked
         Store.set('showPokemonStats', this.checked)
         if (Store.get('filterIvsPercentage') > 0) {
             lastpokemon = false
@@ -1333,7 +1342,7 @@ function initSidebar() {
     $('#filter-ivs-text').val(Store.get('filterIvsPercentage')).trigger('change')
     $('#exclude-rarity-switch').val(Store.get('excludedRarity'))
     $('#scale-rarity-switch').prop('checked', Store.get('scaleByRarity'))
-    $('#pokemon-stats-switch').prop('checked', Store.get('showPokemonStats')).trigger('change')
+    $('#pokemon-stats-switch').prop('checked', showPokemonValues).trigger('change')
 
     // Gyms.
     $('#gyms-switch').prop('checked', Store.get('showGyms'))
@@ -1478,7 +1487,6 @@ function pokemonLabel(item) {
 
     var pokemonIcon = getPokemonRawIconUrl(item)
     var gen = getPokemonGen(id)
-    const showStats = Store.get('showPokemonStats')
 
     var formDisplay = ''
     var rarityDisplay = ''
@@ -1518,7 +1526,7 @@ function pokemonLabel(item) {
     })
     typesDisplay += `</div>`
 
-    if (showStats && cp !== null && cpMultiplier !== null) {
+    if (showPokemonValues && cp !== null && cpMultiplier !== null) {
         var iv = 0
         if (atk !== null && def !== null && sta !== null) {
             iv = getIvsPercentage(item)
@@ -2832,7 +2840,7 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
     }
 
     const filterIvsPercentage = Store.get('filterIvsPercentage')
-    if (Store.get('showPokemonStats') && filterIvsPercentage > 0) {
+    if (showPokemonValues && filterIvsPercentage > 0) {
         if (pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon)
             if (ivsPercentage < filterIvsPercentage) {
@@ -2933,7 +2941,7 @@ function isNotifyPokemon(pokemon) {
             return true
         }
 
-        if (pokemon.individual_attack !== null && Store.get('showPokemonStats')) {
+        if (pokemon.individual_attack !== null && showPokemonValues) {
             const notifyIvsPercentage = Store.get('notifyIvsPercentage')
             if (notifyIvsPercentage > 0) {
                 const ivsPercentage = getIvsPercentage(pokemon)
@@ -3820,7 +3828,7 @@ function sendPokemonNotification(pokemon) {
 
         notifyText = `Disappears at ${expireTime} (${expireTimeCountdown})`
 
-        if (Store.get('showPokemonStats') && pokemon.individual_attack !== null) {
+        if (showPokemonValues && pokemon.individual_attack !== null) {
             notifyTitle += ` ${getIvsPercentage(pokemon)}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon)}`
             const move1 = moves[pokemon.move_1] !== undefined ? i8ln(moves[pokemon.move_1].name) : 'unknown'
             const move2 = moves[pokemon.move_2] !== undefined ? i8ln(moves[pokemon.move_2].name) : 'unknown'

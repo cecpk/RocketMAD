@@ -119,7 +119,17 @@
                     </div>
                   </div>
                 </div>
-                  {% if show.encounter %}
+                  {% if show.pokemon_values %}
+                <div class="form-control switch-container">
+                  <h3>Pokémon Values</h3>
+                  <div class="onoffswitch">
+                    <input id="pokemon-stats-switch" type="checkbox" name="pokemon-stats-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="pokemon-stats-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
                 <div class="form-control">
                     <label for="filter-ivs-text">
                         <h3>Minimum IVs %</h3>
@@ -144,18 +154,6 @@
                   <div class="onoffswitch">
                     <input id="scale-rarity-switch" type="checkbox" name="scale-rarity-switch" class="onoffswitch-checkbox" checked>
                     <label class="onoffswitch-label" for="scale-rarity-switch">
-                      <span class="switch-label" data-on="On" data-off="Off"></span>
-                      <span class="switch-handle"></span>
-                    </label>
-                  </div>
-                </div>
-                  {% endif %}
-                  {% if show.encounter %}
-                <div class="form-control switch-container">
-                  <h3>Pokémon Values</h3>
-                  <div class="onoffswitch">
-                    <input id="pokemon-stats-switch" type="checkbox" name="pokemon-stats-switch" class="onoffswitch-checkbox" checked>
-                    <label class="onoffswitch-label" for="pokemon-stats-switch">
                       <span class="switch-label" data-on="On" data-off="Off"></span>
                       <span class="switch-handle"></span>
                     </label>
@@ -707,7 +705,7 @@
                       </div>
                       <div id="tabs_notify-11">
                         <div class="notify-container">
-                            {% if show.encounter %}
+                            {% if show.pokemon_values %}
                           <div class="form-control">
                             <label for="notify-ivs-text">
                               <h3>Notify of IVs %</h3>

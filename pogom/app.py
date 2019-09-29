@@ -188,18 +188,18 @@ class Pogom(Flask):
         args = get_args()
 
         visibility_flags = {
-            'gyms': not args.no_gyms,
             'pokemons': not args.no_pokemon,
+            'pokemon_values': not args.no_pokemon_values,
+            'gyms': not args.no_gyms,
+            'gym_sidebar': not args.no_gym_sidebar,
+            'raids': not args.no_raids,
             'pokestops': not args.no_pokestops,
             'quests': not args.no_quests,
-            'raids': not args.no_raids,
-            'gym_sidebar': not args.no_gym_sidebar,
+            'medalpokemon': args.medalpokemon,
             'parks': args.parks,
             'rarity': args.rarity_update_frequency > 0,
-            'encounter': args.encounter,
             'custom_css': args.custom_css,
-            'custom_js': args.custom_js,
-            'medalpokemon': args.medalpokemon
+            'custom_js': args.custom_js
         }
 
         return render_template(

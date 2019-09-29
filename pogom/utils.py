@@ -86,12 +86,6 @@ def get_args():
     parser.add_argument('-al', '--access-logs',
                         help=("Write web logs to access.log."),
                         action='store_true', default=False)
-    parser.add_argument('-enc', '--encounter',
-                        help='Start an encounter to gather IVs and moves.',
-                        action='store_true', default=False)
-    parser.add_argument('-mpm', '--medalpokemon',
-                        help='Show notify for tiny rattata and big magikarp.',
-                        action='store_true', default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host.',
                         default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int,
@@ -110,22 +104,28 @@ def get_args():
                               'starting the Webserver.'),
                         action='store_true', default=False)
     parser.add_argument('-np', '--no-pokemon',
-                        help=('Disables Pokemon from the map.'),
+                        help=('Disables Pokémon.'),
+                        action='store_true', default=False)
+    parser.add_argument('-npv', '--no-pokemon-values',
+                        help='Disables pokemon values.',
                         action='store_true', default=False)
     parser.add_argument('-ng', '--no-gyms',
-                        help=('Disables Gyms from the map.'),
-                        action='store_true', default=False)
-    parser.add_argument('-nr', '--no-raids',
-                        help=('Disables Raids from the map.'),
-                        action='store_true', default=False)
-    parser.add_argument('-ns', '--no-pokestops',
-                        help=('Disables PokeStops from the map.'),
-                        action='store_true', default=False)
-    parser.add_argument('-nq', '--no-quests',
-                        help=('Disables quests from the map.'),
+                        help=('Disables Gyms.'),
                         action='store_true', default=False)
     parser.add_argument('-ngs', '--no-gym-sidebar',
                         help=('Disable the gym sidebar and toggle.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nr', '--no-raids',
+                        help=('Disables Raids.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nps', '--no-pokestops',
+                        help=('Disables PokéStops.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nq', '--no-quests',
+                        help=('Disables Quests.'),
+                        action='store_true', default=False)
+    parser.add_argument('-mpm', '--medalpokemon',
+                        help='Show notifications for tiny Rattata and big Magikarp.',
                         action='store_true', default=False)
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',

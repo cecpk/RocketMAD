@@ -256,8 +256,8 @@ def main():
              'disabled' if args.no_pokestops else 'enabled')
     log.info('Parsing of Gyms %s.',
              'disabled' if args.no_gyms else 'enabled')
-    log.info('Pokemon encounters %s.',
-             'enabled' if args.encounter else 'disabled')
+    log.info('Pokemon values %s.',
+             'disabled' if args.no_pokemon_values else 'enabled')
 
     app = None
     if not args.clear_db:
