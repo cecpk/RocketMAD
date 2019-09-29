@@ -717,7 +717,7 @@ function initSidebar() {
         if (filterIvsPercentage < oldValue) {
             lastpokemon = false
         }
-        reprocessPokemons([], true)
+        reprocessPokemons()
     })
 
     $('#exclude-rarity-switch').on('change', function () {
