@@ -238,6 +238,12 @@ def get_args():
                               'external authentication.'))
     parser.add_argument('-uasdgi', '--uas-discord-guild-invite', default=None,
                         help='Link for users not in required guild.')
+    parser.add_argument('-uadbg', '--uas-discord-blacklisted-guilds',
+                        default=None,
+                        help=('Blacklisted Discord Guild(s) for user ' +
+                              'external authentication.'))
+    parser.add_argument('-uasdgi', '--uas-discord-guild-invite', default=None,
+                        help='Link for users not in required guild.')
     parser.add_argument('-uasdrr', '--uas-discord-required-roles',
                         default=None,
                         help=('Required Discord Guild Role(s) ' +

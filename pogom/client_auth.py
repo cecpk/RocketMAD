@@ -25,6 +25,9 @@ def check_auth(args, request, user_auth_code_cache):
         if args.uas_discord_required_guilds:
             if not valid_discord_guild(request, user_auth_code_cache, args):
                 return redirect_to_discord_guild_invite(args)
+            if invalid_discord_guild(request, user_auth_code_cache, args):
+                userAuthCode = request.args.get('userAuthCode')
+                return redirect_to_invalid_discord_guild(args)
             if (args.uas_discord_required_roles and
                 not valid_discord_guild_role(
                     request, user_auth_code_cache, args)):
@@ -91,23 +94,46 @@ def valid_discord_guild(request, user_auth_code_cache, args):
     del user_auth_code_cache[userAuthCode]['guilds']
     return False
 
+def invalid_discord_guild(request, user_auth_code_cache, args):
+    userAuthCode = request.args.get('userAuthCode')
+    guilds = user_auth_code_cache.get(userAuthCode)['guilds']
+    required_guilds = (
+        [x.strip() for x in args.uas_discord_blacklisted_guilds.split(',')])
+    for g in guilds:
+        if g['id'] in required_guilds:
+            del user_auth_code_cache[userAuthCode]
+            return True
+    return False
 
 def valid_discord_guild_role(request, user_auth_code_cache, args):
     userAuthCode = request.args.get('userAuthCode')
     userRoles = user_auth_code_cache.get(userAuthCode)['roles']
-    requiredRoles = (
-        [x.strip() for x in args.uas_discord_required_roles.split(',')])
-    for r in userRoles:
-        if r in requiredRoles:
-            return True
+
+    requiredRoles = set()
+    for role in args.uas_discord_required_roles.split(","):
+        if ":" in role:
+            requiredRoles.add(role)
+        else:
+            requiredRoles.add("{}:{}".format(
+                args.uas_discord_required_guilds.split(',')[0].strip(),
+                role))
+    for guild in userRoles:
+        for r in userRoles[guild]:
+            role = "{}:{}".format(guild, r)
+            if role in requiredRoles:
+                return True
     log.debug("User not in required discord guild role.")
     del user_auth_code_cache[userAuthCode]['roles']
     return False
 
-
 def redirect_to_discord_guild_invite(args):
     d = {}
     d['auth_redirect'] = args.uas_discord_guild_invite
+    return jsonify(d)
+
+def redirect_to_invalid_discord_guild(args):
+    d = {}
+    d['auth_redirect'] = args.uas_discord_blacklisted_redirect
     return jsonify(d)
 
 
@@ -149,7 +175,6 @@ def get_user_guilds(auth_token):
         return False
     return r.json()
 
-
 def get_user_guild_roles(auth_token, args):
     headers = {
       'Authorization': 'Bearer ' + auth_token
@@ -163,19 +188,30 @@ def get_user_guild_roles(auth_token, args):
                   ' returned from Discord @me attempt: ' +
                   r.text)
         return False
+
     user_id = r.json()['id']
     headers = {
       'Authorization': 'Bot ' + args.uas_discord_bot_token
     }
-    r = requests.get(
-        'https://discordapp.com/api/v6/guilds/' +
-        args.uas_discord_required_guilds.split(',')[0].strip() +
-        '/members/' + user_id, headers=headers)
-    try:
-        r.raise_for_status()
-    except Exception:
-        log.debug('' + str(r.status_code) +
-                  ' returned from Discord guild member attempt: ' +
-                  r.text)
+    guilds_to_check = set()
+    for role in args.uas_discord_required_roles.split(","):
+        if ":" in role:
+            guilds_to_check.add(role.split(":")[0].strip())
+        else:
+            guilds_to_check.add(
+                args.uas_discord_required_guilds.split(',')[0].strip())
+    roles = {}
+    for guild in guilds_to_check:
+        r = requests.get('https://discordapp.com/api/v6/guilds/' +
+            guild +
+            '/members/' + user_id, headers=headers)
+        try:
+            r.raise_for_status()
+            roles[guild] = r.json()['roles']
+        except Exception:
+            log.debug('' + str(r.status_code) +
+                    ' returned from Discord guild member attempt: ' +
+                    r.text)
+    if roles == {}:
         return False
-    return r.json()['roles']
+    return roles
