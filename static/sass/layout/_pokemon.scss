@@ -1,23 +1,31 @@
-.pokemon-container {
-  .title span {
-      vertical-align: middle;
+#pokemon-container {
+  display: flex;
+
+  #pokemon-container-left {
+    margin: 0 19px 10px 0;
   }
 
-  .type-image, .weather-image {
-    vertical-align: middle;
+  #pokemon-container-right {
+    width: 100%;
+    text-align: center;
+  }
+
+  .title {
+    white-space: nowrap;
+
+    #weather-icon, span {
+      vertical-align: middle;
+    }
   }
 
   .sprite {
-    position: fixed;
-    bottom: -24px;
-    right: -32px;
-    filter: drop-shadow(6px 3px 2px #000);
+    display: block;
+    margin: 0 auto;
   }
 
   .disappear {
     font-size: 14px;
     font-weight: 900;
-    margin-bottom: 10px;
     white-space: nowrap;
   }
 }

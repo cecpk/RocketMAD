@@ -1,3 +1,42 @@
+#ex-icon {
+  vertical-align: middle;
+}
+
+#gym-container {
+  display: flex;
+  margin-bottom: 10px;
+
+  #gym-container-left {
+    margin-right: 19px;
+  }
+
+  #gym-container-right {
+    margin: auto 0;
+
+    .gym-image {
+      display: block;
+      border-radius: 8px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.7;
+      }
+
+      &.mystic {
+        border: 3px solid rgba(0,134,255,1);
+      }
+
+      &.valor {
+        border: 3px solid rgba(255,26,26,1);
+      }
+
+      &.instinct {
+        border: 3px solid rgba(255,159,25,1);
+      }
+    }
+  }
+}
+
 .gym {
   &.name-container {
     margin-bottom: 13px;
@@ -13,28 +52,12 @@
     display: flex;
 
     &.content-left {
-      margin: auto 19px auto 0;
-      text-align: center;
+      margin-right: 19px;
     }
 
     &.content-right {
       margin: auto 0 auto 0;
-    }
-  }
-
-  &.image {
-    border-radius: 32px;
-
-    &.mystic {
-      border: 3px solid rgba(0,134,255,1);
-    }
-
-    &.valor {
-      border: 3px solid rgba(255,26,26,1);
-    }
-
-    &.instinct {
-      border: 3px solid rgba(255,159,25,1);
+      text-align: center;
     }
   }
 

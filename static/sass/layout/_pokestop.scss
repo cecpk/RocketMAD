@@ -34,6 +34,10 @@
     margin-top: auto;
     margin-bottom: auto;
 
+    &:hover {
+      opacity: 0.7;
+    }
+
     &.no-lure {
       border: 3px solid rgb(54, 198, 255);
     }

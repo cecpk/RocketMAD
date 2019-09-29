@@ -1477,22 +1477,19 @@ function pokemonLabel(item) {
     if (showConfig.rarity) {
         const rarity = getPokemonRarity(item['pokemon_id'])
         if (rarity) {
-            rarityDisplay = `
-                <div>
-                  Rarity: <strong>${rarity}</strong>
-                </div>`
+            rarityDisplay = `<strong>${rarity}</strong> | `
         }
     }
 
     if (weatherBoostedCondition > 0) {
-        weatherBoostDisplay = `<img class='weather-image' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
+        weatherBoostDisplay = `<img id='weather-icon' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
     }
 
     $.each(types, function (index, type) {
         if (index === 1) {
-            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13' style='margin-left:4px;'>`
+            typesDisplay += `<img class='type-icon' src='static/images/types/${type.type.toLowerCase()}.png' width='12' style='margin-left:4px;'>`
         } else {
-            typesDisplay += `<img class='type-image' src='static/images/types/${type.type.toLowerCase()}.png' width='13'>`
+            typesDisplay += `<img class='type-icon' src='static/images/types/${type.type.toLowerCase()}.png' width='12'>`
         }
     })
 
@@ -1527,27 +1524,39 @@ function pokemonLabel(item) {
     const notifyIconClass = notifyPokemon.includes(id) ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
-    <div class='pokemon-container'>
-        <div class='title'>
-          <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> #${id}</span> ${typesDisplay}${weatherBoostDisplay}
-        </div>
-        <div class='disappear'>
-          ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
-        </div>
-        ${statsDisplay}
-        <div class='info-container'>
-          ${rarityDisplay}
-          <div>
-            Generation: <strong>${gen}</strong>
+        <div>
+          <div id='pokemon-container'>
+            <div id='pokemon-container-left'>
+              <div class='title'>
+                <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> #${id}</span> ${weatherBoostDisplay}
+              </div>
+              <div class='disappear'>
+                ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
+              </div>
+            </div>
+            <div id='pokemon-container-right'>
+              <div class='icon-container'>
+                <img class='pokemon sprite' src='${pokemonIcon}' width='41'>
+              </div>
+              <div>
+                ${typesDisplay}
+              </div>
+            </div>
           </div>
-        </div>
-        <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
-        <a href='javascript:excludePokemon(${id}, "${encounterId}")' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
-        <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
-        <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i></a>
-        <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
-        <img class='pokemon sprite' src='${pokemonIcon}' width='64'>
-    </div>`
+          ${statsDisplay}
+          <div class='info-container'>
+            ${rarityDisplay}<strong>Gen ${gen}</strong>
+          </div>
+          <div class='coordinates'>
+            <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
+          </div>
+          <div>
+            <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+            <a href='javascript:excludePokemon(${id}, "${encounterId}")' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+            <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
+            <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
+          </div>
+        </div>`
 }
 
 function updatePokemonLabel(pokemon, marker) {
@@ -1563,23 +1572,21 @@ function gymLabel(gym) {
     const titleText = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    var exRaidDisplay = ''
+    var exDisplay = ''
     var gymImageDisplay = ''
     var strenghtDisplay = ''
     var gymLeaderDisplay = ''
     var raidDisplay = ''
 
     if (gym.is_ex_raid_eligible) {
-        exRaidDisplay = `
-            <div class='gym ex-gym'>
-              EX Gym
-            </div>`
+        exDisplay = `<img id='ex-icon' src='static/images/gym/ex.png' width='22'>`
     }
 
     if (gym.url) {
+        const url = gym.url.replace(/^http:\/\//i, '//')
         gymImageDisplay = `
             <div>
-              <img class='gym image ${teamName.toLowerCase()}' src='${gym.url.replace(/^http:\/\//i, '//')}' width='64px' height='64px'>
+              <img class='gym-image ${teamName.toLowerCase()} modal-toggle' src='${url}' onclick='showImageModal("${url}", "${titleText.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")' width='64' height='64'>
             </div>`
     } else {
         let gymUrl = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
@@ -1699,36 +1706,29 @@ function gymLabel(gym) {
 
     return `
         <div>
-          <div class='gym container'>
-            <div class='gym container content-left'>
+          <div class='title ${teamName.toLowerCase()}'>
+            ${titleText} ${exDisplay}
+          </div>
+          <div id='gym-container'>
+            <div id='gym-container-left'>
+              ${strenghtDisplay}
               <div>
-                ${gymImageDisplay}
-                ${exRaidDisplay}
+                Free slots: <span class='info'>${gym.slots_available}</span>
+              </div>
+              ${gymLeaderDisplay}
+              <div>
+                Last scanned: <span class='info'>${timestampToDateTime(gym.last_scanned)}</span>
+              </div>
+              <div>
+                Last modified: <span class='info'>${timestampToDateTime(gym.last_modified)}</span>
               </div>
             </div>
-            <div class='gym container content-right'>
-              <div>
-                <div class='gym title ${teamName.toLowerCase()}'>
-                  ${titleText}
-                </div>
-                <div class='gym gym-info'>
-                  ${strenghtDisplay}
-                  <div>
-                    Free slots: <span class='info'>${gym.slots_available}</span>
-                  </div>
-                  ${gymLeaderDisplay}
-                  <div>
-                    Last scanned: <span class='info'>${timestampToDateTime(gym.last_scanned)}</span>
-                  </div>
-                  <div>
-                    Last modified: <span class='info'>${timestampToDateTime(gym.last_modified)}</span>
-                  </div>
-                </div>
-                <div>
-                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'>${gym.latitude.toFixed(7)}, ${gym.longitude.toFixed(7)}</a>
-                </div>
-              </div>
+            <div id='gym-container-right'>
+              ${gymImageDisplay}
             </div>
+          </div>
+          <div>
+            <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
           </div>
           ${raidDisplay}
         </div>`
@@ -1747,6 +1747,7 @@ function pokestopLabel(pokestop) {
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
     var imageUrl = ''
     var imageClass = ''
+    var imageOnclick = ''
     var lureDisplay = ''
     var lureClass = ''
     var invasionDisplay = ''
@@ -1754,6 +1755,8 @@ function pokestopLabel(pokestop) {
 
     if (pokestop.image != null && pokestop.image != '') {
         imageUrl = pokestop.image.replace(/^http:\/\//i, '//')
+        imageOnclick = `onclick='showImageModal("${imageUrl}", "${pokestopName.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+        console.log(pokestopName.replace(/"|'/g, '&quot;'))
         imageClass = 'image'
     } else {
         imageUrl = getPokestopIconUrlFiltered(pokestop)
@@ -1862,7 +1865,7 @@ function pokestopLabel(pokestop) {
             <div class='pokestop container content-left'>
               <div>
                 <div>
-                  <img class='pokestop ${imageClass} ${lureClass}' src='${imageUrl}' width='64px' height='64px'>
+                  <img class='pokestop ${imageClass} ${lureClass}' src='${imageUrl}' ${imageOnclick} width='64px' height='64px'>
                 </div>
               </div>
             </div>
