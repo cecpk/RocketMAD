@@ -119,6 +119,14 @@
                     </div>
                   </div>
                 </div>
+                  {% if show.encounter %}
+                <div class="form-control">
+                    <label for="filter-ivs-text">
+                        <h3>Minimum IVs %</h3>
+                        <input id="filter-ivs-text" type="text" name="filter-ivs-text" placeholder="Minimum IVs %"/>
+                    </label>
+                </div>
+                  {% endif %}
                   {% if show.rarity %}
                 <div class="form-control switch-container" id="exclude-rarity-wrapper">
                   <h3>Exclude Rarity</h3>

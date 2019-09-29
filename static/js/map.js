@@ -701,6 +701,22 @@ function initSidebar() {
         reprocessPokemons()
     })
 
+    $('#filter-ivs-text').change(function () {
+        let filterIvsPercentage = parseFloat(this.value)
+        if (isNaN(filterIvsPercentage) || filterIvsPercentage <= 0) {
+            this.value = ''
+            filterIvsPercentage = -1
+        } else if (filterIvsPercentage > 100) {
+            this.value = filterIvsPercentage = 100
+        } else {
+            // Round to 1 decimal place.
+            this.value = filterIvsPercentage = Math.round(filterIvsPercentage * 10) / 10
+        }
+        Store.set('filterIvsPercentage', filterIvsPercentage)
+        lastpokemon = false
+        reprocessPokemons([], true)
+    })
+
     $('#exclude-rarity-switch').on('change', function () {
         const excludedRarity = this.value
         reincludedPokemon = reincludedPokemon.concat(excludedPokemonByRarity)
@@ -727,6 +743,9 @@ function initSidebar() {
             $tabNotify.tabs("disable", 1)
         }
         Store.set('showPokemonStats', this.checked)
+        if (Store.get('filterIvsPercentage') > 0) {
+            lastpokemon = false
+        }
         reprocessPokemons([], true)
     })
 
@@ -1202,10 +1221,10 @@ function initSidebar() {
             // Round to 1 decimal place.
             this.value = notifyIvsPercentage = Math.round(notifyIvsPercentage * 10) / 10
         }
+        Store.set('notifyIvsPercentage', notifyIvsPercentage)
         if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
         }
-        Store.set('notifyIvsPercentage', notifyIvsPercentage)
         reprocessPokemons([], true)
     })
 
@@ -1306,6 +1325,7 @@ function initSidebar() {
     // Pokemon.
     $('#pokemon-switch').prop('checked', Store.get('showPokemon'))
     $('#pokemons-filter-wrapper').toggle(Store.get('showPokemon'))
+    $('#filter-ivs-text').val(Store.get('filterIvsPercentage')).trigger('change')
     $('#exclude-rarity-switch').val(Store.get('excludedRarity'))
     $('#scale-rarity-switch').prop('checked', Store.get('scaleByRarity'))
     $('#pokemon-stats-switch').prop('checked', Store.get('showPokemonStats')).trigger('change')
@@ -2804,6 +2824,18 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
 
     if (getExcludedPokemon().includes(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (Store.get('showNotifiedPokemonOnly') && !isNotifyPokemon)) {
         return false
+    }
+
+    const filterIvsPercentage = Store.get('filterIvsPercentage')
+    if (filterIvsPercentage > 0) {
+        if (pokemon.individual_attack !== null && Store.get('showPokemonStats')) {
+            const ivsPercentage = getIvsPercentage(pokemon)
+            if (ivsPercentage < filterIvsPercentage) {
+                return false
+            }
+        } else if (Store.get('showPokemonStats')) {
+            return false
+        }
     }
 
     return true

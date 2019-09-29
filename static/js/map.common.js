@@ -160,6 +160,10 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'filterIvsPercentage': {
+        default: '-1',
+        type: StoreTypes.Number
+    },
     'showNotifiedPokemonAlways': {
         default: false,
         type: StoreTypes.Boolean
