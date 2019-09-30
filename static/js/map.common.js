@@ -160,10 +160,6 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
-    'filterIvsPercentage': {
-        default: '-1',
-        type: StoreTypes.Number
-    },
     'showNotifiedPokemonAlways': {
         default: false,
         type: StoreTypes.Boolean
@@ -191,6 +187,14 @@ var StoreOptions = {
     'showPokemonValues': {
         default: true,
         type: StoreTypes.Boolean
+    },
+    'filterIvsPercentage': {
+        default: '-1',
+        type: StoreTypes.Number
+    },
+    'filterLevel': {
+        default: '-1',
+        type: StoreTypes.Number
     },
     'showGyms': {
         default: true,

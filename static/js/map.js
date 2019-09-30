@@ -38,6 +38,8 @@ var searchMarkerStyles
 
 // Settings variables.
 var showPokemonValues
+var filterIvsPercentage
+var filterLevel
 
 var timestamp
 var excludedPokemon = []
@@ -578,6 +580,8 @@ function createStartLocationMarker() {
 
 function initSettingVariables() {
     showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
+    filterIvsPercentage = showConfig.pokemon_values ? Store.get('filterIvsPercentage') : -1
+    filterLevel = showConfig.pokemon_values ? Store.get('filterLevel') : -1
 }
 
 function initSidebar() {
@@ -726,7 +730,7 @@ function initSidebar() {
         }
         showPokemonValues = this.checked
         Store.set('showPokemonValues', this.checked)
-        if (Store.get('filterIvsPercentage') > 0) {
+        if (filterIvsPercentage > 0 || filterLevel > 0) {
             lastpokemon = false
             reprocessPokemons([], false)
         } else {
@@ -735,22 +739,44 @@ function initSidebar() {
     })
 
     $('#filter-ivs-text').change(function () {
-        const oldValue = Store.get('filterIvsPercentage')
-        let filterIvsPercentage = parseFloat(this.value)
-        if (isNaN(filterIvsPercentage) || filterIvsPercentage <= 0) {
+        const oldValue = filterIvsPercentage
+        let newValue = parseFloat(this.value)
+        if (isNaN(newValue) || newValue <= 0) {
             this.value = ''
-            filterIvsPercentage = -1
-        } else if (filterIvsPercentage > 100) {
-            this.value = filterIvsPercentage = 100
+            newValue = -1
+        } else if (newValue > 100) {
+            this.value = newValue = 100
         } else {
             // Round to 1 decimal place.
-            this.value = filterIvsPercentage = Math.round(filterIvsPercentage * 10) / 10
+            this.value = newValue = Math.round(newValue * 10) / 10
         }
-        Store.set('filterIvsPercentage', filterIvsPercentage)
-        if (filterIvsPercentage < oldValue) {
+        filterIvsPercentage = newValue
+        Store.set('filterIvsPercentage', newValue)
+        if (newValue < oldValue) {
             lastpokemon = false
+        } else {
+            reprocessPokemons()
         }
-        reprocessPokemons()
+    })
+
+    $('#filter-level-text').change(function () {
+        const oldValue = filterLevel
+        let newValue = parseInt(this.value, 10)
+        if (isNaN(newValue) || newValue <= 0) {
+            this.value = ''
+            newValue = -1
+        } else if (newValue > 40) {
+            this.value = newValue = 40
+        } else {
+            this.value = newValue
+        }
+        filterLevel = newValue
+        Store.set('filterLevel', newValue)
+        if (newValue < oldValue) {
+            lastpokemon = false
+        } else {
+            reprocessPokemons()
+        }
     })
 
     $('#exclude-rarity-switch').on('change', function () {
@@ -1252,6 +1278,8 @@ function initSidebar() {
             notifyLevel = -1
         } else if (notifyLevel > 40) {
             this.value = notifyLevel = 40
+        } else {
+            this.value = notifyLevel
         }
         if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
@@ -1342,7 +1370,8 @@ function initSidebar() {
     // Pokemon.
     $('#pokemon-switch').prop('checked', Store.get('showPokemon'))
     $('#pokemons-filter-wrapper').toggle(Store.get('showPokemon'))
-    $('#filter-ivs-text').val(Store.get('filterIvsPercentage')).trigger('change')
+    $('#filter-ivs-text').val(filterIvsPercentage).trigger('change')
+    $('#filter-level-text').val(filterLevel).trigger('change')
     $('#exclude-rarity-switch').val(Store.get('excludedRarity'))
     $('#scale-rarity-switch').prop('checked', Store.get('scaleByRarity'))
     $('#pokemon-values-switch').prop('checked', showPokemonValues).trigger('change')
@@ -2843,14 +2872,22 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
         return false
     }
 
-    const filterIvsPercentage = Store.get('filterIvsPercentage')
-    if (showPokemonValues && filterIvsPercentage > 0) {
-        if (pokemon.individual_attack !== null) {
-            const ivsPercentage = getIvsPercentage(pokemon)
-            if (ivsPercentage < filterIvsPercentage) {
-                return false
+    if (showPokemonValues) {
+        if ((filterIvsPercentage > 0 || filterLevel > 0) && pokemon.individual_attack !== null) {
+            if (filterIvsPercentage > 0) {
+                const ivsPercentage = getIvsPercentage(pokemon)
+                if (ivsPercentage < filterIvsPercentage) {
+                    return false
+                }
             }
-        } else {
+            if (filterLevel > 0) {
+                const level = getPokemonLevel(pokemon)
+                if (level < filterLevel) {
+                    return false
+                }
+            }
+        } else if (filterIvsPercentage > 0 || filterLevel > 0) {
+            // Pokemon is not encountered.
             return false
         }
     }
