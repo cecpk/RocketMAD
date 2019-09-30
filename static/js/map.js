@@ -741,7 +741,7 @@ function initSidebar() {
         reprocessPokemons()
     })
 
-    $('#pokemon-stats-switch').change(function () {
+    $('#pokemon-values-switch').change(function () {
         const $tabNotify = $("#tabs_notify")
         if (this.checked) {
             $tabNotify.tabs("enable", 1)
@@ -1342,7 +1342,7 @@ function initSidebar() {
     $('#filter-ivs-text').val(Store.get('filterIvsPercentage')).trigger('change')
     $('#exclude-rarity-switch').val(Store.get('excludedRarity'))
     $('#scale-rarity-switch').prop('checked', Store.get('scaleByRarity'))
-    $('#pokemon-stats-switch').prop('checked', showPokemonValues).trigger('change')
+    $('#pokemon-values-switch').prop('checked', showPokemonValues).trigger('change')
 
     // Gyms.
     $('#gyms-switch').prop('checked', Store.get('showGyms'))
