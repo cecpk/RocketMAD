@@ -188,7 +188,7 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-    'showPokemonStats': {
+    'showPokemonValues': {
         default: true,
         type: StoreTypes.Boolean
     },

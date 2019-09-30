@@ -577,7 +577,7 @@ function createStartLocationMarker() {
 }
 
 function initSettingVariables() {
-    showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonStats')
+    showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
 }
 
 function initSidebar() {
@@ -754,7 +754,7 @@ function initSidebar() {
             $tabNotify.tabs("disable", 1)
         }
         showPokemonValues = this.checked
-        Store.set('showPokemonStats', this.checked)
+        Store.set('showPokemonValues', this.checked)
         if (Store.get('filterIvsPercentage') > 0) {
             lastpokemon = false
             reprocessPokemons([], false)
