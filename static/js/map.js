@@ -1511,8 +1511,8 @@ function pokemonLabel(item) {
     var sta = item['individual_stamina']
     var move1Name = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : '?'
     var move2Name = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : '?'
-    var move1Type = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['type']) : '?'
-    var move2Type = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['type']) : '?'
+    var move1Type = moves[item['move_1']] !== undefined ? moves[item['move_1']]['type'] : '?'
+    var move2Type = moves[item['move_2']] !== undefined ? moves[item['move_2']]['type'] : '?'
     var weight = item['weight'] !== null ? item['weight'].toFixed(2) : '?'
     var height = item['height'] !== null ? item['height'].toFixed(2) : '?'
     var gender = item['gender']
