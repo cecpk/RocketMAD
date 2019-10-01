@@ -255,11 +255,12 @@ class Pokemon(LatLongModel):
         # improve performance
         query = (Pokemon
                  .select((Pokemon.pokemon_id + 0).alias('pokemon_id'),
+                         Pokemon.form,
                          fn.COUNT((Pokemon.pokemon_id + 0)).alias('count'),
                          fn.MAX(Pokemon.disappear_time).alias(
                              'disappear_time'))
                  .where(Pokemon.disappear_time > timediff)
-                 .group_by((Pokemon.pokemon_id + 0))
+                 .group_by((Pokemon.pokemon_id + 0), Pokemon.form)
                  .dicts())
 
         # Performance:  disable the garbage collector prior to creating a
