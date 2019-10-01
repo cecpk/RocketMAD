@@ -20,30 +20,28 @@ function countMarkers(map) { // eslint-disable-line no-unused-vars
     var thisPokestopIsVisible = false
 
     if (Store.get('showPokemon')) {
-        $.each(mapData.pokemons, function (key, pokemon) {
+        $.each(mapData.pokemons, function (encounterId, pokemon) {
             var thisPokeLocation = { lat: pokemon.latitude, lng: pokemon.longitude }
             thisPokeIsVisible = currentVisibleMap.contains(thisPokeLocation)
-            const id = pokemon.pokemon_id + '_' + pokemon.form
+            const key = pokemon.pokemon_id + '_' + pokemon.form
 
             if (thisPokeIsVisible) {
                 pokemonTotal++
-                if (!pokemonCount.hasOwnProperty(id)) {
-                    pokemonCount[id] = {
+                if (!pokemonCount.hasOwnProperty(key)) {
+                    pokemonCount[key] = {
                         'Count': 1,
                         'ID': pokemon.pokemon_id,
                         'Name': pokemon.pokemon_name,
                         'Form': pokemon.form
                     }
                 } else {
-                    pokemonCount[id].Count += 1
+                    pokemonCount[key].Count += 1
                 }
             }
         })
 
-        console.log(pokemonCount)
-
         var pokeCounts = []
-        $.each(pokemonCount, function (id, data) {
+        $.each(pokemonCount, function (key, data) {
             var pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.ID, 'form': data.Form})
             pokeCounts.push(
                 [
