@@ -2,30 +2,23 @@
   display: flex;
 
   #pokemon-container-left {
-    margin: 0 19px 10px 0;
-  }
-
-  #pokemon-container-right {
-    width: 100%;
+    margin: auto 19px auto 0;
     text-align: center;
   }
 
-  .title {
+  #pokemon-container-right {
     white-space: nowrap;
+  }
+
+  .title {
+    margin-bottom: 0px;
 
     #weather-icon, span {
       vertical-align: middle;
     }
   }
 
-  .sprite {
-    display: block;
-    margin: 0 auto;
-  }
-
-  .disappear {
-    font-size: 14px;
-    font-weight: 900;
-    white-space: nowrap;
+  .move-type-icon {
+    vertical-align: middle;
   }
 }

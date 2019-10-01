@@ -1444,8 +1444,10 @@ function pokemonLabel(item) {
     var atk = item['individual_attack']
     var def = item['individual_defense']
     var sta = item['individual_stamina']
-    var move1 = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : '?'
-    var move2 = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : '?'
+    var move1Name = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : '?'
+    var move2Name = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : '?'
+    var move1Type = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['type']) : '?'
+    var move2Type = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['type']) : '?'
     var weight = item['weight'] !== null ? item['weight'].toFixed(2) : '?'
     var height = item['height'] !== null ? item['height'].toFixed(2) : '?'
     var gender = item['gender']
@@ -1487,9 +1489,9 @@ function pokemonLabel(item) {
 
     $.each(types, function (index, type) {
         if (index === 1) {
-            typesDisplay += `<img class='type-icon' src='static/images/types/${type.type.toLowerCase()}.png' width='12' style='margin-left:4px;'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16' style='margin-left:4px;'>`
         } else {
-            typesDisplay += `<img class='type-icon' src='static/images/types/${type.type.toLowerCase()}.png' width='12'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16'>`
         }
     })
 
@@ -1510,7 +1512,10 @@ function pokemonLabel(item) {
                 CP: <strong>${cp}</strong> | Level: <strong>${level}</strong>
               </div>
               <div>
-               Moves: <strong>${move1}</strong> / <strong>${move2}</strong>
+               Fast: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' width='15'>
+              </div>
+              <div>
+               Charge: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' width='15'>
               </div>
               <div>
                 Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
@@ -1527,34 +1532,34 @@ function pokemonLabel(item) {
         <div>
           <div id='pokemon-container'>
             <div id='pokemon-container-left'>
+              <div>
+                <img src='${pokemonIcon}' width='64'>
+              </div>
+              <div>
+                ${typesDisplay}
+              </div>
+            </div>
+            <div id='pokemon-container-right'>
               <div class='title'>
                 <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> #${id}</span> ${weatherBoostDisplay}
               </div>
               <div class='disappear'>
                 ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
               </div>
-            </div>
-            <div id='pokemon-container-right'>
-              <div class='icon-container'>
-                <img class='pokemon sprite' src='${pokemonIcon}' width='41'>
+              ${statsDisplay}
+              <div class='info-container'>
+                ${rarityDisplay}<strong>Gen ${gen}</strong>
+              </div>
+              <div class='coordinates'>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
               </div>
               <div>
-                ${typesDisplay}
+                <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+                <a href='javascript:excludePokemon(${id}, "${encounterId}")' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
+                <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
               </div>
             </div>
-          </div>
-          ${statsDisplay}
-          <div class='info-container'>
-            ${rarityDisplay}<strong>Gen ${gen}</strong>
-          </div>
-          <div class='coordinates'>
-            <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
-          </div>
-          <div>
-            <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
-            <a href='javascript:excludePokemon(${id}, "${encounterId}")' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
-            <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
-            <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
           </div>
         </div>`
 }
@@ -1586,7 +1591,7 @@ function gymLabel(gym) {
         const url = gym.url.replace(/^http:\/\//i, '//')
         gymImageDisplay = `
             <div>
-              <img class='gym-image ${teamName.toLowerCase()} modal-toggle' src='${url}' onclick='showImageModal("${url}", "${titleText.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")' width='64' height='64'>
+              <img class='gym-image ${teamName.toLowerCase()}' src='${url}' onclick='showImageModal("${url}", "${titleText.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")' width='64' height='64'>
             </div>`
     } else {
         let gymUrl = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
@@ -1595,7 +1600,7 @@ function gymLabel(gym) {
         }
         gymImageDisplay = `
             <div>
-              <img class='gym sprite' src='${gymUrl}' width='64px'>
+              <img class='gym-icon' src='${gymUrl}' width='64'>
             </div>`
     }
 
@@ -1607,8 +1612,7 @@ function gymLabel(gym) {
 
         gymLeaderDisplay = `
             <div>
-              Gym leader: <span class='info'>${idToPokemon[gym.guard_pokemon_id].name}</span>
-              <a class='info' href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>
+              Gym leader: <strong>${idToPokemon[gym.guard_pokemon_id].name} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a></strong>
             </div>`
     }
 
@@ -1619,6 +1623,15 @@ function gymLabel(gym) {
 
         if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid)
+
+            let typesDisplay = ''
+            $.each(raid.pokemon_types, function (index, type) {
+                if (index === 1) {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16' style='margin-left:4px;'>`
+                } else {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16'>`
+                }
+            })
 
             let pokemonName = raid.pokemon_name
             if (raid.form && 'forms' in idToPokemon[raid.pokemon_id] && raid.form in idToPokemon[raid.pokemon_id].forms && idToPokemon[raid.pokemon_id].forms[raid.form].formName !== '') {
@@ -1642,93 +1655,92 @@ function gymLabel(gym) {
 
             raidDisplay = `
                 <div class='section-divider'></div>
-                <div class='raid container'>
-                  <div class='raid container content-left'>
+                <div id='raid-container'>
+                  <div id='raid-container-left'>
                     <div>
-                      <div>
-                        <img src='${pokemonIconUrl}' width='64px'>
-                      </div>
-                      <div class='raid stars'>
-                        <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
-                      </div>
+                      <img src='${pokemonIconUrl}' width='64px'>
+                    </div>
+                    <div>
+                     ${typesDisplay}
                     </div>
                   </div>
-                  <div class='raid container content-right'>
+                  <div id='raid-container-right'>
+                    <div class='title ongoing'>
                       <div>
-                      <div class='raid title'>
-                        <div>
-                          ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
-                        </div>
-                        <div>
-                          ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
-                        </div>
+                        ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
                       </div>
-                      <div>
-                        CP: <span class='info'>${raid.cp}</span>
-                      </div>
-                      <div class='move container'>
-                        <div class='move container content-left'>
-                          <div>
-                            <div>
-                              ${fastMoveName}
-                            </div>
-                            <div>
-                              ${chargeMoveName}
-                            </div>
-                          </div>
-                        </div>
-                        <div class='move container content-right'>
-                          <div>
-                            <div style='margin-bottom: 1px;'>
-                              <span class='move type ${fastMoveType.toLowerCase()}'>${i8ln(fastMoveType)}</span>
-                            </div>
-                            <div>
-                              <span class='move type ${chargeMoveType.toLowerCase()}'>${i8ln(chargeMoveType)}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    </div>
+                    <div class='disappear'>
+                      ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
+                    </div>
+                    <div>
+                      <strong>Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
+                    </div>
+                    <div>
+                      CP: <strong>${raid.cp}</strong>
+                    </div>
+                    <div>
+                      Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' width='15'>
+                    </div>
+                    <div>
+                      Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' width='15'>
                     </div>
                   </div>
                 </div>`
         } else {
             raidDisplay = `
                 <div class='section-divider'></div>
-                <div class='raid title upcoming'>
-                  <div>
-                    <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span> Raid
+                <div id='raid-container'>
+                  <div id='raid-container-left'>
+                    <img id='egg-image' src='static/images/gym/${raidEggImages[raid.level]}' width='64'>
                   </div>
-                  <div>
-                    Starts at ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)
+                  <div id='raid-container-right'>
+                    <div class='title upcoming'>
+                      Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
+                    </div>
+                    <div class='info-container'>
+                      <div>
+                        Start: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
+                      </div>
+                      <div>
+                        End: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
+                      </div>
+                    </div>
+                  </div>
                 </div>`
         }
     }
 
     return `
         <div>
-          <div class='title ${teamName.toLowerCase()}'>
-            ${titleText} ${exDisplay}
-          </div>
           <div id='gym-container'>
             <div id='gym-container-left'>
-              ${strenghtDisplay}
-              <div>
-                Free slots: <span class='info'>${gym.slots_available}</span>
-              </div>
-              ${gymLeaderDisplay}
-              <div>
-                Last scanned: <span class='info'>${timestampToDateTime(gym.last_scanned)}</span>
-              </div>
-              <div>
-                Last modified: <span class='info'>${timestampToDateTime(gym.last_modified)}</span>
+              ${gymImageDisplay}
+              <div class='team-name ${teamName.toLowerCase()}'>
+                <strong>${teamName}</strong>
               </div>
             </div>
             <div id='gym-container-right'>
-              ${gymImageDisplay}
+              <div class='title'>
+                ${titleText} ${exDisplay}
+              </div>
+              <div class='info-container'>
+                ${strenghtDisplay}
+                <div>
+                  Free slots: <strong>${gym.slots_available}</strong>
+                </div>
+                ${gymLeaderDisplay}
+                <div>
+                  Last scanned: <strong>${timestampToDateTime(gym.last_scanned)}</strong>
+                </div>
+                <div>
+                  Last modified: <strong>${timestampToDateTime(gym.last_modified)}</strong>
+                </div>
+              </div>
+              <div>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
+              </div>
             </div>
-          </div>
-          <div>
-            <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
           </div>
           ${raidDisplay}
         </div>`
@@ -1756,11 +1768,10 @@ function pokestopLabel(pokestop) {
     if (pokestop.image != null && pokestop.image != '') {
         imageUrl = pokestop.image.replace(/^http:\/\//i, '//')
         imageOnclick = `onclick='showImageModal("${imageUrl}", "${pokestopName.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
-        console.log(pokestopName.replace(/"|'/g, '&quot;'))
-        imageClass = 'image'
+        imageClass = 'pokestop-image'
     } else {
         imageUrl = getPokestopIconUrlFiltered(pokestop)
-        imageClass = 'sprite'
+        imageClass = 'pokestop-icon'
     }
 
     if (isPokestopMeetsQuestFilters(pokestop)) {
@@ -1785,28 +1796,24 @@ function pokestopLabel(pokestop) {
 
         questDisplay = `
             <div class='section-divider'></div>
-              <div class='pokestop container'>
-                <div class='pokestop container content-left'>
-                  <div>
-                    <div>
-                      <img class='pokestop quest-image' src="${rewardImageUrl}" width='64px' height='64px'/>
-                    </div>
-                  </div>
+            <div class='pokestop-container'>
+              <div class='pokestop-container-left'>
+                <div>
+                  <img class='quest-image' src="${rewardImageUrl}" width='64'/>
                 </div>
-                <div class='pokestop container content-right'>
-                  <div>
-                    <div class='pokestop title'>
-                      Quest
-                    </div>
-                    <div>
-                      Task: <span class='info'>${quest.task}</span>
-                    </div>
-                    <div>
-                      Reward: <span class='info'>${rewardText}</span>
-                    </div>
-                  </div>
+              </div>
+              <div class='pokestop-container-right'>
+                <div class='title'>
+                  Quest
                 </div>
-              </div>`
+                <div>
+                  Task: <strong>${quest.task}</strong>
+                </div>
+                <div>
+                  Reward: <strong>${rewardText}</strong>
+                </div>
+              </div>
+            </div>`
     }
 
     if (isPokestopMeetsInvasionFilters(pokestop)) {
@@ -1814,30 +1821,26 @@ function pokestopLabel(pokestop) {
         const invasionExpireTime = pokestop.incident_expiration
         invasionDisplay = `
             <div class='section-divider'></div>
-            <div class='pokestop container'>
-              <div class='pokestop container content-left'>
+            <div class='pokestop-container'>
+              <div class='pokestop-container-left'>
                 <div>
-                  <div>
-                    <img class='pokestop invasion-image' src="static/images/invasion/${invasionId}.png" width='64px' height='64px'/>
-                  </div>
+                  <img class='invasion-image' src="static/images/invasion/${invasionId}.png" width='64'/>
                 </div>
               </div>
-              <div class='pokestop container content-right'>
+              <div class='pokestop-container-right'>
+                <div class='title invasion'>
+                  <div>
+                    Team Rocket Invasion
+                  </div>
+                </div>
+                <div class='disappear'>
+                  ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
+                </div>
                 <div>
-                  <div class='pokestop title'>
-                    <div>
-                      Team Rocket Invasion
-                    </div>
-                    <div>
-                      ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
-                    </div>
-                  </div>
-                  <div>
-                    Invasion type: <span class='info'>${idToInvasion[invasionId].type}<span>
-                  </div>
-                  <div>
-                    Grunt gender: <span class='info'>${idToInvasion[invasionId].gruntGender}<span>
-                  </div>
+                  Invasion type: <strong>${idToInvasion[invasionId].type}</strong>
+                </div>
+                <div>
+                  Grunt gender: <strong>${idToInvasion[invasionId].gruntGender}</strong>
                 </div>
               </div>
             </div>`
@@ -1847,11 +1850,11 @@ function pokestopLabel(pokestop) {
         const lureExpireTime = pokestop.lure_expiration
         lureClass = 'lure-' + lureTypes[pokestop.active_fort_modifier].toLowerCase()
         lureDisplay = `
-            <div class='pokestop lure-container ${lureClass}'>
-              <div>
+            <div class='lure-container ${lureClass}'>
+              <div class='title'>
                 ${lureTypes[pokestop.active_fort_modifier]} Lure
               </div>
-              <div>
+              <div class='disappear'>
                 ${timestampToTime(lureExpireTime)} (<span class='label-countdown' disappears-at='${lureExpireTime}'>00m00s</span>)
               </div>
             </div>`
@@ -1861,26 +1864,22 @@ function pokestopLabel(pokestop) {
 
     return `
         <div>
-          <div class='pokestop container'>
-            <div class='pokestop container content-left'>
+          <div class='pokestop-container'>
+            <div class='pokestop-container-left'>
               <div>
-                <div>
-                  <img class='pokestop ${imageClass} ${lureClass}' src='${imageUrl}' ${imageOnclick} width='64px' height='64px'>
-                </div>
+                <img class='${imageClass} ${lureClass}' src='${imageUrl}' ${imageOnclick} width='64' height='64'>
               </div>
             </div>
-            <div class='pokestop container content-right'>
+            <div class='pokestop-container-right'>
+              <div class='title'>
+                ${pokestopName}
+              </div>
+              ${lureDisplay}
               <div>
-                <div class='pokestop title ${lureClass}'>
-                  ${pokestopName}
-                </div>
-                ${lureDisplay}
-                <div>
-                  Last scanned: <span class='info'>${timestampToDateTime(pokestop.last_updated)}</span>
-                </div>
-                <div>
-                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'>${pokestop.latitude.toFixed(7)}, ${pokestop.longitude.toFixed(7)}</a>
-                </div>
+                Last scanned: <strong>${timestampToDateTime(pokestop.last_updated)}</strong>
+              </div>
+              <div>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>

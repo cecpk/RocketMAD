@@ -72,9 +72,16 @@ html, body {
   font-size: 13px;
 
   .title {
+    margin-bottom: 8px;
     font-size: 15px;
     font-weight: 900;
-    margin-bottom: 8px;
+  }
+
+  .disappear {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 900;
+    white-space: nowrap;
   }
 
   .info-container {
@@ -93,5 +100,11 @@ html, body {
     @media (pointer: coarse) {
       margin-right: 20px;
     }
+  }
+
+  .section-divider {
+    margin: 13px 0;
+    border-bottom: 1px solid #e6e6e6;
+    height: 0px;
   }
 }
