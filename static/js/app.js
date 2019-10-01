@@ -20,7 +20,7 @@
     var $stats = document.querySelector('#stats')
     var $statsToggle = document.querySelector('a[href="#stats"]')
 
-    // Gym sidebar
+    // Gym sidebar.
     var $gymSidebar = document.querySelector('#gym-details')
     var $gymSidebarClose
 
@@ -136,3 +136,13 @@
         })
     }
 })()
+
+function showImageModal(url, title) {
+    $('#modal-title').text(title)
+    $('#modal-image').attr('src', url)
+    $('#modal-container').show()
+}
+
+function hideImageModal() {
+    $('#modal-container').hide()
+}
