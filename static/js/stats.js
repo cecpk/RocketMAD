@@ -1,10 +1,10 @@
 /* global getPokemonRawIconUrl */
 function countMarkers(map) { // eslint-disable-line no-unused-vars
     var i = 0
+    var pokemonCount = {}
+    var pokemonTotal = 0
     var gymCount = []
     var gymTotal = 0
-    var pkmnCount = []
-    var pkmnTotal = 0
     var pokestopCount = []
     var pokestopTotal = 0
     var $pokemonTable = $('#pokemon-table').DataTable()
@@ -20,41 +20,43 @@ function countMarkers(map) { // eslint-disable-line no-unused-vars
     var thisPokestopIsVisible = false
 
     if (Store.get('showPokemon')) {
-        $.each(mapData.pokemons, function (key, value) {
-            var thisPokeLocation = { lat: mapData.pokemons[key]['latitude'], lng: mapData.pokemons[key]['longitude'] }
+        $.each(mapData.pokemons, function (key, pokemon) {
+            var thisPokeLocation = { lat: pokemon.latitude, lng: pokemon.longitude }
             thisPokeIsVisible = currentVisibleMap.contains(thisPokeLocation)
+            const id = pokemon.pokemon_id + '_' + pokemon.form
 
             if (thisPokeIsVisible) {
-                pkmnTotal++
-                if (pkmnCount[mapData.pokemons[key]['pokemon_id']] === 0 || !pkmnCount[mapData.pokemons[key]['pokemon_id']]) {
-                    pkmnCount[mapData.pokemons[key]['pokemon_id']] = {
-                        'ID': mapData.pokemons[key]['pokemon_id'],
+                pokemonTotal++
+                if (!pokemonCount.hasOwnProperty(id)) {
+                    pokemonCount[id] = {
                         'Count': 1,
-                        'Name': mapData.pokemons[key]['pokemon_name']
+                        'ID': pokemon.pokemon_id,
+                        'Name': pokemon.pokemon_name,
+                        'Form': pokemon.form
                     }
                 } else {
-                    pkmnCount[mapData.pokemons[key]['pokemon_id']].Count += 1
+                    pokemonCount[id].Count += 1
                 }
             }
         })
 
-        var pokeCounts = []
-        for (i = 0; i < pkmnCount.length; i++) {
-            if (pkmnCount[i] && pkmnCount[i].Count > 0) {
-                var pokemonIcon = getPokemonRawIconUrl({'pokemon_id': pkmnCount[i].ID})
-                pokeCounts.push(
-                    [
-                        '<img class="pokemonListString pokemon-icon" src=\'' + pokemonIcon + '\' />',
-                        `<a href='https://pokemongo.gamepress.gg/pokemon/${pkmnCount[i].ID}' target='_blank' title='View on GamePress'>${pkmnCount[i].ID}</a>`,
-                        pkmnCount[i].Name,
-                        pkmnCount[i].Count,
-                        ((pkmnCount[i].Count * 100) / pkmnTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
-                    ]
-                )
-            }
-        }
+        console.log(pokemonCount)
 
-        $('#stats-pokemon-label').text(`Pokémon (${pkmnTotal})`)
+        var pokeCounts = []
+        $.each(pokemonCount, function (id, data) {
+            var pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.ID, 'form': data.Form})
+            pokeCounts.push(
+                [
+                    '<img class="pokemonListString pokemon-icon" src=\'' + pokemonIcon + '\' />',
+                    `<a href='https://pokemongo.gamepress.gg/pokemon/${data.ID}' target='_blank' title='View on GamePress'>${data.ID}</a>`,
+                    data.Name,
+                    data.Count,
+                    ((data.Count * 100) / pokemonTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        })
+
+        $('#stats-pokemon-label').text(`Pokémon (${pokemonTotal})`)
         // Clear stale data, add fresh data, redraw
         $pokemonTable
             .clear()
