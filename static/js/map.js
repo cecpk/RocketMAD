@@ -1525,7 +1525,8 @@ function pokemonLabel(item) {
     var gen = getPokemonGen(id)
 
     var formDisplay = ''
-    var rarityDisplay = ''
+    var genRarityDisplayLeft = ''
+    var genRarityDisplayRight = ''
     var weatherBoostDisplay = ''
     var typesDisplay = ''
     var statsDisplay = ''
@@ -1536,13 +1537,6 @@ function pokemonLabel(item) {
 
     if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
         formDisplay = `(${i8ln(idToPokemon[id].forms[form].formName)})`
-    }
-
-    if (showConfig.rarity) {
-        const rarity = getPokemonRarity(item['pokemon_id'])
-        if (rarity) {
-            rarityDisplay = `<strong>${rarity}</strong> | `
-        }
     }
 
     if (weatherBoostedCondition > 0) {
@@ -1583,6 +1577,33 @@ function pokemonLabel(item) {
                 Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
               </div>
             </div>`
+
+        let rarityDisplay = ''
+        if (showConfig.rarity) {
+            const rarity = getPokemonRarity(item['pokemon_id'])
+            if (rarity) {
+                rarityDisplay = `<div style='margin-top: 6px;'><strong>${rarity}</strong></div>`
+            }
+        }
+
+        genRarityDisplayLeft = `
+            ${rarityDisplay}
+            <div>
+              <strong>Gen ${gen}</strong>
+            </div>`
+    } else {
+        let rarityDisplay = ''
+        if (showConfig.rarity) {
+            const rarity = getPokemonRarity(item['pokemon_id'])
+            if (rarity) {
+                rarityDisplay = `<strong>${rarity}</strong> | `
+            }
+        }
+
+        genRarityDisplayRight = `
+            <div class='info-container'>
+              ${rarityDisplay}<strong>Gen ${gen}</strong>
+            </div>`
     }
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
@@ -1600,6 +1621,7 @@ function pokemonLabel(item) {
               <div>
                 ${typesDisplay}
               </div>
+              ${genRarityDisplayLeft}
             </div>
             <div id='pokemon-container-right'>
               <div class='title'>
@@ -1609,9 +1631,7 @@ function pokemonLabel(item) {
                 ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
               </div>
               ${statsDisplay}
-              <div class='info-container'>
-                ${rarityDisplay}<strong>Gen ${gen}</strong>
-              </div>
+              ${genRarityDisplayRight}
               <div class='coordinates'>
                 <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
               </div>
