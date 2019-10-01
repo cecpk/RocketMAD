@@ -406,6 +406,7 @@ class Pogom(Flask):
         if request.args.get('appearances', 'false') == 'true':
             d['appearances'] = Pokemon.get_appearances(
                 request.args.get('pokemonid'),
+                request.args.get('formid'),
                 int(request.args.get('duration')))
 
         if request.args.get('appearancesDetails', 'false') == 'true':

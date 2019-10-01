@@ -88,7 +88,7 @@ function processSeen(seen) {
                 ${timestampToDateTime(pokemonItem.disappear_time)}
               </td>
               <td>
-                <a href="javascript:void(0);" onclick="javascript:showOverlay(${pokemonItem.pokemon_id});">
+                <a href="javascript:void(0);" onclick="javascript:showOverlay(${pokemonItem.pokemon_id}, ${pokemonItem.form});">
                   All Locations
                 </a>
               </td>
@@ -161,6 +161,7 @@ $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
 var detailsLoading = false
 var appearancesTimesLoading = false
 var pokemonid = 0
+var formid = 0
 var mapLoaded = false
 var detailsPersist = false
 var map = null
@@ -184,6 +185,7 @@ function loadDetails() {
             'scanned': false,
             'appearances': true,
             'pokemonid': pokemonid,
+            'formid': formid,
             'duration': $('#duration').val()
         },
         dataType: 'json',
@@ -319,15 +321,16 @@ function resetMap() {
     }
 }
 
-function showOverlay(id) {
+function showOverlay(pokemonId, formId) {
     // Only load google maps once, and only if requested
     if (!mapLoaded) {
         initStat()
     }
     resetMap()
-    pokemonid = id
+    pokemonid = pokemonId
+    formid = formId
     $('#location_details').show()
-    location.hash = 'overlay_' + pokemonid
+    location.hash = 'overlay_' + pokemonid + '_' + formid
     updateDetails()
 
     setTimeout(function () { mapstat.invalidateSize() }, 400)
@@ -403,6 +406,8 @@ function addHeadmap(headmapdata) {
     return false
 }
 
-if (location.href.match(/overlay_[0-9]+/g)) {
-    showOverlay(location.href.replace(/^.*overlay_([0-9]+).*$/, '$1'))
+if (location.href.match(/overlay_[0-9]+_[0-9]+/g)) {
+    const pokemonId = location.href.replace(/^.*overlay_([0-9]+)_([0-9]+).*$/, '$1')
+    const formId = location.href.replace(/^.*overlay_([0-9]+)_([0-9]+).*$/, '$2')
+    showOverlay(pokemonId, formId)
 }

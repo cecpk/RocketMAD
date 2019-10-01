@@ -280,7 +280,7 @@ class Pokemon(LatLongModel):
         return {'pokemon': pokemon, 'total': total}
 
     @staticmethod
-    def get_appearances(pokemon_id, timediff):
+    def get_appearances(pokemon_id, form_id, timediff):
         '''
         :param pokemon_id: id of Pokemon that we need appearances for
         :param timediff: limiting period of the selection
@@ -290,13 +290,15 @@ class Pokemon(LatLongModel):
             timediff = datetime.utcnow() - timedelta(hours=timediff)
         query = (Pokemon
                  .select(Pokemon.latitude, Pokemon.longitude,
-                         Pokemon.pokemon_id,
+                         Pokemon.pokemon_id, Pokemon.form,
                          fn.Count(Pokemon.spawnpoint_id).alias('count'),
                          Pokemon.spawnpoint_id)
                  .where((Pokemon.pokemon_id == pokemon_id) &
+                        (Pokemon.form == form_id) &
                         (Pokemon.disappear_time > timediff))
                  .group_by(Pokemon.latitude, Pokemon.longitude,
-                           Pokemon.pokemon_id, Pokemon.spawnpoint_id)
+                           Pokemon.pokemon_id, Pokemon.form,
+                           Pokemon.spawnpoint_id)
                  .dicts())
 
         return list(query)
