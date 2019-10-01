@@ -413,6 +413,7 @@ class Pogom(Flask):
             d['appearancesTimes'] = (
                 Pokemon.get_appearances_times_by_spawnpoint(
                     request.args.get('pokemonid'),
+                    request.args.get('formid'),
                     request.args.get('spawnpoint_id'),
                     int(request.args.get('duration'))))
 

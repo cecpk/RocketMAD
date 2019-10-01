@@ -223,7 +223,7 @@ function loadDetails() {
     })
 }
 
-function loadAppearancesTimes(pokemonId, spawnpointId) {
+function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
     var userAuthCode = localStorage.getItem('userAuthCode')
     return $.ajax({
         url: 'raw_data',
@@ -237,6 +237,7 @@ function loadAppearancesTimes(pokemonId, spawnpointId) {
             'appearances': false,
             'appearancesDetails': true,
             'pokemonid': pokemonId,
+            'formid': formId,
             'spawnpoint_id': spawnpointId,
             'duration': $('#duration').val()
         },
@@ -361,7 +362,7 @@ function processAppearance(i, item) {
 
 function appearanceTab(item) {
     var times = ''
-    return loadAppearancesTimes(item['pokemon_id'], item['spawnpoint_id']).then(function (result) {
+    return loadAppearancesTimes(item['pokemon_id'], item['form'], item['spawnpoint_id']).then(function (result) {
         $.each(result.appearancesTimes, function (key, value) {
             var saw = new Date(value - spawnTimeMs)
             saw = timestampToDateTime(saw)

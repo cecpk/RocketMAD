@@ -304,9 +304,8 @@ class Pokemon(LatLongModel):
         return list(query)
 
     @staticmethod
-    def get_appearances_times_by_spawnpoint(pokemon_id, spawnpoint_id,
+    def get_appearances_times_by_spawnpoint(pokemon_id, form_id, spawnpoint_id,
                                             timediff):
-
         '''
         :param pokemon_id: id of Pokemon that we need appearances times for.
         :param spawnpoint_id: spawnpoint id we need appearances times for.
@@ -318,6 +317,7 @@ class Pokemon(LatLongModel):
         query = (Pokemon
                  .select(Pokemon.disappear_time)
                  .where((Pokemon.pokemon_id == pokemon_id) &
+                        (Pokemon.form == form_id) &
                         (Pokemon.spawnpoint_id == spawnpoint_id) &
                         (Pokemon.disappear_time > timediff))
                  .order_by(Pokemon.disappear_time.asc())
