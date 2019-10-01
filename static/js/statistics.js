@@ -145,11 +145,11 @@ $('#duration')
     .on('change', updateStats)
 
 $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
-    formNames[0] = ''
+    formNames[0] = '-'
     for (var id = 1; id <= 809; id++) {
         if ('forms' in data[id]) {
             $.each(data[id].forms, function (formId, formData) {
-                formNames[formId] = formData.formName
+                formNames[formId] = formData.formName === '' ? '-' : formData.formName
             })
         }
     }
