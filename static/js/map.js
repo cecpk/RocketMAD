@@ -40,6 +40,8 @@ var searchMarkerStyles
 var showPokemonValues
 var filterIvsPercentage
 var filterLevel
+var showExParks
+var showNestParks
 
 var timestamp
 var excludedPokemon = []
@@ -97,8 +99,8 @@ var s2Level13LayerGroup = new L.LayerGroup()
 var s2Level14LayerGroup = new L.LayerGroup()
 var s2Level17LayerGroup = new L.LayerGroup()
 
-var exEligibleParksLayerGroup = new L.LayerGroup()
-var nestsParksLayerGroup = new L.LayerGroup()
+var exParksLayerGroup = new L.LayerGroup()
+var nestParksLayerGroup = new L.LayerGroup()
 
 // Z-index values for various markers.
 const userLocationMarkerZIndex = 0
@@ -378,7 +380,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         maxZoom: 18,
         zoomControl: false,
-        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup, exEligibleParksLayerGroup, nestsParksLayerGroup]
+        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup, exParksLayerGroup, nestParksLayerGroup]
     })
 
     setTitleLayer(Store.get('map_style'))
@@ -583,6 +585,8 @@ function initSettingVariables() {
     showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
     filterIvsPercentage = showConfig.pokemon_values ? Store.get('filterIvsPercentage') : -1
     filterLevel = showConfig.pokemon_values ? Store.get('filterLevel') : -1
+    showExParks = showConfig.ex_parks && Store.get('showExParks')
+    showNestParks = showConfig.nest_parks && Store.get('showNestParks')
 }
 
 function initSidebar() {
@@ -1025,24 +1029,24 @@ function initSidebar() {
         }
     })
 
-    $('#ex-eligible-parks-switch').change(function () {
-        Store.set('showExEligibleParks', this.checked)
-
+    $('#ex-parks-switch').change(function () {
+        showExParks = this.checked
         if (this.checked) {
             updateParks()
         } else {
-            exEligibleParksLayerGroup.clearLayers()
+            exParksLayerGroup.clearLayers()
         }
+        Store.set('showExParks', this.checked)
     })
 
-    $('#nests-parks-switch').change(function () {
-        Store.set('showNestsParks', this.checked)
-
+    $('#nest-parks-switch').change(function () {
+        showNestParks = this.checked
         if (this.checked) {
             updateParks()
         } else {
-            nestsParksLayerGroup.clearLayers()
+            nestParksLayerGroup.clearLayers()
         }
+        Store.set('showNestParks', this.checked)
     })
 
     $('#weather-cells-switch').change(function () {
@@ -1426,8 +1430,8 @@ function initSidebar() {
     $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
     $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
     $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
-    $('#ex-eligible-parks-switch').prop('checked', Store.get('showExEligibleParks'))
-    $('#nests-parks-switch').prop('checked', Store.get('showNestsParks'))
+    $('#ex-parks-switch').prop('checked', showExParks)
+    $('#nest-parks-switch').prop('checked', showNestParks)
 
     // Location.
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
@@ -2620,7 +2624,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel10')) {
             s2Level10LayerGroup.clearLayers()
             if (map.getZoom() > 7) {
-                showS2Cells(10, 'black', 7)
+                showS2Cells(10, 'red', 7)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2630,7 +2634,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel13')) {
             s2Level13LayerGroup.clearLayers()
             if (map.getZoom() > 10) {
-                showS2Cells(13, 'red', 5)
+                showS2Cells(13, 'black', 5)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2640,7 +2644,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel14')) {
             s2Level14LayerGroup.clearLayers()
             if (map.getZoom() > 11) {
-                showS2Cells(14, 'green', 3)
+                showS2Cells(14, 'yellow', 3)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -3728,70 +3732,66 @@ function updateMap() {
     })
 }
 
-const getAllParks = function () {
-    if (!showConfig.parks) {
-        return
+function getAllParks() {
+    if (showConfig.ex_parks) {
+        $.getJSON('static/data/parks-ex-raids.json').done(function (response) {
+            if (!response || !('parks' in response)) {
+                return
+            }
+
+            mapData.exParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+
+            if (showExParks) {
+                updateParks()
+            }
+        }).fail(function () {
+            console.error("Couldn't load ex parks JSON file.")
+        })
     }
 
-    $.getJSON('static/data/parks-ex-raids.json').done(function (response) {
-        if (!response || !('parks' in response)) {
-            return
-        }
+    if (showConfig.nest_parks) {
+        $.getJSON('static/data/parks-nests.json').done(function (response) {
+            if (!response || !('parks' in response)) {
+                return
+            }
 
-        mapData.exEligibleParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+            mapData.nestParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
 
-        if (Store.get('showExEligibleParks')) {
-            updateParks()
-        }
-    }).fail(function () {
-        console.log("Couldn't load ex eligible parks JSON.")
-    })
-
-    $.getJSON('static/data/parks-nests.json').done(function (response) {
-        if (!response || !('parks' in response)) {
-            return
-        }
-
-        mapData.nestsParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
-
-        if (Store.get('showNestsParks')) {
-            updateParks()
-        }
-    }).fail(function () {
-        console.log("Couldn't load ex eligible parks JSON.")
-    })
+            if (showNestParks) {
+                updateParks()
+            }
+        }).fail(function () {
+            console.error("Couldn't load nest parks JSON file.")
+        })
+    }
 }
 
-const updateParks = function () {
-    if (!showConfig.parks || (!Store.get('showExEligibleParks') && !Store.get('showNestsParks'))) {
-        return
-    }
-
-    if (Store.get('showExEligibleParks')) {
-        const inBoundParks = mapData.exEligibleParks.filter(parkPoints => {
+function updateParks() {
+    if (showExParks) {
+        const inBoundParks = mapData.exParks.filter(parkPoints => {
             return parkPoints.some(point => {
                 return map.getBounds().contains(point)
             })
         })
 
-        exEligibleParksLayerGroup.clearLayers()
+        exParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(exEligibleParksLayerGroup)
+            L.polygon(park, {color: 'black', interactive: false}).addTo(exParksLayerGroup)
         })
     }
 
-    if (Store.get('showNestsParks')) {
-        const inBoundParks = mapData.nestsParks.filter(parkPoints => {
+    if (showNestParks) {
+        const inBoundParks = mapData.nestParks.filter(parkPoints => {
             return parkPoints.some(point => {
                 return map.getBounds().contains(point)
             })
         })
 
-        nestsParksLayerGroup.clearLayers()
+        nestParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'maroon', interactive: false}).addTo(nestsParksLayerGroup)
+            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(nestParksLayerGroup)
         })
     }
 }

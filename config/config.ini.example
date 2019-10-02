@@ -106,11 +106,19 @@
 
 # Parks
 #######
+# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks-ex-raids.json` and `static/data/parks-nests.json`.
+# Remove the JSON file(s) to redownload the parks.
 
-#parks                           # Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks-ex-raids.json` and `static/data/parks-nests.json`.
-                                 # Remove the JSON file(s) to redownload parks.
-#parks-lower-left-point:         # Coordinates of the lower left point of the box where the parks will be downloaded
-#parks-upper-right-point:        # Coordinates of the upper right point of the box where the parks will be downloaded
+#ex-parks                        # Enables ex raid eligible parks downloading and drawing.
+#nest-parks                      # Enables nest parks downloading and drawing.
+#ex-parks-geofence-file:         # Geofence file to define outer borders of the ex park area to download.
+#nest-parks-geofence-file:       # Geofence file to define outer borders of the nest park area to download.
+
+
+#ex-parks-lower-left-point:      # Coordinates of the lower left point of the box where the ex eligible parks will be downloaded.
+#ex-parks-upper-right-point:     # Coordinates of the upper right point of the box where the ex eligible parks will be downloaded.
+#nest-parks-lower-left-point:    # Coordinates of the lower left point of the box where the nest parks will be downloaded.
+#nest-parks-upper-right-point:   # Coordinates of the upper right point of the box where the nest parks will be downloaded.
 #parks-query-timeout:            # The maximum allowed runtime for the parks query in seconds. (default=600)
 
 

@@ -196,7 +196,8 @@ class Pogom(Flask):
             'pokestops': not args.no_pokestops,
             'quests': not args.no_quests,
             'medalpokemon': args.medalpokemon,
-            'parks': args.parks,
+            'ex_parks': args.ex_parks,
+            'nest_parks': args.nest_parks,
             'rarity': args.rarity_update_frequency > 0,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js

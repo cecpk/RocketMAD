@@ -25,7 +25,8 @@ from colorlog import ColoredFormatter
 from pogom.app import Pogom
 from pogom.utils import (get_args, now, init_dynamic_images,
                          log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher, get_pos_by_name, download_all_parks)
+                         dynamic_rarity_refresher, get_pos_by_name)
+from pogom.parks import download_ex_parks, download_nest_parks
 
 from pogom.models import (init_database, create_tables, drop_tables,
                           clean_db_loop, verify_table_encoding,
@@ -277,8 +278,7 @@ def main():
 
     # Dynamic rarity.
     if args.rarity_update_frequency:
-        t = Thread(target=dynamic_rarity_refresher,
-                   name='dynamic-rarity')
+        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity')
         t.daemon = True
         log.info('Dynamic rarity is enabled.')
         t.start()
@@ -286,14 +286,21 @@ def main():
         log.info('Dynamic rarity is disabled.')
 
     # Parks downloading
-    if args.parks:
-        t = Thread(target=download_all_parks,
-                   name='parks')
+    if args.ex_parks:
+        t = Thread(target=download_ex_parks, name='ex-parks')
         t.daemon = True
-        log.info('Parks downloading is enabled.')
+        log.info('EX parks downloading is enabled.')
         t.start()
     else:
-        log.info('Parks downloading is disabled.')
+        log.info('EX parks downloading is disabled.')
+
+    if args.nest_parks:
+        t = Thread(target=download_nest_parks, name='nest-parks')
+        t.daemon = True
+        log.info('Nest parks downloading is enabled.')
+        t.start()
+    else:
+        log.info('Nest parks downloading is disabled.')
 
     if args.cors:
         CORS(app)
