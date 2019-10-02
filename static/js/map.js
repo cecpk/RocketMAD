@@ -1582,7 +1582,10 @@ function pokemonLabel(item) {
         if (showConfig.rarity) {
             const rarity = getPokemonRarity(item['pokemon_id'])
             if (rarity) {
-                rarityDisplay = `<div style='margin-top: 6px;'><strong>${rarity}</strong></div>`
+                rarityDisplay = `
+                    <div>
+                      <strong>${rarity}</strong>
+                    </div>`
             }
         }
 
@@ -1615,10 +1618,10 @@ function pokemonLabel(item) {
         <div>
           <div id='pokemon-container'>
             <div id='pokemon-container-left'>
-              <div>
+              <div id='pokemon-image'>
                 <img src='${pokemonIcon}' width='64'>
               </div>
-              <div>
+              <div id='types'>
                 ${typesDisplay}
               </div>
               ${genRarityDisplayLeft}

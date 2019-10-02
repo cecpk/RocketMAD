@@ -4,6 +4,10 @@
   #pokemon-container-left {
     margin: auto 19px auto 0;
     text-align: center;
+
+    #pokemon-image, #types {
+      margin-bottom: 6px;
+    }
   }
 
   #pokemon-container-right {
