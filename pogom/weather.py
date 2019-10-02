@@ -1,5 +1,7 @@
-import logging
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
+import logging
 import s2sphere
 
 from pogom.models import Weather
