@@ -11,7 +11,7 @@ Fork of RocketMap used as [MAD](https://github.com/Map-A-Droid/MAD)'s frontend. 
 
 ## Installation
 
-For instructions on how to setup and run the tool, please refer to [RocketMap's documentation](https://rocketmap.readthedocs.io).
+For instructions on how to setup and run the tool, please refer to [OSM-RocketMap's documentation](https://osm-rocketmap.readthedocs.io).
 
 ## Contributions
 
