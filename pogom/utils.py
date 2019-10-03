@@ -276,37 +276,41 @@ def get_args():
                               ' should be updated. Decimals allowed.' +
                               ' Default: 0. 0 to disable.'),
                         type=float, default=0)
-    parser.add_argument('-Rfn', '--rarity-filename', type=str,
-                        help=('Filename of rarity json for different ' +
-                              'databases (without .json) Default: rarity'),
-                        default='rarity')
-    parser.add_argument('-ep', '--ex-parks',
+    parser.add_argument('-Rfn', '--rarity-filename',
+                        help=('Filename (without .json) of rarity JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: rarity'),
+                        type=str, default='rarity')
+    parks = parser.add_argument_group('Parks')
+    parks.add_argument('-ep', '--ex-parks',
                         help=('Enables ex raid eligible parks downloading ' +
                               'and drawing.'),
                         action='store_true', default=False)
-    parser.add_argument('-ntp', '--nest-parks',
+    parks.add_argument('-ntp', '--nest-parks',
                         help='Enables nest parks downloading and drawing.',
                         action='store_true', default=False)
-    parser.add_argument('-epgf', '--ex-parks-geofence-file',
+    parks.add_argument('-epgf', '--ex-parks-geofence-file',
                         help=('Geofence file to define outer borders of the ' +
                               'ex park area to download.'),
                         default='')
-    parser.add_argument('-npgf', '--nest-parks-geofence-file',
+    parks.add_argument('-npgf', '--nest-parks-geofence-file',
                         help=('Geofence file to define outer borders of the ' +
                               'nest park area to download.'),
                         default='')
-    parser.add_argument('-Parlfp', '--parks-lower-left-point',
-                        help=('Coordinates of the lower left point of' +
-                              ' the box where the parks will be downloaded'),
-                        default=None)
-    parser.add_argument('-Parurp', '--parks-upper-right-point',
-                        help=('Coordinates of the upper right point of' +
-                              ' the box where the parks will be downloaded'),
-                        default=None)
-    parser.add_argument('-pqt', '--parks-query-timeout',
+    parks.add_argument('-epfn', '--ex-parks-filename',
+                        help=('Filename (without .json) of ex parks JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: parks-ex-raids'),
+                        type=str, default='parks-ex')
+    parks.add_argument('-npfn', '--nest-parks-filename',
+                        help=('Filename (without .json) of nest parks JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: parks-nests'),
+                        type=str, default='parks-nest')
+    parks.add_argument('-pqt', '--parks-query-timeout',
                         help=('The maximum allowed runtime for the parks' +
                               ' query in seconds.'),
-                        type=int, default=600)
+                        type=int, default=86400)
 
     parser.set_defaults(DEBUG=False)
 

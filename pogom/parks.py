@@ -7,6 +7,7 @@ import os
 import overpy
 
 from datetime import datetime
+from matplotlib.path import Path
 from timeit import default_timer
 
 from .utils import get_args, parse_geofence_file
@@ -14,7 +15,7 @@ from .utils import get_args, parse_geofence_file
 log = logging.getLogger(__name__)
 
 
-def _build_overpass_query(lower_left_point, upper_right_point,
+def _build_overpass_query(lower_left_coord, upper_right_coord,
                           nest_parks=False):
     args = get_args()
 
@@ -37,7 +38,6 @@ def _build_overpass_query(lower_left_point, upper_right_point,
     way[landuse=vineyard];
     way[landuse=farmland];
     way[landuse=orchard];
-    way(poly:"53.063422 6.451935 53.068882 6.459069 53.063512 6.465263");
     """
 
     # Tags used only for nests.
@@ -76,9 +76,10 @@ def _build_overpass_query(lower_left_point, upper_right_point,
         args.root_path, 'geofences/' + args.ex_parks_geofence_file)
     geofences = parse_geofence_file(geofence_file)
 
-
-    return ('[timeout:{}][date:"{}"];'
+    return ('[bbox:{},{}][timeout:{}][date:"{}"];'
             '({});out;>;out skel qt;').format(
+        lower_left_coord,
+        upper_right_coord,
         args.parks_query_timeout,
         date,
         tags
@@ -97,7 +98,7 @@ def _query_overpass_api(lower_left_point, upper_right_point, nest_parks=False):
     response = api.query(request)
 
     duration = default_timer() - start
-    log.info('Park response received in %.2fs', duration)
+    log.info('Overpass API park response received in %.2fs.', duration)
 
     for way in response.ways:
         parks.append(
@@ -106,15 +107,53 @@ def _query_overpass_api(lower_left_point, upper_right_point, nest_parks=False):
     return parks
 
 
-def _download_parks(file_path, lower_left_point, upper_right_point,
-                    nest_parks=False):
-    log.info('Downloading parks between %s and %s', lower_left_point,
-             upper_right_point)
+def _download_parks(file_path, geofences, nest_parks=False):
+    parks = []
+
+    for geofence in geofences:
+        lower_left_lat = 100
+        lower_left_lon = 200
+        upper_right_lat = -100
+        upper_right_lon = -200
+        for coord in geofence['polygon']:
+            if coord['lat'] < lower_left_lat:
+                lower_left_lat = coord['lat']
+            elif coord['lat'] > upper_right_lat:
+                upper_right_lat = coord['lat']
+
+            if coord['lon'] < lower_left_lon:
+                lower_left_lon = coord['lon']
+            elif coord['lon'] > upper_right_lon:
+                upper_right_lon = coord['lon']
+
+        log.info('Downloading parks in geofence %s...', geofence['name'])
+        lower_left_coord = '{}, {}'.format(lower_left_lat, lower_left_lon)
+        upper_right_coord = '{}, {}'.format(upper_right_lat, upper_right_lon)
+        parks_in_box = _query_overpass_api(lower_left_coord, upper_right_coord,
+                                           nest_parks)
+
+        polygon_tuple_list = []
+        for coord in geofence['polygon']:
+            coordinate_tuple = (coord['lat'], coord['lon'])
+            polygon_tuple_list.append(coordinate_tuple)
+        polygon_tuple_list.append(polygon_tuple_list[0])
+        path = Path(polygon_tuple_list)
+
+        parks_in_geofence = []
+        for park in parks_in_box:
+            for coord in park:
+                coordinate_tuple = (coord[0], coord[1])
+                if path.contains_point(coordinate_tuple):
+                    parks_in_geofence.append(park)
+                    break
+        log.info('%d parks found in geofence %s.', len(parks_in_geofence),
+                 geofence['name'])
+
+        parks.extend(parks_in_geofence)
 
     output = {
         "date": str(datetime.now()),
-        "parks": _query_overpass_api(lower_left_point, upper_right_point,
-                                     nest_parks)
+        "parks": parks
     }
 
     if len(output['parks']) > 0:
@@ -129,28 +168,28 @@ def _download_parks(file_path, lower_left_point, upper_right_point,
 def download_ex_parks():
     args = get_args()
 
-    #geofence_file = os.path.join(
-    #    args.root_path, 'geofences/' + args.ex_parks_geofence_file)
-    #geofences = parse_geofence_file(geofence_file)
-
-    lower_left_point = args.parks_lower_left_point
-    upper_right_point = args.parks_upper_right_point
-
-    file_path = os.path.join(args.root_path, 'static/data/parks-ex-raids.json')
+    file_path = os.path.join(
+        args.root_path,
+        'static/data/parks/' + args.ex_parks_filename + '.json')
     if not os.path.isfile(file_path):
-        _download_parks(file_path, lower_left_point, upper_right_point)
+        geofence_file = os.path.join(
+            args.root_path, 'geofences/' + args.ex_parks_geofence_file)
+        geofences = parse_geofence_file(geofence_file)
+        _download_parks(file_path, geofences)
     else:
-        log.info('EX parks already downloaded... Skipping')
+        log.info('EX parks already downloaded.')
 
 
 def download_nest_parks():
     args = get_args()
 
-    lower_left_point = args.parks_lower_left_point
-    upper_right_point = args.parks_upper_right_point
-
-    file_path = os.path.join(args.root_path, 'static/data/parks-nests.json')
+    file_path = os.path.join(
+        args.root_path,
+        'static/dist/data/parks/' + args.nest_parks_filename + '.json')
     if not os.path.isfile(file_path):
-        _download_parks(file_path, lower_left_point, upper_right_point, True)
+        geofence_file = os.path.join(
+            args.root_path, 'geofences/' + args.nest_parks_geofence_file)
+        geofences = parse_geofence_file(geofence_file)
+        _download_parks(file_path, geofences, True)
     else:
-        log.info('Nest parks already downloaded... Skipping')
+        log.info('Nest parks already downloaded.')

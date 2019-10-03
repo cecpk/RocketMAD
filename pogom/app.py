@@ -220,7 +220,9 @@ class Pogom(Flask):
             whatsappUrl=args.whatsapp_url,
             show=visibility_flags,
             generateImages=str(args.generate_images).lower(),
-            rarityFileName=args.rarity_filename)
+            rarityFileName=args.rarity_filename,
+            exParksFileName=args.ex_parks_filename,
+            nestParksFileName=args.nest_parks_filename)
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.

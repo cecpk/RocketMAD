@@ -287,20 +287,20 @@ def main():
 
     # Parks downloading
     if args.ex_parks:
+        log.info('EX park downloading is enabled.')
         t = Thread(target=download_ex_parks, name='ex-parks')
         t.daemon = True
-        log.info('EX parks downloading is enabled.')
         t.start()
     else:
-        log.info('EX parks downloading is disabled.')
+        log.info('EX park downloading is disabled.')
 
     if args.nest_parks:
+        log.info('Nest park downloading is enabled.')
         t = Thread(target=download_nest_parks, name='nest-parks')
         t.daemon = True
-        log.info('Nest parks downloading is enabled.')
         t.start()
     else:
-        log.info('Nest parks downloading is disabled.')
+        log.info('Nest park downloading is disabled.')
 
     if args.cors:
         CORS(app)

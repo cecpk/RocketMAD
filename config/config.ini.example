@@ -67,9 +67,6 @@
 #ssl-privatekey:                # Path to ssl private key
 #encrypt-lib:                   # Path to encrypt lib to be used instead of the shipped ones.
 #disable-blacklist              # Disable the global anti-scraper IP blacklist.
-#rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
-#rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
-#rarity-filename:               # Name of the JSON File for dynamic rarity. Using two different RM Databases with two instances out of the same folter. Default (if empty): rarity
 
 
 # Status and logs
@@ -80,6 +77,28 @@
 #no-file-logs                   # Disables logging to files except for access.log. (default=False)
 #log-path:                      # Defines the path logs are saved at. (default=logs/)
 #log-filename:                  # Defines the log filename to be saved. The default generates yyyymmdd_HHMM_statusname.log. (default=%Y%m%d_%H%M_<SN>)
+
+
+# Dynamic rarity
+################
+
+#rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
+#rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
+#rarity-filename:               # Name of the JSON file (without .json) for dynamic rarity. Useful when running two or more instances out of the same folder. (default='rarity')
+
+
+# Parks
+#######
+# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
+# Remove the JSON file(s) to redownload the parks.
+
+#ex-parks                        # Enables ex raid eligible parks downloading and drawing. (default=False)
+#nest-parks                      # Enables nest parks downloading and drawing. (default=False)
+#ex-parks-geofence-file:         # Geofence file to define outer borders of the ex park area to download.
+#nest-parks-geofence-file:       # Geofence file to define outer borders of the nest park area to download.
+#ex-parks-filename:              # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
+#nest-parks-filename:            # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
+#parks-query-timeout:            # The maximum allowed runtime for the parks query in seconds. (default=86400)
 
 
 # User Auth Settings
@@ -102,24 +121,6 @@
 #uas-discord-guild-invite       # Invite link to redirect user to if user is not in above guild(s)
 #uas-discord-required-roles     # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
 #uas-discord-bot-token          # Token for bot with access to your guild. Only required for required-roles feature
-
-
-# Parks
-#######
-# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks-ex-raids.json` and `static/data/parks-nests.json`.
-# Remove the JSON file(s) to redownload the parks.
-
-#ex-parks                        # Enables ex raid eligible parks downloading and drawing.
-#nest-parks                      # Enables nest parks downloading and drawing.
-#ex-parks-geofence-file:         # Geofence file to define outer borders of the ex park area to download.
-#nest-parks-geofence-file:       # Geofence file to define outer borders of the nest park area to download.
-
-
-#ex-parks-lower-left-point:      # Coordinates of the lower left point of the box where the ex eligible parks will be downloaded.
-#ex-parks-upper-right-point:     # Coordinates of the upper right point of the box where the ex eligible parks will be downloaded.
-#nest-parks-lower-left-point:    # Coordinates of the lower left point of the box where the nest parks will be downloaded.
-#nest-parks-upper-right-point:   # Coordinates of the upper right point of the box where the nest parks will be downloaded.
-#parks-query-timeout:            # The maximum allowed runtime for the parks query in seconds. (default=600)
 
 
 # Misc

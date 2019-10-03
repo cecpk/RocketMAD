@@ -3734,7 +3734,7 @@ function updateMap() {
 
 function getAllParks() {
     if (showConfig.ex_parks) {
-        $.getJSON('static/data/parks-ex-raids.json').done(function (response) {
+        $.getJSON('static/data/parks/' + exParksFileName + '.json').done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }
@@ -3750,7 +3750,7 @@ function getAllParks() {
     }
 
     if (showConfig.nest_parks) {
-        $.getJSON('static/data/parks-nests.json').done(function (response) {
+        $.getJSON('static/data/parks/' + nestParksFileName + '.json').done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }
