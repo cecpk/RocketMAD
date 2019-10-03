@@ -8,6 +8,7 @@ import overpy
 
 from datetime import datetime
 from matplotlib.path import Path
+from time import sleep
 from timeit import default_timer
 
 from .utils import get_args, parse_geofence_file
@@ -87,15 +88,22 @@ def _build_overpass_query(lower_left_coord, upper_right_coord,
 
 
 def _query_overpass_api(lower_left_point, upper_right_point, nest_parks=False):
-    start = default_timer()
     parks = []
 
     api = overpy.Overpass()
     request = _build_overpass_query(lower_left_point, upper_right_point,
                                     nest_parks)
-    log.debug('Park request: `%s`', request)
 
-    response = api.query(request)
+    while True:
+        try:
+            start = default_timer()
+            log.debug('Overpass API request: `%s`', request)
+            response = api.query(request)
+            break
+        except overpy.exception.OverpassTooManyRequests:
+            log.warning(
+                'Overpass API quota reached. Trying again in 5 minutes...')
+            sleep(300)
 
     duration = default_timer() - start
     log.info('Overpass API park response received in %.2fs.', duration)
@@ -185,7 +193,7 @@ def download_nest_parks():
 
     file_path = os.path.join(
         args.root_path,
-        'static/dist/data/parks/' + args.nest_parks_filename + '.json')
+        'static/data/parks/' + args.nest_parks_filename + '.json')
     if not os.path.isfile(file_path):
         geofence_file = os.path.join(
             args.root_path, 'geofences/' + args.nest_parks_geofence_file)
