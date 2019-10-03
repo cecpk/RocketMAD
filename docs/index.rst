@@ -50,14 +50,6 @@ OSM-RocketMap gives you a live visualization map of nearby Pokémon, Pokéstops,
 .. toctree::
     :titlesonly:
     :maxdepth: 1
-    :caption: Scanning Methods
-    :glob:
-
-    scanning-method/*
-
-.. toctree::
-    :titlesonly:
-    :maxdepth: 1
     :caption: Extras
     :glob:
 
