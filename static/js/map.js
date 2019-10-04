@@ -838,7 +838,7 @@ function initSidebar() {
     })
 
     $('#gyms-name-filter').on('keyup', function () {
-        $gymNameFilter = this.value
+        $gymNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
         reprocessGyms()
         lastgyms = false
         updateMap()
@@ -1095,7 +1095,7 @@ function initSidebar() {
     })
 
     $('#pokestop-name-filter').on('keyup', function () {
-        $pokestopNameFilter = this.value
+        $pokestopNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
         reprocessPokestops()
         lastpokestops = false
         updateMap()
