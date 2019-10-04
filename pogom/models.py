@@ -1194,7 +1194,7 @@ def verify_database_schema(db):
     if not Versions.table_exists():
         db.create_tables([Versions])
 
-        if ScannedLocation.table_exists():
+        if ScannedLocation.table_exists() and not trs_spawn.table_exists():
             # Versions table doesn't exist, but there are tables. This must
             # mean the user is coming from a database that existed before we
             # started tracking the schema version. Perform a full upgrade.
