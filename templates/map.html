@@ -394,6 +394,10 @@
                   </label>
                 </div>
               </div>
+              <div class="form-control" id="pokestop-name-filter-wrapper" style="display:none">
+                <h3>Name Includes</h3>
+                <input id="pokestop-name-filter" type="text"></input>
+              </div>
               <div id="pokestops-filter-wrapper" style="display:none">
                 <div class="form-control switch-container">
                   <h3>PokéStops without Event</h3>
@@ -1180,8 +1184,6 @@
       var centerLat = {{lat}};
       var centerLng = {{lng}};
       var showConfig = {{show|tojson|safe}};
-      console.log(showConfig)
-      console.log(this)
       var showAllZoomLevel = {{showAllZoomLevel}};
       var generateImages = {{generateImages}};
       var rarityFileName = "{{rarityFileName}}";
