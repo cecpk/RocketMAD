@@ -3353,7 +3353,6 @@ function processGym(id, gym = null) {
     if (id === null || id === undefined) {
         return false
     }
-    // REMOVE THIS KARTUL if(gym) console.log(gym.name)
     if (gym !== null) {
         if (!mapData.gyms.hasOwnProperty(id)) {
             // New gym, add marker to map and item to dict.
