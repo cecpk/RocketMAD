@@ -17,6 +17,7 @@ var $selectStyle
 var $selectSearchIconMarker
 var $selectLocationIconMarker
 var $switchGymSidebar
+var $gymNameFilter
 var pokeSearchList = []
 var pokemonGen = new Array(808)
 pokemonGen.fill(1, 1, 152)
@@ -762,6 +763,13 @@ function initSidebar() {
     })
     $('#team-gyms-only-switch').on('change', function () {
         Store.set('showTeamGymsOnly', this.value)
+        reprocessGyms()
+        lastgyms = false
+        updateMap()
+    })
+
+    $('#gyms-name-filter').on('keyup', function (text) {
+        $gymNameFilter = text.target.value
         reprocessGyms()
         lastgyms = false
         updateMap()
@@ -2815,7 +2823,8 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
 
 function isGymMeetsGymFilters(gym) {
     const gymLevel = getGymLevel(gym)
-    return Store.get('showGyms') &&
+    const gymRegexp = new RegExp($gymNameFilter, 'gi')
+    return Store.get('showGyms') && !!$gymNameFilter ? gym.name.match(gymRegexp) : true &&
         !((Store.get('showTeamGymsOnly') !== -1 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
           (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
           (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
@@ -2827,6 +2836,10 @@ function isGymMeetsGymFilters(gym) {
 function isGymMeetsRaidFilters(gym) {
     if (Store.get('showRaids') && isValidRaid(gym.raid)) {
         const raid = gym.raid
+        const gymRegexp = new RegExp($gymNameFilter, 'gi')
+        if ($gymNameFilter && !gym.name.match(gymRegexp)) {
+            return false
+        }
 
         if (Store.get('showParkRaidsOnly') && !gym.is_ex_raid_eligible) {
             return false
@@ -2839,7 +2852,7 @@ function isGymMeetsRaidFilters(gym) {
         } else { // Ongoing raid.
             if ((raid.level < Store.get('showRaidMinLevel') || raid.level > Store.get('showRaidMaxLevel')) ||
                 (raid.pokemon_id !== null && !includedRaidPokemon.includes(raid.pokemon_id))) {
-                    return false
+                return false
             }
         }
 
@@ -3276,7 +3289,7 @@ function processGym(id, gym = null) {
     if (id === null || id === undefined) {
         return false
     }
-
+    // REMOVE THIS KARTUL if(gym) console.log(gym.name)
     if (gym !== null) {
         if (!mapData.gyms.hasOwnProperty(id)) {
             // New gym, add marker to map and item to dict.
