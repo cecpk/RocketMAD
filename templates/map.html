@@ -205,11 +205,9 @@
                 </div>
               </div>
                 {% endif %}
-              <div class="form-control" id="gyms-name-filter">
-                <label>
-                  <h3>Name Includes</h3>
-                  <input class="search" type="text"></input>
-                </label>
+              <div class="form-control" id="gym-name-filter-wrapper" style="display:none">
+                <h3>Name Includes</h3>
+                <input id="gyms-name-filter" type="text"></input>
               </div>
               <div id="gyms-filter-wrapper" style="display:none">
                 <div class="form-control switch-container" id="team-gyms-only-wrapper">
@@ -1182,6 +1180,8 @@
       var centerLat = {{lat}};
       var centerLng = {{lng}};
       var showConfig = {{show|tojson|safe}};
+      console.log(showConfig)
+      console.log(this)
       var showAllZoomLevel = {{showAllZoomLevel}};
       var generateImages = {{generateImages}};
       var rarityFileName = "{{rarityFileName}}";
