@@ -3258,15 +3258,15 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
             }
 
             const oldPokemon = mapData.pokemons[id]
-            if (pokemon.disappear_time !== oldPokemon.disappear_time || pokemon.cp_multiplier !== oldPokemon.cp_multiplier ||
-                    pokemon.individual_attack !== oldPokemon.individual_attack || pokemon.individual_defense !== oldPokemon.individual_defense ||
-                    pokemon.individual_stamina !== oldPokemon.individual_stamina || pokemon.weight !== oldPokemon.weight ||
-                    pokemon.height !== oldPokemon.height) {
+            if (pokemon.pokemon_id !== oldPokemon.pokemon_id || pokemon.disappear_time !== oldPokemon.disappear_time ||
+                    pokemon.cp_multiplier !== oldPokemon.cp_multiplier || pokemon.individual_attack !== oldPokemon.individual_attack ||
+                    pokemon.individual_defense !== oldPokemon.individual_defense || pokemon.individual_stamina !== oldPokemon.individual_stamina ||
+                    pokemon.weight !== oldPokemon.weight || pokemon.height !== oldPokemon.height) {
                 if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
                     sendPokemonNotification(pokemon)
                 }
 
-                pokemon.marker = updatePokemonMarker(pokemon, oldPokemon.marker, isNotifyPoke)
+                pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
                 if (pokemon.marker.infoWindowIsOpen) {
                     updatePokemonLabel(pokemon, pokemon.marker)
                 } else {
