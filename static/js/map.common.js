@@ -332,11 +332,11 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showExEligibleParks': {
+    'showExParks': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showNestsParks': {
+    'showNestParks': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -598,8 +598,8 @@ var mapData = {
     weather: {},
     s2cells: {},
     weatherAlerts: {},
-    exEligibleParks: [],
-    nestsParks: []
+    exParks: [],
+    nestParks: []
 }
 
 function getPokemonGen(p) {

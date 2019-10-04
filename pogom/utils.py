@@ -15,8 +15,6 @@ import struct
 import psutil
 import subprocess
 import requests
-import overpy
-from datetime import datetime
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
@@ -278,25 +276,41 @@ def get_args():
                               ' should be updated. Decimals allowed.' +
                               ' Default: 0. 0 to disable.'),
                         type=float, default=0)
-    parser.add_argument('-Rfn', '--rarity-filename', type=str,
-                        help=('Filename of rarity json for different ' +
-                              'databases (without .json) Default: rarity'),
-                        default='rarity')
-    parser.add_argument('-Par', '--parks',
-                        help='Enable parks downloading and drawing.',
+    parser.add_argument('-Rfn', '--rarity-filename',
+                        help=('Filename (without .json) of rarity JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: rarity'),
+                        type=str, default='rarity')
+    parks = parser.add_argument_group('Parks')
+    parks.add_argument('-ep', '--ex-parks',
+                        help=('Enables ex raid eligible parks downloading ' +
+                              'and drawing.'),
                         action='store_true', default=False)
-    parser.add_argument('-Parlfp', '--parks-lower-left-point',
-                        help=('Coordinates of the lower left point of' +
-                              ' the box where the parks will be downloaded'),
-                        default=None)
-    parser.add_argument('-Parurp', '--parks-upper-right-point',
-                        help=('Coordinates of the upper right point of' +
-                              ' the box where the parks will be downloaded'),
-                        default=None)
-    parser.add_argument('-pqt', '--parks-query-timeout',
+    parks.add_argument('-ntp', '--nest-parks',
+                        help='Enables nest parks downloading and drawing.',
+                        action='store_true', default=False)
+    parks.add_argument('-epgf', '--ex-parks-geofence-file',
+                        help=('Geofence file to define outer borders of the ' +
+                              'ex park area to download.'),
+                        default='')
+    parks.add_argument('-npgf', '--nest-parks-geofence-file',
+                        help=('Geofence file to define outer borders of the ' +
+                              'nest park area to download.'),
+                        default='')
+    parks.add_argument('-epfn', '--ex-parks-filename',
+                        help=('Filename (without .json) of ex parks JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: parks-ex-raids'),
+                        type=str, default='parks-ex')
+    parks.add_argument('-npfn', '--nest-parks-filename',
+                        help=('Filename (without .json) of nest parks JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: parks-nests'),
+                        type=str, default='parks-nest')
+    parks.add_argument('-pqt', '--parks-query-timeout',
                         help=('The maximum allowed runtime for the parks' +
                               ' query in seconds.'),
-                        type=int, default=600)
+                        type=int, default=86400)
 
     parser.set_defaults(DEBUG=False)
 
@@ -858,122 +872,25 @@ def peewee_attr_to_col(cls, field):
     return field_column
 
 
-def build_overpass_query(lower_left_point, upper_right_point,
-                         nest_parks=False):
-    args = get_args()
+def parse_geofence_file(geofence_file):
+    geofences = []
+    # Read coordinates  from file.
+    if geofence_file:
+        with open(geofence_file) as f:
+            for line in f:
+                line = line.strip()
+                if len(line) == 0:  # Empty line.
+                    continue
+                elif line.startswith("["):  # Name line.
+                    name = line.replace("[", "").replace("]", "")
+                    geofences.append({
+                        'name': name,
+                        'polygon': []
+                    })
+                    log.debug('Found geofence: %s.', name)
+                else:  # Coordinate line.
+                    lat, lon = line.split(",")
+                    LatLon = {'lat': float(lat), 'lon': float(lon)}
+                    geofences[-1]['polygon'].append(LatLon)
 
-    # Tags used for both EX and nest parks.
-    tags = """
-    way[leisure=park];
-    way[landuse=recreation_ground];
-    way[leisure=recreation_ground];
-    way[leisure=pitch];
-    way[leisure=garden];
-    way[leisure=golf_course];
-    way[leisure=playground];
-    way[landuse=meadow];
-    way[landuse=grass];
-    way[landuse=greenfield];
-    way[natural=scrub];
-    way[natural=heath];
-    way[natural=grassland];
-    way[landuse=farmyard];
-    way[landuse=vineyard];
-    way[landuse=farmland];
-    way[landuse=orchard];
-    """
-
-    # Tags used only for nests.
-    nest_tags = """
-    way[natural=plateau];
-    way[natural=valley];
-    way[natural=moor];
-    rel[leisure=park];
-    rel[landuse=recreation_ground];
-    rel[leisure=recreation_ground];
-    rel[leisure=pitch];
-    rel[leisure=garden];
-    rel[leisure=golf_course];
-    rel[leisure=playground];
-    rel[landuse=meadow];
-    rel[landuse=grass];
-    rel[landuse=greenfield];
-    rel[natural=scrub];
-    rel[natural=heath];
-    rel[natural=grassland];
-    rel[landuse=farmyard];
-    rel[landuse=vineyard];
-    rel[landuse=farmland];
-    rel[landuse=orchard];
-    rel[natural=plateau];
-    rel[natural=valley];
-    rel[natural=moor];
-    """
-
-    if nest_parks:
-        tags += nest_tags
-
-    date = '2019-02-25T01:30:00Z' if nest_parks else '2016-07-16T00:00:00Z'
-
-    return '[bbox:{},{}][timeout:{}][date:"{}"];({});out;>;out skel qt;'.format(
-        lower_left_point,
-        upper_right_point,
-        args.parks_query_timeout,
-        date,
-        tags
-    )
-
-
-def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
-    start = default_timer()
-    parks = []
-
-    api = overpy.Overpass()
-    request = build_overpass_query(lower_left_point, upper_right_point, nests_parks)
-    log.debug('Park request: `%s`', request)
-
-    response = api.query(request)
-
-    duration = default_timer() - start
-    log.info('Park response received in %.2fs', duration)
-
-    for way in response.ways:
-        parks.append([[float(node.lat), float(node.lon)] for node in way.nodes])
-
-    return parks
-
-
-def download_parks(file_path, lower_left_point, upper_right_point, nests_parks=False):
-    log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
-
-    output = {
-        "date": str(datetime.now()),
-        "parks": query_overpass_api(lower_left_point, upper_right_point, nests_parks)
-    }
-
-    if len(output['parks']) > 0:
-        with open(file_path, 'w') as file:
-            json.dump(output, file)
-
-        log.info('%d parks downloaded to %s', len(output['parks']), file_path)
-    else:
-        log.info('0 parks downloaded. Skipping saving to %s', file_path)
-
-
-def download_all_parks():
-    args = get_args()
-
-    lower_left_point = args.parks_lower_left_point
-    upper_right_point = args.parks_upper_right_point
-
-    file_path = os.path.join(args.root_path, 'static/data/parks-ex-raids.json')
-    if not os.path.isfile(file_path):
-        download_parks(file_path, lower_left_point, upper_right_point)
-    else:
-        log.info('EX raids eligible parks already downloaded... Skipping.')
-
-    file_path = os.path.join(args.root_path, 'static/data/parks-nests.json')
-    if not os.path.isfile(file_path):
-        download_parks(file_path, lower_left_point, upper_right_point, True)
-    else:
-        log.info('Nests parks already downloaded... Skipping.')
+    return geofences
