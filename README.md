@@ -15,6 +15,6 @@ For instructions on how to setup and run the tool, please refer to [OSM-RocketMa
 
 ## Contributions
 
-Please submit all pull requests to [develop](https://github.com/cecpk/OSM-Rocketmap/tree/develop) branch.
+Please submit all pull requests to [master](https://github.com/cecpk/OSM-Rocketmap/tree/master) branch.
 
 Discord and front-end use [Iconset](http://www.flaticon.com/packs/packs/pokemon-go/) by [Roundicons Freebies](http://www.flaticon.com/authors/roundicons-freebies/) and [icon](http://www.flaticon.com/free-icon/rocket_178158) by [Flat Icons](http://flat-icons.com/) from [www.flaticon.com](http://www.flaticon.com/). License: CC 3.0 BY can be found [here](http://creativecommons.org/licenses/by/3.0/).
