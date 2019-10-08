@@ -276,7 +276,7 @@ def get_args():
                               ' should be updated. Decimals allowed.' +
                               ' Default: 0. 0 to disable.'),
                         type=float, default=0)
-    parser.add_argument('-Rfn', '--rarity-filename',
+    rarity.add_argument('-Rfn', '--rarity-filename',
                         help=('Filename (without .json) of rarity JSON ' +
                               'file. Useful when running multiple ' +
                               'instances. Default: rarity'),
