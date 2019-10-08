@@ -896,7 +896,8 @@ class Trs_Spawn(BaseModel):
     spawndef = IntegerField(default=240)
     earliest_unseen = IntegerField()
     last_scanned = DateTimeField(null=True)
-    first_detection = DateTimeField(default=datetime.utcnow)
+    first_detection = DateTimeField(
+        constraints=[SQL('DEFAULT CURRENT_TIMESTAMP')])
     last_non_scanned = DateTimeField(null=True)
     calc_endminsec = Utf8mb4CharField(max_length=5, null=True)
 
