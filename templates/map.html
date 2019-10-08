@@ -75,6 +75,15 @@
         </div>
       </header>
       <div class="main-container">
+        <div id='modal-container'>
+          <span id='modal-close' onclick='hideImageModal()'><i class="fas fa-times"></i></span>
+          <div id='modal-content'>
+            <div>
+              <span id='modal-title'></span>
+            </div>
+            <img id='modal-image'>
+          </div>
+        </div>
         <!-- NAV -->
         <nav id="nav">
           <div id="nav-accordion">
@@ -119,6 +128,32 @@
                     </div>
                   </div>
                 </div>
+                  {% if show.pokemon_values %}
+                <div class="form-control switch-container">
+                  <h3>Pokémon Values</h3>
+                  <div class="onoffswitch">
+                    <input id="pokemon-values-switch" type="checkbox" name="pokemon-values-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="pokemon-values-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div id="pokemon-values-filter-wrapper">
+                  <div class="form-control">
+                    <label for="filter-ivs-text">
+                      <h3>Minimum IVs %</h3>
+                      <input id="filter-ivs-text" type="text" name="filter-ivs-text" placeholder="Minimum IVs %"/>
+                    </label>
+                  </div>
+                  <div class="form-control">
+                    <label for="filter-level-text">
+                      <h3>Minimum Level</h3>
+                      <input id="filter-level-text" type="text" name="filter-level-text" placeholder="Minimum Level"/>
+                    </label>
+                  </div>
+                </div>
+                  {% endif %}
                   {% if show.rarity %}
                 <div class="form-control switch-container" id="exclude-rarity-wrapper">
                   <h3>Exclude Rarity</h3>
@@ -136,18 +171,6 @@
                   <div class="onoffswitch">
                     <input id="scale-rarity-switch" type="checkbox" name="scale-rarity-switch" class="onoffswitch-checkbox" checked>
                     <label class="onoffswitch-label" for="scale-rarity-switch">
-                      <span class="switch-label" data-on="On" data-off="Off"></span>
-                      <span class="switch-handle"></span>
-                    </label>
-                  </div>
-                </div>
-                  {% endif %}
-                  {% if show.encounter %}
-                <div class="form-control switch-container">
-                  <h3>Pokémon Values</h3>
-                  <div class="onoffswitch">
-                    <input id="pokemon-stats-switch" type="checkbox" name="pokemon-stats-switch" class="onoffswitch-checkbox" checked>
-                    <label class="onoffswitch-label" for="pokemon-stats-switch">
                       <span class="switch-label" data-on="On" data-off="Off"></span>
                       <span class="switch-handle"></span>
                     </label>
@@ -545,6 +568,30 @@
                   </label>
                 </div>
               </div>
+                {% if show.ex_parks %}
+              <div class="form-control switch-container">
+                <h3>Ex Eligible Parks</h3>
+                <div class="onoffswitch">
+                  <input id="ex-parks-switch" type="checkbox" name="ex-parks-switch" class="onoffswitch-checkbox">
+                  <label class="onoffswitch-label" for="ex-parks-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+                {% endif %}
+                {% if show.nest_parks %}
+              <div class="form-control switch-container">
+                <h3>Nest Parks</h3>
+                <div class="onoffswitch">
+                  <input id="nest-parks-switch" type="checkbox" name="nest-parks-switch" class="onoffswitch-checkbox">
+                  <label class="onoffswitch-label" for="nest-parks-switch">
+                    <span class="switch-label" data-on="On" data-off="Off"></span>
+                    <span class="switch-handle"></span>
+                  </label>
+                </div>
+              </div>
+                {% endif %}
               <div class="form-control switch-container">
                 <h3>S2 Cells</h3>
                 <div class="onoffswitch">
@@ -597,28 +644,6 @@
                   </div>
                 </div>
               </div>
-                {% if show.parks %}
-              <div class="form-control switch-container">
-                <h3>Ex Eligible Parks</h3>
-                <div class="onoffswitch">
-                  <input id="ex-eligible-parks-switch" type="checkbox" name="ex-eligible-parks-switch" class="onoffswitch-checkbox">
-                  <label class="onoffswitch-label" for="ex-eligible-parks-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-control switch-container">
-                <h3>Nests Parks</h3>
-                <div class="onoffswitch">
-                  <input id="nests-parks-switch" type="checkbox" name="nests-parks-switch" class="onoffswitch-checkbox">
-                  <label class="onoffswitch-label" for="nests-parks-switch">
-                    <span class="switch-label" data-on="On" data-off="Off"></span>
-                    <span class="switch-handle"></span>
-                  </label>
-                </div>
-              </div>
-                {% endif %}
             </div>
             <h3><i class="fas fa-map-marker-alt fa-fw"></i>Location</h3>
             <div>
@@ -699,7 +724,7 @@
                       </div>
                       <div id="tabs_notify-11">
                         <div class="notify-container">
-                            {% if show.encounter %}
+                            {% if show.pokemon_values %}
                           <div class="form-control">
                             <label for="notify-ivs-text">
                               <h3>Notify of IVs %</h3>
@@ -1154,6 +1179,8 @@
       var showAllZoomLevel = {{showAllZoomLevel}};
       var generateImages = {{generateImages}};
       var rarityFileName = "{{rarityFileName}}";
+      var exParksFileName = "{{exParksFileName}}";
+      var nestParksFileName = "{{nestParksFileName}}";
     </script>
     <!-- Leaflet libs. -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />

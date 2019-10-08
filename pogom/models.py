@@ -1,29 +1,28 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import logging
-import itertools
-import sys
 import gc
+import itertools
+import logging
+import sys
 import time
 
+from cachetools import cached
+from cachetools import TTLCache
+from datetime import datetime, timedelta
+from functools import reduce
 from peewee import (Check, SmallIntegerField, IntegerField, CharField,
                     DoubleField, BooleanField, DateTimeField, fn, FloatField,
                     TextField, BigIntegerField, JOIN, OperationalError,
                     __exception_wrapper__)
 from playhouse.flask_utils import FlaskDB
-from playhouse.pool import PooledMySQLDatabase
 from playhouse.migrate import migrate, MySQLMigrator
-from datetime import datetime, timedelta
-from cachetools import TTLCache
-from cachetools import cached
-from functools import reduce
+from playhouse.pool import PooledMySQLDatabase
 from timeit import default_timer
 
-from .utils import (get_pokemon_name, get_pokemon_types,
-                    get_args, cellid, get_move_name, get_move_damage,
-                    get_move_energy, get_move_type, ditto_ids)
 from .transform import transform_from_wgs_to_gcj
+from .utils import (get_pokemon_name, get_pokemon_types,
+                    get_args, cellid)
 
 log = logging.getLogger(__name__)
 
@@ -253,29 +252,15 @@ class Pokemon(LatLongModel):
         # Note: pokemon_id+0 forces SQL to ignore the pokemon_id index
         # and should use the disappear_time index and hopefully
         # improve performance
-        pokemon_query = (Pokemon
-                         .select((Pokemon.pokemon_id + 0).alias('pokemon_id'),
-                             fn.COUNT((Pokemon.pokemon_id + 0)).alias('count'),
-                             fn.MAX(Pokemon.disappear_time).alias(
-                                 'disappear_time'))
-                         .where(Pokemon.disappear_time > timediff)
-                         .group_by((Pokemon.pokemon_id + 0))
-                         .dicts())
-
-        ditto_query = (Pokemon
-                       .select(fn.COUNT((Pokemon.pokemon_id + 0)).alias(
-                           'count'),
-                           fn.MAX(Pokemon.disappear_time).alias(
-                               'disappear_time'))
-                       .where((Pokemon.disappear_time > timediff) &
-                              (Pokemon.pokemon_id << ditto_ids) &
-                              (Pokemon.weather_boosted_condition > 0) &
-                              (Pokemon.individual_attack.is_null(False) &
-                               ((Pokemon.individual_attack < 4) |
-                                (Pokemon.individual_defense < 4) |
-                                (Pokemon.individual_stamina < 4) |
-                                (Pokemon.cp_multiplier < 0.3))))
-                       .dicts())
+        query = (Pokemon
+                 .select((Pokemon.pokemon_id + 0).alias('pokemon_id'),
+                         Pokemon.form,
+                         fn.COUNT((Pokemon.pokemon_id + 0)).alias('count'),
+                         fn.MAX(Pokemon.disappear_time).alias(
+                             'disappear_time'))
+                 .where(Pokemon.disappear_time > timediff)
+                 .group_by((Pokemon.pokemon_id + 0), Pokemon.form)
+                 .dicts())
 
         # Performance:  disable the garbage collector prior to creating a
         # (potentially) large dict with append().
@@ -283,16 +268,10 @@ class Pokemon(LatLongModel):
 
         pokemon = []
         total = 0
-        for p in pokemon_query:
+        for p in query:
             p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
             pokemon.append(p)
             total += p['count']
-
-        for p in ditto_query:
-            if p['count'] > 0:
-                p['pokemon_id'] = 132
-                p['pokemon_name'] = get_pokemon_name(132)
-                pokemon.append(p)
 
         # Re-enable the GC.
         gc.enable()
@@ -300,7 +279,7 @@ class Pokemon(LatLongModel):
         return {'pokemon': pokemon, 'total': total}
 
     @staticmethod
-    def get_appearances(pokemon_id, timediff):
+    def get_appearances(pokemon_id, form_id, timediff):
         '''
         :param pokemon_id: id of Pokemon that we need appearances for
         :param timediff: limiting period of the selection
@@ -308,47 +287,24 @@ class Pokemon(LatLongModel):
         '''
         if timediff:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
-        if pokemon_id == '132': # Ditto.
-            query = (Pokemon
-                     .select(Pokemon.latitude, Pokemon.longitude,
-                             fn.Count(Pokemon.spawnpoint_id).alias('count'),
-                             Pokemon.spawnpoint_id)
-                     .where((Pokemon.pokemon_id << ditto_ids) &
-                            (Pokemon.disappear_time > timediff) &
-                            (Pokemon.weather_boosted_condition > 0) &
-                            (Pokemon.individual_attack.is_null(False) &
-                             ((Pokemon.individual_attack < 4) |
-                              (Pokemon.individual_defense < 4) |
-                              (Pokemon.individual_stamina < 4) |
-                              (Pokemon.cp_multiplier < 0.3))))
-                     .group_by(Pokemon.latitude, Pokemon.longitude,
-                               Pokemon.spawnpoint_id)
-                     .dicts())
+        query = (Pokemon
+                 .select(Pokemon.latitude, Pokemon.longitude,
+                         Pokemon.pokemon_id, Pokemon.form,
+                         fn.Count(Pokemon.spawnpoint_id).alias('count'),
+                         Pokemon.spawnpoint_id)
+                 .where((Pokemon.pokemon_id == pokemon_id) &
+                        (Pokemon.form == form_id) &
+                        (Pokemon.disappear_time > timediff))
+                 .group_by(Pokemon.latitude, Pokemon.longitude,
+                           Pokemon.pokemon_id, Pokemon.form,
+                           Pokemon.spawnpoint_id)
+                 .dicts())
 
-            pokemon = []
-            for p in query:
-                p['pokemon_id'] = 132
-                pokemon.append(p)
-
-            return pokemon
-        else:
-            query = (Pokemon
-                     .select(Pokemon.latitude, Pokemon.longitude,
-                             Pokemon.pokemon_id,
-                             fn.Count(Pokemon.spawnpoint_id).alias('count'),
-                             Pokemon.spawnpoint_id)
-                     .where((Pokemon.pokemon_id == pokemon_id) &
-                            (Pokemon.disappear_time > timediff))
-                     .group_by(Pokemon.latitude, Pokemon.longitude,
-                               Pokemon.pokemon_id, Pokemon.spawnpoint_id)
-                     .dicts())
-
-            return list(query)
+        return list(query)
 
     @staticmethod
-    def get_appearances_times_by_spawnpoint(pokemon_id, spawnpoint_id,
+    def get_appearances_times_by_spawnpoint(pokemon_id, form_id, spawnpoint_id,
                                             timediff):
-
         '''
         :param pokemon_id: id of Pokemon that we need appearances times for.
         :param spawnpoint_id: spawnpoint id we need appearances times for.
@@ -357,188 +313,16 @@ class Pokemon(LatLongModel):
         '''
         if timediff:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
-        if pokemon_id == '132': # Ditto.
-            query = (Pokemon
-                     .select(Pokemon.disappear_time)
-                     .where((Pokemon.pokemon_id << ditto_ids) &
-                            (Pokemon.spawnpoint_id == spawnpoint_id) &
-                            (Pokemon.disappear_time > timediff) &
-                            (Pokemon.weather_boosted_condition > 0) &
-                            (Pokemon.individual_attack.is_null(False) &
-                             ((Pokemon.individual_attack < 4) |
-                              (Pokemon.individual_defense < 4) |
-                              (Pokemon.individual_stamina < 4) |
-                              (Pokemon.cp_multiplier < 0.3))))
-                     .order_by(Pokemon.disappear_time.asc())
-                     .tuples())
-        else:
-            query = (Pokemon
-                     .select(Pokemon.disappear_time)
-                     .where((Pokemon.pokemon_id == pokemon_id) &
-                            (Pokemon.spawnpoint_id == spawnpoint_id) &
-                            (Pokemon.disappear_time > timediff))
-                     .order_by(Pokemon.disappear_time.asc())
-                     .tuples())
+        query = (Pokemon
+                 .select(Pokemon.disappear_time)
+                 .where((Pokemon.pokemon_id == pokemon_id) &
+                        (Pokemon.form == form_id) &
+                        (Pokemon.spawnpoint_id == spawnpoint_id) &
+                        (Pokemon.disappear_time > timediff))
+                 .order_by(Pokemon.disappear_time.asc())
+                 .tuples())
 
         return list(itertools.chain(*query))
-
-
-class Pokestop(LatLongModel):
-    pokestop_id = Utf8mb4CharField(primary_key=True, max_length=50)
-    enabled = BooleanField()
-    latitude = DoubleField()
-    longitude = DoubleField()
-    name = Utf8mb4CharField(null=True, max_length=128)
-    image = Utf8mb4CharField(null=True, max_length=255)
-    last_modified = DateTimeField(index=True)
-    lure_expiration = DateTimeField(null=True, index=True)
-    active_fort_modifier = SmallIntegerField(null=True, index=True)
-    incident_start = DateTimeField(null=True)
-    incident_expiration = DateTimeField(null=True)
-    incident_grunt_type = SmallIntegerField(null=True, index=True)
-    last_updated = DateTimeField(
-        null=True, index=True, default=datetime.utcnow)
-
-    class Meta:
-        indexes = ((('latitude', 'longitude'), False),)
-
-    @staticmethod
-    def get_stops(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
-                  oSwLng=None, oNeLat=None, oNeLng=None, pokestopsNoEvent=False,
-                  quests=False, invasions=False, lures=False):
-        if invasions and lures:
-            query = (Pokestop
-                     .select(Pokestop.pokestop_id, Pokestop.name,
-                             Pokestop.image, Pokestop.latitude,
-                             Pokestop.longitude, Pokestop.last_updated,
-                             Pokestop.incident_expiration,
-                             Pokestop.incident_grunt_type,
-                             Pokestop.active_fort_modifier,
-                             Pokestop.lure_expiration))
-        elif invasions:
-            query = (Pokestop
-                     .select(Pokestop.pokestop_id, Pokestop.name,
-                             Pokestop.image, Pokestop.latitude,
-                             Pokestop.longitude, Pokestop.last_updated,
-                             Pokestop.incident_expiration,
-                             Pokestop.incident_grunt_type))
-        elif lures:
-            query = (Pokestop
-                     .select(Pokestop.pokestop_id, Pokestop.name,
-                             Pokestop.image, Pokestop.latitude,
-                             Pokestop.longitude, Pokestop.last_updated,
-                             Pokestop.active_fort_modifier,
-                             Pokestop.lure_expiration))
-        else:
-            query = (Pokestop
-                     .select(Pokestop.pokestop_id, Pokestop.name,
-                             Pokestop.image, Pokestop.latitude,
-                             Pokestop.longitude, Pokestop.last_updated))
-
-        if swLat and swLng and neLat and neLng:
-            query = (query
-                     .where((Pokestop.latitude >= swLat) &
-                            (Pokestop.longitude >= swLng) &
-                            (Pokestop.latitude <= neLat) &
-                            (Pokestop.longitude <= neLng)))
-
-            if oSwLat and oSwLng and oNeLat and oNeLng:
-                # Send stops in view, but exclude those within old boundaries.
-                query = (query
-                         .where(~((Pokestop.latitude >= oSwLat) &
-                                  (Pokestop.longitude >= oSwLng) &
-                                  (Pokestop.latitude <= oNeLat) &
-                                  (Pokestop.longitude <= oNeLng))))
-            elif timestamp > 0:
-                query = (query
-                         .where(Pokestop.last_updated >
-                                datetime.utcfromtimestamp(timestamp / 1000)))
-
-                if not pokestopsNoEvent:
-                    expression = None
-                    if quests:
-                        quest_query = (Trs_Quest
-                                       .select(Trs_Quest.GUID)
-                                       .where(Trs_Quest.quest_timestamp >
-                                            timestamp / 1000))
-                        expression = Pokestop.pokestop_id << quest_query
-                    if invasions:
-                        if expression is None:
-                            expression = Pokestop.incident_start.is_null(False)
-                        else:
-                            expression |= Pokestop.incident_start.is_null(False)
-                    if lures:
-                        if expression is None:
-                            expression = Pokestop.active_fort_modifier.is_null(
-                                False)
-                        else:
-                            expression |= Pokestop.active_fort_modifier.is_null(
-                                False)
-
-                    if expression is not None:
-                        query = query.where(expression)
-            else:
-                if not pokestopsNoEvent:
-                    expression = None
-                    if quests:
-                        expression = Pokestop.pokestop_id << Trs_Quest.select(
-                            Trs_Quest.GUID)
-                    if invasions:
-                        if expression is None:
-                            expression = Pokestop.incident_expiration.is_null(
-                                False)
-                        else:
-                            expression |= Pokestop.incident_expiration.is_null(
-                                False)
-                    if lures:
-                        if expression is None:
-                            expression = Pokestop.active_fort_modifier.is_null(
-                                False)
-                        else:
-                            expression |= (Pokestop.active_fort_modifier
-                                           .is_null(False))
-
-                    if expression is not None:
-                        query = query.where(expression)
-
-
-        # Performance:  disable the garbage collector prior to creating a
-        # (potentially) large dict with append().
-        gc.disable()
-
-        pokestops = {}
-        pokestop_ids = []
-        for p in query.dicts():
-            if args.china:
-                p['latitude'], p['longitude'] = \
-                    transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
-            p['quest'] = None
-            pokestops[p['pokestop_id']] = p
-            pokestop_ids.append(p['pokestop_id'])
-
-        if quests and len(pokestop_ids) > 0:
-            today = datetime.today() # Local time.
-            today_timestamp = datetime.timestamp(
-                datetime.combine(today, datetime.min.time()))
-            quests = (Trs_Quest
-                      .select(Trs_Quest.GUID.alias('pokestop_id'),
-                              Trs_Quest.quest_task.alias('task'),
-                              Trs_Quest.quest_type.alias('type'),
-                              Trs_Quest.quest_stardust.alias('stardust'),
-                              Trs_Quest.quest_pokemon_id.alias('pokemon_id'),
-                              Trs_Quest.quest_reward_type.alias('reward_type'),
-                              Trs_Quest.quest_item_id.alias('item_id'),
-                              Trs_Quest.quest_item_amount.alias('item_amount'))
-                      .where((Trs_Quest.GUID << pokestop_ids) &
-                             (Trs_Quest.quest_timestamp >= today_timestamp))
-                      .dicts())
-
-            for q in quests:
-                pokestops[q['pokestop_id']]['quest'] = q
-
-        # Re-enable the GC.
-        gc.enable()
-        return pokestops
 
 
 class Gym(LatLongModel):
@@ -589,11 +373,11 @@ class Gym(LatLongModel):
                        .where(((Gym.latitude >= swLat) &
                                (Gym.longitude >= swLng) &
                                (Gym.latitude <= neLat) &
-                               (Gym.longitude <= neLng)) &
-                              ~((Gym.latitude >= oSwLat) &
-                                (Gym.longitude >= oSwLng) &
-                                (Gym.latitude <= oNeLat) &
-                                (Gym.longitude <= oNeLng)))
+                               (Gym.longitude <= neLng)) & ~
+                              ((Gym.latitude >= oSwLat) &
+                               (Gym.longitude >= oSwLng) &
+                               (Gym.latitude <= oNeLat) &
+                               (Gym.longitude <= oNeLng)))
                        .dicts())
 
         else:
@@ -711,6 +495,165 @@ class Raid(BaseModel):
     gender = SmallIntegerField(null=True)
 
 
+class Pokestop(LatLongModel):
+    pokestop_id = Utf8mb4CharField(primary_key=True, max_length=50)
+    enabled = BooleanField()
+    latitude = DoubleField()
+    longitude = DoubleField()
+    name = Utf8mb4CharField(null=True, max_length=128)
+    image = Utf8mb4CharField(null=True, max_length=255)
+    last_modified = DateTimeField(index=True)
+    lure_expiration = DateTimeField(null=True, index=True)
+    active_fort_modifier = SmallIntegerField(null=True, index=True)
+    incident_start = DateTimeField(null=True)
+    incident_expiration = DateTimeField(null=True)
+    incident_grunt_type = SmallIntegerField(null=True, index=True)
+    last_updated = DateTimeField(
+        null=True, index=True, default=datetime.utcnow)
+
+    class Meta:
+        indexes = ((('latitude', 'longitude'), False),)
+
+    @staticmethod
+    def get_stops(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
+                  oSwLng=None, oNeLat=None, oNeLng=None,
+                  pokestopsNoEvent=False, quests=False, invasions=False,
+                  lures=False):
+        if invasions and lures:
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated,
+                             Pokestop.incident_expiration,
+                             Pokestop.incident_grunt_type,
+                             Pokestop.active_fort_modifier,
+                             Pokestop.lure_expiration))
+        elif invasions:
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated,
+                             Pokestop.incident_expiration,
+                             Pokestop.incident_grunt_type))
+        elif lures:
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated,
+                             Pokestop.active_fort_modifier,
+                             Pokestop.lure_expiration))
+        else:
+            query = (Pokestop
+                     .select(Pokestop.pokestop_id, Pokestop.name,
+                             Pokestop.image, Pokestop.latitude,
+                             Pokestop.longitude, Pokestop.last_updated))
+
+        if swLat and swLng and neLat and neLng:
+            query = (query
+                     .where((Pokestop.latitude >= swLat) &
+                            (Pokestop.longitude >= swLng) &
+                            (Pokestop.latitude <= neLat) &
+                            (Pokestop.longitude <= neLng)))
+
+            if oSwLat and oSwLng and oNeLat and oNeLng:
+                # Send stops in view, but exclude those within old boundaries.
+                query = (query
+                         .where(~((Pokestop.latitude >= oSwLat) &
+                                  (Pokestop.longitude >= oSwLng) &
+                                  (Pokestop.latitude <= oNeLat) &
+                                  (Pokestop.longitude <= oNeLng))))
+            elif timestamp > 0:
+                query = (query
+                         .where(Pokestop.last_updated >
+                                datetime.utcfromtimestamp(timestamp / 1000)))
+
+                if not pokestopsNoEvent:
+                    expression = None
+                    if quests:
+                        quest_query = (Trs_Quest
+                                       .select(Trs_Quest.GUID)
+                                       .where(Trs_Quest.quest_timestamp >
+                                              timestamp / 1000))
+                        expression = Pokestop.pokestop_id << quest_query
+                    if invasions:
+                        if expression is None:
+                            expression = Pokestop.incident_start.is_null(False)
+                        else:
+                            expression |= (Pokestop.incident_start
+                                                   .is_null(False))
+                    if lures:
+                        if expression is None:
+                            expression = (Pokestop.active_fort_modifier
+                                                  .is_null(False))
+                        else:
+                            expression |= (Pokestop.active_fort_modifier
+                                                   .is_null(False))
+
+                    if expression is not None:
+                        query = query.where(expression)
+            else:
+                if not pokestopsNoEvent:
+                    expression = None
+                    if quests:
+                        expression = Pokestop.pokestop_id << Trs_Quest.select(
+                            Trs_Quest.GUID)
+                    if invasions:
+                        if expression is None:
+                            expression = Pokestop.incident_expiration.is_null(
+                                False)
+                        else:
+                            expression |= Pokestop.incident_expiration.is_null(
+                                False)
+                    if lures:
+                        if expression is None:
+                            expression = Pokestop.active_fort_modifier.is_null(
+                                False)
+                        else:
+                            expression |= (Pokestop.active_fort_modifier
+                                           .is_null(False))
+
+                    if expression is not None:
+                        query = query.where(expression)
+
+        # Performance:  disable the garbage collector prior to creating a
+        # (potentially) large dict with append().
+        gc.disable()
+
+        pokestops = {}
+        pokestop_ids = []
+        for p in query.dicts():
+            if args.china:
+                p['latitude'], p['longitude'] = \
+                    transform_from_wgs_to_gcj(p['latitude'], p['longitude'])
+            p['quest'] = None
+            pokestops[p['pokestop_id']] = p
+            pokestop_ids.append(p['pokestop_id'])
+
+        if quests and len(pokestop_ids) > 0:
+            today = datetime.today()  # Local time.
+            today_timestamp = datetime.timestamp(
+                datetime.combine(today, datetime.min.time()))
+            quests = (Trs_Quest
+                      .select(Trs_Quest.GUID.alias('pokestop_id'),
+                              Trs_Quest.quest_task.alias('task'),
+                              Trs_Quest.quest_type.alias('type'),
+                              Trs_Quest.quest_stardust.alias('stardust'),
+                              Trs_Quest.quest_pokemon_id.alias('pokemon_id'),
+                              Trs_Quest.quest_reward_type.alias('reward_type'),
+                              Trs_Quest.quest_item_id.alias('item_id'),
+                              Trs_Quest.quest_item_amount.alias('item_amount'))
+                      .where((Trs_Quest.GUID << pokestop_ids) &
+                             (Trs_Quest.quest_timestamp >= today_timestamp))
+                      .dicts())
+
+            for q in quests:
+                pokestops[q['pokestop_id']]['quest'] = q
+
+        # Re-enable the GC.
+        gc.enable()
+        return pokestops
+
+
 class Trs_Quest(BaseModel):
     GUID = Utf8mb4CharField(primary_key=True, max_length=50, index=True)
     quest_condition = Utf8mb4CharField(max_length=500, null=True)
@@ -783,12 +726,12 @@ class ScannedLocation(LatLongModel):
                              (ScannedLocation.latitude >= swLat) &
                              (ScannedLocation.longitude >= swLng) &
                              (ScannedLocation.latitude <= neLat) &
-                             (ScannedLocation.longitude <= neLng)) &
-                            ~(((ScannedLocation.last_modified >= activeTime)) &
-                              (ScannedLocation.latitude >= oSwLat) &
-                              (ScannedLocation.longitude >= oSwLng) &
-                              (ScannedLocation.latitude <= oNeLat) &
-                              (ScannedLocation.longitude <= oNeLng)))
+                             (ScannedLocation.longitude <= neLng)) & ~
+                            (((ScannedLocation.last_modified >= activeTime)) &
+                             (ScannedLocation.latitude >= oSwLat) &
+                             (ScannedLocation.longitude >= oSwLng) &
+                             (ScannedLocation.latitude <= oNeLat) &
+                             (ScannedLocation.longitude <= oNeLng)))
                      .dicts())
         else:
             query = (ScannedLocation
@@ -849,49 +792,51 @@ class SpawnPoint(LatLongModel):
                         oSwLat=None, oSwLng=None, oNeLat=None, oNeLng=None):
         spawnpoints = {}
         with SpawnPoint.database():
-            query = (trs_spawn.select(
-                trs_spawn.latitude, trs_spawn.longitude,
-                trs_spawn.spawnpoint.alias('id'),
-                trs_spawn.calc_endminsec.alias('latest_seen'),
-                trs_spawn.calc_endminsec.alias('earliest_unseen')).dicts())
+            query = (Trs_Spawn.select(
+                Trs_Spawn.latitude, Trs_Spawn.longitude,
+                Trs_Spawn.spawnpoint.alias('id'),
+                Trs_Spawn.calc_endminsec.alias('latest_seen'),
+                Trs_Spawn.calc_endminsec.alias('earliest_unseen')).dicts())
 
             if timestamp > 0:
                 query = (
-                    query.where(((trs_spawn.last_scanned >
-                                  datetime.utcfromtimestamp(timestamp / 1000)))
-                                & ((trs_spawn.latitude >= swLat) &
-                                   (trs_spawn.longitude >= swLng) &
-                                   (trs_spawn.latitude <= neLat) &
-                                   (trs_spawn.longitude <= neLng))).dicts())
+                    query.where(((Trs_Spawn.last_scanned >
+                                  datetime.utcfromtimestamp(
+                                      timestamp / 1000))) &
+                                ((Trs_Spawn.latitude >= swLat) &
+                                 (Trs_Spawn.longitude >= swLng) &
+                                 (Trs_Spawn.latitude <= neLat) &
+                                 (Trs_Spawn.longitude <= neLng))).dicts())
             elif oSwLat and oSwLng and oNeLat and oNeLng:
                 # Send spawnpoints in view but exclude those within old
                 # boundaries. Only send newly uncovered spawnpoints.
                 query = (query
-                         .where((((trs_spawn.latitude >= swLat) &
-                                  (trs_spawn.longitude >= swLng) &
-                                  (trs_spawn.latitude <= neLat) &
-                                  (trs_spawn.longitude <= neLng))) &
-                                ~((trs_spawn.latitude >= oSwLat) &
-                                  (trs_spawn.longitude >= oSwLng) &
-                                  (trs_spawn.latitude <= oNeLat) &
-                                  (trs_spawn.longitude <= oNeLng)))
+                         .where((((Trs_Spawn.latitude >= swLat) &
+                                  (Trs_Spawn.longitude >= swLng) &
+                                  (Trs_Spawn.latitude <= neLat) &
+                                  (Trs_Spawn.longitude <= neLng))) & ~
+                                ((Trs_Spawn.latitude >= oSwLat) &
+                                 (Trs_Spawn.longitude >= oSwLng) &
+                                 (Trs_Spawn.latitude <= oNeLat) &
+                                 (Trs_Spawn.longitude <= oNeLng)))
                          .dicts())
             elif swLat and swLng and neLat and neLng:
                 query = (query
-                         .where((trs_spawn.latitude <= neLat) &
-                                (trs_spawn.latitude >= swLat) &
-                                (trs_spawn.longitude >= swLng) &
-                                (trs_spawn.longitude <= neLng)))
+                         .where((Trs_Spawn.latitude <= neLat) &
+                                (Trs_Spawn.latitude >= swLat) &
+                                (Trs_Spawn.longitude >= swLng) &
+                                (Trs_Spawn.longitude <= neLng)))
 
-            query = (query.where(trs_spawn.calc_endminsec.is_null(False)))
+            query = (query.where(Trs_Spawn.calc_endminsec.is_null(False)))
 
             queryDict = query.dicts()
             for sp in queryDict:
                 key = sp['id']
                 sp['links'] = 'hh??'
                 sp['kind'] = 'hhss'
-                sp['earliest_unseen'] = (int(sp['earliest_unseen'].split(':')[0]) * 60
-                    + int(sp['earliest_unseen'].split(':')[1]))
+                sp['earliest_unseen'] = (
+                    int(sp['earliest_unseen'].split(':')[0]) * 60 +
+                    int(sp['earliest_unseen'].split(':')[1]))
                 sp['latest_seen'] = sp['earliest_unseen']
                 appear_time, disappear_time = SpawnPoint.start_end(sp)
                 spawnpoints[key] = sp
@@ -944,16 +889,16 @@ class SpawnPoint(LatLongModel):
         return [start % 3600, end % 3600]
 
 
-class trs_spawn(BaseModel):
-     spawnpoint = Utf8mb4CharField(primary_key=True, max_length=16, index=True)
-     latitude = DoubleField()
-     longitude = DoubleField()
-     spawndef = IntegerField(default=240)
-     earliest_unseen = IntegerField()
-     last_scanned = DateTimeField(null=True)
-     first_detection = DateTimeField(default=datetime.utcnow)
-     last_non_scanned = DateTimeField(null=True)
-     calc_endminsec = Utf8mb4CharField(max_length=5, null=True)
+class Trs_Spawn(BaseModel):
+    spawnpoint = Utf8mb4CharField(primary_key=True, max_length=16, index=True)
+    latitude = DoubleField()
+    longitude = DoubleField()
+    spawndef = IntegerField(default=240)
+    earliest_unseen = IntegerField()
+    last_scanned = DateTimeField(null=True)
+    first_detection = DateTimeField(default=datetime.utcnow)
+    last_non_scanned = DateTimeField(null=True)
+    calc_endminsec = Utf8mb4CharField(max_length=5, null=True)
 
 
 class Versions(BaseModel):
@@ -1186,8 +1131,8 @@ def db_clean_forts(age_hours):
 
 
 def create_tables(db):
-    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, Trs_Quest, SpawnPoint,
-              ScannedLocation, Weather]
+    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, Trs_Quest, Trs_Spawn,
+              SpawnPoint, ScannedLocation, Weather]
     with db:
         for table in tables:
             if not table.table_exists():
@@ -1251,7 +1196,7 @@ def verify_database_schema(db):
     if not Versions.table_exists():
         db.create_tables([Versions])
 
-        if ScannedLocation.table_exists():
+        if ScannedLocation.table_exists() and not Trs_Spawn.table_exists():
             # Versions table doesn't exist, but there are tables. This must
             # mean the user is coming from a database that existed before we
             # started tracking the schema version. Perform a full upgrade.
@@ -1754,10 +1699,17 @@ def database_migrate(db, old_ver):
             )
 
     if old_ver < 36:
-        db.execute_sql('ALTER TABLE spawnpoint MODIFY id bigint(20) unsigned NOT NULL;')
-        db.execute_sql('ALTER TABLE scannedlocation MODIFY cellid bigint(20) unsigned NOT NULL;')
-        db.execute_sql('ALTER TABLE pokemon MODIFY encounter_id bigint(20) unsigned NOT NULL;')
-        db.execute_sql('ALTER TABLE pokemon MODIFY spawnpoint_id bigint(20) unsigned NOT NULL;')
+        db.execute_sql(
+            'ALTER TABLE spawnpoint MODIFY id bigint(20) unsigned NOT NULL;')
+        db.execute_sql(
+            'ALTER TABLE scannedlocation MODIFY cellid bigint(20) unsigned ' +
+            'NOT NULL;')
+        db.execute_sql(
+            'ALTER TABLE pokemon MODIFY encounter_id bigint(20) unsigned ' +
+            'NOT NULL;')
+        db.execute_sql(
+            'ALTER TABLE pokemon MODIFY spawnpoint_id bigint(20) unsigned ' +
+            'NOT NULL;')
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')

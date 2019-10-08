@@ -184,9 +184,17 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-    'showPokemonStats': {
+    'showPokemonValues': {
         default: true,
         type: StoreTypes.Boolean
+    },
+    'filterIvsPercentage': {
+        default: '-1',
+        type: StoreTypes.Number
+    },
+    'filterLevel': {
+        default: '-1',
+        type: StoreTypes.Number
     },
     'showGyms': {
         default: true,
@@ -324,11 +332,11 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showExEligibleParks': {
+    'showExParks': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showNestsParks': {
+    'showNestParks': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -590,8 +598,8 @@ var mapData = {
     weather: {},
     s2cells: {},
     weatherAlerts: {},
-    exEligibleParks: [],
-    nestsParks: []
+    exParks: [],
+    nestParks: []
 }
 
 function getPokemonGen(p) {

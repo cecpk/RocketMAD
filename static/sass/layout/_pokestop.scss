@@ -1,86 +1,70 @@
-.pokestop {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
+.pokestop-container {
+  display: flex;
 
-  &.title, &.lure-container {
-    font-size: 14px;
-    font-weight: 900;
-    margin-bottom: 6px;
-  }
-
-  &.container {
-    display: flex;
-
-    &.content-left {
-      margin-top: auto;
-      margin-right: 19px;
-      margin-bottom: auto;
-      text-align: center;
-    }
-
-    &.content-right {
-      margin-top: auto;
-      margin-bottom: auto;
-    }
-  }
-
-  &.name {
-    font-size: 14px;
-    font-weight: 900;
+  .pokestop-container-left {
+    margin: auto 19px auto 0;
     text-align: center;
-    margin-bottom: 13px;
-  }
 
-  &.image {
-    display: block;
-    border-radius: 32px;
-    margin-top: auto;
-    margin-bottom: auto;
-
-    &.no-lure {
-      border: 3px solid rgb(54, 198, 255);
-    }
-
-    &.lure-normal {
-      border: 3px solid rgb(249, 53, 133);
-    }
-
-    &.lure-glacial {
-      border: 3px solid rgb(58, 230, 255);
-    }
-
-    &.lure-magnetic {
-      border: 3px solid rgb(252, 194, 45);
-    }
-
-    &.lure-mossy {
-      border: 3px solid rgb(112, 188, 23);
-    }
-  }
-
-  &.invasion-image, &.quest-image {
-    display: block;
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-
-  &.sprite {
+    .pokestop-icon, .invasion-image, .quest-image {
       display: block;
+    }
+
+    .pokestop-image {
+      display: block;
+      border-radius: 32px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.7;
+      }
+
+      &.no-lure {
+        border: 3px solid rgb(54, 198, 255);
+      }
+
+      &.lure-normal {
+        border: 3px solid rgb(249, 53, 133);
+      }
+
+      &.lure-glacial {
+        border: 3px solid rgb(58, 230, 255);
+      }
+
+      &.lure-magnetic {
+        border: 3px solid rgb(252, 194, 45);
+      }
+
+      &.lure-mossy {
+        border: 3px solid rgb(112, 188, 23);
+      }
+    }
   }
 
-  &.lure-normal {
-    color: rgb(249, 53, 133);
-  }
+  .pokestop-container-right {
+    .title.invasion {
+      margin-bottom: 0px;
+    }
 
-  &.lure-glacial {
-    color: rgb(58, 230, 255);
-  }
+    .lure-container {
+      .title {
+        margin-bottom: 0px;
+      }
 
-  &.lure-magnetic {
-    color: rgb(252, 194, 45);
-  }
+      &.lure-normal {
+        color: rgb(249, 53, 133);
+      }
 
-  &.lure-mossy {
-    color: rgb(112, 188, 23);
+      &.lure-glacial {
+        color: rgb(58, 230, 255);
+      }
+
+      &.lure-magnetic {
+        color: rgb(252, 194, 45);
+      }
+
+      &.lure-mossy {
+        color: rgb(112, 188, 23);
+      }
+    }
   }
 }

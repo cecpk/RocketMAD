@@ -12,3 +12,4 @@ peewee==3.10
 cachetools
 PyMySQL
 overpy
+matplotlib

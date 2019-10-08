@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import calendar
@@ -17,8 +17,8 @@ from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
 from pogom.weather import (get_weather_cells, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation, SpawnPoint)
-from .utils import (get_args, is_ditto, get_pokemon_name, get_pokemon_types,
-                    calc_pokemon_cp, now, dottedQuadToNum)
+from .utils import (get_args, get_pokemon_name, get_pokemon_types, now,
+                    dottedQuadToNum)
 from .client_auth import check_auth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
@@ -35,13 +35,6 @@ def convert_pokemon_list(pokemon):
 
     pokemon_result = []
     for p in pokemon:
-        if is_ditto(p):
-            p['disguise_pokemon_name'] = get_pokemon_name(p['pokemon_id'])
-            p['pokemon_id'] = 132
-            p['cp'] = calc_pokemon_cp(p, 91, 91, 134)
-            p['gender'] = 3 # Ditto is genderless.
-            p['weather_boosted_condition'] = 0
-            p['move_1'] = p['move_2'] = p['weight'] = p['height'] = None
         p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
         p['pokemon_types'] = get_pokemon_types(p['pokemon_id'])
         p['encounter_id'] = str(p['encounter_id'])
@@ -195,18 +188,19 @@ class Pogom(Flask):
         args = get_args()
 
         visibility_flags = {
-            'gyms': not args.no_gyms,
             'pokemons': not args.no_pokemon,
+            'pokemon_values': not args.no_pokemon_values,
+            'gyms': not args.no_gyms,
+            'gym_sidebar': not args.no_gym_sidebar,
+            'raids': not args.no_raids,
             'pokestops': not args.no_pokestops,
             'quests': not args.no_quests,
-            'raids': not args.no_raids,
-            'gym_sidebar': not args.no_gym_sidebar,
-            'parks': args.parks,
+            'medalpokemon': args.medalpokemon,
+            'ex_parks': args.ex_parks,
+            'nest_parks': args.nest_parks,
             'rarity': args.rarity_update_frequency > 0,
-            'encounter': args.encounter,
             'custom_css': args.custom_css,
-            'custom_js': args.custom_js,
-            'medalpokemon': args.medalpokemon
+            'custom_js': args.custom_js
         }
 
         return render_template(
@@ -226,7 +220,9 @@ class Pogom(Flask):
             whatsappUrl=args.whatsapp_url,
             show=visibility_flags,
             generateImages=str(args.generate_images).lower(),
-            rarityFileName=args.rarity_filename)
+            rarityFileName=args.rarity_filename,
+            exParksFileName=args.ex_parks_filename,
+            nestParksFileName=args.nest_parks_filename)
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.
@@ -413,12 +409,14 @@ class Pogom(Flask):
         if request.args.get('appearances', 'false') == 'true':
             d['appearances'] = Pokemon.get_appearances(
                 request.args.get('pokemonid'),
+                request.args.get('formid'),
                 int(request.args.get('duration')))
 
         if request.args.get('appearancesDetails', 'false') == 'true':
             d['appearancesTimes'] = (
                 Pokemon.get_appearances_times_by_spawnpoint(
                     request.args.get('pokemonid'),
+                    request.args.get('formid'),
                     request.args.get('spawnpoint_id'),
                     int(request.args.get('duration'))))
 

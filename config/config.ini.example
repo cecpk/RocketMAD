@@ -17,11 +17,13 @@
 #host:                          # Address to listen on (default='127.0.0.1')
 #port:                          # Port to listen on (default=5000)
 #location:                      # Location, can be an address or coordinates.
-#no-gyms                        # Disables gym scanning (default=False)
-#no-pokemon                     # Disables pokemon scanning. (default=False)
-#no-pokestops                   # Disables pokestop scanning. (default=False)
-#no-raids                       # Disables raid scanning (default=False)
+#no-pokemon                     # Disables pokemon. (default=False)
+#no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
+#no-gyms                        # Disables gyms. (default=False)
 #no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)
+#no-raids                       # Disables raids. (default=False)
+#no-pokestops                   # Disables pokestops. (default=False)
+#medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title:                     # Title of the map. (default='RocketMap')
@@ -56,12 +58,6 @@
 #db-cleanup-forts               # Clear gyms and pokestops from database X hours after last valid scan. Default: 0, 0 to disable.
 
 
-# Pokemon IV
-############
-
-#encounter                      # Set to true to start encounters to pull more info, like IVs or movesets. (default=False)
-#medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
-
 # Webserver settings
 ####################
 
@@ -71,9 +67,6 @@
 #ssl-privatekey:                # Path to ssl private key
 #encrypt-lib:                   # Path to encrypt lib to be used instead of the shipped ones.
 #disable-blacklist              # Disable the global anti-scraper IP blacklist.
-#rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
-#rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
-#rarity-filename:               # Name of the JSON File for dynamic rarity. Using two different RM Databases with two instances out of the same folter. Default (if empty): rarity
 
 
 # Status and logs
@@ -84,6 +77,28 @@
 #no-file-logs                   # Disables logging to files except for access.log. (default=False)
 #log-path:                      # Defines the path logs are saved at. (default=logs/)
 #log-filename:                  # Defines the log filename to be saved. The default generates yyyymmdd_HHMM_statusname.log. (default=%Y%m%d_%H%M_<SN>)
+
+
+# Dynamic rarity
+################
+
+#rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
+#rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
+#rarity-filename:               # Name of the JSON file (without .json) for dynamic rarity. Useful when running two or more instances out of the same folder. (default='rarity')
+
+
+# Parks
+#######
+# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
+# Remove the JSON file(s) to redownload the parks.
+
+#ex-parks                        # Enables ex raid eligible parks downloading and drawing. (default=False)
+#nest-parks                      # Enables nest parks downloading and drawing. (default=False)
+#ex-parks-geofence-file:         # Geofence file to define outer borders of the ex park area to download.
+#nest-parks-geofence-file:       # Geofence file to define outer borders of the nest park area to download.
+#ex-parks-filename:              # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
+#nest-parks-filename:            # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
+#parks-query-timeout:            # The maximum allowed runtime for the parks query in seconds. (default=86400)
 
 
 # User Auth Settings
@@ -106,14 +121,6 @@
 #uas-discord-guild-invite       # Invite link to redirect user to if user is not in above guild(s)
 #uas-discord-required-roles     # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
 #uas-discord-bot-token          # Token for bot with access to your guild. Only required for required-roles feature
-
-
-# Parks
-#######
-# This setting will download every parks from Overpass API and save them to `static/data/parks-ex-raids.json` and `static/data/parks-nests.json`
-#parks                           # enable parks downloading and drawing
-#parks-lower-left-point:         # Coordinates of the lower left point of the box where the parks will be downloaded
-#parks-upper-right-point:        # Coordinates of the upper right point of the box where the parks will be downloaded
 
 
 # Misc

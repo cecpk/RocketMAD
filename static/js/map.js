@@ -36,6 +36,13 @@ var languageLookupThreshold = 3
 
 var searchMarkerStyles
 
+// Settings variables.
+var showPokemonValues
+var filterIvsPercentage
+var filterLevel
+var showExParks
+var showNestParks
+
 var timestamp
 var excludedPokemon = []
 var includedRaidPokemon = []
@@ -92,8 +99,8 @@ var s2Level13LayerGroup = new L.LayerGroup()
 var s2Level14LayerGroup = new L.LayerGroup()
 var s2Level17LayerGroup = new L.LayerGroup()
 
-var exEligibleParksLayerGroup = new L.LayerGroup()
-var nestsParksLayerGroup = new L.LayerGroup()
+var exParksLayerGroup = new L.LayerGroup()
+var nestParksLayerGroup = new L.LayerGroup()
 
 // Z-index values for various markers.
 const userLocationMarkerZIndex = 0
@@ -146,9 +153,8 @@ const toastrOptions = {
 
 const availablePokemonCount = 649
 
-const genderType = ['♂', '♀', '⚲']
-
-const dittoIds = [13, 46, 48, 163, 165, 167, 187, 223, 273, 293, 300, 316, 322, 399]
+// FontAwesome gender classes.
+const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 
 const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
 const questItemNames = {
@@ -374,7 +380,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         maxZoom: 18,
         zoomControl: false,
-        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup, exEligibleParksLayerGroup, nestsParksLayerGroup]
+        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup, exParksLayerGroup, nestParksLayerGroup]
     })
 
     setTitleLayer(Store.get('map_style'))
@@ -440,6 +446,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         changeLocation(e.location.y, e.location.x)
     })
 
+    initSettingVariables()
     initSidebar()
 
     if (Push._agents.chrome.isSupported()) {
@@ -574,6 +581,14 @@ function createStartLocationMarker() {
     return marker
 }
 
+function initSettingVariables() {
+    showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
+    filterIvsPercentage = showConfig.pokemon_values ? Store.get('filterIvsPercentage') : -1
+    filterLevel = showConfig.pokemon_values ? Store.get('filterLevel') : -1
+    showExParks = showConfig.ex_parks && Store.get('showExParks')
+    showNestParks = showConfig.nest_parks && Store.get('showNestParks')
+}
+
 function initSidebar() {
     // Wipe off/restore map icons when switches are toggled
     function buildSwitchChangeListener(data, dataType, storageKey) {
@@ -703,6 +718,72 @@ function initSidebar() {
         reprocessPokemons()
     })
 
+    $('#pokemon-values-switch').change(function () {
+        const $pokemonValuesFilterWrapper = $('#pokemon-values-filter-wrapper')
+        const $tabNotify = $("#tabs_notify")
+        if (this.checked) {
+            $pokemonValuesFilterWrapper.show()
+            $tabNotify.tabs("enable", 1)
+        } else {
+            $pokemonValuesFilterWrapper.hide()
+            const active = $tabNotify.tabs("option", "active")
+            if (active === 1) {
+                // Switch to the first tab.
+                $tabNotify.tabs("option", "active", 0)
+            }
+            $tabNotify.tabs("disable", 1)
+        }
+        showPokemonValues = this.checked
+        Store.set('showPokemonValues', this.checked)
+        if (filterIvsPercentage > 0 || filterLevel > 0) {
+            lastpokemon = false
+            reprocessPokemons([], false)
+        } else {
+            reprocessPokemons([], true)
+        }
+    })
+
+    $('#filter-ivs-text').change(function () {
+        const oldValue = filterIvsPercentage
+        let newValue = parseFloat(this.value)
+        if (isNaN(newValue) || newValue <= 0) {
+            this.value = ''
+            newValue = -1
+        } else if (newValue > 100) {
+            this.value = newValue = 100
+        } else {
+            // Round to 1 decimal place.
+            this.value = newValue = Math.round(newValue * 10) / 10
+        }
+        filterIvsPercentage = newValue
+        Store.set('filterIvsPercentage', newValue)
+        if (newValue < oldValue) {
+            lastpokemon = false
+        } else {
+            reprocessPokemons()
+        }
+    })
+
+    $('#filter-level-text').change(function () {
+        const oldValue = filterLevel
+        let newValue = parseInt(this.value, 10)
+        if (isNaN(newValue) || newValue <= 0) {
+            this.value = ''
+            newValue = -1
+        } else if (newValue > 40) {
+            this.value = newValue = 40
+        } else {
+            this.value = newValue
+        }
+        filterLevel = newValue
+        Store.set('filterLevel', newValue)
+        if (newValue < oldValue) {
+            lastpokemon = false
+        } else {
+            reprocessPokemons()
+        }
+    })
+
     $('#exclude-rarity-switch').on('change', function () {
         const excludedRarity = this.value
         reincludedPokemon = reincludedPokemon.concat(excludedPokemonByRarity)
@@ -714,22 +795,6 @@ function initSidebar() {
     $('#scale-rarity-switch').change(function () {
         Store.set('scaleByRarity', this.checked)
         reprocessPokemons()
-    })
-
-    $('#pokemon-stats-switch').change(function () {
-        const $tabNotify = $("#tabs_notify")
-        if (this.checked) {
-            $tabNotify.tabs("enable", 1)
-        } else {
-            const active = $tabNotify.tabs("option", "active")
-            if (active === 1) {
-                // Switch to the first tab.
-                $tabNotify.tabs("option", "active", 0)
-            }
-            $tabNotify.tabs("disable", 1)
-        }
-        Store.set('showPokemonStats', this.checked)
-        reprocessPokemons([], true)
     })
 
     $('#gyms-switch').change(function () {
@@ -964,24 +1029,24 @@ function initSidebar() {
         }
     })
 
-    $('#ex-eligible-parks-switch').change(function () {
-        Store.set('showExEligibleParks', this.checked)
-
+    $('#ex-parks-switch').change(function () {
+        showExParks = this.checked
         if (this.checked) {
             updateParks()
         } else {
-            exEligibleParksLayerGroup.clearLayers()
+            exParksLayerGroup.clearLayers()
         }
+        Store.set('showExParks', this.checked)
     })
 
-    $('#nests-parks-switch').change(function () {
-        Store.set('showNestsParks', this.checked)
-
+    $('#nest-parks-switch').change(function () {
+        showNestParks = this.checked
         if (this.checked) {
             updateParks()
         } else {
-            nestsParksLayerGroup.clearLayers()
+            nestParksLayerGroup.clearLayers()
         }
+        Store.set('showNestParks', this.checked)
     })
 
     $('#weather-cells-switch').change(function () {
@@ -1204,10 +1269,10 @@ function initSidebar() {
             // Round to 1 decimal place.
             this.value = notifyIvsPercentage = Math.round(notifyIvsPercentage * 10) / 10
         }
+        Store.set('notifyIvsPercentage', notifyIvsPercentage)
         if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
         }
-        Store.set('notifyIvsPercentage', notifyIvsPercentage)
         reprocessPokemons([], true)
     })
 
@@ -1218,6 +1283,8 @@ function initSidebar() {
             notifyLevel = -1
         } else if (notifyLevel > 40) {
             this.value = notifyLevel = 40
+        } else {
+            this.value = notifyLevel
         }
         if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
@@ -1308,9 +1375,12 @@ function initSidebar() {
     // Pokemon.
     $('#pokemon-switch').prop('checked', Store.get('showPokemon'))
     $('#pokemons-filter-wrapper').toggle(Store.get('showPokemon'))
+    $('#filter-ivs-text').val(filterIvsPercentage).trigger('change')
+    $('#filter-level-text').val(filterLevel).trigger('change')
     $('#exclude-rarity-switch').val(Store.get('excludedRarity'))
     $('#scale-rarity-switch').prop('checked', Store.get('scaleByRarity'))
-    $('#pokemon-stats-switch').prop('checked', Store.get('showPokemonStats')).trigger('change')
+    $('#pokemon-values-switch').prop('checked', showPokemonValues).trigger('change')
+    $('#pokemon-values-filter-wrapper').toggle(showPokemonValues)
 
     // Gyms.
     $('#gyms-switch').prop('checked', Store.get('showGyms'))
@@ -1360,8 +1430,8 @@ function initSidebar() {
     $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
     $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
     $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
-    $('#ex-eligible-parks-switch').prop('checked', Store.get('showExEligibleParks'))
-    $('#nests-parks-switch').prop('checked', Store.get('showNestsParks'))
+    $('#ex-parks-switch').prop('checked', showExParks)
+    $('#nest-parks-switch').prop('checked', showNestParks)
 
     // Location.
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
@@ -1443,8 +1513,10 @@ function pokemonLabel(item) {
     var atk = item['individual_attack']
     var def = item['individual_defense']
     var sta = item['individual_stamina']
-    var move1 = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : '?'
-    var move2 = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : '?'
+    var move1Name = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : '?'
+    var move2Name = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : '?'
+    var move1Type = moves[item['move_1']] !== undefined ? moves[item['move_1']]['type'] : '?'
+    var move2Type = moves[item['move_2']] !== undefined ? moves[item['move_2']]['type'] : '?'
     var weight = item['weight'] !== null ? item['weight'].toFixed(2) : '?'
     var height = item['height'] !== null ? item['height'].toFixed(2) : '?'
     var gender = item['gender']
@@ -1455,10 +1527,10 @@ function pokemonLabel(item) {
 
     var pokemonIcon = getPokemonRawIconUrl(item)
     var gen = getPokemonGen(id)
-    const showStats = Store.get('showPokemonStats')
 
     var formDisplay = ''
-    var rarityDisplay = ''
+    var genRarityDisplayLeft = ''
+    var genRarityDisplayRight = ''
     var weatherBoostDisplay = ''
     var typesDisplay = ''
     var statsDisplay = ''
@@ -1467,37 +1539,23 @@ function pokemonLabel(item) {
         name = name.slice(0, -1)
     }
 
-    if (id === 132) { // Ditto.
-        formDisplay = `(${item.disguise_pokemon_name})`
-    } else if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
+    if (form && 'forms' in idToPokemon[id] && form in idToPokemon[id].forms && idToPokemon[id].forms[form].formName !== '') {
         formDisplay = `(${i8ln(idToPokemon[id].forms[form].formName)})`
     }
 
-    if (showConfig.rarity) {
-        const rarity = getPokemonRarity(item['pokemon_id'])
-        if (rarity) {
-            rarityDisplay = `
-                <div class='pokemon rarity'>
-                 ${rarity}
-               </div>`
-        }
-    }
-
     if (weatherBoostedCondition > 0) {
-        weatherBoostDisplay = `<img class='title-text' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24px'>`
+        weatherBoostDisplay = `<img id='weather-icon' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
     }
 
-    typesDisplay = `<div class='pokemon types'>`
     $.each(types, function (index, type) {
         if (index === 1) {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14' style='margin-left:4px;'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16' style='margin-left:4px;'>`
         } else {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='14'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16'>`
         }
     })
-    typesDisplay += `</div>`
 
-    if (showStats && cp !== null && cpMultiplier !== null) {
+    if (showPokemonValues && cp !== null && cpMultiplier !== null) {
         var iv = 0
         if (atk !== null && def !== null && sta !== null) {
             iv = getIvsPercentage(item)
@@ -1506,54 +1564,93 @@ function pokemonLabel(item) {
         var level = getPokemonLevel(item)
 
         statsDisplay = `
+            <div class='info-container'>
+              <div>
+                IV: <strong><span style='color: ${ivColor};'>${iv}%</span></strong> (A<strong>${atk}</strong> | D<strong>${def}</strong> | S<strong>${sta}</strong>)
+              </div>
+              <div>
+                CP: <strong>${cp}</strong> | Level: <strong>${level}</strong>
+              </div>
+              <div>
+               Fast: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' width='15'>
+              </div>
+              <div>
+               Charge: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' width='15'>
+              </div>
+              <div>
+                Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
+              </div>
+            </div>`
+
+        let rarityDisplay = ''
+        if (showConfig.rarity) {
+            const rarity = getPokemonRarity(item['pokemon_id'])
+            if (rarity) {
+                rarityDisplay = `
+                    <div>
+                      <strong>${rarity}</strong>
+                    </div>`
+            }
+        }
+
+        genRarityDisplayLeft = `
+            ${rarityDisplay}
             <div>
-              IV: <span class='pokemon encounter' style='color: ${ivColor};'>${iv}%</span> (A<span class='pokemon encounter'>${atk}</span> | D<span class='pokemon encounter'>${def}</span> | S<span class='pokemon encounter'>${sta}</span>)
-            </div>
-            <div class='pokemon cp-level'>
-              CP: <span class='pokemon encounter'>${cp}</span> | Level: <span class='pokemon encounter'>${level}</span>
-            </div>
-            <div>
-             Moves: <span class='pokemon encounter'>${move1}</span> / <span class='pokemon encounter'>${move2}</span>
-            </div>
-            <div class='pokemon weight-height'>
-              Weight: <span class='pokemon encounter'>${weight}kg</span> | Height: <span class='pokemon encounter'>${height}m</span>
+              <strong>Gen ${gen}</strong>
+            </div>`
+    } else {
+        let rarityDisplay = ''
+        if (showConfig.rarity) {
+            const rarity = getPokemonRarity(item['pokemon_id'])
+            if (rarity) {
+                rarityDisplay = `<strong>${rarity}</strong> | `
+            }
+        }
+
+        genRarityDisplayRight = `
+            <div class='info-container'>
+              ${rarityDisplay}<strong>Gen ${gen}</strong>
             </div>`
     }
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    const notifyLabel = notifyPokemon.includes(id) ? 'Unnotify' : 'Notify'
+    const notifyText = notifyPokemon.includes(id) ? 'Unnotify' : 'Notify'
+    const notifyIconClass = notifyPokemon.includes(id) ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
-    <div class='pokemon container'>
-      <div class='pokemon container content-left'>
         <div>
-          <img class='pokemon sprite' src='${pokemonIcon}'>
-          ${typesDisplay}
-          ${rarityDisplay}
-          <div>
-            <span class='pokemon gen'>Gen ${gen}</span>
+          <div id='pokemon-container'>
+            <div id='pokemon-container-left'>
+              <div id='pokemon-image'>
+                <img src='${pokemonIcon}' width='64'>
+              </div>
+              <div id='types'>
+                ${typesDisplay}
+              </div>
+              ${genRarityDisplayLeft}
+            </div>
+            <div id='pokemon-container-right'>
+              <div class='title'>
+                <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> #${id}</span> ${weatherBoostDisplay}
+              </div>
+              <div class='disappear'>
+                ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
+              </div>
+              ${statsDisplay}
+              ${genRarityDisplayRight}
+              <div class='coordinates'>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
+              </div>
+              <div>
+                <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+                <a href='javascript:excludePokemon(${id}, "${encounterId}")' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
+                <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class='pokemon container content-right'>
-        <div>
-          <div class='pokemon title'>
-            <span class='title-text'>${name} ${formDisplay} ${genderType[gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${id}' target='_blank' title='View on GamePress'>#${id}</a></span>${weatherBoostDisplay}
-          </div>
-          <div class='pokemon disappear'>
-            ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
-          </div>
-          ${statsDisplay}
-          <div class='pokemon coords'>
-            <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude});' title='Open in ${mapLabel} Maps'>${latitude.toFixed(7)}, ${longitude.toFixed(7)}</a>
-          </div>
-          <a href='javascript:excludePokemon(${id}, "${encounterId}")'>Hide</a> |
-          <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")'>${notifyLabel}</a> |
-          <a href='javascript:removePokemonMarker("${encounterId}")'>Remove</a>
-        </div>
-      </div>
-    </div>`
+        </div>`
 }
 
 function updatePokemonLabel(pokemon, marker) {
@@ -1569,23 +1666,21 @@ function gymLabel(gym) {
     const titleText = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    var exRaidDisplay = ''
+    var exDisplay = ''
     var gymImageDisplay = ''
     var strenghtDisplay = ''
     var gymLeaderDisplay = ''
     var raidDisplay = ''
 
     if (gym.is_ex_raid_eligible) {
-        exRaidDisplay = `
-            <div class='gym ex-gym'>
-              EX Gym
-            </div>`
+        exDisplay = `<img id='ex-icon' src='static/images/gym/ex.png' width='22'>`
     }
 
     if (gym.url) {
+        const url = gym.url.replace(/^http:\/\//i, '//')
         gymImageDisplay = `
             <div>
-              <img class='gym image ${teamName.toLowerCase()}' src='${gym.url.replace(/^http:\/\//i, '//')}' width='64px' height='64px'>
+              <img class='gym-image ${teamName.toLowerCase()}' src='${url}' onclick='showImageModal("${url}", "${titleText.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")' width='64' height='64'>
             </div>`
     } else {
         let gymUrl = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
@@ -1594,7 +1689,7 @@ function gymLabel(gym) {
         }
         gymImageDisplay = `
             <div>
-              <img class='gym sprite' src='${gymUrl}' width='64px'>
+              <img class='gym-icon' src='${gymUrl}' width='64'>
             </div>`
     }
 
@@ -1606,8 +1701,7 @@ function gymLabel(gym) {
 
         gymLeaderDisplay = `
             <div>
-              Gym leader: <span class='info'>${idToPokemon[gym.guard_pokemon_id].name}</span>
-              <a class='info' href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>
+              Gym leader: <strong>${idToPokemon[gym.guard_pokemon_id].name} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a></strong>
             </div>`
     }
 
@@ -1618,6 +1712,15 @@ function gymLabel(gym) {
 
         if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid)
+
+            let typesDisplay = ''
+            $.each(raid.pokemon_types, function (index, type) {
+                if (index === 1) {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16' style='margin-left:4px;'>`
+                } else {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16'>`
+                }
+            })
 
             let pokemonName = raid.pokemon_name
             if (raid.form && 'forms' in idToPokemon[raid.pokemon_id] && raid.form in idToPokemon[raid.pokemon_id].forms && idToPokemon[raid.pokemon_id].forms[raid.form].formName !== '') {
@@ -1641,100 +1744,90 @@ function gymLabel(gym) {
 
             raidDisplay = `
                 <div class='section-divider'></div>
-                <div class='raid container'>
-                  <div class='raid container content-left'>
+                <div id='raid-container'>
+                  <div id='raid-container-left'>
                     <div>
-                      <div>
-                        <img src='${pokemonIconUrl}' width='64px'>
-                      </div>
-                      <div class='raid stars'>
-                        <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
-                      </div>
+                      <img src='${pokemonIconUrl}' width='64px'>
+                    </div>
+                    <div>
+                     ${typesDisplay}
                     </div>
                   </div>
-                  <div class='raid container content-right'>
+                  <div id='raid-container-right'>
+                    <div class='title ongoing'>
                       <div>
-                      <div class='raid title'>
-                        <div>
-                          ${pokemonName} ${genderType[raid.gender - 1]} <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
-                        </div>
-                        <div>
-                          ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
-                        </div>
+                        ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
                       </div>
-                      <div>
-                        CP: <span class='info'>${raid.cp}</span>
-                      </div>
-                      <div class='move container'>
-                        <div class='move container content-left'>
-                          <div>
-                            <div>
-                              ${fastMoveName}
-                            </div>
-                            <div>
-                              ${chargeMoveName}
-                            </div>
-                          </div>
-                        </div>
-                        <div class='move container content-right'>
-                          <div>
-                            <div style='margin-bottom: 1px;'>
-                              <span class='move type ${fastMoveType.toLowerCase()}'>${i8ln(fastMoveType)}</span>
-                            </div>
-                            <div>
-                              <span class='move type ${chargeMoveType.toLowerCase()}'>${i8ln(chargeMoveType)}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    </div>
+                    <div class='disappear'>
+                      ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
+                    </div>
+                    <div>
+                      <strong>Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
+                    </div>
+                    <div>
+                      CP: <strong>${raid.cp}</strong>
+                    </div>
+                    <div>
+                      Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' width='15'>
+                    </div>
+                    <div>
+                      Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' width='15'>
                     </div>
                   </div>
                 </div>`
         } else {
             raidDisplay = `
                 <div class='section-divider'></div>
-                <div class='raid title upcoming'>
-                  <div>
-                    <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span> Raid
+                <div id='raid-container'>
+                  <div id='raid-container-left'>
+                    <img id='egg-image' src='static/images/gym/${raidEggImages[raid.level]}' width='64'>
                   </div>
-                  <div>
-                    Starts at ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)
+                  <div id='raid-container-right'>
+                    <div class='title upcoming'>
+                      Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
+                    </div>
+                    <div class='info-container'>
+                      <div>
+                        Start: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
+                      </div>
+                      <div>
+                        End: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
+                      </div>
+                    </div>
+                  </div>
                 </div>`
         }
     }
 
     return `
         <div>
-          <div class='gym container'>
-            <div class='gym container content-left'>
-              <div>
-                ${gymImageDisplay}
-                ${exRaidDisplay}
+          <div id='gym-container'>
+            <div id='gym-container-left'>
+              ${gymImageDisplay}
+              <div class='team-name ${teamName.toLowerCase()}'>
+                <strong>${teamName}</strong>
               </div>
             </div>
-            <div class='gym container content-right'>
-              <div>
-                <div class='gym title ${teamName.toLowerCase()}'>
-                  ${titleText}
+            <div id='gym-container-right'>
+              <div class='title'>
+                ${titleText} ${exDisplay}
+              </div>
+              <div class='info-container'>
+                ${strenghtDisplay}
+                <div>
+                  Free slots: <strong>${gym.slots_available}</strong>
                 </div>
-                <div class='gym gym-info'>
-                  ${strenghtDisplay}
-                  <div>
-                    Free slots: <span class='info'>${gym.slots_available}</span>
-                  </div>
-                  ${gymLeaderDisplay}
-                </div>
-                <div class='gym gym-info'>
-                  <div>
-                    Last scanned: <span class='info'>${timestampToDateTime(gym.last_scanned)}</span>
-                  </div>
-                  <div>
-                    Last modified: <span class='info'>${timestampToDateTime(gym.last_modified)}</span>
-                  </div>
+                ${gymLeaderDisplay}
+                <div>
+                  Last scanned: <strong>${timestampToDateTime(gym.last_scanned)}</strong>
                 </div>
                 <div>
-                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'>${gym.latitude.toFixed(7)}, ${gym.longitude.toFixed(7)}</a>
+                  Last modified: <strong>${timestampToDateTime(gym.last_modified)}</strong>
                 </div>
+              </div>
+              <div>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
@@ -1755,6 +1848,7 @@ function pokestopLabel(pokestop) {
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
     var imageUrl = ''
     var imageClass = ''
+    var imageOnclick = ''
     var lureDisplay = ''
     var lureClass = ''
     var invasionDisplay = ''
@@ -1762,10 +1856,11 @@ function pokestopLabel(pokestop) {
 
     if (pokestop.image != null && pokestop.image != '') {
         imageUrl = pokestop.image.replace(/^http:\/\//i, '//')
-        imageClass = 'image'
+        imageOnclick = `onclick='showImageModal("${imageUrl}", "${pokestopName.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+        imageClass = 'pokestop-image'
     } else {
         imageUrl = getPokestopIconUrlFiltered(pokestop)
-        imageClass = 'sprite'
+        imageClass = 'pokestop-icon'
     }
 
     if (isPokestopMeetsQuestFilters(pokestop)) {
@@ -1790,28 +1885,24 @@ function pokestopLabel(pokestop) {
 
         questDisplay = `
             <div class='section-divider'></div>
-              <div class='pokestop container'>
-                <div class='pokestop container content-left'>
-                  <div>
-                    <div>
-                      <img class='pokestop quest-image' src="${rewardImageUrl}" width='64px' height='64px'/>
-                    </div>
-                  </div>
+            <div class='pokestop-container'>
+              <div class='pokestop-container-left'>
+                <div>
+                  <img class='quest-image' src="${rewardImageUrl}" width='64'/>
                 </div>
-                <div class='pokestop container content-right'>
-                  <div>
-                    <div class='pokestop title'>
-                      Quest
-                    </div>
-                    <div>
-                      Task: <span class='info'>${quest.task}</span>
-                    </div>
-                    <div>
-                      Reward: <span class='info'>${rewardText}</span>
-                    </div>
-                  </div>
+              </div>
+              <div class='pokestop-container-right'>
+                <div class='title'>
+                  Quest
                 </div>
-              </div>`
+                <div>
+                  Task: <strong>${quest.task}</strong>
+                </div>
+                <div>
+                  Reward: <strong>${rewardText}</strong>
+                </div>
+              </div>
+            </div>`
     }
 
     if (isPokestopMeetsInvasionFilters(pokestop)) {
@@ -1819,30 +1910,26 @@ function pokestopLabel(pokestop) {
         const invasionExpireTime = pokestop.incident_expiration
         invasionDisplay = `
             <div class='section-divider'></div>
-            <div class='pokestop container'>
-              <div class='pokestop container content-left'>
+            <div class='pokestop-container'>
+              <div class='pokestop-container-left'>
                 <div>
-                  <div>
-                    <img class='pokestop invasion-image' src="static/images/invasion/${invasionId}.png" width='64px' height='64px'/>
-                  </div>
+                  <img class='invasion-image' src="static/images/invasion/${invasionId}.png" width='64'/>
                 </div>
               </div>
-              <div class='pokestop container content-right'>
+              <div class='pokestop-container-right'>
+                <div class='title invasion'>
+                  <div>
+                    Team Rocket Invasion
+                  </div>
+                </div>
+                <div class='disappear'>
+                  ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
+                </div>
                 <div>
-                  <div class='pokestop title'>
-                    <div>
-                      Team Rocket Invasion
-                    </div>
-                    <div>
-                      ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
-                    </div>
-                  </div>
-                  <div>
-                    Invasion type: <span class='info'>${idToInvasion[invasionId].type}<span>
-                  </div>
-                  <div>
-                    Grunt gender: <span class='info'>${idToInvasion[invasionId].gruntGender}<span>
-                  </div>
+                  Invasion type: <strong>${idToInvasion[invasionId].type}</strong>
+                </div>
+                <div>
+                  Grunt gender: <strong>${idToInvasion[invasionId].gruntGender}</strong>
                 </div>
               </div>
             </div>`
@@ -1852,11 +1939,11 @@ function pokestopLabel(pokestop) {
         const lureExpireTime = pokestop.lure_expiration
         lureClass = 'lure-' + lureTypes[pokestop.active_fort_modifier].toLowerCase()
         lureDisplay = `
-            <div class='pokestop lure-container ${lureClass}'>
-              <div>
+            <div class='lure-container ${lureClass}'>
+              <div class='title'>
                 ${lureTypes[pokestop.active_fort_modifier]} Lure
               </div>
-              <div>
+              <div class='disappear'>
                 ${timestampToTime(lureExpireTime)} (<span class='label-countdown' disappears-at='${lureExpireTime}'>00m00s</span>)
               </div>
             </div>`
@@ -1866,26 +1953,22 @@ function pokestopLabel(pokestop) {
 
     return `
         <div>
-          <div class='pokestop container'>
-            <div class='pokestop container content-left'>
+          <div class='pokestop-container'>
+            <div class='pokestop-container-left'>
               <div>
-                <div>
-                  <img class='pokestop ${imageClass} ${lureClass}' src='${imageUrl}' width='64px' height='64px'>
-                </div>
+                <img class='${imageClass} ${lureClass}' src='${imageUrl}' ${imageOnclick} width='64' height='64'>
               </div>
             </div>
-            <div class='pokestop container content-right'>
+            <div class='pokestop-container-right'>
+              <div class='title'>
+                ${pokestopName}
+              </div>
+              ${lureDisplay}
               <div>
-                <div class='pokestop title ${lureClass}'>
-                  ${pokestopName}
-                </div>
-                ${lureDisplay}
-                <div>
-                  Last scanned: <span class='info'>${timestampToDateTime(pokestop.last_updated)}</span>
-                </div>
-                <div>
-                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'>${pokestop.latitude.toFixed(7)}, ${pokestop.longitude.toFixed(7)}</a>
-                </div>
+                Last scanned: <strong>${timestampToDateTime(pokestop.last_updated)}</strong>
+              </div>
+              <div>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
@@ -2541,7 +2624,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel10')) {
             s2Level10LayerGroup.clearLayers()
             if (map.getZoom() > 7) {
-                showS2Cells(10, 'black', 7)
+                showS2Cells(10, 'red', 7)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2551,7 +2634,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel13')) {
             s2Level13LayerGroup.clearLayers()
             if (map.getZoom() > 10) {
-                showS2Cells(13, 'red', 5)
+                showS2Cells(13, 'black', 5)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2561,7 +2644,7 @@ function updateS2Overlay() {
         if (Store.get('showS2CellsLevel14')) {
             s2Level14LayerGroup.clearLayers()
             if (map.getZoom() > 11) {
-                showS2Cells(14, 'green', 3)
+                showS2Cells(14, 'yellow', 3)
             } else {
                 toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
                 toastr.options = toastrOptions
@@ -2810,6 +2893,26 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
         return false
     }
 
+    if (showPokemonValues) {
+        if ((filterIvsPercentage > 0 || filterLevel > 0) && pokemon.individual_attack !== null) {
+            if (filterIvsPercentage > 0) {
+                const ivsPercentage = getIvsPercentage(pokemon)
+                if (ivsPercentage < filterIvsPercentage) {
+                    return false
+                }
+            }
+            if (filterLevel > 0) {
+                const level = getPokemonLevel(pokemon)
+                if (level < filterLevel) {
+                    return false
+                }
+            }
+        } else if (filterIvsPercentage > 0 || filterLevel > 0) {
+            // Pokemon is not encountered.
+            return false
+        }
+    }
+
     return true
 }
 
@@ -2900,7 +3003,7 @@ function isNotifyPokemon(pokemon) {
             return true
         }
 
-        if (pokemon.individual_attack !== null && Store.get('showPokemonStats')) {
+        if (pokemon.individual_attack !== null && showPokemonValues) {
             const notifyIvsPercentage = Store.get('notifyIvsPercentage')
             if (notifyIvsPercentage > 0) {
                 const ivsPercentage = getIvsPercentage(pokemon)
@@ -3155,15 +3258,15 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
             }
 
             const oldPokemon = mapData.pokemons[id]
-            if (pokemon.disappear_time !== oldPokemon.disappear_time || pokemon.cp_multiplier !== oldPokemon.cp_multiplier ||
-                    pokemon.individual_attack !== oldPokemon.individual_attack || pokemon.individual_defense !== oldPokemon.individual_defense ||
-                    pokemon.individual_stamina !== oldPokemon.individual_stamina || pokemon.weight !== oldPokemon.weight ||
-                    pokemon.height !== oldPokemon.height) {
+            if (pokemon.pokemon_id !== oldPokemon.pokemon_id || pokemon.disappear_time !== oldPokemon.disappear_time ||
+                    pokemon.cp_multiplier !== oldPokemon.cp_multiplier || pokemon.individual_attack !== oldPokemon.individual_attack ||
+                    pokemon.individual_defense !== oldPokemon.individual_defense || pokemon.individual_stamina !== oldPokemon.individual_stamina ||
+                    pokemon.weight !== oldPokemon.weight || pokemon.height !== oldPokemon.height) {
                 if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
                     sendPokemonNotification(pokemon)
                 }
 
-                pokemon.marker = updatePokemonMarker(pokemon, oldPokemon.marker, isNotifyPoke)
+                pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
                 if (pokemon.marker.infoWindowIsOpen) {
                     updatePokemonLabel(pokemon, pokemon.marker)
                 } else {
@@ -3231,45 +3334,6 @@ function reprocessPokemons(pokemonIds = [], encounteredOnly = false) {
         // Update stats sidebar.
         countMarkers(map)
     }
-}
-
-function processPokemonaa(item) {
-    const isPokeExcluded = getExcludedPokemon().indexOf(item['pokemon_id']) !== -1
-    const isPokeAlive = item['disappear_time'] > Date.now()
-
-    // Limit choice to our options [0, 5].
-    const excludedRarityOption = Math.min(Math.max(Store.get('excludedRarity'), 0), 5)
-    const excludedRarity = excludedRaritiesList[excludedRarityOption]
-    const pokemonRarity = getPokemonRarity(item['pokemon_id'])
-    const isRarityExcluded = showConfig.rarity && excludedRarity.indexOf(pokemonRarity) !== -1
-    const isPokeExcludedByRarity = excludedPokemonByRarity.indexOf(item['pokemon_id']) !== -1
-    const isNotifyPkmn = isNotifyPoke(item)
-    var prionotifyactiv = Store.get('prioNotify')
-    var oldMarker = null
-    var newMarker = null
-    if ((!(item['encounter_id'] in mapData.pokemons) && !isPokeExcluded && !isRarityExcluded && isPokeAlive) ||
-            (!(item['encounter_id'] in mapData.pokemons) && isNotifyPkmn && prionotifyactiv)) {
-    // Add marker to map and item to dict.
-        const isNotifyPkmn = isNotifyPoke(item)
-        if (!item.hidden && (!Store.get('showNotifiedPokemonOnly') || isNotifyPkmn)) {
-            const scaleByRarity = Store.get('scaleByRarity')
-            if (item.marker) {
-                markers.removeLayer(item)
-                markersNoCluster.removeLayer(item)
-            }
-            newMarker = setupPokemonMarker(item, map, scaleByRarity, isNotifyPkmn)
-            customizePokemonMarker(newMarker, item, !Store.get('showPopups'))
-            item.marker = newMarker
-
-            mapData.pokemons[item['encounter_id']] = item
-        } else {
-            oldMarker = item.marker
-        }
-    } else if (isRarityExcluded && !isPokeExcludedByRarity) {
-        excludedPokemonByRarity.push(item['pokemon_id'])
-    }
-
-    return [newMarker, oldMarker]
 }
 
 function processGym(id, gym = null) {
@@ -3668,70 +3732,66 @@ function updateMap() {
     })
 }
 
-const getAllParks = function () {
-    if (!showConfig.parks) {
-        return
+function getAllParks() {
+    if (showConfig.ex_parks) {
+        $.getJSON('static/data/parks/' + exParksFileName + '.json').done(function (response) {
+            if (!response || !('parks' in response)) {
+                return
+            }
+
+            mapData.exParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+
+            if (showExParks) {
+                updateParks()
+            }
+        }).fail(function () {
+            console.error("Couldn't load ex parks JSON file.")
+        })
     }
 
-    $.getJSON('static/data/parks-ex-raids.json').done(function (response) {
-        if (!response || !('parks' in response)) {
-            return
-        }
+    if (showConfig.nest_parks) {
+        $.getJSON('static/data/parks/' + nestParksFileName + '.json').done(function (response) {
+            if (!response || !('parks' in response)) {
+                return
+            }
 
-        mapData.exEligibleParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
+            mapData.nestParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
 
-        if (Store.get('showExEligibleParks')) {
-            updateParks()
-        }
-    }).fail(function () {
-        console.log("Couldn't load ex eligible parks JSON.")
-    })
-
-    $.getJSON('static/data/parks-nests.json').done(function (response) {
-        if (!response || !('parks' in response)) {
-            return
-        }
-
-        mapData.nestsParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
-
-        if (Store.get('showNestsParks')) {
-            updateParks()
-        }
-    }).fail(function () {
-        console.log("Couldn't load ex eligible parks JSON.")
-    })
+            if (showNestParks) {
+                updateParks()
+            }
+        }).fail(function () {
+            console.error("Couldn't load nest parks JSON file.")
+        })
+    }
 }
 
-const updateParks = function () {
-    if (!showConfig.parks || (!Store.get('showExEligibleParks') && !Store.get('showNestsParks'))) {
-        return
-    }
-
-    if (Store.get('showExEligibleParks')) {
-        const inBoundParks = mapData.exEligibleParks.filter(parkPoints => {
+function updateParks() {
+    if (showExParks) {
+        const inBoundParks = mapData.exParks.filter(parkPoints => {
             return parkPoints.some(point => {
                 return map.getBounds().contains(point)
             })
         })
 
-        exEligibleParksLayerGroup.clearLayers()
+        exParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(exEligibleParksLayerGroup)
+            L.polygon(park, {color: 'black', interactive: false}).addTo(exParksLayerGroup)
         })
     }
 
-    if (Store.get('showNestsParks')) {
-        const inBoundParks = mapData.nestsParks.filter(parkPoints => {
+    if (showNestParks) {
+        const inBoundParks = mapData.nestParks.filter(parkPoints => {
             return parkPoints.some(point => {
                 return map.getBounds().contains(point)
             })
         })
 
-        nestsParksLayerGroup.clearLayers()
+        nestParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'maroon', interactive: false}).addTo(nestsParksLayerGroup)
+            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(nestParksLayerGroup)
         })
     }
 }
@@ -3826,7 +3886,7 @@ function sendPokemonNotification(pokemon) {
 
         notifyText = `Disappears at ${expireTime} (${expireTimeCountdown})`
 
-        if (Store.get('showPokemonStats') && pokemon.individual_attack !== null) {
+        if (showPokemonValues && pokemon.individual_attack !== null) {
             notifyTitle += ` ${getIvsPercentage(pokemon)}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon)}`
             const move1 = moves[pokemon.move_1] !== undefined ? i8ln(moves[pokemon.move_1].name) : 'unknown'
             const move2 = moves[pokemon.move_2] !== undefined ? i8ln(moves[pokemon.move_2].name) : 'unknown'

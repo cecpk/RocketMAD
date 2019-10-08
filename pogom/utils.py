@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import sys
@@ -15,8 +15,6 @@ import struct
 import psutil
 import subprocess
 import requests
-import overpy
-from datetime import datetime
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
@@ -32,8 +30,6 @@ from timeit import default_timer
 from . import dyn_img
 
 log = logging.getLogger(__name__)
-
-ditto_ids = [13, 46, 48, 163, 165, 167, 187, 223, 273, 293, 300, 316, 322, 399]
 
 
 def read_pokemon_ids_from_file(f):
@@ -88,12 +84,6 @@ def get_args():
     parser.add_argument('-al', '--access-logs',
                         help=("Write web logs to access.log."),
                         action='store_true', default=False)
-    parser.add_argument('-enc', '--encounter',
-                        help='Start an encounter to gather IVs and moves.',
-                        action='store_true', default=False)
-    parser.add_argument('-mpm', '--medalpokemon',
-                        help='Show notify for tiny rattata and big magikarp.',
-                        action='store_true', default=False)
     parser.add_argument('-H', '--host', help='Set web server listening host.',
                         default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int,
@@ -112,22 +102,28 @@ def get_args():
                               'starting the Webserver.'),
                         action='store_true', default=False)
     parser.add_argument('-np', '--no-pokemon',
-                        help=('Disables Pokemon from the map.'),
+                        help=('Disables Pokémon.'),
+                        action='store_true', default=False)
+    parser.add_argument('-npv', '--no-pokemon-values',
+                        help='Disables pokemon values.',
                         action='store_true', default=False)
     parser.add_argument('-ng', '--no-gyms',
-                        help=('Disables Gyms from the map.'),
-                        action='store_true', default=False)
-    parser.add_argument('-nr', '--no-raids',
-                        help=('Disables Raids from the map.'),
-                        action='store_true', default=False)
-    parser.add_argument('-ns', '--no-pokestops',
-                        help=('Disables PokeStops from the map.'),
-                        action='store_true', default=False)
-    parser.add_argument('-nq', '--no-quests',
-                        help=('Disables quests from the map.'),
+                        help=('Disables Gyms.'),
                         action='store_true', default=False)
     parser.add_argument('-ngs', '--no-gym-sidebar',
                         help=('Disable the gym sidebar and toggle.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nr', '--no-raids',
+                        help=('Disables Raids.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nps', '--no-pokestops',
+                        help=('Disables PokéStops.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nq', '--no-quests',
+                        help=('Disables Quests.'),
+                        action='store_true', default=False)
+    parser.add_argument('-mpm', '--medalpokemon',
+                        help='Show notifications for tiny Rattata and big Magikarp.',
                         action='store_true', default=False)
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
@@ -280,21 +276,41 @@ def get_args():
                               ' should be updated. Decimals allowed.' +
                               ' Default: 0. 0 to disable.'),
                         type=float, default=0)
-    parser.add_argument('-Rfn', '--rarity-filename', type=str,
-                        help=('Filename of rarity json for different ' +
-                              'databases (without .json) Default: rarity'),
-                        default='rarity')
-    parser.add_argument('-Par', '--parks',
-                        help='Enable parks downloading and drawing.',
+    parser.add_argument('-Rfn', '--rarity-filename',
+                        help=('Filename (without .json) of rarity JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: rarity'),
+                        type=str, default='rarity')
+    parks = parser.add_argument_group('Parks')
+    parks.add_argument('-ep', '--ex-parks',
+                        help=('Enables ex raid eligible parks downloading ' +
+                              'and drawing.'),
                         action='store_true', default=False)
-    parser.add_argument('-Parlfp', '--parks-lower-left-point',
-                        help=('Coordinates of the lower left point of' +
-                              ' the box where the parks will be downloaded'),
-                        default=None)
-    parser.add_argument('-Parurp', '--parks-upper-right-point',
-                        help=('Coordinates of the upper right point of' +
-                              ' the box where the parks will be downloaded'),
-                        default=None)
+    parks.add_argument('-ntp', '--nest-parks',
+                        help='Enables nest parks downloading and drawing.',
+                        action='store_true', default=False)
+    parks.add_argument('-epgf', '--ex-parks-geofence-file',
+                        help=('Geofence file to define outer borders of the ' +
+                              'ex park area to download.'),
+                        default='')
+    parks.add_argument('-npgf', '--nest-parks-geofence-file',
+                        help=('Geofence file to define outer borders of the ' +
+                              'nest park area to download.'),
+                        default='')
+    parks.add_argument('-epfn', '--ex-parks-filename',
+                        help=('Filename (without .json) of ex parks JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: parks-ex-raids'),
+                        type=str, default='parks-ex')
+    parks.add_argument('-npfn', '--nest-parks-filename',
+                        help=('Filename (without .json) of nest parks JSON ' +
+                              'file. Useful when running multiple ' +
+                              'instances. Default: parks-nests'),
+                        type=str, default='parks-nest')
+    parks.add_argument('-pqt', '--parks-query-timeout',
+                        help=('The maximum allowed runtime for the parks' +
+                              ' query in seconds.'),
+                        type=int, default=86400)
 
     parser.set_defaults(DEBUG=False)
 
@@ -426,19 +442,6 @@ def i8ln(word):
         return word
 
 
-def is_ditto(pokemon):
-    if (pokemon['pokemon_id'] in ditto_ids and
-            pokemon['weather_boosted_condition'] > 0 and
-            pokemon['individual_attack'] is not None and (
-            pokemon['individual_attack'] < 4 or
-            pokemon['individual_defense'] < 4 or
-            pokemon['individual_stamina'] < 4 or
-            pokemon['cp_multiplier'] < 0.3)):
-        return True
-    else:
-        return False
-
-
 def get_pokemon_data(pokemon_id):
     if not hasattr(get_pokemon_data, 'pokemon'):
         args = get_args()
@@ -527,8 +530,9 @@ def calc_pokemon_cp(pokemon, base_attack, base_defense, base_stamina):
     defense = base_defense + pokemon['individual_defense']
     stamina = base_stamina + pokemon['individual_stamina']
     cp = ((attack * math.sqrt(defense) * math.sqrt(stamina) *
-        pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
+          pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
     return int(cp) if cp > 10 else 10
+
 
 def get_pos_by_name(location_name):
     geolocator = Nominatim()
@@ -868,98 +872,25 @@ def peewee_attr_to_col(cls, field):
     return field_column
 
 
-def build_overpass_query(lower_left_point, upper_right_point, nests_parks=False):
-    ex_gym_tags = """
-    way["leisure"="park"];
-    way["landuse"="recreation_ground"];
-    way["leisure"="recreation_ground"];
-    way["leisure"="pitch"];
-    way["leisure"="garden"];
-    way["leisure"="golf_course"];
-    way["leisure"="playground"];
-    way["landuse"="meadow"];
-    way["landuse"="grass"];
-    way["landuse"="greenfield"];
-    way["natural"="scrub"];
-    way["natural"="heath"];
-    way["natural"="grassland"];
-    way["landuse"="farmyard"];
-    way["landuse"="vineyard"];
-    """
-    ex_gym_date = '2016-07-17T00:00:00Z'
+def parse_geofence_file(geofence_file):
+    geofences = []
+    # Read coordinates  from file.
+    if geofence_file:
+        with open(geofence_file) as f:
+            for line in f:
+                line = line.strip()
+                if len(line) == 0:  # Empty line.
+                    continue
+                elif line.startswith("["):  # Name line.
+                    name = line.replace("[", "").replace("]", "")
+                    geofences.append({
+                        'name': name,
+                        'polygon': []
+                    })
+                    log.debug('Found geofence: %s.', name)
+                else:  # Coordinate line.
+                    lat, lon = line.split(",")
+                    LatLon = {'lat': float(lat), 'lon': float(lon)}
+                    geofences[-1]['polygon'].append(LatLon)
 
-    # Nests have all the tags from EX GYM + those ones
-    nest_tags = """
-    way["landuse"="farmland"];
-    way["landuse"="orchard"];
-    """
-    nest_date = '2019-02-24T00:00:00Z'
-
-    tags = ex_gym_tags.replace("\n", "")
-    date = ex_gym_date
-
-    if nests_parks:
-        tags = ex_gym_tags.replace("\n", "") + nest_tags.replace("\n", "")
-        date = nest_date
-
-    return '[bbox:{},{}][timeout:620][date:"{}"];({});out;>;out skel qt;'.format(
-        lower_left_point,
-        upper_right_point,
-        date,
-        tags
-    )
-
-
-def query_overpass_api(lower_left_point, upper_right_point, nests_parks=False):
-    start = default_timer()
-    parks = []
-
-    api = overpy.Overpass()
-    request = build_overpass_query(lower_left_point, upper_right_point, nests_parks)
-    log.debug('Park request: `%s`', request)
-
-    response = api.query(request)
-
-    duration = default_timer() - start
-    log.info('Park response received in %.2fs', duration)
-
-    for w in response.ways:
-        parks.append([[float(c.lat), float(c.lon)] for c in w.nodes])
-
-    return parks
-
-
-def download_parks(file_path, lower_left_point, upper_right_point, nests_parks=False):
-    log.info('Downloading parks between %s and %s.', lower_left_point, upper_right_point)
-
-    output = {
-        "date": str(datetime.now()),
-        "parks": query_overpass_api(lower_left_point, upper_right_point, nests_parks)
-    }
-
-    if len(output['parks']) > 0:
-        with open(file_path, 'w') as file:
-            json.dump(output, file)
-
-        log.info('%d parks downloaded to %s', len(output['parks']), file_path)
-    else:
-        log.info('0 parks downloaded. Skipping saving to %s', file_path)
-
-
-def download_all_parks():
-    args = get_args()
-
-    lower_left_point = args.parks_lower_left_point
-    upper_right_point = args.parks_upper_right_point
-
-    file_path = os.path.join(args.root_path, 'static/data/parks-ex-raids.json')
-    if not os.path.isfile(file_path):
-        download_parks(file_path, lower_left_point, upper_right_point)
-    else:
-        log.info('EX raids eligible parks already downloaded... Skipping')
-
-    file_path = os.path.join(args.root_path, 'static/data/parks-nests.json')
-    if not os.path.isfile(file_path):
-        download_parks(file_path, lower_left_point, upper_right_point, True)
-    else:
-        log.info('Nests parks already downloaded... Skipping')
+    return geofences

@@ -1,57 +1,28 @@
-.pokemon {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 11px;
+#pokemon-container {
+  display: flex;
 
-  &.container {
-    display: flex;
+  #pokemon-container-left {
+    margin: auto 19px auto 0;
+    text-align: center;
 
-    &.content-left {
-      margin: auto 19px auto 0;
-      text-align: center;
+    #pokemon-image, #types {
+      margin-bottom: 6px;
     }
   }
 
-  &.title {
-    font-size: 14px;
-    font-weight: 900;
-    vertical-align: middle;
+  #pokemon-container-right {
+    white-space: nowrap;
+  }
 
-    .title-text {
+  .title {
+    margin-bottom: 0px;
+
+    #weather-icon, span {
       vertical-align: middle;
     }
   }
 
-  &.sprite {
-    width: 64px;
-    margin-bottom: 6px;
-  }
-
-  &.gen, &.rarity, &.encounter {
-    font-weight: 900;
-  }
-
-  &.disappear {
-    font-size: 14px;
-    font-weight: 900;
-    margin-bottom: 6px;
-    white-space: nowrap;
-  }
-
-  &.cp-level, &.weight-height {
-    margin-bottom: 6px;
-  }
-
-  &.types {
-    margin-bottom: 4px;
-  }
-
-  &.ball {
-    height: 12px;
-    width: 12px;
-    vertical-align: bottom;
-  }
-
-  &.coords {
-    margin-bottom: 2px;
+  .move-type-icon {
+    vertical-align: middle;
   }
 }

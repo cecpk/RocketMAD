@@ -3,6 +3,7 @@
 var rawDataIsLoading = false
 var mapstat
 var markers
+var formNames = {}
 
 function loadRawData() {
     var userAuthCode = localStorage.getItem('userAuthCode')
@@ -74,6 +75,9 @@ function processSeen(seen) {
               <td>
                 ${pokemonItem.pokemon_name}
               </td>
+              <td>
+                ${formNames[pokemonItem.form]}
+              </td>
               <td data-sort="${pokemonItem.count}">
                 ${pokemonItem.count.toLocaleString()}
               </td>
@@ -84,7 +88,7 @@ function processSeen(seen) {
                 ${timestampToDateTime(pokemonItem.disappear_time)}
               </td>
               <td>
-                <a href="javascript:void(0);" onclick="javascript:showOverlay(${pokemonItem.pokemon_id});">
+                <a href="javascript:void(0);" onclick="javascript:showOverlay(${pokemonItem.pokemon_id}, ${pokemonItem.form});">
                   All Locations
                 </a>
               </td>
@@ -112,19 +116,20 @@ function updateStats() {
             paging: false,
             searching: false,
             info: false,
-            order: [[3, 'desc']],
+            order: [[4, 'desc']],
             responsive: true,
             scrollResize: true,
             scrollY: 100,
             'columnDefs': [
-                {'orderable': false, 'targets': [0, 6]},
+                {'orderable': false, 'targets': [0, 7]},
                 {responsivePriority: 1, targets: 0},
-                {responsivePriority: 2, targets: 2},
-                {responsivePriority: 3, targets: 3},
+                {responsivePriority: 2, targets: 4},
+                {responsivePriority: 3, targets: 2},
                 {responsivePriority: 4, targets: 1},
-                {responsivePriority: 5, targets: 5},
-                {responsivePriority: 6, targets: 4},
-                {responsivePriority: 7, targets: 6},
+                {responsivePriority: 5, targets: 3},
+                {responsivePriority: 6, targets: 6},
+                {responsivePriority: 7, targets: 5},
+                {responsivePriority: 8, targets: 7},
             ]
         })
     }).fail(function () {
@@ -139,12 +144,24 @@ $('#duration')
     })
     .on('change', updateStats)
 
-updateStats()
+$.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
+    formNames[0] = '-'
+    for (var id = 1; id <= 809; id++) {
+        if ('forms' in data[id]) {
+            $.each(data[id].forms, function (formId, formData) {
+                formNames[formId] = formData.formName === '' ? '-' : formData.formName
+            })
+        }
+    }
+
+    updateStats()
+})
 
 /* Overlay */
 var detailsLoading = false
 var appearancesTimesLoading = false
 var pokemonid = 0
+var formid = 0
 var mapLoaded = false
 var detailsPersist = false
 var map = null
@@ -168,6 +185,7 @@ function loadDetails() {
             'scanned': false,
             'appearances': true,
             'pokemonid': pokemonid,
+            'formid': formid,
             'duration': $('#duration').val()
         },
         dataType: 'json',
@@ -205,7 +223,7 @@ function loadDetails() {
     })
 }
 
-function loadAppearancesTimes(pokemonId, spawnpointId) {
+function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
     var userAuthCode = localStorage.getItem('userAuthCode')
     return $.ajax({
         url: 'raw_data',
@@ -219,6 +237,7 @@ function loadAppearancesTimes(pokemonId, spawnpointId) {
             'appearances': false,
             'appearancesDetails': true,
             'pokemonid': pokemonId,
+            'formid': formId,
             'spawnpoint_id': spawnpointId,
             'duration': $('#duration').val()
         },
@@ -303,15 +322,16 @@ function resetMap() {
     }
 }
 
-function showOverlay(id) {
+function showOverlay(pokemonId, formId) {
     // Only load google maps once, and only if requested
     if (!mapLoaded) {
         initStat()
     }
     resetMap()
-    pokemonid = id
+    pokemonid = pokemonId
+    formid = formId
     $('#location_details').show()
-    location.hash = 'overlay_' + pokemonid
+    location.hash = 'overlay_' + pokemonid + '_' + formid
     updateDetails()
 
     setTimeout(function () { mapstat.invalidateSize() }, 400)
@@ -342,7 +362,7 @@ function processAppearance(i, item) {
 
 function appearanceTab(item) {
     var times = ''
-    return loadAppearancesTimes(item['pokemon_id'], item['spawnpoint_id']).then(function (result) {
+    return loadAppearancesTimes(item['pokemon_id'], item['form'], item['spawnpoint_id']).then(function (result) {
         $.each(result.appearancesTimes, function (key, value) {
             var saw = new Date(value - spawnTimeMs)
             saw = timestampToDateTime(saw)
@@ -387,6 +407,8 @@ function addHeadmap(headmapdata) {
     return false
 }
 
-if (location.href.match(/overlay_[0-9]+/g)) {
-    showOverlay(location.href.replace(/^.*overlay_([0-9]+).*$/, '$1'))
+if (location.href.match(/overlay_[0-9]+_[0-9]+/g)) {
+    const pokemonId = location.href.replace(/^.*overlay_([0-9]+)_([0-9]+).*$/, '$1')
+    const formId = location.href.replace(/^.*overlay_([0-9]+)_([0-9]+).*$/, '$2')
+    showOverlay(pokemonId, formId)
 }
