@@ -11,7 +11,7 @@ from cachetools import cached
 from cachetools import TTLCache
 from datetime import datetime, timedelta
 from functools import reduce
-from peewee import (Check, SmallIntegerField, IntegerField, CharField,
+from peewee import (Check, SQL, SmallIntegerField, IntegerField, CharField,
                     DoubleField, BooleanField, DateTimeField, fn, FloatField,
                     TextField, BigIntegerField, JOIN, OperationalError,
                     __exception_wrapper__)
