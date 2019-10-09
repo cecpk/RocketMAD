@@ -400,6 +400,16 @@
       },
       "46": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#707070"
+          },
+          {
+            "type": "Normal",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "61"
       },
       "153": {
@@ -427,6 +437,16 @@
       },
       "48": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#707070"
+          },
+          {
+            "type": "Normal",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "61"
       },
       "155": {
@@ -545,6 +565,16 @@
       },
       "50": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Psychic",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       }
     }
@@ -564,6 +594,16 @@
       },
       "52": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Steel",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "673": {
@@ -591,6 +631,16 @@
       },
       "54": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Steel",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "675": {
@@ -768,6 +818,12 @@
       },
       "56": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "61"
       },
       "725": {
@@ -795,6 +851,16 @@
       },
       "58": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Fairy",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "727": {
@@ -1063,6 +1129,16 @@
       },
       "60": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Ground",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Steel",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "842": {
@@ -1090,6 +1166,16 @@
       },
       "62": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Ground",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Steel",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "844": {
@@ -1117,6 +1203,12 @@
       },
       "64": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "61"
       },
       "709": {
@@ -1144,6 +1236,12 @@
       },
       "66": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "61"
       },
       "711": {
@@ -1603,6 +1701,16 @@
       },
       "68": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Rock",
+            "color": "#f85888"
+          },
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "61"
       },
       "882": {
@@ -1634,6 +1742,16 @@
       },
       "70": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Rock",
+            "color": "#f85888"
+          },
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "61"
       },
       "884": {
@@ -1665,6 +1783,16 @@
       },
       "72": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Rock",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Electric",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "886": {
@@ -1851,6 +1979,16 @@
       },
       "74": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Dark",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "220": {
@@ -1878,6 +2016,16 @@
       },
       "76": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Dark",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "222": {
@@ -2162,6 +2310,16 @@
       },
       "78": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Grass",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Dragon",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "732": {
@@ -2212,6 +2370,16 @@
       },
       "80": {
         "formName": "Alola",
+        "formTypes": [
+          {
+            "type": "Fire",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Ghost",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "61"
       },
       "227": {
@@ -6028,14 +6196,32 @@
       },
       "30": {
         "formName": "Sunny",
+        "formTypes": [
+          {
+            "type": "Fire",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "12"
       },
       "31": {
         "formName": "Rainy",
+        "formTypes": [
+          {
+            "type": "Water",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "13"
       },
       "32": {
         "formName": "Snowy",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "14"
       }
     }
@@ -6995,7 +7181,7 @@
         "color": "#a8b820"
       },
       {
-        "type": "Steel",
+        "type": "Grass",
         "color": "#b8b8d0"
       }
     ],
@@ -7006,10 +7192,30 @@
       },
       "88": {
         "formName": "Sandy",
+        "formTypes": [
+          {
+            "type": "Bug",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Ground",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "12"
       },
       "89": {
         "formName": "Trash",
+        "formTypes": [
+          {
+            "type": "Bug",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Steel",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "13"
       }
     }
@@ -8068,22 +8274,72 @@
       },
       "82": {
         "formName": "Frost",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Ice",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "14"
       },
       "83": {
         "formName": "Fan",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Flying",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "15"
       },
       "84": {
         "formName": "Mow",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Grass",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "16"
       },
       "85": {
         "formName": "Wash",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Water",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "13"
       },
       "86": {
         "formName": "Heat",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Fire",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "12"
       }
     }
@@ -8169,6 +8425,10 @@
       {
         "type": "Ghost",
         "color": "#705898"
+      },
+      {
+        "type": "Dragon",
+        "color": "#705898"
       }
     ],
     "forms": {
@@ -8224,15 +8484,21 @@
       {
         "type": "Grass",
         "color": "#78c850"
-      },
-      {
-        "type": "Flying",
-        "color": "#a890f0"
       }
     ],
     "forms": {
       "92": {
         "formName": "Sky",
+        "formTypes": [
+          {
+            "type": "Grass",
+            "color": "#707070"
+          },
+          {
+            "type": "Flying",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "12"
       },
       "93": {
@@ -8256,70 +8522,172 @@
       },
       "101": {
         "formName": "Fighting",
+        "formTypes": [
+          {
+            "type": "Fighting",
+            "color": "#707070"
+          }
+        ],
         "assetId": "12"
       },
       "102": {
         "formName": "Flying",
+        "formTypes": [
+          {
+            "type": "Flying",
+            "color": "#707070"
+          }
+        ],
         "assetId": "13"
       },
       "103": {
         "formName": "Poison",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#707070"
+          }
+        ],
         "assetId": "14"
       },
       "104": {
         "formName": "Ground",
+        "formTypes": [
+          {
+            "type": "Ground",
+            "color": "#707070"
+          }
+        ],
         "assetId": "15"
       },
       "105": {
         "formName": "Rock",
+        "formTypes": [
+          {
+            "type": "Rock",
+            "color": "#707070"
+          }
+        ],
         "assetId": "16"
       },
       "106": {
         "formName": "Bug",
+        "formTypes": [
+          {
+            "type": "Bug",
+            "color": "#707070"
+          }
+        ],
         "assetId": "17"
       },
       "107": {
         "formName": "Ghost",
+        "formTypes": [
+          {
+            "type": "Ghost",
+            "color": "#707070"
+          }
+        ],
         "assetId": "18"
       },
       "108": {
         "formName": "Steel",
+        "formTypes": [
+          {
+            "type": "Steel",
+            "color": "#707070"
+          }
+        ],
         "assetId": "19"
       },
       "109": {
         "formName": "Fire",
+        "formTypes": [
+          {
+            "type": "Fire",
+            "color": "#707070"
+          }
+        ],
         "assetId": "20"
       },
       "110": {
         "formName": "Water",
+        "formTypes": [
+          {
+            "type": "Water",
+            "color": "#707070"
+          }
+        ],
         "assetId": "21"
       },
       "111": {
         "formName": "Grass",
+        "formTypes": [
+          {
+            "type": "Grass",
+            "color": "#707070"
+          }
+        ],
         "assetId": "22"
       },
       "112": {
         "formName": "Electric",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#707070"
+          }
+        ],
         "assetId": "23"
       },
       "113": {
         "formName": "Psychic",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#707070"
+          }
+        ],
         "assetId": "24"
       },
       "114": {
         "formName": "Ice",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#707070"
+          }
+        ],
         "assetId": "25"
       },
       "115": {
         "formName": "Dragon",
+        "formTypes": [
+          {
+            "type": "Dragon",
+            "color": "#707070"
+          }
+        ],
         "assetId": "26"
       },
       "116": {
         "formName": "Dark",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#707070"
+          }
+        ],
         "assetId": "27"
       },
       "117": {
         "formName": "Fairy",
+        "formTypes": [
+          {
+            "type": "Fairy",
+            "color": "#707070"
+          }
+        ],
         "assetId": "28"
       }
     }
@@ -8986,6 +9354,16 @@
       },
       "139": {
         "formName": "Zen Mode",
+        "formTypes": [
+          {
+            "type": "Fire",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Psychic",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "12"
       }
     }
@@ -10127,6 +10505,16 @@
       },
       "152": {
         "formName": "Pirouette",
+        "formTypes": [
+          {
+            "type": "Normal",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Fighting",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "12"
       }
     }

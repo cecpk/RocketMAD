@@ -674,6 +674,14 @@ function getGoogleSprite(index, sprite, displayHeight) {
     }
 }
 
+function getPokemonTypes(pokemon) {
+    if (pokemon.form && 'formTypes' in idToPokemon[pokemon.pokemon_id].forms[pokemon.form]) {
+        return idToPokemon[pokemon.pokemon_id].forms[pokemon.form].formTypes
+    } else {
+        return idToPokemon[pokemon.pokemon_id].types
+    }
+}
+
 function getIvsPercentage(pokemon) {
     // Round to 1 decimal place.
     return Math.round(1000 * (pokemon.individual_attack + pokemon.individual_defense + pokemon.individual_stamina) / 45) / 10

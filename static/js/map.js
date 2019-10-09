@@ -1504,7 +1504,7 @@ function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
 
 function pokemonLabel(item) {
     var name = item['pokemon_name']
-    var types = item['pokemon_types']
+    var types = getPokemonTypes(item)
     var encounterId = item['encounter_id']
     var id = item['pokemon_id']
     var latitude = item['latitude']
@@ -1714,7 +1714,8 @@ function gymLabel(gym) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid)
 
             let typesDisplay = ''
-            $.each(raid.pokemon_types, function (index, type) {
+            const types = getPokemonTypes({'pokemon_id': raid.pokemon_id, 'form': raid.form})
+            $.each(types, function (index, type) {
                 if (index === 1) {
                     typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16' style='margin-left:4px;'>`
                 } else {
