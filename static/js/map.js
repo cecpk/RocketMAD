@@ -1549,9 +1549,9 @@ function pokemonLabel(item) {
 
     $.each(types, function (index, type) {
         if (index === 1) {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16' style='margin-left:4px;'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16' style='margin-left:4px;'>`
         } else {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16'>`
         }
     })
 
@@ -1572,10 +1572,10 @@ function pokemonLabel(item) {
                 CP: <strong>${cp}</strong> | Level: <strong>${level}</strong>
               </div>
               <div>
-               Fast: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' width='15'>
+               Fast: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i8ln(move1Type)}' width='15'>
               </div>
               <div>
-               Charge: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' width='15'>
+               Charge: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i8ln(move2Type)}' width='15'>
               </div>
               <div>
                 Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
@@ -1717,9 +1717,9 @@ function gymLabel(gym) {
             const types = getPokemonTypes({'pokemon_id': raid.pokemon_id, 'form': raid.form})
             $.each(types, function (index, type) {
                 if (index === 1) {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16' style='margin-left:4px;'>`
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16' style='margin-left:4px;'>`
                 } else {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' width='16'>`
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16'>`
                 }
             })
 
@@ -1770,10 +1770,10 @@ function gymLabel(gym) {
                       CP: <strong>${raid.cp}</strong>
                     </div>
                     <div>
-                      Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' width='15'>
+                      Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
                     </div>
                     <div>
-                      Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' width='15'>
+                      Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
                     </div>
                   </div>
                 </div>`
