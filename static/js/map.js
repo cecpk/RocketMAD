@@ -837,7 +837,7 @@ function initSidebar() {
         updateMap()
     })
 
-    $('#gyms-name-filter').on('keyup', function () {
+    $('#gym-name-filter').on('keyup', function () {
         $gymNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
         reprocessGyms()
         lastgyms = false
@@ -2946,7 +2946,7 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
 function isGymMeetsGymFilters(gym) {
     const gymLevel = getGymLevel(gym)
     const gymRegexp = new RegExp($gymNameFilter, 'gi')
-    return Store.get('showGyms') && (!!$gymNameFilter ? gym.name.match(gymRegexp) : true) &&
+    return Store.get('showGyms') && ($gymNameFilter ? gym.name.match(gymRegexp) : true) &&
         !((Store.get('showTeamGymsOnly') !== -1 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
           (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
           (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
@@ -3026,7 +3026,7 @@ function isPokestopMeetsLureFilters(pokestop) {
 
 function isPokestopMeetsFilters(pokestop) {
     const pokestopRegexp = new RegExp($pokestopNameFilter, 'gi')
-    return Store.get('showPokestops') &&  (!!$pokestopNameFilter ? pokestop.name.match(pokestopRegexp) : true) &&
+    return Store.get('showPokestops') &&  ($pokestopNameFilter ? pokestop.name.match(pokestopRegexp) : true) &&
         (Store.get('showPokestopsNoEvent') || isPokestopMeetsQuestFilters(pokestop) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
 }
 
@@ -3373,6 +3373,7 @@ function processGym(id, gym = null) {
     if (id === null || id === undefined) {
         return false
     }
+
     if (gym !== null) {
         if (!mapData.gyms.hasOwnProperty(id)) {
             // New gym, add marker to map and item to dict.
