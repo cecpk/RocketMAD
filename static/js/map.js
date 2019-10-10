@@ -2036,6 +2036,7 @@ function spawnpointLabel(spawnpoint) {
         var lastConfirmation = timestampToDateTime(spawnpoint.last_scanned)
     }
 
+    const lastScanned = spawnpoint.last_scanned > spawnpoint.last_non_scanned ? spawnpoint.last_scanned : spawnpoint.last_non_scanned
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
     return `
@@ -2058,7 +2059,7 @@ function spawnpointLabel(spawnpoint) {
             First scanned: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
           </div>
           <div>
-            Last scanned: <strong>${timestampToDateTime(spawnpoint.last_non_scanned)}</strong>
+            Last scanned: <strong>${timestampToDateTime(lastScanned)}</strong>
           </div>
           <div>
             Last confirmation: <strong>${lastConfirmation || 'None'}</strong>

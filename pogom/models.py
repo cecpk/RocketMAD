@@ -916,6 +916,8 @@ class Trs_Spawn(LatLongModel):
         elif timestamp > 0:
             query = (query
                      .where(((Trs_Spawn.last_scanned >
+                              datetime.fromtimestamp(timestamp / 1000)) |
+                             (Trs_Spawn.last_non_scanned >
                               datetime.fromtimestamp(timestamp / 1000))) &
                             ((Trs_Spawn.latitude >= swLat) &
                              (Trs_Spawn.longitude >= swLng) &
@@ -945,9 +947,11 @@ class Trs_Spawn(LatLongModel):
         for sp in query.dicts():
             # Convert local time to UTC.
             sp['first_detection'] = sp['first_detection'] - offset
-            sp['last_non_scanned'] = sp['last_non_scanned'] - offset
+            if sp['last_non_scanned'] is not None:
+                sp['last_non_scanned'] = sp['last_non_scanned'] - offset
             if sp['end_time'] is not None:
-                sp['last_scanned'] = sp['last_scanned'] - offset
+                if sp['last_scanned'] is not None:
+                    sp['last_scanned'] = sp['last_scanned'] - offset
                 end_time_split = sp['end_time'].split(':')
                 end_time_seconds = int(end_time_split[1])
                 end_time_minutes = int(end_time_split[0])
