@@ -1142,20 +1142,20 @@ def db_clean_gyms(age_hours, gyms_age_days=30):
               time_diff)
 
 
-def db_clean_spawnpoints(age_hours, missed=5):
+def db_clean_spawnpoints(age_hours):
     log.debug('Beginning cleanup of old spawnpoint data.')
     start_timer = default_timer()
     # Maximum number of variables to include in a single query.
     step = 500
 
-    spawnpoint_timeout = datetime.utcnow() - timedelta(hours=age_hours)
+    spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
-    with SpawnPoint.database():
+    with Trs_Spawn.database():
         # Select old SpawnPoint entries.
-        query = (SpawnPoint
-                 .select(SpawnPoint.id)
-                 .where((SpawnPoint.last_scanned < spawnpoint_timeout) &
-                        (SpawnPoint.missed_count > missed))
+        query = (Trs_Spawn
+                 .select(Trs_Spawn.spawnpoint)
+                 .where((Trs_Spawn.last_scanned < spawnpoint_timeout) &
+                        (Trs_Spawn.last_non_scanned < spawnpoint_timeout))
                  .dicts())
         old_sp = [(sp['id']) for sp in query]
 
@@ -1165,9 +1165,9 @@ def db_clean_spawnpoints(age_hours, missed=5):
         # Remove old and invalid SpawnPoint entries.
         num_rows = 0
         for i in range(0, num_records, step):
-            query = (SpawnPoint
+            query = (Trs_Spawn
                      .delete()
-                     .where((SpawnPoint.id <<
+                     .where((Trs_Spawn.spawnpoint <<
                              old_sp[i:min(i + step, num_records)])))
             num_rows += query.execute()
         log.debug('Deleted %d old SpawnPoint entries.', num_rows)
