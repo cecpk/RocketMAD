@@ -313,6 +313,7 @@ class Pogom(Flask):
             # Exclude ids of Pokemon that are hidden.
             eids = []
             request_eids = request.args.get('eids')
+            verified_time = args.verified_despawn_time
             if request_eids and not request.args.get('prionotify'):
                 eids = {int(i) for i in request_eids.split(',')}
             if request.args.get('ids'):
@@ -326,29 +327,27 @@ class Pogom(Flask):
                 # all pokemon on screen.
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
-                        swLat, swLng, neLat, neLng, exclude=eids))
+                        swLat, swLng, neLat, neLng,
+                        exclude=eids,
+                        verified_disappear_time=verified_time))
             else:
                 # If map is already populated only request modified Pokemon
                 # since last request time.
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
-                        swLat, swLng, neLat, neLng,
-                        timestamp=timestamp, exclude=eids))
+                        swLat, swLng, neLat, neLng, timestamp=timestamp,
+                        exclude=eids,
+                        verified_disappear_time=verified_time))
                 if newArea:
                     # If screen is moved add newly uncovered Pokemon to the
                     # ones that were modified since last request time.
                     d['pokemons'] = d['pokemons'] + (
                         convert_pokemon_list(
                             Pokemon.get_active(
-                                swLat,
-                                swLng,
-                                neLat,
-                                neLng,
-                                exclude=eids,
-                                oSwLat=oSwLat,
-                                oSwLng=oSwLng,
-                                oNeLat=oNeLat,
-                                oNeLng=oNeLng)))
+                                swLat, swLng, neLat, neLng, exclude=eids,
+                                oSwLat=oSwLat, oSwLng=oSwLng, oNeLat=oNeLat,
+                                oNeLng=oNeLng,
+                                verified_disappear_time=verified_time)))
 
             if request.args.get('reids'):
                 reids = [int(x) for x in request.args.get('reids').split(',')]

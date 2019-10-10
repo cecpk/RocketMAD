@@ -1561,6 +1561,7 @@ function pokemonLabel(item) {
     var genRarityDisplayLeft = ''
     var genRarityDisplayRight = ''
     var weatherBoostDisplay = ''
+    var verifiedDisplay = ''
     var typesDisplay = ''
     var statsDisplay = ''
 
@@ -1574,6 +1575,12 @@ function pokemonLabel(item) {
 
     if (weatherBoostedCondition > 0) {
         weatherBoostDisplay = `<img id='weather-icon' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
+    }
+
+    if (item.verified_disappear_time) {
+        verifiedDisplay = `<i id='despawn-verified' class='fas fa-check-square' title='Despawn time verified'></i>`
+    } else if (item.verified_disappear_time === null) {
+        verifiedDisplay = `<i id='despawn-unverified' class='fas fa-exclamation-triangle' title='Despawn time not verified'></i>`
     }
 
     $.each(types, function (index, type) {
@@ -1664,7 +1671,7 @@ function pokemonLabel(item) {
                 <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> #${id}</span> ${weatherBoostDisplay}
               </div>
               <div class='disappear'>
-                ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>)
+                ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>) ${verifiedDisplay}
               </div>
               ${statsDisplay}
               ${genRarityDisplayRight}

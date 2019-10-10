@@ -151,9 +151,38 @@ class Pokemon(LatLongModel):
 
     @staticmethod
     def get_active(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
-                   oSwLng=None, oNeLat=None, oNeLng=None, exclude=None):
+                   oSwLng=None, oNeLat=None, oNeLng=None, exclude=None,
+                   verified_disappear_time=False):
         now_date = datetime.utcnow()
-        query = Pokemon.select()
+
+        if verified_disappear_time:
+            query = (Pokemon
+                     .select(Pokemon.encounter_id, Pokemon.pokemon_id,
+                             Pokemon.latitude, Pokemon.longitude,
+                             Pokemon.disappear_time, Pokemon.individual_attack,
+                             Pokemon.individual_defense,
+                             Pokemon.individual_stamina, Pokemon.move_1,
+                             Pokemon.move_2, Pokemon.cp, Pokemon.cp_multiplier,
+                             Pokemon.weight, Pokemon.height, Pokemon.gender,
+                             Pokemon.form, Pokemon.costume,
+                             Pokemon.weather_boosted_condition,
+                             Pokemon.last_modified,
+                             Trs_Spawn.calc_endminsec.alias(
+                                 'verified_disappear_time'))
+                     .join(Trs_Spawn, on=(Pokemon.spawnpoint_id ==
+                                          Trs_Spawn.spawnpoint)))
+        else:
+            query = (Pokemon
+                     .select(Pokemon.encounter_id, Pokemon.pokemon_id,
+                             Pokemon.latitude, Pokemon.longitude,
+                             Pokemon.disappear_time, Pokemon.individual_attack,
+                             Pokemon.individual_defense,
+                             Pokemon.individual_stamina, Pokemon.move_1,
+                             Pokemon.move_2, Pokemon.cp, Pokemon.cp_multiplier,
+                             Pokemon.weight, Pokemon.height, Pokemon.gender,
+                             Pokemon.form, Pokemon.costume,
+                             Pokemon.weather_boosted_condition,
+                             Pokemon.last_modified))
 
         if exclude:
             query = query.where(Pokemon.pokemon_id.not_in(list(exclude)))
