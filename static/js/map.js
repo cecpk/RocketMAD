@@ -2063,10 +2063,10 @@ function spawnpointLabel(spawnpoint) {
         </div>
         <div class='info-container'>
           <div>
-            First scanned: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
+            First seen: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
           </div>
           <div>
-            Last scanned: <strong>${timestampToDateTime(lastScanned)}</strong>
+            Last seen: <strong>${timestampToDateTime(lastScanned)}</strong>
           </div>
           <div>
             Last confirmation: <strong>${lastConfirmation || 'None'}</strong>
