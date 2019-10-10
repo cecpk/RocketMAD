@@ -127,7 +127,7 @@ def get_args():
     parser.add_argument('-mpm', '--medalpokemon',
                         help='Show notifications for tiny Rattata and big Magikarp.',
                         action='store_true', default=False)
-    parser.add_argument('-vdt', '--verified_despawn_time',
+    parser.add_argument('-vdt', '--verified-despawn-time',
                         help='Show if pokemon despawn time is verified.',
                         action='store_true', default=False)
     group = parser.add_argument_group('Database')
