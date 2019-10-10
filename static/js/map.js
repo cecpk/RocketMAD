@@ -973,7 +973,9 @@ function initSidebar() {
     })
 
     $('#spawnpoints-switch').change(function () {
-        buildSwitchChangeListener(mapData, ['spawnpoints'], 'showSpawnpoints').bind(this)()
+        Store.set('showSpawnpoints', this.checked)
+        reprocessSpawnpoints()
+        lastspawns = false
     })
 
     $('#ranges-switch').change(buildSwitchChangeListener(mapData, ['gyms', 'pokemons', 'pokestops'], 'showRanges'))
@@ -1988,30 +1990,64 @@ function updatePokestopLabel(pokestop, marker) {
     }
 }
 
-function formatSpawnTime(seconds) {
-    // the addition and modulo are required here because the db stores when a spawn disappears
-    // the subtraction to get the appearance time will knock seconds under 0 if the spawn happens in the previous hour
-    return ('0' + Math.floor(((seconds + 3600) % 3600) / 60)).substr(-2) + ':' + ('0' + seconds % 60).substr(-2)
+function spawnpointLabel(spawnpoint) {
+    if (spawnpoint.spawn_time) {
+        if (spawnpoint.spawndef == 15) {
+          var type = '1h';
+          var timeshift = 60;
+        } else {
+          var type = '30m';
+          var timeshift = 30;
+        }
+
+        if (spawnpoint.spawn_time > Date.now()) {
+            var spawnTime = `${timestampToTime(spawnpoint.spawn_time)} (<span class='label-countdown' disappears-at='${spawnpoint.spawn_time}'>00m00s</span>)`
+        } else {
+            var spawnTime = timestampToTime(spawnpoint.spawn_time)
+        }
+        var despawnTime = `${timestampToTime(spawnpoint.despawn_time)} (<span class='label-countdown' disappears-at='${spawnpoint.despawn_time}'>00m00s</span>)`
+        var lastConfirmation = timestampToDateTime(spawnpoint.last_scanned)
+    }
+
+    const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
+
+    return `
+        <div class='title'>
+          <strong>Spawn Point</strong>
+        </div>
+        <div class='info-container'>
+          <div>
+            Type: <strong>${type || 'Unknown'}</strong>
+          </div>
+          <div>
+              Spawn: <strong>${spawnTime || 'Unknown'}</strong>
+          </div>
+          <div>
+              Despawn: <strong>${despawnTime || 'Unknown'}</strong>
+          </div>
+        </div>
+        <div class='info-container'>
+          <div>
+            First scanned: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
+          </div>
+          <div>
+            Last scanned: <strong>${timestampToDateTime(spawnpoint.last_non_scanned)}</strong>
+          </div>
+          <div>
+            Last confirmation: <strong>${lastConfirmation || 'None'}</strong>
+          </div>
+        </div>
+        <div>
+          <a href='javascript:void(0);' onclick='javascript:openMapDirections(${spawnpoint.latitude},${spawnpoint.longitude});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${spawnpoint.latitude.toFixed(5)}, ${spawnpoint.longitude.toFixed(5)}</a>
+        </div>`
 }
 
-function spawnpointLabel(item) {
-    var str = `
-        <div>
-            <b>Spawn Point</b>
-        </div>`
-
-    if (item.uncertain) {
-        str += `
-            <div>
-                Spawn times not yet determined. Current guess ${formatSpawnTime(item.appear_time)} until ${formatSpawnTime(item.disappear_time)}
-            </div>`
-    } else {
-        str += `
-            <div>
-                Every hour from ${formatSpawnTime(item.appear_time)} to ${formatSpawnTime(item.disappear_time)}
-            </div>`
+function updateSpawnpointLabel(spawnpoint, marker) {
+    marker._popup.setContent(spawnpointLabel(spawnpoint))
+    if (marker.infoWindowIsOpen) {
+        // Update countdown time to prevent a countdown time of 0.
+        updateLabelDiffTime()
     }
-    return str
 }
 
 function addRangeCircle(marker, map, type, teamId) {
@@ -2460,105 +2496,37 @@ function setupScannedMarker(item) {
     return circle
 }
 
-function getColorBySpawnTime(value) {
-    var now = new Date()
-    var seconds = now.getMinutes() * 60 + now.getSeconds()
-
-    // account for hour roll-over
-    if (seconds < 900 && value > 2700) {
-        seconds += 3600
-    } else if (seconds > 2700 && value < 900) {
-        value += 3600
+function getSpawnpointColor(spawnpoint) {
+    if (spawnpoint.spawn_time) {
+        const spawnTime = moment(spawnpoint.spawn_time)
+        const despawnTime = moment(spawnpoint.despawn_time)
+        const now = moment()
+        if (now.isBetween(spawnTime, despawnTime)) {
+            return 'green'
+        } else {
+            return 'blue'
+        }
+    } else {
+        return 'red'
     }
-
-    var diff = (seconds - value)
-    // hue, 100% saturation, 50% lightness
-    var hue = 275 // light purple when spawn is neither about to spawn nor active
-    if (diff >= 0 && diff <= 1800) { // green to red over 30 minutes of active spawn
-        hue = (1 - (diff / 60 / 30)) * 120
-    } else if (diff < 0 && diff > -300) { // light blue to dark blue over 5 minutes til spawn
-        hue = ((1 - (-diff / 60 / 5)) * 50) + 200
-    }
-
-    hue = Math.round(hue / 5) * 5
-
-    return colourConversion.hsvToHex(hue, 1.0, 1.0)
 }
 
-var colourConversion = (function () {
-    var self = {}
+function setupSpawnpointMarker(spawnpoint) {
+    const color = getSpawnpointColor(spawnpoint)
 
-    self.hsvToHex = function (hue, sat, val) {
-        if (hue > 360 || hue < 0 || sat > 1 || sat < 0 || val > 1 || val < 0) {
-            console.log('{colourConverion.hsvToHex} illegal input')
-            return '#000000'
-        }
-        let rgbArray = hsvToRgb(hue, sat, val)
-        return rgbArrayToHexString(rgbArray)
-    }
-
-    function rgbArrayToHexString(rgbArray) {
-        let hexString = '#'
-        for (var i = 0; i < rgbArray.length; i++) {
-            let hexOfNumber = rgbArray[i].toString(16)
-            if (hexOfNumber.length === 1) {
-                hexOfNumber = '0' + hexOfNumber
-            }
-            hexString += hexOfNumber
-        }
-        if (hexString.length !== 7) {
-            console.log('Hexstring not complete for colours...')
-        }
-        return hexString
-    }
-
-    function hsvToRgb(hue, sat, val) {
-        let hder = Math.floor(hue / 60)
-        let f = hue / 60 - hder
-        let p = val * (1 - sat)
-        let q = val * (1 - sat * f)
-        let t = val * (1 - sat * (1 - f))
-        var rgb
-        if (sat === 0) {
-            rgb = [val, val, val]
-        } else if (hder === 0 || hder === 6) {
-            rgb = [val, t, p]
-        } else if (hder === 1) {
-            rgb = [q, val, p]
-        } else if (hder === 2) {
-            rgb = [p, val, t]
-        } else if (hder === 3) {
-            rgb = [p, q, val]
-        } else if (hder === 4) {
-            rgb = [t, p, val]
-        } else if (hder === 5) {
-            rgb = [val, p, q]
-        } else {
-            console.log('Failed converting HSV to RGB')
-        }
-        for (var i = 0; i < rgb.length; i++) {
-            rgb[i] = Math.round(rgb[i] * 255)
-        }
-        return rgb
-    }
-    return self
-})()
-
-function setupSpawnpointMarker(item) {
-    const color = getColorBySpawnTime(item.appear_time)
-
-    var circle = L.circle([item['latitude'], item['longitude']], {
+    var marker = L.circle([spawnpoint.latitude, spawnpoint.longitude], {
         radius: 2,
         color: color,
         fillColor: color,
         weight: 1,
         opacity: 0.7,
         fillOpacity: 0.5,
-    }).bindPopup(spawnpointLabel(item));
+    }).bindPopup()
 
-    addListeners(circle)
-    markersNoCluster.addLayer(circle)
-    return circle
+    marker.spawnpoint_id = spawnpoint.spawnpoint_id
+    addListeners(marker, 'spawnpoint')
+    markersNoCluster.addLayer(marker)
+    return marker
 }
 
 function showS2Cells(level, color, weight) {
@@ -2695,6 +2663,11 @@ function addListeners(marker, type) {
                         notifiedPokestopData[marker.pokestop_id].animationDisabled = true
                     }
                     break
+                case 'spawnpoint':
+                    if (mapData.spawnpoints[marker.spawnpoint_id].updated) {
+                        updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
+                    }
+                    break
             }
             marker.openPopup()
             updateLabelDiffTime()
@@ -2711,6 +2684,9 @@ function addListeners(marker, type) {
                     break
                 case 'pokestop':
                     mapData.pokestops[marker.pokestop_id].updated = false
+                    break
+                case 'spawnpoint':
+                    mapData.spawnpoints[marker.spawnpoint_id].updated = false
                     break
             }
             marker.persist = null
@@ -2748,6 +2724,11 @@ function addListeners(marker, type) {
                         notifiedPokestopData[marker.pokestop_id].animationDisabled = true
                     }
                     break
+                case 'spawnpoint':
+                    if (mapData.spawnpoints[marker.spawnpoint_id].updated) {
+                        updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
+                    }
+                    break
             }
             marker.openPopup()
             updateLabelDiffTime()
@@ -2767,6 +2748,9 @@ function addListeners(marker, type) {
                     break
                 case 'pokestop':
                     mapData.pokestops[marker.pokestop_id].updated = false
+                    break
+                case 'spawnpoint':
+                    mapData.spawnpoints[marker.spawnpoint_id].updated = false
                     break
             }
             marker.infoWindowIsOpen = false
@@ -2815,6 +2799,22 @@ function updateStaleMarkers() {
             markerChange = true
         }
     }
+
+    $.each(mapData.spawnpoints, function (id, spawnpoint) {
+        if (spawnpoint.spawn_time) {
+            const now = Date.now()
+            if (spawnpoint.despawn_time < now) {
+                const diffhours = Math.ceil((now - spawnpoint.despawn_time) / 3600000)
+                mapData.spawnpoints[id].spawn_time += diffhours * 3600000
+                mapData.spawnpoints[id].despawn_time += diffhours * 3600000
+            }
+            if ((spawnpoint.marker.options.color === 'green' && !nowIsBetween(mapData.spawnpoints[id].spawn_time, mapData.spawnpoints[id].despawn_time)) ||
+                    spawnpoint.marker.options.color === 'blue' && nowIsBetween(mapData.spawnpoints[id].spawn_time, mapData.spawnpoints[id].despawn_time)) {
+                // Spawn point became active/inactive, update it.
+                processSpawnpoint(id)
+            }
+        }
+    })
 
     $.each(mapData.scanned, function (key, scanned) {
         // Remove if older than 15 minutes.
@@ -3223,6 +3223,28 @@ function removePokestop(pokestop) {
     }
 }
 
+function removeSpawnpoint(spawnpoint) {
+    const id = spawnpoint.spawnpoint_id
+    if (mapData.spawnpoints.hasOwnProperty(id)) {
+        const marker = mapData.spawnpoints[id].marker
+        if (marker.rangeCircle != null) {
+            if (markers.hasLayer(marker.rangeCircle)) {
+                markers.removeLayer(marker.rangeCircle)
+            } else {
+                markersNoCluster.removeLayer(marker.rangeCircle)
+            }
+        }
+
+        if (markers.hasLayer(marker)) {
+            markers.removeLayer(marker)
+        } else {
+            markersNoCluster.removeLayer(marker)
+        }
+
+        delete mapData.spawnpoints[id]
+    }
+}
+
 function processPokemon(id, pokemon = null) { // id is encounter_id.
     if (id === null || id === undefined) {
         return false
@@ -3541,6 +3563,60 @@ function reprocessPokestops() {
     }
 }
 
+function processSpawnpoint(id, spawnpoint = null) {
+    if (id === null || id === undefined) {
+        return false
+    }
+
+    if (!Store.get('showSpawnpoints')) {
+        if (mapData.spawnpoints.hasOwnProperty(id)) {
+            removeSpawnpoint(mapData.spawnpoints[id])
+        }
+        return true
+    }
+
+    if (spawnpoint !== null) {
+        if (!mapData.spawnpoints.hasOwnProperty(id)) {
+            // New spawnpoint, add marker to map and item to dict.
+            spawnpoint.marker = setupSpawnpointMarker(spawnpoint)
+            spawnpoint.updated = true
+            mapData.spawnpoints[id] = spawnpoint
+        } else {
+            // Existing spawnpoint, update marker and dict item if necessary.
+            if (spawnpoint.spawn_time !== mapData.spawnpoints[id].spawn_time) {
+                const color = getSpawnpointColor(spawnpoint)
+                mapData.spawnpoints[id].marker.setStyle({color: color, fillColor: color})
+                mapData.spawnpoints[id].spawn_time = spawnpoint.spawn_time
+                mapData.spawnpoints[id].despawn_time = spawnpoint.despawn_time
+            }
+            if (mapData.spawnpoints[id].marker.infoWindowIsOpen) {
+                updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
+            } else {
+                // Make sure label is updated next time it's opened.
+                mapData.spawnpoints[id].updated = true
+            }
+            mapData.spawnpoints[id].last_non_scanned = spawnpoint.last_non_scanned
+            mapData.spawnpoints[id].last_scanned = spawnpoint.last_scanned
+        }
+    } else if (mapData.spawnpoints.hasOwnProperty(id)) {
+        // Update marker and popup.
+        const color = getSpawnpointColor(mapData.spawnpoints[id])
+        mapData.spawnpoints[id].marker.setStyle({color: color, fillColor: color})
+        if (mapData.spawnpoints[id].marker.infoWindowIsOpen) {
+            updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
+        } else {
+            // Make sure label is updated next time it's opened.
+            mapData.spawnpoints[id].updated = true
+        }
+    }
+}
+
+function reprocessSpawnpoints() {
+    $.each(mapData.spawnpoints, function (spawnpointId, spawnpoint) {
+        processSpawnpoint(spawnpointId)
+    })
+}
+
 function processScanned(i, item) {
     if (!Store.get('showScanned')) {
         return false
@@ -3568,35 +3644,6 @@ function updateScanned() {
         if (map.getBounds().contains(value.marker.getLatLng())) {
             var color = getColorByDate(value['last_modified'])
             value.marker.setStyle({color: color, fillColor: color})
-        }
-    })
-}
-
-function processSpawnpoint(i, item) {
-    if (!Store.get('showSpawnpoints')) {
-        return false
-    }
-
-    var id = item['id']
-
-    if (!(id in mapData.spawnpoints)) { // add marker to map and item to dict
-        if (item.marker) {
-            markersNoCluster.removeLayer(item.marker)
-        }
-        item.marker = setupSpawnpointMarker(item)
-        mapData.spawnpoints[id] = item
-    }
-}
-
-function updateSpawnPoints() {
-    if (!Store.get('showSpawnpoints')) {
-        return false
-    }
-
-    $.each(mapData.spawnpoints, function (key, value) {
-        if (map.getBounds().contains(value.marker.getLatLng())) {
-            var hue = getColorBySpawnTime(value['appear_time'])
-            value.marker.setStyle({color: hue, fillColor: hue})
         }
     })
 }
@@ -3685,13 +3732,15 @@ function loadRawData() {
 
 function updateMap() {
     loadRawData().done(function (result) {
-        $.each(result.pokemons, function (id, pokemon) {
+        $.each(result.pokemons, function (i, pokemon) {
             processPokemon(pokemon.encounter_id, pokemon)
         })
         $.each(result.gyms, processGym)
         $.each(result.pokestops, processPokestop)
+        $.each(result.spawnpoints, function (i, spawnpoint) {
+            processSpawnpoint(spawnpoint.spawnpoint_id, spawnpoint)
+        })
         $.each(result.scanned, processScanned)
-        $.each(result.spawnpoints, processSpawnpoint)
         $.each(result.weather, processWeather)
         processWeatherAlerts(result.weatherAlerts)
         updateMainCellWeather()
@@ -3705,7 +3754,6 @@ function updateMap() {
 
         // TODO: maybe move this to updateStaleMarkers
         updateScanned()
-        updateSpawnPoints()
 
         if ($('#stats').hasClass('visible')) {
             countMarkers(map)

@@ -18,6 +18,8 @@ import requests
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
+from datetime import datetime, timedelta
+from functools import lru_cache
 from geopy.geocoders import Nominatim
 from requests import Session
 from requests.packages.urllib3.util.retry import Retry
@@ -894,3 +896,11 @@ def parse_geofence_file(geofence_file):
                     geofences[-1]['polygon'].append(LatLon)
 
     return geofences
+
+@lru_cache(maxsize=None)
+def get_utc_timedelta():
+    ts = time.time()
+    today = datetime.today()
+    today_utc = datetime.utcfromtimestamp(ts)
+    milliseconds = int((today - today_utc).total_seconds() * 1000)
+    return timedelta(milliseconds=milliseconds)

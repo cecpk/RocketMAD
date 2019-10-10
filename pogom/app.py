@@ -16,7 +16,7 @@ from flask_compress import Compress
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
 from pogom.weather import (get_weather_cells, get_weather_alerts)
-from .models import (Pokemon, Gym, Pokestop, ScannedLocation, SpawnPoint)
+from .models import (Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn)
 from .utils import (get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
 from .client_auth import check_auth
@@ -421,15 +421,15 @@ class Pogom(Flask):
 
         if request.args.get('spawnpoints', 'false') == 'true':
             if lastspawns != 'true':
-                d['spawnpoints'] = SpawnPoint.get_spawnpoints(
+                d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng)
             else:
-                d['spawnpoints'] = SpawnPoint.get_spawnpoints(
+                d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
                     timestamp=timestamp)
                 if newArea:
                     d['spawnpoints'] = d['spawnpoints'] + (
-                        SpawnPoint.get_spawnpoints(
+                        Trs_Spawn.get_spawnpoints(
                             swLat, swLng, neLat, neLng,
                             oSwLat=oSwLat, oSwLng=oSwLng,
                             oNeLat=oNeLat, oNeLng=oNeLng))

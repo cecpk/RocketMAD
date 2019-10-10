@@ -21,8 +21,8 @@ from playhouse.pool import PooledMySQLDatabase
 from timeit import default_timer
 
 from .transform import transform_from_wgs_to_gcj
-from .utils import (get_pokemon_name, get_pokemon_types,
-                    get_args, cellid)
+from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
+                    get_utc_timedelta)
 
 log = logging.getLogger(__name__)
 
@@ -889,7 +889,7 @@ class SpawnPoint(LatLongModel):
         return [start % 3600, end % 3600]
 
 
-class Trs_Spawn(BaseModel):
+class Trs_Spawn(LatLongModel):
     spawnpoint = Utf8mb4CharField(primary_key=True, max_length=16, index=True)
     latitude = DoubleField()
     longitude = DoubleField()
@@ -900,6 +900,74 @@ class Trs_Spawn(BaseModel):
         constraints=[SQL('DEFAULT CURRENT_TIMESTAMP')])
     last_non_scanned = DateTimeField(null=True)
     calc_endminsec = Utf8mb4CharField(max_length=5, null=True)
+
+    @staticmethod
+    def get_spawnpoints(swLat, swLng, neLat, neLng, timestamp=0,
+                        oSwLat=None, oSwLng=None, oNeLat=None, oNeLng=None):
+        query = (Trs_Spawn
+                 .select(Trs_Spawn.latitude, Trs_Spawn.longitude,
+                         Trs_Spawn.spawnpoint.alias('spawnpoint_id'),
+                         Trs_Spawn.spawndef, Trs_Spawn.first_detection,
+                         Trs_Spawn.last_non_scanned, Trs_Spawn.last_scanned,
+                         Trs_Spawn.calc_endminsec.alias('end_time')))
+
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
+            query = (query
+                     .where(((Trs_Spawn.last_scanned >
+                              datetime.fromtimestamp(timestamp / 1000))) &
+                            ((Trs_Spawn.latitude >= swLat) &
+                             (Trs_Spawn.longitude >= swLng) &
+                             (Trs_Spawn.latitude <= neLat) &
+                             (Trs_Spawn.longitude <= neLng))))
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send spawnpoints in view but exclude those within old
+            # boundaries. Only send newly uncovered spawnpoints.
+            query = (query
+                     .where((((Trs_Spawn.latitude >= swLat) &
+                              (Trs_Spawn.longitude >= swLng) &
+                              (Trs_Spawn.latitude <= neLat) &
+                              (Trs_Spawn.longitude <= neLng))) & ~
+                            ((Trs_Spawn.latitude >= oSwLat) &
+                             (Trs_Spawn.longitude >= oSwLng) &
+                             (Trs_Spawn.latitude <= oNeLat) &
+                             (Trs_Spawn.longitude <= oNeLng))))
+        else:
+            query = (query
+                     .where((Trs_Spawn.latitude <= neLat) &
+                            (Trs_Spawn.latitude >= swLat) &
+                            (Trs_Spawn.longitude >= swLng) &
+                            (Trs_Spawn.longitude <= neLng)))
+
+        spawnpoints = []
+        offset = get_utc_timedelta()
+        for sp in query.dicts():
+            # Convert local time to UTC.
+            sp['first_detection'] = sp['first_detection'] - offset
+            sp['last_non_scanned'] = sp['last_non_scanned'] - offset
+            if sp['end_time'] is not None:
+                sp['last_scanned'] = sp['last_scanned'] - offset
+                end_time_split = sp['end_time'].split(':')
+                end_time_seconds = int(end_time_split[1])
+                end_time_minutes = int(end_time_split[0])
+                despawn_time = datetime.today().replace(
+                    minute=end_time_minutes, second=end_time_seconds)
+                if despawn_time <= datetime.today():
+                    despawn_time += timedelta(hours=1)
+                ts = int(despawn_time.timestamp())
+                despawn_time = datetime.fromtimestamp(ts)
+                sp['despawn_time'] = despawn_time - offset
+                if sp['spawndef'] == 15:
+                    sp['spawn_time'] = sp['despawn_time'] - timedelta(hours=1)
+                else:
+                    sp['spawn_time'] = (sp['despawn_time'] -
+                                        timedelta(minutes=30))
+                del sp['end_time']
+
+            spawnpoints.append(sp)
+
+        return spawnpoints
 
 
 class Versions(BaseModel):
