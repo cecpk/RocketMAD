@@ -3027,7 +3027,7 @@ function isPokestopMeetsLureFilters(pokestop) {
 
 function isPokestopMeetsFilters(pokestop) {
     const pokestopRegexp = new RegExp($pokestopNameFilter, 'gi')
-    return Store.get('showPokestops') &&  ($pokestopNameFilter && pokestop.name ? pokestop.name.match(pokestopRegexp) : pokestop.name) &&
+    return Store.get('showPokestops') &&  ($pokestopNameFilter && pokestop.name ? pokestop.name.match(pokestopRegexp) : !$pokestopNameFilter || pokestop.name) &&
         (Store.get('showPokestopsNoEvent') || isPokestopMeetsQuestFilters(pokestop) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
 }
 
