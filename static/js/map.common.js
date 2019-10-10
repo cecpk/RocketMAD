@@ -704,7 +704,7 @@ function getGymLevel(gym) {
 }
 
 function isValidRaid(raid) {
-    return raid !== null && raid.end > Date.now()
+    return raid && raid.end > Date.now()
 }
 
 function isUpcomingRaid(raid) {

@@ -43,7 +43,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RocketMap/RocketMap.git"
+    "url": "git+https://github.com/cecpk/OSM-Rocketmap.git"
   },
   "keywords": [
     "Pokemon",
@@ -52,7 +52,7 @@
   "author": "Carl Taylor",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RocketMap/RocketMap/issues"
+    "url": "https://github.com/cecpk/OSM-Rocketmap/issues"
   },
-  "homepage": "https://github.com/RocketMap/RocketMap#readme"
+  "homepage": "https://github.com/cecpk/OSM-Rocketmap#readme"
 }

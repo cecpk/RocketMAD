@@ -17,6 +17,8 @@ var $selectStyle
 var $selectSearchIconMarker
 var $selectLocationIconMarker
 var $switchGymSidebar
+var $gymNameFilter = ''
+var $pokestopNameFilter = ''
 var pokeSearchList = []
 var pokemonGen = new Array(808)
 pokemonGen.fill(1, 1, 152)
@@ -801,17 +803,20 @@ function initSidebar() {
         var wrapperGyms = $('#gyms-filter-wrapper')
         var switchRaids = $('#raids-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
+        var nameFilter = $('#gym-name-filter-wrapper')
         var statsContainer = $('#gym-stats-container')
         if (this.checked) {
             if (Store.get('showGymFilter')) {
                 wrapperGyms.show()
             }
             wrapperSidebar.show()
+            nameFilter.show()
             statsContainer.show()
         } else {
             wrapperGyms.hide()
             if (!switchRaids.prop('checked')) {
                 wrapperSidebar.hide()
+                nameFilter.hide()
             }
             statsContainer.hide()
         }
@@ -827,6 +832,13 @@ function initSidebar() {
     })
     $('#team-gyms-only-switch').on('change', function () {
         Store.set('showTeamGymsOnly', this.value)
+        reprocessGyms()
+        lastgyms = false
+        updateMap()
+    })
+
+    $('#gym-name-filter').on('keyup', function () {
+        $gymNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
         reprocessGyms()
         lastgyms = false
         updateMap()
@@ -890,17 +902,20 @@ function initSidebar() {
         var wrapperRaids = $('#raids-filter-wrapper')
         var switchGyms = $('#gyms-switch')
         var wrapperSidebar = $('#gym-sidebar-wrapper')
+        var nameFilter = $('#gym-name-filter-wrapper')
         var wrapperNotify = $('#notify-gyms-switch-wrapper')
         if (this.checked) {
             if (Store.get('showRaidFilter')) {
                 wrapperRaids.show()
             }
             wrapperSidebar.show()
+            nameFilter.show()
             wrapperNotify.show()
         } else {
             wrapperRaids.hide()
             if (!switchGyms.prop('checked')) {
                 wrapperSidebar.hide()
+                nameFilter.hide()
             }
             wrapperNotify.hide()
         }
@@ -1063,16 +1078,26 @@ function initSidebar() {
         var filterWrapper = $('#pokestops-filter-wrapper')
         var notifyWrapper = $('#notify-pokestops-switch-wrapper')
         var statsContainer = $('#pokestop-stats-container')
+        var nameFilter = $('#pokestop-name-filter-wrapper')
         if (this.checked) {
             filterWrapper.show()
             notifyWrapper.show()
             statsContainer.show()
+            nameFilter.show()
         } else {
             filterWrapper.hide()
             notifyWrapper.hide()
             statsContainer.hide()
+            nameFilter.hide()
         }
         Store.set('showPokestops', this.checked)
+        reprocessPokestops()
+        lastpokestops = false
+        updateMap()
+    })
+
+    $('#pokestop-name-filter').on('keyup', function () {
+        $pokestopNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
         reprocessPokestops()
         lastpokestops = false
         updateMap()
@@ -1388,6 +1413,7 @@ function initSidebar() {
     $('#gyms-switch').prop('checked', Store.get('showGyms'))
     $('#gym-sidebar-switch').prop('checked', Store.get('useGymSidebar'))
     $('#gym-sidebar-wrapper').toggle(Store.get('showGyms') || Store.get('showRaids'))
+    $('#gym-name-filter-wrapper').toggle(Store.get('showGyms') || Store.get('showRaids'))
     $('#gyms-filter-wrapper').toggle(Store.get('showGyms') && Store.get('showGymFilter'))
     $('#team-gyms-only-switch').val(Store.get('showTeamGymsOnly'))
     $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
@@ -1408,6 +1434,7 @@ function initSidebar() {
     // Pokestops.
     $('#pokestops-switch').prop('checked', Store.get('showPokestops'))
     $('#pokestops-filter-wrapper').toggle(Store.get('showPokestops'))
+    $('#pokestop-name-filter-wrapper').toggle(Store.get('showPokestops'))
     $('#pokestops-no-event-switch').prop('checked', Store.get('showPokestopsNoEvent'))
     $('#invasions-switch').prop('checked', Store.get('showInvasions'))
     $('#invasions-filter-wrapper').toggle(Store.get('showInvasions'))
@@ -2919,7 +2946,8 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
 
 function isGymMeetsGymFilters(gym) {
     const gymLevel = getGymLevel(gym)
-    return Store.get('showGyms') &&
+    const gymRegexp = new RegExp($gymNameFilter, 'gi')
+    return Store.get('showGyms') && ($gymNameFilter ? gym.name.match(gymRegexp) : true) &&
         !((Store.get('showTeamGymsOnly') !== -1 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
           (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
           (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
@@ -2931,6 +2959,10 @@ function isGymMeetsGymFilters(gym) {
 function isGymMeetsRaidFilters(gym) {
     if (Store.get('showRaids') && isValidRaid(gym.raid)) {
         const raid = gym.raid
+        const gymRegexp = new RegExp($gymNameFilter, 'gi')
+        if ($gymNameFilter && !gym.name.match(gymRegexp)) {
+            return false
+        }
 
         if (Store.get('showParkRaidsOnly') && !gym.is_ex_raid_eligible) {
             return false
@@ -2943,7 +2975,7 @@ function isGymMeetsRaidFilters(gym) {
         } else { // Ongoing raid.
             if ((raid.level < Store.get('showRaidMinLevel') || raid.level > Store.get('showRaidMaxLevel')) ||
                 (raid.pokemon_id !== null && !includedRaidPokemon.includes(raid.pokemon_id))) {
-                    return false
+                return false
             }
         }
 
@@ -2994,7 +3026,8 @@ function isPokestopMeetsLureFilters(pokestop) {
 }
 
 function isPokestopMeetsFilters(pokestop) {
-    return Store.get('showPokestops') &&
+    const pokestopRegexp = new RegExp($pokestopNameFilter, 'gi')
+    return Store.get('showPokestops') &&  ($pokestopNameFilter ? pokestop.name.match(pokestopRegexp) : true) &&
         (Store.get('showPokestopsNoEvent') || isPokestopMeetsQuestFilters(pokestop) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
 }
 
