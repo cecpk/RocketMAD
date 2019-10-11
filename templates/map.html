@@ -69,6 +69,9 @@
             {% if madminUrl %}
           <a href="{{ madminUrl }}" id="madmin-button" class="header-button" title="MADmin" target="_blank"></a>
             {% endif %}
+            {% if show.quests %}
+          <a href="quests" id="quests-button" class="header-button" title="Quests"></a>
+            {% endif %}
           <a href="stats" id="statistics-button" class="header-button" title="Statistics"></a>
           <a href="#menu" id="menuToggle" class="header-button" title="Menu"></a>
           <a href="#stats" id="statsToggle" class="statsNav header-button" title="Stats"></a>
@@ -1089,6 +1092,11 @@
           <div class="menu-link">
             <a href="stats" id="stats-link">Statistics</a>
           </div>
+            {% if show.quests %}
+          <div class="menu-link">
+            <a href="quests" id="quests-link">Quests</a>
+          </div>
+            {% endif %}
             {% if madminUrl %}
           <div class="menu-link">
             <a href="{{ madminUrl }}" id="madmin-link" target="_blank">MADmin</a>

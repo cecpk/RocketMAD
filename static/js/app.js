@@ -24,10 +24,12 @@
     var $gymSidebar = document.querySelector('#gym-details')
     var $gymSidebarClose
 
-    // Event: Prevent clicks/taps inside the nav from bubbling.
-    addEventsListener($nav, 'click touchend', function (event) {
-        event.stopPropagation()
-    })
+    if ($nav) {
+        // Event: Prevent clicks/taps inside the nav from bubbling.
+        addEventsListener($nav, 'click touchend', function (event) {
+            event.stopPropagation()
+        })
+    }
 
     if ($menu) {
         // Event: Prevent clicks/taps inside the menu from bubbling.
@@ -64,7 +66,9 @@
         if ($stats && event.target.matches('a[href="#stats"]')) {
             return
         }
-        $nav.classList.remove('visible')
+        if ($nav) {
+            $nav.classList.remove('visible')
+        }
         if ($menu) {
             $menu.classList.remove('visible')
         }
@@ -75,11 +79,13 @@
     // Toggle.
 
     // Event: Toggle nav on click.
-    $navToggle.addEventListener('click', function (event) {
-        event.preventDefault()
-        event.stopPropagation()
-        $nav.classList.toggle('visible')
-    })
+    if ($navToggle) {
+        $navToggle.addEventListener('click', function (event) {
+            event.preventDefault()
+            event.stopPropagation()
+            $nav.classList.toggle('visible')
+        })
+    }
 
     // Event: Toggle menu on click.
     if ($menuToggle) {
@@ -117,7 +123,9 @@
     // Event: Hide on ESC.
     window.addEventListener('keydown', function (event) {
         if (event.keyCode === 27) {
-            $nav.classList.remove('visible')
+            if ($nav) {
+                $nav.classList.remove('visible')
+            }
             if ($stats) {
                 $stats.classList.remove('visible')
             }

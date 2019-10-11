@@ -18,7 +18,8 @@ module.exports = function (grunt) {
                 files: {
                     'static/dist/css/app.built.css': 'static/sass/main.scss',
                     'static/dist/css/mobile.built.css': 'static/sass/mobile.scss',
-                    'static/dist/css/statistics.built.css': 'static/sass/statistics.scss'
+                    'static/dist/css/statistics.built.css': 'static/sass/statistics.scss',
+                    'static/dist/css/quests.built.css': 'static/sass/quests.scss'
                 }
             }
         },
@@ -44,7 +45,7 @@ module.exports = function (grunt) {
                     'static/dist/js/mobile.built.js': 'static/js/mobile.js',
                     'static/dist/js/stats.built.js': 'static/js/stats.js',
                     'static/dist/js/statistics.built.js': 'static/js/statistics.js',
-                    'static/dist/js/status.built.js': 'static/js/status.js',
+                    'static/dist/js/quests.built.js': 'static/js/quests.js',
                     'static/dist/js/custom.built.js': 'static/js/custom.js',
                     'static/dist/js/serviceWorker.built.js': 'static/js/serviceWorker.js',
                     'static/dist/js/weather.built.js': 'static/js/weather.js'
@@ -67,7 +68,7 @@ module.exports = function (grunt) {
                     'static/dist/js/mobile.min.js': 'static/dist/js/mobile.built.js',
                     'static/dist/js/stats.min.js': 'static/dist/js/stats.built.js',
                     'static/dist/js/statistics.min.js': 'static/dist/js/statistics.built.js',
-                    'static/dist/js/status.min.js': 'static/dist/js/status.built.js',
+                    'static/dist/js/quests.min.js': 'static/dist/js/quests.built.js',
                     'static/dist/js/custom.min.js': 'static/dist/js/custom.built.js',
                     'static/dist/js/serviceWorker.min.js': 'static/dist/js/serviceWorker.built.js',
                     'static/dist/js/weather.min.js': 'static/dist/js/weather.built.js'
@@ -129,7 +130,7 @@ module.exports = function (grunt) {
                     'static/dist/css/app.min.css': 'static/dist/css/app.built.css',
                     'static/dist/css/mobile.min.css': 'static/dist/css/mobile.built.css',
                     'static/dist/css/statistics.min.css': 'static/dist/css/statistics.built.css',
-                    'static/dist/css/status.min.css': 'static/dist/css/status.built.css'
+                    'static/dist/css/quests.min.css': 'static/dist/css/quests.built.css'
                 }
             }
         },

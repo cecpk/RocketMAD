@@ -23,6 +23,7 @@
 #no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)
 #no-raids                       # Disables raids. (default=False)
 #no-pokestops                   # Disables pokestops. (default=False)
+#no-quests                      # Disables quests. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.

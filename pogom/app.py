@@ -78,6 +78,7 @@ class Pogom(Flask):
         self.route("/raw_data", methods=['GET'])(self.raw_data)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
         self.route("/stats", methods=['GET'])(self.get_stats)
+        self.route("/quests", methods=['GET'])(self.get_quests)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
         self.route("/submit_token", methods=['POST'])(self.submit_token)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
@@ -502,6 +503,34 @@ class Pogom(Flask):
             'statistics.html',
             lat=self.location[0],
             lng=self.location[1],
+            lang=args.locale,
+            mapTitle=args.map_title,
+            headerImage=args.header_image,
+            madminUrl=args.madmin_url,
+            donateUrl=args.donate_url,
+            patreonUrl=args.patreon_url,
+            discordUrl=args.discord_url,
+            messengerUrl=args.messenger_url,
+            telegramUrl=args.telegram_url,
+            whatsappUrl=args.whatsapp_url,
+            show=visibility_flags,
+            generateImages=str(args.generate_images).lower())
+
+    def get_quests(self):
+        args = get_args()
+        if args.no_quests:
+            abort(404)
+
+        visibility_flags = {
+            'custom_css': args.custom_css,
+            'custom_js': args.custom_js
+        }
+
+        return render_template(
+            'quests.html',
+            lat=self.location[0],
+            lng=self.location[1],
+            lang=args.locale,
             mapTitle=args.map_title,
             headerImage=args.header_image,
             madminUrl=args.madmin_url,
