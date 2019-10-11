@@ -86,11 +86,6 @@ def _valid_client_auth(request, host, user_auth_code_cache, args):
 def _valid_discord_guild(request, user_auth_code_cache, args):
     userAuthCode = request.args.get('userAuthCode')
     guilds = user_auth_code_cache.get(userAuthCode)['guilds']
-    blacklisted_guilds = (
-        [x.strip() for x in args.uas_discord_required_guilds.split(',')])
-    for g in guilds:
-        if g['id'] in required_guilds:
-            return True
     required_guilds = (
         [x.strip() for x in args.uas_discord_required_guilds.split(',')])
     for g in guilds:
