@@ -25,9 +25,10 @@ def check_auth(args, request, user_auth_code_cache):
         if args.uas_discord_required_guilds:
             if not valid_discord_guild(request, user_auth_code_cache, args):
                 return redirect_to_discord_guild_invite(args)
-            if invalid_discord_guild(request, user_auth_code_cache, args):
-                userAuthCode = request.args.get('userAuthCode')
-                return redirect_to_invalid_discord_guild(args)
+            if args.uas_discord_blacklisted_guilds:
+                if invalid_discord_guild(request, user_auth_code_cache, args):
+                    userAuthCode = request.args.get('userAuthCode')
+                    return redirect_to_invalid_discord_guild(args)
             if (args.uas_discord_required_roles and
                 not valid_discord_guild_role(
                     request, user_auth_code_cache, args)):
@@ -35,7 +36,7 @@ def check_auth(args, request, user_auth_code_cache):
     return False
 
 
-def redirect_client_to_auth(host, args):
+def _redirect_client_to_auth(host, args):
     d = {}
     d['auth_redirect'] = (
         'https://discordapp.com/api/oauth2/authorize?client_id=' +
@@ -45,7 +46,7 @@ def redirect_client_to_auth(host, args):
     return jsonify(d)
 
 
-def valid_client_auth(request, host, user_auth_code_cache, args):
+def _valid_client_auth(request, host, user_auth_code_cache, args):
     userAuthCode = request.args.get('userAuthCode')
     if not userAuthCode:
         log.debug("no userAuthCode")
@@ -82,9 +83,14 @@ def valid_client_auth(request, host, user_auth_code_cache, args):
     return True
 
 
-def valid_discord_guild(request, user_auth_code_cache, args):
+def _valid_discord_guild(request, user_auth_code_cache, args):
     userAuthCode = request.args.get('userAuthCode')
     guilds = user_auth_code_cache.get(userAuthCode)['guilds']
+    blacklisted_guilds = (
+        [x.strip() for x in args.uas_discord_required_guilds.split(',')])
+    for g in guilds:
+        if g['id'] in required_guilds:
+            return True
     required_guilds = (
         [x.strip() for x in args.uas_discord_required_guilds.split(',')])
     for g in guilds:
@@ -94,7 +100,7 @@ def valid_discord_guild(request, user_auth_code_cache, args):
     del user_auth_code_cache[userAuthCode]['guilds']
     return False
 
-def invalid_discord_guild(request, user_auth_code_cache, args):
+def _invalid_discord_guild(request, user_auth_code_cache, args):
     userAuthCode = request.args.get('userAuthCode')
     guilds = user_auth_code_cache.get(userAuthCode)['guilds']
     required_guilds = (
@@ -105,7 +111,7 @@ def invalid_discord_guild(request, user_auth_code_cache, args):
             return True
     return False
 
-def valid_discord_guild_role(request, user_auth_code_cache, args):
+def _valid_discord_guild_role(request, user_auth_code_cache, args):
     userAuthCode = request.args.get('userAuthCode')
     userRoles = user_auth_code_cache.get(userAuthCode)['roles']
 
@@ -126,18 +132,18 @@ def valid_discord_guild_role(request, user_auth_code_cache, args):
     del user_auth_code_cache[userAuthCode]['roles']
     return False
 
-def redirect_to_discord_guild_invite(args):
+def _redirect_to_discord_guild_invite(args):
     d = {}
     d['auth_redirect'] = args.uas_discord_guild_invite
     return jsonify(d)
 
-def redirect_to_invalid_discord_guild(args):
+def _redirect_to_invalid_discord_guild(args):
     d = {}
     d['auth_redirect'] = args.uas_discord_blacklisted_redirect
     return jsonify(d)
 
 
-def exchange_code(code, host, args):
+def _exchange_code(code, host, args):
     data = {
       'client_id': args.uas_client_id,
       'client_secret': args.uas_client_secret,
@@ -160,7 +166,7 @@ def exchange_code(code, host, args):
     return r.json()
 
 
-def get_user_guilds(auth_token):
+def _get_user_guilds(auth_token):
     headers = {
       'Authorization': 'Bearer ' + auth_token
     }
@@ -175,7 +181,7 @@ def get_user_guilds(auth_token):
         return False
     return r.json()
 
-def get_user_guild_roles(auth_token, args):
+def _get_user_guild_roles(auth_token, args):
     headers = {
       'Authorization': 'Bearer ' + auth_token
     }
