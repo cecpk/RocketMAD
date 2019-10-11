@@ -70,6 +70,15 @@
     </div>
   </header>
   <div class="main-container">
+    <div id='modal-container'>
+      <span id='modal-close' onclick='hideImageModal()'><i class="fas fa-times"></i></span>
+      <div id='modal-content'>
+        <div>
+          <span id='modal-title'></span>
+        </div>
+        <img id='modal-image'>
+      </div>
+    </div>
     <nav id="menu">
       <div class="menu-link">
         <a href="stats" id="stats-link">Statistics</a>
@@ -117,7 +126,6 @@
             <tr>
               <th>PokéStop</th>
               <th>Task</th>
-              <th></th>
               <th>Reward</th>
             </tr>
           </thead>

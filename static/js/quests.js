@@ -94,7 +94,10 @@ function processPokestops(pokestops) {
             return true
         }
 
+        const imageUrl = pokestop.image.replace(/^http:\/\//i, '//')
+
         const quest = pokestop.quest
+        const questTask = i8ln(quest.task)
         var rewardImageUrl = ''
         var rewardText = ''
         switch (quest.reward_type) {
@@ -104,7 +107,7 @@ function processPokestops(pokestops) {
                 break
             case 3:
                 rewardImageUrl = 'static/images/quest/reward_stardust.png'
-                rewardText = quest.stardust + ' Stardust'
+                rewardText = quest.stardust + ' ' + i8ln('Stardust')
                 break
             case 7:
                 rewardImageUrl = getPokemonRawIconUrl(quest)
@@ -115,11 +118,11 @@ function processPokestops(pokestops) {
         $('#quests-table > tbody').append(`
             <tr>
               <td data-sort="${pokestop.name}">
-                <div class="pokestop-container">
-                  <div>
-                    <img class="pokestop-image" src="${pokestop.image.replace(/^http:\/\//i, '//')}" width="40" height="40">
+                <div class="row-container">
+                  <div class="row-container-left">
+                    <img class="pokestop-image" src="${imageUrl}" width="40" height="40" onclick='showImageModal("${imageUrl}", "${pokestop.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'>
                   </div>
-                  <div>
+                  <div class="row-container-right">
                     <div>
                       ${pokestop.name}
                     </div>
@@ -129,14 +132,18 @@ function processPokestops(pokestops) {
                   </div>
                 </div>
               </td>
-              <td>
-                ${i8ln(pokestop.quest.task)}
+              <td data-sort="${questTask}">
+                ${questTask}
               </td>
               <td>
-                <img class="reward-image" src="${rewardImageUrl}" width="40" height="40">
-              </td>
-              <td>
-                ${rewardText}
+                <div class="row-container">
+                  <div class="row-container-left">
+                    <img class="reward-image" src="${rewardImageUrl}" width="40" height="40">
+                  </div>
+                  <div class="row-container-right">
+                    ${rewardText}
+                  </div>
+                </div>
               </td>
             </tr>`)
     })
@@ -159,11 +166,9 @@ function loadQuests() {
             scrollResize: true,
             scrollY: 100,
             'columnDefs': [
-                {'orderable': false, 'targets': 1},
                 {responsivePriority: 1, targets: 0},
-                {responsivePriority: 2, targets: 3},
-                {responsivePriority: 3, targets: 1},
-                {responsivePriority: 4, targets: 2}
+                {responsivePriority: 2, targets: 2},
+                {responsivePriority: 3, targets: 1}
             ]
         })
         $('#quests-table_length').html('Quests')

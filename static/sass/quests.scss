@@ -14,15 +14,26 @@ body {
     }
 }
 
-.pokestop-container {
+.row-container {
   display: flex;
 
-  .pokestop-image {
-    margin-right: 8px;
+  .row-container-left {
+    margin: auto 8px auto 0;
+  }
+
+  .row-container-right {
+    margin: auto 0;
+  }
+}
+
+.pokestop-image {
     border-radius: 20px;
     border: 2px solid rgb(54, 198, 255);
+    cursor: pointer;
 
-  }
+    &:hover {
+      opacity: 0.7;
+    }
 }
 
 #quests-table_wrapper thead tr {
