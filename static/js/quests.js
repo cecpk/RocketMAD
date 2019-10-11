@@ -114,25 +114,29 @@ function processPokestops(pokestops) {
 
         $('#quests-table > tbody').append(`
             <tr>
-              <td>
-                <img class="pokestop-image" src="${pokestop.image.replace(/^http:\/\//i, '//')}" width="40" height="40">
+              <td data-sort="${pokestop.name}">
+                <div class="pokestop-container">
+                  <div>
+                    <img class="pokestop-image" src="${pokestop.image.replace(/^http:\/\//i, '//')}" width="40" height="40">
+                  </div>
+                  <div>
+                    <div>
+                      ${pokestop.name}
+                    </div>
+                    <div>
+                      <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
+                    </div>
+                  </div>
+                </div>
               </td>
               <td>
-                <div>
-                  ${pokestop.name}
-                </div>
-                <div>
-                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude});' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
-                </div>
+                ${i8ln(pokestop.quest.task)}
               </td>
               <td>
                 <img class="reward-image" src="${rewardImageUrl}" width="40" height="40">
               </td>
               <td>
                 ${rewardText}
-              </td>
-              <td>
-                ${pokestop.quest.task}
               </td>
             </tr>`)
     })
@@ -149,21 +153,19 @@ function loadQuests() {
         processPokestops(result.pokestops)
 
         $('#quests-table').DataTable({
-            order: [[1, 'asc']],
+            order: [[0, 'asc']],
             pageLength: 100,
             responsive: true,
             scrollResize: true,
             scrollY: 100,
             'columnDefs': [
-                {'orderable': false, 'targets': [0, 2]},
+                {'orderable': false, 'targets': 1},
                 {responsivePriority: 1, targets: 0},
                 {responsivePriority: 2, targets: 3},
-                {responsivePriority: 3, targets: 4},
-                {responsivePriority: 4, targets: 1},
-                {responsivePriority: 5, targets: 2}
+                {responsivePriority: 3, targets: 1},
+                {responsivePriority: 4, targets: 2}
             ]
         })
-
         $('#quests-table_length').html('Quests')
     }).fail(function () {
         // Wait for next retry.

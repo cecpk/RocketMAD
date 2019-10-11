@@ -14,6 +14,17 @@ body {
     }
 }
 
+.pokestop-container {
+  display: flex;
+
+  .pokestop-image {
+    margin-right: 8px;
+    border-radius: 20px;
+    border: 2px solid rgb(54, 198, 255);
+
+  }
+}
+
 #quests-table_wrapper thead tr {
     background: #3b3b3b;
 
