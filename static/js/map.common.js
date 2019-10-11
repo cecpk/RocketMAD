@@ -1,6 +1,34 @@
 /* global i8ln, L, markers, markersNoCluster, pokemonGen */
 /* eslint no-unused-vars: "off" */
 
+const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
+var i8lnDictionary = {}
+var languageLookups = 0
+var languageLookupThreshold = 3
+
+function i8ln(word) {
+    if ($.isEmptyObject(i8lnDictionary) && language !== 'en' && languageLookups < languageLookupThreshold) {
+        $.ajax({
+            url: 'static/dist/locales/' + language + '.min.json',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                i8lnDictionary = data
+            },
+            error: function (jqXHR, status, error) {
+                console.log('Error loading i8ln dictionary: ' + error)
+                languageLookups++
+            }
+        })
+    }
+    if (word in i8lnDictionary) {
+        return i8lnDictionary[word]
+    } else {
+        // Word doesn't exist in dictionary return it as is
+        return word
+    }
+}
+
 function pokemonSprites(pokemonID) {
     var sprite = {
         columns: 28,
@@ -858,4 +886,15 @@ function timestampToDateTime(timestamp) {
 function nowIsBetween(timestamp1, timestamp2) {
     const now = Date.now()
     return timestamp1 <= now && now <= timestamp2
+}
+
+function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
+    var url = ''
+    if (Store.get('mapServiceProvider') === 'googlemaps') {
+        url = 'http://maps.google.com/maps?q=' + lat + ',' + lng
+        window.open(url, '_blank')
+    } else if (Store.get('mapServiceProvider') === 'applemaps') {
+        url = 'https://maps.apple.com/maps?daddr=' + lat + ',' + lng
+        window.open(url, '_self')
+    }
 }

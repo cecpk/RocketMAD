@@ -29,17 +29,14 @@ pokemonGen.fill(5, 494, 650)
 pokemonGen.fill(6, 650, 722)
 pokemonGen.fill(7, 722, 808)
 
-const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
 var idToPokemon = {}
 var idToInvasion = {}
-var i8lnDictionary = {}
-var languageLookups = 0
-var languageLookupThreshold = 3
 
 var searchMarkerStyles
 
 // Settings variables.
 var showPokemonValues
+var showQuests
 var filterIvsPercentage
 var filterLevel
 var showExParks
@@ -585,6 +582,7 @@ function createStartLocationMarker() {
 
 function initSettingVariables() {
     showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
+    showQuests = showConfig.quests && Store.get('showQuests')
     filterIvsPercentage = showConfig.pokemon_values ? Store.get('filterIvsPercentage') : -1
     filterLevel = showConfig.pokemon_values ? Store.get('filterLevel') : -1
     showExParks = showConfig.ex_parks && Store.get('showExParks')
@@ -1113,6 +1111,7 @@ function initSidebar() {
     $('#quests-switch').change(function () {
         var wrapper = $('#quests-filter-wrapper')
         this.checked ? wrapper.show() : wrapper.hide()
+        showQuests = this.checked
         Store.set('showQuests', this.checked)
         reprocessPokestops()
         lastpokestops = false
@@ -1442,8 +1441,8 @@ function initSidebar() {
     $('#glacial-lures-switch').prop('checked', Store.get('showGlacialLures'))
     $('#magnetic-lures-switch').prop('checked', Store.get('showMagneticLures'))
     $('#mossy-lures-switch').prop('checked', Store.get('showMossyLures'))
-    $('#quests-switch').prop('checked', Store.get('showQuests'))
-    $('#quests-filter-wrapper').toggle(Store.get('showQuests'))
+    $('#quests-switch').prop('checked', showQuests)
+    $('#quests-filter-wrapper').toggle(showQuests)
 
     // Weather.
     $('#weather-cells-switch').prop('checked', Store.get('showWeatherCells'))
@@ -1518,17 +1517,6 @@ function initSidebar() {
     $('select').select2({
         minimumResultsForSearch: -1
     })
-}
-
-function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
-    var url = ''
-    if (Store.get('mapServiceProvider') === 'googlemaps') {
-        url = 'http://maps.google.com/maps?q=' + lat + ',' + lng
-        window.open(url, '_blank')
-    } else if (Store.get('mapServiceProvider') === 'applemaps') {
-        url = 'https://maps.apple.com/maps?daddr=' + lat + ',' + lng
-        window.open(url, '_self')
-    }
 }
 
 function pokemonLabel(item) {
@@ -2998,7 +2986,7 @@ function isGymMeetsFilters(gym) {
 }
 
 function isPokestopMeetsQuestFilters(pokestop) {
-    if (Store.get('showQuests') && pokestop.quest !== null) {
+    if (showQuests && pokestop.quest !== null) {
         switch (pokestop.quest.reward_type) {
             case 2:
                 return includedQuestItems.includes(parseInt(pokestop.quest.item_id))
@@ -3695,7 +3683,7 @@ function loadRawData() {
     var loadGyms = Store.get('showGyms') || Store.get('showRaids')
     var loadPokestops = Store.get('showPokestops')
     var loadPokestopsNoEvent = Store.get('showPokestopsNoEvent')
-    var loadQuests = Store.get('showQuests')
+    var loadQuests = showQuests
     var loadInvasions = Store.get('showInvasions')
     var loadLures = Store.get('showNormalLures') || Store.get('showGlacialLures') || Store.get('showMagneticLures') || Store.get('showMossyLures')
     var loadScanned = Store.get('showScanned')
@@ -4223,29 +4211,6 @@ function centerMap(lat, lng, zoom) {
     if (zoom) {
         storeZoom = false
         map.setZoom(zoom)
-    }
-}
-
-function i8ln(word) {
-    if ($.isEmptyObject(i8lnDictionary) && language !== 'en' && languageLookups < languageLookupThreshold) {
-        $.ajax({
-            url: 'static/dist/locales/' + language + '.min.json',
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                i8lnDictionary = data
-            },
-            error: function (jqXHR, status, error) {
-                console.log('Error loading i8ln dictionary: ' + error)
-                languageLookups++
-            }
-        })
-    }
-    if (word in i8lnDictionary) {
-        return i8lnDictionary[word]
-    } else {
-        // Word doesn't exist in dictionary return it as is
-        return word
     }
 }
 

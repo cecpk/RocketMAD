@@ -105,8 +105,8 @@ function updateStats() {
                 .DataTable()
                 .destroy()
 
-        $('#statistics-container').show()
         $('#loading').hide()
+        $('#statistics-container').show()
 
         processSeen(result.seen)
 

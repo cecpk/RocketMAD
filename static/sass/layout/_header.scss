@@ -101,6 +101,14 @@
         }
       }
 
+      &#quests-button {
+        &:before {
+          content: '\f1e5';
+          font-family: "Font Awesome 5 Free";
+          font-weight: 700;
+        }
+      }
+
       &#madmin-button {
         &:before {
           content: '\f05a';
@@ -153,7 +161,7 @@
       }
 
       @include breakpoint(small) {
-        &#statistics-button, &#madmin-button, &#donate-button, &#discord-button, &#patreon-button, &#discord-button, &#messenger-button, &#telegram-button, &#whatsapp-button {
+        &#statistics-button, &#quests-button, &#madmin-button, &#donate-button, &#discord-button, &#patreon-button, &#discord-button, &#messenger-button, &#telegram-button, &#whatsapp-button {
           display: none;
         }
       }

@@ -3,70 +3,73 @@ body {
 }
 
 #statistics-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 0.5em 1.5em 0.5em 1.5em;
-    color: #000;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0.5em 1.5em 0.5em 1.5em;
+  color: #000;
 
-    @media screen and (max-width: 736px) {
-      padding: 0.33em 0;
-    }
+  @media screen and (max-width: 736px) {
+    padding: 0.33em 0;
+  }
 }
 
 #stats_table_wrapper thead tr {
-    background: #3b3b3b;
+  background: #3b3b3b;
 
-    th {
-      color: #fff;
-    }
+  th {
+    color: #fff;
+  }
 }
 
 #pokemon-seen {
-    @media screen and (max-width: 736px) {
-      margin-left: 1em;
-    }
+  font-size: 1.25em;
+
+  @media screen and (max-width: 736px) {
+    font-size: 1em;
+    margin-left: 1em;
+  }
 }
 
 .overlay{
-    z-index: 100000;
-    display: none;
-    background-color: rgba(0,0,0,0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100%;
+  z-index: 100000;
+  display: none;
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
 }
 
 #location_map{
-    top: 0px;
-    width: 100%;
-    bottom: 0px;
-    height: 100%;
+  top: 0px;
+  width: 100%;
+  bottom: 0px;
+  height: 100%;
 }
 
 #map {
-    height: 100%;
+  height: 100%;
 }
 
 .my-leaflet-map-container img {
-    max-height: none;
+  max-height: none;
 }
 
 #times_list{
-    float: left;
-    background: white;
-    position: fixed;
-    padding-right: 0.7em;
-    height: calc(100% - 4.4em);
-    z-index: 9999;
-    overflow: auto;
+  float: left;
+  background: white;
+  position: fixed;
+  padding-right: 0.7em;
+  height: calc(100% - 4.4em);
+  z-index: 9999;
+  overflow: auto;
 
-    @media screen and (max-width: 736px) {
-      padding-right: 0.47em;
-      height: calc(100% - 2.94em);
-    }
+  @media screen and (max-width: 736px) {
+    padding-right: 0.47em;
+    height: calc(100% - 2.94em);
+  }
 }
 
 table.dataTable.display tbody tr td,
@@ -81,72 +84,72 @@ table th
 }
 
 #times_list div {
-    padding-bottom: 2px;
+  padding-bottom: 2px;
 
-    a {
-      color: #555;
-    }
+  a {
+    color: #555;
+  }
 }
 
 #times_list .row0{
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 #times_list .row1{
-    background: #f8f8f8;
+  background: #f8f8f8;
 }
 
 .overlay .close{
-    position: fixed;
-    width: 30px;
-    height: 30px;
-    right: calc(2.25em + 10px);
-    margin-top: calc(2.25em + 10px);
-    border: 2px solid rgba(0,0,0,0.2);
-    border-radius: 4px;
-    background: white;
-    text-align: center;
-    cursor: pointer;
-    z-index: 9999;
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  right: calc(2.25em + 10px);
+  margin-top: calc(2.25em + 10px);
+  border: 2px solid rgba(0,0,0,0.2);
+  border-radius: 4px;
+  background: white;
+  text-align: center;
+  cursor: pointer;
+  z-index: 9999;
 
-    @media screen and (max-width: 736px) {
-        right: calc(1.47em + 10px);
-        margin-top: calc(1.47em + 10px);
-    }
+  @media screen and (max-width: 736px) {
+    right: calc(1.47em + 10px);
+    margin-top: calc(1.47em + 10px);
+  }
 
-    &:hover {
-      background: #f4f4f4;
-    }
+  &:hover {
+    background: #f4f4f4;
+  }
 }
 
 .overlay .content{
-    background: white;
-    margin: 1.5em;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    padding: 0.7em;
-    position: fixed;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+  background: white;
+  margin: 1.5em;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  padding: 0.7em;
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
 
-    @media screen and (max-width: 736px) {
-      margin: 1em;
-      padding: 0.47em;
-    }
+  @media screen and (max-width: 736px) {
+    margin: 1em;
+    padding: 0.47em;
+  }
 }
 
 #loading{
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
 }
 
 #loading img{
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  position: absolute;
 }
