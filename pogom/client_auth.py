@@ -20,19 +20,19 @@ def check_auth(args, request, user_auth_code_cache):
         host = args.uas_host_override
         if not host:
             host = request.url_root
-        if not valid_client_auth(request, host, user_auth_code_cache, args):
-            return redirect_client_to_auth(host, args)
+        if not _valid_client_auth(request, host, user_auth_code_cache, args):
+            return _redirect_client_to_auth(host, args)
         if args.uas_discord_required_guilds:
-            if not valid_discord_guild(request, user_auth_code_cache, args):
-                return redirect_to_discord_guild_invite(args)
+            if not _valid_discord_guild(request, user_auth_code_cache, args):
+                return _redirect_to_discord_guild_invite(args)
             if args.uas_discord_blacklisted_guilds:
-                if invalid_discord_guild(request, user_auth_code_cache, args):
+                if _invalid_discord_guild(request, user_auth_code_cache, args):
                     userAuthCode = request.args.get('userAuthCode')
-                    return redirect_to_invalid_discord_guild(args)
+                    return _redirect_to_invalid_discord_guild(args)
             if (args.uas_discord_required_roles and
-                not valid_discord_guild_role(
+                not _valid_discord_guild_role(
                     request, user_auth_code_cache, args)):
-                return redirect_to_discord_guild_invite(args)
+                return _redirect_to_discord_guild_invite(args)
     return False
 
 
@@ -53,7 +53,7 @@ def _valid_client_auth(request, host, user_auth_code_cache, args):
         return False
     oauth_response = user_auth_code_cache.get(userAuthCode, False)
     if not oauth_response:
-        oauth_response = exchange_code(userAuthCode, host, args)
+        oauth_response = _exchange_code(userAuthCode, host, args)
         if (not oauth_response):
             return False
         user_auth_code_cache[userAuthCode] = oauth_response
@@ -66,7 +66,7 @@ def _valid_client_auth(request, host, user_auth_code_cache, args):
         return False
     if args.uas_discord_required_guilds:
         if not user_auth_code_cache[userAuthCode].get('guilds', False):
-            user_auth_code_cache[userAuthCode]['guilds'] = get_user_guilds(
+            user_auth_code_cache[userAuthCode]['guilds'] = _get_user_guilds(
                 user_auth_code_cache[userAuthCode]['access_token'])
             if not user_auth_code_cache[userAuthCode]['guilds']:
                 del user_auth_code_cache[userAuthCode]
@@ -74,7 +74,7 @@ def _valid_client_auth(request, host, user_auth_code_cache, args):
         if args.uas_discord_required_roles:
             if not user_auth_code_cache[userAuthCode].get('roles', False):
                 user_auth_code_cache[userAuthCode]['roles'] = (
-                    get_user_guild_roles(
+                    _get_user_guild_roles(
                         user_auth_code_cache[userAuthCode]['access_token'],
                         args))
                 if not user_auth_code_cache[userAuthCode]['roles']:
