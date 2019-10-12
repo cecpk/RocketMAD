@@ -2511,7 +2511,6 @@ function setupScannedMarker(item) {
         color: getColorByDate(item['last_modified']),
         opacity: 0.4,
         strokeWeight: 1,
-        strokeOpacity: 0.3,
         fillOpacity: 0.2
     }
 
