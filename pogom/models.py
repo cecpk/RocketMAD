@@ -751,148 +751,6 @@ class ScannedLocation(LatLongModel):
         return list(query)
 
 
-class SpawnPoint(LatLongModel):
-    id = UBigIntegerField(primary_key=True)
-    latitude = DoubleField()
-    longitude = DoubleField()
-    last_scanned = DateTimeField(index=True)
-    # kind gives the four quartiles of the spawn, as 's' for seen
-    # or 'h' for hidden.  For example, a 30 minute spawn is 'hhss'.
-    kind = Utf8mb4CharField(max_length=4, default='hhhs')
-
-    # links shows whether a Pokemon encounter id changes between quartiles or
-    # stays the same.  Both 1x45 and 1x60h3 have the kind of 'sssh', but the
-    # different links shows when the encounter id changes.  Same encounter id
-    # is shared between two quartiles, links shows a '+'.  A different
-    # encounter id between two quartiles is a '-'.
-    #
-    # For the hidden times, an 'h' is used.  Until determined, '?' is used.
-    # Note index is shifted by a half. links[0] is the link between
-    # kind[0] and kind[1] and so on. links[3] is the link between
-    # kind[3] and kind[0]
-    links = Utf8mb4CharField(max_length=4, default='????')
-
-    # Count consecutive times spawn should have been seen, but wasn't.
-    # If too high, will not be scheduled for review, and treated as inactive.
-    missed_count = IntegerField(default=0)
-
-    # Next 2 fields are to narrow down on the valid TTH window.
-    # Seconds after the hour of the latest Pokemon seen time within the hour.
-    latest_seen = SmallIntegerField()
-
-    # Seconds after the hour of the earliest time Pokemon wasn't seen after an
-    # appearance.
-    earliest_unseen = SmallIntegerField()
-
-    class Meta:
-        indexes = ((('latitude', 'longitude'), False),)
-        constraints = [Check('earliest_unseen >= 0'),
-                       Check('earliest_unseen <= 3600'),
-                       Check('latest_seen >= 0'),
-                       Check('latest_seen <= 3600')]
-
-    @staticmethod
-    def get_spawnpoints(swLat, swLng, neLat, neLng, timestamp=0,
-                        oSwLat=None, oSwLng=None, oNeLat=None, oNeLng=None):
-        spawnpoints = {}
-        with SpawnPoint.database():
-            query = (Trs_Spawn.select(
-                Trs_Spawn.latitude, Trs_Spawn.longitude,
-                Trs_Spawn.spawnpoint.alias('id'),
-                Trs_Spawn.calc_endminsec.alias('latest_seen'),
-                Trs_Spawn.calc_endminsec.alias('earliest_unseen')).dicts())
-
-            if timestamp > 0:
-                query = (
-                    query.where(((Trs_Spawn.last_scanned >
-                                  datetime.utcfromtimestamp(
-                                      timestamp / 1000))) &
-                                ((Trs_Spawn.latitude >= swLat) &
-                                 (Trs_Spawn.longitude >= swLng) &
-                                 (Trs_Spawn.latitude <= neLat) &
-                                 (Trs_Spawn.longitude <= neLng))).dicts())
-            elif oSwLat and oSwLng and oNeLat and oNeLng:
-                # Send spawnpoints in view but exclude those within old
-                # boundaries. Only send newly uncovered spawnpoints.
-                query = (query
-                         .where((((Trs_Spawn.latitude >= swLat) &
-                                  (Trs_Spawn.longitude >= swLng) &
-                                  (Trs_Spawn.latitude <= neLat) &
-                                  (Trs_Spawn.longitude <= neLng))) & ~
-                                ((Trs_Spawn.latitude >= oSwLat) &
-                                 (Trs_Spawn.longitude >= oSwLng) &
-                                 (Trs_Spawn.latitude <= oNeLat) &
-                                 (Trs_Spawn.longitude <= oNeLng)))
-                         .dicts())
-            elif swLat and swLng and neLat and neLng:
-                query = (query
-                         .where((Trs_Spawn.latitude <= neLat) &
-                                (Trs_Spawn.latitude >= swLat) &
-                                (Trs_Spawn.longitude >= swLng) &
-                                (Trs_Spawn.longitude <= neLng)))
-
-            query = (query.where(Trs_Spawn.calc_endminsec.is_null(False)))
-
-            queryDict = query.dicts()
-            for sp in queryDict:
-                key = sp['id']
-                sp['links'] = 'hh??'
-                sp['kind'] = 'hhss'
-                sp['earliest_unseen'] = (
-                    int(sp['earliest_unseen'].split(':')[0]) * 60 +
-                    int(sp['earliest_unseen'].split(':')[1]))
-                sp['latest_seen'] = sp['earliest_unseen']
-                appear_time, disappear_time = SpawnPoint.start_end(sp)
-                spawnpoints[key] = sp
-                spawnpoints[key]['disappear_time'] = disappear_time
-                spawnpoints[key]['appear_time'] = appear_time
-
-        # Helping out the GC.
-        for sp in list(spawnpoints.values()):
-            del sp['kind']
-            del sp['links']
-            del sp['latest_seen']
-            del sp['earliest_unseen']
-
-        return list(spawnpoints.values())
-
-    # Confirm if tth has been found.
-    @staticmethod
-    def tth_found(sp):
-        # Fully identified if no '?' in links and
-        # latest_seen % 3600 == earliest_unseen % 3600.
-        # Warning: python uses modulo as the least residue, not as
-        # remainder, so we don't apply it to the result.
-        latest_seen = (sp['latest_seen'] % 3600)
-        earliest_unseen = (sp['earliest_unseen'] % 3600)
-        return latest_seen - earliest_unseen == 0
-
-    # Return [start, end] in seconds after the hour for the spawn, despawn
-    # time of a spawnpoint.
-    @staticmethod
-    def start_end(sp, spawn_delay=0, links=False):
-        links_arg = links
-        links = links if links else str(sp['links'])
-
-        if links == '????':  # Clean up for old data.
-            links = str(sp['kind'].replace('s', '?'))
-
-        # Make some assumptions if link not fully identified.
-        if links.count('-') == 0:
-            links = links[:-1] + '-'
-
-        links = links.replace('?', '+')
-
-        links = links[:-1] + '-'
-        plus_or_minus = links.index('+') if links.count('+') else links.index(
-            '-')
-        start = sp['earliest_unseen'] - (4 - plus_or_minus) * 900 + spawn_delay
-        no_tth_adjust = 60 if not links_arg and not SpawnPoint.tth_found(
-            sp) else 0
-        end = sp['latest_seen'] - (3 - links.index('-')) * 900 + no_tth_adjust
-        return [start % 3600, end % 3600]
-
-
 class Trs_Spawn(LatLongModel):
     spawnpoint = Utf8mb4CharField(primary_key=True, max_length=16, index=True)
     latitude = DoubleField()
@@ -1155,7 +1013,7 @@ def db_clean_spawnpoints(age_hours):
     spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
     with Trs_Spawn.database():
-        # Select old SpawnPoint entries.
+        # Select old Trs_Spawn entries.
         query = (Trs_Spawn
                  .select(Trs_Spawn.spawnpoint)
                  .where((Trs_Spawn.last_scanned < spawnpoint_timeout) &
@@ -1164,9 +1022,9 @@ def db_clean_spawnpoints(age_hours):
         old_sp = [(sp['id']) for sp in query]
 
         num_records = len(old_sp)
-        log.debug('Found %d old SpawnPoint entries.', num_records)
+        log.debug('Found %d old Trs_Spawn entries.', num_records)
 
-        # Remove old and invalid SpawnPoint entries.
+        # Remove old and invalid Trs_Spawn entries.
         num_rows = 0
         for i in range(0, num_records, step):
             query = (Trs_Spawn
@@ -1174,7 +1032,7 @@ def db_clean_spawnpoints(age_hours):
                      .where((Trs_Spawn.spawnpoint <<
                              old_sp[i:min(i + step, num_records)])))
             num_rows += query.execute()
-        log.debug('Deleted %d old SpawnPoint entries.', num_rows)
+        log.debug('Deleted %d old Trs_Spawn entries.', num_rows)
 
     time_diff = default_timer() - start_timer
     log.debug('Completed cleanup of old spawnpoint data in %.6f seconds.',
@@ -1209,7 +1067,7 @@ def db_clean_forts(age_hours):
 
 def create_tables(db):
     tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, Trs_Quest, Trs_Spawn,
-              SpawnPoint, ScannedLocation, Weather]
+              ScannedLocation, Weather]
     with db:
         for table in tables:
             if not table.table_exists():
@@ -1221,8 +1079,8 @@ def create_tables(db):
 
 
 def drop_tables(db):
-    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, SpawnPoint,
-              ScannedLocation, Weather, Versions]
+    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, ScannedLocation,
+              Weather, Versions]
     with db:
         db.execute_sql('SET FOREIGN_KEY_CHECKS=0;')
         for table in tables:
