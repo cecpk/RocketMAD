@@ -311,51 +311,45 @@ class Pogom(Flask):
 
         if (request.args.get('pokemon', 'true') == 'true' and
                 not args.no_pokemon):
-            # Exclude ids of Pokemon that are hidden.
-            eids = []
-            request_eids = request.args.get('eids')
-            verified_time = args.verified_despawn_time
-            if request_eids and not request.args.get('prionotify'):
-                eids = {int(i) for i in request_eids.split(',')}
-            if request.args.get('ids'):
+            eids = None
+            ids = None
+            if (request.args.get('eids') and
+                    request.args.get('prionotify', 'false') == 'false'):
+                request_eids = request.args.get('eids').split(',')
+                eids = [int(i) for i in request_eids]
+            elif not request.args.get('eids') and request.args.get('ids'):
                 request_ids = request.args.get('ids').split(',')
-                ids = [int(x) for x in request_ids if int(x) not in eids]
-                d['pokemons'] = convert_pokemon_list(
-                    Pokemon.get_active_by_id(
-                        ids, swLat, swLng, neLat, neLng))
-            elif lastpokemon != 'true':
+                ids = [int(i) for i in request_ids]
+
+            if lastpokemon != 'true':
                 # If this is first request since switch on, load
                 # all pokemon on screen.
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
-                        swLat, swLng, neLat, neLng,
-                        exclude=eids,
-                        verified_disappear_time=verified_time))
+                        swLat, swLng, neLat, neLng, eids=eids, ids=ids))
             else:
                 # If map is already populated only request modified Pokemon
                 # since last request time.
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
                         swLat, swLng, neLat, neLng, timestamp=timestamp,
-                        exclude=eids,
-                        verified_disappear_time=verified_time))
+                        eids=eids, ids=ids))
+
                 if newArea:
                     # If screen is moved add newly uncovered Pokemon to the
                     # ones that were modified since last request time.
-                    d['pokemons'] = d['pokemons'] + (
+                    d['pokemons'] += (
                         convert_pokemon_list(
                             Pokemon.get_active(
-                                swLat, swLng, neLat, neLng, exclude=eids,
-                                oSwLat=oSwLat, oSwLng=oSwLng, oNeLat=oNeLat,
-                                oNeLng=oNeLng,
-                                verified_disappear_time=verified_time)))
+                                swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                                oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                                eids=eids, ids=ids)))
 
             if request.args.get('reids'):
-                reids = [int(x) for x in request.args.get('reids').split(',')]
-                d['pokemons'] = d['pokemons'] + (
-                    convert_pokemon_list(
-                        Pokemon.get_active_by_id(reids, swLat, swLng, neLat,
-                                                 neLng)))
+                request_reids = request.args.get('reids').split(',')
+                reids = [int(x) for x in request_reids]
+                d['pokemons'] += convert_pokemon_list(
+                    Pokemon.get_active(swLat, swLng, neLat, neLng, ids=ids))
                 d['reids'] = reids
 
         if (not args.no_pokestops and pokestops and (pokestopsNoEvent or

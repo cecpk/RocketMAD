@@ -150,12 +150,11 @@ class Pokemon(LatLongModel):
         )
 
     @staticmethod
-    def get_active(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
-                   oSwLng=None, oNeLat=None, oNeLng=None, exclude=None,
-                   verified_disappear_time=False):
-        now_date = datetime.utcnow()
+    def get_active(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                   oNeLat=None, oNeLng=None, timestamp=0, eids=None, ids=None):
+        now_utc = datetime.utcnow()
 
-        if verified_disappear_time:
+        if args.verified_despawn_time:
             query = (Pokemon
                      .select(Pokemon.encounter_id, Pokemon.pokemon_id,
                              Pokemon.latitude, Pokemon.longitude,
@@ -169,8 +168,8 @@ class Pokemon(LatLongModel):
                              Pokemon.last_modified,
                              Trs_Spawn.calc_endminsec.alias(
                                  'verified_disappear_time'))
-                     .join(Trs_Spawn, on=(Pokemon.spawnpoint_id ==
-                                          Trs_Spawn.spawnpoint)))
+                     .join(Trs_Spawn,
+                           on=(Pokemon.spawnpoint_id == Trs_Spawn.spawnpoint)))
         else:
             query = (Pokemon
                      .select(Pokemon.encounter_id, Pokemon.pokemon_id,
@@ -184,29 +183,28 @@ class Pokemon(LatLongModel):
                              Pokemon.weather_boosted_condition,
                              Pokemon.last_modified))
 
-        if exclude:
-            query = query.where(Pokemon.pokemon_id.not_in(list(exclude)))
+        if eids is not None:
+            query = query.where(Pokemon.pokemon_id.not_in(eids))
+        elif ids is not None:
+            query = query.where(Pokemon.pokemon_id.in_(ids))
 
         if not (swLat and swLng and neLat and neLng):
-            query = (query
-                     .where(Pokemon.disappear_time > now_date)
-                     .dicts())
+            query = query.where(Pokemon.disappear_time > now_utc)
         elif timestamp > 0:
             # If timestamp is known only load modified Pokemon.
             query = (query
                      .where(((Pokemon.last_modified >
                               datetime.utcfromtimestamp(timestamp / 1000)) &
-                             (Pokemon.disappear_time > now_date)) &
+                             (Pokemon.disappear_time > now_utc)) &
                             ((Pokemon.latitude >= swLat) &
                              (Pokemon.longitude >= swLng) &
                              (Pokemon.latitude <= neLat) &
-                             (Pokemon.longitude <= neLng)))
-                     .dicts())
+                             (Pokemon.longitude <= neLng))))
         elif oSwLat and oSwLng and oNeLat and oNeLng:
             # Send Pokemon in view but exclude those within old boundaries.
             # Only send newly uncovered Pokemon.
             query = (query
-                     .where((Pokemon.disappear_time > now_date) &
+                     .where((Pokemon.disappear_time > now_utc) &
                             ((Pokemon.latitude >= swLat) &
                              (Pokemon.longitude >= swLng) &
                              (Pokemon.latitude <= neLat) &
@@ -214,39 +212,16 @@ class Pokemon(LatLongModel):
                             ((Pokemon.latitude >= oSwLat) &
                              (Pokemon.longitude >= oSwLng) &
                              (Pokemon.latitude <= oNeLat) &
-                             (Pokemon.longitude <= oNeLng)))
-                     .dicts())
+                             (Pokemon.longitude <= oNeLng))))
         else:
             query = (query
-                     # Add 1 hour buffer to include spawnpoints that persist
-                     # after tth, like shsh.
-                     .where((Pokemon.disappear_time > now_date) &
+                     .where((Pokemon.disappear_time > now_utc) &
                             (((Pokemon.latitude >= swLat) &
                               (Pokemon.longitude >= swLng) &
                               (Pokemon.latitude <= neLat) &
-                              (Pokemon.longitude <= neLng))))
-                     .dicts())
-        return list(query)
+                              (Pokemon.longitude <= neLng)))))
 
-    @staticmethod
-    def get_active_by_id(ids, swLat, swLng, neLat, neLng):
-        if not (swLat and swLng and neLat and neLng):
-            query = (Pokemon
-                     .select()
-                     .where((Pokemon.pokemon_id << ids) &
-                            (Pokemon.disappear_time > datetime.utcnow()))
-                     .dicts())
-        else:
-            query = (Pokemon
-                     .select()
-                     .where((Pokemon.pokemon_id << ids) &
-                            (Pokemon.disappear_time > datetime.utcnow()) &
-                            (Pokemon.latitude >= swLat) &
-                            (Pokemon.longitude >= swLng) &
-                            (Pokemon.latitude <= neLat) &
-                            (Pokemon.longitude <= neLng))
-                     .dicts())
-        return list(query)
+        return list(query.dicts())
 
     # Get all Pokémon spawn counts based on the last x hours.
     # More efficient than get_seen(): we don't do any unnecessary mojo.
