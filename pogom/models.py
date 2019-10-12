@@ -1079,8 +1079,8 @@ def create_tables(db):
 
 
 def drop_tables(db):
-    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, ScannedLocation,
-              Weather, Versions]
+    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, Trs_Quest, Trs_Spawn,
+              ScannedLocation, Weather, Versions]
     with db:
         db.execute_sql('SET FOREIGN_KEY_CHECKS=0;')
         for table in tables:
