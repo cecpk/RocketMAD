@@ -37,6 +37,7 @@ var searchMarkerStyles
 // Settings variables.
 var showGyms
 var showRaids
+var includedEggLevels = []
 var showPokemonValues
 var showQuests
 var filterIvsPercentage
@@ -593,6 +594,7 @@ function createStartLocationMarker() {
 function initSettingVariables() {
     showGyms = showConfig.gyms && Store.get('showGyms')
     showRaids = showConfig.raids && Store.get('showRaids')
+    includedEggLevels = showConfig.raids ? Store.get('includedEggLevels') : []
     showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
     showQuests = showConfig.quests && Store.get('showQuests')
     filterIvsPercentage = showConfig.pokemon_values ? Store.get('filterIvsPercentage') : -1
@@ -949,6 +951,12 @@ function initSidebar() {
         reprocessGyms()
         lastgyms = false
         updateMap()
+    })
+
+    $('#egg-levels-select').on('change', function (e) {
+        includedEggLevels = $('#egg-levels-select').val().map(Number)
+        reprocessGyms()
+        Store.set('includedEggLevels', includedEggLevels)
     })
 
     $('#egg-min-level-only-switch').select2({
@@ -1439,6 +1447,7 @@ function initSidebar() {
     $('#raids-filter-wrapper').toggle(showRaids && Store.get('showRaidFilter'))
     $('#raid-active-gym-switch').prop('checked', Store.get('showActiveRaidsOnly'))
     $('#raid-park-gym-switch').prop('checked', Store.get('showParkRaidsOnly'))
+    $('#egg-levels-select').val(Store.get('includedEggLevels'))
     $('#egg-min-level-only-switch').val(Store.get('showEggMinLevel'))
     $('#egg-max-level-only-switch').val(Store.get('showEggMaxLevel'))
     $('#raid-min-level-only-switch').val(Store.get('showRaidMinLevel'))
@@ -2988,7 +2997,7 @@ function isGymMeetsRaidFilters(gym) {
         }
 
         if (isUpcomingRaid(raid)) {
-            if (raid.level < Store.get('showEggMinLevel') || raid.level > Store.get('showEggMaxLevel') || Store.get('showActiveRaidsOnly')) {
+            if (!includedEggLevels.includes(raid.level) || Store.get('showActiveRaidsOnly')) {
                 return false
             }
         } else { // Ongoing raid.
