@@ -169,10 +169,10 @@ function loadQuests() {
             scrollResize: true,
             scrollY: 100,
             'columnDefs': [
-                {type: 'natural', targets: 2},
-                {responsivePriority: 1, targets: 0},
-                {responsivePriority: 2, targets: 2},
-                {responsivePriority: 3, targets: 1}
+                { type: 'natural', targets: 2 },
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: 2 },
+                { responsivePriority: 3, targets: 1 }
             ]
         })
         $('#quests-table_length').html('Quests')

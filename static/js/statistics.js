@@ -96,6 +96,10 @@ function processSeen(seen) {
     }
 }
 
+var formNamesType = $.fn.dataTable.absoluteOrder([
+    { value: '-', position: 'bottom' }
+])
+
 function updateStats() {
     $('#statistics-container').hide()
     $('#loading').show()
@@ -121,15 +125,16 @@ function updateStats() {
             scrollResize: true,
             scrollY: 100,
             'columnDefs': [
-                {'orderable': false, 'targets': [0, 7]},
-                {responsivePriority: 1, targets: 0},
-                {responsivePriority: 2, targets: 4},
-                {responsivePriority: 3, targets: 2},
-                {responsivePriority: 4, targets: 1},
-                {responsivePriority: 5, targets: 3},
-                {responsivePriority: 6, targets: 6},
-                {responsivePriority: 7, targets: 5},
-                {responsivePriority: 8, targets: 7},
+                { 'orderable': false, 'targets': [0, 7]},
+                { type: formNamesType, targets: 3 },
+                { responsivePriority: 1, targets: 0 },
+                { responsivePriority: 2, targets: 4 },
+                { responsivePriority: 3, targets: 2 },
+                { responsivePriority: 4, targets: 1 },
+                { responsivePriority: 5, targets: 3 },
+                { responsivePriority: 6, targets: 6 },
+                { responsivePriority: 7, targets: 5 },
+                { responsivePriority: 8, targets: 7 },
             ]
         })
     }).fail(function () {
