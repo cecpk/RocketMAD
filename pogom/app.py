@@ -371,17 +371,22 @@ class Pogom(Flask):
                                            quests=quests, invasions=invasions,
                                            lures=lures))
 
-        if request.args.get('gyms', 'true') == 'true' and not args.no_gyms:
+        gyms = request.args.get('gyms', 'true') == 'true' and not args.no_gyms
+        raids = (request.args.get('raids', 'true') == 'true' and
+            not args.no_raids)
+        if gyms or raids:
             if lastgyms != 'true':
-                d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng)
+                d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
+                                         raids=raids)
             else:
                 d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
-                                         timestamp=timestamp)
+                                         timestamp=timestamp, raids=raids)
                 if newArea:
                     d['gyms'].update(
                         Gym.get_gyms(swLat, swLng, neLat, neLng,
                                      oSwLat=oSwLat, oSwLng=oSwLng,
-                                     oNeLat=oNeLat, oNeLng=oNeLng))
+                                     oNeLat=oNeLat, oNeLng=oNeLng,
+                                     raids=raids))
 
         if request.args.get('scanned', 'true') == 'true':
             if lastslocs != 'true':

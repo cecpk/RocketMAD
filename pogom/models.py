@@ -352,46 +352,41 @@ class Gym(LatLongModel):
         indexes = ((('latitude', 'longitude'), False),)
 
     @staticmethod
-    def get_gyms(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
-                 oSwLng=None, oNeLat=None, oNeLng=None):
+    def get_gyms(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                 oNeLat=None, oNeLng=None, timestamp=0, raids=True):
         if not (swLat and swLng and neLat and neLng):
-            results = (Gym
-                       .select()
-                       .dicts())
+            query = Gym.select()
         elif timestamp > 0:
             # If timestamp is known only send last scanned Gyms.
-            results = (Gym
-                       .select()
-                       .where(((Gym.last_scanned >
-                                datetime.utcfromtimestamp(timestamp / 1000)) &
-                               (Gym.latitude >= swLat) &
-                               (Gym.longitude >= swLng) &
-                               (Gym.latitude <= neLat) &
-                               (Gym.longitude <= neLng)))
-                       .dicts())
+            query = (Gym
+                     .select()
+                     .where(((Gym.last_scanned >
+                              datetime.utcfromtimestamp(timestamp / 1000)) &
+                             (Gym.latitude >= swLat) &
+                             (Gym.longitude >= swLng) &
+                             (Gym.latitude <= neLat) &
+                             (Gym.longitude <= neLng))))
         elif oSwLat and oSwLng and oNeLat and oNeLng:
             # Send gyms in view but exclude those within old boundaries. Only
             # send newly uncovered gyms.
-            results = (Gym
-                       .select()
-                       .where(((Gym.latitude >= swLat) &
-                               (Gym.longitude >= swLng) &
-                               (Gym.latitude <= neLat) &
-                               (Gym.longitude <= neLng)) & ~
-                              ((Gym.latitude >= oSwLat) &
-                               (Gym.longitude >= oSwLng) &
-                               (Gym.latitude <= oNeLat) &
-                               (Gym.longitude <= oNeLng)))
-                       .dicts())
+            query = (Gym
+                     .select()
+                     .where(((Gym.latitude >= swLat) &
+                             (Gym.longitude >= swLng) &
+                             (Gym.latitude <= neLat) &
+                             (Gym.longitude <= neLng)) & ~
+                            ((Gym.latitude >= oSwLat) &
+                             (Gym.longitude >= oSwLng) &
+                             (Gym.latitude <= oNeLat) &
+                             (Gym.longitude <= oNeLng))))
 
         else:
-            results = (Gym
-                       .select()
-                       .where((Gym.latitude >= swLat) &
-                              (Gym.longitude >= swLng) &
-                              (Gym.latitude <= neLat) &
-                              (Gym.longitude <= neLng))
-                       .dicts())
+            query = (Gym
+                     .select()
+                     .where((Gym.latitude >= swLat) &
+                            (Gym.longitude >= swLng) &
+                            (Gym.latitude <= neLat) &
+                            (Gym.longitude <= neLng)))
 
         # Performance:  disable the garbage collector prior to creating a
         # (potentially) large dict with append().
@@ -399,7 +394,7 @@ class Gym(LatLongModel):
 
         gyms = {}
         gym_ids = []
-        for g in results:
+        for g in query.dicts():
             g['name'] = None
             g['url'] = None
             g['pokemon'] = []
@@ -408,29 +403,28 @@ class Gym(LatLongModel):
             gym_ids.append(g['gym_id'])
 
         if len(gym_ids) > 0:
-            details = (GymDetails
-                       .select(
-                           GymDetails.gym_id,
-                           GymDetails.name,
-                           GymDetails.url,)
-                       .where(GymDetails.gym_id << gym_ids)
-                       .dicts())
+            details_query = (GymDetails
+                             .select(GymDetails.gym_id, GymDetails.name,
+                                     GymDetails.url)
+                             .where(GymDetails.gym_id << gym_ids)
+                             .dicts())
 
-            for d in details:
+            for d in details_query:
                 gyms[d['gym_id']]['name'] = d['name']
                 gyms[d['gym_id']]['url'] = d['url']
 
-            raids = (Raid
-                     .select()
-                     .where((Raid.gym_id << gym_ids) &
-                            (Raid.end > datetime.utcnow()))
-                     .dicts())
+            if raids:
+                raids_query = (Raid
+                               .select()
+                               .where((Raid.gym_id << gym_ids) &
+                                      (Raid.end > datetime.utcnow()))
+                               .dicts())
 
-            for r in raids:
-                if r['pokemon_id']:
-                    r['pokemon_name'] = get_pokemon_name(r['pokemon_id'])
-                    r['pokemon_types'] = get_pokemon_types(r['pokemon_id'])
-                gyms[r['gym_id']]['raid'] = r
+                for r in raids_query:
+                    if r['pokemon_id']:
+                        r['pokemon_name'] = get_pokemon_name(r['pokemon_id'])
+                        r['pokemon_types'] = get_pokemon_types(r['pokemon_id'])
+                    gyms[r['gym_id']]['raid'] = r
 
         # Re-enable the GC.
         gc.enable()

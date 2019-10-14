@@ -35,6 +35,8 @@ var idToInvasion = {}
 var searchMarkerStyles
 
 // Settings variables.
+var showGyms
+var showRaids
 var showPokemonValues
 var showQuests
 var filterIvsPercentage
@@ -581,6 +583,8 @@ function createStartLocationMarker() {
 }
 
 function initSettingVariables() {
+    showGyms = showConfig.gyms && Store.get('showGyms')
+    showRaids = showConfig.raids && Store.get('showRaids')
     showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
     showQuests = showConfig.quests && Store.get('showQuests')
     filterIvsPercentage = showConfig.pokemon_values ? Store.get('filterIvsPercentage') : -1
@@ -818,6 +822,7 @@ function initSidebar() {
             }
             statsContainer.hide()
         }
+        showGyms = this.checked
         Store.set('showGyms', this.checked)
         reprocessGyms()
         lastgyms = false
@@ -917,6 +922,7 @@ function initSidebar() {
             }
             wrapperNotify.hide()
         }
+        showRaids = this.checked
         Store.set('showRaids', this.checked)
         reprocessGyms()
         lastgyms = false
@@ -1409,11 +1415,11 @@ function initSidebar() {
     $('#pokemon-values-filter-wrapper').toggle(showPokemonValues)
 
     // Gyms.
-    $('#gyms-switch').prop('checked', Store.get('showGyms'))
+    $('#gyms-switch').prop('checked', showGyms)
     $('#gym-sidebar-switch').prop('checked', Store.get('useGymSidebar'))
-    $('#gym-sidebar-wrapper').toggle(Store.get('showGyms') || Store.get('showRaids'))
-    $('#gym-name-filter-wrapper').toggle(Store.get('showGyms') || Store.get('showRaids'))
-    $('#gyms-filter-wrapper').toggle(Store.get('showGyms') && Store.get('showGymFilter'))
+    $('#gym-sidebar-wrapper').toggle(showGyms || showRaids)
+    $('#gym-name-filter-wrapper').toggle(showGyms || showRaids)
+    $('#gyms-filter-wrapper').toggle(showGyms && Store.get('showGymFilter'))
     $('#team-gyms-only-switch').val(Store.get('showTeamGymsOnly'))
     $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
     $('#park-gyms-only-switch').prop('checked', Store.get('showParkGymsOnly'))
@@ -1421,8 +1427,8 @@ function initSidebar() {
     $('#min-level-gyms-filter-switch').val(Store.get('minGymLevel'))
     $('#max-level-gyms-filter-switch').val(Store.get('maxGymLevel'))
     $('#last-update-gyms-switch').val(Store.get('showLastUpdatedGymsOnly'))
-    $('#raids-switch').prop('checked', Store.get('showRaids'))
-    $('#raids-filter-wrapper').toggle(Store.get('showRaids') && Store.get('showRaidFilter'))
+    $('#raids-switch').prop('checked', showRaids)
+    $('#raids-filter-wrapper').toggle(showRaids && Store.get('showRaidFilter'))
     $('#raid-active-gym-switch').prop('checked', Store.get('showActiveRaidsOnly'))
     $('#raid-park-gym-switch').prop('checked', Store.get('showParkRaidsOnly'))
     $('#egg-min-level-only-switch').val(Store.get('showEggMinLevel'))
@@ -1482,7 +1488,7 @@ function initSidebar() {
     $('#cries-wrapper').toggle(Store.get('playSound'))
     $('#pokemon-bounce-switch').prop('checked', Store.get('bouncePokemon'))
     $('#pokemon-upscale-switch').prop('checked', Store.get('upscaleNotifyPokemon'))
-    $('#notify-gyms-switch-wrapper').toggle(Store.get('showRaids'))
+    $('#notify-gyms-switch-wrapper').toggle(showRaids)
     $('#notify-gyms-switch').prop('checked', Store.get('notifyGyms'))
     $('#notify-gyms-filter-wrapper').toggle(Store.get('notifyGyms'))
     $('#gym-bounce-switch').prop('checked', Store.get('bounceGyms'))
@@ -1505,7 +1511,7 @@ function initSidebar() {
 
     // Stats sidebar.
     $('#pokemon-stats-container').toggle(Store.get('showPokemon'))
-    $('#gym-stats-container').toggle(Store.get('showGyms'))
+    $('#gym-stats-container').toggle(showGyms)
     $('#pokestop-stats-container').toggle(Store.get('showPokestops'))
 
     $('select').each(
@@ -2942,7 +2948,7 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
 function isGymMeetsGymFilters(gym) {
     const gymLevel = getGymLevel(gym)
     const gymRegexp = new RegExp($gymNameFilter, 'gi')
-    return Store.get('showGyms') && ($gymNameFilter ? gym.name.match(gymRegexp) : true) &&
+    return showGyms && ($gymNameFilter ? gym.name.match(gymRegexp) : true) &&
         !((Store.get('showTeamGymsOnly') !== -1 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
           (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
           (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
@@ -2952,7 +2958,7 @@ function isGymMeetsGymFilters(gym) {
 }
 
 function isGymMeetsRaidFilters(gym) {
-    if (Store.get('showRaids') && isValidRaid(gym.raid)) {
+    if (showRaids && isValidRaid(gym.raid)) {
         const raid = gym.raid
         const gymRegexp = new RegExp($gymNameFilter, 'gi')
         if ($gymNameFilter && !gym.name.match(gymRegexp)) {
@@ -3679,7 +3685,8 @@ function updateScanned() {
 function loadRawData() {
     var userAuthCode = localStorage.getItem('userAuthCode')
     var loadPokemon = Store.get('showPokemon')
-    var loadGyms = Store.get('showGyms') || Store.get('showRaids')
+    var loadGyms = showGyms
+    var loadRaids = showRaids
     var loadPokestops = Store.get('showPokestops')
     var loadPokestopsNoEvent = Store.get('showPokestopsNoEvent')
     var loadQuests = showQuests
@@ -3714,6 +3721,7 @@ function loadRawData() {
             'invasions': loadInvasions,
             'lures': loadLures,
             'gyms': loadGyms,
+            'raids': loadRaids,
             'lastgyms': lastgyms,
             'scanned': loadScanned,
             'lastslocs': lastslocs,

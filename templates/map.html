@@ -183,9 +183,16 @@
               </div>
             </div>
               {% endif %}
-              {% if show.gyms %}
+              {% if show.gyms or show.raids %}
+              {% if show.gyms and show.raids%}
+            <h3><i class="fas fa-shield-alt fa-fw"></i>Gyms & Raids</h3>
+              {% elif show.gyms %}
             <h3><i class="fas fa-shield-alt fa-fw"></i>Gyms</h3>
+              {% else %}
+            <h3><i class="fas fa-shield-alt fa-fw"></i>Raids</h3>
+              {% endif %}
             <div>
+                {% if show.gyms %}
               <div class="form-control switch-container">
                 <h3>Gyms</h3>
                 <div class="onoffswitch">
@@ -196,6 +203,7 @@
                   </label>
                 </div>
               </div>
+                {% endif %}
                 {% if show.gym_sidebar %}
               <div class="form-control switch-container" id="gym-sidebar-wrapper" style="display:none">
                 <h3>Gym Sidebar</h3>

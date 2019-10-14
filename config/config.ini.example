@@ -4,12 +4,6 @@
 # When your configuration is done, rename this file by removing the ".example" extension
 # A different config-files can be included directly in processes by "--config-file" or "-cf" and path
 
-# Fork features
-###############
-
-#pogo-assets:                   # Directory pointing to optional PogoAssets root directory. (default=None)
-#generate-images                # Use ImageMagick to generate dynamic icons on demand.
-
 
 # Common settings
 #################
@@ -17,6 +11,13 @@
 #host:                          # Address to listen on (default='127.0.0.1')
 #port:                          # Port to listen on (default=5000)
 #location:                      # Location, can be an address or coordinates.
+#pogo-assets:                   # Directory pointing to optional PogoAssets root directory. (default=None)
+#generate-images                # Use ImageMagick to generate dynamic icons on demand.
+
+
+# Front end settings
+#################
+
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
 #no-gyms                        # Disables gyms. (default=False)
@@ -25,6 +26,7 @@
 #no-pokestops                   # Disables pokestops. (default=False)
 #no-quests                      # Disables quests. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
+#black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
 #medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
@@ -79,6 +81,7 @@
 #no-file-logs                   # Disables logging to files except for access.log. (default=False)
 #log-path:                      # Defines the path logs are saved at. (default=logs/)
 #log-filename:                  # Defines the log filename to be saved. The default generates yyyymmdd_HHMM_statusname.log. (default=%Y%m%d_%H%M_<SN>)
+#verbosity                      # Show debug messages from RocketMap and PGoApi. Values are 1,2,3 (default=0)
 
 
 # Dynamic rarity
@@ -130,6 +133,4 @@
 # Misc
 ######
 
-#verbosity                      # Show debug messages from RocketMap and PGoApi. Values are 1,2,3 (default=0)
 #dump                           # Dump censored debug info about the environment and auto-upload to hastebin.com.
-#black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
