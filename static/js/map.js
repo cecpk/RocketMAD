@@ -269,6 +269,14 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
 }
 
+function excludeRaidPokemon(id) { // eslint-disable-line no-unused-vars
+    $('label[for="include-raid-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
+}
+
+function notifyAboutRaidPokemon(id) { // eslint-disable-line no-unused-vars
+    $('label[for="notify-raid-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
+}
+
 function createServiceWorkerReceiver() {
     navigator.serviceWorker.addEventListener('message', function (event) {
         const data = JSON.parse(event.data)
@@ -1773,6 +1781,9 @@ function gymLabel(gym) {
                 chargeMoveType = moves[raid.move_2].type
             }
 
+            const notifyText = notifyRaidPokemon.includes(raid.pokemon_id) ? 'Unnotify' : 'Notify'
+            const notifyIconClass = notifyRaidPokemon.includes(raid.pokemon_id) ? 'fas fa-bell-slash' : 'fas fa-bell'
+
             raidDisplay = `
                 <div class='section-divider'></div>
                 <div id='raid-container'>
@@ -1787,23 +1798,30 @@ function gymLabel(gym) {
                   <div id='raid-container-right'>
                     <div class='title ongoing'>
                       <div>
-                        ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' target='_blank' title='View on GamePress'>#${raid.pokemon_id}</a>
+                        ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id}
                       </div>
                     </div>
                     <div class='disappear'>
                       ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
                     </div>
-                    <div>
-                      <strong>Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
+                    <div class='info-container'>
+                      <div>
+                        <strong>Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
+                      </div>
+                      <div>
+                        CP: <strong>${raid.cp}</strong>
+                      </div>
+                      <div>
+                        Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
+                      </div>
+                      <div>
+                        Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
+                      </div>
                     </div>
                     <div>
-                      CP: <strong>${raid.cp}</strong>
-                    </div>
-                    <div>
-                      Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
-                    </div>
-                    <div>
-                      Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
+                      <a href='javascript:notifyAboutRaidPokemon(${raid.pokemon_id})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+                      <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                      <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
                     </div>
                   </div>
                 </div>`
