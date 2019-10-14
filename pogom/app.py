@@ -275,7 +275,8 @@ class Pogom(Flask):
         lures = request.args.get('lures', 'true') == 'true'
 
         # Current switch settings saved for next request.
-        if request.args.get('gyms', 'true') == 'true':
+        if (request.args.get('gyms', 'true') == 'true' or
+                request.args.get('raids', 'true') == 'true'):
             d['lastgyms'] = True
 
         if pokestops and (pokestopsNoEvent or quests or invasions or lures):
