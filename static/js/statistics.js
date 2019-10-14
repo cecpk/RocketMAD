@@ -15,6 +15,7 @@ function loadRawData() {
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
+            'raids': false,
             'scanned': false,
             'seen': true,
             'duration': $('#duration').val()
@@ -187,6 +188,7 @@ function loadDetails() {
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
+            'raids': false,
             'scanned': false,
             'appearances': true,
             'pokemonid': pokemonid,
@@ -238,6 +240,7 @@ function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
+            'raids': false,
             'scanned': false,
             'appearances': false,
             'appearancesDetails': true,

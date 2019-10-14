@@ -42,6 +42,8 @@ function loadRawData() {
         data: {
             'userAuthCode': userAuthCode,
             'pokemon': false,
+            'gyms': false,
+            'raids': false,
             'pokestops': true,
             'quests': true,
             'invasions': false,
