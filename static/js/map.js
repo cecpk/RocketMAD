@@ -2571,7 +2571,7 @@ function setupSpawnpointMarker(spawnpoint) {
 
     marker.spawnpoint_id = spawnpoint.spawnpoint_id
     addListeners(marker, 'spawnpoint')
-    markersNoCluster.addLayer(marker)
+    markers.addLayer(marker)
     return marker
 }
 
