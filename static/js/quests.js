@@ -97,21 +97,24 @@ function processPokestops(pokestops) {
         const imageUrl = pokestop.image.replace(/^http:\/\//i, '//')
 
         const quest = pokestop.quest
-        const questTask = i8ln(quest.task)
         var rewardImageUrl = ''
         var rewardText = ''
+        var rewardSortText = ''
         switch (quest.reward_type) {
             case 2:
                 rewardImageUrl = 'static/images/quest/reward_' + quest.item_id + '_1.png'
                 rewardText = quest.item_amount + ' ' + i8ln(questItemNames[quest.item_id])
+                rewardSortText = i8ln(questItemNames[quest.item_id]) + ' ' + quest.item_amount
                 break
             case 3:
                 rewardImageUrl = 'static/images/quest/reward_stardust.png'
                 rewardText = quest.stardust + ' ' + i8ln('Stardust')
+                rewardSortText = i8ln('Stardust') + ' ' + quest.stardust
                 break
             case 7:
                 rewardImageUrl = getPokemonRawIconUrl(quest)
                 rewardText = `${pokemonNames[quest.pokemon_id]} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
+                rewardSortText = pokemonNames[quest.pokemon_id]
                 break
         }
 
@@ -132,10 +135,10 @@ function processPokestops(pokestops) {
                   </div>
                 </div>
               </td>
-              <td data-sort="${questTask}">
-                ${questTask}
-              </td>
               <td>
+                ${i8ln(quest.task)}
+              </td>
+              <td data-sort="${rewardSortText}">
                 <div class="row-container">
                   <div class="row-container-left">
                     <img class="reward-image" src="${rewardImageUrl}" width="40" height="40">
@@ -166,6 +169,7 @@ function loadQuests() {
             scrollResize: true,
             scrollY: 100,
             'columnDefs': [
+                {type: 'natural', targets: 2},
                 {responsivePriority: 1, targets: 0},
                 {responsivePriority: 2, targets: 2},
                 {responsivePriority: 3, targets: 1}
