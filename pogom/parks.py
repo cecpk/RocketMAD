@@ -77,7 +77,7 @@ def _build_overpass_query(lower_left_coord, upper_right_coord,
         args.root_path, 'geofences/' + args.ex_parks_geofence_file)
     geofences = parse_geofence_file(geofence_file)
 
-    return ('[bbox:{},{}][timeout:{}][date:"{}"];'
+    return ('[bbox:{},{}][timeout:{}][maxsize:2147483648][date:"{}"];'
             '({});out;>;out skel qt;').format(
         lower_left_coord,
         upper_right_coord,
