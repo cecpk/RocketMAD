@@ -168,7 +168,7 @@ class Pokemon(LatLongModel):
                              Pokemon.last_modified,
                              Trs_Spawn.calc_endminsec.alias(
                                  'verified_disappear_time'))
-                     .join(Trs_Spawn,
+                     .join(Trs_Spawn, JOIN.LEFT_OUTER,
                            on=(Pokemon.spawnpoint_id == Trs_Spawn.spawnpoint)))
         else:
             query = (Pokemon
