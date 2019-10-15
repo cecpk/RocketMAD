@@ -96,7 +96,7 @@ function processPokestops(pokestops) {
             return true
         }
 
-        const imageUrl = pokestop.image.replace(/^http:\/\//i, '//')
+        const imageUrl = pokestop.image ? pokestop.image.replace(/^http:\/\//i, '//') : pokestop.image
 
         const quest = pokestop.quest
         var rewardImageUrl = ''
