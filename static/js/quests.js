@@ -96,7 +96,8 @@ function processPokestops(pokestops) {
             return true
         }
 
-        const imageUrl = pokestop.image ? pokestop.image.replace(/^http:\/\//i, '//') : pokestop.image
+        const imageUrl = pokestop.image ? pokestop.image.replace(/^http:\/\//i, '//') : ''
+        const pokestopName = pokestop.name ? pokestop.name : 'Unkown'
 
         const quest = pokestop.quest
         var rewardImageUrl = ''
@@ -125,7 +126,7 @@ function processPokestops(pokestops) {
               <td data-sort="${pokestop.name}">
                 <div class="row-container">
                   <div class="row-container-left">
-                    <img class="pokestop-image" src="${imageUrl}" width="40" height="40" onclick='showImageModal("${imageUrl}", "${pokestop.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'>
+                    <img class="pokestop-image" src="${imageUrl}" width="40" height="40" onclick='showImageModal("${imageUrl}", "${pokestopName.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'>
                   </div>
                   <div class="row-container-right">
                     <div>
