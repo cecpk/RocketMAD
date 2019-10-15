@@ -1692,7 +1692,7 @@ function pokemonLabel(item) {
 }
 
 function updatePokemonLabel(pokemon, marker) {
-    marker._popup.setContent(pokemonLabel(pokemon))
+    marker.getPopup().setContent(pokemonLabel(pokemon))
     if (marker.isPopupOpen()) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
@@ -1885,7 +1885,7 @@ function gymLabel(gym) {
 }
 
 function updateGymLabel(gym, marker) {
-    marker._popup.setContent(gymLabel(gym))
+    marker.getPopup().setContent(gymLabel(gym))
     if (marker.isPopupOpen() && isValidRaid(gym.raid)) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
@@ -2027,7 +2027,7 @@ function pokestopLabel(pokestop) {
 }
 
 function updatePokestopLabel(pokestop, marker) {
-    marker._popup.setContent(pokestopLabel(pokestop))
+    marker.getPopup().setContent(pokestopLabel(pokestop))
     const now = Date.now()
     if (marker.isPopupOpen() && ((pokestop.lure_expiration && pokestop.lure_expiration > now) ||
             (pokestop.incident_expiration && pokestop.incident_expiration > now))) {
@@ -2090,7 +2090,7 @@ function spawnpointLabel(spawnpoint) {
 }
 
 function updateSpawnpointLabel(spawnpoint, marker) {
-    marker._popup.setContent(spawnpointLabel(spawnpoint))
+    marker.getPopup().setContent(spawnpointLabel(spawnpoint))
     if (marker.isPopupOpen()) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
