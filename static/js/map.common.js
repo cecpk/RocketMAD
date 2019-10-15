@@ -216,12 +216,12 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-    'filterIvsPercentage': {
-        default: '-1',
+    'pokemonMinIvs': {
+        default: -1,
         type: StoreTypes.Number
     },
-    'filterLevel': {
-        default: '-1',
+    'pokemonMinLevel': {
+        default: -1,
         type: StoreTypes.Number
     },
     'showGyms': {
