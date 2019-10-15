@@ -1693,7 +1693,7 @@ function pokemonLabel(item) {
 
 function updatePokemonLabel(pokemon, marker) {
     marker._popup.setContent(pokemonLabel(pokemon))
-    if (marker.infoWindowIsOpen) {
+    if (marker.isPopupOpen()) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -1886,7 +1886,7 @@ function gymLabel(gym) {
 
 function updateGymLabel(gym, marker) {
     marker._popup.setContent(gymLabel(gym))
-    if (marker.infoWindowIsOpen && isValidRaid(gym.raid)) {
+    if (marker.isPopupOpen() && isValidRaid(gym.raid)) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -2029,7 +2029,7 @@ function pokestopLabel(pokestop) {
 function updatePokestopLabel(pokestop, marker) {
     marker._popup.setContent(pokestopLabel(pokestop))
     const now = Date.now()
-    if (marker.infoWindowIsOpen && ((pokestop.lure_expiration && pokestop.lure_expiration > now) ||
+    if (marker.isPopupOpen() && ((pokestop.lure_expiration && pokestop.lure_expiration > now) ||
             (pokestop.incident_expiration && pokestop.incident_expiration > now))) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
@@ -2091,7 +2091,7 @@ function spawnpointLabel(spawnpoint) {
 
 function updateSpawnpointLabel(spawnpoint, marker) {
     marker._popup.setContent(spawnpointLabel(spawnpoint))
-    if (marker.infoWindowIsOpen) {
+    if (marker.isPopupOpen()) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -2680,68 +2680,52 @@ function updateS2Overlay() {
 
 function addListeners(marker, type) {
     marker.on('click', function () {
-        if (!marker.infoWindowIsOpen) {
-            switch (type) {
-                case 'pokemon':
-                    if (mapData.pokemons[marker.encounter_id].updated) {
-                        updatePokemonLabel(mapData.pokemons[marker.encounter_id], marker)
-                    }
-                    if (marker.isBouncing()) {
-                        marker.stopBouncing()
-                        notifiedPokemonData[marker.encounter_id].animationDisabled = true
-                    }
-                    break
-                case 'gym':
-                    if (mapData.gyms[marker.gym_id].updated) {
-                        updateGymLabel(mapData.gyms[marker.gym_id], marker)
-                    }
-                    if (marker.isBouncing()) {
-                        marker.stopBouncing()
-                        notifiedGymData[marker.gym_id].animationDisabled = true
-                    }
-                    break
-                case 'pokestop':
-                    if (mapData.pokestops[marker.pokestop_id].updated) {
-                        updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
-                    }
-                    if (marker.isBouncing()) {
-                        marker.stopBouncing()
-                        notifiedPokestopData[marker.pokestop_id].animationDisabled = true
-                    }
-                    break
-                case 'spawnpoint':
-                    if (mapData.spawnpoints[marker.spawnpoint_id].updated) {
-                        updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
-                    }
-                    break
-            }
-            marker.openPopup()
-            updateLabelDiffTime()
-            marker.persist = true
-            marker.infoWindowIsOpen = true
-        } else {
-            marker.closePopup()
-            switch (type) {
-                case 'pokemon':
-                    mapData.pokemons[marker.encounter_id].updated = false
-                    break
-                case 'gym':
-                    mapData.gyms[marker.gym_id].updated = false
-                    break
-                case 'pokestop':
-                    mapData.pokestops[marker.pokestop_id].updated = false
-                    break
-                case 'spawnpoint':
-                    mapData.spawnpoints[marker.spawnpoint_id].updated = false
-                    break
-            }
-            marker.persist = null
-            marker.infoWindowIsOpen = false
+        switch (type) {
+            case 'pokemon':
+                if (mapData.pokemons[marker.encounter_id].updated) {
+                    updatePokemonLabel(mapData.pokemons[marker.encounter_id], marker)
+                }
+                if (marker.isBouncing()) {
+                    marker.stopBouncing()
+                    notifiedPokemonData[marker.encounter_id].animationDisabled = true
+                }
+                break
+            case 'gym':
+                if (mapData.gyms[marker.gym_id].updated) {
+                    updateGymLabel(mapData.gyms[marker.gym_id], marker)
+                }
+                if (marker.isBouncing()) {
+                    marker.stopBouncing()
+                    notifiedGymData[marker.gym_id].animationDisabled = true
+                }
+                break
+            case 'pokestop':
+                if (mapData.pokestops[marker.pokestop_id].updated) {
+                    updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
+                }
+                if (marker.isBouncing()) {
+                    marker.stopBouncing()
+                    notifiedPokestopData[marker.pokestop_id].animationDisabled = true
+                }
+                break
+            case 'spawnpoint':
+                if (mapData.spawnpoints[marker.spawnpoint_id].updated) {
+                    updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
+                }
+                break
         }
+
+        marker.openPopup()
+        updateLabelDiffTime()
+        marker.options.persist = true
     })
 
     if (!isMobileDevice() && !isTouchDevice()) {
-        marker.on('mouseover', function () {
+        marker.on('mouseover', function (e) {
+            if (marker.isPopupOpen()) {
+                return true
+            }
+
             switch (type) {
                 case 'pokemon':
                     if (mapData.pokemons[marker.encounter_id].updated) {
@@ -2776,31 +2760,34 @@ function addListeners(marker, type) {
                     }
                     break
             }
+
             marker.openPopup()
             updateLabelDiffTime()
-            marker.infoWindowIsOpen = true
         })
     }
 
-    marker.on('mouseout', function () {
-        if (!marker.persist) {
+    marker.on('mouseout', function (e) {
+        if (!marker.options.persist) {
             marker.closePopup()
-            switch (type) {
-                case 'pokemon':
-                    mapData.pokemons[marker.encounter_id].updated = false
-                    break
-                case 'gym':
-                    mapData.gyms[marker.gym_id].updated = false
-                    break
-                case 'pokestop':
-                    mapData.pokestops[marker.pokestop_id].updated = false
-                    break
-                case 'spawnpoint':
-                    mapData.spawnpoints[marker.spawnpoint_id].updated = false
-                    break
-            }
-            marker.infoWindowIsOpen = false
         }
+    })
+
+    marker.on('popupclose', function(e) {
+        switch (type) {
+            case 'pokemon':
+                mapData.pokemons[marker.encounter_id].updated = false
+                break
+            case 'gym':
+                mapData.gyms[marker.gym_id].updated = false
+                break
+            case 'pokestop':
+                mapData.pokestops[marker.pokestop_id].updated = false
+                break
+            case 'spawnpoint':
+                mapData.spawnpoints[marker.spawnpoint_id].updated = false
+                break
+        }
+        marker.options.persist = false
     })
 
     return marker
@@ -3206,10 +3193,6 @@ function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
         delete mapData.pokemons[id].marker.rangeCircle
     }
 
-    if (mapData.pokemons[id].marker.infoWindowIsOpen) {
-        mapData.pokemons[id].marker.infoWindowIsOpen = false
-    }
-
     if (markers.hasLayer(marker)) {
         markers.removeLayer(marker)
     } else {
@@ -3342,7 +3325,7 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
                 }
 
                 pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
-                if (pokemon.marker.infoWindowIsOpen) {
+                if (pokemon.marker.isPopupOpen()) {
                     updatePokemonLabel(pokemon, pokemon.marker)
                 } else {
                     // Make sure label is updated next time it's opened.
@@ -3371,7 +3354,7 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
         }
 
         updatePokemonMarker(mapData.pokemons[id], mapData.pokemons[id].marker, isNotifyPoke)
-        if (mapData.pokemons[id].marker.infoWindowIsOpen) {
+        if (mapData.pokemons[id].marker.isPopupOpen()) {
             updatePokemonLabel(mapData.pokemons[id],  mapData.pokemons[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
@@ -3469,7 +3452,7 @@ function processGym(id, gym = null) {
                 gym.marker = oldGym.marker
             }
 
-            if (gym.marker.infoWindowIsOpen) {
+            if (gym.marker.isPopupOpen()) {
                 updateGymLabel(gym, gym.marker)
             } else {
                 // Make sure label is updated next time it's opened.
@@ -3502,7 +3485,7 @@ function processGym(id, gym = null) {
 
         updateGymMarker(mapData.gyms[id], mapData.gyms[id].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
 
-        if (mapData.gyms[id].marker.infoWindowIsOpen) {
+        if (mapData.gyms[id].marker.isPopupOpen()) {
             updateGymLabel(mapData.gyms[id], mapData.gyms[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
@@ -3563,7 +3546,7 @@ function processPokestop(id, pokestop = null) {
                 pokestop.marker = oldPokestop.marker
             }
 
-            if (pokestop.marker.infoWindowIsOpen) {
+            if (pokestop.marker.isPopupOpen()) {
                 updatePokestopLabel(pokestop, pokestop.marker)
             } else {
                 // Make sure label is updated next time it's opened.
@@ -3596,7 +3579,7 @@ function processPokestop(id, pokestop = null) {
 
         updatePokestopMarker(mapData.pokestops[id], mapData.pokestops[id].marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
 
-        if (mapData.pokestops[id].marker.infoWindowIsOpen) {
+        if (mapData.pokestops[id].marker.isPopupOpen()) {
             updatePokestopLabel(mapData.pokestops[id], mapData.pokestops[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
@@ -3641,7 +3624,7 @@ function processSpawnpoint(id, spawnpoint = null) {
                 mapData.spawnpoints[id].spawn_time = spawnpoint.spawn_time
                 mapData.spawnpoints[id].despawn_time = spawnpoint.despawn_time
             }
-            if (mapData.spawnpoints[id].marker.infoWindowIsOpen) {
+            if (mapData.spawnpoints[id].marker.isPopupOpen()) {
                 updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
             } else {
                 // Make sure label is updated next time it's opened.
@@ -3654,7 +3637,7 @@ function processSpawnpoint(id, spawnpoint = null) {
         // Update marker and popup.
         const color = getSpawnpointColor(mapData.spawnpoints[id])
         mapData.spawnpoints[id].marker.setStyle({color: color, fillColor: color})
-        if (mapData.spawnpoints[id].marker.infoWindowIsOpen) {
+        if (mapData.spawnpoints[id].marker.isPopupOpen()) {
             updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
