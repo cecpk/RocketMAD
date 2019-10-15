@@ -25,8 +25,8 @@
         "assetId": "00"
       },
       "897": {
-        "formName": "Fall 2019",
-        "assetId": "00"
+        "formName": "",
+        "assetSuffix": "pm0001_00_pgo_fall2019"
       }
     }
   },
@@ -106,8 +106,8 @@
         "assetId": "00"
       },
       "896": {
-        "formName": "Fall 2019",
-        "assetId": "00"
+        "formName": "",
+        "assetSuffix": "pm0004_00_pgo_fall2019"
       }
     }
   },
@@ -184,7 +184,7 @@
       },
       "895": {
         "formName": "",
-        "assetId": "00"
+        "assetSuffix": "pm0007_00_pgo_fall2019"
       }
     }
   },
@@ -545,6 +545,10 @@
         "assetId": "00"
       },
       "894": {
+        "formName": "",
+        "assetSuffix": "pm0025_00_pgo_fall2019"
+      },
+      "901": {
         "formName": "",
         "assetId": "00"
       }
