@@ -12,7 +12,6 @@ from flask import jsonify
 from requests.exceptions import HTTPError
 
 log = logging.getLogger(__name__)
-log.setLevel('INFO')
 
 
 def check_auth(args, request, user_auth_code_cache):

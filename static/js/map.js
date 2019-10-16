@@ -2551,7 +2551,8 @@ function setupScannedMarker(item) {
         radius: (showConfig.pokemons === true ? 70 : 450), // metres
         color: getColorByDate(item['last_modified']),
         opacity: 0.6,
-        fillOpacity: 0.2
+        fillOpacity: 0.2,
+        interactive: false
     }
 
     var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts)
