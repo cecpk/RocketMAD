@@ -31,19 +31,11 @@ path_generated = os.path.join(path_images, 'generated')
 path_generated_gym = os.path.join(path_generated, 'gym')
 
 egg_images = {
-    1: os.path.join(path_raid, 'egg_normal.png'),
-    2: os.path.join(path_raid, 'egg_normal.png'),
-    3: os.path.join(path_raid, 'egg_rare.png'),
-    4: os.path.join(path_raid, 'egg_rare.png'),
-    5: os.path.join(path_raid, 'egg_legendary.png')
-}
-
-egg_images_assets = {
-    1: os.path.join('static_assets', 'png', 'ic_raid_egg_normal.png'),
-    2: os.path.join('static_assets', 'png', 'ic_raid_egg_normal.png'),
-    3: os.path.join('static_assets', 'png', 'ic_raid_egg_rare.png'),
-    4: os.path.join('static_assets', 'png', 'ic_raid_egg_rare.png'),
-    5: os.path.join('static_assets', 'png', 'ic_raid_egg_legendary.png'),
+    1: os.path.join(path_gym, 'egg_normal.png'),
+    2: os.path.join(path_gym, 'egg_normal.png'),
+    3: os.path.join(path_gym, 'egg_rare.png'),
+    4: os.path.join(path_gym, 'egg_rare.png'),
+    5: os.path.join(path_gym, 'egg_legendary.png')
 }
 
 costume_names = {
@@ -236,10 +228,7 @@ def draw_raid_pokemon(pkm, form):
 
 
 def draw_raid_egg(raidlevel):
-    if pogo_assets:
-        egg_path = os.path.join(pogo_assets, egg_images_assets[raidlevel])
-    else:
-        egg_path = egg_images[raidlevel]
+    egg_path = egg_images[raidlevel]
     return draw_gym_subject(egg_path, 36, gravity='center')
 
 
