@@ -83,6 +83,11 @@ function loadRawData() {
                 'showMethod': 'fadeIn',
                 'hideMethod': 'fadeOut'
             }
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
         }
     })
 }

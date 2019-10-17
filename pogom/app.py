@@ -26,9 +26,10 @@ from .blacklist import fingerprints, get_ip_blacklist
 log = logging.getLogger(__name__)
 compress = Compress()
 
+args = get_args()
+
 
 def convert_pokemon_list(pokemon):
-    args = get_args()
     # Performance:  disable the garbage collector prior to creating a
     # (potentially) large dict with append().
     gc.disable()
@@ -53,8 +54,6 @@ class Pogom(Flask):
         super(Pogom, self).__init__(import_name, **kwargs)
         compress.init_app(self)
 
-        args = get_args()
-
         # Global blist
         if not args.disable_blacklist:
             log.info('Retrieving blacklist...')
@@ -68,8 +67,6 @@ class Pogom(Flask):
             log.info('Blacklist disabled for this session.')
             self.blacklist = []
             self.blacklist_keys = []
-
-        self.user_auth_code_cache = {}
 
         # Routes
         self.json_encoder = CustomJSONEncoder
@@ -153,8 +150,6 @@ class Pogom(Flask):
         return r
 
     def validate_request(self):
-        args = get_args()
-
         # Get real IP behind trusted reverse proxy.
         ip_addr = request.remote_addr
         if ip_addr in args.trusted_proxies:
@@ -185,8 +180,6 @@ class Pogom(Flask):
         return render_template('auth_callback.html')
 
     def fullmap(self):
-        args = get_args()
-
         visibility_flags = {
             'pokemons': not args.no_pokemon,
             'pokemon_values': not args.no_pokemon_values,
@@ -235,12 +228,12 @@ class Pogom(Flask):
             log.debug('User denied access: blacklisted fingerprint.')
             abort(403)
 
-        args = get_args()
-        d = {}
-
-        auth_redirect = check_auth(args, request, self.user_auth_code_cache)
+        auth_redirect = check_auth(request)
         if (auth_redirect):
             return auth_redirect
+
+        d = {}
+
         # Request time of this request.
         d['timestamp'] = datetime.utcnow()
 
@@ -479,7 +472,7 @@ class Pogom(Flask):
             }
             pokemon_list.append((entry, entry['distance']))
         pokemon_list = [y[0] for y in sorted(pokemon_list, key=lambda x: x[1])]
-        args = get_args()
+
         visibility_flags = {
             'custom_css': args.custom_css,
             'custom_js': args.custom_js
@@ -493,7 +486,6 @@ class Pogom(Flask):
                                )
 
     def get_stats(self):
-        args = get_args()
         visibility_flags = {
             'custom_css': args.custom_css,
             'custom_js': args.custom_js
@@ -517,7 +509,6 @@ class Pogom(Flask):
             generateImages=str(args.generate_images).lower())
 
     def get_quests(self):
-        args = get_args()
         if args.no_quests:
             abort(404)
 

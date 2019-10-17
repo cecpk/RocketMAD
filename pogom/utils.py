@@ -237,8 +237,8 @@ def get_args():
                         default=None,
                         help=('Required Discord Guild(s) for user ' +
                               'external authentication.'))
-    parser.add_argument('-uasdgi', '--uas-discord-guild-invite', default=None,
-                        help='Link for users not in required guild.')
+    parser.add_argument('-uasdr', '--uas-discord-redirect', default=None,
+                        help='Link for users not in required guild(s).')
     parser.add_argument('-uasdbg', '--uas-discord-blacklisted-guilds',
                         default=None,
                         help=('Blacklisted Discord Guild(s) for user ' +

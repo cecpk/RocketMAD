@@ -51,6 +51,11 @@ function loadRawData() {
                 'showMethod': 'fadeIn',
                 'hideMethod': 'fadeOut'
             }
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
         }
     })
 }
@@ -226,6 +231,11 @@ function loadDetails() {
                 'showMethod': 'fadeIn',
                 'hideMethod': 'fadeOut'
             }
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
         }
     })
 }
@@ -259,6 +269,11 @@ function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
         },
         complete: function () {
             appearancesTimesLoading = false
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
         }
     })
 }
