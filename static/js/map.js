@@ -34,17 +34,22 @@ var idToInvasion = {}
 
 var searchMarkerStyles
 
-// Settings variables.
-var showGyms
-var showRaids
-var includedEggLevels = []
-var includedRaidLevels = []
-var showPokemonValues
-var showQuests
-var filterIvsPercentage
-var filterLevel
-var showExParks
-var showNestParks
+var settings = {
+    showPokemon: true,
+    showPokemonValues: true,
+    showGyms: true,
+    showRaids: true,
+    showPokestops: true,
+    showPokestopsNoEvent: true,
+    showQuests: true,
+    showInvasions: true,
+    showExParks: false,
+    showNestParks: false,
+    pokemonMinIvs: -1,
+    pokemonMinLevel: -1,
+    includedEggLevels = [],
+    includedRaidLevels = []
+}
 
 var timestamp
 var excludedPokemon = []
@@ -272,7 +277,7 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
 }
 
 function excludeEgg(level) { // eslint-disable-line no-unused-vars
-    var temp = includedEggLevels
+    var temp = settings.includedEggLevels
     const index = temp.indexOf(level)
     if (index > -1) {
         temp.splice(index, 1)
@@ -483,7 +488,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         changeLocation(e.location.y, e.location.x)
     })
 
-    initSettingVariables()
+    initSettings()
     initSidebar()
 
     if (Push._agents.chrome.isSupported()) {
@@ -618,17 +623,21 @@ function createStartLocationMarker() {
     return marker
 }
 
-function initSettingVariables() {
-    showGyms = showConfig.gyms && Store.get('showGyms')
-    showRaids = showConfig.raids && Store.get('showRaids')
-    includedEggLevels = showConfig.raids ? Store.get('includedEggLevels') : []
-    includedRaidLevels = showConfig.raids ? Store.get('includedRaidLevels') : []
-    showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
-    showQuests = showConfig.quests && Store.get('showQuests')
-    filterIvsPercentage = showConfig.pokemon_values ? Store.get('filterIvsPercentage') : -1
-    filterLevel = showConfig.pokemon_values ? Store.get('filterLevel') : -1
-    showExParks = showConfig.ex_parks && Store.get('showExParks')
-    showNestParks = showConfig.nest_parks && Store.get('showNestParks')
+function initSettings() {
+    settings.showPokemon = showConfig.pokemons && Store.get('showPokemon')
+    settings.showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
+    settings.showGyms = showConfig.gyms && Store.get('showGyms')
+    settings.showRaids = showConfig.raids && Store.get('showRaids')
+    settings.showPokestops = showConfig.pokestops && Store.get('showPokestops')
+    settings.showPokestopsNoEvent = showConfig.pokestops && Store.get('showPokestopsNoEvent')
+    settings.showQuests = showConfig.pokestops && showConfig.quests && Store.get('showQuests')
+    settings.showInvasions = showConfig.pokestops && Store.get('showInvasions')
+    settings.showExParks = showConfig.ex_parks && Store.get('showExParks')
+    settings.showNestParks = showConfig.nest_parks && Store.get('showNestParks')
+    settings.pokemonMinIvs = showConfig.pokemon_values ? Store.get('pokemonMinIvs') : -1
+    settings.pokemonMinLevel = showConfig.pokemon_values ? Store.get('pokemonMinLevel') : -1
+    settings.includedEggLevels = showConfig.raids ? Store.get('includedEggLevels') : []
+    settings.includedRaidLevels = showConfig.raids ? Store.get('includedRaidLevels') : []
 }
 
 function initSidebar() {
@@ -756,8 +765,9 @@ function initSidebar() {
             notifyWrapper.hide()
             statsContainer.hide()
         }
-        Store.set('showPokemon', this.checked)
+        settings.showPokemon = this.checked
         reprocessPokemons()
+        Store.set('showPokemon', this.checked)
     })
 
     $('#pokemon-values-switch').change(function () {
@@ -775,18 +785,18 @@ function initSidebar() {
             }
             $tabNotify.tabs("disable", 1)
         }
-        showPokemonValues = this.checked
-        Store.set('showPokemonValues', this.checked)
-        if (filterIvsPercentage > 0 || filterLevel > 0) {
+        settings.showPokemonValues = this.checked
+        if (settings.pokemonMinIvs > 0 || settings.pokemonMinLevel > 0) {
             lastpokemon = false
             reprocessPokemons([], false)
         } else {
             reprocessPokemons([], true)
         }
+        Store.set('showPokemonValues', this.checked)
     })
 
     $('#filter-ivs-text').change(function () {
-        const oldValue = filterIvsPercentage
+        const oldValue = settings.pokemonMinIvs
         let newValue = parseFloat(this.value)
         if (isNaN(newValue) || newValue <= 0) {
             this.value = ''
@@ -797,17 +807,17 @@ function initSidebar() {
             // Round to 1 decimal place.
             this.value = newValue = Math.round(newValue * 10) / 10
         }
-        filterIvsPercentage = newValue
-        Store.set('filterIvsPercentage', newValue)
+        settings.pokemonMinIvs = newValue
         if (newValue < oldValue) {
             lastpokemon = false
         } else {
             reprocessPokemons()
         }
+        Store.set('pokemonMinIvs', newValue)
     })
 
     $('#filter-level-text').change(function () {
-        const oldValue = filterLevel
+        const oldValue = settings.pokemonMinLevel
         let newValue = parseInt(this.value, 10)
         if (isNaN(newValue) || newValue <= 0) {
             this.value = ''
@@ -817,13 +827,13 @@ function initSidebar() {
         } else {
             this.value = newValue
         }
-        filterLevel = newValue
-        Store.set('filterLevel', newValue)
+        settings.pokemonMinLevel = newValue
         if (newValue < oldValue) {
             lastpokemon = false
         } else {
             reprocessPokemons()
         }
+        Store.set('pokemonMinLevel', newValue)
     })
 
     $('#exclude-rarity-switch').on('change', function () {
@@ -860,11 +870,11 @@ function initSidebar() {
             }
             statsContainer.hide()
         }
-        showGyms = this.checked
-        Store.set('showGyms', this.checked)
+        settings.showGyms = this.checked
         reprocessGyms()
         lastgyms = false
         updateMap()
+        Store.set('showGyms', this.checked)
     })
 
     $('#team-gyms-only-switch').select2({
@@ -960,11 +970,11 @@ function initSidebar() {
             }
             wrapperNotify.hide()
         }
-        showRaids = this.checked
-        Store.set('showRaids', this.checked)
+        settings.showRaids = this.checked
         reprocessGyms()
         lastgyms = false
         updateMap()
+        Store.set('showRaids', this.checked)
     })
 
     $('#raid-active-gym-switch').on('change', function () {
@@ -982,19 +992,19 @@ function initSidebar() {
     })
 
     $('#egg-levels-select').on('change', function (e) {
-        includedEggLevels = $('#egg-levels-select').val().map(Number)
+        settings.includedEggLevels = $('#egg-levels-select').val().map(Number)
         reprocessGyms()
         lastgyms = false
         updateMap()
-        Store.set('includedEggLevels', includedEggLevels)
+        Store.set('includedEggLevels', settings.includedEggLevels)
     })
 
     $('#raid-levels-select').on('change', function (e) {
-        includedRaidLevels = $('#raid-levels-select').val().map(Number)
+        settings.includedRaidLevels = $('#raid-levels-select').val().map(Number)
         reprocessGyms()
         lastgyms = false
         updateMap()
-        Store.set('includedRaidLevels', includedRaidLevels)
+        Store.set('includedRaidLevels', settings.includedRaidLevels)
     })
 
     $('#scanned-switch').change(function () {
@@ -1061,7 +1071,7 @@ function initSidebar() {
     })
 
     $('#ex-parks-switch').change(function () {
-        showExParks = this.checked
+        settings.showExParks = this.checked
         if (this.checked) {
             updateParks()
         } else {
@@ -1071,7 +1081,7 @@ function initSidebar() {
     })
 
     $('#nest-parks-switch').change(function () {
-        showNestParks = this.checked
+        settings.showNestParks = this.checked
         if (this.checked) {
             updateParks()
         } else {
@@ -1092,22 +1102,20 @@ function initSidebar() {
         var filterWrapper = $('#pokestops-filter-wrapper')
         var notifyWrapper = $('#notify-pokestops-switch-wrapper')
         var statsContainer = $('#pokestop-stats-container')
-        var nameFilter = $('#pokestop-name-filter-wrapper')
         if (this.checked) {
             filterWrapper.show()
             notifyWrapper.show()
             statsContainer.show()
-            nameFilter.show()
         } else {
             filterWrapper.hide()
             notifyWrapper.hide()
             statsContainer.hide()
-            nameFilter.hide()
         }
-        Store.set('showPokestops', this.checked)
+        settings.showPokestops = this.checked
         reprocessPokestops()
         lastpokestops = false
         updateMap()
+        Store.set('showPokestops', this.checked)
     })
 
     $('#pokestop-name-filter').on('keyup', function () {
@@ -1118,29 +1126,39 @@ function initSidebar() {
     })
 
     $('#pokestops-no-event-switch').change(function () {
-        Store.set('showPokestopsNoEvent', this.checked)
+        settings.showPokestopsNoEvent = this.checked
         reprocessPokestops()
         lastpokestops = false
         updateMap()
+        Store.set('showPokestopsNoEvent', this.checked)
     })
 
     $('#quests-switch').change(function () {
         var wrapper = $('#quests-filter-wrapper')
-        this.checked ? wrapper.show() : wrapper.hide()
-        showQuests = this.checked
-        Store.set('showQuests', this.checked)
+        if (this.checked) {
+            wrapper.show()
+        } else {
+            wrapper.hide()
+        }
+        settings.showQuests = this.checked
         reprocessPokestops()
         lastpokestops = false
         updateMap()
+        Store.set('showQuests', this.checked)
     })
 
     $('#invasions-switch').change(function () {
         var wrapper = $('#invasions-filter-wrapper')
-        this.checked ? wrapper.show() : wrapper.hide()
-        Store.set('showInvasions', this.checked)
+        if (this.checked) {
+            wrapper.show()
+        } else {
+            wrapper.hide()
+        }
+        settings.showInvasions = this.checked
         reprocessPokestops()
         lastpokestops = false
         updateMap()
+        Store.set('showInvasions', this.checked)
     })
 
     $('#normal-lures-switch').change(function () {
@@ -1415,21 +1433,21 @@ function initSidebar() {
     $('#tabs_notify_gym').tabs()
 
     // Pokemon.
-    $('#pokemon-switch').prop('checked', Store.get('showPokemon'))
-    $('#pokemons-filter-wrapper').toggle(Store.get('showPokemon'))
-    $('#filter-ivs-text').val(filterIvsPercentage).trigger('change')
-    $('#filter-level-text').val(filterLevel).trigger('change')
+    $('#pokemon-switch').prop('checked', settings.showPokemon)
+    $('#pokemons-filter-wrapper').toggle(settings.showPokemon)
+    $('#filter-ivs-text').val(settings.pokemonMinIvs).trigger('change')
+    $('#filter-level-text').val(settings.pokemonMinLevel).trigger('change')
     $('#exclude-rarity-switch').val(Store.get('excludedRarity'))
     $('#scale-rarity-switch').prop('checked', Store.get('scaleByRarity'))
-    $('#pokemon-values-switch').prop('checked', showPokemonValues).trigger('change')
-    $('#pokemon-values-filter-wrapper').toggle(showPokemonValues)
+    $('#pokemon-values-switch').prop('checked', settings.showPokemonValues).trigger('change')
+    $('#pokemon-values-filter-wrapper').toggle(settings.showPokemonValues)
 
     // Gyms.
-    $('#gyms-switch').prop('checked', showGyms)
+    $('#gyms-switch').prop('checked', settings.showGyms)
     $('#gym-sidebar-switch').prop('checked', Store.get('useGymSidebar'))
-    $('#gym-sidebar-wrapper').toggle(showGyms || showRaids)
-    $('#gym-name-filter-wrapper').toggle(showGyms || showRaids)
-    $('#gyms-filter-wrapper').toggle(showGyms && Store.get('showGymFilter'))
+    $('#gym-sidebar-wrapper').toggle(settings.showGyms || settings.showRaids)
+    $('#gym-name-filter-wrapper').toggle(settings.showGyms || settings.showRaids)
+    $('#gyms-filter-wrapper').toggle(settings.showGyms && Store.get('showGymFilter'))
     $('#team-gyms-only-switch').val(Store.get('showTeamGymsOnly'))
     $('#open-gyms-only-switch').prop('checked', Store.get('showOpenGymsOnly'))
     $('#park-gyms-only-switch').prop('checked', Store.get('showParkGymsOnly'))
@@ -1437,26 +1455,25 @@ function initSidebar() {
     $('#min-level-gyms-filter-switch').val(Store.get('minGymLevel'))
     $('#max-level-gyms-filter-switch').val(Store.get('maxGymLevel'))
     $('#last-update-gyms-switch').val(Store.get('showLastUpdatedGymsOnly'))
-    $('#raids-switch').prop('checked', showRaids)
-    $('#raids-filter-wrapper').toggle(showRaids && Store.get('showRaidFilter'))
+    $('#raids-switch').prop('checked', settings.showRaids)
+    $('#raids-filter-wrapper').toggle(settings.showRaids && Store.get('showRaidFilter'))
     $('#raid-active-gym-switch').prop('checked', Store.get('showActiveRaidsOnly'))
     $('#raid-park-gym-switch').prop('checked', Store.get('showParkRaidsOnly'))
-    $('#egg-levels-select').val(includedEggLevels)
-    $('#raid-levels-select').val(includedRaidLevels)
+    $('#egg-levels-select').val(settings.includedEggLevels)
+    $('#raid-levels-select').val(settings.includedRaidLevels)
 
     // Pokestops.
-    $('#pokestops-switch').prop('checked', Store.get('showPokestops'))
-    $('#pokestops-filter-wrapper').toggle(Store.get('showPokestops'))
-    $('#pokestop-name-filter-wrapper').toggle(Store.get('showPokestops'))
-    $('#pokestops-no-event-switch').prop('checked', Store.get('showPokestopsNoEvent'))
-    $('#invasions-switch').prop('checked', Store.get('showInvasions'))
-    $('#invasions-filter-wrapper').toggle(Store.get('showInvasions'))
+    $('#pokestops-switch').prop('checked', settings.showPokestops)
+    $('#pokestops-filter-wrapper').toggle(settings.showPokestops)
+    $('#pokestops-no-event-switch').prop('checked', settings.showPokestopsNoEvent)
+    $('#invasions-switch').prop('checked', settings.showInvasions)
+    $('#invasions-filter-wrapper').toggle(settings.showInvasions)
     $('#normal-lures-switch').prop('checked', Store.get('showNormalLures'))
     $('#glacial-lures-switch').prop('checked', Store.get('showGlacialLures'))
     $('#magnetic-lures-switch').prop('checked', Store.get('showMagneticLures'))
     $('#mossy-lures-switch').prop('checked', Store.get('showMossyLures'))
-    $('#quests-switch').prop('checked', showQuests)
-    $('#quests-filter-wrapper').toggle(showQuests)
+    $('#quests-switch').prop('checked', settings.showQuests)
+    $('#quests-filter-wrapper').toggle(settings.showQuests)
 
     // Weather.
     $('#weather-cells-switch').prop('checked', Store.get('showWeatherCells'))
@@ -1472,8 +1489,8 @@ function initSidebar() {
     $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
     $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
     $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
-    $('#ex-parks-switch').prop('checked', showExParks)
-    $('#nest-parks-switch').prop('checked', showNestParks)
+    $('#ex-parks-switch').prop('checked', settings.showExParks)
+    $('#nest-parks-switch').prop('checked', settings.showNestParks)
 
     // Location.
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
@@ -1482,7 +1499,7 @@ function initSidebar() {
     $('#follow-my-location-switch').prop('checked', Store.get('followMyLocation'))
 
     // Notifications.
-    $('#notify-pokemon-switch-wrapper').toggle(Store.get('showPokemon'))
+    $('#notify-pokemon-switch-wrapper').toggle(settings.showPokemon)
     $('#notify-pokemon-switch').prop('checked', Store.get('notifyPokemon'))
     $('#notify-pokemon-filter-wrapper').toggle(Store.get('notifyPokemon'))
     $('#notify-ivs-text').val(Store.get('notifyIvsPercentage')).trigger('change')
@@ -1496,12 +1513,12 @@ function initSidebar() {
     $('#cries-wrapper').toggle(Store.get('playSound'))
     $('#pokemon-bounce-switch').prop('checked', Store.get('bouncePokemon'))
     $('#pokemon-upscale-switch').prop('checked', Store.get('upscaleNotifyPokemon'))
-    $('#notify-gyms-switch-wrapper').toggle(showRaids)
+    $('#notify-gyms-switch-wrapper').toggle(settings.showRaids)
     $('#notify-gyms-switch').prop('checked', Store.get('notifyGyms'))
     $('#notify-gyms-filter-wrapper').toggle(Store.get('notifyGyms'))
     $('#gym-bounce-switch').prop('checked', Store.get('bounceGyms'))
     $('#gym-upscale-switch').prop('checked', Store.get('upscaleGyms'))
-    $('#notify-pokestops-switch-wrapper').toggle(Store.get('showPokestops'))
+    $('#notify-pokestops-switch-wrapper').toggle(settings.showPokestops)
     $('#notify-pokestops-switch').prop('checked', Store.get('notifyPokestops'))
     $('#notify-pokestops-filter-wrapper').toggle(Store.get('notifyPokestops'))
     $('#notify-normal-lures-switch').prop('checked', Store.get('notifyNormalLures'))
@@ -1518,9 +1535,9 @@ function initSidebar() {
     $('#pokemon-icon-size').val(Store.get('pokemonIconSizeModifier'))
 
     // Stats sidebar.
-    $('#pokemon-stats-container').toggle(Store.get('showPokemon'))
-    $('#gym-stats-container').toggle(showGyms)
-    $('#pokestop-stats-container').toggle(Store.get('showPokestops'))
+    $('#pokemon-stats-container').toggle(settings.showPokemon)
+    $('#gym-stats-container').toggle(settings.showGyms)
+    $('#pokestop-stats-container').toggle(settings.showPokestops)
 
     $('select:not([multiple])').select2({
         minimumResultsForSearch: Infinity
@@ -1593,7 +1610,7 @@ function pokemonLabel(item) {
         }
     })
 
-    if (showPokemonValues && cp !== null && cpMultiplier !== null) {
+    if (settings.showPokemonValues && cp !== null && cpMultiplier !== null) {
         var iv = 0
         if (atk !== null && def !== null && sta !== null) {
             iv = getIvsPercentage(item)
@@ -1692,8 +1709,8 @@ function pokemonLabel(item) {
 }
 
 function updatePokemonLabel(pokemon, marker) {
-    marker._popup.setContent(pokemonLabel(pokemon))
-    if (marker.infoWindowIsOpen) {
+    marker.getPopup().setContent(pokemonLabel(pokemon))
+    if (marker.isPopupOpen()) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -1894,8 +1911,8 @@ function gymLabel(gym) {
 }
 
 function updateGymLabel(gym, marker) {
-    marker._popup.setContent(gymLabel(gym))
-    if (marker.infoWindowIsOpen && isValidRaid(gym.raid)) {
+    marker.getPopup().setContent(gymLabel(gym))
+    if (marker.isPopupOpen() && isValidRaid(gym.raid)) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -2036,9 +2053,9 @@ function pokestopLabel(pokestop) {
 }
 
 function updatePokestopLabel(pokestop, marker) {
-    marker._popup.setContent(pokestopLabel(pokestop))
+    marker.getPopup().setContent(pokestopLabel(pokestop))
     const now = Date.now()
-    if (marker.infoWindowIsOpen && ((pokestop.lure_expiration && pokestop.lure_expiration > now) ||
+    if (marker.isPopupOpen() && ((pokestop.lure_expiration && pokestop.lure_expiration > now) ||
             (pokestop.incident_expiration && pokestop.incident_expiration > now))) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
@@ -2099,8 +2116,8 @@ function spawnpointLabel(spawnpoint) {
 }
 
 function updateSpawnpointLabel(spawnpoint, marker) {
-    marker._popup.setContent(spawnpointLabel(spawnpoint))
-    if (marker.infoWindowIsOpen) {
+    marker.getPopup().setContent(spawnpointLabel(spawnpoint))
+    if (marker.isPopupOpen()) {
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     }
@@ -2543,7 +2560,8 @@ function setupScannedMarker(item) {
         radius: (showConfig.pokemons === true ? 70 : 450), // metres
         color: getColorByDate(item['last_modified']),
         opacity: 0.6,
-        fillOpacity: 0.2
+        fillOpacity: 0.2,
+        interactive: false
     }
 
     var circle = L.circle([item['latitude'], item['longitude']], rangeCircleOpts)
@@ -2580,7 +2598,7 @@ function setupSpawnpointMarker(spawnpoint) {
 
     marker.spawnpoint_id = spawnpoint.spawnpoint_id
     addListeners(marker, 'spawnpoint')
-    markersNoCluster.addLayer(marker)
+    markers.addLayer(marker)
     return marker
 }
 
@@ -2689,68 +2707,52 @@ function updateS2Overlay() {
 
 function addListeners(marker, type) {
     marker.on('click', function () {
-        if (!marker.infoWindowIsOpen) {
-            switch (type) {
-                case 'pokemon':
-                    if (mapData.pokemons[marker.encounter_id].updated) {
-                        updatePokemonLabel(mapData.pokemons[marker.encounter_id], marker)
-                    }
-                    if (marker.isBouncing()) {
-                        marker.stopBouncing()
-                        notifiedPokemonData[marker.encounter_id].animationDisabled = true
-                    }
-                    break
-                case 'gym':
-                    if (mapData.gyms[marker.gym_id].updated) {
-                        updateGymLabel(mapData.gyms[marker.gym_id], marker)
-                    }
-                    if (marker.isBouncing()) {
-                        marker.stopBouncing()
-                        notifiedGymData[marker.gym_id].animationDisabled = true
-                    }
-                    break
-                case 'pokestop':
-                    if (mapData.pokestops[marker.pokestop_id].updated) {
-                        updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
-                    }
-                    if (marker.isBouncing()) {
-                        marker.stopBouncing()
-                        notifiedPokestopData[marker.pokestop_id].animationDisabled = true
-                    }
-                    break
-                case 'spawnpoint':
-                    if (mapData.spawnpoints[marker.spawnpoint_id].updated) {
-                        updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
-                    }
-                    break
-            }
-            marker.openPopup()
-            updateLabelDiffTime()
-            marker.persist = true
-            marker.infoWindowIsOpen = true
-        } else {
-            marker.closePopup()
-            switch (type) {
-                case 'pokemon':
-                    mapData.pokemons[marker.encounter_id].updated = false
-                    break
-                case 'gym':
-                    mapData.gyms[marker.gym_id].updated = false
-                    break
-                case 'pokestop':
-                    mapData.pokestops[marker.pokestop_id].updated = false
-                    break
-                case 'spawnpoint':
-                    mapData.spawnpoints[marker.spawnpoint_id].updated = false
-                    break
-            }
-            marker.persist = null
-            marker.infoWindowIsOpen = false
+        switch (type) {
+            case 'pokemon':
+                if (mapData.pokemons[marker.encounter_id].updated) {
+                    updatePokemonLabel(mapData.pokemons[marker.encounter_id], marker)
+                }
+                if (marker.isBouncing()) {
+                    marker.stopBouncing()
+                    notifiedPokemonData[marker.encounter_id].animationDisabled = true
+                }
+                break
+            case 'gym':
+                if (mapData.gyms[marker.gym_id].updated) {
+                    updateGymLabel(mapData.gyms[marker.gym_id], marker)
+                }
+                if (marker.isBouncing()) {
+                    marker.stopBouncing()
+                    notifiedGymData[marker.gym_id].animationDisabled = true
+                }
+                break
+            case 'pokestop':
+                if (mapData.pokestops[marker.pokestop_id].updated) {
+                    updatePokestopLabel(mapData.pokestops[marker.pokestop_id], marker)
+                }
+                if (marker.isBouncing()) {
+                    marker.stopBouncing()
+                    notifiedPokestopData[marker.pokestop_id].animationDisabled = true
+                }
+                break
+            case 'spawnpoint':
+                if (mapData.spawnpoints[marker.spawnpoint_id].updated) {
+                    updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
+                }
+                break
         }
+
+        marker.openPopup()
+        updateLabelDiffTime()
+        marker.options.persist = true
     })
 
     if (!isMobileDevice() && !isTouchDevice()) {
-        marker.on('mouseover', function () {
+        marker.on('mouseover', function (e) {
+            if (marker.isPopupOpen()) {
+                return true
+            }
+
             switch (type) {
                 case 'pokemon':
                     if (mapData.pokemons[marker.encounter_id].updated) {
@@ -2785,31 +2787,34 @@ function addListeners(marker, type) {
                     }
                     break
             }
+
             marker.openPopup()
             updateLabelDiffTime()
-            marker.infoWindowIsOpen = true
         })
     }
 
-    marker.on('mouseout', function () {
-        if (!marker.persist) {
+    marker.on('mouseout', function (e) {
+        if (!marker.options.persist) {
             marker.closePopup()
-            switch (type) {
-                case 'pokemon':
-                    mapData.pokemons[marker.encounter_id].updated = false
-                    break
-                case 'gym':
-                    mapData.gyms[marker.gym_id].updated = false
-                    break
-                case 'pokestop':
-                    mapData.pokestops[marker.pokestop_id].updated = false
-                    break
-                case 'spawnpoint':
-                    mapData.spawnpoints[marker.spawnpoint_id].updated = false
-                    break
-            }
-            marker.infoWindowIsOpen = false
         }
+    })
+
+    marker.on('popupclose', function(e) {
+        switch (type) {
+            case 'pokemon':
+                mapData.pokemons[marker.encounter_id].updated = false
+                break
+            case 'gym':
+                mapData.gyms[marker.gym_id].updated = false
+                break
+            case 'pokestop':
+                mapData.pokestops[marker.pokestop_id].updated = false
+                break
+            case 'spawnpoint':
+                mapData.spawnpoints[marker.spawnpoint_id].updated = false
+                break
+        }
+        marker.options.persist = false
     })
 
     return marker
@@ -2937,7 +2942,7 @@ function isPokemonRarityExcluded(pokemon) {
 }
 
 function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
-    if (!Store.get('showPokemon')) {
+    if (!settings.showPokemon) {
         return false
     }
 
@@ -2949,21 +2954,21 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
         return false
     }
 
-    if (showPokemonValues) {
-        if ((filterIvsPercentage > 0 || filterLevel > 0) && pokemon.individual_attack !== null) {
-            if (filterIvsPercentage > 0) {
+    if (settings.showPokemonValues) {
+        if ((settings.pokemonMinIvs > 0 || settings.pokemonMinLevel > 0) && pokemon.individual_attack !== null) {
+            if (settings.pokemonMinIvs > 0) {
                 const ivsPercentage = getIvsPercentage(pokemon)
-                if (ivsPercentage < filterIvsPercentage) {
+                if (ivsPercentage < settings.pokemonMinIvs) {
                     return false
                 }
             }
-            if (filterLevel > 0) {
+            if (settings.pokemonMinLevel > 0) {
                 const level = getPokemonLevel(pokemon)
-                if (level < filterLevel) {
+                if (level < settings.pokemonMinLevel) {
                     return false
                 }
             }
-        } else if (filterIvsPercentage > 0 || filterLevel > 0) {
+        } else if (settings.pokemonMinIvs > 0 || settings.pokemonMinLevel > 0) {
             // Pokemon is not encountered.
             return false
         }
@@ -2975,7 +2980,7 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
 function isGymMeetsGymFilters(gym) {
     const gymLevel = getGymLevel(gym)
     const gymRegexp = new RegExp($gymNameFilter, 'gi')
-    return showGyms && ($gymNameFilter ? gym.name.match(gymRegexp) : true) &&
+    return settings.showGyms && ($gymNameFilter ? gym.name.match(gymRegexp) : true) &&
         !((Store.get('showTeamGymsOnly') !== -1 && Store.get('showTeamGymsOnly') !== gym.team_id) ||
           (Store.get('showOpenGymsOnly') && gym.slots_available === 0) ||
           (Store.get('showParkGymsOnly') && !gym.is_ex_raid_eligible) ||
@@ -2985,7 +2990,7 @@ function isGymMeetsGymFilters(gym) {
 }
 
 function isGymMeetsRaidFilters(gym) {
-    if (showRaids && isValidRaid(gym.raid)) {
+    if (settings.showRaids && isValidRaid(gym.raid)) {
         const raid = gym.raid
         const gymRegexp = new RegExp($gymNameFilter, 'gi')
         if ($gymNameFilter && !gym.name.match(gymRegexp)) {
@@ -2997,11 +3002,11 @@ function isGymMeetsRaidFilters(gym) {
         }
 
         if (isUpcomingRaid(raid)) {
-            if (!includedEggLevels.includes(raid.level) || Store.get('showActiveRaidsOnly')) {
+            if (!settings.includedEggLevels.includes(raid.level) || Store.get('showActiveRaidsOnly')) {
                 return false
             }
         } else { // Ongoing raid.
-            if (!includedRaidLevels.includes(raid.level) || (raid.pokemon_id &&
+            if (!settings.includedRaidLevels.includes(raid.level) || (raid.pokemon_id &&
                     !includedRaidPokemon.includes(raid.pokemon_id))) {
                 return false
             }
@@ -3018,7 +3023,7 @@ function isGymMeetsFilters(gym) {
 }
 
 function isPokestopMeetsQuestFilters(pokestop) {
-    if (showQuests && pokestop.quest !== null) {
+    if (settings.showQuests && pokestop.quest !== null) {
         switch (pokestop.quest.reward_type) {
             case 2:
                 return includedQuestItems.includes(parseInt(pokestop.quest.item_id))
@@ -3033,7 +3038,7 @@ function isPokestopMeetsQuestFilters(pokestop) {
 }
 
 function isPokestopMeetsInvasionFilters(pokestop) {
-    return Store.get('showInvasions') && isInvadedPokestop(pokestop) && includedInvasions.includes(pokestop.incident_grunt_type)
+    return settings.showInvasions && isInvadedPokestop(pokestop) && includedInvasions.includes(pokestop.incident_grunt_type)
 }
 
 function isPokestopMeetsLureFilters(pokestop) {
@@ -3055,8 +3060,8 @@ function isPokestopMeetsLureFilters(pokestop) {
 
 function isPokestopMeetsFilters(pokestop) {
     const pokestopRegexp = new RegExp($pokestopNameFilter, 'gi')
-    return Store.get('showPokestops') &&  ($pokestopNameFilter && pokestop.name ? pokestop.name.match(pokestopRegexp) : !$pokestopNameFilter || pokestop.name) &&
-        (Store.get('showPokestopsNoEvent') || isPokestopMeetsQuestFilters(pokestop) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
+    return settings.showPokestops && ($pokestopNameFilter && pokestop.name ? pokestop.name.match(pokestopRegexp) : !$pokestopNameFilter || pokestop.name) &&
+        (settings.showPokestopsNoEvent || isPokestopMeetsQuestFilters(pokestop) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
 }
 
 function isNotifyPokemon(pokemon) {
@@ -3065,7 +3070,7 @@ function isNotifyPokemon(pokemon) {
             return true
         }
 
-        if (pokemon.individual_attack !== null && showPokemonValues) {
+        if (pokemon.individual_attack !== null && settings.showPokemonValues) {
             const notifyIvsPercentage = Store.get('notifyIvsPercentage')
             if (notifyIvsPercentage > 0) {
                 const ivsPercentage = getIvsPercentage(pokemon)
@@ -3215,10 +3220,6 @@ function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
         delete mapData.pokemons[id].marker.rangeCircle
     }
 
-    if (mapData.pokemons[id].marker.infoWindowIsOpen) {
-        mapData.pokemons[id].marker.infoWindowIsOpen = false
-    }
-
     if (markers.hasLayer(marker)) {
         markers.removeLayer(marker)
     } else {
@@ -3351,7 +3352,7 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
                 }
 
                 pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
-                if (pokemon.marker.infoWindowIsOpen) {
+                if (pokemon.marker.isPopupOpen()) {
                     updatePokemonLabel(pokemon, pokemon.marker)
                 } else {
                     // Make sure label is updated next time it's opened.
@@ -3380,7 +3381,7 @@ function processPokemon(id, pokemon = null) { // id is encounter_id.
         }
 
         updatePokemonMarker(mapData.pokemons[id], mapData.pokemons[id].marker, isNotifyPoke)
-        if (mapData.pokemons[id].marker.infoWindowIsOpen) {
+        if (mapData.pokemons[id].marker.isPopupOpen()) {
             updatePokemonLabel(mapData.pokemons[id],  mapData.pokemons[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
@@ -3478,7 +3479,7 @@ function processGym(id, gym = null) {
                 gym.marker = oldGym.marker
             }
 
-            if (gym.marker.infoWindowIsOpen) {
+            if (gym.marker.isPopupOpen()) {
                 updateGymLabel(gym, gym.marker)
             } else {
                 // Make sure label is updated next time it's opened.
@@ -3511,7 +3512,7 @@ function processGym(id, gym = null) {
 
         updateGymMarker(mapData.gyms[id], mapData.gyms[id].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
 
-        if (mapData.gyms[id].marker.infoWindowIsOpen) {
+        if (mapData.gyms[id].marker.isPopupOpen()) {
             updateGymLabel(mapData.gyms[id], mapData.gyms[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
@@ -3572,7 +3573,7 @@ function processPokestop(id, pokestop = null) {
                 pokestop.marker = oldPokestop.marker
             }
 
-            if (pokestop.marker.infoWindowIsOpen) {
+            if (pokestop.marker.isPopupOpen()) {
                 updatePokestopLabel(pokestop, pokestop.marker)
             } else {
                 // Make sure label is updated next time it's opened.
@@ -3605,7 +3606,7 @@ function processPokestop(id, pokestop = null) {
 
         updatePokestopMarker(mapData.pokestops[id], mapData.pokestops[id].marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
 
-        if (mapData.pokestops[id].marker.infoWindowIsOpen) {
+        if (mapData.pokestops[id].marker.isPopupOpen()) {
             updatePokestopLabel(mapData.pokestops[id], mapData.pokestops[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
@@ -3650,7 +3651,7 @@ function processSpawnpoint(id, spawnpoint = null) {
                 mapData.spawnpoints[id].spawn_time = spawnpoint.spawn_time
                 mapData.spawnpoints[id].despawn_time = spawnpoint.despawn_time
             }
-            if (mapData.spawnpoints[id].marker.infoWindowIsOpen) {
+            if (mapData.spawnpoints[id].marker.isPopupOpen()) {
                 updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
             } else {
                 // Make sure label is updated next time it's opened.
@@ -3663,7 +3664,7 @@ function processSpawnpoint(id, spawnpoint = null) {
         // Update marker and popup.
         const color = getSpawnpointColor(mapData.spawnpoints[id])
         mapData.spawnpoints[id].marker.setStyle({color: color, fillColor: color})
-        if (mapData.spawnpoints[id].marker.infoWindowIsOpen) {
+        if (mapData.spawnpoints[id].marker.isPopupOpen()) {
             updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
@@ -3711,13 +3712,13 @@ function updateScanned() {
 
 function loadRawData() {
     var userAuthCode = localStorage.getItem('userAuthCode')
-    var loadPokemon = Store.get('showPokemon')
-    var loadGyms = showGyms
-    var loadRaids = showRaids
-    var loadPokestops = Store.get('showPokestops')
-    var loadPokestopsNoEvent = Store.get('showPokestopsNoEvent')
-    var loadQuests = showQuests
-    var loadInvasions = Store.get('showInvasions')
+    var loadPokemon = settings.showPokemon
+    var loadGyms = settings.showGyms
+    var loadRaids = settings.showRaids
+    var loadPokestops = settings.showPokestops
+    var loadPokestopsNoEvent = settings.showPokestopsNoEvent
+    var loadQuests = settings.showQuests
+    var loadInvasions = settings.showInvasions
     var loadLures = Store.get('showNormalLures') || Store.get('showGlacialLures') || Store.get('showMagneticLures') || Store.get('showMossyLures')
     var loadScanned = Store.get('showScanned')
     var loadSpawnpoints = Store.get('showSpawnpoints')
@@ -3853,7 +3854,7 @@ function getAllParks() {
 
             mapData.exParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
 
-            if (showExParks) {
+            if (settings.showExParks) {
                 updateParks()
             }
         }).fail(function () {
@@ -3869,7 +3870,7 @@ function getAllParks() {
 
             mapData.nestParks = response.parks.map(parkPoints => parkPoints.map(point => L.latLng(point[0], point[1])))
 
-            if (showNestParks) {
+            if (settings.showNestParks) {
                 updateParks()
             }
         }).fail(function () {
@@ -3879,7 +3880,7 @@ function getAllParks() {
 }
 
 function updateParks() {
-    if (showExParks) {
+    if (settings.showExParks) {
         const inBoundParks = mapData.exParks.filter(parkPoints => {
             return parkPoints.some(point => {
                 return map.getBounds().contains(point)
@@ -3893,7 +3894,7 @@ function updateParks() {
         })
     }
 
-    if (showNestParks) {
+    if (settings.showNestParks) {
         const inBoundParks = mapData.nestParks.filter(parkPoints => {
             return parkPoints.some(point => {
                 return map.getBounds().contains(point)
@@ -3998,7 +3999,7 @@ function sendPokemonNotification(pokemon) {
 
         notifyText = `Disappears at ${expireTime} (${expireTimeCountdown})`
 
-        if (showPokemonValues && pokemon.individual_attack !== null) {
+        if (settings.showPokemonValues && pokemon.individual_attack !== null) {
             notifyTitle += ` ${getIvsPercentage(pokemon)}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon)}`
             const move1 = moves[pokemon.move_1] !== undefined ? i8ln(moves[pokemon.move_1].name) : 'unknown'
             const move2 = moves[pokemon.move_2] !== undefined ? i8ln(moves[pokemon.move_2].name) : 'unknown'

@@ -118,16 +118,17 @@
 # then add that bot to your guild (server) using this link: https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot
 # Note that the required-roles feature requires a configuration with a single required guild.
 
-#user-auth-service:               # Force end users to auth to an external service. Supported: Discord
-#uas-client-id:                   # OAuth2 Client ID.
-#uas-client-secret:               # OAuth2 Client Secret. Client should have auth callback url of <yourserverurl>/auth_callback
-#uas-host-override                # override auth redirect host.
-#uas-discord-required-guilds      # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated if multiple.
-#uas-discord-guild-invite         # Invite link to redirect user to if user is not in above guild(s)
-#uas-discord-blacklisted-guilds   # (Optional) If guild ID(s) are specified, user must not be in any of these guilds (servers) to access map. Comma separated if multiple.
-#uas-discord-blacklisted-redirect # (Optional) Link to redirect user to if user is in a blacklisted guild
-#uas-discord-required-roles       # (Optional) If specified, user must be in one of these discord roles. Comma separated list of role ids. Requires bot configured below. Only supports single required guild.
-#uas-discord-bot-token            # Token for bot with access to your guild. Only required for required-roles feature
+#user-auth-service:                # Force end users to auth to an external service. Supported: Discord
+#uas-client-id:                    # OAuth2 Client ID.
+#uas-client-secret:                # OAuth2 Client Secret. Client should have auth callback url of <yourserverurl>/auth_callback
+#uas-discord-bot-token:            # Token for bot with access to your guild. Only required for required-roles feature
+#uas-host-override:                # override auth redirect host.
+#uas-discord-required-guilds:      # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated if multiple.
+#uas-discord-redirect:             # Link to redirect user to if user is not in above guild(s). Normally this would be your server invite link.
+#uas-discord-blacklisted-guilds:   # (Optional) If guild ID(s) are specified, user must not be in any of these guilds (servers) to access map. Comma separated if multiple.
+#uas-discord-blacklisted-redirect: # Link to redirect user to if user is in a blacklisted guild.
+#uas-discord-required-roles:       # (Optional) If specified, user must have one of these discord roles (from a specific server).
+                                   # Accepts comma separated list of role ids, or comma separated list of server ids and roles ids separated by ':' e.g. 12345:6789
 
 
 # Misc
