@@ -47,6 +47,8 @@ var settings = {
     showNestParks: false,
     pokemonMinIvs: -1,
     pokemonMinLevel: -1,
+    includedEggLevels: [],
+    includedRaidLevels: []
 }
 
 var timestamp
@@ -272,6 +274,32 @@ function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
 
 function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
     $('label[for="notify-pokemon"] .list .pokemon-icon-sprite[data-value="' + id + '"]').click()
+}
+
+function excludeEgg(level) { // eslint-disable-line no-unused-vars
+    var temp = settings.includedEggLevels
+    const index = temp.indexOf(level)
+    if (index > -1) {
+        temp.splice(index, 1)
+        $('#egg-levels-select').val(temp).trigger('change')
+    }
+}
+
+function notifyAboutEgg(level) { // eslint-disable-line no-unused-vars
+    var temp = notifyEggs
+    if (!temp.includes(level)) {
+        temp.push(level)
+        $('#notify-eggs').val(temp).trigger('change')
+    }
+}
+
+function unnotifyAboutEgg(level) { // eslint-disable-line no-unused-vars
+    var temp = notifyEggs
+    const index = temp.indexOf(level)
+    if (index > -1) {
+        temp.splice(index, 1)
+        $('#notify-eggs').val(temp).trigger('change')
+    }
 }
 
 function excludeRaidPokemon(id) { // eslint-disable-line no-unused-vars
@@ -608,6 +636,8 @@ function initSettings() {
     settings.showNestParks = showConfig.nest_parks && Store.get('showNestParks')
     settings.pokemonMinIvs = showConfig.pokemon_values ? Store.get('pokemonMinIvs') : -1
     settings.pokemonMinLevel = showConfig.pokemon_values ? Store.get('pokemonMinLevel') : -1
+    settings.includedEggLevels = showConfig.raids ? Store.get('includedEggLevels') : []
+    settings.includedRaidLevels = showConfig.raids ? Store.get('includedRaidLevels') : []
 }
 
 function initSidebar() {
@@ -961,48 +991,20 @@ function initSidebar() {
         updateMap()
     })
 
-    $('#egg-min-level-only-switch').select2({
-        placeholder: 'Minimum egg level',
-        minimumResultsForSearch: Infinity
-    })
-    $('#egg-min-level-only-switch').on('change', function () {
-        Store.set('showEggMinLevel', this.value)
+    $('#egg-levels-select').on('change', function (e) {
+        settings.includedEggLevels = $('#egg-levels-select').val().map(Number)
         reprocessGyms()
         lastgyms = false
         updateMap()
+        Store.set('includedEggLevels', settings.includedEggLevels)
     })
 
-    $('#egg-max-level-only-switch').select2({
-        placeholder: 'Maximum egg level',
-        minimumResultsForSearch: Infinity
-    })
-    $('#egg-max-level-only-switch').on('change', function () {
-        Store.set('showEggMaxLevel', this.value)
+    $('#raid-levels-select').on('change', function (e) {
+        settings.includedRaidLevels = $('#raid-levels-select').val().map(Number)
         reprocessGyms()
         lastgyms = false
         updateMap()
-    })
-
-    $('#raid-min-level-only-switch').select2({
-        placeholder: 'Minimum raid level',
-        minimumResultsForSearch: Infinity
-    })
-    $('#raid-min-level-only-switch').on('change', function () {
-        Store.set('showRaidMinLevel', this.value)
-        reprocessGyms()
-        lastgyms = false
-        updateMap()
-    })
-
-    $('#raid-max-level-only-switch').select2({
-        placeholder: 'Maximum raid level',
-        minimumResultsForSearch: Infinity
-    })
-    $('#raid-max-level-only-switch').on('change', function () {
-        Store.set('showRaidMaxLevel', this.value)
-        reprocessGyms()
-        lastgyms = false
-        updateMap()
+        Store.set('includedRaidLevels', settings.includedRaidLevels)
     })
 
     $('#scanned-switch').change(function () {
@@ -1457,10 +1459,8 @@ function initSidebar() {
     $('#raids-filter-wrapper').toggle(settings.showRaids && Store.get('showRaidFilter'))
     $('#raid-active-gym-switch').prop('checked', Store.get('showActiveRaidsOnly'))
     $('#raid-park-gym-switch').prop('checked', Store.get('showParkRaidsOnly'))
-    $('#egg-min-level-only-switch').val(Store.get('showEggMinLevel'))
-    $('#egg-max-level-only-switch').val(Store.get('showEggMaxLevel'))
-    $('#raid-min-level-only-switch').val(Store.get('showRaidMinLevel'))
-    $('#raid-max-level-only-switch').val(Store.get('showRaidMaxLevel'))
+    $('#egg-levels-select').val(settings.includedEggLevels)
+    $('#raid-levels-select').val(settings.includedRaidLevels)
 
     // Pokestops.
     $('#pokestops-switch').prop('checked', settings.showPokestops)
@@ -1539,14 +1539,14 @@ function initSidebar() {
     $('#gym-stats-container').toggle(settings.showGyms)
     $('#pokestop-stats-container').toggle(settings.showPokestops)
 
-    $('select').each(
-        function (id, element) {
-            $(element).select2()
-        }
-    )
+    $('select:not([multiple])').select2({
+        minimumResultsForSearch: Infinity
+    })
 
-    $('select').select2({
-        minimumResultsForSearch: -1
+    $('select[multiple]').select2()
+    $('select[multiple]').parent().find('.select2-search__field').remove()
+    $('select[multiple]').on('select2:opening select2:closing', function(event) {
+        $(this).parent().find('.select2-search__field').remove()
     })
 }
 
@@ -1811,20 +1811,20 @@ function gymLabel(gym) {
                     <div>
                      ${typesDisplay}
                     </div>
+                    <div>
+                      <strong><span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
+                    </div>
                   </div>
                   <div id='raid-container-right'>
                     <div class='title ongoing'>
                       <div>
-                        ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id}
+                        ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id} Raid
                       </div>
                     </div>
                     <div class='disappear'>
                       ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
                     </div>
                     <div class='info-container'>
-                      <div>
-                        <strong>Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
-                      </div>
                       <div>
                         CP: <strong>${raid.cp}</strong>
                       </div>
@@ -1843,6 +1843,11 @@ function gymLabel(gym) {
                   </div>
                 </div>`
         } else {
+            const isNotifyEgg = notifyEggs.includes(raid.level)
+            const notifyText = isNotifyEgg ? 'Unnotify' : 'Notify'
+            const notifyIconClass = isNotifyEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
+            const notifyFunction = isNotifyEgg ? 'unnotifyAboutEgg' : 'notifyAboutEgg'
+
             raidDisplay = `
                 <div class='section-divider'></div>
                 <div id='raid-container'>
@@ -1860,6 +1865,10 @@ function gymLabel(gym) {
                       <div>
                         End: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
                       </div>
+                    </div>
+                    <div>
+                      <a href='javascript:${notifyFunction}(${raid.level})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+                      <a href='javascript:excludeEgg(${raid.level})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
                     </div>
                   </div>
                 </div>`
@@ -2993,12 +3002,12 @@ function isGymMeetsRaidFilters(gym) {
         }
 
         if (isUpcomingRaid(raid)) {
-            if (raid.level < Store.get('showEggMinLevel') || raid.level > Store.get('showEggMaxLevel') || Store.get('showActiveRaidsOnly')) {
+            if (!settings.includedEggLevels.includes(raid.level) || Store.get('showActiveRaidsOnly')) {
                 return false
             }
         } else { // Ongoing raid.
-            if ((raid.level < Store.get('showRaidMinLevel') || raid.level > Store.get('showRaidMaxLevel')) ||
-                (raid.pokemon_id !== null && !includedRaidPokemon.includes(raid.pokemon_id))) {
+            if (!settings.includedRaidLevels.includes(raid.level) || (raid.pokemon_id &&
+                    !includedRaidPokemon.includes(raid.pokemon_id))) {
                 return false
             }
         }
