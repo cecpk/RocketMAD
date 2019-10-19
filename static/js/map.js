@@ -47,8 +47,8 @@ var settings = {
     showNestParks: false,
     pokemonMinIvs: -1,
     pokemonMinLevel: -1,
-    includedEggLevels = [],
-    includedRaidLevels = []
+    includedEggLevels: [],
+    includedRaidLevels: []
 }
 
 var timestamp
