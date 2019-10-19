@@ -288,22 +288,6 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showEggMinLevel': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'showEggMaxLevel': {
-        default: 5,
-        type: StoreTypes.Number
-    },
-    'showRaidMinLevel': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'showRaidMaxLevel': {
-        default: 5,
-        type: StoreTypes.Number
-    },
     'showPokestops': {
         default: true,
         type: StoreTypes.Boolean
