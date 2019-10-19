@@ -336,34 +336,28 @@
                     <h3>Egg Levels</h3>
                     <div style="max-height: 165px; width:100%; overflow-y: auto">
                       <select id="egg-levels-select" multiple="multiple">
-                        <option value=1>Level 1</option>
-                        <option value=2>Level 2</option>
-                        <option value=3>Level 3</option>
-                        <option value=4>Level 4</option>
-                        <option value=5>Level 5</option>
+                        <option value=1>Lvl 1</option>
+                        <option value=2>Lvl 2</option>
+                        <option value=3>Lvl 3</option>
+                        <option value=4>Lvl 4</option>
+                        <option value=5>Lvl 5</option>
                       </select>
                     </div>
                   </label>
                 </div>
-                <div class="form-control switch-container" id="min-raid-level-only-wrapper">
-                  <h3>Minimum Raid Level</h3>
-                  <select name="raid-min-level-only-switch" id="raid-min-level-only-switch">
-                    <option value="1">Level 1</option>
-                    <option value="2">Level 2</option>
-                    <option value="3">Level 3</option>
-                    <option value="4">Level 4</option>
-                    <option value="5">Level 5</option>
-                  </select>
-                </div>
-                <div class="form-control switch-container" id="max-raid-level-only-wrapper">
-                  <h3>Maximum Raid Level</h3>
-                  <select name="raid-max-level-only-switch" id="raid-max-level-only-switch">
-                    <option value="1">Level 1</option>
-                    <option value="2">Level 2</option>
-                    <option value="3">Level 3</option>
-                    <option value="4">Level 4</option>
-                    <option value="5">Level 5</option>
-                  </select>
+                <div class="form-control switch-container">
+                  <label for="raid-levels-select">
+                    <h3>Raid Levels</h3>
+                    <div style="max-height: 165px; width:100%; overflow-y: auto">
+                      <select id="raid-levels-select" multiple="multiple">
+                        <option value=1>Lvl 1</option>
+                        <option value=2>Lvl 2</option>
+                        <option value=3>Lvl 3</option>
+                        <option value=4>Lvl 4</option>
+                        <option value=5>Lvl 5</option>
+                      </select>
+                    </div>
+                  </label>
                 </div>
                 <div class="form-control">
                   <div id="tabs_raid">
@@ -445,46 +439,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-control switch-container">
-                  <h3>Normal Lures</h3>
-                  <div class="onoffswitch">
-                    <input id="normal-lures-switch" type="checkbox" name="normal-lures-switch" class="onoffswitch-checkbox" checked>
-                    <label class="onoffswitch-label" for="normal-lures-switch">
-                      <span class="switch-label" data-on="On" data-off="Off"></span>
-                      <span class="switch-handle"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="form-control switch-container">
-                  <h3>Glacial Lures</h3>
-                  <div class="onoffswitch">
-                    <input id="glacial-lures-switch" type="checkbox" name="glacial-lures-switch" class="onoffswitch-checkbox" checked>
-                    <label class="onoffswitch-label" for="glacial-lures-switch">
-                      <span class="switch-label" data-on="On" data-off="Off"></span>
-                      <span class="switch-handle"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="form-control switch-container">
-                  <h3>Magnetic Lures</h3>
-                  <div class="onoffswitch">
-                    <input id="magnetic-lures-switch" type="checkbox" name="magnetic-lures-switch" class="onoffswitch-checkbox" checked>
-                    <label class="onoffswitch-label" for="magnetic-lures-switch">
-                      <span class="switch-label" data-on="On" data-off="Off"></span>
-                      <span class="switch-handle"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="form-control switch-container">
-                  <h3>Mossy Lures</h3>
-                  <div class="onoffswitch">
-                    <input id="mossy-lures-switch" type="checkbox" name="mossy-lures-switch" class="onoffswitch-checkbox" checked>
-                    <label class="onoffswitch-label" for="mossy-lures-switch">
-                      <span class="switch-label" data-on="On" data-off="Off"></span>
-                      <span class="switch-handle"></span>
-                    </label>
-                  </div>
-                </div>
                   {% if show.quests %}
                 <div class="form-control switch-container">
                   <h3>Quests</h3>
@@ -527,6 +481,46 @@
                   </div>
                 </div>
                   {% endif %}
+                <div class="form-control switch-container">
+                  <h3>Normal Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="normal-lures-switch" type="checkbox" name="normal-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="normal-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Glacial Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="glacial-lures-switch" type="checkbox" name="glacial-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="glacial-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Magnetic Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="magnetic-lures-switch" type="checkbox" name="magnetic-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="magnetic-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control switch-container">
+                  <h3>Mossy Lures</h3>
+                  <div class="onoffswitch">
+                    <input id="mossy-lures-switch" type="checkbox" name="mossy-lures-switch" class="onoffswitch-checkbox" checked>
+                    <label class="onoffswitch-label" for="mossy-lures-switch">
+                      <span class="switch-label" data-on="On" data-off="Off"></span>
+                      <span class="switch-handle"></span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
               {% endif%}
@@ -887,11 +881,11 @@
                             <h3>Notify of Eggs</h3>
                             <div style="max-height: 165px; width:100%; overflow-y: auto">
                               <select id="notify-eggs" multiple="multiple">
-                                <option value=1>Level 1</option>
-                                <option value=2>Level 2</option>
-                                <option value=3>Level 3</option>
-                                <option value=4>Level 4</option>
-                                <option value=5>Level 5</option>
+                                <option value=1>Lvl 1</option>
+                                <option value=2>Lvl 2</option>
+                                <option value=3>Lvl 3</option>
+                                <option value=4>Lvl 4</option>
+                                <option value=5>Lvl 5</option>
                               </select>
                             </div>
                           </label>
