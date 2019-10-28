@@ -1,0 +1,78 @@
+.sidenav {
+  width: inherit;
+  width: 512px;
+  max-width: 80%;
+  z-index: 1001;
+
+  .card {
+    margin: 0;
+
+    .card-content {
+      padding: 0 16px !important;
+
+      @media screen and (max-width: 600px) {
+        padding: 0 8px !important;
+      }
+    }
+  }
+}
+
+li.active .collapsible-header {
+  border-bottom: 0 !important;
+}
+
+li.active .collapsible-body {
+  border-bottom: 1px solid #ddd !important;
+}
+
+.collapsible-header {
+  border-bottom: 1px solid #ddd !important;
+}
+
+.collapsible-body {
+  padding: 0 16px !important;
+
+  @media screen and (max-width: 600px) {
+    padding: 0 8px !important;
+  }
+
+  .switch label {
+    font-size: 1rem !important;
+    color: #000 !important;
+  }
+}
+
+.list {
+  height: 407px;
+  overflow-y: scroll;
+
+  @media screen and (max-width: 600px) {
+    height: 233px;
+  }
+}
+
+.pokemon-icon-sprite {
+  width: 75px;
+  height: 75px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  float: left;
+  text-align: center;
+  line-height: initial;
+  padding: 7px 0;
+  color: #000;
+  background-color: #ffcdd2;
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 4px;
+    margin-right: 4px;
+  }
+
+  &.active {
+    background-color: #e0f2f1;
+  }
+}
+
+.pokemon-select-icon {
+    width: 32px;
+}

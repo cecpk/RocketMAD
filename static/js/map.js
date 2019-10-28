@@ -488,6 +488,19 @@ function initMap() { // eslint-disable-line no-unused-vars
         changeLocation(e.location.y, e.location.x)
     })
 
+    // Init materialize components.
+    $('.dropdown-trigger').dropdown({
+      constrainWidth: false,
+      coverTrigger: false
+    })
+    $('.sidenav').sidenav()
+    $('.collapsible').collapsible({
+        onOpenEnd: function(el) {
+            $('.tabs').tabs('updateTabIndicator');
+        }
+    });
+    $('.tabs').tabs()
+
     initSettings()
     initSidebar()
 
@@ -877,10 +890,10 @@ function initSidebar() {
         Store.set('showGyms', this.checked)
     })
 
-    $('#team-gyms-only-switch').select2({
+    /*$('#team-gyms-only-switch').select2({
         placeholder: 'Only Show Gyms For Team',
         minimumResultsForSearch: Infinity
-    })
+    })*/
     $('#team-gyms-only-switch').on('change', function () {
         Store.set('showTeamGymsOnly', this.value)
         reprocessGyms()
@@ -916,10 +929,10 @@ function initSidebar() {
         updateMap()
     })
 
-    $('#min-level-gyms-filter-switch').select2({
+    /*$('#min-level-gyms-filter-switch').select2({
         placeholder: 'Minimum Gym Level',
         minimumResultsForSearch: Infinity
-    })
+    })*/
     $('#min-level-gyms-filter-switch').on('change', function () {
         Store.set('minGymLevel', this.value)
         reprocessGyms()
@@ -927,10 +940,10 @@ function initSidebar() {
         updateMap()
     })
 
-    $('#max-level-gyms-filter-switch').select2({
+    /*$('#max-level-gyms-filter-switch').select2({
         placeholder: 'Maximum Gym Level',
         minimumResultsForSearch: Infinity
-    })
+    })*/
     $('#max-level-gyms-filter-switch').on('change', function () {
         Store.set('maxGymLevel', this.value)
         reprocessGyms()
@@ -938,10 +951,10 @@ function initSidebar() {
         updateMap()
     })
 
-    $('#last-update-gyms-switch').select2({
+    /*$('#last-update-gyms-switch').select2({
         placeholder: 'Only Show Gyms Last Updated',
         minimumResultsForSearch: Infinity
-    })
+    })*/
     $('#last-update-gyms-switch').on('change', function () {
         Store.set('showLastUpdatedGymsOnly', this.value)
         reprocessGyms()
@@ -1353,11 +1366,11 @@ function initSidebar() {
         reprocessPokemons([], true)
     })
 
-    $('#notify-rarities-select').select2({
+    /*$('#notify-rarities-select').select2({
         placeholder: i8ln('Select rarity'),
         data: [i8ln('Common'), i8ln('Uncommon'), i8ln('Rare'), i8ln('Very Rare'), i8ln('Ultra Rare'), i8ln('New Spawn')],
         templateResult: formatRarityState
-    })
+    })*/
     $('#notify-rarities-select').on('change', function (e) {
         if (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly')) {
             lastpokemon = false
@@ -1407,11 +1420,11 @@ function initSidebar() {
         reprocessPokemons()
     })
 
-    $('#map-service-provider').select2({
+    /*$('#map-service-provider').select2({
         placeholder: 'Select map provider',
         data: ['googlemaps', 'applemaps'],
         minimumResultsForSearch: Infinity
-    })
+    })*/
     $('#map-service-provider').change(function () {
         Store.set('mapServiceProvider', this.value)
     })
@@ -1539,7 +1552,7 @@ function initSidebar() {
     $('#gym-stats-container').toggle(settings.showGyms)
     $('#pokestop-stats-container').toggle(settings.showPokestops)
 
-    $('select:not([multiple])').select2({
+    /*$('select:not([multiple])').select2({
         minimumResultsForSearch: Infinity
     })
 
@@ -1547,7 +1560,7 @@ function initSidebar() {
     $('select[multiple]').parent().find('.select2-search__field').remove()
     $('select[multiple]').on('select2:opening select2:closing', function(event) {
         $(this).parent().find('.select2-search__field').remove()
-    })
+    })*/
 }
 
 function pokemonLabel(item) {
@@ -3805,9 +3818,9 @@ function updateMap() {
             processSpawnpoint(spawnpoint.spawnpoint_id, spawnpoint)
         })
         $.each(result.scanned, processScanned)
-        $.each(result.weather, processWeather)
-        processWeatherAlerts(result.weatherAlerts)
-        updateMainCellWeather()
+        //$.each(result.weather, processWeather)
+        //processWeatherAlerts(result.weatherAlerts)
+        //updateMainCellWeather()
         showInBoundsMarkers(mapData.lurePokemons, 'pokemon')
         showInBoundsMarkers(mapData.gyms, 'gym')
         showInBoundsMarkers(mapData.pokestops, 'pokestop')
@@ -4524,11 +4537,11 @@ $(function () {
         })
 
         // setup the stylelist
-        $selectStyle.select2({
+        /*$selectStyle.select2({
             placeholder: 'Select Style',
             data: styleList,
             minimumResultsForSearch: Infinity
-        })
+        })*/
 
         // setup the list change behavior
         $selectStyle.on('change', function (e) {
@@ -4574,11 +4587,11 @@ $(function () {
             })
         })
 
-        $selectSearchIconMarker.select2({
+        /*$selectSearchIconMarker.select2({
             placeholder: 'Select Icon Marker',
             data: searchMarkerStyleList,
             minimumResultsForSearch: Infinity
-        })
+        })*/
 
         $selectSearchIconMarker.on('change', function (e) {
             var selectSearchIconMarker = $selectSearchIconMarker.val()
@@ -4588,11 +4601,11 @@ $(function () {
 
         $selectSearchIconMarker.val(Store.get('searchMarkerStyle')).trigger('change')
 
-        $selectLocationIconMarker.select2({
+        /*$selectLocationIconMarker.select2({
             placeholder: 'Select Location Marker',
             data: searchMarkerStyleList,
             minimumResultsForSearch: Infinity
-        })
+        })*/
 
         $selectLocationIconMarker.on('change', function (e) {
             var locStyle = this.value
@@ -4624,8 +4637,6 @@ $(function () {
     $selectNotifyRaidPokemon = $('#notify-raid-pokemon')
     $selectNotifyEggs = $('#notify-eggs')
     $selectNotifyInvasions = $('#notify-invasions')
-
-    $('.list').before('<input type="search" class="search" placeholder="Search for Name, ID or Type...">')
 
     const hidepresets = Store.get('hidepresets')
     $.each(hidepresets, function (key, value) {
@@ -4993,9 +5004,9 @@ $(function () {
         $selectNotifyRaidPokemon.val(Store.get('remember_select_notify_raid_pokemon')).trigger('change')
         $selectNotifyEggs.val(Store.get('remember_select_notify_eggs')).trigger('change')
 
-        if (isTouchDevice() && isMobileDevice()) {
+        /*if (isTouchDevice() && isMobileDevice()) {
             $('.select2-search input').prop('readonly', true)
-        }
+        }*/
     })
 
     // Load invasion data and populate list.
@@ -5163,7 +5174,7 @@ $(function () {
     //   - turn off sorting for the 'icon' column
     //   - initially sort 'name' column alphabetically
 
-    $('#pokemon-table').DataTable({
+    /*$('#pokemon-table').DataTable({
         paging: false,
         searching: false,
         info: false,
@@ -5213,5 +5224,5 @@ $(function () {
             null,
             null
         ]
-    }).order([1, 'asc'])
+    }).order([1, 'asc'])*/
 })

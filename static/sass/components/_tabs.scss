@@ -1,0 +1,17 @@
+.tabs {
+  .tab a {
+    color: #80cbc4;
+
+    &:hover, &.active {
+      color: #26a69a;
+    }
+
+    &.active:focus {
+      background-color: #e0f2f1;
+    }
+  }
+
+  .indicator {
+    background-color: #80cbc4;
+  }
+}

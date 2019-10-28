@@ -17,6 +17,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'static/dist/css/app.built.css': 'static/sass/main.scss',
+                    'static/dist/css/map.built.css': 'static/sass/pages/map.scss',
                     'static/dist/css/mobile.built.css': 'static/sass/mobile.scss',
                     'static/dist/css/statistics.built.css': 'static/sass/statistics.scss',
                     'static/dist/css/quests.built.css': 'static/sass/quests.scss'
@@ -128,6 +129,7 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     'static/dist/css/app.min.css': 'static/dist/css/app.built.css',
+                    'static/dist/css/map.min.css': 'static/dist/css/map.built.css',
                     'static/dist/css/mobile.min.css': 'static/dist/css/mobile.built.css',
                     'static/dist/css/statistics.min.css': 'static/dist/css/statistics.built.css',
                     'static/dist/css/quests.min.css': 'static/dist/css/quests.built.css'

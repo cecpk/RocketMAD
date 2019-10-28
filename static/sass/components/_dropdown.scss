@@ -1,0 +1,26 @@
+.dropdown-content {
+  a {
+    color: #000 !important;
+  }
+
+  i {
+    height: inherit !important;
+    line-height: inherit !important;
+  }
+
+  &.dark-mode {
+    background-color: #000 !important;
+
+    li:hover:not(.divider) {
+      background-color: #000 !important;
+
+      a {
+        color: #e0e0e0 !important;
+      }
+    }
+
+    a {
+      color: #fff !important;
+    }
+  }
+}
