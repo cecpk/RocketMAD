@@ -1,146 +1,186 @@
 {
   "4": {
     "type": "Kanto starter",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "5": {
     "type": "Snorlax",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "6": {
     "type": "Bug",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "7": {
     "type": "Bug",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "8": {
     "type": "Ghost",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "9": {
     "type": "Ghost",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "10": {
     "type": "Dark",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "11": {
     "type": "Dark",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "12": {
     "type": "Dragon",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "13": {
     "type": "Dragon",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "14": {
     "type": "Fairy",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "15": {
     "type": "Fairy",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "16": {
     "type": "Fighting",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "17": {
     "type": "Fighting",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "18": {
     "type": "Fire",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "19": {
     "type": "Fire",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "20": {
     "type": "Flying",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "21": {
     "type": "Flying",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "22": {
     "type": "Grass",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "23": {
     "type": "Grass",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "24": {
     "type": "Ground",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "25": {
     "type": "Ground",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "26": {
     "type": "Ice",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "27": {
     "type": "Ice",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "28": {
     "type": "Steel",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "29": {
     "type": "Steel",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "30": {
     "type": "Normal",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "31": {
     "type": "Normal",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "32": {
     "type": "Poison",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "33": {
     "type": "Poison",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "34": {
     "type": "Psychic",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "35": {
     "type": "Psychic",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "36": {
     "type": "Rock",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "37": {
     "type": "Rock",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
   },
   "38": {
     "type": "Water",
-    "gruntGender": "Female"
+    "grunt": "Female Grunt"
   },
   "39": {
     "type": "Magikarp",
-    "gruntGender": "Male"
+    "grunt": "Male Grunt"
+  },
+  "41": {
+    "type": "",
+    "grunt": "Executive Cliff"
+  },
+  "42": {
+    "type": "",
+    "grunt": "Executive Arlo"
+  },
+  "43": {
+    "type": "",
+    "grunt": "Executive Sierra"
+  },
+  "44": {
+    "type": "",
+    "grunt": "Giovanni"
+  },
+  "45": {
+    "type": "Decoy",
+    "grunt": "Male Grunt"
+  },
+  "46": {
+    "type": "Decoy",
+    "grunt": "Female Grunt"
+  },
+  "47": {
+    "type": "Ghost",
+    "grunt": "Female Grunt"
+  },
+  "48": {
+    "type": "Ghost",
+    "grunt": "Male Grunt"
+  },
+  "49": {
+    "type": "Electric",
+    "grunt": "Female Grunt"
+  },
+  "50": {
+    "type": "Electric",
+    "grunt": "Male Grunt"
   }
 }
