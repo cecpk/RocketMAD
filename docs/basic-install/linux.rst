@@ -1,7 +1,7 @@
 Linux Install
 ##################
 
-Installation will require Python 2.7 and pip.
+Installation will require Python 3.6 and pip3.
 
 Ubuntu
 *************
@@ -10,7 +10,7 @@ You can install the required packages on Ubuntu by running the following command
 
 .. code-block:: bash
 
-  sudo apt-get install -y python python-pip python-dev build-essential git libssl-dev libffi-dev
+  sudo apt-get install -y python3 python3-pip python-dev build-essential git libssl-dev libffi-dev
   curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
   sudo apt-get install -y nodejs
 
