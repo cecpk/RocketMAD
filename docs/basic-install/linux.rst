@@ -1,7 +1,7 @@
 Linux Install
 ##################
 
-Installation will require Python 2.7 and pip.
+Installation will require Python 3.6 and pip3.
 
 Ubuntu
 *************
@@ -10,9 +10,9 @@ You can install the required packages on Ubuntu by running the following command
 
 .. code-block:: bash
 
-  sudo apt-get install -y python python-pip python-dev build-essential git libssl-dev libffi-dev
+  sudo apt-get install -y python3 python3-pip python-dev build-essential git libssl-dev libffi-dev
   curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-  sudo apt-get install -y nodejs
+  sudo apt-get install -y nodejs git npm
 
 
 Debian 7/8/9
@@ -24,7 +24,7 @@ Debian's sources lists are out of date and will not fetch the correct versions o
 
     curl -sL https://raw.githubusercontent.com/nodesource/distributions/master/deb/setup_8.x | sudo -E bash -
 
-    sudo apt-get install -y build-essential libbz2-dev libreadline-dev libssl-dev libffi-dev zlib1g-dev libncurses5-dev libssl-dev libgdbm-dev python python-dev nodejs
+    sudo apt-get install -y build-essential libbz2-dev libreadline-dev libssl-dev libffi-dev zlib1g-dev libncurses5-dev libssl-dev libgdbm-dev python3 python3-dev nodejs git npm
 
     curl -sL https://bootstrap.pypa.io/get-pip.py | sudo python -
 
@@ -32,20 +32,19 @@ After install, check that you have the correct versions in your environment vari
 
 .. code-block:: bash
 
-	~$ python --version
-		Python 2.7.13
-	~$ pip --version
-		pip 9.0.1 from /usr/local/lib/python2.7/dist-packages (python 2.7)
+	~$ python3 --version
+		Python 3.6.8
+	~$ pip3 --version
+		pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.6)
 
 If your output looks as above, you can proceed with installation:
 
 .. code-block:: bash
 
 	cd ~/
-	sudo apt-get install git
-	git clone https://github.com/RocketMap/RocketMap.git
-	cd RocketMap
-	sudo -H pip install -r requirements.txt
+	git clone https://github.com/cecpk/OSM-Rocketmap.git
+	cd OSM-Rocketmap/
+	sudo -H pip3 install -r requirements.txt
 	npm install
 	sudo npm install -g grunt-cli
 	sudo grunt build
@@ -57,14 +56,14 @@ Troubleshooting:
 
 .. code-block:: bash
 
-	pip freeze | xargs pip uninstall -y
+	pip3 freeze | xargs pip3 uninstall -y
 
 If you have other pip installed packages, the old requirements.txt and cannot uninstall all then you can use:
 
 .. code-block:: bash
 
-	pip uninstall -r "old requirements.txt"
-	pip install -r "new requirements.txt"
+	pip3 uninstall -r "old requirements.txt"
+	pip3 install -r "new requirements.txt"
 
 An error resulting from not removing previous packages can be:
 
