@@ -1,159 +1,159 @@
 {
   "4": {
     "type": "Kanto starter",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "5": {
     "type": "Mixed",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "6": {
     "type": "Bug",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "7": {
     "type": "Bug",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "8": {
     "type": "Ghost",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "9": {
     "type": "Ghost",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "10": {
     "type": "Dark",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "11": {
     "type": "Dark",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "12": {
     "type": "Dragon",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "13": {
     "type": "Dragon",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "14": {
     "type": "Fairy",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "15": {
     "type": "Fairy",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "16": {
     "type": "Fighting",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "17": {
     "type": "Fighting",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "18": {
     "type": "Fire",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "19": {
     "type": "Fire",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "20": {
     "type": "Flying",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "21": {
     "type": "Flying",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "22": {
     "type": "Grass",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "23": {
     "type": "Grass",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "24": {
     "type": "Ground",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "25": {
     "type": "Ground",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "26": {
     "type": "Ice",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "27": {
     "type": "Ice",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "28": {
     "type": "Steel",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "29": {
     "type": "Steel",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "30": {
     "type": "Normal",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "31": {
     "type": "Normal",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "32": {
     "type": "Poison",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "33": {
     "type": "Poison",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "34": {
     "type": "Psychic",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "35": {
     "type": "Psychic",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "36": {
     "type": "Rock",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "37": {
     "type": "Rock",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "38": {
     "type": "Water",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "39": {
     "type": "Magikarp",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "41": {
     "type": "",
-    "grunt": "Executive Cliff"
+    "grunt": "Cliff"
   },
   "42": {
     "type": "",
-    "grunt": "Executive Arlo"
+    "grunt": "Arlo"
   },
   "43": {
     "type": "",
-    "grunt": "Executive Sierra"
+    "grunt": "Sierra"
   },
   "44": {
     "type": "",
@@ -161,26 +161,26 @@
   },
   "45": {
     "type": "Decoy",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "46": {
     "type": "Decoy",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "47": {
     "type": "Ghost",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "48": {
     "type": "Ghost",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   },
   "49": {
     "type": "Electric",
-    "grunt": "Female Grunt"
+    "grunt": "Female"
   },
   "50": {
     "type": "Electric",
-    "grunt": "Male Grunt"
+    "grunt": "Male"
   }
 }
