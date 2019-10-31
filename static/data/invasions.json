@@ -1,146 +1,186 @@
 {
   "4": {
     "type": "Kanto starter",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "5": {
-    "type": "Snorlax",
-    "gruntGender": "Female"
+    "type": "Mixed",
+    "grunt": "Female"
   },
   "6": {
     "type": "Bug",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "7": {
     "type": "Bug",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "8": {
     "type": "Ghost",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "9": {
     "type": "Ghost",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "10": {
     "type": "Dark",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "11": {
     "type": "Dark",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "12": {
     "type": "Dragon",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "13": {
     "type": "Dragon",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "14": {
     "type": "Fairy",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "15": {
     "type": "Fairy",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "16": {
     "type": "Fighting",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "17": {
     "type": "Fighting",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "18": {
     "type": "Fire",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "19": {
     "type": "Fire",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "20": {
     "type": "Flying",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "21": {
     "type": "Flying",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "22": {
     "type": "Grass",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "23": {
     "type": "Grass",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "24": {
     "type": "Ground",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "25": {
     "type": "Ground",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "26": {
     "type": "Ice",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "27": {
     "type": "Ice",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "28": {
     "type": "Steel",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "29": {
     "type": "Steel",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "30": {
     "type": "Normal",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "31": {
     "type": "Normal",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "32": {
     "type": "Poison",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "33": {
     "type": "Poison",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "34": {
     "type": "Psychic",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "35": {
     "type": "Psychic",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "36": {
     "type": "Rock",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "37": {
     "type": "Rock",
-    "gruntGender": "Male"
+    "grunt": "Male"
   },
   "38": {
     "type": "Water",
-    "gruntGender": "Female"
+    "grunt": "Female"
   },
   "39": {
     "type": "Magikarp",
-    "gruntGender": "Male"
+    "grunt": "Male"
+  },
+  "41": {
+    "type": "",
+    "grunt": "Cliff"
+  },
+  "42": {
+    "type": "",
+    "grunt": "Arlo"
+  },
+  "43": {
+    "type": "",
+    "grunt": "Sierra"
+  },
+  "44": {
+    "type": "",
+    "grunt": "Giovanni"
+  },
+  "45": {
+    "type": "Decoy",
+    "grunt": "Male"
+  },
+  "46": {
+    "type": "Decoy",
+    "grunt": "Female"
+  },
+  "47": {
+    "type": "Ghost",
+    "grunt": "Female"
+  },
+  "48": {
+    "type": "Ghost",
+    "grunt": "Male"
+  },
+  "49": {
+    "type": "Electric",
+    "grunt": "Female"
+  },
+  "50": {
+    "type": "Electric",
+    "grunt": "Male"
   }
 }
