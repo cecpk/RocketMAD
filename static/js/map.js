@@ -40,6 +40,7 @@ var settings = {
     filterValues: null,
     minIvs: null,
     maxIvs: null,
+    showZeroIvsPokemon: null,
     minLevel: null,
     maxLevel: null,
     includedRarities: null,
@@ -659,6 +660,7 @@ function initSettings() {
     settings.filterValues = showConfig.pokemon_values && Store.get('filterValues')
     settings.minIvs = showConfig.pokemon_values ? Store.get('minIvs') : -1
     settings.maxIvs = showConfig.pokemon_values ? Store.get('maxIvs') : -1
+    settings.showZeroIvsPokemon = showConfig.pokemon_values && Store.get('showZeroIvsPokemon')
     settings.minLevel = showConfig.pokemon_values ? Store.get('minLevel') : -1
     settings.maxLevel = showConfig.pokemon_values ? Store.get('maxLevel') : -1
     settings.includedRarities = showConfig.rarity ? Store.get('includedRarities') : []
@@ -816,12 +818,12 @@ function initSidebar() {
     if (showConfig.pokemon_values) {
         $('#pokemon-values-switch').change(function () {
             settings.showPokemonValues = this.checked
-            const filtersWrapper = $('#pokemon-values-filters-wrapper')
+            const filterValuesWrapper = $('#filter-pokemon-values-wrapper')
             if (this.checked) {
-                filtersWrapper.show()
+                filterValuesWrapper.show()
                 reprocessPokemons()
             } else {
-                filtersWrapper.hide()
+                filterValuesWrapper.hide()
                 if (settings.filterValues) {
                     reprocessPokemons([], true)
                     lastpokemon = false
@@ -835,15 +837,12 @@ function initSidebar() {
 
         $('#filter-values-switch').change(function () {
             settings.filterValues = this.checked
+            const filtersWrapper = $('#pokemon-values-filters-wrapper')
             if (this.checked) {
-                $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
-                $('#pokemon-ivs-slider-wrapper').show()
-                $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
-                $('#pokemon-level-slider-wrapper').show()
+                filtersWrapper.show()
                 reprocessPokemons()
             } else {
-                $('#pokemon-ivs-slider-wrapper').hide()
-                $('#pokemon-level-slider-wrapper').hide()
+                filtersWrapper.hide()
                 lastpokemon = false
                 updateMap()
             }
@@ -873,10 +872,16 @@ function initSidebar() {
             const oldMaxIvs = settings.maxIvs
             settings.minIvs = this.get()[0]
             settings.maxIvs = this.get()[1]
+
             $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
+            if (settings.minIvs > 0) {
+                $('#zero-ivs-pokemon-switch-wrapper').show()
+            } else {
+                $('#zero-ivs-pokemon-switch-wrapper').hide()
+            }
 
             if (oldMinIvs < settings.minIvs || oldMaxIvs > settings.maxIvs) {
-                reprocessPokemons([], true)
+                reprocessPokemons()
             } else {
                 lastpokemon = false
                 updateMap()
@@ -884,6 +889,17 @@ function initSidebar() {
 
             Store.set('minIvs', settings.minIvs)
             Store.set('maxIvs', settings.maxIvs)
+        })
+
+        $('#zero-ivs-pokemon-switch').change(function () {
+            settings.showZeroIvsPokemon = this.checked
+            if (this.checked) {
+                lastpokemon = false
+                updateMap()
+            } else {
+                reprocessPokemons()
+            }
+            Store.set('showZeroIvsPokemon', this.checked)
         })
 
         var pokemonLevelSlider = document.getElementById('pokemon-level-slider')
@@ -912,7 +928,7 @@ function initSidebar() {
             $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
 
             if (oldMinLevel < settings.minLevel || oldMaxLevel > settings.maxLevel) {
-                reprocessPokemons([], true)
+                reprocessPokemons()
             } else {
                 lastpokemon = false
                 updateMap()
@@ -1557,21 +1573,20 @@ function initSidebar() {
     // Pokemon.
     if (showConfig.pokemons) {
         $('#pokemon-switch').prop('checked', settings.showPokemon)
-    }
-    if (showConfig.pokemon_values) {
         $('a[data-target="pokemon-filter-modal"]').toggle(settings.showPokemon)
         $('#pokemon-filters-wrapper').toggle(settings.showPokemon)
+    }
+    if (showConfig.pokemon_values) {
         $('#pokemon-values-switch').prop('checked', settings.showPokemonValues)
-        $('#pokemon-values-filters-wrapper').toggle(settings.showPokemonValues)
+        $('#filter-pokemon-values-wrapper').toggle(settings.showPokemonValues)
         $('#filter-values-switch').prop('checked', settings.filterValues)
+        $('#pokemon-values-filters-wrapper').toggle(settings.filterValues)
+        $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
         $('#pokemon-ivs-slider-wrapper').toggle(settings.filterValues)
-        if (settings.filterValues) {
-            $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
-        }
+        $('#zero-ivs-pokemon-switch').prop('checked', settings.showZeroIvsPokemon)
+        $('#zero-ivs-pokemon-switch-wrapper').toggle(settings.minIvs > 0)
+        $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
         $('#pokemon-level-slider-wrapper').toggle(settings.filterValues)
-        if (settings.filterValues) {
-            $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
-        }
     }
     if (showConfig.rarity) {
         $('#rarity-select').val(settings.includedRarities)
@@ -3096,11 +3111,15 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
     }
 
     if (settings.showPokemonValues && settings.filterValues) {
-        if (pokemon.individual_attack) {
+        if (pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon)
-            if (ivsPercentage < settings.minIvs || ivsPercentage > settings.maxIvs) {
+            if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
                 return false
             }
+            if (ivsPercentage > settings.maxIvs) {
+                return false
+            }
+
             const level = getPokemonLevel(pokemon)
             if (level < settings.minLevel || level > settings.maxLevel) {
                 return false

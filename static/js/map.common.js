@@ -232,6 +232,10 @@ var StoreOptions = {
         default: 100,
         type: StoreTypes.Number
     },
+    'showZeroIvsPokemon': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'minLevel': {
         default: 1,
         type: StoreTypes.Number
