@@ -1,78 +1,77 @@
 .sidenav {
-  width: inherit;
-  width: 512px;
+  width: 350px;
   max-width: 80%;
   z-index: 1001;
 
-  .card {
-    margin: 0;
-
-    .card-content {
-      padding: 0 16px !important;
-
-      @media screen and (max-width: 600px) {
-        padding: 0 8px !important;
-      }
-    }
+  .collapsible-header {
+    border-bottom: 1px solid #ddd !important;
   }
-}
 
-li.active .collapsible-header {
-  border-bottom: 0 !important;
-}
+  li.active .collapsible-header {
+      border-bottom: 0 !important;
+  }
 
-li.active .collapsible-body {
-  border-bottom: 1px solid #ddd !important;
-}
+  .collapsible-body {
+    line-height: 1.5;
+  }
 
-.collapsible-header {
-  border-bottom: 1px solid #ddd !important;
-}
+  .settings-container {
+    padding: 16px 24px;
+    border-bottom: 1px solid #ddd;
+  }
 
-.collapsible-body {
-  padding: 0 16px !important;
+  .form-control {
+    padding: 8px 0;
+  }
 
-  @media screen and (max-width: 600px) {
-    padding: 0 8px !important;
+  .lever {
+    margin: 4px 0 0 0 !important;
+    float: right;
   }
 
   .switch label {
     font-size: 1rem !important;
     color: #000 !important;
   }
-}
 
-.list {
-  height: 407px;
-  overflow-y: scroll;
-
-  @media screen and (max-width: 600px) {
-    height: 233px;
-  }
-}
-
-.pokemon-icon-sprite {
-  width: 75px;
-  height: 75px;
-  margin-bottom: 8px;
-  margin-right: 8px;
-  float: left;
-  text-align: center;
-  line-height: initial;
-  padding: 7px 0;
-  color: #000;
-  background-color: #ffcdd2;
-
-  @media screen and (max-width: 600px) {
-    margin-bottom: 4px;
-    margin-right: 4px;
+  input, .input-field {
+    margin: 0 !important;
   }
 
-  &.active {
-    background-color: #e0f2f1;
+  input.select-dropdown, input[type=text] {
+    height: 2rem;
+    width: calc(100% - 8px);
+    padding: 0 4px;
+    border: 1px solid #9e9e9e;
+    border-radius: 4px;
+    font-size: inherit;
   }
-}
 
-.pokemon-select-icon {
-    width: 32px;
+  input[type=text]:focus {
+    border: 1px solid #26a69a !important;
+    box-shadow: none !important;
+  }
+
+  input.select-dropdown:focus {
+    border: 1px solid #9e9e9e !important;
+  }
+
+  .filter-button {
+    height: inherit;
+    line-height: inherit;
+
+    i {
+      line-height: 1;
+      margin-right: 0;
+    }
+  }
+
+  .slider-title {
+    margin-bottom: 5px;
+    color: #000;
+  }
+
+  .text-input-title, .select-title {
+    color: #000;
+  }
 }

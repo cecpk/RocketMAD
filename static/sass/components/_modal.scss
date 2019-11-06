@@ -1,0 +1,94 @@
+.filter-modal {
+  width: 80% !important;
+  max-height: 80% !important;
+
+  .modal-content {
+    padding: 0 24px;
+
+    @media screen and (max-width: 600px) {
+      padding: 0 12px;
+    }
+  }
+
+  h6 {
+    text-align: center;
+  }
+
+  .filter-footer-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .filter-footer-left {
+    white-space: nowrap;
+
+    @media screen and (max-width: 600px) {
+      width: 50%;
+    }
+  }
+
+  .filter-footer-right {
+    margin: auto 0;
+
+    @media screen and (max-width: 600px) {
+      .btn-flat {
+        padding: 0 8px;
+      }
+    }
+  }
+
+  .search-info-btn {
+    padding-left: 0;
+  }
+
+  .pokemon-select-icon {
+    width: 32px;
+  }
+
+  .pokemon-icon-sprite {
+    width: 75px;
+    height: 75px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    float: left;
+    text-align: center;
+    line-height: initial;
+    padding: 7px 0;
+    color: #000;
+    background-color: #ffcdd2;
+
+    &.active {
+      background-color: #e0f2f1;
+    }
+  }
+
+  .pokemon-list {
+    height: 573px;
+    margin-top: 8px;
+    overflow-y: scroll;
+
+    @media screen and (max-height: 900px) {
+        height: 490px;
+    }
+
+    @media screen and (max-height: 800px) {
+        height: 407px;
+    }
+
+    @media screen and (max-height: 700px) {
+        height: 324px;
+    }
+
+    @media screen and (max-height: 600px) {
+        height: 241px;
+    }
+
+    @media screen and (max-height: 500px) {
+        height: 158px;
+    }
+
+    @media screen and (max-height: 300px) {
+        height: 75px;
+    }
+  }
+}

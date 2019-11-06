@@ -182,16 +182,19 @@ class Pogom(Flask):
     def fullmap(self):
         visibility_flags = {
             'pokemons': not args.no_pokemon,
-            'pokemon_values': not args.no_pokemon_values,
+            'pokemon_values': not args.no_pokemon and
+                not args.no_pokemon_values,
             'gyms': not args.no_gyms,
             'gym_sidebar': not args.no_gym_sidebar,
+            'gym_filters': not args.no_gyms and not args.no_gym_filters,
             'raids': not args.no_raids,
             'pokestops': not args.no_pokestops,
             'quests': not args.no_quests,
             'medalpokemon': args.medalpokemon,
             'ex_parks': args.ex_parks,
             'nest_parks': args.nest_parks,
-            'rarity': args.rarity_update_frequency > 0,
+            'rarity': not args.no_pokemon and
+                args.rarity_update_frequency > 0,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js
         }

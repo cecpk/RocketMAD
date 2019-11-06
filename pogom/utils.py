@@ -115,6 +115,9 @@ def get_args():
     parser.add_argument('-ngs', '--no-gym-sidebar',
                         help=('Disable the gym sidebar and toggle.'),
                         action='store_true', default=False)
+    parser.add_argument('-ngf', '--no-gym-filters',
+                        help=('Disables gym filters in side nav.'),
+                        action='store_true', default=False)
     parser.add_argument('-nr', '--no-raids',
                         help=('Disables Raids.'),
                         action='store_true', default=False)
@@ -805,21 +808,21 @@ def get_debug_dump_link():
 
 
 def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
-    spawn_group = 'Common'
+    spawn_group = 1 # Common
 
     spawn_rate_pct = total_spawns_pokemon / float(total_spawns_all)
     spawn_rate_pct = round(100 * spawn_rate_pct, 4)
 
     if spawn_rate_pct == 0:
-        spawn_group = 'New Spawn'
+        spawn_group = 6 # New Spawn
     elif spawn_rate_pct < 0.01:
-        spawn_group = 'Ultra Rare'
+        spawn_group = 5 # Ultra Rare
     elif spawn_rate_pct < 0.03:
-        spawn_group = 'Very Rare'
+        spawn_group = 4 # Very Rare
     elif spawn_rate_pct < 0.5:
-        spawn_group = 'Rare'
+        spawn_group = 3 # Rare
     elif spawn_rate_pct < 1:
-        spawn_group = 'Uncommon'
+        spawn_group = 2 # Uncommon
 
     return spawn_group
 

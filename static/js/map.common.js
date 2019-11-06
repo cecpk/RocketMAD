@@ -212,10 +212,6 @@ var StoreOptions = {
         default: [], // Common, Uncommon, Rare, Very Rare, Ultra Rare
         type: StoreTypes.JSON
     },
-    'excludedRarity': {
-        default: 0, // 0: none, 1: <=Common, 2: <=Uncommon, 3: <=Rare, 4: <=Very Rare, 5: <=Ultra Rare
-        type: StoreTypes.Number
-    },
     'showPokemon': {
         default: true,
         type: StoreTypes.Boolean
@@ -224,13 +220,33 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-    'pokemonMinIvs': {
-        default: -1,
+    'filterValues': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'minIvs': {
+        default: 0,
         type: StoreTypes.Number
     },
-    'pokemonMinLevel': {
-        default: -1,
+    'maxIvs': {
+        default: 100,
         type: StoreTypes.Number
+    },
+    'minLevel': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'maxLevel': {
+        default: 35,
+        type: StoreTypes.Number
+    },
+    'includedRarities': {
+        default: [1, 2, 3, 4, 5, 6], // Common ... New Spawn
+        type: StoreTypes.JSON
+    },
+    'scaleByRarity': {
+        default: true,
+        type: StoreTypes.Boolean
     },
     'showGyms': {
         default: true,
@@ -240,25 +256,9 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showGymFilter': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'showTeamGymsOnly': {
-        default: -1,
-        type: StoreTypes.Number
-    },
-    'showOpenGymsOnly': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showParkGymsOnly': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showGymInBattle': {
-        default: false,
-        type: StoreTypes.Boolean
+    'includedGymTeams': {
+        default: [0, 1, 2, 3],
+        type: StoreTypes.JSON
     },
     'minGymLevel': {
         default: 0,
@@ -267,6 +267,18 @@ var StoreOptions = {
     'maxGymLevel': {
         default: 6,
         type: StoreTypes.Number
+    },
+    'showOpenSpotGymsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showExGymsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showInBattleGymsOnly': {
+        default: false,
+        type: StoreTypes.Boolean
     },
     'showLastUpdatedGymsOnly': {
         default: 0,
@@ -456,10 +468,6 @@ var StoreOptions = {
         default: 100,
         type: StoreTypes.Number
     },
-    'scaleByRarity': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
     'upscalePokemon': {
         default: false,
         type: StoreTypes.Boolean
@@ -535,10 +543,6 @@ var StoreOptions = {
     'showLocationMarker': {
         default: true,
         type: StoreTypes.Boolean
-    },
-    'hidepresets': {
-        default: [],
-        type: StoreTypes.JSON
     },
     'twelveHourTime': {
         default: false,
@@ -660,18 +664,10 @@ function updatePokemonRarities() {
 
 function getPokemonRarity(pokemonId) {
     if (pokemonRarities.hasOwnProperty(pokemonId)) {
-        return i8ln(pokemonRarities[pokemonId])
-    }
-
-    return i8ln('New Spawn')
-}
-
-function getPokemonRarityNoi8(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
         return pokemonRarities[pokemonId]
     }
 
-    return 'New Spawn'
+    return 6 // New Spawn
 }
 
 function getGoogleSprite(index, sprite, displayHeight) {
