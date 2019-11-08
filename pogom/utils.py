@@ -121,6 +121,9 @@ def get_args():
     parser.add_argument('-nr', '--no-raids',
                         help=('Disables Raids.'),
                         action='store_true', default=False)
+    parser.add_argument('-nrf', '--no-raid-filters',
+                        help=('Disables raid filters in side nav.'),
+                        action='store_true', default=False)
     parser.add_argument('-nps', '--no-pokestops',
                         help=('Disables PokéStops.'),
                         action='store_true', default=False)

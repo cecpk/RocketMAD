@@ -184,17 +184,19 @@ class Pogom(Flask):
             'pokemons': not args.no_pokemon,
             'pokemon_values': not args.no_pokemon and
                 not args.no_pokemon_values,
+            'rarity': not args.no_pokemon and
+                args.rarity_update_frequency > 0,
             'gyms': not args.no_gyms,
-            'gym_sidebar': not args.no_gym_sidebar,
+            'gym_sidebar': (not args.no_gyms or not args.no_raids)
+                and not args.no_gym_sidebar,
             'gym_filters': not args.no_gyms and not args.no_gym_filters,
             'raids': not args.no_raids,
+            'raid_filters': not args.no_raids and not args.no_raid_filters,
             'pokestops': not args.no_pokestops,
             'quests': not args.no_quests,
             'medalpokemon': args.medalpokemon,
             'ex_parks': args.ex_parks,
             'nest_parks': args.nest_parks,
-            'rarity': not args.no_pokemon and
-                args.rarity_update_frequency > 0,
             'custom_css': args.custom_css,
             'custom_js': args.custom_js
         }

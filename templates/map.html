@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{lang}}">
   <head>
     <title>{{ mapTitle }}</title>
     <meta charset="UTF-8">
@@ -270,7 +270,7 @@
                 </div>
               </div>
               <div class="form-control">
-                <span id="gym-level-slider-title" class="slider-title">Levels</span>
+                <span id="gym-level-slider-title" class="slider-title">Gym levels</span>
                 <div class="slider-container">
                   <div id="gym-level-slider"></div>
                 </div>
@@ -304,14 +304,17 @@
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Scanned within</div>
+                  <div class="select-title">Last scanned</div>
                   <select id="gym-last-scanned-select">
-                    <option value="0">All</option>
-                    <option value="1">Last hour</option>
-                    <option value="6">Last 6 hours</option>
-                    <option value="12">Last 12 hours</option>
-                    <option value="24">Last day</option>
-                    <option value="168">Last week</option>
+                    <option value="0">Any time</option>
+                    <option value="1">Within last hour</option>
+                    <option value="6">Within last 6 hours</option>
+                    <option value="12">Within last 12 hours</option>
+                    <option value="24">Within last day</option>
+                    <option value="168">Within last week</option>
+                    <option value="730">Within last month</option>
+                    <option value="4380">Within last 6 months</option>
+                    <option value="8760">Within last year</option>
                   </select>
                 </div>
               </div>
@@ -328,8 +331,45 @@
                   <span class="lever"></span>
                   Raids
                 </label>
+                {% if show.raid_filters %}
+                <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Raid Bosses"><i class="material-icons left">filter_list</i></a>
+                {% endif %}
               </div>
             </div>
+            {% if show.raid_filters %}
+            <div id="raid-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="raid-active-switch">
+                    <span class="lever"></span>
+                    Active Raids only
+                  </label>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="raid-ex-eligible-switch">
+                    <span class="lever"></span>
+                    EX eligible Raids only
+                  </label>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Raid levels</div>
+                  <select id="raid-level-select" multiple>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            {% endif %}
           </div>
           {% endif %}
         </div>
@@ -446,6 +486,7 @@
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.18.6/dist/sweetalert2.all.min.js"></script>
 
+    <script src="static/dist/js/utils.min.js"></script>
     <script src="static/dist/js/map.common.min.js"></script>
     <!-- Load custom JS before map.js so it can change Store defaults. -->
     {% if show.custom_js %}
