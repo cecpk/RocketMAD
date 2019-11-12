@@ -97,7 +97,31 @@
         <h6 id="include-pokemon-title">Pokémon</h6>
         <label for="include-pokemon">
           <input id="include-pokemon" type="text" readonly="true" style="display:none;">
-          <div class="pokemon-list"></div>
+          <div class="pokemon-filter-list"></div>
+          <div class="filter-footer-container">
+            <div class="filter-footer-left">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="Search...">
+            </div>
+            <div class="filter-footer-right">
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if show.raids and show.raid_filters %}
+    <div id="raid-pokemon-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <h6 id="include-raid-pokemon-title">Raid Bosses</h6>
+        <label for="include-raid-pokemon">
+          <input id="include-raid-pokemon" type="text" readonly="true" style="display:none;">
+          <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
               <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
@@ -375,18 +399,22 @@
         </div>
       </li>
       {% endif %}
+      {% if show.pokestops %}
       <li>
         <div class="collapsible-header"><i class="material-icons">nature</i>PokéStops</div>
         <div class="collapsible-body">
-          <div class="switch">
-            <label>
-              PokéStops
-              <input type="checkbox">
-              <span class="lever"></span>
-            </label>
+          <div class="settings-container">
+            <div class="switch">
+              <label>
+                <input type="checkbox" id="pokestop-switch">
+                <span class="lever"></span>
+                PokéStops
+              </label>
+            </div>
           </div>
         </div>
       </li>
+      {% endif %}
       <li>
         <div class="collapsible-header"><i class="material-icons">cloud</i>Weather</div>
         <div class="collapsible-body">

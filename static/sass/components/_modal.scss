@@ -41,11 +41,7 @@
     padding-left: 0;
   }
 
-  .pokemon-select-icon {
-    width: 32px;
-  }
-
-  .pokemon-icon-sprite {
+  .pokemon-filter-button {
     width: 75px;
     height: 75px;
     margin-bottom: 8px;
@@ -62,7 +58,7 @@
     }
   }
 
-  .pokemon-list {
+  .pokemon-filter-list {
     height: 573px;
     margin-top: 8px;
     overflow-y: scroll;

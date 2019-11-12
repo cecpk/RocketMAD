@@ -1,20 +1,12 @@
-
 const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
 var i8lnDictionary = {}
-var languageLookups = 0
-var languageLookupThreshold = 3
 
 var pokemonData = {}
-var pokemonDataNoI8ln = {}
+var pokemonSearchList = []
+var pokemonRarities = {}
+var rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
 
-var pokemonGen = new Array(808)
-pokemonGen.fill(1, 1, 152)
-pokemonGen.fill(2, 152, 252)
-pokemonGen.fill(3, 252, 387)
-pokemonGen.fill(4, 387, 494)
-pokemonGen.fill(5, 494, 650)
-pokemonGen.fill(6, 650, 722)
-pokemonGen.fill(7, 722, 808)
+const availablePokemonCount = 649
 
 function initI8lnDictionary(callback) {
     if (language === 'en' || !$.isEmptyObject(i8lnDictionary)) {
@@ -23,12 +15,12 @@ function initI8lnDictionary(callback) {
     }
 
     $.getJSON('static/dist/locales/' + language + '.min.json')
-    .done(function(data) {
+    .done(function (data) {
         i8lnDictionary = data
         callback()
     })
-    .fail(function() {
-        console.log('Error loading i8ln dictionary.');
+    .fail(function () {
+        console.log('Error loading i8ln dictionary.')
     })
 }
 
@@ -41,35 +33,138 @@ function i8ln(word) {
     }
 }
 
+function updatePokemonRarities(rarityFileName, callback) {
+    $.getJSON('static/dist/data/' + rarityFileName + '.json')
+    .done(function (data) {
+        pokemonRarities = data
+        callback()
+    })
+    .fail(function () {
+        console.log("Couldn't load dynamic rarity JSON.")
+    })
+}
+
+function getPokemonRarity(pokemonId) {
+    if (pokemonRarities.hasOwnProperty(pokemonId)) {
+        return pokemonRarities[pokemonId]
+    }
+
+    return 6 // New Spawn.
+}
+
+function getPokemonRarityName(pokemonId) {
+    if (pokemonRarities.hasOwnProperty(pokemonId)) {
+        return i8ln(rarityNames[pokemonRarities[pokemonId] - 1])
+    }
+
+    return i8ln('New Spawn')
+}
+
 function initPokemonData(callback) {
     if (!$.isEmptyObject(pokemonData)) {
         callback()
         return
     }
 
-    $.getJSON('static/dist/data/pokemon.min.json', function(data) {
-        pokemonData = pokemonDataNoI8ln = data
-        if (language !== 'en') {
-            $.each(pokemonData, function(id, value) {
-                pokemonData[id].name = i8ln(value.name)
-                $.each(pokemonData[id].types, function(idx, value) {
-                    pokemonData[id].types[idx].type = i8ln(value.type)
-                })
-                if (value.forms) {
-                    $.each(pokemonData[id].forms, function(formId, value) {
-                        pokemonData[id].forms[formId].formName = i8ln(value.formName)
-                    })
-                }
+    $.getJSON('static/dist/data/pokemon.min.json')
+    .done(function (data) {
+        pokemonData = data
+        $.each(pokemonData, function(id, value) {
+            var gen
+            if (id <= 151) {
+                gen = 1
+            } else if (id <= 251) {
+                gen = 2
+            } else if (id <= 386) {
+                gen = 3
+            } else if (id <= 493) {
+                gen = 4
+            } else if (id <= 649) {
+                gen = 5
+            } else if (id <= 721) {
+                gen = 6
+            } else if (id <= 809) {
+                gen = 7
+            }
+            pokemonData[id].gen = gen
+            pokemonSearchList.push({
+                id: parseInt(id),
+                name: i8ln(value.name),
+                type1: i8ln(value.types[0].type),
+                type2: value.types[1] ? i8ln(value.types[1].type) : '',
+                gen: 'gen' + gen
             })
-        }
+        })
         callback()
+    })
+    .fail(function () {
+        console.log('Error loading pokemon data.')
     })
 }
 
 function getPokemonName(id) {
-    return pokemonData[id].name
+    return i8ln(pokemonData[id].name)
+}
+
+function getPokemonTypes(pokemonId, formId) {
+    if (formId && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
+        return i8ln(pokemonData[pokemonId].forms[formId].formTypes)
+    } else {
+        return i8ln(pokemonData[pokemonId].types)
+    }
+}
+
+function getPokemonTypesNoI8ln(pokemonId, formId) {
+    if (formId && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
+        return pokemonData[pokemonId].forms[formId].formTypes
+    } else {
+        return pokemonData[pokemonId].types
+    }
+}
+
+function getFormName(pokemonId, formId) {
+    return i8ln(pokemonData[pokemonId].forms[formId].formName)
 }
 
 function getPokemonGen(id) {
-    return pokemonGen[id]
+    return pokemonData[id].gen
+}
+
+function searchPokemon(searchtext) {
+    var searchsplit = searchtext.split(',')
+    var foundPokemon = []
+    var operator = 'add'
+    $.each(searchsplit, function (k, searchstring) {
+        if (searchstring.substring(0, 1) === '+') {
+            searchstring = searchstring.substring(1)
+            operator = 'add'
+        } else if (searchstring.substring(0, 1) === '-') {
+            searchstring = searchstring.substring(1)
+            operator = 'remove'
+        } else {
+            operator = 'add'
+        }
+        if (!isNaN(parseFloat(searchstring)) && !isNaN(searchstring - 0)) {
+            if (operator === 'add') {
+                foundPokemon.push(searchstring)
+            } else {
+                delete foundPokemon[foundPokemon.indexOf(searchstring)]
+            }
+        } else if (searchstring.length > 0 && searchstring !== '-' && searchstring !== '+') {
+            $.each(pokemonSearchList, function (idx, item) {
+                if (item.name.toLowerCase().includes(searchstring.toLowerCase()) ||
+                        item.id.toString() === searchstring.toString() ||
+                        item.type1.toLowerCase().includes(searchstring.toLowerCase()) ||
+                        item.type2.toLowerCase().includes(searchstring.toLowerCase()) ||
+                        item.gen.toString() === searchstring.toLowerCase()) {
+                    if (operator === 'add') {
+                        foundPokemon.push(item['id'])
+                    } else {
+                        delete foundPokemon[foundPokemon.indexOf(item['id'])]
+                    }
+                }
+            })
+        }
+    })
+    return foundPokemon
 }
