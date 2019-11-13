@@ -84,7 +84,6 @@ var startLocationMarker
 var userLocationMarker
 const rangeMarkers = ['pokemon', 'pokestop', 'gym']
 var storeZoom = true
-var moves
 
 var oSwLat
 var oSwLng
@@ -445,6 +444,8 @@ function initMap() { // eslint-disable-line no-unused-vars
             initPokemonFilters()
         })
     })
+
+    initMoveData(function () {})
 
     L.control.zoom({
         position: 'bottomright'
@@ -1936,10 +1937,10 @@ function pokemonLabel(item) {
     var atk = item['individual_attack']
     var def = item['individual_defense']
     var sta = item['individual_stamina']
-    var move1Name = moves[item['move_1']] !== undefined ? i8ln(moves[item['move_1']]['name']) : '?'
-    var move2Name = moves[item['move_2']] !== undefined ? i8ln(moves[item['move_2']]['name']) : '?'
-    var move1Type = moves[item['move_1']] !== undefined ? moves[item['move_1']]['type'] : '?'
-    var move2Type = moves[item['move_2']] !== undefined ? moves[item['move_2']]['type'] : '?'
+    var move1Name = getMoveName(item.move_1)
+    var move2Name = getMoveName(item.move_2)
+    var move1Type = getMoveTypeNoI8ln(item.move_1)
+    var move2Type = getMoveTypeNoI8ln(item.move_2)
     var weight = item['weight'] !== null ? item['weight'].toFixed(2) : '?'
     var height = item['height'] !== null ? item['height'].toFixed(2) : '?'
     var gender = item['gender']
@@ -2156,20 +2157,10 @@ function gymLabel(gym) {
                 pokemonName += ` (${formName})`
             }
 
-            let fastMoveName = 'unknown'
-            let chargeMoveName = 'unknown'
-            let fastMoveType = ''
-            let chargeMoveType = ''
-
-            if (raid.move_1 in moves) {
-                fastMoveName = i8ln(moves[raid.move_1].name)
-                fastMoveType = moves[raid.move_1].type
-            }
-
-            if (raid.move_2 in moves) {
-                chargeMoveName = i8ln(moves[raid.move_2].name)
-                chargeMoveType = moves[raid.move_2].type
-            }
+            let fastMoveName = getMoveName(raid.move_1)
+            let chargeMoveName = getMoveName(raid.move_2)
+            let fastMoveType = getMoveTypeNoI8ln(raid.move_1)
+            let chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
 
             const notifyText = notifyRaidPokemon.includes(raid.pokemon_id) ? 'Unnotify' : 'Notify'
             const notifyIconClass = notifyRaidPokemon.includes(raid.pokemon_id) ? 'fas fa-bell-slash' : 'fas fa-bell'
@@ -4412,8 +4403,8 @@ function sendPokemonNotification(pokemon) {
 
         if (settings.showPokemonValues && pokemon.individual_attack !== null) {
             notifyTitle += ` ${getIvsPercentage(pokemon)}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon)}`
-            const move1 = moves[pokemon.move_1] !== undefined ? i8ln(moves[pokemon.move_1].name) : 'unknown'
-            const move2 = moves[pokemon.move_2] !== undefined ? i8ln(moves[pokemon.move_2].name) : 'unknown'
+            const move1 = getMoveName(pokemon.move_1)
+            const move2 = getMoveName(pokemon.move_2)
             notifyText += `\nMoves: ${move1} / ${move2}`
         }
 
@@ -4461,14 +4452,8 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            var fastMoveName = ''
-            var chargeMoveName = ''
-            if (raid.move_1 in moves) {
-                fastMoveName = i8ln(moves[raid.move_1].name)
-            }
-            if (raid.move_2 in moves) {
-                chargeMoveName = i8ln(moves[raid.move_2].name)
-            }
+            var fastMoveName = getMoveName(raid.move_1)
+            var chargeMoveName = getMoveName(raid.move_2)
 
             var pokemonName = raid.pokemon_name
             const formName = raid.form ? getFormName(raid.pokemon_id, raid.form) : false
@@ -4998,10 +4983,6 @@ $(function () {
     if (Store.get('startAtUserLocation') && getParameterByName('lat') == null && getParameterByName('lon') == null) {
         centerMapOnLocation()
     }
-
-    $.getJSON('static/dist/data/moves.min.json').done(function (data) {
-        moves = data
-    })
 
     $selectIncludeQuestPokemon = $('#include-quest-pokemon')
     $selectIncludeInvasions = $('#include-invasions')

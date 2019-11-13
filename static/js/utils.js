@@ -2,6 +2,7 @@ const language = document.documentElement.lang === '' ? 'en' : document.document
 var i8lnDictionary = {}
 
 var pokemonData = {}
+var moveData = {}
 var pokemonSearchList = []
 var pokemonRarities = {}
 var rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
@@ -102,6 +103,22 @@ function initPokemonData(callback) {
     })
 }
 
+function initMoveData(callback) {
+    if (!$.isEmptyObject(moveData)) {
+        callback()
+        return
+    }
+
+    $.getJSON('static/dist/data/moves.min.json')
+    .done(function (data) {
+        moveData = data
+        callback()
+    })
+    .fail(function () {
+        console.log('Error loading move data.')
+    })
+}
+
 function getPokemonName(id) {
     return i8ln(pokemonData[id].name)
 }
@@ -128,6 +145,18 @@ function getFormName(pokemonId, formId) {
 
 function getPokemonGen(id) {
     return pokemonData[id].gen
+}
+
+function getMoveName(id) {
+    return i8ln(moveData[id].name)
+}
+
+function getMoveType(id) {
+    return i8ln(moveData[id].type)
+}
+
+function getMoveTypeNoI8ln(id) {
+    return moveData[id].type
 }
 
 function searchPokemon(searchtext) {
