@@ -1983,6 +1983,13 @@ function pokestopLabel(pokestop) {
     if (isPokestopMeetsInvasionFilters(pokestop)) {
         const invasionId = pokestop.incident_grunt_type
         const invasionExpireTime = pokestop.incident_expiration
+        var typeDisplay = ''
+        if (idToInvasion[invasionId].type) {
+            typeDisplay = `
+                <div>
+                  Type: <strong>${idToInvasion[invasionId].type}</strong>
+                </div>`
+        }
         invasionDisplay = `
             <div class='section-divider'></div>
             <div class='pokestop-container'>
@@ -2000,9 +2007,7 @@ function pokestopLabel(pokestop) {
                 <div class='disappear'>
                   ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
                 </div>
-                <div>
-                  Invasion type: <strong>${idToInvasion[invasionId].type}</strong>
-                </div>
+                ${typeDisplay}
                 <div>
                   Grunt: <strong>${idToInvasion[invasionId].grunt}</strong>
                 </div>
