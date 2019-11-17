@@ -4,7 +4,6 @@
 // Global map.js variables
 //
 
-var $selectIncludeQuestPokemon
 var $selectIncludeInvasions
 var $selectIncludeQuestItems
 var $selectNotifyPokemon
@@ -48,8 +47,10 @@ var settings = {
     showExEligibleRaidsOnly: null,
     includedRaidLevels: null,
     showPokestops: null,
+    showQuests: null,
+    excludedQuestPokemon: null,
+    excludedQuestItems: null,
     showPokestopsNoEvent: true,
-    showQuests: true,
     showInvasions: true,
     showExParks: false,
     showNestParks: false
@@ -57,7 +58,6 @@ var settings = {
 
 var timestamp
 var includedInvasions = []
-var includedQuestPokemon = []
 var includedQuestItems = []
 var excludedPokemonByRarity = []
 
@@ -90,11 +90,11 @@ var oSwLng
 var oNeLat
 var oNeLng
 
-var lastpokestops
-var lastgyms
 var lastpokemon
-var lastslocs
+var lastgyms
+var lastpokestops
 var lastspawns
+var lastslocs
 
 var L
 var map
@@ -163,41 +163,6 @@ const toastrOptions = {
 // FontAwesome gender classes.
 const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 
-const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
-const questItemNames = {
-    1: 'Poké Ball',
-    2: 'Great Ball',
-    3: 'Ultra Ball',
-    101: 'Potion',
-    102: 'Super Potion',
-    103: 'Hyper Potion',
-    104: 'Max Potion',
-    201: 'Revive',
-    202: 'Max Revive',
-    301: 'Lucky Egg',
-    401: 'Incense',
-    501: 'Lure Module',
-    701: 'Razz Berry',
-    703: 'Nanab Berry',
-    705: 'Pinap Berry',
-    706: 'Golden Razz Berry',
-    708: 'Silver Pinap Berry',
-    902: 'Egg Incubator',
-    903: 'Super Incubator',
-    1101: 'Sun Stone',
-    1102: 'Kings Rock',
-    1103: 'Metal Coat',
-    1104: 'Dragon Scale',
-    1105: 'Up-Grade',
-    1106: 'Sinnoh Stone',
-    1201: 'Fast TM',
-    1202: 'Charged TM',
-    1301: 'Rare Candy',
-    1402: 'Premium Raid Pass',
-    1404: 'Star Piece',
-    1405: 'Gift'
-}
-
 const ActiveFortModifierEnum = Object.freeze({'normal':501, 'glacial':502, 'mossy':503, 'magnetic':504})
 
 const lureTypes = {
@@ -259,11 +224,11 @@ function getExcludedPokemon() {
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $('label[for="include-pokemon"] .pokemon-filter-list .pokemon-filter-button[data-id="' + id + '"]').click()
+    $('label[for="include-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
 function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $('label[for="notify-pokemon"] .pokemon-filter-list .pokemon-filter-button[data-id="' + id + '"]').click()
+    $('label[for="notify-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
 function excludeEgg(level) { // eslint-disable-line no-unused-vars
@@ -293,11 +258,11 @@ function unnotifyAboutEgg(level) { // eslint-disable-line no-unused-vars
 }
 
 function excludeRaidPokemon(id) { // eslint-disable-line no-unused-vars
-    $('label[for="include-raid-pokemon"] .pokemon-filter-list .pokemon-filter-button[data-id="' + id + '"]').click()
+    $('label[for="include-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
 function notifyAboutRaidPokemon(id) { // eslint-disable-line no-unused-vars
-    $('label[for="notify-raid-pokemon"] .pokemon-filter-list .pokemon-filter-button[data-id="' + id + '"]').click()
+    $('label[for="notify-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
 function createServiceWorkerReceiver() {
@@ -332,21 +297,21 @@ function loadDefaultImages() {
     const ip = Store.get('remember_select_include_pokemon')
     const irp = Store.get('remember_select_include_raid_pokemon')
     const ii = Store.get('remember_select_include_invasions')
-    const iqp = Store.get('remember_select_include_quest_pokemon')
+    //const iqp = Store.get('remember_select_include_quest_pokemon')
     const iqi = Store.get('remember_select_include_quest_items')
     const np = Store.get('remember_select_notify_pokemon')
     const nrp = Store.get('remember_select_notify_raid_pokemon')
     const ni = Store.get('remember_select_notify_invasions')
 
-    $('label[for="include-pokemon"] .pokemon-list .pokemon-filter-button').removeClass('active')
-    $('label[for="include-pokemon"] .pokemon-list .pokemon-filter-button').each(function () {
+    $('label[for="include-pokemon"] .pokemon-list .filter-button').removeClass('active')
+    $('label[for="include-pokemon"] .pokemon-list .filter-button').each(function () {
         if (ip.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
     })
 
-    $('label[for="include-raid-pokemon"] .pokemon-list .pokemon-filter-button').removeClass('active')
-    $('label[for="include-raid-pokemon"] .pokemon-list .pokemon-filter-button').each(function () {
+    $('label[for="include-raid-pokemon"] .pokemon-list .filter-button').removeClass('active')
+    $('label[for="include-raid-pokemon"] .pokemon-list .filter-button').each(function () {
         if (irp.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
@@ -359,8 +324,8 @@ function loadDefaultImages() {
         }
     })
 
-    $('label[for="include-quest-pokemon"] .pokemon-list .pokemon-filter-button').removeClass('active')
-    $('label[for="include-quest-pokemon"] .pokemon-list .pokemon-filter-button').each(function () {
+    $('label[for="include-quest-pokemon"] .pokemon-list .filter-button').removeClass('active')
+    $('label[for="include-quest-pokemon"] .pokemon-list .filter-button').each(function () {
         if (iqp.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
@@ -373,15 +338,15 @@ function loadDefaultImages() {
         }
     })
 
-    $('label[for="notify-pokemon"] .pokemon-list .pokemon-filter-button').removeClass('active')
-    $('label[for="notify-pokemon"] .pokemon-list .pokemon-filter-button').each(function () {
+    $('label[for="notify-pokemon"] .pokemon-list .filter-button').removeClass('active')
+    $('label[for="notify-pokemon"] .pokemon-list .filter-button').each(function () {
         if (np.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
     })
 
-    $('label[for="notify-raid-pokemon"] .pokemon-list .pokemon-filter-button').removeClass('active')
-    $('label[for="notify-raid-pokemon"] .pokemon-list .pokemon-filter-button').each(function () {
+    $('label[for="notify-raid-pokemon"] .pokemon-list .filter-button').removeClass('active')
+    $('label[for="notify-raid-pokemon"] .pokemon-list .filter-button').each(function () {
         if (nrp.includes($(this).data('value'))) {
             $(this).addClass('active')
         }
@@ -447,6 +412,12 @@ function initMap() { // eslint-disable-line no-unused-vars
 
     initMoveData(function () {})
 
+    if (showConfig.quests) {
+        initItemData(function () {
+            initItemFilters()
+        })
+    }
+
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map)
@@ -505,7 +476,13 @@ function initMap() { // eslint-disable-line no-unused-vars
         draggable: false
     })
     $('.collapsible').collapsible()
+    $('.tabs').tabs()
     $('.modal').modal()
+    $('#quest-filter-modal').modal({
+        onOpenEnd: function () {
+            $('#quest-filter-tabs').tabs('updateTabIndicator')
+        }
+    })
     $('.tooltipped').tooltip()
 
     initSidebar()
@@ -681,10 +658,14 @@ function initSettings() {
     }
 
     settings.showPokestops = showConfig.pokestops && Store.get('showPokestops')
-
+    if (showConfig.pokestops) {
+        settings.showQuests = showConfig.quests && Store.get('showQuests')
+    }
+    if (showConfig.quests) {
+        settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
+    }
 
     settings.showPokestopsNoEvent = showConfig.pokestops && Store.get('showPokestopsNoEvent')
-    settings.showQuests = showConfig.pokestops && showConfig.quests && Store.get('showQuests')
     settings.showInvasions = showConfig.pokestops && Store.get('showInvasions')
 
 
@@ -1200,6 +1181,22 @@ function initSidebar() {
         })
     }
 
+    if (showConfig.quests) {
+        $('#quest-switch').change(function () {
+            settings.showQuests = this.checked
+            var filterButton = $($('a[data-target="quest-filter-modal"]').toggle(settings.showPokemon))
+            if (this.checked) {
+                filterButton.show()
+                lastpokestops = false
+                updateMap()
+            } else {
+                filterButton.hide()
+                reprocessPokestops()
+            }
+            Store.set('showQuests', this.checked)
+        })
+    }
+
 
 
 
@@ -1307,20 +1304,6 @@ function initSidebar() {
         lastpokestops = false
         updateMap()
         Store.set('showPokestopsNoEvent', this.checked)
-    })
-
-    $('#quests-switch').change(function () {
-        var wrapper = $('#quests-filter-wrapper')
-        if (this.checked) {
-            wrapper.show()
-        } else {
-            wrapper.hide()
-        }
-        settings.showQuests = this.checked
-        reprocessPokestops()
-        lastpokestops = false
-        updateMap()
-        Store.set('showQuests', this.checked)
     })
 
     $('#invasions-switch').change(function () {
@@ -1653,6 +1636,10 @@ function initSidebar() {
     if (showConfig.pokestops) {
         $('#pokestop-switch').prop('checked', settings.showPokestops)
     }
+    if (showConfig.quests) {
+        $('#quest-switch').prop('checked', settings.showQuests)
+        $('a[data-target="quest-filter-modal"]').toggle(settings.showQuests)
+    }
 
 
     $('#pokestops-switch').prop('checked', settings.showPokestops)
@@ -1759,14 +1746,16 @@ function initPokemonFilters() {
             pokemonIcon = `<i class='pokemon-sprite n${id}' width='32'></i>`
         }
         $('.pokemon-filter-list').append(
-            `<div class='pokemon-filter-button' data-id='${id}'>
-              <div>#${id}</div>
-              <div>${pokemonIcon}</div>
-              <div>${getPokemonName(id)}</div>
+            `<div class='filter-button' data-id='${id}'>
+              <div class='filter-button-content'>
+                <div>#${id}</div>
+                <div>${pokemonIcon}</div>
+                <div>${getPokemonName(id)}</div>
+              </div>
             </div>`)
     })
 
-    $('.pokemon-filter-list').on('click', '.pokemon-filter-button', function () {
+    $('.pokemon-filter-list').on('click', '.filter-button', function () {
         var img = $(this)
         var inputElement = $(this).parent().parent().find('input[id$=pokemon]')
         var value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
@@ -1785,14 +1774,14 @@ function initPokemonFilters() {
     $('.pokemon-select-all').on('click', function (e) {
         e.preventDefault()
         var parent = $(this).parent().parent().parent()
-        parent.find('.pokemon-filter-list .pokemon-filter-button:visible').addClass('active')
+        parent.find('.pokemon-filter-list .filter-button:visible').addClass('active')
         parent.find('input[id$=pokemon]').val(pokemonIds.join(',')).trigger('change')
     })
 
     $('.pokemon-deselect-all').on('click', function (e) {
         e.preventDefault()
         var parent = $(this).parent().parent().parent()
-        parent.find('.pokemon-filter-list .pokemon-filter-button:visible').removeClass('active')
+        parent.find('.pokemon-filter-list .filter-button:visible').removeClass('active')
         parent.find('input[id$=pokemon]').val('').trigger('change')
     })
 
@@ -1801,7 +1790,7 @@ function initPokemonFilters() {
         var parent = $(this).parent().parent().parent()
         var inputElement = parent.find('input[id$=pokemon]')
         var selectedPokemons = inputElement.val().length > 0 ? inputElement.val().split(',') : []
-        var visibleNotActiveIconElements = parent.find('.pokemon-filter-button:visible:not(.active)')
+        var visibleNotActiveIconElements = parent.find('.filter-button:visible:not(.active)')
         visibleNotActiveIconElements.addClass('active')
         $.each(visibleNotActiveIconElements, function (i, item) {
             selectedPokemons.push($(this).data('id'))
@@ -1814,7 +1803,7 @@ function initPokemonFilters() {
         var parent = $(this).parent().parent().parent()
         var inputElement = parent.find('input[id$=pokemon]')
         var selectedPokemons = inputElement.val().length > 0 ? inputElement.val().split(',') : []
-        var visibleActiveIconElements = parent.find('.pokemon-filter-button:visible.active')
+        var visibleActiveIconElements = parent.find('.filter-button:visible.active')
         visibleActiveIconElements.removeClass('active')
         $.each(visibleActiveIconElements, function (i, item) {
             var id = $(this).data('id').toString()
@@ -1829,7 +1818,7 @@ function initPokemonFilters() {
         var searchtext = $(this).val().toString()
         var parent = $(this)
         var foundPokemon = []
-        var pokeselectlist = $(this).parent().parent().prev('.pokemon-filter-list').find('.pokemon-filter-button')
+        var pokeselectlist = $(this).parent().parent().prev('.pokemon-filter-list').find('.filter-button')
         if (searchtext === '') {
             parent.parent().parent().find('.pokemon-select-filtered, .pokemon-deselect-filtered').hide()
             parent.parent().parent().find('.pokemon-select-all, .pokemon-deselect-all').show()
@@ -1842,7 +1831,7 @@ function initPokemonFilters() {
         }
 
         $.each(foundPokemon, function (i, item) {
-            parent.parent().parent().prev('.pokemon-filter-list').find('.pokemon-filter-button[data-id="' + foundPokemon[i] + '"]').show()
+            parent.parent().parent().prev('.pokemon-filter-list').find('.filter-button[data-id="' + foundPokemon[i] + '"]').show()
         })
     })
 
@@ -1855,7 +1844,7 @@ function initPokemonFilters() {
             $('#include-pokemon-title').text(`Pokémon (${includedPokemon.length})`)
         }
 
-        $('label[for="include-pokemon"] .pokemon-filter-list .pokemon-filter-button').each(function () {
+        $('label[for="include-pokemon"] .pokemon-filter-list .filter-button').each(function () {
             if (includedPokemon.includes($(this).data('id'))) {
                 $(this).addClass('active')
             }
@@ -1897,7 +1886,7 @@ function initPokemonFilters() {
             $('#include-raid-pokemon-title').text(`Raid Bosses (${includedPokemon.length})`)
         }
 
-        $('label[for="include-raid-pokemon"] .pokemon-filter-list .pokemon-filter-button').each(function () {
+        $('label[for="include-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
             if (includedPokemon.includes($(this).data('id'))) {
                 $(this).addClass('active')
             }
@@ -1923,6 +1912,79 @@ function initPokemonFilters() {
 
             Store.set('excludedRaidPokemon', settings.excludedRaidPokemon)
         })
+    }
+
+    if (showConfig.quests) {
+        const includedPokemon = pokemonIds.filter(id => !settings.excludedQuestPokemon.includes(id))
+        $('#include-quest-pokemon').val(includedPokemon)
+        if (includedPokemon.length === pokemonIds.length) {
+            $('a[href="#quest-pokemon-tab"]').text('Quest Pokémon (All)')
+        } else {
+            $('a[href="#quest-pokemon-tab"]').text(`Quest Pokémon (${includedPokemon.length})`)
+        }
+
+        $('label[for="include-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+            if (includedPokemon.includes($(this).data('id'))) {
+                $(this).addClass('active')
+            }
+        })
+
+        $('#include-quest-pokemon').on('change', function (e) {
+            const includedPokemon = $(this).val().length > 0 ? $(this).val().split(',').map(Number) : []
+            const oldExcludedPokemon = settings.excludedQuestPokemon
+            settings.excludedQuestPokemon = pokemonIds.filter(id => !includedPokemon.includes(id))
+
+            if (settings.excludedQuestPokemon > oldExcludedPokemon) {
+                reprocessPokestops()
+            } else {
+                lastpokestops = false
+                updateMap()
+            }
+
+            if (includedPokemon.length === pokemonIds.length) {
+                $('a[href="#quest-pokemon-tab"]').text('Quest Pokémon (All)')
+            } else {
+                $('a[href="#quest-pokemon-tab"]').text(`Quest Pokémon (${includedPokemon.length})`)
+            }
+            $('#quest-filter-tabs').tabs('updateTabIndicator')
+
+            Store.set('excludedQuestPokemon', settings.excludedQuestPokemon)
+        })
+    }
+}
+
+function initItemFilters() {
+    if (showConfig.quests) {
+        const excludeFromFilter = [0, 4, 5, 301, 401, 402, 403, 404, 501, 602, 603, 604, 702, 704, 707, 801, 901, 902, 903, 1001, 1002, 1101, 1102, 1103, 1104, 1105, 1106, 1401, 1402, 1403, 1404, 1405, 1406, 1501, 1502, 1503, 1600]
+        $.each(itemData, function(id, value) {
+            id = parseInt(id)
+            if (excludeFromFilter.includes(id)) {
+                return
+            }
+
+            const iconUrl = getItemImageUrl(id)
+            const questBundles = getQuestBundles(id)
+            if (questBundles.length > 0) {
+                $.each(questBundles, function(idx, bundleAmount) {
+                    $('.quest-item-filter-list').append(
+                        `<div class='filter-button' data-id='${id}' data-bundle='${bundleAmount}'>
+                        <div class='filter-button-content'>
+                        <div>${value.name}</div>
+                        <div><img src='${iconUrl}' width='32'></div>
+                        <div>x${bundleAmount}</div>
+                        </div>
+                        </div>`)
+                    })
+            } else {
+                $('.quest-item-filter-list').append(
+                    `<div class='filter-button' data-id='${id}'>
+                    <div class='filter-button-content'>
+                    <div>${value.name}</div>
+                    <div><img src='${iconUrl}' width='32'></div>
+                    </div>
+                    </div>`)
+                }
+            })
     }
 }
 
@@ -3431,7 +3493,7 @@ function isPokestopMeetsQuestFilters(pokestop) {
             case 3:
                 return includedQuestItems.includes(6)
             case 7:
-                return includedQuestPokemon.includes(parseInt(pokestop.quest.pokemon_id))
+                return !settings.excludedQuestPokemon.includes(parseInt(pokestop.quest.pokemon_id))
         }
     }
 
@@ -4984,7 +5046,6 @@ $(function () {
         centerMapOnLocation()
     }
 
-    $selectIncludeQuestPokemon = $('#include-quest-pokemon')
     $selectIncludeInvasions = $('#include-invasions')
     $selectIncludeQuestItems = $('#include-quest-items')
     $selectNotifyPokemon = $('#notify-pokemon')
@@ -4992,10 +5053,10 @@ $(function () {
     $selectNotifyEggs = $('#notify-eggs')
     $selectNotifyInvasions = $('#notify-invasions')
 
-    $.each(questItemIds, function (key, id) {
+    /*$.each(questItemIds, function (key, id) {
         $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='${id}'><img class='quest-item-select-icon' src='static/images/quest/reward_${id}_1.png'></div>`)
     })
-    $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='6'><img class='quest-item-select-icon' src='static/images/quest/reward_stardust.png'></div>`)
+    $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='6'><img class='quest-item-select-icon' src='static/images/quest/reward_stardust.png'></div>`)*/
 
     // Load pokemon names and populate lists
     $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
@@ -5017,7 +5078,7 @@ $(function () {
                 }
             })
             pokemonData['gen'] = getPokemonGen(id)
-            $('.pokemon-list').append('<div class=pokemon-filter-button data-gen=gen' + pokemonData['gen'] + ' data-pkm=' + i8ln(pokemonData['name']) + ' data-value=' + id + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + id + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(pokemonData['name']) + '</div></div>')
+            $('.pokemon-list').append('<div class=filter-button data-gen=gen' + pokemonData['gen'] + ' data-pkm=' + i8ln(pokemonData['name']) + ' data-value=' + id + ' data-type1=' + typestring[0] + ' data-type2=' + typestring[1] + '><div id=pkid_list>#' + id + '</div>' + pokemonIcon + '<div id=pkname_list>' + i8ln(pokemonData['name']) + '</div></div>')
             idToPokemon[id] = pokemonData
             pokeSearchList.push({
                 value: id,
@@ -5060,7 +5121,7 @@ $(function () {
 
 
 
-        $('.quest-item-select-all').on('click', function (e) {
+        /*$('.quest-item-select-all').on('click', function (e) {
             e.preventDefault()
             var parent = $(this).parent().parent()
             parent.find('.quest-item-list .quest-item-sprite').addClass('active')
@@ -5072,26 +5133,6 @@ $(function () {
             var parent = $(this).parent().parent()
             parent.find('.quest-item-list .quest-item-sprite').removeClass('active')
             parent.find('input[id$=items]').val('').trigger('change')
-        })
-
-
-        $selectIncludeQuestPokemon.on('change', function (e) {
-            if ($selectIncludeQuestPokemon.val().length > 0) {
-                includedQuestPokemon = $selectIncludeQuestPokemon.val().split(',').map(Number).sort(function (a, b) {
-                    return a - b
-                })
-            } else {
-                includedQuestPokemon = []
-            }
-            if (includedQuestPokemon.length === pokemonIds.length) {
-                $('a[href$="#tabs_quest-1"]').text('Quest Pokémon (All)')
-            } else {
-                $('a[href$="#tabs_quest-1"]').text(`Quest Pokémon (${includedQuestPokemon.length})`)
-            }
-            reprocessPokestops()
-            lastpokestops = false
-            updateMap()
-            Store.set('remember_select_include_quest_pokemon', includedQuestPokemon)
         })
 
         $selectIncludeQuestItems.on('change', function (e) {
@@ -5111,7 +5152,7 @@ $(function () {
             lastpokestops = false
             updateMap()
             Store.set('remember_select_include_quest_items', includedQuestItems)
-        })
+        })*/
 
         $selectNotifyPokemon.on('change', function (e) {
             const oldNotifyPokemon = notifyPokemon
@@ -5161,7 +5202,6 @@ $(function () {
         })
 
         // Recall saved lists.
-        $selectIncludeQuestPokemon.val(Store.get('remember_select_include_quest_pokemon')).trigger('change')
         $selectIncludeQuestItems.val(Store.get('remember_select_include_quest_items')).trigger('change')
         $selectNotifyPokemon.val(Store.get('remember_select_notify_pokemon')).trigger('change')
         $selectNotifyRaidPokemon.val(Store.get('remember_select_notify_raid_pokemon')).trigger('change')
@@ -5196,8 +5236,6 @@ $(function () {
                 img.addClass('active')
             }
         })
-
-        //loadDefaultImages()
 
         $('.invasion-select-all').on('click', function (e) {
             e.preventDefault()

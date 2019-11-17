@@ -41,24 +41,30 @@
     padding-left: 0;
   }
 
-  .pokemon-filter-button {
+  .filter-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 75px;
     height: 75px;
     margin-bottom: 8px;
     margin-right: 8px;
     float: left;
-    text-align: center;
     line-height: initial;
-    padding: 7px 0;
     color: #000;
     background-color: #ffcdd2;
+    cursor: pointer;
 
     &.active {
       background-color: #e0f2f1;
     }
   }
 
-  .pokemon-filter-list {
+  .filter-button-content {
+    text-align: center;
+  }
+
+  .pokemon-filter-list, .quest-item-filter-list {
     height: 573px;
     margin-top: 8px;
     overflow-y: scroll;

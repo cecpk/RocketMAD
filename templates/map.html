@@ -139,6 +139,50 @@
     </div>
     {% endif %}
 
+    {% if show.quests %}
+    <div id="quest-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <ul id ="quest-filter-tabs" class="tabs grey lighten-5">
+          <li class="tab"><a href="#quest-pokemon-tab" class="active">Quest Pokémon</a></li>
+          <li class="tab"><a href="#quest-item-tab">Quest Items</a></li>
+        </ul>
+        <div id="quest-pokemon-tab">
+          <label for="include-quest-pokemon">
+            <input id="include-quest-pokemon" type="text" readonly="true" style="display:none;">
+            <div class="pokemon-filter-list"></div>
+            <div class="filter-footer-container">
+              <div class="filter-footer-left">
+                <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
+                <input type="search" class="search" placeholder="Search...">
+              </div>
+              <div class="filter-footer-right">
+                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+              </div>
+            </div>
+          </label>
+        </div>
+        <div id="quest-item-tab">
+          <label for="include-quest-items">
+            <input id="include-quest-items" type="text" readonly="true" style="display:none;">
+            <div class="quest-item-filter-list"></div>
+            <div class="filter-footer-container">
+              <div></div>
+              <div class="filter-footer-right">
+                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
     <ul id="settings-sidenav" class="sidenav collapsible">
       {% if show.pokemons %}
       <li>
@@ -404,12 +448,26 @@
         <div class="collapsible-header"><i class="material-icons">nature</i>PokéStops</div>
         <div class="collapsible-body">
           <div class="settings-container">
-            <div class="switch">
-              <label>
-                <input type="checkbox" id="pokestop-switch">
-                <span class="lever"></span>
-                PokéStops
-              </label>
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="pokestop-switch">
+                  <span class="lever"></span>
+                  PokéStops
+                </label>
+              </div>
+            </div>
+            <div id="pokestop-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="quest-switch">
+                    <span class="lever"></span>
+                    Quests
+                  </label>
+                  <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Quests"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
