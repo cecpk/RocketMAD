@@ -27,6 +27,7 @@
 #no-raid-filters                # Disable raid filters in side nav. (default=False)
 #no-pokestops                   # Disables pokestops. (default=False)
 #no-quests                      # Disables quests. (default=False)
+#no-invasions                   # Disables team rocket invasions. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
 #medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)

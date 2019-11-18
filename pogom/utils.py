@@ -130,6 +130,9 @@ def get_args():
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables Quests.'),
                         action='store_true', default=False)
+    parser.add_argument('-ni', '--no-invasions',
+                        help=('Disables Team Rocket Invasions.'),
+                        action='store_true', default=False)
     parser.add_argument('-mpm', '--medalpokemon',
                         help='Show notifications for tiny Rattata and big Magikarp.',
                         action='store_true', default=False)

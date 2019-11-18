@@ -194,6 +194,7 @@ class Pogom(Flask):
             'raid_filters': not args.no_raids and not args.no_raid_filters,
             'pokestops': not args.no_pokestops,
             'quests': not args.no_pokestops and not args.no_quests,
+            'invasions': not args.no_pokestops and not args.no_invasions,
             'medalpokemon': args.medalpokemon,
             'ex_parks': args.ex_parks,
             'nest_parks': args.nest_parks,

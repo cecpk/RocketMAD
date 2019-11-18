@@ -46,11 +46,11 @@ var settings = {
     showExEligibleRaidsOnly: null,
     includedRaidLevels: null,
     showPokestops: null,
+    showPokestopsNoEvent: null,
     showQuests: null,
     excludedQuestPokemon: null,
     excludedQuestItems: null,
-    showPokestopsNoEvent: true,
-    showInvasions: true,
+    showInvasions: null,
     showExParks: false,
     showNestParks: false
 }
@@ -638,15 +638,14 @@ function initSettings() {
 
     settings.showPokestops = showConfig.pokestops && Store.get('showPokestops')
     if (showConfig.pokestops) {
+        settings.showPokestopsNoEvent = Store.get('showPokestopsNoEvent')
         settings.showQuests = showConfig.quests && Store.get('showQuests')
+        settings.showInvasions = showConfig.invasions && Store.get('showInvasions')
     }
     if (showConfig.quests) {
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
     }
-
-    settings.showPokestopsNoEvent = showConfig.pokestops && Store.get('showPokestopsNoEvent')
-    settings.showInvasions = showConfig.pokestops && Store.get('showInvasions')
 
 
     settings.showExParks = showConfig.ex_parks && Store.get('showExParks')
@@ -1159,12 +1158,30 @@ function initSidebar() {
             }
             Store.set('showPokestops', this.checked)
         })
+
+        $('#pokestop-no-event-switch').change(function () {
+            settings.showPokestopsNoEvent = this.checked
+            if (this.checked) {
+                lastpokestops = false
+                updateMap()
+            } else {
+                reprocessPokestops()
+            }
+            Store.set('showPokestopsNoEvent', this.checked)
+        })
+
+        $('#pokestop-name-filter').on('keyup', function () {
+            $pokestopNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
+            reprocessPokestops()
+            lastpokestops = false
+            updateMap()
+        })
     }
 
     if (showConfig.quests) {
         $('#quest-switch').change(function () {
             settings.showQuests = this.checked
-            var filterButton = $($('a[data-target="quest-filter-modal"]').toggle(settings.showPokemon))
+            var filterButton = $('a[data-target="quest-filter-modal"]')
             if (this.checked) {
                 filterButton.show()
                 lastpokestops = false
@@ -1177,7 +1194,21 @@ function initSidebar() {
         })
     }
 
-
+    if (showConfig.invasions) {
+        $('#invasion-switch').change(function () {
+            settings.showInvasions = this.checked
+            var filterButton = $('a[data-target="invasion-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+                lastpokestops = false
+                updateMap()
+            } else {
+                filterButton.hide()
+                reprocessPokestops()
+            }
+            Store.set('showInvasions', this.checked)
+        })
+    }
 
 
     $('#scanned-switch').change(function () {
@@ -1269,35 +1300,6 @@ function initSidebar() {
 
     $('#weather-alerts-switch').change(function () {
         buildSwitchChangeListener(mapData, ['weatherAlerts'], 'showWeatherAlerts').bind(this)()
-    })
-
-    $('#pokestop-name-filter').on('keyup', function () {
-        $pokestopNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
-        reprocessPokestops()
-        lastpokestops = false
-        updateMap()
-    })
-
-    $('#pokestops-no-event-switch').change(function () {
-        settings.showPokestopsNoEvent = this.checked
-        reprocessPokestops()
-        lastpokestops = false
-        updateMap()
-        Store.set('showPokestopsNoEvent', this.checked)
-    })
-
-    $('#invasions-switch').change(function () {
-        var wrapper = $('#invasions-filter-wrapper')
-        if (this.checked) {
-            wrapper.show()
-        } else {
-            wrapper.hide()
-        }
-        settings.showInvasions = this.checked
-        reprocessPokestops()
-        lastpokestops = false
-        updateMap()
-        Store.set('showInvasions', this.checked)
     })
 
     $('#normal-lures-switch').change(function () {
@@ -1615,17 +1617,19 @@ function initSidebar() {
     // Pokestops.
     if (showConfig.pokestops) {
         $('#pokestop-switch').prop('checked', settings.showPokestops)
+        $('#pokestop-filters-wrapper').toggle(settings.showPokestops)
+        $('#pokestop-no-event-switch').prop('checked', settings.showPokestopsNoEvent)
     }
     if (showConfig.quests) {
         $('#quest-switch').prop('checked', settings.showQuests)
         $('a[data-target="quest-filter-modal"]').toggle(settings.showQuests)
     }
+    if (showConfig.invasions) {
+        $('#invasion-switch').prop('checked', settings.showInvasions)
+        $('a[data-target="invasion-filter-modal"]').toggle(settings.showInvasions)
+    }
 
 
-    $('#pokestops-switch').prop('checked', settings.showPokestops)
-    $('#pokestops-filter-wrapper').toggle(settings.showPokestops)
-    $('#pokestops-no-event-switch').prop('checked', settings.showPokestopsNoEvent)
-    $('#invasions-switch').prop('checked', settings.showInvasions)
     $('#invasions-filter-wrapper').toggle(settings.showInvasions)
     $('#normal-lures-switch').prop('checked', Store.get('showNormalLures'))
     $('#glacial-lures-switch').prop('checked', Store.get('showGlacialLures'))
@@ -2024,6 +2028,10 @@ function initItemFilters() {
             Store.set('excludedQuestItems', settings.excludedQuestItems)
         })
     }
+}
+
+function initInvasionFilters() {
+
 }
 
 function pokemonLabel(item) {
@@ -3562,9 +3570,23 @@ function isPokestopMeetsLureFilters(pokestop) {
 }
 
 function isPokestopMeetsFilters(pokestop) {
-    const pokestopRegexp = new RegExp($pokestopNameFilter, 'gi')
-    return settings.showPokestops && ($pokestopNameFilter && pokestop.name ? pokestop.name.match(pokestopRegexp) : !$pokestopNameFilter || pokestop.name) &&
-        (settings.showPokestopsNoEvent || isPokestopMeetsQuestFilters(pokestop) || isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop))
+    if (!settings.showPokestops) {
+        return false
+    }
+
+    if ($pokestopNameFilter) {
+        if (pokestop.name) {
+            const regex = new RegExp($pokestopNameFilter, 'gi')
+            if (!pokestop.name.match(regex)) {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+
+    return settings.showPokestopsNoEvent || isPokestopMeetsQuestFilters(pokestop) ||
+        isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop)
 }
 
 function isNotifyPokemon(pokemon) {

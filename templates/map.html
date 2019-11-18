@@ -181,6 +181,25 @@
     </div>
     {% endif %}
 
+    {% if show.invasions %}
+    <div id="invasion-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <h6 id="filter-invasion-title">Team Rocket Invasions</h6>
+        <label for="exclude-invasions">
+          <input id="exclude-invasions" type="text" readonly="true" style="display:none;">
+          <div class="invasion-filter-list"></div>
+          <div class="filter-footer-container">
+            <div></div>
+            <div class="filter-footer-right">
+              <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
     <ul id="settings-sidenav" class="sidenav collapsible">
       {% if show.pokemons %}
       <li>
@@ -457,6 +476,22 @@
             </div>
             <div id="pokestop-filters-wrapper">
               <div class="form-control">
+                <div class="input-field">
+                  <div class="text-input-title">Name includes</div>
+                  <input placeholder="Filter..." id="pokestop-name-filter" type="text">
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="pokestop-no-event-switch">
+                    <span class="lever"></span>
+                    PokéStops without event
+                  </label>
+                </div>
+              </div>
+              {% if show.quests %}
+              <div class="form-control">
                 <div class="switch">
                   <label>
                     <input type="checkbox" id="quest-switch">
@@ -466,6 +501,19 @@
                   <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Quests"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
+              {% endif %}
+              {% if show.invasions %}
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="invasion-switch">
+                    <span class="lever"></span>
+                    Team Rocket Invasions
+                  </label>
+                  <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Invasions"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
+              {% endif %}
             </div>
           </div>
         </div>
