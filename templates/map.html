@@ -94,9 +94,9 @@
     {% if show.pokemons %}
     <div id="pokemon-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="include-pokemon-title">Pokémon</h6>
-        <label for="include-pokemon">
-          <input id="include-pokemon" type="text" readonly="true" style="display:none;">
+        <h6 id="filter-pokemon-title">Pokémon</h6>
+        <label for="exclude-pokemon">
+          <input id="exclude-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
@@ -115,12 +115,12 @@
     </div>
     {% endif %}
 
-    {% if show.raids and show.raid_filters %}
+    {% if show.raid_filters %}
     <div id="raid-pokemon-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="include-raid-pokemon-title">Raid Bosses</h6>
-        <label for="include-raid-pokemon">
-          <input id="include-raid-pokemon" type="text" readonly="true" style="display:none;">
+        <h6 id="filter-raid-pokemon-title">Raid Bosses</h6>
+        <label for="exclude-raid-pokemon">
+          <input id="exclude-raid-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
@@ -147,8 +147,8 @@
           <li class="tab"><a href="#quest-item-tab">Quest Items</a></li>
         </ul>
         <div id="quest-pokemon-tab">
-          <label for="include-quest-pokemon">
-            <input id="include-quest-pokemon" type="text" readonly="true" style="display:none;">
+          <label for="exclude-quest-pokemon">
+            <input id="exclude-quest-pokemon" type="text" readonly="true" style="display:none;">
             <div class="pokemon-filter-list"></div>
             <div class="filter-footer-container">
               <div class="filter-footer-left">
@@ -165,16 +165,14 @@
           </label>
         </div>
         <div id="quest-item-tab">
-          <label for="include-quest-items">
-            <input id="include-quest-items" type="text" readonly="true" style="display:none;">
+          <label for="exclude-quest-items">
+            <input id="exclude-quest-items" type="text" readonly="true" style="display:none;">
             <div class="quest-item-filter-list"></div>
             <div class="filter-footer-container">
               <div></div>
               <div class="filter-footer-right">
-                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
-                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+                <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
               </div>
             </div>
           </label>

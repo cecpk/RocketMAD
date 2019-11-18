@@ -20,6 +20,10 @@
   "5": {
     "name": "Premier Ball"
   },
+  "6": {
+    "name": "Stardust",
+    "questBundles": [200, 500, 1000, 1500]
+  },
   "101": {
     "name": "Potion",
     "questBundles": [5]
