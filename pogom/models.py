@@ -1013,7 +1013,7 @@ def db_clean_spawnpoints(age_hours):
                  .where((Trs_Spawn.last_scanned < spawnpoint_timeout) &
                         (Trs_Spawn.last_non_scanned < spawnpoint_timeout))
                  .dicts())
-        old_sp = [(sp['id']) for sp in query]
+        old_sp = [(sp['spawnpoint']) for sp in query]
 
         num_records = len(old_sp)
         log.debug('Found %d old Trs_Spawn entries.', num_records)

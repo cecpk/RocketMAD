@@ -2455,6 +2455,13 @@ function pokestopLabel(pokestop) {
     if (isPokestopMeetsInvasionFilters(pokestop)) {
         const invasionId = pokestop.incident_grunt_type
         const invasionExpireTime = pokestop.incident_expiration
+        var typeDisplay = ''
+        if (idToInvasion[invasionId].type) {
+            typeDisplay = `
+                <div>
+                  Type: <strong>${idToInvasion[invasionId].type}</strong>
+                </div>`
+        }
         invasionDisplay = `
             <div class='section-divider'></div>
             <div class='pokestop-container'>
@@ -2472,11 +2479,9 @@ function pokestopLabel(pokestop) {
                 <div class='disappear'>
                   ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
                 </div>
+                ${typeDisplay}
                 <div>
-                  Invasion type: <strong>${idToInvasion[invasionId].type}</strong>
-                </div>
-                <div>
-                  Grunt gender: <strong>${idToInvasion[invasionId].gruntGender}</strong>
+                  Grunt: <strong>${idToInvasion[invasionId].grunt}</strong>
                 </div>
               </div>
             </div>`
@@ -4623,7 +4628,7 @@ function sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNoti
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
             notifyText += `\nInvasion ends at ${expireTime} (${expireTimeCountdown})`
-            notifyTitle += `${idToInvasion[pokestop.incident_grunt_type].type} (${idToInvasion[pokestop.incident_grunt_type].gruntGender}) Invasion`
+            notifyTitle += `${idToInvasion[pokestop.incident_grunt_type].type} (${idToInvasion[pokestop.incident_grunt_type].grunt}) Invasion`
         }
         if (isLureNotifyPokestop) {
             let expireTime = timestampToTime(pokestop.lure_expiration)
@@ -5193,7 +5198,7 @@ $(function () {
         let invasionIds = []
         for (var id in data) {
             idToInvasion[id] = data[id]
-            $('.invasion-list').append(`<div class='invasion-sprite' data-value='${id}'><div id='invasion-type-list'>${idToInvasion[id].type}</div><img class='invasion-select-icon' src='static/images/invasion/${id}.png' width='32px'><div id='invasion-gender-list'>${idToInvasion[id].gruntGender} Grunt</div></div>`)
+            $('.invasion-list').append(`<div class='invasion-sprite' data-value='${id}'><div id='invasion-type-list'>${idToInvasion[id].type}</div><img class='invasion-select-icon' src='static/images/invasion/${id}.png' width='32px'><div id='invasion-gender-list'>${idToInvasion[id].grunt}</div></div>`)
             invasionIds.push(id)
         }
 

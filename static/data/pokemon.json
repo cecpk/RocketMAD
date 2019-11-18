@@ -2494,6 +2494,20 @@
       "708": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "944": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#a040a0"
+          },
+          {
+            "type": "Fairy",
+            "color": "#e898e8"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -4906,7 +4920,27 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "945": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "946": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Normal",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "31"
+      }
+    }
   },
   "264": {
     "name": "Linoone",
@@ -4915,7 +4949,27 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "947": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "948": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Normal",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "31"
+      }
+    }
   },
   "265": {
     "name": "Wurmple",
@@ -9456,7 +9510,7 @@
     ]
   },
   "563": {
-    "name": "Cohagrigus",
+    "name": "Cofagrigus",
     "types": [
       {
         "type": "Ghost",
