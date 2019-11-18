@@ -4,6 +4,7 @@ var i8lnDictionary = {}
 var pokemonData = {}
 var moveData = {}
 var itemData = {}
+var invasionData = {}
 
 var pokemonSearchList = []
 
@@ -138,6 +139,22 @@ function initItemData(callback) {
     })
 }
 
+function initInvasionData(callback) {
+    if (!$.isEmptyObject(invasionData)) {
+        callback()
+        return
+    }
+
+    $.getJSON('static/dist/data/invasions.min.json')
+    .done(function (data) {
+        invasionData = data
+        callback()
+    })
+    .fail(function () {
+        console.log('Error loading invasion data.')
+    })
+}
+
 function getPokemonName(id) {
     return i8ln(pokemonData[id].name)
 }
@@ -184,6 +201,18 @@ function getItemName(id) {
 
 function getItemImageUrl(id) {
     return 'static/images/items/' + id + '.png'
+}
+
+function getInvasionType(id) {
+    return i8ln(invasionData[id].type)
+}
+
+function getInvasionGrunt(id) {
+    return i8ln(invasionData[id].grunt)
+}
+
+function getInvasionImageUrl(id) {
+    return 'static/images/invasion/' + id + '.png'
 }
 
 function getQuestBundles(id) {
