@@ -227,21 +227,13 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
-    'showNormalLures': {
+    'showLures': {
         default: true,
         type: StoreTypes.Boolean
     },
-    'showGlacialLures': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'showMagneticLures': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'showMossyLures': {
-        default: true,
-        type: StoreTypes.Boolean
+    'includedLureTypes': {
+        default: [501, 502, 503, 504],
+        type: StoreTypes.JSON
     },
     'showScanned': {
         default: false,

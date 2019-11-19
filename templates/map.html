@@ -514,6 +514,30 @@
                 </div>
               </div>
               {% endif %}
+              {% if show.lures %}
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="lure-switch">
+                    <span class="lever"></span>
+                    Lures
+                  </label>
+                </div>
+              </div>
+              <div id="lure-type-select-wrapper">
+                <div class="form-control">
+                  <div class="input-field">
+                    <div class="select-title">Filter Lures</div>
+                    <select id="lure-type-select" multiple>
+                      <option value="501">Normal Lures</option>
+                      <option value="502">Glacial Lures</option>
+                      <option value="504">Magnetic Lures</option>
+                      <option value="503">Mossy Lures</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
             </div>
           </div>
         </div>
