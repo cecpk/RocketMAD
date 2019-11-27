@@ -864,7 +864,8 @@ class Weather(BaseModel):
                                  null=True, index=True)
 
     @staticmethod
-    def get_weather_by_location(swLat, swLng, neLat, neLng, alert):
+    def get_weather(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                    oNeLat=None, oNeLng=None, timestamp=0):
         # We can filter by the center of a cell,
         # this deltas can expand the viewport bounds
         # So cells with center outside the viewport,
@@ -873,24 +874,43 @@ class Weather(BaseModel):
         # with viewport won't be rendered
         lat_delta = 0.15
         lng_delta = 0.4
-        if not alert:
-            query = Weather.select().where((
-                Weather.latitude >= float(swLat) - lat_delta) &
-                (Weather.longitude >= float(swLng) - lng_delta) &
-                (Weather.latitude <= float(neLat) + lat_delta) &
-                (Weather.longitude <= float(neLng) + lng_delta)).dicts()
-        else:
-            query = Weather.select().where((
-                Weather.latitude >= float(swLat) - lat_delta) &
-                (Weather.longitude >= float(swLng) - lng_delta) &
-                (Weather.latitude <= float(neLat) + lat_delta) &
-                (Weather.longitude <= float(neLng) + lng_delta) &
-                (Weather.severity.is_null(False))).dicts()
-        weathers = []
-        for w in query:
-            weathers.append(w)
 
-        return weathers
+        if not (swLat and swLng and neLat and neLng):
+            query = Weather.select()
+        elif timestamp > 0:
+            # If timestamp is known only send last scanned Weather.
+            query = (Weather
+                     .select()
+                     .where((Weather.last_updated >
+                             datetime.utcfromtimestamp(timestamp / 1000)) &
+                            (Weather.latitude >= float(swLat) - lat_delta) &
+                            (Weather.longitude >= float(swLng) - lng_delta) &
+                            (Weather.latitude <= float(neLat) + lat_delta) &
+                            (Weather.longitude <= float(neLng) + lng_delta)))
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send weather in view but exclude those within old boundaries.
+            # Only send newly uncovered weather.
+            query = (Weather
+                     .select()
+                     .where(
+                         ((Weather.latitude >= float(swLat) - lat_delta) &
+                          (Weather.longitude >= float(swLng) - lng_delta) &
+                          (Weather.latitude <= float(neLat) + lat_delta) &
+                          (Weather.longitude <= float(neLng) + lng_delta)) & ~
+                         ((Weather.latitude >= float(oSwLat) - lat_delta) &
+                          (Weather.longitude >= float(oSwLng) - lng_delta) &
+                          (Weather.latitude <= float(oNeLat) + lat_delta) &
+                          (Weather.longitude <= float(oNeLng) + lng_delta))))
+
+        else:
+            query = (Weather
+                     .select()
+                     .where((Weather.latitude >= float(swLat) - lat_delta) &
+                            (Weather.longitude >= float(swLng) - lng_delta) &
+                            (Weather.latitude <= float(neLat) + lat_delta) &
+                            (Weather.longitude <= float(neLng) + lng_delta)))
+
+        return list(query.dicts())
 
 
 def clean_db_loop(args):

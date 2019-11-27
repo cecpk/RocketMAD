@@ -29,6 +29,7 @@
 #no-quests                      # Disables quests. (default=False)
 #no-invasions                   # Disables team rocket invasions. (default=False)
 #no-lures                       # Disables lures. (default=False)
+#no-weather                     # Disables weather. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
 #medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)

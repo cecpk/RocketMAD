@@ -242,8 +242,10 @@ def main():
         sys.exit(1)
 
     # Let's not forget to run Grunt.
-    if not validate_assets(args):
-        sys.exit(1)
+    args.custom_css = False
+    args.custom_js = False
+    #if not validate_assets(args):
+    #    sys.exit(1)
 
     position = extract_coordinates(args.location)
 

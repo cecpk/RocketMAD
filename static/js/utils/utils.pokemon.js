@@ -1,69 +1,9 @@
-const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
-var i8lnDictionary = {}
-
 var pokemonData = {}
 var moveData = {}
-var itemData = {}
-var invasionData = {}
-
-var pokemonSearchList = []
-
 var pokemonRarities = {}
-var rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
-
+const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
+var pokemonSearchList = []
 const availablePokemonCount = 649
-
-function initI8lnDictionary(callback) {
-    if (language === 'en' || !$.isEmptyObject(i8lnDictionary)) {
-        callback()
-        return
-    }
-
-    $.getJSON('static/dist/locales/' + language + '.min.json')
-    .done(function (data) {
-        i8lnDictionary = data
-        callback()
-    })
-    .fail(function () {
-        console.log('Error loading i8ln dictionary.')
-    })
-}
-
-function i8ln(word) {
-    if (word in i8lnDictionary) {
-        return i8lnDictionary[word]
-    } else {
-        // Word doesn't exist in dictionary return it as is.
-        return word
-    }
-}
-
-function updatePokemonRarities(rarityFileName, callback) {
-    $.getJSON('static/dist/data/' + rarityFileName + '.json')
-    .done(function (data) {
-        pokemonRarities = data
-        callback()
-    })
-    .fail(function () {
-        console.log("Couldn't load dynamic rarity JSON.")
-    })
-}
-
-function getPokemonRarity(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
-        return pokemonRarities[pokemonId]
-    }
-
-    return 6 // New Spawn.
-}
-
-function getPokemonRarityName(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
-        return i8ln(rarityNames[pokemonRarities[pokemonId] - 1])
-    }
-
-    return i8ln('New Spawn')
-}
 
 function initPokemonData(callback) {
     if (!$.isEmptyObject(pokemonData)) {
@@ -123,35 +63,14 @@ function initMoveData(callback) {
     })
 }
 
-function initItemData(callback) {
-    if (!$.isEmptyObject(itemData)) {
-        callback()
-        return
-    }
-
-    $.getJSON('static/dist/data/items.min.json')
+function updatePokemonRarities(rarityFileName, callback) {
+    $.getJSON('static/dist/data/' + rarityFileName + '.json')
     .done(function (data) {
-        itemData = data
+        pokemonRarities = data
         callback()
     })
     .fail(function () {
-        console.log('Error loading item data.')
-    })
-}
-
-function initInvasionData(callback) {
-    if (!$.isEmptyObject(invasionData)) {
-        callback()
-        return
-    }
-
-    $.getJSON('static/dist/data/invasions.min.json')
-    .done(function (data) {
-        invasionData = data
-        callback()
-    })
-    .fail(function () {
-        console.log('Error loading invasion data.')
+        console.log("Couldn't load dynamic rarity JSON.")
     })
 }
 
@@ -195,32 +114,87 @@ function getMoveTypeNoI8ln(id) {
     return moveData[id].type
 }
 
-function getItemName(id) {
-    return i8ln(itemData[id].name)
-}
-
-function getItemImageUrl(id) {
-    return 'static/images/items/' + id + '.png'
-}
-
-function getInvasionType(id) {
-    return i8ln(invasionData[id].type)
-}
-
-function getInvasionGrunt(id) {
-    return i8ln(invasionData[id].grunt)
-}
-
-function getInvasionImageUrl(id) {
-    return 'static/images/invasion/' + id + '.png'
-}
-
-function getQuestBundles(id) {
-    if (itemData[id].questBundles) {
-        return itemData[id].questBundles
-    } else {
-        return []
+function getPokemonRarity(pokemonId) {
+    if (pokemonRarities.hasOwnProperty(pokemonId)) {
+        return pokemonRarities[pokemonId]
     }
+
+    return 6 // New Spawn.
+}
+
+function getPokemonRarityName(pokemonId) {
+    if (pokemonRarities.hasOwnProperty(pokemonId)) {
+        return i8ln(rarityNames[pokemonRarities[pokemonId] - 1])
+    }
+
+    return i8ln('New Spawn')
+}
+
+function getPokemonRawIconUrl(p) {
+    if (!generateImages) {
+        return `static/icons/${p.pokemon_id}.png`
+    }
+    var url = 'pkm_img?raw=1&pkm=' + p.pokemon_id
+    var props = ['gender', 'form', 'costume', 'shiny']
+    for (var i = 0; i < props.length; i++) {
+        var prop = props[i]
+        if (prop in p && p[prop] != null && p[prop]) {
+            url += '&' + prop + '=' + p[prop]
+        }
+    }
+    return url
+}
+
+function getPokemonMapIconUrl(pokemon) {
+    if (!generateImages) {
+        return `static/icons/${pokemon.pokemon_id}.png`
+    }
+
+    let genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
+    let formParam = pokemon.form ? `&form=${pokemon.form}` : ''
+    let costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
+    let weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
+
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${weatherParam}`
+}
+
+function getIvsPercentage(atk, def, sta) {
+    // Round to 1 decimal place.
+    return Math.round(1000 * (atk + def + sta) / 45) / 10
+}
+
+function getIvsPercentageCssColor(ivs) {
+    if (ivs < 51) {
+        return 'red'
+    } else if (ivs < 66) {
+        return 'orange'
+    } else if (ivs < 82) {
+        return 'olive'
+    } else if (ivs < 100) {
+        return 'green'
+    } else {
+        return 'lime'
+    }
+}
+
+function getPokemonLevel(cpMultiplier) {
+    if (cpMultiplier < 0.734) {
+        var pokemonLevel = 58.35178527 * cpMultiplier * cpMultiplier - 2.838007664 * cpMultiplier + 0.8539209906
+    } else {
+        pokemonLevel = 171.0112688 * cpMultiplier - 95.20425243
+    }
+    pokemonLevel = (Math.round(pokemonLevel) * 2) / 2
+
+    return pokemonLevel
+}
+
+function setupPokemonMarker(pokemon, layerGroup) {
+    var PokemonIcon = new L.icon({ // eslint-disable-line new-cap
+        iconUrl: getPokemonMapIconUrl(pokemon),
+        iconSize: [32, 32]
+    })
+
+    return L.marker([pokemon.latitude, pokemon.longitude], {icon: PokemonIcon}).addTo(layerGroup)
 }
 
 function searchPokemon(searchtext) {

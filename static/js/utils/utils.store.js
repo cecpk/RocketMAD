@@ -1,24 +1,3 @@
-/* global i8ln, L, markers, markersNoCluster, pokemonGen */
-/* eslint no-unused-vars: "off" */
-
-function pokemonSprites(pokemonID) {
-    var sprite = {
-        columns: 28,
-        iconWidth: 80,
-        iconHeight: 80,
-        spriteWidth: 2240,
-        spriteHeight: 1440,
-        filename: 'static/icons/' + (pokemonID) + '.png',
-        name: 'High-Res'
-    }
-
-    return sprite
-}
-
-//
-// LocalStorage helpers
-//
-
 var StoreTypes = {
     Boolean: {
         parse: function (str) {
@@ -61,7 +40,6 @@ var StoreTypes = {
     }
 }
 
-// set the default parameters for you map here
 var StoreOptions = {
     'map_style': {
         default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikimedia
@@ -235,6 +213,14 @@ var StoreOptions = {
         default: [501, 502, 503, 504],
         type: StoreTypes.JSON
     },
+    'showWeather': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showMainWeather': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showScanned': {
         default: false,
         type: StoreTypes.Boolean
@@ -272,10 +258,6 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'showNestParks': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showWeatherCells': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -512,234 +494,5 @@ var Store = {
     },
     reset: function (key) {
         localStorage.removeItem(key)
-    }
-}
-
-function getPokemonIcon(item, sprite, displayHeight) {
-    displayHeight = Math.max(displayHeight, 3)
-    var scale = displayHeight / sprite.iconHeight
-    var scaledIconSize = [scale * sprite.iconWidth, scale * sprite.iconHeigt]
-    var scaledIconOffset = [0, 0]
-    var scaledIconCenterOffset = [scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2]
-
-    let genderParam = item['gender'] ? `&gender=${item['gender']}` : ''
-    let formParam = item['form'] ? `&form=${item['form']}` : ''
-    let costumeParam = item['costume'] ? `&costume=${item['costume']}` : ''
-    let weatherParam = item['weather_boosted_condition'] ? `&weather=${item['weather_boosted_condition']}` : ''
-    let iconUrl = `pkm_img?pkm=${item['pokemon_id']}${genderParam}${formParam}${costumeParam}${weatherParam}`
-
-    return {
-        iconUrl: iconUrl,
-        iconSize: scaledIconSize,
-        iconAnchor: scaledIconCenterOffset
-    }
-}
-
-function getGoogleSprite(index, sprite, displayHeight) {
-    displayHeight = Math.max(displayHeight, 3)
-    var scale = displayHeight / sprite.iconHeight
-    // Crop icon just a tiny bit to avoid bleedover from neighbor
-    var scaledIconSize = (scale * sprite.iconWidth - 1, scale * sprite.iconHeight - 1)
-    var scaledIconOffset = (
-        (index % sprite.columns) * sprite.iconWidth * scale + 0.5,
-        Math.floor(index / sprite.columns) * sprite.iconHeight * scale + 0.5)
-    var scaledSpriteSize = (scale * sprite.spriteWidth, scale * sprite.spriteHeight)
-    var scaledIconCenterOffset = (scale * sprite.iconWidth / 2, scale * sprite.iconHeight / 2)
-
-    return {
-        iconUrl: sprite.filename,
-        iconSize: scaledIconSize,
-        iconAnchor: scaledIconCenterOffset,
-        scaledSize: scaledSpriteSize,
-        origin: scaledIconOffset
-    }
-}
-
-function getIvsPercentage(pokemon) {
-    // Round to 1 decimal place.
-    return Math.round(1000 * (pokemon.individual_attack + pokemon.individual_defense + pokemon.individual_stamina) / 45) / 10
-}
-
-function getPokemonLevel(pokemon) {
-    if (pokemon.cp_multiplier < 0.734) {
-        var pokemonLevel = (58.35178527 * pokemon.cp_multiplier * pokemon.cp_multiplier -
-        2.838007664 * pokemon.cp_multiplier + 0.8539209906)
-    } else {
-        pokemonLevel = 171.0112688 * pokemon.cp_multiplier - 95.20425243
-    }
-    pokemonLevel = (Math.round(pokemonLevel) * 2) / 2
-
-    return pokemonLevel
-}
-
-function getGymLevel(gym) {
-    return 6 - gym.slots_available
-}
-
-function isValidRaid(raid) {
-    return raid && raid.end > Date.now()
-}
-
-function isUpcomingRaid(raid) {
-    return raid.start > Date.now()
-}
-
-function isOngoingRaid(raid) {
-    const now = Date.now()
-    return raid.start <= now && raid.end > now
-}
-
-function isInvadedPokestop(pokestop) {
-    return pokestop.incident_expiration !== null && pokestop.incident_expiration > Date.now()
-}
-
-function isLuredPokestop(pokestop) {
-    return pokestop.lure_expiration !== null && pokestop.lure_expiration > Date.now()
-}
-
-function setupPokemonMarker(pokemon, layerGroup) {
-    var PokemonIcon = new L.icon({ // eslint-disable-line new-cap
-        iconUrl: getPokemonMapIconUrl(pokemon),
-        iconSize: [32, 32]
-    })
-
-    return L.marker([pokemon.latitude, pokemon.longitude], {icon: PokemonIcon}).addTo(layerGroup)
-}
-
-function isTouchDevice() {
-    // Should cover most browsers
-    return 'ontouchstart' in window || navigator.maxTouchPoints
-}
-
-function isMobileDevice() {
-    //  Basic mobile OS (not browser) detection
-    return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-}
-
-function getPercentageCssColor(value, perfectVal, goodVal, okVal, mehVal) {
-    if (value === perfectVal) {
-        return 'lime'
-    } else if (value >= goodVal) {
-        return 'green'
-    } else if (value >= okVal) {
-        return 'olive'
-    } else if (value >= mehVal) {
-        return 'orange'
-    } else {
-        return 'red'
-    }
-}
-
-function getPokemonRawIconUrl(p) {
-    if (!generateImages) {
-        return `static/icons/${p.pokemon_id}.png`
-    }
-    var url = 'pkm_img?raw=1&pkm=' + p.pokemon_id
-    var props = ['gender', 'form', 'costume', 'shiny']
-    for (var i = 0; i < props.length; i++) {
-        var prop = props[i]
-        if (prop in p && p[prop] != null && p[prop]) {
-            url += '&' + prop + '=' + p[prop]
-        }
-    }
-    return url
-}
-
-function getPokemonMapIconUrl(pokemon) {
-    if (!generateImages) {
-        return `static/icons/${pokemon.pokemon_id}.png`
-    }
-
-    let genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
-    let formParam = pokemon.form ? `&form=${pokemon.form}` : ''
-    let costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
-    let weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
-
-    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${weatherParam}`
-}
-
-function getPokestopIconUrl(pokestop) {
-    var imageName = 'stop'
-    if (pokestop.quest != null) {
-        imageName += '_q'
-    }
-    if (isInvadedPokestop(pokestop)) {
-        imageName += '_i_' + pokestop.incident_grunt_type
-    }
-    if (isLuredPokestop(pokestop)) {
-        imageName += '_l_' + pokestop.active_fort_modifier
-    }
-
-    return 'static/images/pokestop/' + imageName + '.png'
-}
-
-function getPokestopIconUrlFiltered(pokestop) {
-    var imageName = 'stop'
-    if (isPokestopMeetsQuestFilters(pokestop)) {
-        imageName += '_q'
-    }
-    if (isPokestopMeetsInvasionFilters(pokestop)) {
-        imageName += '_i_' + pokestop.incident_grunt_type
-    }
-    if (isPokestopMeetsLureFilters(pokestop)) {
-        imageName += '_l_' + pokestop.active_fort_modifier
-    }
-
-    return 'static/images/pokestop/' + imageName + '.png'
-}
-
-// Converts timestamp to readable time String.
-function timestampToTime(timestamp) {
-    var timeStr = 'Unknown'
-    if (timestamp) {
-        timeStr = Store.get('twelveHourTime') ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
-    }
-    return timeStr
-}
-
-// Converts timestamp to readable date String.
-function timestampToDate(timestamp) {
-    var dateStr = 'Unknown'
-    if (timestamp) {
-        if (moment(timestamp).isSame(moment(), 'day')) {
-            dateStr = 'Today'
-        } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
-            dateStr = 'Yesterday'
-        } else {
-            dateStr = moment(timestamp).format('YYYY-MM-DD')
-        }
-    }
-    return dateStr
-}
-
-// Converts timestamp to readable date and time String.
-function timestampToDateTime(timestamp) {
-    var dateStr = 'Unknown'
-    if (timestamp) {
-        var time = Store.get('twelveHourTime') ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
-        if (moment(timestamp).isSame(moment(), 'day')) {
-            dateStr = 'Today ' + time
-        } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
-            dateStr = 'Yesterday ' + time
-        } else {
-            dateStr = moment(timestamp).format('YYYY-MM-DD') + ' ' + time
-        }
-    }
-    return dateStr
-}
-
-function nowIsBetween(timestamp1, timestamp2) {
-    const now = Date.now()
-    return timestamp1 <= now && now <= timestamp2
-}
-
-function openMapDirections(lat, lng) { // eslint-disable-line no-unused-vars
-    var url = ''
-    if (Store.get('mapServiceProvider') === 'googlemaps') {
-        url = 'http://maps.google.com/maps?q=' + lat + ',' + lng
-        window.open(url, '_blank')
-    } else if (Store.get('mapServiceProvider') === 'applemaps') {
-        url = 'https://maps.apple.com/maps?daddr=' + lat + ',' + lng
-        window.open(url, '_self')
     }
 }

@@ -16,7 +16,8 @@ from flask_compress import Compress
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
 from pogom.weather import (get_weather_cells, get_weather_alerts)
-from .models import (Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn)
+from .models import (Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
+                     Weather)
 from .utils import (get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
 from .client_auth import check_auth
@@ -196,6 +197,7 @@ class Pogom(Flask):
             'quests': not args.no_pokestops and not args.no_quests,
             'invasions': not args.no_pokestops and not args.no_invasions,
             'lures': not args.no_pokestops and not args.no_lures,
+            'weather': not args.no_weather,
             'medalpokemon': args.medalpokemon,
             'ex_parks': args.ex_parks,
             'nest_parks': args.nest_parks,
@@ -262,11 +264,12 @@ class Pogom(Flask):
         oNeLng = request.args.get('oNeLng')
 
         # Previous switch settings.
+        lastpokemon = request.args.get('lastpokemon')
         lastgyms = request.args.get('lastgyms')
         lastpokestops = request.args.get('lastpokestops')
-        lastpokemon = request.args.get('lastpokemon')
-        lastslocs = request.args.get('lastslocs')
         lastspawns = request.args.get('lastspawns')
+        lastslocs = request.args.get('lastslocs')
+        lastweather = request.args.get('lastweather')
 
         pokestops = request.args.get('pokestops', 'true') == 'true'
         pokestopsNoEvent = request.args.get('pokestopsNoEvent', 'true') == 'true'
@@ -275,6 +278,9 @@ class Pogom(Flask):
         lures = request.args.get('lures', 'true') == 'true'
 
         # Current switch settings saved for next request.
+        if request.args.get('pokemon', 'true') == 'true':
+            d['lastpokemon'] = True
+
         if (request.args.get('gyms', 'true') == 'true' or
                 request.args.get('raids', 'true') == 'true'):
             d['lastgyms'] = True
@@ -282,14 +288,14 @@ class Pogom(Flask):
         if pokestops and (pokestopsNoEvent or quests or invasions or lures):
             d['lastpokestops'] = True
 
-        if request.args.get('pokemon', 'true') == 'true':
-            d['lastpokemon'] = True
-
-        if request.args.get('scanned', 'true') == 'true':
-            d['lastslocs'] = True
-
         if request.args.get('spawnpoints', 'false') == 'true':
             d['lastspawns'] = True
+
+        if request.args.get('scanned', 'false') == 'true':
+            d['lastslocs'] = True
+
+        if request.args.get('weather', 'false') == 'true':
+            d['lastweather'] = True
 
         if (oSwLat is not None and oSwLng is not None and
                 oNeLat is not None and oNeLng is not None):
@@ -353,6 +359,40 @@ class Pogom(Flask):
                     Pokemon.get_active(swLat, swLng, neLat, neLng, ids=ids))
                 d['reids'] = reids
 
+        if request.args.get('seen', 'false') == 'true':
+            d['seen'] = Pokemon.get_seen(int(request.args.get('duration')))
+
+        if request.args.get('appearances', 'false') == 'true':
+            d['appearances'] = Pokemon.get_appearances(
+                request.args.get('pokemonid'),
+                request.args.get('formid'),
+                int(request.args.get('duration')))
+
+        if request.args.get('appearancesDetails', 'false') == 'true':
+            d['appearancesTimes'] = (
+                Pokemon.get_appearances_times_by_spawnpoint(
+                    request.args.get('pokemonid'),
+                    request.args.get('formid'),
+                    request.args.get('spawnpoint_id'),
+                    int(request.args.get('duration'))))
+
+        gyms = request.args.get('gyms', 'true') == 'true' and not args.no_gyms
+        raids = (request.args.get('raids', 'true') == 'true' and
+            not args.no_raids)
+        if gyms or raids:
+            if lastgyms != 'true':
+                d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
+                                         raids=raids)
+            else:
+                d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
+                                         timestamp=timestamp, raids=raids)
+                if newArea:
+                    d['gyms'].update(
+                        Gym.get_gyms(swLat, swLng, neLat, neLng,
+                                     oSwLat=oSwLat, oSwLng=oSwLng,
+                                     oNeLat=oNeLat, oNeLng=oNeLng,
+                                     raids=raids))
+
         if (not args.no_pokestops and pokestops and (pokestopsNoEvent or
                 quests or invasions or lures)):
             if lastpokestops != 'true':
@@ -372,53 +412,6 @@ class Pogom(Flask):
                                            quests=quests, invasions=invasions,
                                            lures=lures))
 
-        gyms = request.args.get('gyms', 'true') == 'true' and not args.no_gyms
-        raids = (request.args.get('raids', 'true') == 'true' and
-            not args.no_raids)
-        if gyms or raids:
-            if lastgyms != 'true':
-                d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
-                                         raids=raids)
-            else:
-                d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
-                                         timestamp=timestamp, raids=raids)
-                if newArea:
-                    d['gyms'].update(
-                        Gym.get_gyms(swLat, swLng, neLat, neLng,
-                                     oSwLat=oSwLat, oSwLng=oSwLng,
-                                     oNeLat=oNeLat, oNeLng=oNeLng,
-                                     raids=raids))
-
-        if request.args.get('scanned', 'true') == 'true':
-            if lastslocs != 'true':
-                d['scanned'] = ScannedLocation.get_recent(swLat, swLng,
-                                                          neLat, neLng)
-            else:
-                d['scanned'] = ScannedLocation.get_recent(swLat, swLng,
-                                                          neLat, neLng,
-                                                          timestamp=timestamp)
-                if newArea:
-                    d['scanned'] = d['scanned'] + ScannedLocation.get_recent(
-                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
-                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
-
-        if request.args.get('seen', 'false') == 'true':
-            d['seen'] = Pokemon.get_seen(int(request.args.get('duration')))
-
-        if request.args.get('appearances', 'false') == 'true':
-            d['appearances'] = Pokemon.get_appearances(
-                request.args.get('pokemonid'),
-                request.args.get('formid'),
-                int(request.args.get('duration')))
-
-        if request.args.get('appearancesDetails', 'false') == 'true':
-            d['appearancesTimes'] = (
-                Pokemon.get_appearances_times_by_spawnpoint(
-                    request.args.get('pokemonid'),
-                    request.args.get('formid'),
-                    request.args.get('spawnpoint_id'),
-                    int(request.args.get('duration'))))
-
         if request.args.get('spawnpoints', 'false') == 'true':
             if lastspawns != 'true':
                 d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
@@ -428,16 +421,36 @@ class Pogom(Flask):
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
                     timestamp=timestamp)
                 if newArea:
-                    d['spawnpoints'] = d['spawnpoints'] + (
-                        Trs_Spawn.get_spawnpoints(
-                            swLat, swLng, neLat, neLng,
-                            oSwLat=oSwLat, oSwLng=oSwLng,
-                            oNeLat=oNeLat, oNeLng=oNeLng))
+                    d['spawnpoints'] += Trs_Spawn.get_spawnpoints(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+
+        if request.args.get('scanned', 'false') == 'true':
+            if lastslocs != 'true':
+                d['scanned'] = ScannedLocation.get_recent(swLat, swLng,
+                                                          neLat, neLng)
+            else:
+                d['scanned'] = ScannedLocation.get_recent(swLat, swLng,
+                                                          neLat, neLng,
+                                                          timestamp=timestamp)
+                if newArea:
+                    d['scanned'] += ScannedLocation.get_recent(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
         if request.args.get('weather', 'false') == 'true':
-            d['weather'] = get_weather_cells(swLat, swLng, neLat, neLng)
-        if request.args.get('weatherAlerts', 'false') == 'true':
-            d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
+            if lastweather != 'true':
+                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng)
+            else:
+                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng,
+                                                   timestamp=timestamp)
+                if newArea:
+                    d['weather'] += Weather.get_weather(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+
+        #if request.args.get('weatherAlerts', 'false') == 'true':
+        #    d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
 
         return jsonify(d)
 

@@ -30,6 +30,7 @@
               <li><a href="./" class="brand-logo">{{ mapTitle }}</a></li>
             </ul>
             <ul class="right">
+              <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>
               {% if discordUrl %}
               <li><a href="{{ discordUrl }}" class="hide-on-small-only" title="Discord" target="_blank"><i class="fab fa-discord material-icons"></i></a></li>
               {% endif %}
@@ -51,9 +52,9 @@
               {% if madminUrl %}
               <li><a href="{{ madminUrl }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">info</i></a></li>
               {% endif %}
-              <li><a href="stats" class="hide-on-small-only"><i class="material-icons" title="Statistics">pie_chart</i></a></li>
-              <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>
-              <li><a href="#stats"><i class="material-icons" title="Live stats">equalizer</i></a></li>
+              <li><a data-target="weather-modal" id="weather-button" class="modal-trigger" title="Weather" style="display:none;"><i class="material-icons"></i></a></li>
+              <li><a href="stats" class="hide-on-small-only" title="Statistics"><i class="material-icons">pie_chart</i></a></li>
+              <li><a href="#stats" title="Live stats"><i class="material-icons">equalizer</i></a></li>
             </ul>
           </div>
         </nav>
@@ -196,6 +197,18 @@
             </div>
           </div>
         </label>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if show.weather %}
+    <div id="weather-modal" class="modal">
+      <div class="modal-content">
+        <h4>Weather</h4>
+        <div id="weather-modal-image"><img src=""></div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
       </div>
     </div>
     {% endif %}
@@ -546,12 +559,34 @@
       <li>
         <div class="collapsible-header"><i class="material-icons">cloud</i>Weather</div>
         <div class="collapsible-body">
-          <div class="switch">
-            <label>
-              Weather
-              <input type="checkbox">
-              <span class="lever"></span>
-            </label>
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="weather-switch">
+                  <span class="lever"></span>
+                  Weather
+                </label>
+              </div>
+            </div>
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="weather-cells-switch">
+                  <span class="lever"></span>
+                  Weather cells
+                </label>
+              </div>
+            </div>
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="main-weather-switch">
+                  <span class="lever"></span>
+                  Main weather in header
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </li>
@@ -633,7 +668,6 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-geosearch@2.7.0/dist/bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.smooth_marker_bouncing@1.3.0/leaflet.smoothmarkerbouncing.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/s2-geometry@1.2.10/src/s2geometry.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/extras/noUiSlider/nouislider.min.js"></script>
@@ -642,13 +676,28 @@
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.18.6/dist/sweetalert2.all.min.js"></script>
 
-    <script src="static/dist/js/utils.min.js"></script>
-    <script src="static/dist/js/map.common.min.js"></script>
-    <!-- Load custom JS before map.js so it can change Store defaults. -->
+    <!-- Load custom JS before utils.store.js so it can change Store defaults. -->
     {% if show.custom_js %}
     <script src="static/dist/js/custom.min.js"></script>
     {% endif %}
-    <script src="static/dist/js/map.min.js"></script>
+    <script src="static/js/utils/utils.js"></script>
+    <script src="static/js/utils/utils.long.js"></script>
+    <script src="static/js/utils/utils.s2geometry.js"></script>
+    <script src="static/js/utils/utils.gym.js"></script>
+    <script src="static/js/utils/utils.i8ln.js"></script>
+    <script src="static/js/utils/utils.item.js"></script>
+    <script src="static/js/utils/utils.pokemon.js"></script>
+    <script src="static/js/utils/utils.pokestop.js"></script>
+    <script src="static/js/utils/utils.store.js"></script>
+    <script src="static/js/map/map.gym.js"></script>
+    <script src="static/js/map/map.park.js"></script>
+    <script src="static/js/map/map.pokemon.js"></script>
+    <script src="static/js/map/map.pokestop.js"></script>
+    <script src="static/js/map/map.scanned.js"></script>
+    <script src="static/js/map/map.spawnpoint.js"></script>
+    <script src="static/js/map/map.stats.js"></script>
+    <script src="static/js/map/map.weather.js"></script>
+    <script src="static/js/map/map.js"></script>
 
     <script>
       $(document).ready(function() {
