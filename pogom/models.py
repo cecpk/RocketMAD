@@ -875,12 +875,17 @@ class Weather(BaseModel):
         lat_delta = 0.15
         lng_delta = 0.4
 
+        query = (Weather
+                 .select(Weather.s2_cell_id, Weather.latitude,
+                         Weather.longitude, Weather.gameplay_weather,
+                         Weather.severity, Weather.world_time,
+                         Weather.last_updated))
+
         if not (swLat and swLng and neLat and neLng):
-            query = Weather.select()
+            pass
         elif timestamp > 0:
             # If timestamp is known only send last scanned Weather.
-            query = (Weather
-                     .select()
+            query = (query
                      .where((Weather.last_updated >
                              datetime.utcfromtimestamp(timestamp / 1000)) &
                             (Weather.latitude >= float(swLat) - lat_delta) &
@@ -890,8 +895,7 @@ class Weather(BaseModel):
         elif oSwLat and oSwLng and oNeLat and oNeLng:
             # Send weather in view but exclude those within old boundaries.
             # Only send newly uncovered weather.
-            query = (Weather
-                     .select()
+            query = (query
                      .where(
                          ((Weather.latitude >= float(swLat) - lat_delta) &
                           (Weather.longitude >= float(swLng) - lng_delta) &
@@ -903,8 +907,7 @@ class Weather(BaseModel):
                           (Weather.longitude <= float(oNeLng) + lng_delta))))
 
         else:
-            query = (Weather
-                     .select()
+            query = (query
                      .where((Weather.latitude >= float(swLat) - lat_delta) &
                             (Weather.longitude >= float(swLng) - lng_delta) &
                             (Weather.latitude <= float(neLat) + lat_delta) &

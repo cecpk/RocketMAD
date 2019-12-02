@@ -205,10 +205,9 @@
     <div id="weather-modal" class="modal">
       <div class="modal-content">
         <h4>Weather</h4>
-        <div id="weather-modal-image"><img src=""></div>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        <div id="weather-modal-image"><img src="" width="192"></div>
+        <h5>Boosted Types</h5>
+        <div id="boosted-types-container"></div>
       </div>
     </div>
     {% endif %}
@@ -569,22 +568,24 @@
                 </label>
               </div>
             </div>
-            <div class="form-control">
-              <div class="switch">
-                <label>
-                  <input type="checkbox" id="weather-cells-switch">
-                  <span class="lever"></span>
-                  Weather cells
-                </label>
+            <div id="weather-forms-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="weather-cells-switch">
+                    <span class="lever"></span>
+                    Weather cells
+                  </label>
+                </div>
               </div>
-            </div>
-            <div class="form-control">
-              <div class="switch">
-                <label>
-                  <input type="checkbox" id="main-weather-switch">
-                  <span class="lever"></span>
-                  Main weather in header
-                </label>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="main-weather-switch">
+                    <span class="lever"></span>
+                    Main weather in header
+                  </label>
+                </div>
               </div>
             </div>
           </div>

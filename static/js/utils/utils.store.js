@@ -217,6 +217,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showWeatherCells': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showMainWeather': {
         default: false,
         type: StoreTypes.Boolean
@@ -258,10 +262,6 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'showNestParks': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showWeatherAlerts': {
         default: false,
         type: StoreTypes.Boolean
     },

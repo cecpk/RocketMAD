@@ -3,6 +3,9 @@
 
 var mainS2CellId = null
 
+var $weatherButton = $('#weather-button')
+var $weatherButtonIcon = $('#weather-button > i')
+
 const weatherNames = {
     1: 'Clear',
     2: 'Rain',
@@ -11,6 +14,16 @@ const weatherNames = {
     5: 'Windy',
     6: 'Snow',
     7: 'Fog'
+}
+
+const weatherIconNames = {
+    1: 'clear',
+    2: 'rain',
+    3: 'partlycloudy',
+    4: 'cloudy',
+    5: 'windy',
+    6: 'snow',
+    7: 'fog'
 }
 
 // FontAwesome weather icon classes.
@@ -34,75 +47,56 @@ const weatherClassesNight = {
     7: 'fas fa-smog'
 }
 
-const weatherIconsDay = {
-    1: 'weather_clear.png',
-    2: 'weather_rain.png',
-    3: 'weather_partlycloudy.png',
-    4: 'weather_cloudy.png',
-    5: 'weather_windy.png',
-    6: 'weather_snow.png',
-    7: 'weather_fog.png',
+const boostedTypes = {
+    1: ['Grass', 'Ground', 'Fire'],
+    2: ['Water', 'Electric', 'Bug'],
+    3: ['Normal', 'Rock'],
+    4: ['Fairy', 'Fighting', 'Poison'],
+    5: ['Dragon', 'Flying', 'Psychic'],
+    6: ['Ice', 'Steel'],
+    7: ['Dark', 'Ghost']
 }
 
-const weatherIconsNight = {
-    1: 'weather_clear_night.png',
-    2: 'weather_rain.png',
-    3: 'weather_partlycloudy_night.png',
-    4: 'weather_cloudy.png',
-    5: 'weather_windy.png',
-    6: 'weather_snow.png',
-    7: 'weather_fog.png',
-}
-
-const weatherImagesDay = {
-    1: 'weather_image_clear.png',
-    2: 'weather_image_rain.png',
-    3: 'weather_image_partlycloudy.png',
-    4: 'weather_image_cloudy.png',
-    5: 'weather_image_windy.png',
-    6: 'weather_image_snow.png',
-    7: 'weather_image_fog.png',
-}
-
-const weatherImagesNight = {
-    1: 'weather_image_clear_night.png',
-    2: 'weather_image_rain_night.png',
-    3: 'weather_image_partlycloudy_night.png',
-    4: 'weather_image_cloudy_night.png',
-    5: 'weather_image_windy_night.png',
-    6: 'weather_image_snow_night.png',
-    7: 'weather_image_fog_night.png',
-}
-
-function getWeatherIconUrl(weather, dark = true) {
-    var imageUrl
-    if (weather.world_time === 2) { // Night time.
-        imageUrl = 'static/images/weather/' + weatherIconsNight[weather.gameplay_weather]
-    } else {
-        imageUrl = 'static/images/weather/' + weatherIconsDay[weather.gameplay_weather]
+function getWeatherIconUrl(weather, light = false) {
+    var imageUrl = 'static/images/weather/weather_icon_' + weatherIconNames[weather.gameplay_weather]
+    if (weather.world_time === 2 && (weather.gameplay_weather === 1 || weather.gameplay_weather === 3)) {
+        imageUrl += '_night'
     }
-    if (!dark) {
-        imageUrl = imageUrl.replace('weather_', 'weather_light_')
+    if (weather.severity === 1) {
+        imageUrl += '_moderate'
+    } else if (weather.severity === 2) {
+        imageUrl += '_extreme'
     }
-    return imageUrl
+    if (light) {
+        imageUrl += '_light'
+    }
+    return imageUrl + '.png'
 }
 
 function getWeatherImageUrl(weather) {
-    var imageUrl
-    if (weather.world_time === 2) { // Night time.
-        imageUrl = 'static/images/weather/' + weatherImagesNight[weather.gameplay_weather]
-    } else {
-        imageUrl = 'static/images/weather/' + weatherImagesDay[weather.gameplay_weather]
+    var imageUrl = 'static/images/weather/weather_img_' + weatherIconNames[weather.gameplay_weather]
+    if (weather.world_time === 2) {
+        imageUrl += '_night'
     }
-    return imageUrl
+    return imageUrl + '.png'
+}
+
+function isUpToDateWeather(weather) {
+    var hourStartTime = moment() // Local time.
+    hourStartTime.minutes(0)
+    hourStartTime.seconds(0)
+    hourStartTime.milliseconds(0)
+    const timestamp = moment.utc(hourStartTime).unix() * 1000
+    return weather.last_updated >= timestamp
 }
 
 function setupWeatherMarker(weather) {
-    var marker = L.marker([weather.latitude, weather.longitude], {
-        interactive: false
-    })
+    var marker = L.marker([weather.latitude, weather.longitude])
     markersNoCluster.addLayer(marker)
     updateWeatherMarker(weather, marker)
+    marker.bindPopup()
+    marker.s2_cell_id = weather.s2_cell_id
+    addListeners(marker, 'weather')
 
     return marker
 }
@@ -117,6 +111,49 @@ function updateWeatherMarker(weather, marker) {
     return marker
 }
 
+function setupWeatherCell(weather) {
+    const vertices = S2.idToCornerLatLngs(weather.s2_cell_id)
+    var polygon = L.polygon(vertices, {
+        color: '#256377',
+        weight: 1.5,
+        fillOpacity: 0,
+        interactive: false
+    })
+    markersNoCluster.addLayer(polygon)
+
+    return polygon
+}
+
+function weatherLabel(weather) {
+    var weatherTitle = i8ln(weatherNames[weather.gameplay_weather])
+    var lastUpdated
+    if (!isUpToDateWeather(weather)) {
+        weatherTitle += ` <span class='weather-outdated'>(${i8ln('outdated')})</span>`
+        lastUpdated = `<span class='weather-outdated'>${timestampToDateTime(weather.last_updated)}</span>`
+    } else {
+        lastUpdated = timestampToDateTime(weather.last_updated)
+    }
+    var alertDisplay = ''
+    if (weather.severity > 0) {
+        const level = weather.severity === 1 ? 'Moderate' : 'Extreme'
+        alertDisplay = `
+            <div>
+              ${i8ln('Weather alert')}: <span class='weather-${level.toLowerCase()}'>${i8ln(level + ' level')}</span>
+            </div>`
+    }
+    var time = weather.world_time === 1 ? 'Daytime' : 'Nighttime'
+
+    return `
+        <div class='title'>${weatherTitle}</div>
+        ${alertDisplay}
+        <div>${i8ln('Time of day')}: ${i8ln(time)}</div>
+        <div>${i8ln('Last updated')}: ${lastUpdated}</div>`
+}
+
+function updateWeatherLabel(weather, marker) {
+    marker.getPopup().setContent(weatherLabel(weather))
+}
+
 function processWeather(id, weather = null) {
     if (weather !== null) {
         if (!mapData.weather.hasOwnProperty(id)) {
@@ -125,6 +162,9 @@ function processWeather(id, weather = null) {
             }
 
             weather.marker = setupWeatherMarker(weather)
+            if (settings.showWeatherCells) {
+                weather.polygon = setupWeatherCell(weather)
+            }
             mapData.weather[id] = weather
 
             if (weather.s2_cell_id === mainS2CellId) {
@@ -137,13 +177,20 @@ function processWeather(id, weather = null) {
             }
 
             const isNewWeather = weather.gameplay_weather !== mapData.weather[id].gameplay_weather ||
-                weather.world_time !== mapData.weather[id].world_time
+                weather.world_time !== mapData.weather[id].world_time || weather.severity !== mapData.weather[id].severity
             if (isNewWeather) {
                 weather.marker = updateWeatherMarker(weather, mapData.weather[id].marker)
             } else {
                 weather.marker = mapData.weather[id].marker
             }
+            if (mapData.weather[id].polygon) {
+                weather.polygon = mapData.weather[id].polygon
+            }
             mapData.weather[id] = weather
+
+            if (weather.marker.isPopupOpen()) {
+                updateWeatherLabel(weather, weather.marker)
+            }
 
             if (isNewWeather && weather.s2_cell_id === mainS2CellId) {
                 updateWeatherButton()
@@ -160,6 +207,13 @@ function processWeather(id, weather = null) {
         }
 
         updateWeatherMarker(mapData.weather[id], mapData.weather[id].marker)
+
+        if (settings.showWeatherCells && !mapData.weather[id].polygon) {
+            mapData.weather[id].polygon = setupWeatherCell(mapData.weather[id])
+        } else if (!settings.showWeatherCells && mapData.weather[id].polygon) {
+            markersNoCluster.removeLayer(mapData.weather[id].polygon)
+            delete mapData.weather[id].polygon
+        }
     }
 }
 
@@ -173,6 +227,9 @@ function removeWeather(weather) {
     const id = weather.s2_cell_id
     if (mapData.weather.hasOwnProperty(id)) {
         markersNoCluster.removeLayer(mapData.weather[id].marker)
+        if (mapData.weather[id].polygon) {
+            markersNoCluster.removeLayer(mapData.weather[id].polygon)
+        }
         delete mapData.weather[id]
     }
 }
@@ -195,12 +252,6 @@ function updateMainS2CellId() {
     mainS2CellId = S2.keyToId(key)
 }
 
-var $weatherButton = $('#weather-button')
-var $weatherButtonIcon = $('#weather-button > i')
-
-/**
- * Update weather icon on top bar if there is single cell on the screen
- */
 function updateWeatherButton() {
     if (!settings.showWeather || !settings.showMainWeather) {
         return
@@ -209,16 +260,15 @@ function updateWeatherButton() {
     if (mainS2CellId !== null && mapData.weather[mainS2CellId]) {
         const weather = mapData.weather[mainS2CellId]
         var weatherClass
-        if (weather.world_time === 2) { // Night time.
-            weatherClass = weatherClassesNight[weather.gameplay_weather]
-        } else {
+        if (weather.world_time === 1) { // Daytime.
             weatherClass = weatherClassesDay[weather.gameplay_weather]
+        } else { // Nighttime.
+            weatherClass = weatherClassesNight[weather.gameplay_weather]
         }
         $weatherButtonIcon.removeClass()
         $weatherButtonIcon.addClass(`material-icons ${weatherClass}`)
+        $weatherButton.prop('title', i8ln(weatherNames[weather.gameplay_weather]))
         $weatherButton.show()
-        const weatherName = i8ln(weatherNames[weather.gameplay_weather])
-        $weatherButton.prop('title', weatherName)
     } else {
         $weatherButton.hide()
     }
@@ -229,195 +279,23 @@ function setupWeatherModal() {
     if (!weather) {
         return
     }
-    const weatherName = i8ln(weatherNames[weather.gameplay_weather])
-    $('#weather-modal > .modal-content > h4').text(weatherName)
-    $('#weather-modal-image > img').attr("src", getWeatherImageUrl(weather))
-}
-
-
-/**
- * Do main work with array of weather alerts
- * @param weatherAlerts
- */
-function processWeatherAlerts(weatherAlerts) {
-    deleteObsoleteWeatherAlerts(weatherAlerts)
-    $.each(weatherAlerts, processWeatherAlert)
-}
-
-
-/**
- * Draws colored polygon for weather severity condition
- * @param i
- * @param item s2cell data
- * @returns {boolean}
- */
-function processWeatherAlert(i, item) {
-    if (!Store.get('showWeatherAlerts') || item.severity == null) {
-        return false
+    var weatherTitle = i8ln(weatherNames[weather.gameplay_weather])
+    if (weather.severity === 1) {
+        weatherTitle += ` <img id='alert-icon' src='static/images/weather/weather_moderate.png' title='${i8ln('Moderate weather alert')}' width="60">`
+    } else if (weather.severity === 2) {
+        weatherTitle += ` <img id='alert-icon' src='static/images/weather/weather_extreme.png' title='${i8ln('Extreme weather alert')}' width="60">`
     }
-
-    var s2CellId = item.s2_cell_id
-    var itemOld = mapData.weatherAlerts[s2CellId]
-    if (itemOld == null) {
-        safeDelMarker(item)
-        item.marker = createCellAlert(item)
-        mapData.weatherAlerts[s2CellId] = item
-    } else if (itemOld.severity !== item.severity) {
-        markersNoCluster.removeLayer(itemOld)
-        item.marker = createCellAlert(item)
-        mapData.weatherAlerts[s2CellId] = item
+    if (!isUpToDateWeather(weather)) {
+        weatherTitle += ` <span class='weather-outdated'>(${i8ln('outdated')})</span>`
     }
-}
-
-
-/**
- * If drawn cell not exist in new alert array, it should be removed
- * @param newAlerts
- */
-function deleteObsoleteWeatherAlerts(newAlerts) {
-    var toRemove = []
-    $.each(mapData.weatherAlerts, function (i, item) {
-        if (!(item['s2_cell_id'] in newAlerts)) {
-            safeDelMarker(item)
-            toRemove.push(i)
-        }
+    $('#weather-modal > .modal-content > h4').html(weatherTitle)
+    $('#weather-modal-image > img').attr('src', getWeatherImageUrl(weather))
+    $('#boosted-types-container').empty()
+    $.each(boostedTypes[weather.gameplay_weather], function(idx, type) {
+        $('#boosted-types-container').append(`
+            <div class='type'>
+              <div><img src='static/images/types/${type.toLowerCase()}.png' width='48'></div>
+              <div>${i8ln(type)}</div>
+            </div>`)
     })
-    $.each(toRemove, function (i, id) {
-        delete mapData.weatherAlerts[id]
-    })
-}
-
-
-/**
- * safe setMap(null)
- * @param item
- */
-function safeDelMarker(item) {
-    if (item.marker) {
-        markersNoCluster.removeLayer(item.marker)
-    }
-}
-
-
-
-
-/**
- * Creates Polygon for s2cell
- * @param item
- * @returns {google.maps.Polygon}
- */
-function setupS2CellPolygon(item) {
-    var s2CellPolygon = L.polygon(item.vertices, {
-        color: '#000000',
-        opacity: 0.8,
-        weight: 1,
-        fillOpacity: 0,
-        fillColor: '#00ff00',
-        interactive: false
-    })
-    markersNoCluster.addLayer(s2CellPolygon)
-    return s2CellPolygon
-}
-
-
-/**
- * Adds fillColor for s2cell polygon
- * @param item
- * @returns {google.maps.Polygon}
- */
-function createCellAlert(item) {
-    var cell = setupS2CellPolygon(item)
-    cell.strokeOpacity = 0
-    if (item.severity === 0) {
-        cell.fillOpacity = 0.0
-    } else if (item.severity === 1) {
-        cell.fillOpacity = 0.2
-        cell.fillColor = '#ffff00'
-    } else if (item.severity === 2) {
-        cell.fillOpacity = 0.2
-        cell.fillColor = '#ff0000'
-    }
-    return cell
-}
-
-
-/**
- * Calculates square bound for s2cell
- * @param s2Cell
- * @returns {google.maps.LatLngBounds}
- */
-function getS2CellBounds(s2Cell) {
-    var bounds = new L.LatLngBounds()
-    // iterate over the vertices
-    $.each(s2Cell.vertices, function (i, latLng) {
-        // extend the bounds
-        bounds.extend(latLng)
-    })
-    return bounds
-}
-
-
-
-
-
-function degreesToCardinal(d) {
-    var dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
-        'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
-    var ix = Math.floor((d + 11.25) / 22.5 - 0.02)
-    return dirs[ix % 16]
-}
-
-/**
- * Finds weather data for s2cell, that covers more than a half of the screen
- * @returns {*}
- */
-function getMainS2Cell() {
-    if (typeof window.orientation !== 'undefined' || isMobileDevice()) {
-        if (map.getZoom() < 12) { // viewport may contain many cells
-            return
-        }
-    } else {
-        if (map.getZoom() < 13) { // viewport may contain many cells
-            return
-        }
-    }
-
-    var geometryFactory = new jsts.geom.GeometryFactory()
-
-    var bounds = map.getBounds()
-    var viewportPath = [
-        {'lat': bounds.getNorthEast().lat, 'lng': bounds.getNorthEast().lng},
-        {'lat': bounds.getNorthEast().lat, 'lng': bounds.getSouthWest().lng},
-        {'lat': bounds.getSouthWest().lat, 'lng': bounds.getSouthWest().lng},
-        {'lat': bounds.getSouthWest().lat, 'lng': bounds.getNorthEast().lng}
-    ]
-    var jstsViewport = createJstsPolygon(geometryFactory, viewportPath)
-    var viewportArea = jstsViewport.getArea()
-    var maxCoverageData
-    $.each(mapData.weather, function (i, s2cell) {
-        var jstsS2cell = createJstsPolygon(geometryFactory, s2cell.vertices)
-        var area = jstsViewport.intersection(jstsS2cell).getArea()
-        if (viewportArea < area * 2) {  // more then a half of the screen covered by cell
-            maxCoverageData = s2cell
-        }
-    })
-    return maxCoverageData
-}
-
-
-/**
- * Creates jsts polygon from coordinates array
- * @param geometryFactory
- * @param path
- * @returns {*}
- */
-function createJstsPolygon(geometryFactory, path) {
-    var coordinates = path.map(function name(coord) {
-        return new jsts.geom.Coordinate(coord.lat, coord.lng)
-    })
-    if (coordinates[0].compareTo(coordinates[coordinates.length - 1]) !== 0) {
-        coordinates.push(coordinates[0])
-    }
-    var shell = geometryFactory.createLinearRing(coordinates)
-    return geometryFactory.createPolygon(shell)
 }

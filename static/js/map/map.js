@@ -51,6 +51,7 @@ var settings = {
     includedLureTypes: null,
     excludedInvasions: null,
     showWeather: null,
+    showWeatherCells: null,
     showMainWeather: null,
     showExParks: false,
     showNestParks: false
@@ -558,6 +559,7 @@ function initSettings() {
     settings.showWeather = showConfig.weather && Store.get('showWeather')
     if (showConfig.weather) {
         settings.showMainWeather = Store.get('showMainWeather')
+        settings.showWeatherCells = Store.get('showWeatherCells')
     }
 
 
@@ -1150,10 +1152,13 @@ function initSidebar() {
     if (showConfig.weather) {
         $('#weather-switch').on('change', function () {
             settings.showWeather = this.checked
+            const formsWrapper = $('#weather-forms-wrapper')
             if (this.checked) {
+                formsWrapper.show()
                 lastweather = false
                 updateMap()
             } else {
+                formsWrapper.hide()
                 reprocessWeather()
                 if (settings.showMainWeather) {
                     $('#weather-button').hide()
@@ -1170,6 +1175,12 @@ function initSidebar() {
                 $('#weather-button').hide()
             }
             Store.set('showMainWeather', this.checked)
+        })
+
+        $('#weather-cells-switch').on('change', function () {
+            settings.showWeatherCells = this.checked
+            reprocessWeather()
+            Store.set('showWeatherCells', this.checked)
         })
     }
 
@@ -1255,10 +1266,6 @@ function initSidebar() {
             nestParksLayerGroup.clearLayers()
         }
         Store.set('showNestParks', this.checked)
-    })
-
-    $('#weather-alerts-switch').change(function () {
-        buildSwitchChangeListener(mapData, ['weatherAlerts'], 'showWeatherAlerts').bind(this)()
     })
 
     $('#sound-switch').change(function () {
@@ -1568,12 +1575,11 @@ function initSidebar() {
 
     if (showConfig.weather) {
         $('#weather-switch').prop('checked', settings.showWeather)
+        $('#weather-forms-wrapper').toggle(settings.showWeather)
+        $('#weather-cells-switch').prop('checked', settings.showWeatherCells)
         $('#main-weather-switch').prop('checked', settings.showMainWeather)
     }
 
-
-    // Weather.
-    $('#weather-alerts-switch').prop('checked', Store.get('showWeatherAlerts'))
 
     // Map.
     $('#spawnpoints-switch').prop('checked', Store.get('showSpawnpoints'))
@@ -2163,8 +2169,8 @@ function showS2Cells(level, color, weight) {
         }
     }
 
-    let processedCells = {}
-    let stack = []
+    var processedCells = {}
+    var stack = []
 
     const centerCell = S2.S2Cell.FromLatLng(bounds.getCenter(), level)
     processedCells[centerCell.toString()] = true
@@ -2176,7 +2182,7 @@ function showS2Cells(level, color, weight) {
         const cell = stack.pop()
         const neighbors = cell.getNeighbors()
         neighbors.forEach(function (ncell, index) {
-            if (processedCells[ncell.toString()] !== true) {
+            if (!processedCells[ncell.toString()]) {
                 const cornerLatLngs = ncell.getCornerLatLngs()
                 for (let i = 0; i < 4; i++) {
                     const item = cornerLatLngs[i]
@@ -2272,6 +2278,10 @@ function addListeners(marker, type) {
                     updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
                 }
                 break
+            case 'weather':
+                // Always update label before opening since weather might have become outdated.
+                updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
+                break
         }
 
         marker.openPopup()
@@ -2317,6 +2327,10 @@ function addListeners(marker, type) {
                     if (mapData.spawnpoints[marker.spawnpoint_id].updated) {
                         updateSpawnpointLabel(mapData.spawnpoints[marker.spawnpoint_id], marker)
                     }
+                    break
+                case 'weather':
+                    // Always update label before opening since weather might have become outdated.
+                    updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                     break
             }
 
@@ -2473,8 +2487,7 @@ function loadRawData() {
     var loadLures = settings.showLures
     var loadScanned = Store.get('showScanned')
     var loadSpawnpoints = Store.get('showSpawnpoints')
-    var loadWeather = true //Store.get('showWeatherCells')
-    var loadWeatherAlerts = true //Store.get('showWeatherAlerts')
+    var loadWeather = settings.showWeather
     var prionotifyactiv = Store.get('showNotifiedPokemonAlways')
 
     var bounds = map.getBounds()
@@ -2499,16 +2512,10 @@ function loadRawData() {
             'oSwLng': oSwLng,
             'oNeLat': oNeLat,
             'oNeLng': oNeLng,
-            'lastpokemon': lastpokemon,
+            'pokemon': loadPokemon,
             'eids': String(getExcludedPokemon()),
             'reids': String(isShowAllZoom() ? settings.excludedPokemon : reincludedPokemon),
             'prionotify': prionotifyactiv,
-            'lastgyms': lastgyms,
-            'lastpokestops': lastpokestops,
-            'lastspawns': lastspawns,
-            'lastslocs': lastslocs,
-            'lastweather': lastweather,
-            'pokemon': loadPokemon,
             'pokestops': loadPokestops,
             'pokestopsNoEvent': loadPokestopsNoEvent,
             'quests': loadQuests,
@@ -2519,6 +2526,12 @@ function loadRawData() {
             'spawnpoints': loadSpawnpoints,
             'scanned': loadScanned,
             'weather': loadWeather,
+            'lastpokemon': lastpokemon,
+            'lastgyms': lastgyms,
+            'lastpokestops': lastpokestops,
+            'lastspawns': lastspawns,
+            'lastslocs': lastslocs,
+            'lastweather': lastweather
         },
         dataType: 'json',
         cache: false,
