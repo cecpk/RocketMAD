@@ -104,9 +104,17 @@ def _valid_auth(auth_code, host):
 
 def _is_in_guild(auth_code, guilds):
     user_guilds = auth_cache[auth_code].get('guilds')
+
+    if 'guilds_expires' not in auth_cache[auth_code] or auth_cache[auth_code]['guilds_expires'] < datetime.datetime.now():
+        user_guilds = []
+
     if not user_guilds:
         user_guilds = _get_user_guilds(auth_code)
         auth_cache[auth_code]['guilds'] = user_guilds
+        auth_cache[auth_code]['guilds_expires'] = (
+            datetime.datetime.now() +
+            datetime.timedelta(0, 3600))
+
     for g in user_guilds:
         if g['id'] in guilds:
             return True
@@ -115,9 +123,16 @@ def _is_in_guild(auth_code, guilds):
 
 def _has_role(auth_code, roles):
     user_roles = auth_cache[auth_code].get('roles')
+
+    if 'roles_expires' not in auth_cache[auth_code] or auth_cache[auth_code]['roles_expires'] < datetime.datetime.now():
+        user_roles = []
+
     if not user_roles:
         user_roles = _get_user_guild_roles(auth_code, required_guilds)
         auth_cache[auth_code]['roles'] = user_roles
+        auth_cache[auth_code]['roles_expires'] = (
+            datetime.datetime.now() +
+            datetime.timedelta(0, 3600))
 
     for guild in user_roles:
         for r in user_roles[guild]:
