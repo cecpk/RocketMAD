@@ -22,7 +22,7 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
         return false
     }
 
-    if (settings.showPokemonValues && settings.filterValues) {
+    if (settings.showPokemonValues && settings.filterValues && !settings.unfilteredPokemon.includes(pokemon.pokemon_id)) {
         if (pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
@@ -180,7 +180,7 @@ function pokemonLabel(item) {
     }
 
     if (weatherBoostedCondition > 0) {
-        weatherBoostDisplay = `<img id='weather-icon' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
+        //weatherBoostDisplay = `<img id='weather-icon' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
     }
 
     if (item.verified_disappear_time) {

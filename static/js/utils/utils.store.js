@@ -93,6 +93,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'unfilteredPokemon': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'minIvs': {
         default: 0,
         type: StoreTypes.Number

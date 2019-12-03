@@ -21,6 +21,7 @@ var settings = {
     excludedPokemon: null,
     showPokemonValues: null,
     filterValues: null,
+    unfilteredPokemon: null,
     minIvs: null,
     maxIvs: null,
     showZeroIvsPokemon: null,
@@ -508,6 +509,7 @@ function initSettings() {
     }
     if (showConfig.pokemon_values) {
         settings.filterValues = Store.get('filterValues')
+        settings.unfilteredPokemon = Store.get('unfilteredPokemon')
         settings.minIvs = Store.get('minIvs')
         settings.maxIvs = Store.get('maxIvs')
         settings.showZeroIvsPokemon = Store.get('showZeroIvsPokemon')
@@ -718,10 +720,13 @@ function initSidebar() {
         $('#filter-values-switch').on('change', function () {
             settings.filterValues = this.checked
             const filtersWrapper = $('#pokemon-values-filters-wrapper')
+            const filterButton = $('a[data-target="pokemon-values-filter-modal"]')
             if (this.checked) {
+                filterButton.show()
                 filtersWrapper.show()
                 reprocessPokemons()
             } else {
+                filterButton.hide()
                 filtersWrapper.hide()
                 lastpokemon = false
                 updateMap()
@@ -1505,6 +1510,7 @@ function initSidebar() {
         $('#pokemon-values-switch').prop('checked', settings.showPokemonValues)
         $('#filter-pokemon-values-wrapper').toggle(settings.showPokemonValues)
         $('#filter-values-switch').prop('checked', settings.filterValues)
+        $('a[data-target="pokemon-values-filter-modal"]').toggle(settings.filterValues)
         $('#pokemon-values-filters-wrapper').toggle(settings.filterValues)
         $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
         $('#pokemon-ivs-slider-wrapper').toggle(settings.filterValues)
@@ -1794,6 +1800,45 @@ function initPokemonFilters() {
             }
 
             Store.set('excludedPokemon', settings.excludedPokemon)
+        })
+    }
+
+    if (showConfig.pokemon_values) {
+        $('#unfiltered-pokemon').val(settings.unfilteredPokemon)
+        if (settings.unfilteredPokemon.length === 0) {
+            $('#filter-values-pokemon-title').text('Pokémon to be filtered (All)')
+        } else {
+            $('#filter-values-pokemon-title').text(`Pokémon to be filtered (${pokemonIds.length - settings.unfilteredPokemon.length})`)
+        }
+
+        $('label[for="unfiltered-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+            if (!settings.unfilteredPokemon.includes($(this).data('id'))) {
+                $(this).addClass('active')
+            }
+        })
+
+        $('#unfiltered-pokemon').on('change', function (e) {
+            const oldUnfilteredPokemon = settings.unfilteredPokemon
+            settings.unfilteredPokemon = $(this).val().length > 0 ? $(this).val().split(',').map(Number) : []
+
+            const newFilterdPokemon = oldUnfilteredPokemon.filter(id => !settings.unfilteredPokemon.includes(id))
+            if (newFilterdPokemon.length > 0) {
+                reprocessPokemons(newFilterdPokemon)
+            }
+
+            const newUnfilterdPokemon = settings.unfilteredPokemon.filter(id => !oldUnfilteredPokemon.includes(id))
+            reincludedPokemon = reincludedPokemon.concat(newUnfilterdPokemon)
+            if (reincludedPokemon.length > 0) {
+                updateMap()
+            }
+
+            if (settings.unfilteredPokemon.length === 0) {
+                $('#filter-values-pokemon-title').text('Pokémon to be filtered (All)')
+            } else {
+                $('#filter-values-pokemon-title').text(`Pokémon to be filtered (${pokemonIds.length - settings.unfilteredPokemon.length})`)
+            }
+
+            Store.set('unfilteredPokemon', settings.unfilteredPokemon)
         })
     }
 

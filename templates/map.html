@@ -116,6 +116,30 @@
     </div>
     {% endif %}
 
+    {% if show.pokemon_values %}
+    <div id="pokemon-values-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <h6 id="filter-values-pokemon-title">Pokémon to be filtered</h6>
+        <label for="unfiltered-pokemon">
+          <input id="unfiltered-pokemon" type="text" readonly="true" style="display:none;">
+          <div class="pokemon-filter-list"></div>
+          <div class="filter-footer-container">
+            <div class="filter-footer-left">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="Search...">
+            </div>
+            <div class="filter-footer-right">
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
     {% if show.raid_filters %}
     <div id="raid-pokemon-filter-modal" class="modal filter-modal">
       <div class="modal-content">
@@ -251,6 +275,7 @@
                       <span class="lever"></span>
                       Filter by Values
                     </label>
+                    <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon to be filtered by values"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
                 <div id="pokemon-values-filters-wrapper">
