@@ -69,7 +69,7 @@ function timestampToDateTime(timestamp) {
     return dateStr
 }
 
-function nowIsBetween(timestamp1, timestamp2) {
+function isNowBetween(timestamp1, timestamp2) {
     const now = Date.now()
     return timestamp1 <= now && now <= timestamp2
 }

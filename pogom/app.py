@@ -198,6 +198,8 @@ class Pogom(Flask):
             'invasions': not args.no_pokestops and not args.no_invasions,
             'lures': not args.no_pokestops and not args.no_lures,
             'weather': not args.no_weather,
+            'spawnpoints': not args.no_spawnpoints,
+            'scanned_locs': not args.no_scanned_locs,
             'medalpokemon': args.medalpokemon,
             'ex_parks': args.ex_parks,
             'nest_parks': args.nest_parks,
@@ -268,14 +270,8 @@ class Pogom(Flask):
         lastgyms = request.args.get('lastgyms')
         lastpokestops = request.args.get('lastpokestops')
         lastspawns = request.args.get('lastspawns')
-        lastslocs = request.args.get('lastslocs')
+        lastscannedlocs = request.args.get('lastscannedlocs')
         lastweather = request.args.get('lastweather')
-
-        pokestops = request.args.get('pokestops', 'true') == 'true'
-        pokestopsNoEvent = request.args.get('pokestopsNoEvent', 'true') == 'true'
-        quests = request.args.get('quests', 'true') == 'true'
-        invasions = request.args.get('invasions', 'true') == 'true'
-        lures = request.args.get('lures', 'true') == 'true'
 
         # Current switch settings saved for next request.
         if request.args.get('pokemon', 'true') == 'true':
@@ -285,14 +281,18 @@ class Pogom(Flask):
                 request.args.get('raids', 'true') == 'true'):
             d['lastgyms'] = True
 
-        if pokestops and (pokestopsNoEvent or quests or invasions or lures):
+        if (request.args.get('pokestops', 'true') == 'true' and (
+                request.args.get('pokestopsNoEvent', 'true') == 'true' or
+                request.args.get('quests', 'true') == 'true' or
+                request.args.get('invasions', 'true') == 'true' or
+                request.args.get('lures', 'true') == 'true')):
             d['lastpokestops'] = True
 
         if request.args.get('spawnpoints', 'false') == 'true':
             d['lastspawns'] = True
 
-        if request.args.get('scanned', 'false') == 'true':
-            d['lastslocs'] = True
+        if request.args.get('scannedLocs', 'false') == 'true':
+            d['lastscannedlocs'] = True
 
         if request.args.get('weather', 'false') == 'true':
             d['lastweather'] = True
@@ -393,16 +393,27 @@ class Pogom(Flask):
                                      oNeLat=oNeLat, oNeLng=oNeLng,
                                      raids=raids))
 
-        if (not args.no_pokestops and pokestops and (pokestopsNoEvent or
-                quests or invasions or lures)):
+        pokestops = (request.args.get('pokestops', 'true') == 'true' and
+            not args.no_pokestops)
+        pokestopsNoEvent = (request.args.get(
+            'pokestopsNoEvent', 'true') == 'true')
+        quests = (request.args.get('quests', 'true') == 'true' and
+            not args.no_quests)
+        invasions = (request.args.get('invasions', 'true') == 'true' and
+            not args.no_invasions)
+        lures = (request.args.get('lures', 'true') == 'true' and
+            not args.no_lures)
+        if (pokestops and (pokestopsNoEvent or quests or invasions or lures)):
             if lastpokestops != 'true':
                 d['pokestops'] = Pokestop.get_stops(
-                    swLat, swLng, neLat, neLng, pokestopsNoEvent=pokestopsNoEvent,
-                    quests=quests, invasions=invasions, lures=lures)
+                    swLat, swLng, neLat, neLng,
+                    pokestopsNoEvent=pokestopsNoEvent, quests=quests,
+                    invasions=invasions, lures=lures)
             else:
-                d['pokestops'] = Pokestop.get_stops(swLat, swLng, neLat, neLng,
-                                                    timestamp=timestamp, pokestopsNoEvent=pokestopsNoEvent,
-                                                    quests=quests, invasions=invasions, lures=lures)
+                d['pokestops'] = Pokestop.get_stops(
+                    swLat, swLng, neLat, neLng, timestamp=timestamp,
+                    pokestopsNoEvent=pokestopsNoEvent, quests=quests,
+                    invasions=invasions, lures=lures)
                 if newArea:
                     d['pokestops'].update(
                         Pokestop.get_stops(swLat, swLng, neLat, neLng,
@@ -412,7 +423,20 @@ class Pogom(Flask):
                                            quests=quests, invasions=invasions,
                                            lures=lures))
 
-        if request.args.get('spawnpoints', 'false') == 'true':
+        if (request.args.get('weather', 'false') == 'true' and
+                not args.no_weather):
+            if lastweather != 'true':
+                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng)
+            else:
+                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng,
+                                                   timestamp=timestamp)
+                if newArea:
+                    d['weather'] += Weather.get_weather(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+
+        if (request.args.get('spawnpoints', 'false') == 'true' and
+                not args.no_spawnpoints):
             if lastspawns != 'true':
                 d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng)
@@ -425,29 +449,21 @@ class Pogom(Flask):
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
-        if request.args.get('scanned', 'false') == 'true':
-            if lastslocs != 'true':
-                d['scanned'] = ScannedLocation.get_recent(swLat, swLng,
+        if (request.args.get('scannedLocs', 'false') == 'true' and
+                not args.no_scanned_locs):
+            if lastscannedlocs != 'true':
+                d['scannedlocs'] = ScannedLocation.get_recent(swLat, swLng,
                                                           neLat, neLng)
             else:
-                d['scanned'] = ScannedLocation.get_recent(swLat, swLng,
+                d['scannedlocs'] = ScannedLocation.get_recent(swLat, swLng,
                                                           neLat, neLng,
                                                           timestamp=timestamp)
                 if newArea:
-                    d['scanned'] += ScannedLocation.get_recent(
+                    d['scannedlocs'] += ScannedLocation.get_recent(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
-        if request.args.get('weather', 'false') == 'true':
-            if lastweather != 'true':
-                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng)
-            else:
-                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng,
-                                                   timestamp=timestamp)
-                if newArea:
-                    d['weather'] += Weather.get_weather(
-                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
-                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+
 
         #if request.args.get('weatherAlerts', 'false') == 'true':
         #    d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)

@@ -139,6 +139,12 @@ def get_args():
     parser.add_argument('-nw', '--no-weather',
                         help=('Disables Weather.'),
                         action='store_true', default=False)
+    parser.add_argument('-ns', '--no-spawnpoints',
+                        help=('Disables spawn points.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nsl', '--no-scanned-locs',
+                        help=('Disables scanned locations.'),
+                        action='store_true', default=False)
     parser.add_argument('-mpm', '--medalpokemon',
                         help='Show notifications for tiny Rattata and big Magikarp.',
                         action='store_true', default=False)

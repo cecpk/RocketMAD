@@ -154,58 +154,66 @@ function updateWeatherLabel(weather, marker) {
     marker.getPopup().setContent(weatherLabel(weather))
 }
 
-function processWeather(id, weather = null) {
-    if (weather !== null) {
-        if (!mapData.weather.hasOwnProperty(id)) {
-            if (!settings.showWeather) {
-                return true
-            }
+function processWeather(weather) {
+    if (!settings.showWeather) {
+        return false
+    }
 
-            weather.marker = setupWeatherMarker(weather)
-            if (settings.showWeatherCells) {
-                weather.polygon = setupWeatherCell(weather)
-            }
-            mapData.weather[id] = weather
+    const id = weather.s2_cell_id
+    if (!mapData.weather.hasOwnProperty(id)) {
+        weather.marker = setupWeatherMarker(weather)
+        if (settings.showWeatherCells) {
+            weather.polygon = setupWeatherCell(weather)
+        }
+        mapData.weather[id] = weather
 
-            if (weather.s2_cell_id === mainS2CellId) {
-                updateWeatherButton()
-            }
-        } else {
-            if (!settings.showWeather) {
-                removeWeather(weather)
-                return true
-            }
-
-            const isNewWeather = weather.gameplay_weather !== mapData.weather[id].gameplay_weather ||
-                weather.world_time !== mapData.weather[id].world_time || weather.severity !== mapData.weather[id].severity
-            if (isNewWeather) {
-                weather.marker = updateWeatherMarker(weather, mapData.weather[id].marker)
-            } else {
-                weather.marker = mapData.weather[id].marker
-            }
-            if (mapData.weather[id].polygon) {
-                weather.polygon = mapData.weather[id].polygon
-            }
-            mapData.weather[id] = weather
-
-            if (weather.marker.isPopupOpen()) {
-                updateWeatherLabel(weather, weather.marker)
-            }
-
-            if (isNewWeather && weather.s2_cell_id === mainS2CellId) {
-                updateWeatherButton()
-            }
+        if (weather.s2_cell_id === mainS2CellId) {
+            updateWeatherButton()
         }
     } else {
-        if (!mapData.weather.hasOwnProperty(id)) {
-            return true
+        updateWeather(id, weather)
+    }
+
+    return true
+}
+
+function updateWeather(id, weather = null) {
+    if (id === undefined || id === null || !mapData.weather.hasOwnProperty(id)) {
+        return true
+    }
+
+    const isWeatherNull = weather === null
+    if (isWeatherNull) {
+        weather = mapData.weather[id]
+    }
+
+    if (!settings.showWeather) {
+        removeWeather(weather)
+        return true
+    }
+
+    if (!isWeatherNull) {
+        const oldWeather = mapData.weather[id]
+        const isNewWeather = weather.gameplay_weather !== oldWeather.gameplay_weather ||
+            weather.world_time !== oldWeather.world_time || weather.severity !== oldWeather.severity
+        if (isNewWeather) {
+            weather.marker = updateWeatherMarker(weather, mapData.weather[id].marker)
+        } else {
+            weather.marker = mapData.weather[id].marker
+        }
+        if (mapData.weather[id].polygon) {
+            weather.polygon = mapData.weather[id].polygon
+        }
+        mapData.weather[id] = weather
+
+        if (weather.marker.isPopupOpen()) {
+            updateWeatherLabel(weather, weather.marker)
         }
 
-        if (!settings.showWeather) {
-            removeWeather(mapData.weather[id])
-            return true
+        if (isNewWeather && weather.s2_cell_id === mainS2CellId) {
+            updateWeatherButton()
         }
-
+    } else {
         updateWeatherMarker(mapData.weather[id], mapData.weather[id].marker)
 
         if (settings.showWeatherCells && !mapData.weather[id].polygon) {
@@ -215,11 +223,13 @@ function processWeather(id, weather = null) {
             delete mapData.weather[id].polygon
         }
     }
+
+    return true
 }
 
-function reprocessWeather() {
+function updateWeathers() {
     $.each(mapData.weather, function (id, weather) {
-        processWeather(id)
+        updateWeather(id)
     })
 }
 

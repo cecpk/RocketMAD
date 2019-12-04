@@ -1,9 +1,6 @@
 function getSpawnpointColor(spawnpoint) {
     if (spawnpoint.spawn_time) {
-        const spawnTime = moment(spawnpoint.spawn_time)
-        const despawnTime = moment(spawnpoint.despawn_time)
-        const now = moment()
-        if (now.isBetween(spawnTime, despawnTime)) {
+        if (isNowBetween(spawnpoint.spawn_time, spawnpoint.despawn_time)) {
             return 'green'
         } else {
             return 'blue'
@@ -14,31 +11,33 @@ function getSpawnpointColor(spawnpoint) {
 }
 
 function setupSpawnpointMarker(spawnpoint) {
-    const color = getSpawnpointColor(spawnpoint)
-
     var marker = L.circle([spawnpoint.latitude, spawnpoint.longitude], {
         radius: 2,
-        color: color,
-        fillColor: color,
         weight: 1,
         opacity: 0.7,
         fillOpacity: 0.5,
     }).bindPopup()
-
-    marker.spawnpoint_id = spawnpoint.spawnpoint_id
-    addListeners(marker, 'spawnpoint')
+    updateSpawnpointMarker(spawnpoint, marker)
     markers.addLayer(marker)
+    addListeners(marker, 'spawnpoint')
+    marker.spawnpoint_id = spawnpoint.spawnpoint_id
+
+    return marker
+}
+
+function updateSpawnpointMarker(spawnpoint, marker) {
+    const color = getSpawnpointColor(spawnpoint)
+    marker.setStyle({color: color})
+
     return marker
 }
 
 function spawnpointLabel(spawnpoint) {
     if (spawnpoint.spawn_time) {
         if (spawnpoint.spawndef == 15) {
-          var type = '1h';
-          var timeshift = 60;
+          var type = '1h'
         } else {
-          var type = '30m';
-          var timeshift = 30;
+          var type = '30m'
         }
 
         if (spawnpoint.spawn_time > Date.now()) {
@@ -92,57 +91,68 @@ function updateSpawnpointLabel(spawnpoint, marker) {
     }
 }
 
-function processSpawnpoint(id, spawnpoint = null) {
-    if (id === null || id === undefined) {
+function processSpawnpoint(spawnpoint) {
+    if (!settings.showSpawnpoints) {
         return false
     }
 
-    if (!Store.get('showSpawnpoints')) {
-        if (mapData.spawnpoints.hasOwnProperty(id)) {
-            removeSpawnpoint(mapData.spawnpoints[id])
-        }
+    const id = spawnpoint.spawnpoint_id
+    if (!mapData.spawnpoints.hasOwnProperty(id)) {
+        spawnpoint.marker = setupSpawnpointMarker(spawnpoint)
+        spawnpoint.updated = true
+        mapData.spawnpoints[id] = spawnpoint
+    } else {
+        updateSpawnpoint(id, spawnpoint)
+    }
+
+    return true
+}
+
+function updateSpawnpoint(id, spawnpoint = null) {
+    if (id === undefined || id === null || !mapData.spawnpoints.hasOwnProperty(id)) {
         return true
     }
 
-    if (spawnpoint !== null) {
-        if (!mapData.spawnpoints.hasOwnProperty(id)) {
-            // New spawnpoint, add marker to map and item to dict.
-            spawnpoint.marker = setupSpawnpointMarker(spawnpoint)
-            spawnpoint.updated = true
-            mapData.spawnpoints[id] = spawnpoint
+    const isSpawnpointNull = spawnpoint === null
+    if (isSpawnpointNull) {
+        spawnpoint = mapData.spawnpoints[id]
+    }
+
+    if (!settings.showSpawnpoints) {
+        removeSpawnpoint(spawnpoint)
+        return true
+    }
+
+    if (!isSpawnpointNull) {
+        if (spawnpoint.spawn_time !== mapData.spawnpoints[id].spawn_time) {
+            spawnpoint.marker = updateSpawnpointMarker(spawnpoint, mapData.spawnpoints[id].marker)
         } else {
-            // Existing spawnpoint, update marker and dict item if necessary.
-            if (spawnpoint.spawn_time !== mapData.spawnpoints[id].spawn_time) {
-                const color = getSpawnpointColor(spawnpoint)
-                mapData.spawnpoints[id].marker.setStyle({color: color, fillColor: color})
-                mapData.spawnpoints[id].spawn_time = spawnpoint.spawn_time
-                mapData.spawnpoints[id].despawn_time = spawnpoint.despawn_time
-            }
-            if (mapData.spawnpoints[id].marker.isPopupOpen()) {
-                updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
-            } else {
-                // Make sure label is updated next time it's opened.
-                mapData.spawnpoints[id].updated = true
-            }
-            mapData.spawnpoints[id].last_non_scanned = spawnpoint.last_non_scanned
-            mapData.spawnpoints[id].last_scanned = spawnpoint.last_scanned
+            spawnpoint.marker = mapData.spawnpoints[id].marker
         }
-    } else if (mapData.spawnpoints.hasOwnProperty(id)) {
-        // Update marker and popup.
-        const color = getSpawnpointColor(mapData.spawnpoints[id])
-        mapData.spawnpoints[id].marker.setStyle({color: color, fillColor: color})
-        if (mapData.spawnpoints[id].marker.isPopupOpen()) {
-            updateSpawnpointLabel(mapData.spawnpoints[id], mapData.spawnpoints[id].marker)
+        mapData.spawnpoints[id] = spawnpoint
+
+        if (spawnpoint.marker.isPopupOpen()) {
+            updateSpawnpointLabel(spawnpoint, mapData.spawnpoints[id].marker)
+        } else {
+            // Make sure label is updated next time it's opened.
+            mapData.spawnpoints[id].updated = true
+        }
+    } else {
+        updateSpawnpointMarker(spawnpoint, mapData.spawnpoints[id].marker)
+        if (spawnpoint.marker.isPopupOpen()) {
+            updateSpawnpointLabel(spawnpoint, mapData.spawnpoints[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
             mapData.spawnpoints[id].updated = true
         }
     }
+
+    return true
 }
 
-function reprocessSpawnpoints() {
-    $.each(mapData.spawnpoints, function (spawnpointId, spawnpoint) {
-        processSpawnpoint(spawnpointId)
+function updateSpawnpoints() {
+    $.each(mapData.spawnpoints, function (id, spawnpoint) {
+        updateSpawnpoint(id)
     })
 }
 
@@ -150,20 +160,10 @@ function removeSpawnpoint(spawnpoint) {
     const id = spawnpoint.spawnpoint_id
     if (mapData.spawnpoints.hasOwnProperty(id)) {
         const marker = mapData.spawnpoints[id].marker
-        if (marker.rangeCircle != null) {
-            if (markers.hasLayer(marker.rangeCircle)) {
-                markers.removeLayer(marker.rangeCircle)
-            } else {
-                markersNoCluster.removeLayer(marker.rangeCircle)
-            }
+        if (marker.rangeCircle) {
+            markers.removeLayer(marker.rangeCircle)
         }
-
-        if (markers.hasLayer(marker)) {
-            markers.removeLayer(marker)
-        } else {
-            markersNoCluster.removeLayer(marker)
-        }
-
+        markers.removeLayer(marker)
         delete mapData.spawnpoints[id]
     }
 }

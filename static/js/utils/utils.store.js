@@ -229,11 +229,11 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showScanned': {
+    'showSpawnpoints': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'showSpawnpoints': {
+    'showScannedLocations': {
         default: false,
         type: StoreTypes.Boolean
     },

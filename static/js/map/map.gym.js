@@ -211,140 +211,140 @@ function gymLabel(gym) {
 
     if (gym.url) {
         const url = gym.url.replace(/^http:\/\//i, '//')
-            gymImageDisplay = `
-                <div>
-                  <img class='gym-image ${teamName.toLowerCase()}' src='${url}' onclick='showImageModal("${url}", "${titleText.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")' width='64' height='64'>
+        gymImageDisplay = `
+            <div>
+              <img class='gym-image ${teamName.toLowerCase()}' src='${url}' onclick='showImageModal("${url}", "${titleText.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")' width='64' height='64'>
+            </div>`
+    } else {
+        let gymUrl = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
+        if (gym.is_in_battle) {
+            gymUrl += '&in_battle=1'
+        }
+        gymImageDisplay = `
+            <div>
+              <img class='gym-icon' src='${gymUrl}' width='64'>
+            </div>`
+    }
+
+    if (gym.team_id !== 0) {
+        /* strenghtDisplay = `
+        <div>
+          Strength: <span class='info'>${gym.total_cp}</span>
+        </div>` */
+
+        gymLeaderDisplay = `
+            <div>
+              Gym leader: <strong>${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a></strong>
+            </div>`
+    }
+
+    if (isGymMeetsRaidFilters(gym)) {
+        const raid = gym.raid
+        const raidColor = ['252,112,176', '255,158,22', '184,165,221']
+        const levelStr = '★'.repeat(raid.level)
+
+        if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
+            const pokemonIconUrl = getPokemonRawIconUrl(raid)
+
+            let typesDisplay = ''
+            const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
+            $.each(types, function (index, type) {
+                if (index === 1) {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16' style='margin-left:4px;'>`
+                } else {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16'>`
+                }
+            })
+
+            let pokemonName = raid.pokemon_name
+            const formName = raid.form ? getFormName(raid.pokemon_id, raid.form) : false
+            if (formName) {
+                pokemonName += ` (${formName})`
+            }
+
+            let fastMoveName = getMoveName(raid.move_1)
+            let chargeMoveName = getMoveName(raid.move_2)
+            let fastMoveType = getMoveTypeNoI8ln(raid.move_1)
+            let chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
+
+            const notifyText = notifyRaidPokemon.includes(raid.pokemon_id) ? 'Unnotify' : 'Notify'
+            const notifyIconClass = notifyRaidPokemon.includes(raid.pokemon_id) ? 'fas fa-bell-slash' : 'fas fa-bell'
+
+            raidDisplay = `
+                <div class='section-divider'></div>
+                <div id='raid-container'>
+                  <div id='raid-container-left'>
+                    <div>
+                      <img src='${pokemonIconUrl}' width='64px'>
+                    </div>
+                    <div>
+                      ${typesDisplay}
+                    </div>
+                    <div>
+                      <strong><span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
+                    </div>
+                  </div>
+                  <div id='raid-container-right'>
+                    <div class='title ongoing'>
+                      <div>
+                        ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id} Raid
+                      </div>
+                    </div>
+                    <div class='disappear'>
+                      ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
+                    </div>
+                    <div class='info-container'>
+                      <div>
+                        CP: <strong>${raid.cp}</strong>
+                      </div>
+                      <div>
+                        Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
+                      </div>
+                      <div>
+                        Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
+                      </div>
+                    </div>
+                    <div>
+                      <a href='javascript:notifyAboutRaidPokemon(${raid.pokemon_id})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+                      <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                      <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
+                    </div>
+                  </div>
                 </div>`
         } else {
-            let gymUrl = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
-            if (gym.is_in_battle) {
-                gymUrl += '&in_battle=1'
-            }
-            gymImageDisplay = `
-                <div>
-                  <img class='gym-icon' src='${gymUrl}' width='64'>
+            const isNotifyEgg = notifyEggs.includes(raid.level)
+            const notifyText = isNotifyEgg ? 'Unnotify' : 'Notify'
+            const notifyIconClass = isNotifyEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
+            const notifyFunction = isNotifyEgg ? 'unnotifyAboutEgg' : 'notifyAboutEgg'
+
+            raidDisplay = `
+                <div class='section-divider'></div>
+                <div id='raid-container'>
+                  <div id='raid-container-left'>
+                    <img id='egg-image' src='static/images/gym/${raidEggImages[raid.level]}' width='64'>
+                  </div>
+                  <div id='raid-container-right'>
+                    <div class='title upcoming'>
+                      Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
+                    </div>
+                    <div class='info-container'>
+                      <div>
+                        Start: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
+                      </div>
+                      <div>
+                        End: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
+                      </div>
+                    </div>
+                    <div>
+                      <a href='javascript:${notifyFunction}(${raid.level})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+                      <a href='javascript:excludeEgg(${raid.level})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                    </div>
+                  </div>
                 </div>`
         }
+    }
 
-        if (gym.team_id !== 0) {
-            /* strenghtDisplay = `
-            <div>
-            Strength: <span class='info'>${gym.total_cp}</span>
-            </div>` */
-
-            gymLeaderDisplay = `
-                <div>
-                  Gym leader: <strong>${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a></strong>
-                </div>`
-        }
-
-        if (isGymMeetsRaidFilters(gym)) {
-            const raid = gym.raid
-            const raidColor = ['252,112,176', '255,158,22', '184,165,221']
-            const levelStr = '★'.repeat(raid.level)
-
-            if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
-                const pokemonIconUrl = getPokemonRawIconUrl(raid)
-
-                let typesDisplay = ''
-                const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
-                $.each(types, function (index, type) {
-                    if (index === 1) {
-                        typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16' style='margin-left:4px;'>`
-                    } else {
-                        typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16'>`
-                    }
-                })
-
-                let pokemonName = raid.pokemon_name
-                const formName = raid.form ? getFormName(raid.pokemon_id, raid.form) : false
-                if (formName) {
-                    pokemonName += ` (${formName})`
-                }
-
-                let fastMoveName = getMoveName(raid.move_1)
-                let chargeMoveName = getMoveName(raid.move_2)
-                let fastMoveType = getMoveTypeNoI8ln(raid.move_1)
-                let chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
-
-                const notifyText = notifyRaidPokemon.includes(raid.pokemon_id) ? 'Unnotify' : 'Notify'
-                const notifyIconClass = notifyRaidPokemon.includes(raid.pokemon_id) ? 'fas fa-bell-slash' : 'fas fa-bell'
-
-                raidDisplay = `
-                    <div class='section-divider'></div>
-                    <div id='raid-container'>
-                      <div id='raid-container-left'>
-                        <div>
-                          <img src='${pokemonIconUrl}' width='64px'>
-                        </div>
-                        <div>
-                          ${typesDisplay}
-                        </div>
-                        <div>
-                          <strong><span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
-                        </div>
-                      </div>
-                      <div id='raid-container-right'>
-                        <div class='title ongoing'>
-                          <div>
-                            ${pokemonName} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id} Raid
-                          </div>
-                        </div>
-                        <div class='disappear'>
-                          ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)
-                        </div>
-                        <div class='info-container'>
-                          <div>
-                            CP: <strong>${raid.cp}</strong>
-                          </div>
-                          <div>
-                            Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
-                          </div>
-                          <div>
-                            Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
-                          </div>
-                        </div>
-                        <div>
-                          <a href='javascript:notifyAboutRaidPokemon(${raid.pokemon_id})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
-                          <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
-                          <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
-                        </div>
-                      </div>
-                    </div>`
-            } else {
-                const isNotifyEgg = notifyEggs.includes(raid.level)
-                const notifyText = isNotifyEgg ? 'Unnotify' : 'Notify'
-                const notifyIconClass = isNotifyEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
-                const notifyFunction = isNotifyEgg ? 'unnotifyAboutEgg' : 'notifyAboutEgg'
-
-                raidDisplay = `
-                    <div class='section-divider'></div>
-                    <div id='raid-container'>
-                      <div id='raid-container-left'>
-                        <img id='egg-image' src='static/images/gym/${raidEggImages[raid.level]}' width='64'>
-                      </div>
-                      <div id='raid-container-right'>
-                        <div class='title upcoming'>
-                          Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
-                        </div>
-                        <div class='info-container'>
-                          <div>
-                            Start: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
-                          </div>
-                          <div>
-                            End: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
-                          </div>
-                        </div>
-                        <div>
-                          <a href='javascript:${notifyFunction}(${raid.level})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
-                          <a href='javascript:excludeEgg(${raid.level})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
-                        </div>
-                      </div>
-                    </div>`
-            }
-        }
-
-        return `
+    return `
         <div>
           <div id='gym-container'>
             <div id='gym-container-left'>
@@ -377,125 +377,130 @@ function gymLabel(gym) {
           </div>
           ${raidDisplay}
         </div>`
-    }
+}
 
 function updateGymLabel(gym, marker) {
-        marker.getPopup().setContent(gymLabel(gym))
-        if (marker.isPopupOpen() && isValidRaid(gym.raid)) {
-            // Update countdown time to prevent a countdown time of 0.
-            updateLabelDiffTime()
-        }
+    marker.getPopup().setContent(gymLabel(gym))
+    if (marker.isPopupOpen() && isValidRaid(gym.raid)) {
+        // Update countdown time to prevent a countdown time of 0.
+        updateLabelDiffTime()
+    }
+}
+
+function processGym(gym = null) {
+    if (!settings.showGyms && !settings.showRaids) {
+        return false
     }
 
-function processGym(id, gym = null) {
-        if (id === null || id === undefined) {
-            return false
+    const id = gym.gym_id
+    if (!mapData.gyms.hasOwnProperty(id)) {
+        if (!isGymMeetsFilters(gym)) {
+            return true
         }
 
-        if (gym !== null) {
-            if (!mapData.gyms.hasOwnProperty(id)) {
-                // New gym, add marker to map and item to dict.
-                if (!isGymMeetsFilters(gym)) {
-                    return true
-                }
+        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
+        if (isNewNotifyGym) {
+            sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
+        }
 
-                const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
-                if (isNewNotifyGym) {
-                    sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
-                }
+        gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
+        gym.updated = true
+        mapData.gyms[id] = gym
 
-                gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
-                gym.updated = true
-                mapData.gyms[id] = gym
-
-                if (isValidRaid(gym.raid)) {
-                    raidIds.add(id)
-                    if (isUpcomingRaid(gym.raid) && gym.raid.pokemon_id !== null) {
-                        upcomingRaidIds.add(id)
-                    }
-                }
-            } else {
-                // Existing gym, update marker and dict item if necessary.
-                if (!isGymMeetsFilters(gym)) {
-                    removeGym(gym)
-                    return true
-                }
-
-                const oldGym = mapData.gyms[id]
-
-                var hasNewRaid = false
-                var hasNewUpComingRaid = false
-                var hasNewOngoingRaid = false
-                if (isValidRaid(gym.raid)) {
-                    const isNewRaidPokemon = gym.raid.pokemon_id !== null && (oldGym.raid === null || oldGym.raid.pokemon_id === null)
-                    hasNewRaid = oldGym.raid === null
-                    hasNewUpComingRaid = isUpcomingRaid(gym.raid) && isNewRaidPokemon
-                    hasNewOngoingRaid = isOngoingRaid(gym.raid) && isNewRaidPokemon
-                }
-
-                if (gym.last_modified > oldGym.last_modified || hasNewRaid || hasNewOngoingRaid || gym.is_in_battle !== oldGym.is_in_battle) {
-                    // Visual change, send notification if necessary and update marker.
-                    const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
-                    if (isNewNotifyGym) {
-                        sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
-                    }
-
-                    gym.marker = updateGymMarker(gym, oldGym.marker, isEggNotifyGym || isRaidPokemonNotifyGym)
-                } else {
-                    gym.marker = oldGym.marker
-                }
-
-                if (gym.marker.isPopupOpen()) {
-                    updateGymLabel(gym, gym.marker)
-                } else {
-                    // Make sure label is updated next time it's opened.
-                    gym.updated = true
-                }
-
-                mapData.gyms[id] = gym
-
-                if (hasNewRaid) {
-                    raidIds.add(id)
-                }
-                if (hasNewUpComingRaid) {
-                    upcomingRaidIds.add(id)
-                }
+        if (isValidRaid(gym.raid)) {
+            raidIds.add(id)
+            if (isUpcomingRaid(gym.raid) && gym.raid.pokemon_id !== null) {
+                upcomingRaidIds.add(id)
             }
-        } else {
-            if (!mapData.gyms.hasOwnProperty(id)) {
-                return true
-            }
+        }
+    } else {
+        updateGym(id, gym)
+    }
 
-            if (!isGymMeetsFilters(mapData.gyms[id])) {
-                removeGym(mapData.gyms[id])
-                return true
-            }
+    return true
+}
 
-            const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(mapData.gyms[id])
+function updateGym(id, gym = null) {
+    if (id === undefined || id === null || !mapData.gyms.hasOwnProperty(id)) {
+        return true
+    }
+
+    const isGymNull = gym === null
+    if (isGymNull) {
+        gym = mapData.gyms[id]
+    }
+
+    if (!isGymMeetsFilters(gym)) {
+        removeGym(gym)
+        return true
+    }
+
+    if (!isGymNull) {
+        const oldGym = mapData.gyms[id]
+        var hasNewRaid = false
+        var hasNewUpComingRaid = false
+        var hasNewOngoingRaid = false
+        if (isValidRaid(gym.raid)) {
+            const isNewRaidPokemon = gym.raid.pokemon_id !== null && (oldGym.raid === null || oldGym.raid.pokemon_id === null)
+            hasNewRaid = oldGym.raid === null
+            hasNewUpComingRaid = isUpcomingRaid(gym.raid) && isNewRaidPokemon
+            hasNewOngoingRaid = isOngoingRaid(gym.raid) && isNewRaidPokemon
+        }
+
+        if (gym.last_modified > oldGym.last_modified || hasNewRaid || hasNewOngoingRaid || gym.is_in_battle !== oldGym.is_in_battle) {
+            // Visual change, send notification if necessary and update marker.
+            const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
             if (isNewNotifyGym) {
-                sendGymNotification(mapData.gyms[id], isEggNotifyGym, isRaidPokemonNotifyGym)
+                sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
             }
+            gym.marker = updateGymMarker(gym, oldGym.marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+        } else {
+            gym.marker = oldGym.marker
+        }
 
-            updateGymMarker(mapData.gyms[id], mapData.gyms[id].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+        if (gym.marker.isPopupOpen()) {
+            updateGymLabel(gym, gym.marker)
+        } else {
+            // Make sure label is updated next time it's opened.
+            gym.updated = true
+        }
 
-            if (mapData.gyms[id].marker.isPopupOpen()) {
-                updateGymLabel(mapData.gyms[id], mapData.gyms[id].marker)
-            } else {
-                // Make sure label is updated next time it's opened.
-                mapData.gyms[id].updated = true
-            }
+        mapData.gyms[id] = gym
+
+        if (hasNewRaid) {
+            raidIds.add(id)
+        }
+        if (hasNewUpComingRaid) {
+            upcomingRaidIds.add(id)
+        }
+    } else {
+        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
+        if (isNewNotifyGym) {
+            sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
+        }
+
+        updateGymMarker(gym, mapData.gyms[id].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+
+        if (gym.marker.isPopupOpen()) {
+            updateGymLabel(gym, mapData.gyms[id].marker)
+        } else {
+            // Make sure label is updated next time it's opened.
+            mapData.gyms[id].updated = true
         }
     }
 
-function reprocessGyms() {
-        $.each(mapData.gyms, function (id, gym) {
-            processGym(id)
-        })
+    return true
+}
 
-        if ($('#stats').hasClass('visible')) {
-            countMarkers(map)
-        }
+function updateGyms() {
+    $.each(mapData.gyms, function (id, gym) {
+        updateGym(id)
+    })
+
+    if ($('#stats').hasClass('visible')) {
+        countMarkers(map)
     }
+}
 
 function removeGym(gym) {
         const id = gym.gym_id

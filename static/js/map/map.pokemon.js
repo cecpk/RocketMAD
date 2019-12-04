@@ -180,7 +180,8 @@ function pokemonLabel(item) {
     }
 
     if (weatherBoostedCondition > 0) {
-        //weatherBoostDisplay = `<img id='weather-icon' src='static/images/weather/${weatherImages[weatherBoostedCondition]}' width='24'>`
+        const weatherImage = getWeatherIconUrl({ gameplay_weather: weatherBoostedCondition, severity: 0, world_time: 1 })
+        weatherBoostDisplay = `<img id='weather-icon' src='${weatherImage}' width='24'>`
     }
 
     if (item.verified_disappear_time) {
@@ -305,111 +306,114 @@ function updatePokemonLabel(pokemon, marker) {
     }
 }
 
-function processPokemon(id, pokemon = null) { // id is encounter_id.
-    if (id === null || id === undefined) {
+function processPokemon(pokemon) {
+    if (!settings.showPokemon) {
         return false
     }
 
-    if (pokemon !== null) {
-        if (!mapData.pokemons.hasOwnProperty(id)) {
-            // New pokemon, add marker to map and item to dict.
-            const isNotifyPoke = isNotifyPokemon(pokemon)
-            if (!isPokemonMeetsFilters(pokemon, isNotifyPoke) || pokemon.disappear_time <= Date.now() + 3000) {
-                if (isPokemonRarityExcluded(pokemon)) {
-                    excludedPokemonByRarity.push(pokemon.pokemon_id)
-                }
-                return true
+    const id = pokemon.encounter_id
+    if (!mapData.pokemons.hasOwnProperty(id)) {
+        const isNotifyPoke = isNotifyPokemon(pokemon)
+        if (!isPokemonMeetsFilters(pokemon, isNotifyPoke) || pokemon.disappear_time <= Date.now() + 3000) {
+            if (isPokemonRarityExcluded(pokemon)) {
+                excludedPokemonByRarity.push(id)
             }
+            return true
+        }
 
+        if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
+            sendPokemonNotification(pokemon)
+        }
+
+        pokemon.marker = setupPokemonMarker(pokemon, markers)
+        customizePokemonMarker(pokemon, pokemon.marker, isNotifyPoke)
+        pokemon.updated = true
+        mapData.pokemons[id] = pokemon
+    } else {
+        updatePokemon(id, pokemon)
+    }
+
+    return true
+}
+
+function updatePokemon(id, pokemon = null) {
+    if (id === undefined || id === null || !mapData.pokemons.hasOwnProperty(id)) {
+        return true
+    }
+
+    const isPokemonNull = pokemon === null
+    if (isPokemonNull) {
+        pokemon = mapData.pokemons[id]
+    }
+
+    const isNotifyPoke = isNotifyPokemon(pokemon)
+    if (!isPokemonMeetsFilters(pokemon, isNotifyPoke)) {
+        if (isPokemonRarityExcluded(pokemon)) {
+            excludedPokemonByRarity.push(id)
+        }
+        removePokemon(pokemon)
+        return true
+    }
+
+    if (!isPokemonNull) {
+        const oldPokemon = mapData.pokemons[id]
+        if (pokemon.pokemon_id !== oldPokemon.pokemon_id || pokemon.disappear_time !== oldPokemon.disappear_time ||
+                pokemon.cp_multiplier !== oldPokemon.cp_multiplier || pokemon.individual_attack !== oldPokemon.individual_attack ||
+                pokemon.individual_defense !== oldPokemon.individual_defense || pokemon.individual_stamina !== oldPokemon.individual_stamina ||
+                pokemon.weight !== oldPokemon.weight || pokemon.height !== oldPokemon.height) {
             if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
                 sendPokemonNotification(pokemon)
             }
 
-            pokemon.marker = setupPokemonMarker(pokemon, markers)
-            customizePokemonMarker(pokemon, pokemon.marker, isNotifyPoke)
-            pokemon.updated = true
+            pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
+            if (pokemon.marker.isPopupOpen()) {
+                updatePokemonLabel(pokemon, pokemon.marker)
+            } else {
+                // Make sure label is updated next time it's opened.
+                pokemon.updated = true
+            }
+
             mapData.pokemons[id] = pokemon
-        } else {
-            // Existing pokemon, update marker and dict item if necessary.
-            const isNotifyPoke = isNotifyPokemon(pokemon)
-            if (!isPokemonMeetsFilters(pokemon, isNotifyPoke)) {
-                if (isPokemonRarityExcluded(pokemon)) {
-                    excludedPokemonByRarity.push(pokemon.pokemon_id)
-                }
-                removePokemon(pokemon)
-                return true
-            }
-
-            const oldPokemon = mapData.pokemons[id]
-            if (pokemon.pokemon_id !== oldPokemon.pokemon_id || pokemon.disappear_time !== oldPokemon.disappear_time ||
-                    pokemon.cp_multiplier !== oldPokemon.cp_multiplier || pokemon.individual_attack !== oldPokemon.individual_attack ||
-                    pokemon.individual_defense !== oldPokemon.individual_defense || pokemon.individual_stamina !== oldPokemon.individual_stamina ||
-                    pokemon.weight !== oldPokemon.weight || pokemon.height !== oldPokemon.height) {
-                if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
-                    sendPokemonNotification(pokemon)
-                }
-
-                pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
-                if (pokemon.marker.isPopupOpen()) {
-                    updatePokemonLabel(pokemon, pokemon.marker)
-                } else {
-                    // Make sure label is updated next time it's opened.
-                    pokemon.updated = true
-                }
-
-                mapData.pokemons[id] = pokemon
-            }
         }
     } else {
-        if (!mapData.pokemons.hasOwnProperty(id)) {
-            return true
+        if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
+            sendPokemonNotification(pokemon)
         }
 
-        const isNotifyPoke = isNotifyPokemon(mapData.pokemons[id])
-        if (!isPokemonMeetsFilters(mapData.pokemons[id], isNotifyPoke)) {
-            if (isPokemonRarityExcluded(mapData.pokemons[id])) {
-                excludedPokemonByRarity.push(mapData.pokemons[id].pokemon_id)
-            }
-            removePokemon(mapData.pokemons[id])
-            return true
-        }
-
-        if (isNotifyPoke && !hasSentPokemonNotification(mapData.pokemons[id])) {
-            sendPokemonNotification(mapData.pokemons[id])
-        }
-
-        updatePokemonMarker(mapData.pokemons[id], mapData.pokemons[id].marker, isNotifyPoke)
-        if (mapData.pokemons[id].marker.isPopupOpen()) {
-            updatePokemonLabel(mapData.pokemons[id],  mapData.pokemons[id].marker)
+        updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
+        if (pokemon.marker.isPopupOpen()) {
+            updatePokemonLabel(pokemon,  mapData.pokemons[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
-             mapData.pokemons[id].updated = true
+            mapData.pokemons[id].updated = true
         }
     }
+
+    return true
 }
 
-function reprocessPokemons(pokemonIds = [], encounteredOnly = false) {
+function updatePokemons(pokemonIds = [], encounteredOnly = false) {
     if (pokemonIds.length > 0 && encounteredOnly) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
             if (pokemonIds.includes(pokemon.pokemon_id) && pokemon.individual_attack !== null) {
-                processPokemon(encounterId)
+                updatePokemon(encounterId)
             }
         })
     } else if (pokemonIds.length > 0) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
             if (pokemonIds.includes(pokemon.pokemon_id)) {
-                processPokemon(encounterId)
+                updatePokemon(encounterId)
             }
         })
     } else if (encounteredOnly) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
             if (pokemon.individual_attack !== null) {
-                processPokemon(encounterId)
+                updatePokemon(encounterId)
             }
         })
     } else {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            processPokemon(encounterId)
+            updatePokemon(encounterId)
         })
     }
 

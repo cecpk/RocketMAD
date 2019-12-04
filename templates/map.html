@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/extras/noUiSlider/nouislider.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.min.css">
@@ -580,6 +580,7 @@
         </div>
       </li>
       {% endif %}
+      {% if show.weather %}
       <li>
         <div class="collapsible-header"><i class="material-icons">cloud</i>Weather</div>
         <div class="collapsible-body">
@@ -616,15 +617,33 @@
           </div>
         </div>
       </li>
+      {% endif %}
       <li>
         <div class="collapsible-header"><i class="material-icons">map</i>Map</div>
         <div class="collapsible-body">
-          <div class="switch">
-            <label>
-              Test123
-              <input type="checkbox">
-              <span class="lever"></span>
-            </label>
+          <div class="settings-container">
+            {% if show.spawnpoints %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="spawnpoint-switch">
+                  <span class="lever"></span>
+                  Spawn points
+                </label>
+              </div>
+            </div>
+            {% endif %}
+            {% if show.scanned_locs %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="scanned-locs-switch">
+                  <span class="lever"></span>
+                  Scanned locations
+                </label>
+              </div>
+            </div>
+            {% endif %}
           </div>
         </div>
       </li>
@@ -689,7 +708,7 @@
       var nestParksFileName = "{{nestParksFileName}}";
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-geosearch@2.7.0/dist/bundle.min.js"></script>
@@ -719,7 +738,7 @@
     <script src="static/js/map/map.park.js"></script>
     <script src="static/js/map/map.pokemon.js"></script>
     <script src="static/js/map/map.pokestop.js"></script>
-    <script src="static/js/map/map.scanned.js"></script>
+    <script src="static/js/map/map.scannedloc.js"></script>
     <script src="static/js/map/map.spawnpoint.js"></script>
     <script src="static/js/map/map.stats.js"></script>
     <script src="static/js/map/map.weather.js"></script>

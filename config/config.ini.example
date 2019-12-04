@@ -18,23 +18,6 @@
 # Front end settings
 #################
 
-#no-pokemon                     # Disables pokemon. (default=False)
-#no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
-#no-gyms                        # Disables gyms. (default=False)
-#no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)
-#no-gym-filters                 # Disable gym filters in side nav. (default=False)
-#no-raids                       # Disables raids. (default=False)
-#no-raid-filters                # Disable raid filters in side nav. (default=False)
-#no-pokestops                   # Disables pokestops. (default=False)
-#no-quests                      # Disables quests. (default=False)
-#no-invasions                   # Disables team rocket invasions. (default=False)
-#no-lures                       # Disables lures. (default=False)
-#no-weather                     # Disables weather. (default=False)
-#verified-despawn-time          # Show if pokemon despawn time is verified.
-#black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
-#medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
-#show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
-                                # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #map-title:                     # Title of the map. (default='RocketMap')
 #header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
 #madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
@@ -44,6 +27,29 @@
 #messenger-url:                 # Messenger group invite link. (default=None)
 #telegram-url:                  # Telegram group invite link. (default=None)
 #whatsapp-url:                  # WhatsApp group invite link. (default=None)
+
+#no-pokemon                     # Disables pokemon. (default=False)
+#no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
+#verified-despawn-time          # Show if pokemon despawn time is verified.
+#show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
+                                # Set to 0 to disable this feature. Set to 19 or higher for nice results.
+#medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
+
+#no-gyms                        # Disables gyms. (default=False)
+#no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)
+#no-gym-filters                 # Disable gym filters in side nav. (default=False)
+#no-raids                       # Disables raids. (default=False)
+#no-raid-filters                # Disable raid filters in side nav. (default=False)
+#black-white-badges             # Use black/white background with white/black text for gym/raid level badge in gym icons.
+
+#no-pokestops                   # Disables pokestops. (default=False)
+#no-quests                      # Disables quests. (default=False)
+#no-invasions                   # Disables team rocket invasions. (default=False)
+#no-lures                       # Disables lures. (default=False)
+
+#no-weather                     # Disables weather. (default=False)
+#no-spawnpoints                 # Disables spawn points. (default=False)
+#no-scanned-locs                # Disables scanned locations. (default=False)
 
 
 # Database settings
