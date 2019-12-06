@@ -52,13 +52,13 @@ costume_names = {
 }
 
 weather_images = {
-    CLEAR:          os.path.join(path_weather, 'weather_sunny.png'),
-    RAINY:          os.path.join(path_weather, 'weather_rain.png'),
-    PARTLY_CLOUDY:  os.path.join(path_weather, 'weather_partlycloudy_day.png'),
-    OVERCAST:       os.path.join(path_weather, 'weather_cloudy.png'),
-    WINDY:          os.path.join(path_weather, 'weather_windy.png'),
-    SNOW:           os.path.join(path_weather, 'weather_snow.png'),
-    FOG:            os.path.join(path_weather, 'weather_fog.png')
+    CLEAR:          os.path.join(path_weather, 'weather_icon_clear.png'),
+    RAINY:          os.path.join(path_weather, 'weather_icon_rain.png'),
+    PARTLY_CLOUDY:  os.path.join(path_weather, 'weather_icon_partlycloudy.png'),
+    OVERCAST:       os.path.join(path_weather, 'weather_icon_cloudy.png'),
+    WINDY:          os.path.join(path_weather, 'weather_icon_windy.png'),
+    SNOW:           os.path.join(path_weather, 'weather_icon_snow.png'),
+    FOG:            os.path.join(path_weather, 'weather_icon_fog.png')
 }
 
 # Info about Pokemon spritesheet

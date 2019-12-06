@@ -621,7 +621,19 @@
       <li>
         <div class="collapsible-header"><i class="material-icons">map</i>Map</div>
         <div class="collapsible-body">
+          {% if show.ranges or show.spawnpoints or show.scanned_locs %}
           <div class="settings-container">
+            {% if show.ranges %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="ranges-switch">
+                  <span class="lever"></span>
+                  Ranges
+                </label>
+              </div>
+            </div>
+            {% endif %}
             {% if show.spawnpoints %}
             <div class="form-control">
               <div class="switch">
@@ -645,6 +657,7 @@
             </div>
             {% endif %}
           </div>
+          {% endif %}
         </div>
       </li>
       <li>

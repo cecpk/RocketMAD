@@ -57,10 +57,6 @@ function customizePokemonMarker(pokemon, marker, isNotifyPokemon) {
     updatePokemonMarker(pokemon, marker, isNotifyPokemon)
     marker.bindPopup()
 
-    if (!marker.rangeCircle && isRangeActive(map)) {
-        marker.rangeCircle = addRangeCircle(marker, map, 'pokemon')
-    }
-
     addListeners(marker, 'pokemon')
 
     return marker
@@ -325,8 +321,16 @@ function processPokemon(pokemon) {
             sendPokemonNotification(pokemon)
         }
 
-        pokemon.marker = setupPokemonMarker(pokemon, markers)
+        if (isNotifyPoke) {
+            pokemon.marker = setupPokemonMarker(pokemon, markersNoCluster)
+        } else {
+            pokemon.marker = setupPokemonMarker(pokemon, markers)
+        }
         customizePokemonMarker(pokemon, pokemon.marker, isNotifyPoke)
+        if (settings.showRanges) {
+            pokemon.rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifyPoke)
+        }
+
         pokemon.updated = true
         mapData.pokemons[id] = pokemon
     } else {
@@ -372,6 +376,9 @@ function updatePokemon(id, pokemon = null) {
                 // Make sure label is updated next time it's opened.
                 pokemon.updated = true
             }
+            if (oldPokemon.rangeCircle) {
+                pokemon.rangeCircle = oldPokemon.rangeCircle
+            }
 
             mapData.pokemons[id] = pokemon
         }
@@ -386,6 +393,11 @@ function updatePokemon(id, pokemon = null) {
         } else {
             // Make sure label is updated next time it's opened.
             mapData.pokemons[id].updated = true
+        }
+        if (settings.showRanges && !pokemon.rangeCircle) {
+            mapData.pokemons[id].rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifyPoke)
+        } else {
+            updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifyPoke)
         }
     }
 
@@ -426,40 +438,20 @@ function updatePokemons(pokemonIds = [], encounteredOnly = false) {
 function removePokemon(pokemon) {
     const id = pokemon.encounter_id
     if (mapData.pokemons.hasOwnProperty(id)) {
-        const marker = mapData.pokemons[id].marker
-        if (marker.rangeCircle != null) {
-            if (markers.hasLayer(marker.rangeCircle)) {
-                markers.removeLayer(marker.rangeCircle)
-            } else {
-                markersNoCluster.removeLayer(marker.rangeCircle)
-            }
+        if (mapData.pokemons[id].rangeCircle) {
+            removeRangeCircle(mapData.pokemons[id].rangeCircle)
         }
-
-        if (markers.hasLayer(marker)) {
-            markers.removeLayer(marker)
-        } else {
-            markersNoCluster.removeLayer(marker)
-        }
-
+        removeMarker(mapData.pokemons[id].marker)
         delete mapData.pokemons[id]
     }
 }
 
 function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
-    const marker = mapData.pokemons[id].marker
-    if (marker.rangeCircle != null) {
-        if (markers.hasLayer(marker.rangeCircle)) {
-            markers.removeLayer(marker.rangeCircle)
-        } else {
-            markersNoCluster.removeLayer(marker.rangeCircle)
+    if (mapData.pokemons.hasOwnProperty(id)) {
+        if (mapData.pokemons[id].rangeCircle) {
+            removeRangeCircle(mapData.pokemons[id].rangeCircle)
         }
-        delete mapData.pokemons[id].marker.rangeCircle
-    }
-
-    if (markers.hasLayer(marker)) {
-        markers.removeLayer(marker)
-    } else {
-        markersNoCluster.removeLayer(marker)
+        removeMarker(mapData.pokemons[id].marker)
     }
 }
 

@@ -56,6 +56,7 @@ var settings = {
     showMainWeather: null,
     showSpawnpoints: null,
     showScannedLocationsLocations: null,
+    showRanges: null,
     showExParks: false,
     showNestParks: false
 }
@@ -93,7 +94,7 @@ var mapData = {
 var rawDataIsLoading = false
 var startLocationMarker
 var userLocationMarker
-const rangeMarkers = ['pokemon', 'pokestop', 'gym']
+const gymRangeColors = ['#999999', '#0051CF', '#FF260E', '#FECC23'] // 'Uncontested', 'Mystic', 'Valor', 'Instinct'
 var storeZoom = true
 
 var oSwLat
@@ -564,6 +565,7 @@ function initSettings() {
         settings.showWeatherCells = Store.get('showWeatherCells')
     }
 
+    settings.showRanges = showConfig.ranges && Store.get('showRanges')
     settings.showSpawnpoints = showConfig.spawnpoints && Store.get('showSpawnpoints')
     settings.showScannedLocations = showConfig.scanned_locs && Store.get('showScannedLocations')
 
@@ -573,114 +575,6 @@ function initSettings() {
 }
 
 function initSidebar() {
-    // Wipe off/restore map icons when switches are toggled
-    function buildSwitchChangeListener(data, dataType, storageKey) {
-        return function () {
-            Store.set(storageKey, this.checked)
-
-            if (this.checked) {
-                // When switch is turned on we asume it has been off, makes sure we dont end up in limbo
-                // Without this there could've been a situation where no markers are on map and only newly modified ones are loaded
-                if (storageKey === 'showPokemon') {
-                    lastpokemon = false
-                } else if (storageKey === 'showScannedLocations') {
-                    lastslocs = false
-                } else if (storageKey === 'showSpawnpoints') {
-                    lastspawns = false
-                }
-                updateMap()
-            } else if (storageKey === 'showGyms' || storageKey === 'showRaids') {
-                // if any of switch is enable then do not remove gyms markers, only update them
-                if (Store.get('showGyms') || Store.get('showRaids')) {
-                    lastgyms = false
-                    updateMap()
-                } else {
-                    $.each(dataType, function (d, dType) {
-                        $.each(data[dType], function (key, value) {
-                            // for any marker you're turning off, you'll want to wipe off the range
-                            if (data[dType][key].marker.rangeCircle) {
-                                markers.removeLayer(data[dType][key].marker.rangeCircle)
-                                markersNoCluster.removeLayer(data[dType][key].marker.rangeCircle)
-                                delete data[dType][key].marker.rangeCircle
-                            }
-                            markers.removeLayer(data[dType][key].marker)
-                            markersNoCluster.removeLayer(data[dType][key].marker)
-                            delete data[dType][key].marker
-                        })
-                        data[dType] = {}
-                    })
-                }
-            } else {
-                $.each(dataType, function (d, dType) {
-                    var oldPokeMarkers = []
-                    $.each(data[dType], function (key, value) {
-                        // for any marker you're turning off, you'll want to wipe off the range
-                        if (data[dType][key].marker.rangeCircle) {
-                            markers.removeLayer(data[dType][key].marker.rangeCircle)
-                            markersNoCluster.removeLayer(data[dType][key].marker.rangeCircle)
-                            delete data[dType][key].marker.rangeCircle
-                        }
-                        if (storageKey !== 'showRanges') {
-                            markers.removeLayer(data[dType][key].marker)
-                            markersNoCluster.removeLayer(data[dType][key].marker)
-                            if (dType === 'pokemons') {
-                                oldPokeMarkers.push(data[dType][key].marker)
-                            }
-                        }
-                    })
-                    // If the type was "pokemons".
-                    if (oldPokeMarkers.length > 0) {
-                        markers.removeLayer(oldPokeMarkers)
-                        markersNoCluster.removeLayer(oldPokeMarkers)
-                    }
-                    if (storageKey !== 'showRanges') data[dType] = {}
-                })
-                if (storageKey === 'showRanges') {
-                    updateMap()
-                }
-            }
-        }
-    }
-
-    function formatRarityState(state) {
-        if (!state.id) {
-            return state.text
-        }
-        var pokemonId
-        switch (state.element.value.toString()) {
-            case i8ln('Common'):
-                pokemonId = Store.get('rarityCommon')
-                break
-            case i8ln('Uncommon'):
-                pokemonId = Store.get('rarityUncommon')
-                break
-            case i8ln('Rare'):
-                pokemonId = Store.get('rarityRare')
-                break
-            case i8ln('Very Rare'):
-                pokemonId = Store.get('rarityVeryRare')
-                break
-            case i8ln('Ultra Rare'):
-                pokemonId = Store.get('rarityUltraRare')
-                break
-            case i8ln('New Spawn'):
-                pokemonId = Store.get('rarityNewSpawn')
-                break
-            default:
-                pokemonId = 1
-        }
-        var pokemonIcon
-        if (generateImages) {
-            pokemonIcon = `<img class='pokemon-select-icon' src='${getPokemonRawIconUrl({'pokemon_id': pokemonId})}'>`
-        } else {
-            pokemonIcon = `<i class="pokemon-sprite n${pokemonId}"></i>`
-        }
-        var $state = $(
-            `<span>${pokemonIcon} ${state.text}</span>`
-        )
-        return $state
-    }
-
     // Setup UI element interactions.
 
     if (showConfig.pokemons) {
@@ -1204,6 +1098,16 @@ function initSidebar() {
         })
     }
 
+    if (showConfig.ranges) {
+        $('#ranges-switch').on('change', function () {
+            settings.showRanges = this.checked
+            updatePokemons()
+            updateGyms()
+            updatePokestops()
+            Store.set('showRanges', this.checked)
+        })
+    }
+
     if (showConfig.spawnpoints) {
         $('#spawnpoint-switch').on('change', function () {
             settings.showSpawnpoints = this.checked
@@ -1231,7 +1135,7 @@ function initSidebar() {
     }
 
 
-    $('#ranges-switch').change(buildSwitchChangeListener(mapData, ['gyms', 'pokemons', 'pokestops'], 'showRanges'))
+
 
     $('#s2-cells-switch').change(function () {
         Store.set('showS2Cells', this.checked)
@@ -1619,6 +1523,9 @@ function initSidebar() {
     }
 
     // Map.
+    if (showConfig.ranges) {
+        $('#ranges-switch').prop('checked', settings.showRanges)
+    }
     if (showConfig.spawnpoints) {
         $('#spawnpoint-switch').prop('checked', settings.showSpawnpoints)
     }
@@ -1629,7 +1536,6 @@ function initSidebar() {
 
 
     $('#scanned-switch').prop('checked', Store.get('showScannedLocations'))
-    $('#ranges-switch').prop('checked', Store.get('showRanges'))
     $('#s2-cells-switch').prop('checked', Store.get('showS2Cells'))
     $('#s2-cells-wrapper').toggle(Store.get('showS2Cells'))
     $('#s2-level10-switch').prop('checked', Store.get('showS2CellsLevel10'))
@@ -2118,52 +2024,80 @@ function initInvasionFilters() {
     })
 }
 
-function addRangeCircle(marker, map, type, teamId) {
-    var markerPos = marker.getLatLng()
-    var lat = markerPos.lat
-    var lng = markerPos.lng
-    var circleCenter = L.latLng(lat, lng)
-    var gymColors = ['#999999', '#0051CF', '#FF260E', '#FECC23'] // 'Uncontested', 'Mystic', 'Valor', 'Instinct']
-    var teamColor = gymColors[0]
-    if (teamId) teamColor = gymColors[teamId]
-
+function setupRangeCircle(item, type, cluster) {
     var range
     var circleColor
 
-    // handle each type of marker and be explicit about the range circle attributes
     switch (type) {
         case 'pokemon':
             circleColor = '#C233F2'
-            range = 40 // pokemon appear at 40m and then you can move away. still have to be 40m close to see it though, so ignore the further disappear distance
+            range = 40 // Pokemon appear at 40m and then you can move away. Still have to be 40m close to see it though, so ignore the further disappear distance.
             break
         case 'pokestop':
             circleColor = '#3EB0FF'
             range = 40
             break
         case 'gym':
-            circleColor = teamColor
+            circleColor = gymRangeColors[item.team_id]
             range = 40
             break
+        default:
+            return
     }
 
-    var rangeCircleOpts = {
-        radius: range, // meters
+    const rangeCircle = L.circle([item.latitude, item.longitude], {
+        radius: range, // Meters.
         weight: 1,
         color: circleColor,
         opacity: 0.9,
-        center: circleCenter,
-        fillColor: circleColor,
         fillOpacity: 0.3
+    })
+    if (cluster) {
+        markers.addLayer(rangeCircle)
+    } else {
+        markersNoCluster.addLayer(rangeCircle)
     }
 
-    var rangeCircle = L.circle(circleCenter, rangeCircleOpts)
-    markers.addLayer(rangeCircle)
     return rangeCircle
 }
 
-function isRangeActive(map) {
-    if (map.getZoom() < 16) return false
-    return Store.get('showRanges')
+function updateRangeCircle(item, type, cluster) {
+    if (!item.rangeCircle) {
+        return
+    }
+
+    if (!settings.showRanges) {
+        removeRangeCircle(item.rangeCircle)
+        delete item.rangeCircle
+
+        return
+    }
+
+    if (type === 'gym') {
+        item.rangeCircle.setStyle({color: gymRangeColors[item.team_id]})
+    }
+
+    if (cluster) {
+        if (markersNoCluster.hasLayer(item.rangeCircle)) {
+            markersNoCluster.removeLayer(item.rangeCircle)
+            markers.addLayer(item.rangeCircle)
+        }
+    } else {
+        if (markers.hasLayer(item.rangeCircle)) {
+            markers.removeLayer(item.rangeCircle)
+            markersNoCluster.addLayer(item.rangeCircle)
+        }
+    }
+
+    return item.rangeCircle
+}
+
+function removeRangeCircle(rangeCircle) {
+    if (markers.hasLayer(rangeCircle)) {
+        markers.removeLayer(rangeCircle)
+    } else {
+        markersNoCluster.removeLayer(rangeCircle)
+    }
 }
 
 function lpad(str, len, padstr) {
@@ -2523,43 +2457,12 @@ function updateStaleMarkers() {
     }
 }
 
-function showInBoundsMarkers(markersInput, type) {
-    $.each(markersInput, function (key, value) {
-        const item = markersInput[key]
-        const marker = item.marker
-        var show = false
-
-        if (!item.hidden) {
-            if (typeof marker.getLatLng === 'function') {
-                if (map.getBounds().contains(marker.getLatLng())) {
-                    show = true
-                }
-            } else if (type === 's2cell') {
-                if (map.getBounds().intersects(getS2CellBounds(item))) {
-                    show = true
-                }
-            }
-        }
-        // Marker has an associated range.
-        if (show && rangeMarkers.indexOf(type) !== -1) {
-            // No range circle yet... let's create one.
-            if (!marker.rangeCircle) {
-                // But only if range is active.
-                if (isRangeActive(map)) {
-                    if (type === 'gym') marker.rangeCircle = addRangeCircle(marker, map, type, item.team_id)
-                    else marker.rangeCircle = addRangeCircle(marker, map, type)
-                }
-            } else { // There's already a range circle.
-                if (isRangeActive(map)) {
-                    markers.addLayer(marker.rangeCircle)
-                } else {
-                    markers.removeLayer(marker.rangeCircle)
-                    markersNoCluster.removeLayer(marker.rangeCircle)
-                    delete marker.rangeCircle
-                }
-            }
-        }
-    })
+function removeMarker(marker) {
+    if (markers.hasLayer(marker)) {
+        markers.removeLayer(marker)
+    } else {
+        markersNoCluster.removeLayer(marker)
+    }
 }
 
 function loadRawData() {
@@ -2665,14 +2568,6 @@ function updateMap() {
         $.each(result.scannedlocs, function (idx, scannedLoc) {
             processScannedLocation(scannedLoc)
         })
-
-        showInBoundsMarkers(mapData.lurePokemons, 'pokemon')
-        showInBoundsMarkers(mapData.gyms, 'gym')
-        showInBoundsMarkers(mapData.pokestops, 'pokestop')
-        //showInBoundsMarkers(mapData.scanned, 'scanned')
-        showInBoundsMarkers(mapData.spawnpoints, 'inbound')
-        showInBoundsMarkers(mapData.weather, 'weather')
-        showInBoundsMarkers(mapData.weatherAlerts, 's2cell')
 
         if ($('#stats').hasClass('visible')) {
             countMarkers(map)

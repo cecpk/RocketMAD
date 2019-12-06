@@ -200,6 +200,7 @@ class Pogom(Flask):
             'weather': not args.no_weather,
             'spawnpoints': not args.no_spawnpoints,
             'scanned_locs': not args.no_scanned_locs,
+            'ranges': not args.no_ranges,
             'medalpokemon': args.medalpokemon,
             'ex_parks': args.ex_parks,
             'nest_parks': args.nest_parks,

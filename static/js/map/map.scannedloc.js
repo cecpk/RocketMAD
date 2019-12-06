@@ -13,7 +13,6 @@ function getColorByTime(value) {
 
 function setupScannedLocationMarker(scannedLoc) {
     var marker = L.circle([scannedLoc.latitude, scannedLoc.longitude], {
-        clickable: false,
         interactive: false,
         opacity: 0.6,
         fillOpacity: 0.2
@@ -82,7 +81,7 @@ function updateScannedLocations() {
 function removeScannedLocation(scannedLoc) {
     const id = scannedLoc.scanned_loc_id
     if (mapData.scannedLocs.hasOwnProperty(id)) {
-        markersNoCluster.removeLayer(mapData.scannedLocs[id].marker)
+        removeMarker(mapData.scannedLocs[id].marker)
         delete mapData.scannedLocs[id]
     }
 }

@@ -102,10 +102,6 @@ function setupGymMarker(gym, isNotifyGym) {
         marker.bindPopup()
     }
 
-    if (!marker.rangeCircle && isRangeActive(map)) {
-        marker.rangeCircle = addRangeCircle(marker, map, 'gym', gym.team_id)
-    }
-
     if (settings.useGymSidebar) {
         marker.on('click', function () {
             var gymSidebar = document.querySelector('#gym-details')
@@ -404,6 +400,9 @@ function processGym(gym = null) {
         }
 
         gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
+        if (settings.showRanges) {
+            gym.rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
+        }
         gym.updated = true
         mapData.gyms[id] = gym
 
@@ -465,6 +464,10 @@ function updateGym(id, gym = null) {
             gym.updated = true
         }
 
+        if (oldGym.rangeCircle) {
+            gym.rangeCircle = oldGym.rangeCircle
+        }
+
         mapData.gyms[id] = gym
 
         if (hasNewRaid) {
@@ -480,12 +483,16 @@ function updateGym(id, gym = null) {
         }
 
         updateGymMarker(gym, mapData.gyms[id].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
-
         if (gym.marker.isPopupOpen()) {
             updateGymLabel(gym, mapData.gyms[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
             mapData.gyms[id].updated = true
+        }
+        if (settings.showRanges && !gym.rangeCircle) {
+            mapData.gyms[id].rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
+        } else {
+            updateRangeCircle(mapData.gyms[id], 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
         }
     }
 
@@ -503,33 +510,22 @@ function updateGyms() {
 }
 
 function removeGym(gym) {
-        const id = gym.gym_id
-        if (mapData.gyms.hasOwnProperty(id)) {
-            const marker = mapData.gyms[id].marker
-            if (marker.rangeCircle != null) {
-                if (markers.hasLayer(marker.rangeCircle)) {
-                    markers.removeLayer(marker.rangeCircle)
-                } else {
-                    markersNoCluster.removeLayer(marker.rangeCircle)
-                }
-            }
+    const id = gym.gym_id
+    if (mapData.gyms.hasOwnProperty(id)) {
+        if (mapData.gyms[id].rangeCircle) {
+            removeRangeCircle(mapData.gyms[id].rangeCircle)
+        }
+        removeMarker(mapData.gyms[id].marker)
+        delete mapData.gyms[id]
 
-            if (markers.hasLayer(marker)) {
-                markers.removeLayer(marker)
-            } else {
-                markersNoCluster.removeLayer(marker)
-            }
-
-            delete mapData.gyms[id]
-
-            if (raidIds.has(id)) {
-                raidIds.delete(id)
-            }
-            if (upcomingRaidIds.has(id)) {
-                upcomingRaidIds.delete(id)
-            }
+        if (raidIds.has(id)) {
+            raidIds.delete(id)
+        }
+        if (upcomingRaidIds.has(id)) {
+            upcomingRaidIds.delete(id)
         }
     }
+}
 
 function excludeEgg(level) { // eslint-disable-line no-unused-vars
     var temp = settings.includedEggLevels

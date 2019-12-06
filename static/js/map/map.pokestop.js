@@ -312,6 +312,9 @@ function processPokestop(pokestop) {
         }
 
         pokestop.marker = setupPokestopMarker(pokestop, isInvasionNotifyPokestop || isLureNotifyPokestop)
+        if (settings.showRanges) {
+            pokestop.rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
+        }
         pokestop.updated = true
         mapData.pokestops[id] = pokestop
 
@@ -365,6 +368,10 @@ function updatePokestop(id, pokestop = null) {
             pokestop.updated = true
         }
 
+        if (oldPokestop.rangeCircle) {
+            pokestop.rangeCircle = oldPokestop.rangeCircle
+        }
+
         mapData.pokestops[id] = pokestop
 
         if (isInvadedPokestop(pokestop)) {
@@ -380,12 +387,16 @@ function updatePokestop(id, pokestop = null) {
         }
 
         updatePokestopMarker(pokestop, mapData.pokestops[id].marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
-
         if (pokestop.marker.isPopupOpen()) {
             updatePokestopLabel(pokestop, mapData.pokestops[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
             mapData.pokestops[id].updated = true
+        }
+        if (settings.showRanges && !pokestop.rangeCircle) {
+            mapData.pokestops[id].rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
+        } else {
+            updateRangeCircle(mapData.pokestops[id], 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
         }
     }
 
@@ -405,21 +416,10 @@ function updatePokestops() {
 function removePokestop(pokestop) {
     const id = pokestop.pokestop_id
     if (mapData.pokestops.hasOwnProperty(id)) {
-        const marker = mapData.pokestops[id].marker
-        if (marker.rangeCircle != null) {
-            if (markers.hasLayer(marker.rangeCircle)) {
-                markers.removeLayer(marker.rangeCircle)
-            } else {
-                markersNoCluster.removeLayer(marker.rangeCircle)
-            }
+        if (mapData.pokestops[id].rangeCircle) {
+            removeRangeCircle(mapData.pokestops[id].rangeCircle)
         }
-
-        if (markers.hasLayer(marker)) {
-            markers.removeLayer(marker)
-        } else {
-            markersNoCluster.removeLayer(marker)
-        }
-
+        removeMarker(mapData.pokestops[id].marker)
         delete mapData.pokestops[id]
 
         if (invadedPokestopIds.has(id)) {

@@ -159,11 +159,7 @@ function updateSpawnpoints() {
 function removeSpawnpoint(spawnpoint) {
     const id = spawnpoint.spawnpoint_id
     if (mapData.spawnpoints.hasOwnProperty(id)) {
-        const marker = mapData.spawnpoints[id].marker
-        if (marker.rangeCircle) {
-            markers.removeLayer(marker.rangeCircle)
-        }
-        markers.removeLayer(marker)
+        removeMarker(mapData.spawnpoints[id].marker)
         delete mapData.spawnpoints[id]
     }
 }
