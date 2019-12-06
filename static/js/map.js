@@ -164,7 +164,7 @@ const availablePokemonCount = 649
 // FontAwesome gender classes.
 const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 
-const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 706, 708, 1405, 301, 401, 501, 1404, 902, 903, 1201, 1202, 1301, 1402]
+const questItemIds = [1, 2, 3, 101, 102, 103, 104, 201, 202, 701, 703, 705, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 706, 708, 1405, 301, 401, 501, 502, 503, 504, 1404, 902, 903, 1201, 1202, 1301, 1402]
 const questItemNames = {
     1: 'Poké Ball',
     2: 'Great Ball',
@@ -178,6 +178,9 @@ const questItemNames = {
     301: 'Lucky Egg',
     401: 'Incense',
     501: 'Lure Module',
+    502: 'Glacial Lure Module',
+    503: 'Mossy Lure Module',
+    504: 'Magnetic Lure Module',
     701: 'Razz Berry',
     703: 'Nanab Berry',
     705: 'Pinap Berry',
@@ -191,6 +194,7 @@ const questItemNames = {
     1104: 'Dragon Scale',
     1105: 'Up-Grade',
     1106: 'Sinnoh Stone',
+    1107: 'Unova Stone',
     1201: 'Fast TM',
     1202: 'Charged TM',
     1301: 'Rare Candy',
