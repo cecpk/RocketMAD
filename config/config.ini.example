@@ -50,7 +50,7 @@
 #no-weather                     # Disables weather. (default=False)
 #no-spawnpoints                 # Disables spawn points. (default=False)
 #no-scanned-locs                # Disables scanned locations. (default=False)
-#no-ranges                      # Disables user to show ranges.
+#no-ranges                      # Disables user to show interaction ranges. (default=False)
 
 
 # Database settings
