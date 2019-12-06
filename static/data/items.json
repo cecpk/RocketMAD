@@ -66,6 +66,15 @@
   "501": {
     "name": "Lure Module"
   },
+  "502": {
+    "name": "Glacial Lure Module"
+  },
+  "503": {
+    "name": "Mossy Lure Module"
+  },
+  "504": {
+    "name": "Magnetic Lure Module"
+  },
   "602": {
     "name": "X Attack"
   },
@@ -140,6 +149,9 @@
   "1106": {
     "name": "Sinnoh Stone"
   },
+  "1107": {
+    "name": "Unova Stone"
+  },
   "1201": {
     "name": "Fast TM"
   },
@@ -167,6 +179,9 @@
   },
   "1406": {
     "name": "Team Medallion"
+  },
+  "1408": {
+    "name": "VsSeekerBattleNow"
   },
   "1501": {
     "name": "Mysterious Component"

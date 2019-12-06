@@ -61,11 +61,6 @@ function setupPokestopMarker(pokestop, isNotifyPokestop) {
     marker.pokestop_id = pokestop.pokestop_id
     updatePokestopMarker(pokestop, marker, isNotifyPokestop)
     marker.bindPopup()
-
-    if (!marker.rangeCircle && isRangeActive(map)) {
-        marker.rangeCircle = addRangeCircle(marker, map, 'pokestop')
-    }
-
     addListeners(marker, 'pokestop')
 
     return marker
