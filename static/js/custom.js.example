@@ -34,9 +34,6 @@ $(function () {
     ]
 
     // Clustering! Different zoom levels for desktop vs mobile.
-    const disableClusters = false // Default: false.
-    const maxClusterZoomLevel = 14 // Default: 14.
-    const maxClusterZoomLevelMobile = 14 // Default: 14.
     const clusterZoomOnClick = false // Default: false.
     const clusterZoomOnClickMobile = false // Default: 14.
     const clusterGridSize = 60 // Default: 60.
@@ -67,11 +64,8 @@ $(function () {
     /* Do stuff. */
 
     const currentPage = window.location.pathname
-	// Marker cluster might have loaded before custom.js.
-    const isMarkerClusterLoaded = typeof window.markerCluster !== 'undefined' && !!window.markerCluster
 
     // Set custom Store values.
-    Store.set('maxClusterZoomLevel', maxClusterZoomLevel)
     Store.set('clusterZoomOnClick', clusterZoomOnClick)
     Store.set('clusterGridSize', clusterGridSize)
     Store.set('upscalePokemon', upscalePokemon)
@@ -90,13 +84,8 @@ $(function () {
     Store.set('rarityNewSpawn', rarityNewSpawn)
 
     if (typeof window.orientation !== 'undefined' || isMobileDevice()) {
-        Store.set('maxClusterZoomLevel', maxClusterZoomLevelMobile)
         Store.set('clusterZoomOnClick', clusterZoomOnClickMobile)
         Store.set('clusterGridSize', clusterGridSizeMobile)
-    }
-
-    if (disableClusters) {
-        Store.set('maxClusterZoomLevel', -1)
     }
 
     // Google Analytics.
