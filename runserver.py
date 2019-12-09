@@ -19,6 +19,7 @@ from threading import Thread
 from queue import Queue
 from flask_cors import CORS
 from flask_cachebuster import CacheBuster
+from flask_mobility import Mobility
 
 from colorlog import ColoredFormatter
 
@@ -267,6 +268,7 @@ def main():
         app = Pogom(__name__,
                     root_path=os.path.dirname(
                         os.path.abspath(__file__)))
+        Mobility(app)
         app.before_request(app.validate_request)
         app.set_location(position)
 

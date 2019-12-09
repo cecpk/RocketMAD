@@ -276,6 +276,18 @@ def get_args():
     parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
                         help=('Discord Bot Token for user ' +
                               'external authentication.'))
+    parser.add_argument('-mzl', '--max-zoom-level', type=int,
+                        help=('Maximum level a user can zoom out. ' +
+                             'Range: [0,18]. 0 means the user can zoom out ' +
+                             'completely.'), default=10)
+    parser.add_argument('-czl', '--cluster-zoom-level', type=int,
+                        help=('Zoom level from which markers should be ' +
+                              'clustered. Range: [0,18]. -1 to disable ' +
+                              'clustering.'), default=14)
+    parser.add_argument('-czlm', '--cluster-zoom-level-mobile', type=int,
+                        help=('Zoom level from which markers should be ' +
+                              'clustered on mobile. Range: [0,18]. -1 to ' +
+                              'disable clustering on mobile.'), default=14)
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),
                         default='RocketMap')

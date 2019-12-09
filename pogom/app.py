@@ -8,9 +8,8 @@ import gc
 from datetime import datetime
 from s2sphere import LatLng
 from bisect import bisect_left
-from flask import (Flask, abort, jsonify, render_template,
-                   request, make_response,
-                   send_from_directory, send_file)
+from flask import (Flask, abort, jsonify, render_template, request,
+                   make_response, send_from_directory, send_file)
 from flask.json import JSONEncoder
 from flask_compress import Compress
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
@@ -212,7 +211,10 @@ class Pogom(Flask):
             'map.html',
             lat=self.location[0],
             lng=self.location[1],
+            maxZoomLevel=args.max_zoom_level,
             showAllZoomLevel=args.show_all_zoom_level,
+            clusterZoomLevel=(args.cluster_zoom_level_mobile if request.MOBILE
+                else args.cluster_zoom_level),
             lang=args.locale,
             mapTitle=args.map_title,
             headerImage=args.header_image,

@@ -57,6 +57,7 @@ var settings = {
     showSpawnpoints: null,
     showScannedLocationsLocations: null,
     showRanges: null,
+    includedRangeTypes: null,
     showExParks: false,
     showNestParks: false
 }
@@ -116,13 +117,14 @@ var markersNoCluster
 var _oldlayer = 'stylemapnik'
 
 var S2
-var s2Level10LayerGroup = new L.LayerGroup()
-var s2Level13LayerGroup = new L.LayerGroup()
-var s2Level14LayerGroup = new L.LayerGroup()
-var s2Level17LayerGroup = new L.LayerGroup()
+var s2Level10LayerGroup
+var s2Level13LayerGroup
+var s2Level14LayerGroup
+var s2Level17LayerGroup
 
-var exParksLayerGroup = new L.LayerGroup()
-var nestParksLayerGroup = new L.LayerGroup()
+var rangesLayerGroup
+var exParksLayerGroup
+var nestParksLayerGroup
 
 // Z-index values for various markers.
 const userLocationMarkerZIndex = 0
@@ -241,23 +243,29 @@ function initMap() { // eslint-disable-line no-unused-vars
         lng = useStartLocation ? position.lng : centerLng
     }
 
+    var layers = []
+    if (showConfig.ranges) {
+        rangesLayerGroup = new L.LayerGroup()
+        if (Store.get('zoomLevel') > clusterZoomLevel) {
+            layers.push(rangesLayerGroup)
+        }
+    }
     map = L.map('map', {
         center: [Number(getParameterByName('lat')) || lat, Number(getParameterByName('lon')) || lng],
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
-        maxZoom: 18,
+        minZoom: maxZoomLevel,
+        preferCanvas: true,
         zoomControl: false,
-        layers: [s2Level10LayerGroup, s2Level13LayerGroup, s2Level14LayerGroup, s2Level17LayerGroup, exParksLayerGroup, nestParksLayerGroup]
+        layers: layers
     })
 
     setTitleLayer(Store.get('map_style'))
 
     markers = L.markerClusterGroup({
-        disableClusteringAtZoom: Store.get('maxClusterZoomLevel'),
         spiderfyOnMaxZoom: false,
-        zoomToBoundsOnClick: Store.get('clusterZoomOnClick'),
-        showCoverageOnHover: false,
+        disableClusteringAtZoom: clusterZoomLevel + 1,
         maxClusterRadius: Store.get('clusterGridSize'),
-        removeOutsideVisibleBounds: true
+        zoomToBoundsOnClick: Store.get('clusterZoomOnClick')
     })
 
     map.addLayer(markers)
@@ -306,6 +314,18 @@ function initMap() { // eslint-disable-line no-unused-vars
     })
 
     map.on('zoomend', function () {
+        if (settings.showRanges) {
+            if (map.getZoom() > clusterZoomLevel) {
+                if (!map.hasLayer(rangesLayerGroup)) {
+                    map.addLayer(rangesLayerGroup)
+                }
+            } else {
+                if (map.hasLayer(rangesLayerGroup)) {
+                    map.removeLayer(rangesLayerGroup)
+                }
+            }
+        }
+
         if ($('#stats').hasClass('visible')) {
             countMarkers(map)
         }
@@ -566,6 +586,9 @@ function initSettings() {
     }
 
     settings.showRanges = showConfig.ranges && Store.get('showRanges')
+    if (showConfig.ranges) {
+        settings.includedRangeTypes = Store.get('includedRangeTypes')
+    }
     settings.showSpawnpoints = showConfig.spawnpoints && Store.get('showSpawnpoints')
     settings.showScannedLocations = showConfig.scanned_locs && Store.get('showScannedLocations')
 
@@ -1101,10 +1124,40 @@ function initSidebar() {
     if (showConfig.ranges) {
         $('#ranges-switch').on('change', function () {
             settings.showRanges = this.checked
-            updatePokemons()
-            updateGyms()
-            updatePokestops()
+            const rangeTypeWrapper = $('#range-type-select-wrapper')
+            if (this.checked) {
+                rangeTypeWrapper.show()
+            } else {
+                rangeTypeWrapper.hide()
+            }
+            if (settings.includedRangeTypes.includes(1)) {
+                updatePokemons()
+            }
+            if (settings.includedRangeTypes.includes(2)) {
+                updateGyms()
+            }
+            if (settings.includedRangeTypes.includes(3)) {
+                updatePokestops()
+            }
+            if (settings.includedRangeTypes.includes(4)) {
+                updateSpawnpoints()
+            }
             Store.set('showRanges', this.checked)
+        })
+
+        $('#range-type-select').on('change', function () {
+            const oldIncludedRangeTypes = settings.includedRangeTypes
+            settings.includedRangeTypes = $(this).val().map(Number)
+            if (settings.includedRangeTypes.includes(1) !== oldIncludedRangeTypes.includes(1)) {
+                updatePokemons()
+            } else if (settings.includedRangeTypes.includes(2) !== oldIncludedRangeTypes.includes(2)) {
+                updateGyms()
+            } else if (settings.includedRangeTypes.includes(3) !== oldIncludedRangeTypes.includes(3)) {
+                updatePokestops()
+            } else if (settings.includedRangeTypes.includes(4) !== oldIncludedRangeTypes.includes(4)) {
+                updateSpawnpoints()
+            }
+            Store.set('includedRangeTypes', settings.includedRangeTypes)
         })
     }
 
@@ -1525,6 +1578,9 @@ function initSidebar() {
     // Map.
     if (showConfig.ranges) {
         $('#ranges-switch').prop('checked', settings.showRanges)
+        $('#range-type-select-wrapper').toggle(settings.showRanges)
+        $('#range-type-select').val(settings.includedRangeTypes)
+        $('#range-type-select').formSelect()
     }
     if (showConfig.spawnpoints) {
         $('#spawnpoint-switch').prop('checked', settings.showSpawnpoints)
@@ -2031,15 +2087,19 @@ function setupRangeCircle(item, type, cluster) {
     switch (type) {
         case 'pokemon':
             circleColor = '#C233F2'
-            range = 40 // Pokemon appear at 40m and then you can move away. Still have to be 40m close to see it though, so ignore the further disappear distance.
+            range = 50 // Pokemon appear at 50m, but disappear at 70m.
+            break
+        case 'gym':
+            circleColor = gymRangeColors[item.team_id]
+            range = 40
             break
         case 'pokestop':
             circleColor = '#3EB0FF'
             range = 40
             break
-        case 'gym':
-            circleColor = gymRangeColors[item.team_id]
-            range = 40
+        case 'spawnpoint':
+            circleColor = '#C233F2'
+            range = 50
             break
         default:
             return
@@ -2047,16 +2107,13 @@ function setupRangeCircle(item, type, cluster) {
 
     const rangeCircle = L.circle([item.latitude, item.longitude], {
         radius: range, // Meters.
+        interactive: false,
         weight: 1,
         color: circleColor,
         opacity: 0.9,
         fillOpacity: 0.3
     })
-    if (cluster) {
-        markers.addLayer(rangeCircle)
-    } else {
-        markersNoCluster.addLayer(rangeCircle)
-    }
+    rangesLayerGroup.addLayer(rangeCircle)
 
     return rangeCircle
 }
@@ -2066,10 +2123,27 @@ function updateRangeCircle(item, type, cluster) {
         return
     }
 
-    if (!settings.showRanges) {
+    var isRangeActive
+    switch (type) {
+        case 'pokemon':
+            isRangeActive = isPokemonRangesActive()
+            break
+        case 'gym':
+            isRangeActive = isGymRangesActive()
+            break
+        case 'pokestop':
+            isRangeActive = isPokestopRangesActive()
+            break
+        case 'spawnpoint':
+            isRangeActive = isSpawnpointRangesActive()
+            break
+        default:
+            isRangeActive = false
+    }
+
+    if (!isRangeActive) {
         removeRangeCircle(item.rangeCircle)
         delete item.rangeCircle
-
         return
     }
 
@@ -2077,27 +2151,11 @@ function updateRangeCircle(item, type, cluster) {
         item.rangeCircle.setStyle({color: gymRangeColors[item.team_id]})
     }
 
-    if (cluster) {
-        if (markersNoCluster.hasLayer(item.rangeCircle)) {
-            markersNoCluster.removeLayer(item.rangeCircle)
-            markers.addLayer(item.rangeCircle)
-        }
-    } else {
-        if (markers.hasLayer(item.rangeCircle)) {
-            markers.removeLayer(item.rangeCircle)
-            markersNoCluster.addLayer(item.rangeCircle)
-        }
-    }
-
     return item.rangeCircle
 }
 
 function removeRangeCircle(rangeCircle) {
-    if (markers.hasLayer(rangeCircle)) {
-        markers.removeLayer(rangeCircle)
-    } else {
-        markersNoCluster.removeLayer(rangeCircle)
-    }
+    rangesLayerGroup.removeLayer(rangeCircle)
 }
 
 function lpad(str, len, padstr) {

@@ -621,19 +621,34 @@
       <li>
         <div class="collapsible-header"><i class="material-icons">map</i>Map</div>
         <div class="collapsible-body">
-          {% if show.ranges or show.spawnpoints or show.scanned_locs %}
+          {% if show.ranges %}
           <div class="settings-container">
-            {% if show.ranges %}
             <div class="form-control">
               <div class="switch">
                 <label>
                   <input type="checkbox" id="ranges-switch">
                   <span class="lever"></span>
-                  Ranges
+                  Interaction ranges
                 </label>
               </div>
             </div>
-            {% endif %}
+            <div id="range-type-select-wrapper">
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Filter interaction ranges</div>
+                  <select id="range-type-select" multiple>
+                    <option value="1">Pokémon ranges</option>
+                    <option value="2">Gym ranges</option>
+                    <option value="3">PokéStop ranges</option>
+                    <option value="4">Spawn point ranges</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if show.spawnpoints or show.scanned_locs %}
+          <div class="settings-container">
             {% if show.spawnpoints %}
             <div class="form-control">
               <div class="switch">
@@ -711,14 +726,16 @@
     </div>
 
     <script>
-      var centerLat = {{lat}};
-      var centerLng = {{lng}};
-      var showConfig = {{show|tojson|safe}};
-      var showAllZoomLevel = {{showAllZoomLevel}};
-      var generateImages = {{generateImages}};
-      var rarityFileName = "{{rarityFileName}}";
-      var exParksFileName = "{{exParksFileName}}";
-      var nestParksFileName = "{{nestParksFileName}}";
+      const centerLat = {{lat}};
+      const centerLng = {{lng}};
+      const showConfig = {{show|tojson|safe}};
+      const maxZoomLevel = {{maxZoomLevel}};
+      const showAllZoomLevel = {{showAllZoomLevel}};
+      const clusterZoomLevel = {{clusterZoomLevel}};
+      const generateImages = {{generateImages}};
+      const rarityFileName = "{{rarityFileName}}";
+      const exParksFileName = "{{exParksFileName}}";
+      const nestParksFileName = "{{nestParksFileName}}";
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>

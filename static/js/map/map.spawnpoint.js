@@ -10,6 +10,10 @@ function getSpawnpointColor(spawnpoint) {
     }
 }
 
+function isSpawnpointRangesActive() {
+    return settings.showRanges && settings.includedRangeTypes.includes(4)
+}
+
 function setupSpawnpointMarker(spawnpoint) {
     var marker = L.circle([spawnpoint.latitude, spawnpoint.longitude], {
         radius: 2,
@@ -99,6 +103,9 @@ function processSpawnpoint(spawnpoint) {
     const id = spawnpoint.spawnpoint_id
     if (!mapData.spawnpoints.hasOwnProperty(id)) {
         spawnpoint.marker = setupSpawnpointMarker(spawnpoint)
+        if (isSpawnpointRangesActive()) {
+            spawnpoint.rangeCircle = setupRangeCircle(spawnpoint, 'spawnpoint', true)
+        }
         spawnpoint.updated = true
         mapData.spawnpoints[id] = spawnpoint
     } else {
@@ -129,6 +136,9 @@ function updateSpawnpoint(id, spawnpoint = null) {
         } else {
             spawnpoint.marker = mapData.spawnpoints[id].marker
         }
+        if (mapData.spawnpoints[id].rangeCircle) {
+            spawnpoint.rangeCircle = mapData.spawnpoints[id].rangeCircle
+        }
         mapData.spawnpoints[id] = spawnpoint
 
         if (spawnpoint.marker.isPopupOpen()) {
@@ -139,6 +149,12 @@ function updateSpawnpoint(id, spawnpoint = null) {
         }
     } else {
         updateSpawnpointMarker(spawnpoint, mapData.spawnpoints[id].marker)
+        if (isSpawnpointRangesActive() && !spawnpoint.rangeCircle) {
+            mapData.spawnpoints[id].rangeCircle = setupRangeCircle(spawnpoint, 'spawnpoint', true)
+        } else {
+            updateRangeCircle(mapData.spawnpoints[id], 'spawnpoint', true)
+        }
+
         if (spawnpoint.marker.isPopupOpen()) {
             updateSpawnpointLabel(spawnpoint, mapData.spawnpoints[id].marker)
         } else {
@@ -159,6 +175,9 @@ function updateSpawnpoints() {
 function removeSpawnpoint(spawnpoint) {
     const id = spawnpoint.spawnpoint_id
     if (mapData.spawnpoints.hasOwnProperty(id)) {
+        if (mapData.spawnpoints[id].rangeCircle) {
+            removeRangeCircle(mapData.spawnpoints[id].rangeCircle)
+        }
         removeMarker(mapData.spawnpoints[id].marker)
         delete mapData.spawnpoints[id]
     }

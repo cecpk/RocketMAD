@@ -43,6 +43,10 @@ function isPokestopMeetsFilters(pokestop) {
         isPokestopMeetsInvasionFilters(pokestop) || isPokestopMeetsLureFilters(pokestop)
 }
 
+function isPokestopRangesActive() {
+    return settings.showRanges && settings.includedRangeTypes.includes(3)
+}
+
 function setupPokestopMarker(pokestop, isNotifyPokestop) {
     var marker = L.marker([pokestop.latitude, pokestop.longitude])
     if (isNotifyPokestop) {
@@ -307,7 +311,7 @@ function processPokestop(pokestop) {
         }
 
         pokestop.marker = setupPokestopMarker(pokestop, isInvasionNotifyPokestop || isLureNotifyPokestop)
-        if (settings.showRanges) {
+        if (isPokestopRangesActive()) {
             pokestop.rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
         }
         pokestop.updated = true
@@ -352,8 +356,14 @@ function updatePokestop(id, pokestop = null) {
                 sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
             }
             pokestop.marker = updatePokestopMarker(pokestop, oldPokestop.marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
+            if (oldPokestop.rangeCircle) {
+                pokestop.rangeCircle = updateRangeCircle(mapData.pokestops[id], 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
+            }
         } else {
             pokestop.marker = oldPokestop.marker
+            if (oldPokestop.rangeCircle) {
+                pokestop.rangeCircle = oldPokestop.rangeCircle
+            }
         }
 
         if (pokestop.marker.isPopupOpen()) {
@@ -361,10 +371,6 @@ function updatePokestop(id, pokestop = null) {
         } else {
             // Make sure label is updated next time it's opened.
             pokestop.updated = true
-        }
-
-        if (oldPokestop.rangeCircle) {
-            pokestop.rangeCircle = oldPokestop.rangeCircle
         }
 
         mapData.pokestops[id] = pokestop
@@ -388,7 +394,7 @@ function updatePokestop(id, pokestop = null) {
             // Make sure label is updated next time it's opened.
             mapData.pokestops[id].updated = true
         }
-        if (settings.showRanges && !pokestop.rangeCircle) {
+        if (isPokestopRangesActive() && !pokestop.rangeCircle) {
             mapData.pokestops[id].rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
         } else {
             updateRangeCircle(mapData.pokestops[id], 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)

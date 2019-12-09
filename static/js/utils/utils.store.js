@@ -241,6 +241,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'includedRangeTypes': {
+        default: [1, 2, 3, 4], // Pokemon, Gyms, Pokestops, Spawn points
+        type: StoreTypes.JSON
+    },
     'showS2Cells': {
         default: false,
         type: StoreTypes.Boolean
@@ -375,10 +379,6 @@ var StoreOptions = {
     },
     'zoomLevel': {
         default: 16,
-        type: StoreTypes.Number
-    },
-    'maxClusterZoomLevel': {
-        default: 14,
         type: StoreTypes.Number
     },
     'clusterZoomOnClick': {

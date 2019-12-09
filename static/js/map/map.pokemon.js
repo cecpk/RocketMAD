@@ -45,6 +45,10 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
     return true
 }
 
+function isPokemonRangesActive() {
+    return settings.showRanges && settings.includedRangeTypes.includes(1)
+}
+
 function customizePokemonMarker(pokemon, marker, isNotifyPokemon) {
     marker.setBouncingOptions({
         bounceHeight: 20,
@@ -327,7 +331,7 @@ function processPokemon(pokemon) {
             pokemon.marker = setupPokemonMarker(pokemon, markers)
         }
         customizePokemonMarker(pokemon, pokemon.marker, isNotifyPoke)
-        if (settings.showRanges) {
+        if (isPokemonRangesActive()) {
             pokemon.rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifyPoke)
         }
 
@@ -370,14 +374,15 @@ function updatePokemon(id, pokemon = null) {
             }
 
             pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
+            if (oldPokemon.rangeCircle) {
+                pokemon.rangeCircle = updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifyPoke)
+            }
+
             if (pokemon.marker.isPopupOpen()) {
                 updatePokemonLabel(pokemon, pokemon.marker)
             } else {
                 // Make sure label is updated next time it's opened.
                 pokemon.updated = true
-            }
-            if (oldPokemon.rangeCircle) {
-                pokemon.rangeCircle = oldPokemon.rangeCircle
             }
 
             mapData.pokemons[id] = pokemon
@@ -388,16 +393,17 @@ function updatePokemon(id, pokemon = null) {
         }
 
         updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
+        if (isPokemonRangesActive() && !pokemon.rangeCircle) {
+            mapData.pokemons[id].rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifyPoke)
+        } else {
+            updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifyPoke)
+        }
+
         if (pokemon.marker.isPopupOpen()) {
             updatePokemonLabel(pokemon,  mapData.pokemons[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
             mapData.pokemons[id].updated = true
-        }
-        if (settings.showRanges && !pokemon.rangeCircle) {
-            mapData.pokemons[id].rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifyPoke)
-        } else {
-            updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifyPoke)
         }
     }
 

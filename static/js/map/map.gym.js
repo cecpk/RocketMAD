@@ -81,6 +81,10 @@ function isGymMeetsFilters(gym) {
     return isGymMeetsGymFilters(gym) || isGymMeetsRaidFilters(gym)
 }
 
+function isGymRangesActive() {
+    return settings.showRanges && settings.includedRangeTypes.includes(2)
+}
+
 function setupGymMarker(gym, isNotifyGym) {
     var marker = L.marker([gym.latitude, gym.longitude])
     if (isNotifyGym) {
@@ -400,7 +404,7 @@ function processGym(gym = null) {
         }
 
         gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
-        if (settings.showRanges) {
+        if (isGymRangesActive()) {
             gym.rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
         }
         gym.updated = true
@@ -453,8 +457,14 @@ function updateGym(id, gym = null) {
                 sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
             }
             gym.marker = updateGymMarker(gym, oldGym.marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+            if (oldGym.rangeCircle) {
+                gym.rangeCircle = updateRangeCircle(mapData.gyms[id], 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
+            }
         } else {
             gym.marker = oldGym.marker
+            if (oldGym.rangeCircle) {
+                gym.rangeCircle = oldGym.rangeCircle
+            }
         }
 
         if (gym.marker.isPopupOpen()) {
@@ -462,10 +472,6 @@ function updateGym(id, gym = null) {
         } else {
             // Make sure label is updated next time it's opened.
             gym.updated = true
-        }
-
-        if (oldGym.rangeCircle) {
-            gym.rangeCircle = oldGym.rangeCircle
         }
 
         mapData.gyms[id] = gym
@@ -489,7 +495,7 @@ function updateGym(id, gym = null) {
             // Make sure label is updated next time it's opened.
             mapData.gyms[id].updated = true
         }
-        if (settings.showRanges && !gym.rangeCircle) {
+        if (isGymRangesActive() && !gym.rangeCircle) {
             mapData.gyms[id].rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
         } else {
             updateRangeCircle(mapData.gyms[id], 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
