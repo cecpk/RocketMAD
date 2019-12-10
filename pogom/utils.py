@@ -288,6 +288,12 @@ def get_args():
                         help=('Zoom level from which markers should be ' +
                               'clustered on mobile. Range: [0,18]. -1 to ' +
                               'disable clustering on mobile.'), default=14)
+    parser.add_argument('-mcr', '--max-cluster-radius', type=int,
+                        help=('The maximum radius that a cluster will cover ' +
+                              'from the central marker ' +
+                              '(in pixels).'), default=60)
+    parser.add_argument('-sc', '--spidery-clusters',
+                        help='', action='store_true', default=False)
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),
                         default='RocketMap')

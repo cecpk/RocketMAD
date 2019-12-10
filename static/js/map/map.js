@@ -254,18 +254,17 @@ function initMap() { // eslint-disable-line no-unused-vars
         center: [Number(getParameterByName('lat')) || lat, Number(getParameterByName('lon')) || lng],
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         minZoom: maxZoomLevel,
-        preferCanvas: true,
         zoomControl: false,
+        preferCanvas: true,
         layers: layers
     })
 
     setTitleLayer(Store.get('map_style'))
 
     markers = L.markerClusterGroup({
-        spiderfyOnMaxZoom: false,
         disableClusteringAtZoom: clusterZoomLevel + 1,
-        maxClusterRadius: Store.get('clusterGridSize'),
-        zoomToBoundsOnClick: Store.get('clusterZoomOnClick')
+        maxClusterRadius: maxClusterRadius,
+        spiderfyOnMaxZoom: spideryClusters
     })
 
     map.addLayer(markers)

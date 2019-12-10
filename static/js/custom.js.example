@@ -34,8 +34,6 @@ $(function () {
     ]
 
     // Clustering! Different zoom levels for desktop vs mobile.
-    const clusterZoomOnClick = false // Default: false.
-    const clusterZoomOnClickMobile = false // Default: 14.
     const clusterGridSize = 60 // Default: 60.
     const clusterGridSizeMobile = 60 // Default: 60.
 
@@ -66,7 +64,6 @@ $(function () {
     const currentPage = window.location.pathname
 
     // Set custom Store values.
-    Store.set('clusterZoomOnClick', clusterZoomOnClick)
     Store.set('clusterGridSize', clusterGridSize)
     Store.set('upscalePokemon', upscalePokemon)
     Store.set('upscaledPokemon', upscaledPokemon)
@@ -84,7 +81,6 @@ $(function () {
     Store.set('rarityNewSpawn', rarityNewSpawn)
 
     if (typeof window.orientation !== 'undefined' || isMobileDevice()) {
-        Store.set('clusterZoomOnClick', clusterZoomOnClickMobile)
         Store.set('clusterGridSize', clusterGridSizeMobile)
     }
 

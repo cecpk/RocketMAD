@@ -215,6 +215,8 @@ class Pogom(Flask):
             showAllZoomLevel=args.show_all_zoom_level,
             clusterZoomLevel=(args.cluster_zoom_level_mobile if request.MOBILE
                 else args.cluster_zoom_level),
+            maxClusterRadius=args.max_cluster_radius,
+            spideryClusters=str(args.spidery_clusters).lower(),
             lang=args.locale,
             mapTitle=args.map_title,
             headerImage=args.header_image,
