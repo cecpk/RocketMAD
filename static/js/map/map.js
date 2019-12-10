@@ -110,7 +110,6 @@ var lastspawns
 var lastscannedlocs
 var lastweather
 
-var L
 var map
 var markers
 var markersNoCluster
@@ -244,8 +243,16 @@ function initMap() { // eslint-disable-line no-unused-vars
     }
 
     var layers = []
+    if (showConfig.nest_parks) {
+        nestParksLayerGroup = L.layerGroup()
+        layers.push(nestParksLayerGroup)
+    }
+    if (showConfig.ex_parks) {
+        exParksLayerGroup = L.layerGroup()
+        layers.push(exParksLayerGroup)
+    }
     if (showConfig.ranges) {
-        rangesLayerGroup = new L.LayerGroup()
+        rangesLayerGroup = L.layerGroup()
         if (Store.get('zoomLevel') > clusterZoomLevel) {
             layers.push(rangesLayerGroup)
         }
@@ -391,14 +398,14 @@ function initMap() { // eslint-disable-line no-unused-vars
     }
 
     updateMainS2CellId()
-    updateS2Overlay()
     getAllParks()
+    updateS2Overlay()
 
     map.on('moveend', function () {
         updateMainS2CellId()
         updateWeatherButton()
+        updateAllParks()
         updateS2Overlay()
-        updateParks()
 
         const position = map.getCenter()
         Store.set('startAtLastLocationPosition', {
@@ -584,16 +591,15 @@ function initSettings() {
         settings.showWeatherCells = Store.get('showWeatherCells')
     }
 
+    settings.showSpawnpoints = showConfig.spawnpoints && Store.get('showSpawnpoints')
+    settings.showScannedLocations = showConfig.scanned_locs && Store.get('showScannedLocations')
+    settings.showNestParks = showConfig.nest_parks && Store.get('showNestParks')
+    settings.showExParks = showConfig.ex_parks && Store.get('showExParks')
     settings.showRanges = showConfig.ranges && Store.get('showRanges')
     if (showConfig.ranges) {
         settings.includedRangeTypes = Store.get('includedRangeTypes')
     }
-    settings.showSpawnpoints = showConfig.spawnpoints && Store.get('showSpawnpoints')
-    settings.showScannedLocations = showConfig.scanned_locs && Store.get('showScannedLocations')
 
-
-    settings.showExParks = showConfig.ex_parks && Store.get('showExParks')
-    settings.showNestParks = showConfig.nest_parks && Store.get('showNestParks')
 }
 
 function initSidebar() {
@@ -1120,6 +1126,56 @@ function initSidebar() {
         })
     }
 
+    if (showConfig.spawnpoints) {
+        $('#spawnpoint-switch').on('change', function () {
+            settings.showSpawnpoints = this.checked
+            if (this.checked) {
+                lastspawns = false
+                updateMap()
+            } else {
+                updateSpawnpoints()
+            }
+            Store.set('showSpawnpoints', this.checked)
+        })
+    }
+
+    if (showConfig.scanned_locs) {
+        $('#scanned-locs-switch').on('change', function () {
+            settings.showScannedLocations = this.checked
+            if (this.checked) {
+                lastscannedlocs = false
+                updateMap()
+            } else {
+                updateScannedLocations()
+            }
+            Store.set('showScannedLocations', this.checked)
+        })
+    }
+
+    if (showConfig.nest_parks) {
+        $('#nest-park-switch').change(function () {
+            settings.showNestParks = this.checked
+            if (this.checked) {
+                updateNestParks()
+            } else {
+                nestParksLayerGroup.clearLayers()
+            }
+            Store.set('showNestParks', this.checked)
+        })
+    }
+
+    if (showConfig.ex_parks) {
+        $('#ex-park-switch').change(function () {
+            settings.showExParks = this.checked
+            if (this.checked) {
+                updateExParks()
+            } else {
+                exParksLayerGroup.clearLayers()
+            }
+            Store.set('showExParks', this.checked)
+        })
+    }
+
     if (showConfig.ranges) {
         $('#ranges-switch').on('change', function () {
             settings.showRanges = this.checked
@@ -1160,31 +1216,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.spawnpoints) {
-        $('#spawnpoint-switch').on('change', function () {
-            settings.showSpawnpoints = this.checked
-            if (this.checked) {
-                lastspawns = false
-                updateMap()
-            } else {
-                updateSpawnpoints()
-            }
-            Store.set('showSpawnpoints', this.checked)
-        })
-    }
 
-    if (showConfig.scanned_locs) {
-        $('#scanned-locs-switch').on('change', function () {
-            settings.showScannedLocations = this.checked
-            if (this.checked) {
-                lastscannedlocs = false
-                updateMap()
-            } else {
-                updateScannedLocations()
-            }
-            Store.set('showScannedLocations', this.checked)
-        })
-    }
 
 
 
@@ -1238,26 +1270,6 @@ function initSidebar() {
         } else {
             s2Level17LayerGroup.clearLayers()
         }
-    })
-
-    $('#ex-parks-switch').change(function () {
-        settings.showExParks = this.checked
-        if (this.checked) {
-            updateParks()
-        } else {
-            exParksLayerGroup.clearLayers()
-        }
-        Store.set('showExParks', this.checked)
-    })
-
-    $('#nest-parks-switch').change(function () {
-        settings.showNestParks = this.checked
-        if (this.checked) {
-            updateParks()
-        } else {
-            nestParksLayerGroup.clearLayers()
-        }
-        Store.set('showNestParks', this.checked)
     })
 
     $('#sound-switch').change(function () {
@@ -1575,30 +1587,32 @@ function initSidebar() {
     }
 
     // Map.
-    if (showConfig.ranges) {
-        $('#ranges-switch').prop('checked', settings.showRanges)
-        $('#range-type-select-wrapper').toggle(settings.showRanges)
-        $('#range-type-select').val(settings.includedRangeTypes)
-        $('#range-type-select').formSelect()
-    }
     if (showConfig.spawnpoints) {
         $('#spawnpoint-switch').prop('checked', settings.showSpawnpoints)
     }
     if (showConfig.scanned_locs) {
         $('#scanned-locs-switch').prop('checked', settings.showScannedLocations)
     }
+    if (showConfig.nest_parks) {
+        $('#nest-park-switch').prop('checked', settings.showNestParks)
+    }
+    if (showConfig.ex_parks) {
+        $('#ex-park-switch').prop('checked', settings.showExParks)
+    }
+    if (showConfig.ranges) {
+        $('#ranges-switch').prop('checked', settings.showRanges)
+        $('#range-type-select-wrapper').toggle(settings.showRanges)
+        $('#range-type-select').val(settings.includedRangeTypes)
+        $('#range-type-select').formSelect()
+    }
 
 
-
-    $('#scanned-switch').prop('checked', Store.get('showScannedLocations'))
     $('#s2-cells-switch').prop('checked', Store.get('showS2Cells'))
     $('#s2-cells-wrapper').toggle(Store.get('showS2Cells'))
     $('#s2-level10-switch').prop('checked', Store.get('showS2CellsLevel10'))
     $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
     $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
     $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
-    $('#ex-parks-switch').prop('checked', settings.showExParks)
-    $('#nest-parks-switch').prop('checked', settings.showNestParks)
 
     // Location.
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))

@@ -621,32 +621,6 @@
       <li>
         <div class="collapsible-header"><i class="material-icons">map</i>Map</div>
         <div class="collapsible-body">
-          {% if show.ranges %}
-          <div class="settings-container">
-            <div class="form-control">
-              <div class="switch">
-                <label>
-                  <input type="checkbox" id="ranges-switch">
-                  <span class="lever"></span>
-                  Interaction ranges
-                </label>
-              </div>
-            </div>
-            <div id="range-type-select-wrapper">
-              <div class="form-control">
-                <div class="input-field">
-                  <div class="select-title">Filter interaction ranges</div>
-                  <select id="range-type-select" multiple>
-                    <option value="1">Pokémon ranges</option>
-                    <option value="2">Gym ranges</option>
-                    <option value="3">PokéStop ranges</option>
-                    <option value="4">Spawn point ranges</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
           {% if show.spawnpoints or show.scanned_locs %}
           <div class="settings-container">
             {% if show.spawnpoints %}
@@ -671,6 +645,58 @@
               </div>
             </div>
             {% endif %}
+          </div>
+          {% endif %}
+          {% if show.nest_parks or show.ex_parks %}
+          <div class="settings-container">
+            {% if show.nest_parks %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="nest-park-switch">
+                  <span class="lever"></span>
+                  Nest parks
+                </label>
+              </div>
+            </div>
+            {% endif %}
+            {% if show.ex_parks %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="ex-park-switch">
+                  <span class="lever"></span>
+                  EX eligible parks
+                </label>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+          {% if show.ranges %}
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="ranges-switch">
+                  <span class="lever"></span>
+                  Interaction ranges
+                </label>
+              </div>
+            </div>
+            <div id="range-type-select-wrapper">
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Filter interaction ranges</div>
+                  <select id="range-type-select" multiple>
+                    <option value="1">Pokémon ranges</option>
+                    <option value="2">Gym ranges</option>
+                    <option value="3">PokéStop ranges</option>
+                    <option value="4">Spawn point ranges</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
           {% endif %}
         </div>

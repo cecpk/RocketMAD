@@ -237,6 +237,14 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showExParks': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showNestParks': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showRanges': {
         default: false,
         type: StoreTypes.Boolean
@@ -262,14 +270,6 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'showS2CellsLevel17': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showExParks': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showNestParks': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -345,14 +345,6 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
-    'scanHere': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'scanHereAlerted': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
     'pokemonIcons': {
         default: 'highres',
         type: StoreTypes.String
@@ -379,14 +371,6 @@ var StoreOptions = {
     },
     'zoomLevel': {
         default: 16,
-        type: StoreTypes.Number
-    },
-    'clusterZoomOnClick': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'clusterGridSize': {
-        default: 60,
         type: StoreTypes.Number
     },
     'mapServiceProvider': {
