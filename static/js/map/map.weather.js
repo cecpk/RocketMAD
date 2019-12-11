@@ -102,11 +102,11 @@ function setupWeatherMarker(weather) {
 }
 
 function updateWeatherMarker(weather, marker) {
-    var Icon = new L.icon({
+    var icon = L.icon({
         iconUrl: getWeatherIconUrl(weather),
         iconSize: [32, 32],
     })
-    marker.setIcon(Icon)
+    marker.setIcon(icon)
 
     return marker
 }

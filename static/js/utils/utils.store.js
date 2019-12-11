@@ -222,11 +222,11 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'showWeatherCells': {
-        default: false,
+        default: true,
         type: StoreTypes.Boolean
     },
     'showMainWeather': {
-        default: false,
+        default: true,
         type: StoreTypes.Boolean
     },
     'showSpawnpoints': {
@@ -245,6 +245,30 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showS2Cells': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showS2CellsLevel10': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showS2CellsLevel13': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showS2CellsLevel14': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showS2CellsLevel17': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'warnHiddenS2Cells': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'showRanges': {
         default: false,
         type: StoreTypes.Boolean
@@ -252,26 +276,6 @@ var StoreOptions = {
     'includedRangeTypes': {
         default: [1, 2, 3, 4], // Pokemon, Gyms, Pokestops, Spawn points
         type: StoreTypes.JSON
-    },
-    'showS2Cells': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showS2CellsLevel10': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showS2CellsLevel13': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showS2CellsLevel14': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'showS2CellsLevel17': {
-        default: false,
-        type: StoreTypes.Boolean
     },
     'notifyPokemon': {
         default: false,

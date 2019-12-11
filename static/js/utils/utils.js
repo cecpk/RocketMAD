@@ -18,6 +18,22 @@ function isMobileDevice() {
     return mobileDevice
 }
 
+function getParameterByName(name, url) {
+    if (!url) {
+        url = window.location.search
+    }
+    name = name.replace(/[[\]]/g, '\\$&')
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+    var results = regex.exec(url)
+    if (!results) {
+        return null
+    }
+    if (!results[2]) {
+        return ''
+    }
+    return decodeURIComponent(results[2].replace(/\+/g, ' '))
+}
+
 function openMapDirections(lat, lng, mapServiceProvider) { // eslint-disable-line no-unused-vars
     var url = ''
     if (mapServiceProvider === 'googlemaps') {
@@ -72,4 +88,32 @@ function timestampToDateTime(timestamp) {
 function isNowBetween(timestamp1, timestamp2) {
     const now = Date.now()
     return timestamp1 <= now && now <= timestamp2
+}
+
+function toast(title, text, imageUrl, iconClass, classes) {
+    var image = ''
+    if (imageUrl) {
+        image = `<img src='${imageUrl}' width='48'>`
+    } else if (iconClass) {
+        image = ` <i class='material-icons'>${iconClass}</i>`
+    }
+    const style = imageUrl || iconClass ? 'style="margin-right:15px;"' : ''
+    const toastHTML = `<div ${style}>${image}</div><div><strong>${title}</strong><br>${text}</div>`
+    M.toast({html: toastHTML, classes: classes})
+}
+
+function toastInfo(title, text) {
+    toast(title, text, null, 'info', 'blue')
+}
+
+function toastSuccess(title, text) {
+    toast(title, text, null, 'done', 'green')
+}
+
+function toastWarning(title, text) {
+    toast(title, text, null, 'warning', 'orange')
+}
+
+function toastError(title, text) {
+    toast(title, text, null, 'error', 'red')
 }

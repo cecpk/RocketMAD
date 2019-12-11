@@ -145,6 +145,9 @@ def get_args():
     parser.add_argument('-nsl', '--no-scanned-locs',
                         help=('Disables scanned locations.'),
                         action='store_true', default=False)
+    parser.add_argument('-nsc', '--no-s2-cells',
+                        help=('Disables s2 cells.'),
+                        action='store_true', default=False)
     parser.add_argument('-nrs', '--no-ranges',
                         help=('Disables user to show ranges.'),
                         action='store_true', default=False)

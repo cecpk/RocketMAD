@@ -673,6 +673,66 @@
             {% endif %}
           </div>
           {% endif %}
+          {% if show.s2_cells %}
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="s2-cell-switch">
+                  <span class="lever"></span>
+                  S2 cells
+                </label>
+              </div>
+            </div>
+            <div id="s2-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="s2-level10-switch">
+                    <span class="lever"></span>
+                    Weather cells (S2 L10)
+                  </label>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="s2-level13-switch">
+                    <span class="lever"></span>
+                    Ex trigger cells (S2 L13)
+                  </label>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="s2-level14-switch">
+                    <span class="lever"></span>
+                    Gym cells (S2 L14)
+                  </label>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="s2-level17-switch">
+                    <span class="lever"></span>
+                    PokéStop cells (S2 L17)
+                  </label>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="s2-cells-warning-switch">
+                    <span class="lever"></span>
+                    Warn about hidden cells
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
           {% if show.ranges %}
           <div class="settings-container">
             <div class="form-control">
@@ -776,7 +836,6 @@
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/extras/noUiSlider/nouislider.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/push.js@1.0.12/bin/push.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.18.6/dist/sweetalert2.all.min.js"></script>
 
     <!-- Load custom JS before utils.store.js so it can change Store defaults. -->
@@ -799,6 +858,7 @@
     <script src="static/js/map/map.scannedloc.js"></script>
     <script src="static/js/map/map.spawnpoint.js"></script>
     <script src="static/js/map/map.stats.js"></script>
+    <script src="static/js/map/map.s2.js"></script>
     <script src="static/js/map/map.weather.js"></script>
     <script src="static/js/map/map.js"></script>
 

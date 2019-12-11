@@ -583,7 +583,7 @@ function sendToastrPokemonNotification(title, text, icon, lat, lon) {
         positionClass: 'toast-top-right',
         preventDuplicates: true,
         onclick: function () {
-            map.setView(new L.LatLng(lat, lon), 20)
+            map.setView(L.latLng(lat, lon), 20)
         },
         showDuration: '300',
         hideDuration: '500',

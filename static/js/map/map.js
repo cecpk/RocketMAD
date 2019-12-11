@@ -55,11 +55,17 @@ var settings = {
     showWeatherCells: null,
     showMainWeather: null,
     showSpawnpoints: null,
-    showScannedLocationsLocations: null,
+    showScannedLocations: null,
+    showExParks: null,
+    showNestParks: null,
+    showS2Cells: null,
+    showS2CellsLevel10: null,
+    showS2CellsLevel13: null,
+    showS2CellsLevel14: null,
+    showS2CellsLevel17: null,
+    warnHiddenS2Cells: null,
     showRanges: null,
-    includedRangeTypes: null,
-    showExParks: false,
-    showNestParks: false
+    includedRangeTypes: null
 }
 
 var timestamp
@@ -115,15 +121,10 @@ var markers
 var markersNoCluster
 var _oldlayer = 'stylemapnik'
 
-var S2
-var s2Level10LayerGroup
-var s2Level13LayerGroup
-var s2Level14LayerGroup
-var s2Level17LayerGroup
-
-var rangesLayerGroup
-var exParksLayerGroup
 var nestParksLayerGroup
+var exParksLayerGroup
+var s2CellsLayerGroup
+var rangesLayerGroup
 
 // Z-index values for various markers.
 const userLocationMarkerZIndex = 0
@@ -155,24 +156,6 @@ const gymTypes = ['Uncontested', 'Mystic', 'Valor', 'Instinct']
 
 const audio = new Audio('static/sounds/ding.mp3')
 const cryFileTypes = ['wav', 'mp3']
-
-const toastrOptions = {
-    'closeButton': true,
-    'debug': false,
-    'newestOnTop': true,
-    'progressBar': false,
-    'positionClass': 'toast-top-right',
-    'preventDuplicates': true,
-    'onclick': null,
-    'showDuration': '300',
-    'hideDuration': '1000',
-    'timeOut': '25000',
-    'extendedTimeOut': '1000',
-    'showEasing': 'swing',
-    'hideEasing': 'linear',
-    'showMethod': 'fadeIn',
-    'hideMethod': 'fadeOut'
-}
 
 // FontAwesome gender classes.
 const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
@@ -242,29 +225,29 @@ function initMap() { // eslint-disable-line no-unused-vars
         lng = useStartLocation ? position.lng : centerLng
     }
 
-    var layers = []
-    if (showConfig.nest_parks) {
-        nestParksLayerGroup = L.layerGroup()
-        layers.push(nestParksLayerGroup)
-    }
-    if (showConfig.ex_parks) {
-        exParksLayerGroup = L.layerGroup()
-        layers.push(exParksLayerGroup)
-    }
-    if (showConfig.ranges) {
-        rangesLayerGroup = L.layerGroup()
-        if (Store.get('zoomLevel') > clusterZoomLevel) {
-            layers.push(rangesLayerGroup)
-        }
-    }
     map = L.map('map', {
         center: [Number(getParameterByName('lat')) || lat, Number(getParameterByName('lon')) || lng],
         zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
         minZoom: maxZoomLevel,
         zoomControl: false,
-        preferCanvas: true,
-        layers: layers
+        preferCanvas: true
     })
+
+    if (showConfig.nest_parks) {
+        nestParksLayerGroup = L.layerGroup().addTo(map)
+    }
+    if (showConfig.ex_parks) {
+        exParksLayerGroup = L.layerGroup().addTo(map)
+    }
+    if (showConfig.s2_cells) {
+        s2CellsLayerGroup = L.layerGroup().addTo(map)
+    }
+    if (showConfig.ranges) {
+        rangesLayerGroup = L.layerGroup()
+        if (map.getZoom() > clusterZoomLevel) {
+            map.addLayer(rangesLayerGroup)
+        }
+    }
 
     setTitleLayer(Store.get('map_style'))
 
@@ -452,9 +435,6 @@ function updateUserLocationMarker(style) {
                 iconSize: [24, 24]
             })
             userLocationMarker.setIcon(locationIcon)
-        } else {
-            locationIcon = new L.Icon.Default()
-            userLocationMarker.setIcon(locationIcon)
         }
         Store.set('locationMarkerStyle', style)
     }
@@ -492,14 +472,11 @@ function updateStartLocationMarker(style) {
 
         var url = searchMarkerStyles[style].icon
         if (url) {
-            var SearchIcon = L.icon({
+            var startIcon = L.icon({
                 iconUrl: url,
                 iconSize: [24, 24]
             })
-            startLocationMarker.setIcon(SearchIcon)
-        } else {
-            SearchIcon = new L.Icon.Default()
-            startLocationMarker.setIcon(SearchIcon)
+            startLocationMarker.setIcon(startIcon)
         }
     }
 
@@ -593,8 +570,19 @@ function initSettings() {
 
     settings.showSpawnpoints = showConfig.spawnpoints && Store.get('showSpawnpoints')
     settings.showScannedLocations = showConfig.scanned_locs && Store.get('showScannedLocations')
+
     settings.showNestParks = showConfig.nest_parks && Store.get('showNestParks')
     settings.showExParks = showConfig.ex_parks && Store.get('showExParks')
+
+    settings.showS2Cells = showConfig.s2_cells && Store.get('showS2Cells')
+    if (showConfig.s2_cells) {
+        settings.showS2CellsLevel10 = Store.get('showS2CellsLevel10')
+        settings.showS2CellsLevel13 = Store.get('showS2CellsLevel13')
+        settings.showS2CellsLevel14 = Store.get('showS2CellsLevel14')
+        settings.showS2CellsLevel17 = Store.get('showS2CellsLevel17')
+        settings.warnHiddenS2Cells = Store.get('warnHiddenS2Cells')
+    }
+
     settings.showRanges = showConfig.ranges && Store.get('showRanges')
     if (showConfig.ranges) {
         settings.includedRangeTypes = Store.get('includedRangeTypes')
@@ -1153,7 +1141,7 @@ function initSidebar() {
     }
 
     if (showConfig.nest_parks) {
-        $('#nest-park-switch').change(function () {
+        $('#nest-park-switch').on('change', function () {
             settings.showNestParks = this.checked
             if (this.checked) {
                 updateNestParks()
@@ -1165,7 +1153,7 @@ function initSidebar() {
     }
 
     if (showConfig.ex_parks) {
-        $('#ex-park-switch').change(function () {
+        $('#ex-park-switch').on('change', function () {
             settings.showExParks = this.checked
             if (this.checked) {
                 updateExParks()
@@ -1173,6 +1161,50 @@ function initSidebar() {
                 exParksLayerGroup.clearLayers()
             }
             Store.set('showExParks', this.checked)
+        })
+    }
+
+    if (showConfig.s2_cells) {
+        $('#s2-cell-switch').on('change', function () {
+            settings.showS2Cells = this.checked
+            const filtersWrapper = $('#s2-filters-wrapper')
+            if (this.checked) {
+                filtersWrapper.show()
+                updateS2Overlay()
+            } else {
+                filtersWrapper.hide()
+                s2CellsLayerGroup.clearLayers()
+            }
+            Store.set('showS2Cells', this.checked)
+        })
+
+        $('#s2-level10-switch').on('change', function () {
+            settings.showS2CellsLevel10 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel10', this.checked)
+        })
+
+        $('#s2-level13-switch').on('change', function () {
+            settings.showS2CellsLevel13 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel13', this.checked)
+        })
+
+        $('#s2-level14-switch').on('change', function () {
+            settings.showS2CellsLevel14 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel14', this.checked)
+        })
+
+        $('#s2-level17-switch').on('change', function () {
+            settings.showS2CellsLevel17 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel17', this.checked)
+        })
+
+        $('#s2-cells-warning-switch').on('change', function () {
+            settings.warnHiddenS2Cells = this.checked
+            Store.set('warnHiddenS2Cells', this.checked)
         })
     }
 
@@ -1218,59 +1250,6 @@ function initSidebar() {
 
 
 
-
-
-
-    $('#s2-cells-switch').change(function () {
-        Store.set('showS2Cells', this.checked)
-        var wrapper = $('#s2-cells-wrapper')
-        if (this.checked) {
-            wrapper.show()
-            updateS2Overlay()
-        } else {
-            wrapper.hide()
-            s2Level10LayerGroup.clearLayers()
-            s2Level13LayerGroup.clearLayers()
-            s2Level14LayerGroup.clearLayers()
-            s2Level17LayerGroup.clearLayers()
-        }
-    })
-
-    $('#s2-level10-switch').change(function () {
-        Store.set('showS2CellsLevel10', this.checked)
-        if (this.checked) {
-            updateS2Overlay()
-        } else {
-            s2Level10LayerGroup.clearLayers()
-        }
-    })
-
-    $('#s2-level13-switch').change(function () {
-        Store.set('showS2CellsLevel13', this.checked)
-        if (this.checked) {
-            updateS2Overlay()
-        } else {
-            s2Level13LayerGroup.clearLayers()
-        }
-    })
-
-    $('#s2-level14-switch').change(function () {
-        Store.set('showS2CellsLevel14', this.checked)
-        if (this.checked) {
-            updateS2Overlay()
-        } else {
-            s2Level14LayerGroup.clearLayers()
-        }
-    })
-
-    $('#s2-level17-switch').change(function () {
-        Store.set('showS2CellsLevel17', this.checked)
-        if (this.checked) {
-            updateS2Overlay()
-        } else {
-            s2Level17LayerGroup.clearLayers()
-        }
-    })
 
     $('#sound-switch').change(function () {
         Store.set('playSound', this.checked)
@@ -1599,6 +1578,15 @@ function initSidebar() {
     if (showConfig.ex_parks) {
         $('#ex-park-switch').prop('checked', settings.showExParks)
     }
+    if (showConfig.s2_cells) {
+        $('#s2-cell-switch').prop('checked', settings.showS2Cells)
+        $('#s2-filters-wrapper').toggle(settings.showS2Cells)
+        $('#s2-level10-switch').prop('checked', settings.showS2CellsLevel10)
+        $('#s2-level13-switch').prop('checked', settings.showS2CellsLevel13)
+        $('#s2-level14-switch').prop('checked', settings.showS2CellsLevel14)
+        $('#s2-level17-switch').prop('checked', settings.showS2CellsLevel17)
+        $('#s2-cells-warning-switch').prop('checked', settings.warnHiddenS2Cells)
+    }
     if (showConfig.ranges) {
         $('#ranges-switch').prop('checked', settings.showRanges)
         $('#range-type-select-wrapper').toggle(settings.showRanges)
@@ -1606,13 +1594,6 @@ function initSidebar() {
         $('#range-type-select').formSelect()
     }
 
-
-    $('#s2-cells-switch').prop('checked', Store.get('showS2Cells'))
-    $('#s2-cells-wrapper').toggle(Store.get('showS2Cells'))
-    $('#s2-level10-switch').prop('checked', Store.get('showS2CellsLevel10'))
-    $('#s2-level13-switch').prop('checked', Store.get('showS2CellsLevel13'))
-    $('#s2-level14-switch').prop('checked', Store.get('showS2CellsLevel14'))
-    $('#s2-level17-switch').prop('checked', Store.get('showS2CellsLevel17'))
 
     // Location.
     $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
@@ -2229,109 +2210,6 @@ function sizeRatio(height, weight, baseHeight, baseWeight) {
     return heightRatio + weightRatio
 }
 
-function showS2Cells(level, color, weight) {
-    const bounds = map.getBounds()
-    const swPoint = bounds.getSouthWest()
-    const nePoint = bounds.getNorthEast()
-    const swLat = swPoint.lat
-    const swLng = swPoint.lng
-    const neLat = nePoint.lat
-    const neLng = nePoint.lng
-
-    function addPoly(cell) {
-        const vertices = cell.getCornerLatLngs()
-        const poly = L.polygon(vertices, {
-            color: color,
-            opacity: 0.5,
-            weight: weight,
-            fillOpacity: 0.0,
-            interactive: false
-        })
-        if (cell.level === 10) {
-            s2Level10LayerGroup.addLayer(poly)
-        } else if (cell.level === 13) {
-            s2Level13LayerGroup.addLayer(poly)
-        } else if (cell.level === 14) {
-            s2Level14LayerGroup.addLayer(poly)
-        } else if (cell.level === 17) {
-            s2Level17LayerGroup.addLayer(poly)
-        }
-    }
-
-    var processedCells = {}
-    var stack = []
-
-    const centerCell = S2.S2Cell.FromLatLng(bounds.getCenter(), level)
-    processedCells[centerCell.toString()] = true
-    stack.push(centerCell)
-    addPoly(centerCell)
-
-    // Find all cells within view with a slighty modified version of the BFS algorithm.
-    while (stack.length > 0) {
-        const cell = stack.pop()
-        const neighbors = cell.getNeighbors()
-        neighbors.forEach(function (ncell, index) {
-            if (!processedCells[ncell.toString()]) {
-                const cornerLatLngs = ncell.getCornerLatLngs()
-                for (let i = 0; i < 4; i++) {
-                    const item = cornerLatLngs[i]
-                    if (item.lat >= swLat && item.lng >= swLng &&
-                            item.lat <= neLat && item.lng <= neLng) {
-                        processedCells[ncell.toString()] = true
-                        stack.push(ncell)
-                        addPoly(ncell)
-                        break
-                    }
-                }
-            }
-        })
-    }
-}
-
-function updateS2Overlay() {
-    if (Store.get('showS2Cells')) {
-        if (Store.get('showS2CellsLevel10')) {
-            s2Level10LayerGroup.clearLayers()
-            if (map.getZoom() > 7) {
-                showS2Cells(10, 'red', 7)
-            } else {
-                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Weather cells are currently hidden'))
-                toastr.options = toastrOptions
-            }
-        }
-
-        if (Store.get('showS2CellsLevel13')) {
-            s2Level13LayerGroup.clearLayers()
-            if (map.getZoom() > 10) {
-                showS2Cells(13, 'black', 5)
-            } else {
-                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Ex trigger cells are currently hidden'))
-                toastr.options = toastrOptions
-            }
-        }
-
-        if (Store.get('showS2CellsLevel14')) {
-            s2Level14LayerGroup.clearLayers()
-            if (map.getZoom() > 11) {
-                showS2Cells(14, 'yellow', 3)
-            } else {
-                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('Gym cells are currently hidden'))
-                toastr.options = toastrOptions
-            }
-        }
-
-        if (Store.get('showS2CellsLevel17')) {
-            s2Level17LayerGroup.clearLayers()
-            if (map.getZoom() > 14) {
-                showS2Cells(17, 'blue', 1)
-            } else {
-                toastr['error'](i8ln('Zoom in more to show them.'), i8ln('PokéStop cells are currently hidden'))
-                toastr.options = toastrOptions
-            }
-        }
-    }
-}
-
 function addListeners(marker, type) {
     marker.on('click', function () {
         switch (type) {
@@ -2604,9 +2482,7 @@ function loadRawData() {
             }
         },
         error: function () {
-            // Display error toast
-            toastr['error']('Please check connectivity or reduce marker settings.', 'Error getting data')
-            toastr.options = toastrOptions
+            toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
         },
         success: function (data) {
             if (data.auth_redirect) {
@@ -2724,7 +2600,7 @@ function sendNotification(title, text, icon, lat, lon) {
             if (Push._agents.desktop.isSupported()) {
                 window.focus()
                 event.currentTarget.close()
-                map.setView(new L.LatLng(lat, lon), 20)
+                map.setView(L.latLng(lat, lon), 18)
             }
         }
     }
@@ -2798,7 +2674,7 @@ function centerMapOnLocation() {
     }, 500)
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var latlng = new L.LatLng(position.coords.latitude, position.coords.longitude)
+            var latlng = L.latLng(position.coords.latitude, position.coords.longitude)
             if (userLocationMarker) {
                 userLocationMarker.setLatLng(latlng)
             }
@@ -2816,12 +2692,12 @@ function centerMapOnLocation() {
 }
 
 function changeLocation(lat, lng) {
-    var loc = new L.LatLng(lat, lng)
+    var loc = L.latLng(lat, lng)
     map.panTo(loc)
 }
 
 function centerMap(lat, lng, zoom) {
-    var loc = new L.LatLng(lat, lng)
+    var loc = L.latLng(lat, lng)
 
     map.panTo(loc)
 
@@ -2836,7 +2712,7 @@ function updateGeoLocation() {
         navigator.geolocation.getCurrentPosition(function (position) {
             var lat = position.coords.latitude
             var lng = position.coords.longitude
-            var center = new L.LatLng(lat, lng)
+            var center = L.latLng(lat, lng)
 
             if (Store.get('followMyLocation')) {
                 if ((typeof userLocationMarker !== 'undefined') && (getPointDistance(userLocationMarker.getLatLng(), center) >= 5)) {
@@ -3043,22 +2919,6 @@ function toggleGymPokemonDetails(e) { // eslint-disable-line no-unused-vars
     e.lastElementChild.firstElementChild.classList.toggle('fa-angle-double-up')
     e.lastElementChild.firstElementChild.classList.toggle('fa-angle-double-down')
     e.nextElementSibling.classList.toggle('visible')
-}
-
-function getParameterByName(name, url) {
-    if (!url) {
-        url = window.location.search
-    }
-    name = name.replace(/[[\]]/g, '\\$&')
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
-    var results = regex.exec(url)
-    if (!results) {
-        return null
-    }
-    if (!results[2]) {
-        return ''
-    }
-    return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
 
 //

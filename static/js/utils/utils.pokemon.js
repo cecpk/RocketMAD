@@ -189,12 +189,12 @@ function getPokemonLevel(cpMultiplier) {
 }
 
 function setupPokemonMarker(pokemon, layerGroup) {
-    var PokemonIcon = new L.icon({ // eslint-disable-line new-cap
+    var icon = L.icon({ // eslint-disable-line new-cap
         iconUrl: getPokemonMapIconUrl(pokemon),
         iconSize: [32, 32]
     })
 
-    return L.marker([pokemon.latitude, pokemon.longitude], {icon: PokemonIcon}).addTo(layerGroup)
+    return L.marker([pokemon.latitude, pokemon.longitude], {icon: icon}).addTo(layerGroup)
 }
 
 function searchPokemon(searchtext) {

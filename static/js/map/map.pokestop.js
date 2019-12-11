@@ -100,7 +100,7 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
         }
     }
 
-    var PokestopIcon = new L.icon({ // eslint-disable-line new-cap
+    var icon = L.icon({ // eslint-disable-line new-cap
         iconUrl: getPokestopIconUrlFiltered(pokestop),
         iconSize: [32 * upscaleModifier, 32 * upscaleModifier],
         iconAnchor: [16 * upscaleModifier, 32 * upscaleModifier],
@@ -109,7 +109,7 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
         shadowSize: shadowSize,
         shadowAnchor: shadowAnchor
     })
-    marker.setIcon(PokestopIcon)
+    marker.setIcon(icon)
 
     if (isNotifyPokestop) {
         marker.setZIndexOffset(pokestopNotifiedZIndex)

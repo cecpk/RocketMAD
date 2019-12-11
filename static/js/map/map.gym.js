@@ -165,11 +165,11 @@ function updateGymMarker(gym, marker, isNotifyGym) {
         markerImage += '&is_ex_raid_eligible=1'
     }
 
-    var GymIcon = new L.Icon({
+    var gymIcon = L.icon({
         iconUrl: markerImage,
         iconSize: [48 * upscaleModifier, 48 * upscaleModifier]
     })
-    marker.setIcon(GymIcon)
+    marker.setIcon(gymIcon)
 
     if (isNotifyGym) {
         marker.setZIndexOffset(gymNotifiedZIndex)
