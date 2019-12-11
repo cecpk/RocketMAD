@@ -95,7 +95,7 @@ function toast(title, text, imageUrl, iconClass, classes) {
     if (imageUrl) {
         image = `<img src='${imageUrl}' width='48'>`
     } else if (iconClass) {
-        image = ` <i class='material-icons'>${iconClass}</i>`
+        image = `<i class='material-icons'>${iconClass}</i>`
     }
     const style = imageUrl || iconClass ? 'style="margin-right:15px;"' : ''
     const toastHTML = `<div ${style}>${image}</div><div><strong>${title}</strong><br>${text}</div>`
