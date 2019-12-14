@@ -576,29 +576,3 @@ function sendPokemonNotification(pokemon) {
     notificationData.height = pokemon.height
     notifiedPokemonData[pokemon.encounter_id] = notificationData
 }
-
-function sendToastrPokemonNotification(title, text, icon, lat, lon) {
-    var notification = toastr.info(text, title, {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        preventDuplicates: true,
-        onclick: function () {
-            map.setView(L.latLng(lat, lon), 20)
-        },
-        showDuration: '300',
-        hideDuration: '500',
-        timeOut: '6000',
-        extendedTimeOut: '1500',
-        showEasing: 'swing',
-        hideEasing: 'linear',
-        showMethod: 'fadeIn',
-        hideMethod: 'fadeOut'
-    })
-    notification.removeClass('toast-info')
-    notification.css({
-        'padding-left': '74px',
-        'background-image': `url('./${icon}')`,
-        'background-size': '48px',
-        'background-color': '#0c5952'
-    })
-}

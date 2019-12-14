@@ -4,7 +4,6 @@
     <title>{{ map_title }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-    <!-- CSS-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/extras/noUiSlider/nouislider.min.css">
@@ -239,9 +238,7 @@
     <ul id="settings-sidenav" class="sidenav collapsible">
       {% if settings.pokemons %}
       <li>
-        <div class="collapsible-header">
-          <i class="material-icons">pets</i>Pokémon
-        </div>
+        <div class="collapsible-header"><i class="material-icons">pets</i>Pokémon</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -810,13 +807,19 @@
       <li>
         <div class="collapsible-header"><i class="material-icons">notifications</i>Notifications</div>
         <div class="collapsible-body">
-          <div class="switch">
-            <label>
-              ...
-              <input type="checkbox">
-              <span class="lever"></span>
-            </label>
+          {% if settings.pokemons %}
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="pokemon-notify-switch">
+                  <span class="lever"></span>
+                  Pokémon notifications
+                </label>
+              </div>
+            </div>
           </div>
+          {% endif %}
         </div>
       </li>
       <li>

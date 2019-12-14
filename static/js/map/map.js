@@ -189,15 +189,6 @@ function isShowAllZoom() {
     return serverSettings.showAllZoomLevel > 0 && map.getZoom() >= serverSettings.showAllZoomLevel
 }
 
-function createServiceWorkerReceiver() {
-    navigator.serviceWorker.addEventListener('message', function (event) {
-        const data = JSON.parse(event.data)
-        if (data.action === 'centerMap' && data.lat && data.lon) {
-            centerMap(data.lat, data.lon, 20)
-        }
-    })
-}
-
 function downloadSettings(name, settings) { // eslint-disable-line no-unused-vars
     var a = document.createElement('a')
     a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(settings))
@@ -350,6 +341,11 @@ function initMap() { // eslint-disable-line no-unused-vars
     getAllParks()
     updateS2Overlay()
 
+    initPushJS()
+    if (Push._agents.chrome.isSupported()) {
+        createServiceWorkerReceiver()
+    }
+
     if (serverSettings.rarity) {
         updatePokemonRarities(serverSettings.rarityFileName, function () {
             updateMap()
@@ -402,10 +398,6 @@ function initMap() { // eslint-disable-line no-unused-vars
     $('.tooltipped').tooltip()
 
     initSidebar()
-
-    if (Push._agents.chrome.isSupported()) {
-        createServiceWorkerReceiver()
-    }
 }
 
 /* eslint-disable no-unused-vars */
@@ -2600,13 +2592,39 @@ function updateLabelDiffTime() {
     })
 }
 
-function sendNotification(title, text, icon, lat, lon) {
+function initPushJS() {
+    /* If push.js is unsupported or disabled, fall back on materialize toast
+     * notifications. */
+    Push.config({
+        serviceWorker: 'static/dist/js/serviceWorker.min.js',
+        fallback: function (payload) {
+            sendToastNotification(
+                payload.title,
+                payload.body,
+                payload.icon,
+                payload.data.lat,
+                payload.data.lng
+            )
+        }
+    })
+}
+
+function createServiceWorkerReceiver() {
+    navigator.serviceWorker.addEventListener('message', function (event) {
+        const data = JSON.parse(event.data)
+        if (data.action === 'centerMap' && data.lat && data.lng) {
+            centerMap(data.lat, data.lng, 18)
+        }
+    })
+}
+
+function sendNotification(title, text, icon, lat, lng) {
    var notificationDetails = {
         icon: icon,
         body: text,
         data: {
             lat: lat,
-            lon: lon
+            lng: lng
         }
     }
 
@@ -2618,7 +2636,7 @@ function sendNotification(title, text, icon, lat, lon) {
             if (Push._agents.desktop.isSupported()) {
                 window.focus()
                 event.currentTarget.close()
-                map.setView(L.latLng(lat, lon), 18)
+                map.setView(L.latLng(lat, lng), 18)
             }
         }
     }
@@ -2626,9 +2644,25 @@ function sendNotification(title, text, icon, lat, lon) {
     /* Push.js requests the Notification permission automatically if
      * necessary. */
     Push.create(title, notificationDetails).catch(function () {
-        /* Don't do anything if the user denies the Notifications
-         * permission, it means they don't want notifications. Push.js
-         * will fall back to toastr if Notifications are not supported. */
+        // Fall back on materialize toast if something goes wrong.
+        sendToastNotification(title, text, icon, lat, lng)
+    })
+}
+
+function sendToastNotification(title, text, icon, lat, lng) {
+    var toastId = 'toast' + lat + '_' + lng
+    toastId = toastId.replace(/\./gi, '') // Remove all dots.
+    const toastHTML = `<div id='${toastId}'style='margin-right:15px;'>${icon}</div><div><strong>${title}</strong><br>${text}</div>`
+    M.toast({html: toastHTML, displayLength: 10000})
+
+    var $toast = $('#' + toastId).parent()
+    $toast.css('cursor', 'pointer')
+    $toast.on('click', function () {
+        map.setView(L.latLng(lat, lng), 18)
+        var toastChildElement = document.getElementById(toastId)
+        var toastElement = toastChildElement.closest('.toast') // Get parent.
+        var toastInstance = M.Toast.getInstance(toastElement)
+        toastInstance.dismiss()
     })
 }
 
@@ -2911,23 +2945,6 @@ function toggleGymPokemonDetails(e) { // eslint-disable-line no-unused-vars
 //
 // Page Ready Execution
 //
-
-$(function () {
-    /* If push.js is unsupported or disabled, fall back to toastr
-     * notifications. */
-    Push.config({
-        serviceWorker: 'serviceWorker.min.js',
-        fallback: function (notification) {
-            sendToastrPokemonNotification(
-                notification.title,
-                notification.body,
-                notification.icon,
-                notification.data.lat,
-                notification.data.lon
-            )
-        }
-    })
-})
 
 $(function () {
    /* TODO: Some items are being loaded asynchronously, but synchronous code
