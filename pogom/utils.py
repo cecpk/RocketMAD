@@ -300,7 +300,7 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-lsm', '--lock-start-marker',
                         help='Disables dragging the start marker and hence ' +
-                              'disables changing the start position.',
+                             'disables changing the start position.',
                         action='store_true', default=False)
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),

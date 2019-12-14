@@ -95,7 +95,8 @@ class Pogom(Flask):
 
         if level is None or raidlevel is None:
             return send_file(
-                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible),
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form,
+                             is_ex_raid_eligible),
                 mimetype='image/png'
             )
 
@@ -105,7 +106,8 @@ class Pogom(Flask):
 
         else:
             return send_file(
-                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible),
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form,
+                             is_ex_raid_eligible),
                 mimetype='image/png'
             )
 
@@ -185,8 +187,9 @@ class Pogom(Flask):
             'centerLng': self.location[1],
             'maxZoomLevel': args.max_zoom_level,
             'showAllZoomLevel': args.show_all_zoom_level,
-            'clusterZoomLevel': (args.cluster_zoom_level_mobile
-                if request.MOBILE else args.cluster_zoom_level),
+            'clusterZoomLevel': (
+                args.cluster_zoom_level_mobile if request.MOBILE else
+                args.cluster_zoom_level),
             'maxClusterRadius': args.max_cluster_radius,
             'spiderfyClusters': args.spiderfy_clusters,
             'isStartMarkerMovable': not args.lock_start_marker,
@@ -198,8 +201,8 @@ class Pogom(Flask):
                 args.rarity_update_frequency > 0,
             'rarityFileName': args.rarity_filename,
             'gyms': not args.no_gyms,
-            'gymSidebar': (not args.no_gyms or not args.no_raids)
-                and not args.no_gym_sidebar,
+            'gymSidebar': (not args.no_gyms or not args.no_raids) and
+                not args.no_gym_sidebar,
             'gymFilters': not args.no_gyms and not args.no_gym_filters,
             'raids': not args.no_raids,
             'raidFilters': not args.no_raids and not args.no_raid_filters,
@@ -218,7 +221,7 @@ class Pogom(Flask):
             'exParksFileName': args.ex_parks_filename,
             'medalpokemon': args.medalpokemon
         }
-        
+
         return render_template(
             'map.html',
             lang=args.locale,
