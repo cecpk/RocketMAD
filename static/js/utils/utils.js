@@ -1,12 +1,12 @@
 var touchDevice = null
 var mobileDevice = null
+var locationSupport = null
 
 function isTouchDevice() {
     if (touchDevice === null) {
         // Should cover most browsers.
         touchDevice = 'ontouchstart' in window || navigator.maxTouchPoints
     }
-
     return touchDevice
 }
 
@@ -14,8 +14,14 @@ function isMobileDevice() {
     if (mobileDevice === null) {
         mobileDevice = /Mobi|Android/i.test(navigator.userAgent)
     }
-
     return mobileDevice
+}
+
+function hasLocationSupport() {
+    if (locationSupport === null) {
+        locationSupport = navigator.geolocation && window.isSecureContext
+    }
+    return locationSupport
 }
 
 function getParameterByName(name, url) {
@@ -116,4 +122,23 @@ function toastWarning(title, text) {
 
 function toastError(title, text) {
     toast(title, text, null, 'error', 'red')
+}
+
+function toRadian(degree) {
+    return degree * Math.PI / 180
+}
+
+function getPointDistance(origin, destination) {
+    // return distance in meters
+    var lon1 = toRadian(origin.lng)
+    var lat1 = toRadian(origin.lat)
+    var lon2 = toRadian(destination.lng)
+    var lat2 = toRadian(destination.lat)
+    var deltaLat = lat2 - lat1
+    var deltaLon = lon2 - lon1
+
+    var a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2)
+    var c = 2 * Math.asin(Math.sqrt(a))
+    var EARTH_RADIUS = 6371
+    return c * EARTH_RADIUS * 1000
 }

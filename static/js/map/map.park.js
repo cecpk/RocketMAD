@@ -1,6 +1,6 @@
 function getAllParks() {
-    if (showConfig.nest_parks) {
-        $.getJSON('static/data/parks/' + nestParksFileName + '.json').done(function (response) {
+    if (serverSettings.nestParks) {
+        $.getJSON('static/data/parks/' + serverSettings.nestParksFileName + '.json').done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }
@@ -15,8 +15,8 @@ function getAllParks() {
         })
     }
 
-    if (showConfig.ex_parks) {
-        $.getJSON('static/data/parks/' + exParksFileName + '.json').done(function (response) {
+    if (serverSettings.exParks) {
+        $.getJSON('static/data/parks/' + serverSettings.exParksFileName + '.json').done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }

@@ -1,5 +1,5 @@
 function isPokemonRarityExcluded(pokemon) {
-    if (showConfig.rarity) {
+    if (serverSettings.rarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
         if (!settings.includedRarities.includes(pokemonRarity)) {
             return true
@@ -98,7 +98,7 @@ function updatePokemonMarker(pokemon, marker, isNotifyPokemon) {
 
     if (isNotifyPokemon) {
         marker.setZIndexOffset(pokemonNotifiedZIndex)
-    } else if (showConfig.rarity) {
+    } else if (serverSettings.rarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
         switch (pokemonRarity) {
             case 2:
@@ -232,7 +232,7 @@ function pokemonLabel(item) {
             </div>`
 
         let rarityDisplay = ''
-        if (showConfig.rarity) {
+        if (serverSettings.rarity) {
             const rarityName = getPokemonRarityName(item['pokemon_id'])
             rarityDisplay = `
                 <div>
@@ -247,7 +247,7 @@ function pokemonLabel(item) {
             </div>`
     } else {
         let rarityDisplay = ''
-        if (showConfig.rarity) {
+        if (serverSettings.rarity) {
             const rarityName = getPokemonRarityName(item['pokemon_id'])
             rarityDisplay = `<strong>${rarityName}</strong> | `
         }
@@ -496,7 +496,7 @@ function isNotifyPokemon(pokemon) {
                 }
             }
 
-            if (showConfig.medalpokemon) {
+            if (serverSettings.medalpokemon) {
                 if (Store.get('notifyTinyRattata') && pokemon.pokemon_id === 19) {
                     const baseHeight = 0.30
                     const baseWeight = 3.50
@@ -515,7 +515,7 @@ function isNotifyPokemon(pokemon) {
                 }
             }
 
-            if (showConfig.rarity) {
+            if (serverSettings.rarity) {
                 const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
                 const notifyRarities = Store.get('notifyRarities')
                 if (notifyRarities.includes(pokemonRarity)) {

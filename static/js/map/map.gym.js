@@ -3,7 +3,7 @@ function isGymMeetsGymFilters(gym) {
         return false
     }
 
-    if (showConfig.gym_filters) {
+    if (serverSettings.gymFilters) {
         if ($gymNameFilter) {
             const gymRegex = new RegExp($gymNameFilter, 'gi')
             if (!gym.name.match(gymRegex)) {
@@ -47,7 +47,7 @@ function isGymMeetsRaidFilters(gym) {
         return false
     }
 
-    if (showConfig.raid_filters) {
+    if (serverSettings.raidFilters) {
         if ($gymNameFilter) {
             const gymRegex = new RegExp($gymNameFilter, 'gi')
             if (!gym.name.match(gymRegex)) {

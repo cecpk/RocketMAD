@@ -131,7 +131,7 @@ function getPokemonRarityName(pokemonId) {
 }
 
 function getPokemonRawIconUrl(p) {
-    if (!generateImages) {
+    if (!serverSettings.generateImages) {
         return `static/icons/${p.pokemon_id}.png`
     }
     var url = 'pkm_img?raw=1&pkm=' + p.pokemon_id
@@ -146,7 +146,7 @@ function getPokemonRawIconUrl(p) {
 }
 
 function getPokemonMapIconUrl(pokemon) {
-    if (!generateImages) {
+    if (!serverSettings.generateImages) {
         return `static/icons/${pokemon.pokemon_id}.png`
     }
 

@@ -180,59 +180,62 @@ class Pogom(Flask):
         return render_template('auth_callback.html')
 
     def fullmap(self):
-        visibility_flags = {
+        settings = {
+            'centerLat': self.location[0],
+            'centerLng': self.location[1],
+            'maxZoomLevel': args.max_zoom_level,
+            'showAllZoomLevel': args.show_all_zoom_level,
+            'clusterZoomLevel': (args.cluster_zoom_level_mobile
+                if request.MOBILE else args.cluster_zoom_level),
+            'maxClusterRadius': args.max_cluster_radius,
+            'spiderfyClusters': args.spiderfy_clusters,
+            'isStartMarkerMovable': not args.lock_start_marker,
+            'generateImages': args.generate_images,
             'pokemons': not args.no_pokemon,
-            'pokemon_values': not args.no_pokemon and
+            'pokemonValues': not args.no_pokemon and
                 not args.no_pokemon_values,
             'rarity': not args.no_pokemon and
                 args.rarity_update_frequency > 0,
+            'rarityFileName': args.rarity_filename,
             'gyms': not args.no_gyms,
-            'gym_sidebar': (not args.no_gyms or not args.no_raids)
+            'gymSidebar': (not args.no_gyms or not args.no_raids)
                 and not args.no_gym_sidebar,
-            'gym_filters': not args.no_gyms and not args.no_gym_filters,
+            'gymFilters': not args.no_gyms and not args.no_gym_filters,
             'raids': not args.no_raids,
-            'raid_filters': not args.no_raids and not args.no_raid_filters,
+            'raidFilters': not args.no_raids and not args.no_raid_filters,
             'pokestops': not args.no_pokestops,
             'quests': not args.no_pokestops and not args.no_quests,
             'invasions': not args.no_pokestops and not args.no_invasions,
             'lures': not args.no_pokestops and not args.no_lures,
             'weather': not args.no_weather,
             'spawnpoints': not args.no_spawnpoints,
-            'scanned_locs': not args.no_scanned_locs,
-            's2_cells': not args.no_s2_cells,
+            'scannedLocs': not args.no_scanned_locs,
+            's2Cells': not args.no_s2_cells,
             'ranges': not args.no_ranges,
-            'ex_parks': args.ex_parks,
-            'nest_parks': args.nest_parks,
-            'medalpokemon': args.medalpokemon,
-            'custom_css': args.custom_css,
-            'custom_js': args.custom_js
+            'nestParks': args.nest_parks,
+            'nestParksFileName': args.nest_parks_filename,
+            'exParks': args.ex_parks,
+            'exParksFileName': args.ex_parks_filename,
+            'medalpokemon': args.medalpokemon
         }
-
+        
         return render_template(
             'map.html',
-            lat=self.location[0],
-            lng=self.location[1],
-            maxZoomLevel=args.max_zoom_level,
-            showAllZoomLevel=args.show_all_zoom_level,
-            clusterZoomLevel=(args.cluster_zoom_level_mobile if request.MOBILE
-                else args.cluster_zoom_level),
-            maxClusterRadius=args.max_cluster_radius,
-            spideryClusters=str(args.spidery_clusters).lower(),
             lang=args.locale,
-            mapTitle=args.map_title,
-            headerImage=args.header_image,
-            madminUrl=args.madmin_url,
-            donateUrl=args.donate_url,
-            patreonUrl=args.patreon_url,
-            discordUrl=args.discord_url,
-            messengerUrl=args.messenger_url,
-            telegramUrl=args.telegram_url,
-            whatsappUrl=args.whatsapp_url,
-            show=visibility_flags,
-            generateImages=str(args.generate_images).lower(),
-            rarityFileName=args.rarity_filename,
-            exParksFileName=args.ex_parks_filename,
-            nestParksFileName=args.nest_parks_filename)
+            map_title=args.map_title,
+            header_image=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            custom_css=args.custom_css,
+            custom_js=args.custom_js,
+            settings=settings
+        )
+
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.

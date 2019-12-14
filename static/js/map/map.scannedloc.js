@@ -24,7 +24,7 @@ function setupScannedLocationMarker(scannedLoc) {
 }
 
 function updateScannedLocationMarker(scannedLoc, marker) {
-    const radius = showConfig.pokemons ? 70 : 450 // Meters.
+    const radius = serverSettings.pokemons ? 70 : 450 // Meters.
     marker.setRadius(radius)
     const color = getColorByTime(scannedLoc.last_modified)
     marker.setStyle({color: color})

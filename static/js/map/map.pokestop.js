@@ -89,7 +89,7 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
                 shadowSize = [30, 30]
                 break
             case 7:
-                if (generateImages) {
+                if (serverSettings.generateImages) {
                     shadowImage = `pkm_img?pkm=${quest.pokemon_id}`
                     shadowSize = [35, 35]
                 } else {

@@ -295,8 +295,13 @@ def get_args():
                         help=('The maximum radius that a cluster will cover ' +
                               'from the central marker ' +
                               '(in pixels).'), default=60)
-    parser.add_argument('-sc', '--spidery-clusters',
-                        help='', action='store_true', default=False)
+    parser.add_argument('-sc', '--spiderfy-clusters',
+                        help='Spiderfy clusters at the bottom zoom level.',
+                        action='store_true', default=False)
+    parser.add_argument('-lsm', '--lock-start-marker',
+                        help='Disables dragging the start marker and hence ' +
+                              'disables changing the start position.',
+                        action='store_true', default=False)
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),
                         default='RocketMap')

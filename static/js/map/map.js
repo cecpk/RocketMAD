@@ -65,7 +65,11 @@ var settings = {
     showS2CellsLevel17: null,
     warnHiddenS2Cells: null,
     showRanges: null,
-    includedRangeTypes: null
+    includedRangeTypes: null,
+    startAtUserLocation: null,
+    startAtLastLocation: null,
+    isStartLocationMarkerMovable: null,
+    followUserLocation: null
 }
 
 var timestamp
@@ -101,8 +105,8 @@ var mapData = {
 var rawDataIsLoading = false
 var startLocationMarker
 var userLocationMarker
+var followUserHandle
 const gymRangeColors = ['#999999', '#0051CF', '#FF260E', '#FECC23'] // 'Uncontested', 'Mystic', 'Valor', 'Instinct'
-var storeZoom = true
 
 var oSwLat
 var oSwLng
@@ -182,7 +186,7 @@ const raidEggImages = {
 //
 
 function isShowAllZoom() {
-    return showAllZoomLevel > 0 && map.getZoom() >= showAllZoomLevel
+    return serverSettings.showAllZoomLevel > 0 && map.getZoom() >= serverSettings.showAllZoomLevel
 }
 
 function createServiceWorkerReceiver() {
@@ -214,122 +218,42 @@ function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
 }
 
 function initMap() { // eslint-disable-line no-unused-vars
-    if (Store.get('startAtLastLocation')) {
+    initSettings()
+
+    // URL query parameters.
+    const paramLat = Number(getParameterByName('lat'))
+    const paramLng = Number(getParameterByName('lon'))
+    const paramZoom = Number(getParameterByName('zoom'))
+
+    if (settings.startAtLastLocation) {
         var position = Store.get('startAtLastLocationPosition')
         var lat = position.lat
         var lng = position.lng
     } else {
         position = Store.get('startLocationPosition')
-        const useStartLocation = Store.get('showStartLocationMarker') && 'lat' in position && 'lng' in position
-        lat = useStartLocation ? position.lat : centerLat
-        lng = useStartLocation ? position.lng : centerLng
+        const useStartLocation = 'lat' in position && 'lng' in position
+        lat = useStartLocation ? position.lat : serverSettings.centerLat
+        lng = useStartLocation ? position.lng : serverSettings.centerLng
     }
 
     map = L.map('map', {
-        center: [Number(getParameterByName('lat')) || lat, Number(getParameterByName('lon')) || lng],
-        zoom: Number(getParameterByName('zoom')) || Store.get('zoomLevel'),
-        minZoom: maxZoomLevel,
+        center: [paramLat || lat, paramLng || lng],
+        zoom: paramZoom || Store.get('zoomLevel'),
+        minZoom: serverSettings.maxZoomLevel,
+        maxZoom: 18,
         zoomControl: false,
         preferCanvas: true
     })
 
-    if (showConfig.nest_parks) {
-        nestParksLayerGroup = L.layerGroup().addTo(map)
-    }
-    if (showConfig.ex_parks) {
-        exParksLayerGroup = L.layerGroup().addTo(map)
-    }
-    if (showConfig.s2_cells) {
-        s2CellsLayerGroup = L.layerGroup().addTo(map)
-    }
-    if (showConfig.ranges) {
-        rangesLayerGroup = L.layerGroup()
-        if (map.getZoom() > clusterZoomLevel) {
-            map.addLayer(rangesLayerGroup)
-        }
-    }
-
     setTitleLayer(Store.get('map_style'))
-
-    markers = L.markerClusterGroup({
-        disableClusteringAtZoom: clusterZoomLevel + 1,
-        maxClusterRadius: maxClusterRadius,
-        spiderfyOnMaxZoom: spideryClusters
-    })
-
-    map.addLayer(markers)
-    markersNoCluster = L.layerGroup().addTo(map)
-
-    initSettings()
-
-    if (showConfig.rarity) {
-        updatePokemonRarities(rarityFileName, function () {
-            updateMap()
-        })
-    } else {
-        updateMap()
-    }
-
-    initI8lnDictionary(function () {
-        initPokemonData(function () {
-            initPokemonFilters()
-        })
-    })
-
-    initMoveData(function () {})
-
-    if (showConfig.quests) {
-        initItemData(function () {
-            initItemFilters()
-        })
-    }
-
-    if (showConfig.invasions) {
-        initInvasionData(function () {
-            initInvasionFilters()
-        })
-    }
 
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map)
 
-    map.on('zoom', function () {
-        if (storeZoom === true) {
-            Store.set('zoomLevel', map.getZoom())
-        } else {
-            storeZoom = true
-        }
-    })
-
-    map.on('zoomend', function () {
-        if (settings.showRanges) {
-            if (map.getZoom() > clusterZoomLevel) {
-                if (!map.hasLayer(rangesLayerGroup)) {
-                    map.addLayer(rangesLayerGroup)
-                }
-            } else {
-                if (map.hasLayer(rangesLayerGroup)) {
-                    map.removeLayer(rangesLayerGroup)
-                }
-            }
-        }
-
-        if ($('#stats').hasClass('visible')) {
-            countMarkers(map)
-        }
-    })
-
-    if (Store.get('showStartLocationMarker')) {
-        // Whether marker is draggable or not is set in createStartLocationMarker().
-        startLocationMarker = createStartLocationMarker()
+    if (hasLocationSupport()) {
+        createUserLocationButton()
     }
-
-    if (Store.get('showLocationMarker')) {
-        userLocationMarker = createUserLocationMarker()
-    }
-
-    createMyLocationButton()
 
     map.addControl(new L.Control.Fullscreen({
         position: 'topright'
@@ -350,6 +274,109 @@ function initMap() { // eslint-disable-line no-unused-vars
     map.on('geosearch/showlocation', function (e) {
         changeLocation(e.location.y, e.location.x)
     })
+
+    map.on('moveend', function () {
+        updateMainS2CellId()
+        updateWeatherButton()
+        updateAllParks()
+        updateS2Overlay()
+
+        const position = map.getCenter()
+        Store.set('startAtLastLocationPosition', {
+            lat: position.lat,
+            lng: position.lng
+        })
+    })
+
+    map.on('zoom', function () {
+        Store.set('zoomLevel', map.getZoom())
+    })
+
+    map.on('zoomend', function () {
+        if (settings.showRanges) {
+            if (map.getZoom() > serverSettings.clusterZoomLevel) {
+                if (!map.hasLayer(rangesLayerGroup)) {
+                    map.addLayer(rangesLayerGroup)
+                }
+            } else {
+                if (map.hasLayer(rangesLayerGroup)) {
+                    map.removeLayer(rangesLayerGroup)
+                }
+            }
+        }
+
+        if ($('#stats').hasClass('visible')) {
+            countMarkers(map)
+        }
+    })
+
+    markers = L.markerClusterGroup({
+        disableClusteringAtZoom: serverSettings.clusterZoomLevel + 1,
+        maxClusterRadius: serverSettings.maxClusterRadius,
+        spiderfyOnMaxZoom: serverSettings.spiderfyClusters
+    }).addTo(map)
+    markersNoCluster = L.layerGroup().addTo(map)
+
+    if (serverSettings.nestParks) {
+        nestParksLayerGroup = L.layerGroup().addTo(map)
+    }
+    if (serverSettings.exParks) {
+        exParksLayerGroup = L.layerGroup().addTo(map)
+    }
+    if (serverSettings.s2Cells) {
+        s2CellsLayerGroup = L.layerGroup().addTo(map)
+    }
+    if (serverSettings.ranges) {
+        rangesLayerGroup = L.layerGroup()
+        if (map.getZoom() > serverSettings.clusterZoomLevel) {
+            map.addLayer(rangesLayerGroup)
+        }
+    }
+
+    startLocationMarker = createStartLocationMarker()
+    if (hasLocationSupport()) {
+        userLocationMarker = createUserLocationMarker()
+    }
+
+    if (settings.startAtUserLocation && !paramLat && !paramLng) {
+        centerMapOnUserLocation()
+    }
+
+    if (settings.followUserLocation) {
+        startFollowingUser()
+    }
+
+    updateMainS2CellId()
+    getAllParks()
+    updateS2Overlay()
+
+    if (serverSettings.rarity) {
+        updatePokemonRarities(serverSettings.rarityFileName, function () {
+            updateMap()
+        })
+    } else {
+        updateMap()
+    }
+
+    initI8lnDictionary(function () {
+        initPokemonData(function () {
+            initPokemonFilters()
+        })
+    })
+
+    initMoveData(function () {})
+
+    if (serverSettings.quests) {
+        initItemData(function () {
+            initItemFilters()
+        })
+    }
+
+    if (serverSettings.invasions) {
+        initInvasionData(function () {
+            initInvasionFilters()
+        })
+    }
 
     // Initialize materialize components.
     $('.dropdown-trigger').dropdown({
@@ -379,23 +406,6 @@ function initMap() { // eslint-disable-line no-unused-vars
     if (Push._agents.chrome.isSupported()) {
         createServiceWorkerReceiver()
     }
-
-    updateMainS2CellId()
-    getAllParks()
-    updateS2Overlay()
-
-    map.on('moveend', function () {
-        updateMainS2CellId()
-        updateWeatherButton()
-        updateAllParks()
-        updateS2Overlay()
-
-        const position = map.getCenter()
-        Store.set('startAtLastLocationPosition', {
-            lat: position.lat,
-            lng: position.lng
-        })
-    })
 }
 
 /* eslint-disable no-unused-vars */
@@ -421,38 +431,20 @@ function setTitleLayer(layername) {
     _oldlayer = layername
 }
 
-function updateUserLocationMarker(style) {
-    // Don't do anything if it's disabled.
-    if (!userLocationMarker) {
-        return
-    }
-    var locationIcon
-    if (style in searchMarkerStyles) {
-        var url = searchMarkerStyles[style].icon
-        if (url) {
-            locationIcon = L.icon({
-                iconUrl: url,
-                iconSize: [24, 24]
-            })
-            userLocationMarker.setIcon(locationIcon)
-        }
-        Store.set('locationMarkerStyle', style)
-    }
-    // Return value is currently unused.
-    return userLocationMarker
-}
+function createStartLocationMarker() {
+    const pos = Store.get('startLocationPosition')
+    const useStoredPosition = 'lat' in pos && 'lng' in pos
+    const lat = useStoredPosition ? pos.lat : serverSettings.centerLat
+    const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
-function createUserLocationMarker() {
-    var position = Store.get('followMyLocationPosition')
-    var lat = ('lat' in position) ? position.lat : centerLat
-    var lng = ('lng' in position) ? position.lng : centerLng
-
-    var marker = L.marker([lat, lng]).addTo(markersNoCluster).bindPopup('<div><b>My Location</b></div>')
+    var marker = L.marker([lat, lng], {draggable: settings.isStartLocationMarkerMovable}).addTo(markersNoCluster)
+    marker.bindPopup(`<div><b>${i8ln('Start location')}</b></div>`)
+    marker.setZIndexOffset(startLocationMarkerZIndex)
     addListeners(marker)
 
     marker.on('dragend', function () {
         var newLocation = marker.getLatLng()
-        Store.set('followMyLocationPosition', {
+        Store.set('startLocationPosition', {
             lat: newLocation.lat,
             lng: newLocation.lng
         })
@@ -483,35 +475,48 @@ function updateStartLocationMarker(style) {
     return startLocationMarker
 }
 
-function createStartLocationMarker() {
-    var position = Store.get('startLocationPosition')
-    var useStartLocation = 'lat' in position && 'lng' in position
-    var lat = useStartLocation ? position.lat : centerLat
-    var lng = useStartLocation ? position.lng : centerLng
+function createUserLocationMarker() {
+    const pos = Store.get('lastUserLocation')
+    const useStoredPosition = 'lat' in pos && 'lng' in pos
+    const lat = useStoredPosition ? pos.lat : serverSettings.centerLat
+    const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
-    var isMovable = !Store.get('lockStartLocationMarker') && Store.get('isStartLocationMarkerMovable')
-    var marker = L.marker([lat, lng], {draggable: isMovable}).addTo(markersNoCluster).bindPopup('<div><b>Start Location</b></div>')
-    marker.setZIndexOffset(startLocationMarkerZIndex)
+    var marker = L.marker([lat, lng]).addTo(markersNoCluster)
+    marker.bindPopup(`<div><b>${i8ln('My location')}</b></div>`)
+    marker.setZIndexOffset(userLocationMarkerZIndex)
     addListeners(marker)
-
-    marker.on('dragend', function () {
-        var newLocation = marker.getLatLng()
-        Store.set('startLocationPosition', {
-            lat: newLocation.lat,
-            lng: newLocation.lng
-        })
-    })
 
     return marker
 }
 
-function initSettings() {
-    settings.showPokemon = showConfig.pokemons && Store.get('showPokemon')
-    settings.excludedPokemon = showConfig.pokemons ? Store.get('excludedPokemon') : []
-    if (showConfig.pokemons) {
-        settings.showPokemonValues = showConfig.pokemon_values && Store.get('showPokemonValues')
+function updateUserLocationMarker(style) {
+    // Don't do anything if it's disabled.
+    if (!userLocationMarker) {
+        return
     }
-    if (showConfig.pokemon_values) {
+    var locationIcon
+    if (style in searchMarkerStyles) {
+        var url = searchMarkerStyles[style].icon
+        if (url) {
+            locationIcon = L.icon({
+                iconUrl: url,
+                iconSize: [24, 24]
+            })
+            userLocationMarker.setIcon(locationIcon)
+        }
+        Store.set('locationMarkerStyle', style)
+    }
+    // Return value is currently unused.
+    return userLocationMarker
+}
+
+function initSettings() {
+    settings.showPokemon = serverSettings.pokemons && Store.get('showPokemon')
+    settings.excludedPokemon = serverSettings.pokemons ? Store.get('excludedPokemon') : []
+    if (serverSettings.pokemons) {
+        settings.showPokemonValues = serverSettings.pokemonValues && Store.get('showPokemonValues')
+    }
+    if (serverSettings.pokemonValues) {
         settings.filterValues = Store.get('filterValues')
         settings.unfilteredPokemon = Store.get('unfilteredPokemon')
         settings.minIvs = Store.get('minIvs')
@@ -520,14 +525,14 @@ function initSettings() {
         settings.minLevel = Store.get('minLevel')
         settings.maxLevel = Store.get('maxLevel')
     }
-    if (showConfig.rarity) {
+    if (serverSettings.rarity) {
         settings.includedRarities = Store.get('includedRarities')
-        settings.scaleByRarity = showConfig.rarity && Store.get('scaleByRarity')
+        settings.scaleByRarity = serverSettings.rarity && Store.get('scaleByRarity')
     }
 
-    settings.showGyms = showConfig.gyms && Store.get('showGyms')
-    settings.useGymSidebar = showConfig.gym_sidebar && Store.get('useGymSidebar')
-    if (showConfig.gym_filters) {
+    settings.showGyms = serverSettings.gyms && Store.get('showGyms')
+    settings.useGymSidebar = serverSettings.gymSidebar && Store.get('useGymSidebar')
+    if (serverSettings.gymFilters) {
         settings.includedGymTeams = Store.get('includedGymTeams')
         settings.minGymLevel = Store.get('minGymLevel')
         settings.maxGymLevel = Store.get('maxGymLevel')
@@ -536,46 +541,46 @@ function initSettings() {
         settings.showInBattleGymsOnly = Store.get('showInBattleGymsOnly')
         settings.gymLastScannedHours = Store.get('gymLastScannedHours')
     }
-    settings.showRaids = showConfig.raids && Store.get('showRaids')
-    if (showConfig.raid_filters) {
+    settings.showRaids = serverSettings.raids && Store.get('showRaids')
+    if (serverSettings.raidFilters) {
         settings.excludedRaidPokemon = Store.get('excludedRaidPokemon')
         settings.showActiveRaidsOnly = Store.get('showActiveRaidsOnly')
         settings.showExEligibleRaidsOnly = Store.get('showExEligibleRaidsOnly')
         settings.includedRaidLevels = Store.get('includedRaidLevels')
     }
 
-    settings.showPokestops = showConfig.pokestops && Store.get('showPokestops')
-    if (showConfig.pokestops) {
+    settings.showPokestops = serverSettings.pokestops && Store.get('showPokestops')
+    if (serverSettings.pokestops) {
         settings.showPokestopsNoEvent = Store.get('showPokestopsNoEvent')
-        settings.showQuests = showConfig.quests && Store.get('showQuests')
-        settings.showInvasions = showConfig.invasions && Store.get('showInvasions')
-        settings.showLures = showConfig.lures && Store.get('showLures')
+        settings.showQuests = serverSettings.quests && Store.get('showQuests')
+        settings.showInvasions = serverSettings.invasions && Store.get('showInvasions')
+        settings.showLures = serverSettings.lures && Store.get('showLures')
     }
-    if (showConfig.quests) {
+    if (serverSettings.quests) {
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
     }
-    if (showConfig.invasions) {
+    if (serverSettings.invasions) {
         settings.excludedInvasions = Store.get('excludedInvasions')
     }
-    if (showConfig.lures) {
+    if (serverSettings.lures) {
         settings.includedLureTypes = Store.get('includedLureTypes')
     }
 
-    settings.showWeather = showConfig.weather && Store.get('showWeather')
-    if (showConfig.weather) {
+    settings.showWeather = serverSettings.weather && Store.get('showWeather')
+    if (serverSettings.weather) {
         settings.showMainWeather = Store.get('showMainWeather')
         settings.showWeatherCells = Store.get('showWeatherCells')
     }
 
-    settings.showSpawnpoints = showConfig.spawnpoints && Store.get('showSpawnpoints')
-    settings.showScannedLocations = showConfig.scanned_locs && Store.get('showScannedLocations')
+    settings.showSpawnpoints = serverSettings.spawnpoints && Store.get('showSpawnpoints')
+    settings.showScannedLocations = serverSettings.scannedLocs && Store.get('showScannedLocations')
 
-    settings.showNestParks = showConfig.nest_parks && Store.get('showNestParks')
-    settings.showExParks = showConfig.ex_parks && Store.get('showExParks')
+    settings.showNestParks = serverSettings.nestParks && Store.get('showNestParks')
+    settings.showExParks = serverSettings.exParks && Store.get('showExParks')
 
-    settings.showS2Cells = showConfig.s2_cells && Store.get('showS2Cells')
-    if (showConfig.s2_cells) {
+    settings.showS2Cells = serverSettings.s2Cells && Store.get('showS2Cells')
+    if (serverSettings.s2Cells) {
         settings.showS2CellsLevel10 = Store.get('showS2CellsLevel10')
         settings.showS2CellsLevel13 = Store.get('showS2CellsLevel13')
         settings.showS2CellsLevel14 = Store.get('showS2CellsLevel14')
@@ -583,17 +588,22 @@ function initSettings() {
         settings.warnHiddenS2Cells = Store.get('warnHiddenS2Cells')
     }
 
-    settings.showRanges = showConfig.ranges && Store.get('showRanges')
-    if (showConfig.ranges) {
+    settings.showRanges = serverSettings.ranges && Store.get('showRanges')
+    if (serverSettings.ranges) {
         settings.includedRangeTypes = Store.get('includedRangeTypes')
     }
 
+    settings.startAtUserLocation = hasLocationSupport() && Store.get('startAtUserLocation')
+    settings.startAtLastLocation = Store.get('startAtLastLocation')
+    settings.lockStartLocationMarker = serverSettings.lockStartMarker && Store.get('lockStartLocationMarker')
+    settings.isStartLocationMarkerMovable = serverSettings.isStartMarkerMovable && Store.get('isStartLocationMarkerMovable')
+    settings.followUserLocation = hasLocationSupport() && Store.get('followUserLocation')
 }
 
 function initSidebar() {
     // Setup UI element interactions.
 
-    if (showConfig.pokemons) {
+    if (serverSettings.pokemons) {
         $('#pokemon-switch').on('change', function () {
             settings.showPokemon = this.checked
             const filtersWrapper = $('#pokemon-filters-wrapper')
@@ -612,7 +622,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.pokemon_values) {
+    if (serverSettings.pokemonValues) {
         $('#pokemon-values-switch').on('change', function () {
             settings.showPokemonValues = this.checked
             const filterValuesWrapper = $('#filter-pokemon-values-wrapper')
@@ -738,7 +748,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.rarity) {
+    if (serverSettings.rarity) {
         $('#rarity-select').on('change', function () {
             const oldIncludedRarities = settings.includedRarities
             settings.includedRarities = $(this).val().map(Number)
@@ -760,13 +770,13 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.gyms) {
+    if (serverSettings.gyms) {
         $('#gym-switch').on('change', function () {
             settings.showGyms = this.checked
             const filtersWrapper = $('#gym-filters-wrapper')
             const nameFilterSidebarWrapper = $('#gym-name-filter-sidebar-wrapper')
             if (this.checked) {
-                if (showConfig.gym_filters) {
+                if (serverSettings.gymFilters) {
                     filtersWrapper.show()
                 }
                 if (!settings.showRaids) {
@@ -775,7 +785,7 @@ function initSidebar() {
                 lastgyms = false
                 updateMap()
             } else {
-                if (showConfig.gym_filters) {
+                if (serverSettings.gymFilters) {
                     filtersWrapper.hide()
                 }
                 if (!settings.showRaids) {
@@ -787,7 +797,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.gym_sidebar) {
+    if (serverSettings.gymSidebar) {
         $('#gym-sidebar-switch').on('change', function () {
             settings.useGymSidebar = this.checked
             updateGyms()
@@ -808,7 +818,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.gym_filters) {
+    if (serverSettings.gymFilters) {
         $('#gym-name-filter').on('keyup', function () {
             $gymNameFilter = this.value.match(/[.*+?^${}()|[\]\\]/g) ? this.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : this.value
             updateGyms()
@@ -911,14 +921,14 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.raids) {
+    if (serverSettings.raids) {
         $('#raid-switch').on('change', function () {
             settings.showRaids = this.checked
             const filtersWrapper = $('#raid-filters-wrapper')
             const nameFilterSidebarWrapper = $('#gym-name-filter-sidebar-wrapper')
             const filterButton = $('a[data-target="raid-pokemon-filter-modal"]')
             if (this.checked) {
-                if (showConfig.raid_filters) {
+                if (serverSettings.raidFilters) {
                     filtersWrapper.show()
                     filterButton.show()
                 }
@@ -931,7 +941,7 @@ function initSidebar() {
                 lastgyms = false
                 updateMap()
             } else {
-                if (showConfig.raid_filters) {
+                if (serverSettings.raidFilters) {
                     filtersWrapper.hide()
                     filterButton.hide()
                 }
@@ -944,7 +954,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.raid_filters) {
+    if (serverSettings.raidFilters) {
         $('#raid-active-switch').on('change', function () {
             settings.showActiveRaidsOnly = this.checked
             if (this.checked) {
@@ -989,7 +999,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.pokestops) {
+    if (serverSettings.pokestops) {
         $('#pokestop-switch').on('change', function () {
             settings.showPokestops = this.checked
             const filtersWrapper = $('#pokestop-filters-wrapper')
@@ -1023,7 +1033,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.quests) {
+    if (serverSettings.quests) {
         $('#quest-switch').on('change', function () {
             settings.showQuests = this.checked
             var filterButton = $('a[data-target="quest-filter-modal"]')
@@ -1039,7 +1049,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.invasions) {
+    if (serverSettings.invasions) {
         $('#invasion-switch').on('change', function () {
             settings.showInvasions = this.checked
             var filterButton = $('a[data-target="invasion-filter-modal"]')
@@ -1055,7 +1065,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.lures) {
+    if (serverSettings.lures) {
         $('#lure-switch').on('change', function () {
             settings.showLures = this.checked
             const lureTypeWrapper = $('#lure-type-select-wrapper')
@@ -1079,7 +1089,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.weather) {
+    if (serverSettings.weather) {
         $('#weather-switch').on('change', function () {
             settings.showWeather = this.checked
             const formsWrapper = $('#weather-forms-wrapper')
@@ -1114,7 +1124,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.spawnpoints) {
+    if (serverSettings.spawnpoints) {
         $('#spawnpoint-switch').on('change', function () {
             settings.showSpawnpoints = this.checked
             if (this.checked) {
@@ -1127,7 +1137,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.scanned_locs) {
+    if (serverSettings.scannedLocs) {
         $('#scanned-locs-switch').on('change', function () {
             settings.showScannedLocations = this.checked
             if (this.checked) {
@@ -1140,7 +1150,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.nest_parks) {
+    if (serverSettings.nestParks) {
         $('#nest-park-switch').on('change', function () {
             settings.showNestParks = this.checked
             if (this.checked) {
@@ -1152,7 +1162,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.ex_parks) {
+    if (serverSettings.exParks) {
         $('#ex-park-switch').on('change', function () {
             settings.showExParks = this.checked
             if (this.checked) {
@@ -1164,7 +1174,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.s2_cells) {
+    if (serverSettings.s2Cells) {
         $('#s2-cell-switch').on('change', function () {
             settings.showS2Cells = this.checked
             const filtersWrapper = $('#s2-filters-wrapper')
@@ -1208,7 +1218,7 @@ function initSidebar() {
         })
     }
 
-    if (showConfig.ranges) {
+    if (serverSettings.ranges) {
         $('#ranges-switch').on('change', function () {
             settings.showRanges = this.checked
             const rangeTypeWrapper = $('#range-type-select-wrapper')
@@ -1248,6 +1258,65 @@ function initSidebar() {
         })
     }
 
+    if (hasLocationSupport()) {
+        $('#start-at-user-location-switch').on('change', function () {
+            settings.startAtUserLocation = this.checked
+            if (settings.startAtLastLocation && this.checked) {
+                $('#start-at-last-location-switch').prop('checked', false)
+                settings.startAtLastLocation = false
+                Store.set('startAtLastLocation', false)
+            }
+            Store.set('startAtUserLocation', this.checked)
+        })
+    } else {
+        $('#start-at-user-location-wrapper').hide()
+    }
+
+    $('#start-at-last-location-switch').on('change', function () {
+        settings.startAtLastLocation = this.checked
+        if (this.checked) {
+            if (settings.startAtUserLocation) {
+                $('#start-at-user-location-switch').prop('checked', false)
+                settings.startAtUserLocation = false
+                Store.set('startAtUserLocation', false)
+            }
+
+            const position = map.getCenter()
+            Store.set('startAtLastLocationPosition', {
+                lat: position.lat,
+                lng: position.lng
+            })
+        }
+        Store.set('startAtLastLocation', this.checked)
+    })
+
+    if (serverSettings.isStartMarkerMovable) {
+        $('#lock-start-marker-switch').on('change', function () {
+            settings.isStartLocationMarkerMovable = !this.checked
+            if (startLocationMarker) {
+                if (this.checked) {
+                    startLocationMarker.dragging.disable()
+                } else {
+                    startLocationMarker.dragging.enable()
+                }
+            }
+            Store.set('isStartLocationMarkerMovable', !this.checked)
+        })
+    }
+
+    if (hasLocationSupport()) {
+        $('#follow-user-location-switch').on('change', function () {
+            settings.followUserLocation = this.checked
+            if (this.checked) {
+                startFollowingUser()
+            } else {
+                stopFollowingUser()
+            }
+            Store.set('followUserLocation', this.checked)
+        })
+    } else {
+        $('#follow-user-location-wrapper').hide()
+    }
 
 
 
@@ -1339,45 +1408,6 @@ function initSidebar() {
 
     $('#cries-switch').change(function () {
         Store.set('playCries', this.checked)
-    })
-
-    $('#lock-start-marker-switch').change(function () {
-        Store.set('lockStartLocationMarker', this.checked)
-        if (startLocationMarker) {
-            this.checked ? startLocationMarker.dragging.disable() : startLocationMarker.dragging.enable()
-        }
-    })
-
-    $('#start-at-user-location-switch').change(function () {
-        if (Store.get('startAtLastLocation') && this.checked) {
-            $('#start-at-last-location-switch').prop('checked', false)
-            Store.set('startAtLastLocation', false)
-        }
-        Store.set('startAtUserLocation', this.checked)
-    })
-
-    $('#start-at-last-location-switch').change(function () {
-        if (this.checked) {
-            const position = map.getCenter()
-            Store.set('startAtLastLocationPosition', {
-                lat: position.lat,
-                lng: position.lng
-            })
-
-            if (Store.get('startAtUserLocation')) {
-                $('#start-at-user-location-switch').prop('checked', false)
-                Store.set('startAtUserLocation', false)
-            }
-        }
-        Store.set('startAtLastLocation', this.checked)
-    })
-
-    $('#follow-my-location-switch').change(function () {
-        if (!navigator.geolocation) {
-            this.checked = false
-        } else {
-            Store.set('followMyLocation', this.checked)
-        }
     })
 
     $('#notify-ivs-text').change(function () {
@@ -1479,12 +1509,12 @@ function initSidebar() {
     })
 
     // Pokemon.
-    if (showConfig.pokemons) {
+    if (serverSettings.pokemons) {
         $('#pokemon-switch').prop('checked', settings.showPokemon)
         $('a[data-target="pokemon-filter-modal"]').toggle(settings.showPokemon)
         $('#pokemon-filters-wrapper').toggle(settings.showPokemon)
     }
-    if (showConfig.pokemon_values) {
+    if (serverSettings.pokemonValues) {
         $('#pokemon-values-switch').prop('checked', settings.showPokemonValues)
         $('#filter-pokemon-values-wrapper').toggle(settings.showPokemonValues)
         $('#filter-values-switch').prop('checked', settings.filterValues)
@@ -1497,23 +1527,23 @@ function initSidebar() {
         $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
         $('#pokemon-level-slider-wrapper').toggle(settings.filterValues)
     }
-    if (showConfig.rarity) {
+    if (serverSettings.rarity) {
         $('#rarity-select').val(settings.includedRarities)
         $('#rarity-select').formSelect()
         $('#scale-rarity-switch').prop('checked', settings.scaleByRarity)
     }
 
     // Gyms and Raids.
-    if (showConfig.gyms || showConfig.raids) {
+    if (serverSettings.gyms || serverSettings.raids) {
         $('#gym-name-filter-sidebar-wrapper').toggle(settings.showGyms || settings.showRaids)
-        if (showConfig.gym_sidebar) {
+        if (serverSettings.gym_sidebar) {
             $('#gym-sidebar-switch').prop('checked', settings.useGymSidebar)
         }
     }
-    if (showConfig.gyms) {
+    if (serverSettings.gyms) {
         $('#gym-switch').prop('checked', settings.showGyms)
     }
-    if (showConfig.gym_filters) {
+    if (serverSettings.gymFilters) {
         $('#gym-filters-wrapper').toggle(settings.showGyms)
         $('#gym-team-select').val(settings.includedGymTeams)
         $('#gym-team-select').formSelect()
@@ -1524,10 +1554,10 @@ function initSidebar() {
         $('#gym-last-scanned-select').val(settings.gymLastScannedHours)
         $('#gym-last-scanned-select').formSelect()
     }
-    if (showConfig.raids) {
+    if (serverSettings.raids) {
         $('#raid-switch').prop('checked', settings.showRaids)
     }
-    if (showConfig.raid_filters) {
+    if (serverSettings.raidFilters) {
         $('a[data-target="raid-pokemon-filter-modal"]').toggle(settings.showRaids)
         $('#raid-filters-wrapper').toggle(settings.showRaids)
         $('#raid-active-switch').prop('checked', settings.showActiveRaidsOnly)
@@ -1537,20 +1567,20 @@ function initSidebar() {
     }
 
     // Pokestops.
-    if (showConfig.pokestops) {
+    if (serverSettings.pokestops) {
         $('#pokestop-switch').prop('checked', settings.showPokestops)
         $('#pokestop-filters-wrapper').toggle(settings.showPokestops)
         $('#pokestop-no-event-switch').prop('checked', settings.showPokestopsNoEvent)
     }
-    if (showConfig.quests) {
+    if (serverSettings.quests) {
         $('#quest-switch').prop('checked', settings.showQuests)
         $('a[data-target="quest-filter-modal"]').toggle(settings.showQuests)
     }
-    if (showConfig.invasions) {
+    if (serverSettings.invasions) {
         $('#invasion-switch').prop('checked', settings.showInvasions)
         $('a[data-target="invasion-filter-modal"]').toggle(settings.showInvasions)
     }
-    if (showConfig.lures) {
+    if (serverSettings.lures) {
         $('#lure-switch').prop('checked', settings.showLures)
         $('#lure-type-select-wrapper').toggle(settings.showLures)
         $('#lure-type-select').val(settings.includedLureTypes)
@@ -1558,7 +1588,7 @@ function initSidebar() {
     }
 
     // Weather.
-    if (showConfig.weather) {
+    if (serverSettings.weather) {
         $('#weather-switch').prop('checked', settings.showWeather)
         $('#weather-forms-wrapper').toggle(settings.showWeather)
         $('#weather-cells-switch').prop('checked', settings.showWeatherCells)
@@ -1566,19 +1596,19 @@ function initSidebar() {
     }
 
     // Map.
-    if (showConfig.spawnpoints) {
+    if (serverSettings.spawnpoints) {
         $('#spawnpoint-switch').prop('checked', settings.showSpawnpoints)
     }
-    if (showConfig.scanned_locs) {
+    if (serverSettings.scannedLocs) {
         $('#scanned-locs-switch').prop('checked', settings.showScannedLocations)
     }
-    if (showConfig.nest_parks) {
+    if (serverSettings.nestParks) {
         $('#nest-park-switch').prop('checked', settings.showNestParks)
     }
-    if (showConfig.ex_parks) {
+    if (serverSettings.exParks) {
         $('#ex-park-switch').prop('checked', settings.showExParks)
     }
-    if (showConfig.s2_cells) {
+    if (serverSettings.s2Cells) {
         $('#s2-cell-switch').prop('checked', settings.showS2Cells)
         $('#s2-filters-wrapper').toggle(settings.showS2Cells)
         $('#s2-level10-switch').prop('checked', settings.showS2CellsLevel10)
@@ -1587,19 +1617,26 @@ function initSidebar() {
         $('#s2-level17-switch').prop('checked', settings.showS2CellsLevel17)
         $('#s2-cells-warning-switch').prop('checked', settings.warnHiddenS2Cells)
     }
-    if (showConfig.ranges) {
+    if (serverSettings.ranges) {
         $('#ranges-switch').prop('checked', settings.showRanges)
         $('#range-type-select-wrapper').toggle(settings.showRanges)
         $('#range-type-select').val(settings.includedRangeTypes)
         $('#range-type-select').formSelect()
     }
 
-
     // Location.
-    $('#start-at-user-location-switch').prop('checked', Store.get('startAtUserLocation'))
-    $('#start-at-last-location-switch').prop('checked', Store.get('startAtLastLocation'))
-    $('#lock-start-marker-switch').prop('checked', Store.get('lockStartLocationMarker'))
-    $('#follow-my-location-switch').prop('checked', Store.get('followMyLocation'))
+    if (hasLocationSupport()) {
+        $('#start-at-user-location-switch').prop('checked', settings.startAtUserLocation)
+    }
+    $('#start-at-last-location-switch').prop('checked', settings.startAtLastLocation)
+    if (serverSettings.isStartLocationMarkerMovable) {
+        $('#lock-start-marker-switch').prop('checked', !settings.isStartLocationMarkerMovable)
+    }
+    if (hasLocationSupport()) {
+        $('#follow-user-location-switch').prop('checked', settings.followUserLocation)
+    }
+
+
 
     // Notifications.
     $('#notify-pokemon-switch-wrapper').toggle(settings.showPokemon)
@@ -1664,7 +1701,7 @@ function initPokemonFilters() {
 
     $.each(pokemonIds, function(idx, id) {
         var pokemonIcon
-        if (generateImages) {
+        if (serverSettings.generateImages) {
             pokemonIcon = `<img src='${getPokemonRawIconUrl({'pokemon_id': id})}' width='32'>`
         } else {
             pokemonIcon = `<i class='pokemon-sprite n${id}' width='32'></i>`
@@ -1759,7 +1796,7 @@ function initPokemonFilters() {
         })
     })
 
-    if (showConfig.pokemons) {
+    if (serverSettings.pokemons) {
         $('#exclude-pokemon').val(settings.excludedPokemon)
         if (settings.excludedPokemon.length === 0) {
             $('#filter-pokemon-title').text('Pokémon (All)')
@@ -1798,7 +1835,7 @@ function initPokemonFilters() {
         })
     }
 
-    if (showConfig.pokemon_values) {
+    if (serverSettings.pokemonValues) {
         $('#unfiltered-pokemon').val(settings.unfilteredPokemon)
         if (settings.unfilteredPokemon.length === 0) {
             $('#filter-values-pokemon-title').text('Pokémon to be filtered (All)')
@@ -1837,7 +1874,7 @@ function initPokemonFilters() {
         })
     }
 
-    if (showConfig.raid_filters) {
+    if (serverSettings.raidFilters) {
         $('#exclude-raid-pokemon').val(settings.excludedRaidPokemon)
         if (settings.excludedRaidPokemon.length === 0) {
             $('#filter-raid-pokemon-title').text('Raid Bosses (All)')
@@ -1872,7 +1909,7 @@ function initPokemonFilters() {
         })
     }
 
-    if (showConfig.quests) {
+    if (serverSettings.quests) {
         $('#exclude-quest-pokemon').val(settings.excludedQuestPokemon)
         if (settings.excludedQuestPokemon.length === 0) {
             $('a[href="#quest-pokemon-tab"]').text('Quest Pokémon (All)')
@@ -2563,25 +2600,6 @@ function updateLabelDiffTime() {
     })
 }
 
-function getPointDistance(origin, destination) {
-    // return distance in meters
-    var lon1 = toRadian(origin.lng)
-    var lat1 = toRadian(origin.lat)
-    var lon2 = toRadian(destination.lng)
-    var lat2 = toRadian(destination.lat)
-    var deltaLat = lat2 - lat1
-    var deltaLon = lon2 - lon1
-
-    var a = Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon / 2), 2)
-    var c = 2 * Math.asin(Math.sqrt(a))
-    var EARTH_RADIUS = 6371
-    return c * EARTH_RADIUS * 1000
-}
-
-function toRadian(degree) {
-    return degree * Math.PI / 180
-}
-
 function sendNotification(title, text, icon, lat, lon) {
    var notificationDetails = {
         icon: icon,
@@ -2614,123 +2632,93 @@ function sendNotification(title, text, icon, lat, lon) {
     })
 }
 
+function createUserLocationButton() {
+    var locationMarker = L.control({position: 'bottomright'})
+    locationMarker.onAdd = function (map) {
+        var locationContainer = L.DomUtil.create('div', 'leaflet-control-locate leaflet-bar')
 
-
-function createMyLocationButton() {
-    var _locationMarker = L.control({position: 'bottomright'})
-    var locationContainer
-
-    _locationMarker.onAdd = function (map) {
-        locationContainer = L.DomUtil.create('div', '_locationMarker')
-
-        var locationButton = document.createElement('button')
-        locationButton.style.backgroundColor = '#fff'
-        locationButton.style.border = '2px solid rgba(0,0,0,0.2)'
-        locationButton.style.outline = 'none'
-        locationButton.style.width = '34px'
-        locationButton.style.height = '34px'
-        locationButton.style.cursor = 'pointer'
-        locationButton.style.padding = '0px'
-        locationButton.title = 'My Location'
+        var locationButton = document.createElement('a')
+        locationButton.innerHTML = '<i class="material-icons">my_location</i>'
+        locationButton.title = 'My location'
+        locationButton.href = '#'
         locationContainer.appendChild(locationButton)
 
-        var locationIcon = document.createElement('div')
-        locationIcon.style.margin = '5px'
-        locationIcon.style.width = '18px'
-        locationIcon.style.height = '18px'
-        locationIcon.style.backgroundImage = 'url(static/mylocation-sprite-1x.png)'
-        locationIcon.style.backgroundSize = '200px 19px'
-        locationIcon.style.backgroundPosition = '0px 0px'
-        locationIcon.style.backgroundRepeat = 'no-repeat'
-        locationIcon.id = 'current-location'
-        locationButton.appendChild(locationIcon)
+        var locationIcon = locationButton.firstChild
+        locationIcon.style.fontSize = '20px'
+        locationIcon.style.marginTop = '3px'
 
         locationButton.addEventListener('click', function () {
-            centerMapOnLocation()
+            centerMapOnUserLocation()
         })
 
         return locationContainer
     }
 
-    _locationMarker.addTo(map)
-    locationContainer.index = 1
-
-    map.on('dragend', function () {
-        var currentLocation = document.getElementById('current-location')
-        currentLocation.style.backgroundPosition = '0px 0px'
-    })
+    locationMarker.addTo(map)
 }
 
-function centerMapOnLocation() {
-    var currentLocation = document.getElementById('current-location')
-    var imgX = '0'
-    var animationInterval = setInterval(function () {
-        if (imgX === '-20') {
-            imgX = '0'
-        } else {
-            imgX = '-20'
-        }
-        currentLocation.style.backgroundPosition = imgX + 'px 0'
-    }, 500)
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var latlng = L.latLng(position.coords.latitude, position.coords.longitude)
-            if (userLocationMarker) {
-                userLocationMarker.setLatLng(latlng)
-            }
-            map.panTo(latlng)
-            Store.set('followMyLocationPosition', {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            })
-            clearInterval(animationInterval)
-        })
-    } else {
-        clearInterval(animationInterval)
-        currentLocation.style.backgroundPosition = '0px 0px'
+function centerMapOnUserLocation() {
+    if (!hasLocationSupport()) {
+        return
     }
+
+    var locationIcon = document.getElementsByClassName('leaflet-control-locate')[0].firstChild.firstChild
+    var animationInterval = setInterval(function () {
+        if (locationIcon.innerHTML === 'my_location') {
+            locationIcon.innerHTML = 'location_searching'
+        } else {
+            locationIcon.innerHTML = 'my_location'
+        }
+    }, 500)
+
+    function succes(pos) {
+        const latlng = L.latLng(pos.coords.latitude, pos.coords.longitude)
+        if (userLocationMarker) {
+            userLocationMarker.setLatLng(latlng)
+        }
+        map.panTo(latlng)
+        clearInterval(animationInterval)
+        locationIcon.innerHTML = 'my_location'
+        Store.set('lastUserLocation', {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+        })
+    }
+
+    function error(e) {
+        toastError(i8ln('Error getting your location!'), e.message)
+        clearInterval(animationInterval)
+        locationIcon.innerHTML = 'my_location'
+    }
+
+    navigator.geolocation.getCurrentPosition(succes, error, {enableHighAccuracy: true})
+}
+
+function startFollowingUser() {
+    centerMapOnUserLocation()
+    followUserHandle = setInterval(centerMapOnUserLocation, 3000)
+}
+
+function stopFollowingUser() {
+    clearInterval(followUserHandle)
+    followUserHandle = null
 }
 
 function changeLocation(lat, lng) {
-    var loc = L.latLng(lat, lng)
+    const loc = L.latLng(lat, lng)
     map.panTo(loc)
 }
 
 function centerMap(lat, lng, zoom) {
-    var loc = L.latLng(lat, lng)
-
-    map.panTo(loc)
-
+    changeLocation(lat, lng)
     if (zoom) {
-        storeZoom = false
         map.setZoom(zoom)
-    }
-}
-
-function updateGeoLocation() {
-    if (navigator.geolocation && (Store.get('geoLocate') || Store.get('followMyLocation'))) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var lat = position.coords.latitude
-            var lng = position.coords.longitude
-            var center = L.latLng(lat, lng)
-
-            if (Store.get('followMyLocation')) {
-                if ((typeof userLocationMarker !== 'undefined') && (getPointDistance(userLocationMarker.getLatLng(), center) >= 5)) {
-                    map.panTo(center)
-                    userLocationMarker.setLatLng(center)
-                    Store.set('followMyLocationPosition', {
-                        lat: lat,
-                        lng: lng
-                    })
-                }
-            }
-        })
     }
 }
 
 function createUpdateWorker() {
     try {
-        if (isMobileDevice() && (window.Worker)) {
+        if (isMobileDevice() && window.Worker) {
             var updateBlob = new Blob([`onmessage = function(e) {
                 var data = e.data
                 if (data.name === 'backgroundUpdate') {
@@ -2746,7 +2734,6 @@ function createUpdateWorker() {
                 var data = e.data
                 if (document.hidden && data.name === 'backgroundUpdate' && Date.now() - lastUpdateTime > 2500) {
                     updateMap()
-                    updateGeoLocation()
                 }
             }
 
@@ -2778,7 +2765,7 @@ function showGymDetails(id) { // eslint-disable-line no-unused-vars
     data.done(function (result) {
         var pokemonHtml = ''
         var pokemonIcon
-        if (generateImages) {
+        if (serverSettings.generateImages) {
             result.pokemon_id = result.guard_pokemon_id
             pokemonIcon = `<img class='guard-pokemon-icon' src='${getPokemonRawIconUrl(result)}'>`
         } else {
@@ -3027,10 +3014,6 @@ $(function () {
 $(function () {
     moment.locale(language)
 
-    if (Store.get('startAtUserLocation') && getParameterByName('lat') == null && getParameterByName('lon') == null) {
-        centerMapOnLocation()
-    }
-
     $selectNotifyPokemon = $('#notify-pokemon')
     $selectNotifyRaidPokemon = $('#notify-raid-pokemon')
     $selectNotifyEggs = $('#notify-eggs')
@@ -3173,10 +3156,9 @@ $(function () {
     window.setInterval(updateLabelDiffTime, 1000)
     window.setInterval(updateMap, 2000)
     window.setInterval(updateStaleMarkers, 2500)
-    if (showConfig.rarity) {
-        window.setInterval(updatePokemonRarities(rarityFileName, function () {}), 300000)
+    if (serverSettings.rarity) {
+        window.setInterval(updatePokemonRarities(serverSettings.rarityFileName, function () {}), 300000)
     }
-    window.setInterval(updateGeoLocation, 1000)
 
     createUpdateWorker()
 

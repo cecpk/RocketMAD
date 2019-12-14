@@ -277,6 +277,34 @@ var StoreOptions = {
         default: [1, 2, 3, 4], // Pokemon, Gyms, Pokestops, Spawn points
         type: StoreTypes.JSON
     },
+    'startAtUserLocation': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'startAtLastLocation': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'startAtLastLocationPosition': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'startLocationPosition': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'isStartLocationMarkerMovable': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'followUserLocation': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'lastUserLocation': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'notifyPokemon': {
         default: false,
         type: StoreTypes.Boolean
@@ -324,30 +352,6 @@ var StoreOptions = {
     'geoLocate': {
         default: false,
         type: StoreTypes.Boolean
-    },
-    'startAtLastLocation': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'startAtLastLocationPosition': {
-        default: [],
-        type: StoreTypes.JSON
-    },
-    'startAtUserLocation': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'startLocationPosition': {
-        default: [],
-        type: StoreTypes.JSON
-    },
-    'followMyLocation': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'followMyLocationPosition': {
-        default: [],
-        type: StoreTypes.JSON
     },
     'pokemonIcons': {
         default: 'highres',
@@ -402,22 +406,6 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'upscalePokestops': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'showStartLocationMarker': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'lockStartLocationMarker': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'isStartLocationMarkerMovable': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'showLocationMarker': {
         default: true,
         type: StoreTypes.Boolean
     },
