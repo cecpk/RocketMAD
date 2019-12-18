@@ -474,7 +474,7 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
 }
 
 function isNotifyPokemon(pokemon) {
-    if (Store.get('notifyPokemon')) {
+    if (settings.showPokemon && Store.get('notifyPokemon')) {
         if (notifyPokemon.includes(pokemon.pokemon_id)) {
             return true
         }

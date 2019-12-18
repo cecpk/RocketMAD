@@ -45,10 +45,6 @@ var StoreOptions = {
         default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikimedia
         type: StoreTypes.String
     },
-    'remember_select_notify_pokemon': {
-        default: [],
-        type: StoreTypes.JSON
-    },
     'remember_select_notify_raid_pokemon': {
         default: [],
         type: StoreTypes.JSON
@@ -124,6 +120,14 @@ var StoreOptions = {
     'scaleByRarity': {
         default: true,
         type: StoreTypes.Boolean
+    },
+    'pokemonNotifications': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyPokemon': {
+        default: [],
+        type: StoreTypes.JSON
     },
     'showGyms': {
         default: true,
@@ -304,10 +308,6 @@ var StoreOptions = {
     'lastUserLocation': {
         default: [],
         type: StoreTypes.JSON
-    },
-    'notifyPokemon': {
-        default: false,
-        type: StoreTypes.Boolean
     },
     'showNotifiedPokemonOnly': {
         default: false,

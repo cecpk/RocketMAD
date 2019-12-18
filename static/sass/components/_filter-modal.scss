@@ -10,13 +10,24 @@
     }
   }
 
+  .tabs {
+    position: sticky;
+    top: 0;
+  }
+
   h6 {
+    position: sticky;
+    top: 0;
     text-align: center;
+    background-color: #fafafa;
   }
 
   .filter-footer-container {
+    position: sticky;
+    bottom: 0;
     display: flex;
     justify-content: space-between;
+    background-color: #fafafa;
   }
 
   .filter-footer-left {
@@ -39,6 +50,10 @@
 
   .search-info-btn {
     padding-left: 0;
+  }
+
+  input[type="search"] {
+      height: 2rem;
   }
 
   .filter-button {
@@ -65,32 +80,11 @@
   }
 
   .pokemon-filter-list, .quest-item-filter-list, .invasion-filter-list {
-    height: 573px;
     margin-top: 8px;
-    overflow-y: scroll;
+    overflow-y: hidden;
+  }
 
-    @media screen and (max-height: 900px) {
-        height: 490px;
-    }
-
-    @media screen and (max-height: 800px) {
-        height: 407px;
-    }
-
-    @media screen and (max-height: 700px) {
-        height: 324px;
-    }
-
-    @media screen and (max-height: 600px) {
-        height: 241px;
-    }
-
-    @media screen and (max-height: 500px) {
-        height: 158px;
-    }
-
-    @media screen and (max-height: 300px) {
-        height: 75px;
-    }
+  .pokemon-filter-list {
+    min-height: 80vh;
   }
 }

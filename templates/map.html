@@ -235,6 +235,30 @@
     </div>
     {% endif %}
 
+    {% if settings.pokemons %}
+    <div id="notify-pokemon-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <h6 id="filter-notify-pokemon-title">Pokémon to notify me of</h6>
+        <label for="notify-pokemon">
+          <input id="notify-pokemon" type="text" readonly="true" style="display:none;">
+          <div class="pokemon-filter-list"></div>
+          <div class="filter-footer-container">
+            <div class="filter-footer-left">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="Search...">
+            </div>
+            <div class="filter-footer-right">
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
     <ul id="settings-sidenav" class="sidenav collapsible">
       {% if settings.pokemons %}
       <li>
@@ -812,10 +836,11 @@
             <div class="form-control">
               <div class="switch">
                 <label>
-                  <input type="checkbox" id="pokemon-notify-switch">
+                  <input type="checkbox" id="pokemon-notifications-switch">
                   <span class="lever"></span>
                   Pokémon notifications
                 </label>
+                <a data-target="notify-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon to notify of"><i class="material-icons left">filter_list</i></a>
               </div>
             </div>
           </div>
