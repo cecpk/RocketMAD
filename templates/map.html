@@ -267,42 +267,54 @@
           <input id="pokemon-list-file" type="file" id="avatar" name="avatar" accept=".txt">
         </p>
         <p>Import to:</p>
+        {% if settings.pokemons %}
         <p>
           <label>
             <input type="checkbox" id="import-pokemon-checkbox"/>
             <span>Pokémon filter</span>
           </label>
         </p>
+        {% endif %}
+        {% if settings.pokemonValues %}
         <p>
           <label>
-            <input type="checkbox"/>
+            <input type="checkbox" id="import-values-pokemon-checkbox"/>
             <span>Pokémon values filter</span>
           </label>
         </p>
+        {% endif %}
+        {% if settings.raidFilters %}
         <p>
           <label>
-            <input type="checkbox"/>
+            <input type="checkbox" id="import-raid-pokemon-checkbox"/>
             <span>Raid boss filter</span>
           </label>
         </p>
+        {% endif %}
+        {% if settings.quests %}
         <p>
           <label>
-            <input type="checkbox"/>
+            <input type="checkbox" id="import-quest-pokemon-checkbox"/>
             <span>Quest Pokémon filter</span>
           </label>
         </p>
+        {% endif %}
+        {% if settings.pokemons %}
         <p>
           <label>
-            <input type="checkbox"/>
+            <input type="checkbox" id="import-notify-pokemon-checkbox"/>
             <span>Pokémon notification filter</span>
           </label>
         </p>
+        {% endif %}
+        {% if settings.pokemonValues %}
         <p>
           <label>
             <input type="checkbox"/>
             <span>Pokémon values notification filter</span>
           </label>
         </p>
+        {% endif %}
         <a id="import-pokemon-list" class="waves-effect waves-light btn"><i class="material-icons left">file_download</i>Import</a>
       </div>
     </div>

@@ -203,7 +203,7 @@ function loadData(file, onLoad, onError) {
     var reader = new FileReader()
     reader.readAsText(file)
     reader.onload = onLoad
-    reader.onerror = errorHandler
+    reader.onerror = onError
 }
 
 function downloadData(fileName, data) {
@@ -2208,12 +2208,13 @@ function initBackupModals() {
 
     function loaded(e) {
         var fileString = e.target.result
+        var checkBoxSelected = false
 
         var pokemons = null
         try {
             pokemons = JSON.parse(fileString)
         } catch (e) {
-            console.log('Error while parsing pokemon list: ' + e)
+            console.error('Error while parsing pokemon list: ' + e)
         }
         if (pokemons === null || !Array.isArray(pokemons)) {
             toastError(i8ln('Error while reading Pokémon list file!'), i8ln('Check your Pokémon list file.'))
@@ -2226,23 +2227,82 @@ function initBackupModals() {
             }
         }
 
+        const excludedPokemon = pokemonIds.filter(id => !pokemons.includes(id))
+
         if (serverSettings.pokemons && $('#import-pokemon-checkbox').is(':checked')) {
-            var excludedPokemon = pokemonIds.filter(id => !pokemons.includes(id))
+            checkBoxSelected = true
             $('#exclude-pokemon').val(excludedPokemon).trigger('change')
 
             $('label[for="exclude-pokemon"] .pokemon-filter-list .filter-button').each(function () {
                 if (!settings.excludedPokemon.includes($(this).data('id'))) {
                     $(this).addClass('active')
+                } else {
+                    $(this).removeClass('active')
                 }
             })
         }
 
+        if (serverSettings.pokemonValues && $('#import-values-pokemon-checkbox').is(':checked')) {
+            checkBoxSelected = true
+            $('#unfiltered-pokemon').val(excludedPokemon).trigger('change')
 
-        toastSuccess(i8ln('Pokémon list imported.'), '')
+            $('label[for="unfiltered-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+                if (!settings.noFilterValuesPokemon.includes($(this).data('id'))) {
+                    $(this).addClass('active')
+                } else {
+                    $(this).removeClass('active')
+                }
+            })
+        }
+
+        if (serverSettings.raids && $('#import-raid-pokemon-checkbox').is(':checked')) {
+            checkBoxSelected = true
+            $('#exclude-raid-pokemon').val(excludedPokemon).trigger('change')
+
+            $('label[for="exclude-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+                if (!settings.excludedRaidPokemon.includes($(this).data('id'))) {
+                    $(this).addClass('active')
+                } else {
+                    $(this).removeClass('active')
+                }
+            })
+        }
+
+        if (serverSettings.quests && $('#import-quest-pokemon-checkbox').is(':checked')) {
+            checkBoxSelected = true
+            $('#exclude-quest-pokemon').val(excludedPokemon).trigger('change')
+
+            $('label[for="exclude-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+                if (!settings.excludedQuestPokemon.includes($(this).data('id'))) {
+                    $(this).addClass('active')
+                } else {
+                    $(this).removeClass('active')
+                }
+            })
+        }
+
+        if (serverSettings.pokemons && $('#import-notify-pokemon-checkbox').is(':checked')) {
+            checkBoxSelected = true
+            $('#notify-pokemon').val(excludedPokemon).trigger('change')
+
+            $('label[for="notify-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+                if (settings.notifyPokemon.includes($(this).data('id'))) {
+                    $(this).addClass('active')
+                } else {
+                    $(this).removeClass('active')
+                }
+            })
+        }
+
+        if (checkBoxSelected) {
+            toastSuccess(i8ln('Pokémon list imported.'), '')
+        } else {
+            toastWarning(i8ln('Please select a filter to import to first.'), '')
+        }
     }
 
     function error(e) {
-        console.log('Error while loading Pokémon list file: ' + e)
+        console.error('Error while loading Pokémon list file: ' + e)
         toastError(i8ln('Error while loading Pokémon list file!'), i8ln('Please try again.'))
     }
 
@@ -2250,10 +2310,7 @@ function initBackupModals() {
         var elem = document.getElementById('pokemon-list-file')
         if (elem.value != '') {
             var file = elem.files[0]
-            var reader = new FileReader()
-            reader.readAsText(file)
-            reader.onload = loaded
-            reader.onerror = error
+            loadData(file, loaded, error)
         } else {
             toastWarning(i8ln('Please select a Pokémon list first!'), '')
         }
