@@ -259,6 +259,79 @@
     </div>
     {% endif %}
 
+    {% if settings.pokemons or settings.raids or settings.quests %}
+    <div id="import-pokemon-list-modal" class="modal">
+      <div class="modal-content">
+        <h4>Import Pokémon list</h4>
+        <p>
+          <input id="pokemon-list-file" type="file" id="avatar" name="avatar" accept=".txt">
+        </p>
+        <p>Import to:</p>
+        <p>
+          <label>
+            <input type="checkbox" id="import-pokemon-checkbox"/>
+            <span>Pokémon filter</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox"/>
+            <span>Pokémon values filter</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox"/>
+            <span>Raid boss filter</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox"/>
+            <span>Quest Pokémon filter</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox"/>
+            <span>Pokémon notification filter</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox"/>
+            <span>Pokémon values notification filter</span>
+          </label>
+        </p>
+        <a id="import-pokemon-list" class="waves-effect waves-light btn"><i class="material-icons left">file_download</i>Import</a>
+      </div>
+    </div>
+
+    <div id="export-pokemon-list-modal" class="modal">
+      <div class="modal-content">
+        <h4>Export Pokémon lists</h4>
+        {% if settings.pokemons %}
+        <p><a id="export-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon list</a></p>
+        {% endif %}
+        {% if settings.pokemonValues %}
+        <p><a id="export-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon values list</a></p>
+        {% endif %}
+        {% if settings.raids %}
+        <p><a id="export-raid-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Raid Bosses list</a></p>
+        {% endif %}
+        {% if settings.quests %}
+        <p><a id="export-quest-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Quest Pokémon list</a></p>
+        {% endif %}
+        {% if settings.pokemons %}
+        <p><a id="export-notify-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon notifications list</a></p>
+        {% endif %}
+        {% if settings.pokemonValues %}
+        <p><a id="export-notify-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon values notifications list</a></p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
     <ul id="settings-sidenav" class="sidenav collapsible">
       {% if settings.pokemons %}
       <li>
@@ -873,6 +946,16 @@
               <div><a class="waves-effect waves-light btn"><i class="material-icons left">autorenew</i>Reset settings</a></div>
             </div>
           </div>
+          {% if settings.pokemons or settings.raids or settings.quests %}
+          <div class="settings-container">
+            <div class="form-control">
+              <div><a class="waves-effect waves-light btn modal-trigger" href="#import-pokemon-list-modal"><i class="material-icons left">file_download</i>Import Pokémon list</a></div>
+            </div>
+            <div class="form-control">
+              <div><a class="waves-effect waves-light btn modal-trigger" href="#export-pokemon-list-modal"><i class="material-icons left">file_upload</i>Export Pokémon lists</a></div>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </li>
     </ul>

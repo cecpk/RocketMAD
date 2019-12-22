@@ -22,7 +22,7 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
         return false
     }
 
-    if (settings.showPokemonValues && settings.filterValues && !settings.unfilteredPokemon.includes(pokemon.pokemon_id)) {
+    if (settings.showPokemonValues && settings.filterValues && !settings.noFilterValuesPokemon.includes(pokemon.pokemon_id)) {
         if (pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
@@ -474,8 +474,8 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
 }
 
 function isNotifyPokemon(pokemon) {
-    if (settings.showPokemon && Store.get('notifyPokemon')) {
-        if (notifyPokemon.includes(pokemon.pokemon_id)) {
+    if (settings.showPokemon && settings.pokemonNotifications) {
+        if (settings.notifyPokemon.includes(pokemon.pokemon_id)) {
             return true
         }
 
@@ -560,7 +560,7 @@ function sendPokemonNotification(pokemon) {
             notifyTitle += ` ${ivsPercentage}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon.cp_multiplier)}`
             const move1 = getMoveName(pokemon.move_1)
             const move2 = getMoveName(pokemon.move_2)
-            notifyText += `\nMoves: ${move1} / ${move2}`
+            notifyText += `<br>Moves: ${move1} / ${move2}`
         }
 
         sendNotification(notifyTitle, notifyText, getPokemonRawIconUrl(pokemon), pokemon.latitude, pokemon.longitude)

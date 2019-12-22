@@ -89,7 +89,7 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'unfilteredPokemon': {
+    'noFilterValuesPokemon': {
         default: [],
         type: StoreTypes.JSON
     },

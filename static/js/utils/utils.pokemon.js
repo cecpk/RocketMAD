@@ -4,6 +4,7 @@ var pokemonRarities = {}
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
 var pokemonSearchList = []
 const availablePokemonCount = 649
+var pokemonIds = []
 
 function initPokemonData(callback) {
     if (!$.isEmptyObject(pokemonData)) {
@@ -72,6 +73,18 @@ function updatePokemonRarities(rarityFileName, callback) {
     .fail(function () {
         console.log("Couldn't load dynamic rarity JSON.")
     })
+}
+
+function getPokemonIds() {
+    if (pokemonIds.length === 0) {
+        for (var i = 1; i <= availablePokemonCount; i++) {
+            pokemonIds.push(i)
+        }
+        // Meltan and Melmetal.
+        pokemonIds.push(808)
+        pokemonIds.push(809)
+    }
+    return pokemonIds
 }
 
 function getPokemonName(id) {

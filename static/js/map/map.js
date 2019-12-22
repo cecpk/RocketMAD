@@ -20,7 +20,7 @@ var settings = {
     excludedPokemon: null,
     showPokemonValues: null,
     filterValues: null,
-    unfilteredPokemon: null,
+    noFilterValuesPokemon: null,
     minIvs: null,
     maxIvs: null,
     showZeroIvsPokemon: null,
@@ -190,23 +190,30 @@ function isShowAllZoom() {
     return serverSettings.showAllZoomLevel > 0 && map.getZoom() >= serverSettings.showAllZoomLevel
 }
 
-function downloadSettings(name, settings) { // eslint-disable-line no-unused-vars
+function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
+    var reader = new FileReader()
+    reader.onload = function () {
+        //Object.assign(localStorage, JSON.parse(reader.result))
+    }
+    reader.readAsText(file.target.files[0])
+    window.location.reload()
+}
+
+function loadData(file, onLoad, onError) {
+    var reader = new FileReader()
+    reader.readAsText(file)
+    reader.onload = onLoad
+    reader.onerror = errorHandler
+}
+
+function downloadData(fileName, data) {
     var a = document.createElement('a')
-    a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(settings))
-    a.setAttribute('download', name + '_' + moment().format('DD-MM-YYYY HH:mm'))
+    a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data))
+    a.setAttribute('download', fileName + '_' + moment().format('DD-MM-YYYY HH:mm'))
     a.style.display = 'none'
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
-}
-
-function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
-    var reader = new FileReader()
-    reader.onload = function () {
-        Object.assign(localStorage, JSON.parse(reader.result))
-    }
-    reader.readAsText(file.target.files[0])
-    window.location.reload()
 }
 
 function initMap() { // eslint-disable-line no-unused-vars
@@ -399,6 +406,7 @@ function initMap() { // eslint-disable-line no-unused-vars
     $('.tooltipped').tooltip()
 
     initSidebar()
+    initBackupModals()
 }
 
 /* eslint-disable no-unused-vars */
@@ -513,7 +521,7 @@ function initSettings() {
     }
     if (serverSettings.pokemonValues) {
         settings.filterValues = Store.get('filterValues')
-        settings.unfilteredPokemon = Store.get('unfilteredPokemon')
+        settings.noFilterValuesPokemon = Store.get('noFilterValuesPokemon')
         settings.minIvs = Store.get('minIvs')
         settings.maxIvs = Store.get('maxIvs')
         settings.showZeroIvsPokemon = Store.get('showZeroIvsPokemon')
@@ -1699,13 +1707,7 @@ function initSidebar() {
 }
 
 function initPokemonFilters() {
-    var pokemonIds = []
-    for (var i = 1; i <= availablePokemonCount; i++) {
-        pokemonIds.push(i)
-    }
-    // Meltan and Melmetal.
-    pokemonIds.push(808)
-    pokemonIds.push(809)
+    const pokemonIds = getPokemonIds()
 
     $.each(pokemonIds, function(idx, id) {
         var pokemonIcon
@@ -1844,41 +1846,41 @@ function initPokemonFilters() {
     }
 
     if (serverSettings.pokemonValues) {
-        $('#unfiltered-pokemon').val(settings.unfilteredPokemon)
-        if (settings.unfilteredPokemon.length === 0) {
+        $('#unfiltered-pokemon').val(settings.noFilterValuesPokemon)
+        if (settings.noFilterValuesPokemon.length === 0) {
             $('#filter-values-pokemon-title').text('Pokémon to be filtered (All)')
         } else {
-            $('#filter-values-pokemon-title').text(`Pokémon to be filtered (${pokemonIds.length - settings.unfilteredPokemon.length})`)
+            $('#filter-values-pokemon-title').text(`Pokémon to be filtered (${pokemonIds.length - settings.noFilterValuesPokemon.length})`)
         }
 
         $('label[for="unfiltered-pokemon"] .pokemon-filter-list .filter-button').each(function () {
-            if (!settings.unfilteredPokemon.includes($(this).data('id'))) {
+            if (!settings.noFilterValuesPokemon.includes($(this).data('id'))) {
                 $(this).addClass('active')
             }
         })
 
         $('#unfiltered-pokemon').on('change', function (e) {
-            const oldUnfilteredPokemon = settings.unfilteredPokemon
-            settings.unfilteredPokemon = $(this).val().length > 0 ? $(this).val().split(',').map(Number) : []
+            const oldnoFilterValuesPokemon = settings.noFilterValuesPokemon
+            settings.noFilterValuesPokemon = $(this).val().length > 0 ? $(this).val().split(',').map(Number) : []
 
-            const newFilterdPokemon = oldUnfilteredPokemon.filter(id => !settings.unfilteredPokemon.includes(id))
+            const newFilterdPokemon = oldnoFilterValuesPokemon.filter(id => !settings.noFilterValuesPokemon.includes(id))
             if (newFilterdPokemon.length > 0) {
                 updatePokemons(newFilterdPokemon)
             }
 
-            const newUnfilterdPokemon = settings.unfilteredPokemon.filter(id => !oldUnfilteredPokemon.includes(id))
+            const newUnfilterdPokemon = settings.noFilterValuesPokemon.filter(id => !oldnoFilterValuesPokemon.includes(id))
             reincludedPokemon = reincludedPokemon.concat(newUnfilterdPokemon)
             if (reincludedPokemon.length > 0) {
                 updateMap()
             }
 
-            if (settings.unfilteredPokemon.length === 0) {
+            if (settings.noFilterValuesPokemon.length === 0) {
                 $('#filter-values-pokemon-title').text('Pokémon to be filtered (All)')
             } else {
-                $('#filter-values-pokemon-title').text(`Pokémon to be filtered (${pokemonIds.length - settings.unfilteredPokemon.length})`)
+                $('#filter-values-pokemon-title').text(`Pokémon to be filtered (${pokemonIds.length - settings.noFilterValuesPokemon.length})`)
             }
 
-            Store.set('unfilteredPokemon', settings.unfilteredPokemon)
+            Store.set('noFilterValuesPokemon', settings.noFilterValuesPokemon)
         })
     }
 
@@ -1972,19 +1974,16 @@ function initPokemonFilters() {
             const oldNotifyPokemon = settings.notifyPokemon
             const noNotifyPokemon = $(this).val().length > 0 ? $(this).val().split(',').map(Number) : []
             settings.notifyPokemon = pokemonIds.filter(id => !noNotifyPokemon.includes(id))
-            console.log(settings.notifyPokemon)
-            /*
 
-            const newExcludedPokemon = settings.excludedPokemon.filter(id => !oldExcludedPokemon.includes(id))
-            if (newExcludedPokemon.length > 0) {
-                updatePokemons(newExcludedPokemon)
-            }
+            const newNotifyPokemon = settings.notifyPokemon.filter(id => !oldNotifyPokemon.includes(id))
+            const newNoNotifyPokemon = noNotifyPokemon.filter(id => oldNotifyPokemon.includes(id))
 
-            const newReincludedPokemon = oldExcludedPokemon.filter(id => !settings.excludedPokemon.includes(id))
-            reincludedPokemon = reincludedPokemon.concat(newReincludedPokemon)
-            if (reincludedPokemon.length > 0) {
+            updatePokemons(newNotifyPokemon.concat(newNoNotifyPokemon))
+
+            if (settings.showNotifyPokemonAlways && newNotifyPokemon.length > 0) {
+                lastpokemon = false
                 updateMap()
-            }*/
+            }
 
             if (settings.notifyPokemon.length === pokemonIds.length) {
                 $('#filter-notify-pokemon-title').text('Pokémon to notify me of (All)')
@@ -2159,6 +2158,105 @@ function initInvasionFilters() {
         }
 
         Store.set('excludedInvasions', settings.excludedInvasions)
+    })
+}
+
+function initBackupModals() {
+    const pokemonIds = getPokemonIds()
+
+    if (serverSettings.pokemons) {
+        $('#export-pokemon-button').on('click',  function () {
+            const pokemon = pokemonIds.filter(id => !settings.excludedPokemon.includes(id))
+            downloadData('pokemon', JSON.stringify(pokemon))
+        })
+    }
+
+    if (serverSettings.pokemonValues) {
+        $('#export-values-pokemon-button').on('click',  function () {
+            const pokemon = pokemonIds.filter(id => !settings.noFilterValuesPokemon.includes(id))
+            downloadData('values_pokemon', JSON.stringify(pokemon))
+        })
+    }
+
+    if (serverSettings.raids) {
+        $('#export-raid-pokemon-button').on('click',  function () {
+            const pokemon = pokemonIds.filter(id => !settings.excludedRaidPokemon.includes(id))
+            downloadData('raid_pokemon', JSON.stringify(pokemon))
+        })
+    }
+
+    if (serverSettings.quests) {
+        $('#export-quest-pokemon-button').on('click',  function () {
+            const pokemon = pokemonIds.filter(id => !settings.excludedQuestPokemon.includes(id))
+            downloadData('quest_pokemon', JSON.stringify(pokemon))
+        })
+    }
+
+    if (serverSettings.pokemons) {
+        $('#export-notify-pokemon-button').on('click',  function () {
+            downloadData('notify_pokemon', JSON.stringify(settings.notifyPokemon))
+        })
+    }
+
+    if (serverSettings.pokemonValues) {
+        $('#export-notify-values-pokemon-button').on('click',  function () {
+            // TODO:
+            const pokemon = []
+            downloadData('notify_values_pokemon', JSON.stringify(pokemon))
+        })
+    }
+
+    function loaded(e) {
+        var fileString = e.target.result
+
+        var pokemons = null
+        try {
+            pokemons = JSON.parse(fileString)
+        } catch (e) {
+            console.log('Error while parsing pokemon list: ' + e)
+        }
+        if (pokemons === null || !Array.isArray(pokemons)) {
+            toastError(i8ln('Error while reading Pokémon list file!'), i8ln('Check your Pokémon list file.'))
+            return
+        }
+        for (var i = 0; i < pokemons.length; i++) {
+            if (!Number.isInteger(pokemons[i])) {
+                toastError(i8ln('Unexpected character found in Pokémon list file!'), i8ln('Check your Pokémon list file.'))
+                return
+            }
+        }
+
+        if (serverSettings.pokemons && $('#import-pokemon-checkbox').is(':checked')) {
+            var excludedPokemon = pokemonIds.filter(id => !pokemons.includes(id))
+            $('#exclude-pokemon').val(excludedPokemon).trigger('change')
+
+            $('label[for="exclude-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+                if (!settings.excludedPokemon.includes($(this).data('id'))) {
+                    $(this).addClass('active')
+                }
+            })
+        }
+
+
+        toastSuccess(i8ln('Pokémon list imported.'), '')
+    }
+
+    function error(e) {
+        console.log('Error while loading Pokémon list file: ' + e)
+        toastError(i8ln('Error while loading Pokémon list file!'), i8ln('Please try again.'))
+    }
+
+    $('#import-pokemon-list').on('click', function () {
+        var elem = document.getElementById('pokemon-list-file')
+        if (elem.value != '') {
+            var file = elem.files[0]
+            var reader = new FileReader()
+            reader.readAsText(file)
+            reader.onload = loaded
+            reader.onerror = error
+        } else {
+            toastWarning(i8ln('Please select a Pokémon list first!'), '')
+        }
     })
 }
 
@@ -2708,10 +2806,10 @@ function sendNotification(title, text, icon, lat, lng) {
     })
 }
 
-function sendToastNotification(title, text, icon, lat, lng) {
+function sendToastNotification(title, text, iconUrl, lat, lng) {
     var toastId = 'toast' + lat + '_' + lng
     toastId = toastId.replace(/\./gi, '') // Remove all dots.
-    const toastHTML = `<div id='${toastId}'style='margin-right:15px;'>${icon}</div><div><strong>${title}</strong><br>${text}</div>`
+    const toastHTML = `<div id='${toastId}'style='margin-right:15px;'><img src='${iconUrl}' width='48'></div><div><strong>${title}</strong><br>${text}</div>`
     M.toast({html: toastHTML, displayLength: 10000})
 
     var $toast = $('#' + toastId).parent()
