@@ -125,6 +125,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'filterNotifyValues': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'notifyPokemon': {
         default: [],
         type: StoreTypes.JSON

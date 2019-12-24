@@ -118,7 +118,7 @@
     {% if settings.pokemonValues %}
     <div id="pokemon-values-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="filter-values-pokemon-title">Pokémon to be filtered</h6>
+        <h6 id="filter-values-pokemon-title">Pokémon filtered by Values</h6>
         <label for="unfiltered-pokemon">
           <input id="unfiltered-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -238,9 +238,33 @@
     {% if settings.pokemons %}
     <div id="notify-pokemon-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="filter-notify-pokemon-title">Pokémon to notify me of</h6>
+        <h6 id="filter-notify-pokemon-title">Notify Pokémon</h6>
         <label for="notify-pokemon">
           <input id="notify-pokemon" type="text" readonly="true" style="display:none;">
+          <div class="pokemon-filter-list"></div>
+          <div class="filter-footer-container">
+            <div class="filter-footer-left">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="Search...">
+            </div>
+            <div class="filter-footer-right">
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if settings.pokemonValues %}
+    <div id="notify-pokemon-values-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <h6 id="filter-notify-pokemon-values-title">Notify Pokémon filtered by Values</h6>
+        <label for="unfiltered-notify-pokemon">
+          <input id="unfiltered-notify-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
@@ -925,7 +949,33 @@
                   <span class="lever"></span>
                   Pokémon notifications
                 </label>
-                <a data-target="notify-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon to notify of"><i class="material-icons left">filter_list</i></a>
+                <a data-target="notify-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications"><i class="material-icons left">filter_list</i></a>
+              </div>
+            </div>
+            <div id="pokemon-notification-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="pokemon-values-notifications-switch">
+                    <span class="lever"></span>
+                    Filter by Values
+                  </label>
+                  <a data-target="notify-pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications for values"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
+              <div id="pokemon-values-notification-filters-wrapper">
+                <div class="form-control">
+                  <span id="notify-pokemon-ivs-slider-title" class="slider-title">IVs</span>
+                  <div class="slider-container">
+                    <div id="notify-pokemon-ivs-slider"></div>
+                  </div>
+                </div>
+                <div class="form-control">
+                  <span id="notify-pokemon-level-slider-title" class="slider-title">Levels</span>
+                  <div class="slider-container">
+                    <div id="notify-pokemon-level-slider"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
