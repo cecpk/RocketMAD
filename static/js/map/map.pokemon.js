@@ -462,7 +462,19 @@ function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
 }
 
 function getExcludedPokemon() {
-    return isShowAllZoom() ? [] : settings.excludedPokemon
+    if (isShowAllZoom()) {
+        return []
+    }
+
+    if (settings.showNotifyPokemonOnly) {
+        return getPokemonIds().filter(id => !settings.notifyPokemon.includes(id))
+    }
+
+    if (settings.showNotifyPokemonAlways) {
+        return settings.excludedPokemon.filter(id => !settings.notifyPokemon.includes(id))
+    }
+
+    return settings.excludedPokemon
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
@@ -474,9 +486,35 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
 }
 
 function isNotifyPokemon(pokemon) {
-    if (settings.showPokemon && settings.pokemonNotifications) {
-        if (settings.notifyPokemon.includes(pokemon.pokemon_id)) {
-            return true
+    if (!settings.showPokemon || !settings.pokemonNotifications || !settings.notifyPokemon.includes(pokemon.pokemon_id)) {
+        return false
+    }
+
+    if (settings.showPokemonValues && settings.filterNotifyValues && !settings.noFilterValuesNotifyPokemon.includes(pokemon.pokemon_id)) {
+        if (pokemon.individual_attack !== null) {
+            const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
+            if (ivsPercentage < settings.minNotifyIvs && !(settings.notifyZeroIvsPokemon && ivsPercentage === 0)) {
+                return false
+            }
+            if (ivsPercentage > settings.maxNotifyIvs && !(settings.notifyHundoIvsPokemon && ivsPercentage === 100)) {
+                return false
+            }
+
+            const level = getPokemonLevel(pokemon.cp_multiplier)
+            if (level < settings.minNotifyLevel || level > settings.maxNotifyLevel) {
+                return false
+            }
+        } else {
+            // Pokemon is not encountered.
+            return false
+        }
+    }
+
+    return true
+
+    /*if (settings.showPokemon && settings.pokemonNotifications) {
+        if (!settings.notifyPokemon.includes(pokemon.pokemon_id)) {
+            return false
         }
 
         if (pokemon.individual_attack !== null && settings.showPokemonValues) {
@@ -525,7 +563,7 @@ function isNotifyPokemon(pokemon) {
         }
     }
 
-    return false
+    return false*/
 }
 
 function hasSentPokemonNotification(pokemon) {

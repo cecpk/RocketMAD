@@ -952,6 +952,7 @@
                 <a data-target="notify-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications"><i class="material-icons left">filter_list</i></a>
               </div>
             </div>
+            {% if settings.pokemonValues %}
             <div id="pokemon-notification-filters-wrapper">
               <div class="form-control">
                 <div class="switch">
@@ -964,20 +965,43 @@
                 </div>
               </div>
               <div id="pokemon-values-notification-filters-wrapper">
+                <div id="zero-ivs-notify-pokemon-switch-wrapper">
+                  <div class="form-control">
+                    <div class="switch">
+                      <label>
+                        <input type="checkbox" id="zero-ivs-notify-pokemon-switch">
+                        <span class="lever"></span>
+                        Notify 0% IV Pokémon
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div id="hundo-ivs-notify-pokemon-switch-wrapper">
+                  <div class="form-control">
+                    <div class="switch">
+                      <label>
+                        <input type="checkbox" id="hundo-ivs-notify-pokemon-switch">
+                        <span class="lever"></span>
+                        Notify 100% IV Pokémon
+                      </label>
+                    </div>
+                  </div>
+                </div>
                 <div class="form-control">
-                  <span id="notify-pokemon-ivs-slider-title" class="slider-title">IVs</span>
+                  <span id="notify-pokemon-ivs-slider-title" class="slider-title">Notify IVs</span>
                   <div class="slider-container">
                     <div id="notify-pokemon-ivs-slider"></div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="notify-pokemon-level-slider-title" class="slider-title">Levels</span>
+                  <span id="notify-pokemon-level-slider-title" class="slider-title">Notify Levels</span>
                   <div class="slider-container">
                     <div id="notify-pokemon-level-slider"></div>
                   </div>
                 </div>
               </div>
             </div>
+            {% endif %}
           </div>
           {% endif %}
         </div>

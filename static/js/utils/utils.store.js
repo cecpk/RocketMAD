@@ -125,13 +125,41 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'notifyPokemon': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'filterNotifyValues': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'notifyPokemon': {
+    'noFilterValuesNotifyPokemon': {
         default: [],
         type: StoreTypes.JSON
+    },
+    'notifyZeroIvsPokemon': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'notifyHundoIvsPokemon': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'minNotifyIvs': {
+        default: 0,
+        type: StoreTypes.Number
+    },
+    'maxNotifyIvs': {
+        default: 100,
+        type: StoreTypes.Number
+    },
+    'minNotifyLevel': {
+        default: 1,
+        type: StoreTypes.Number
+    },
+    'maxNotifyLevel': {
+        default: 35,
+        type: StoreTypes.Number
     },
     'showGyms': {
         default: true,
