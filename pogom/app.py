@@ -218,8 +218,7 @@ class Pogom(Flask):
             'nestParks': args.nest_parks,
             'nestParksFileName': args.nest_parks_filename,
             'exParks': args.ex_parks,
-            'exParksFileName': args.ex_parks_filename,
-            'medalpokemon': args.medalpokemon
+            'exParksFileName': args.ex_parks_filename
         }
 
         return render_template(

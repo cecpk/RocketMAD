@@ -161,6 +161,14 @@ var StoreOptions = {
         default: 35,
         type: StoreTypes.Number
     },
+    'notifyTinyRattata': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifyBigMagikarp': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showGyms': {
         default: true,
         type: StoreTypes.Boolean
@@ -442,14 +450,6 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'twelveHourTime': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'notifyTinyRattata': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'notifyBigMagikarp': {
         default: false,
         type: StoreTypes.Boolean
     },

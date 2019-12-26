@@ -37,6 +37,8 @@ var settings = {
     maxNotifyIvs: null,
     minNotifyLevel: null,
     maxNotifyLevel: null,
+    notifyTinyRattata: null,
+    notifyBigMagikarp: null,
     useGymSidebar: null,
     showGyms: null,
     includedGymTeams: null,
@@ -543,6 +545,8 @@ function initSettings() {
         settings.maxNotifyIvs = Store.get('maxNotifyIvs')
         settings.minNotifyLevel = Store.get('minNotifyLevel')
         settings.maxNotifyLevel = Store.get('maxNotifyLevel')
+        settings.notifyTinyRattata = Store.get('notifyTinyRattata')
+        settings.notifyBigMagikarp = Store.get('notifyBigMagikarp')
     }
     if (serverSettings.rarity) {
         settings.includedRarities = Store.get('includedRarities')
@@ -1347,7 +1351,7 @@ function initSidebar() {
             } else {
                 wrapper.hide()
                 filterButton.hide()
-                if (settings.showNotifyPokemonAlways || settings.showNotifyPokemonOnly) {
+                if (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways) {
                     lastpokemon = false
                     updateMap()
                 }
@@ -1368,7 +1372,7 @@ function initSidebar() {
             } else {
                 wrapper.hide()
                 filterButton.hide()
-                if (settings.showNotifyPokemonAlways || settings.showNotifyPokemonOnly) {
+                if (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways) {
                     lastpokemon = false
                     updateMap()
                 }
@@ -1436,7 +1440,7 @@ function initSidebar() {
             }
 
             if ((settings.minNotifyIvs < oldMinIvs || settings.maxNotifyIvs > oldMaxIvs) &&
-                    (settings.showNotifyPokemonAlways || settings.showNotifyPokemonOnly)) {
+                    (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways)) {
                 lastpokemon = false
                 updateMap()
             }
@@ -1472,7 +1476,7 @@ function initSidebar() {
             $('#notify-pokemon-level-slider-title').text(`Notify Levels (${settings.minNotifyLevel} - ${settings.maxNotifyLevel})`)
 
             if ((settings.minNotifyLevel < oldMinLevel || settings.maxNotifyLevel > oldMaxLevel) &&
-                    (settings.showNotifyPokemonAlways || settings.showNotifyPokemonOnly)) {
+                    (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways)) {
                 lastpokemon = false
                 updateMap()
             }
@@ -1480,6 +1484,26 @@ function initSidebar() {
 
             Store.set('minNotifyLevel', settings.minNotifyLevel)
             Store.set('maxNotifyLevel', settings.maxNotifyLevel)
+        })
+
+        $('#notify-tiny-rattata-switch').on('change', function () {
+            settings.notifyTinyRattata = this.checked
+            if (this.checked && (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways)) {
+                reincludedPokemon.push(19)
+                updateMap()
+            }
+            updatePokemons([19], true)
+            Store.set('notifyTinyRattata', this.checked)
+        })
+
+        $('#notify-big-magikarp-switch').on('change', function () {
+            settings.notifyBigMagikarp = this.checked
+            if (this.checked && (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways)) {
+                reincludedPokemon.push(129)
+                updateMap()
+            }
+            updatePokemons([129], true)
+            Store.set('notifyBigMagikarp', this.checked)
         })
     }
 
@@ -1579,26 +1603,6 @@ function initSidebar() {
         }
         Store.set('notifyRarities', $('#notify-rarities-select').val())
         updatePokemons()
-    })
-
-    $('#notify-tiny-rattata-switch').change(function () {
-        if (this.checked && (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly'))) {
-            reincludedPokemon.push(19)
-        }
-        Store.set('notifyTinyRattata', this.checked)
-        if (!(Store.get('showNotifiedPokemonOnly') && this.checked)) {
-            updatePokemons([19], true)
-        }
-    })
-
-    $('#notify-big-magikarp-switch').change(function () {
-        if (this.checked && (Store.get('showNotifiedPokemonAlways') || Store.get('showNotifiedPokemonOnly'))) {
-            reincludedPokemon.push(129)
-        }
-        Store.set('notifyBigMagikarp', this.checked)
-        if (!(Store.get('showNotifiedPokemonOnly') && this.checked)) {
-            updatePokemons([129], true)
-        }
     })
 
     $('#notified-pokemon-priority-switch').change(function () {
@@ -1775,6 +1779,8 @@ function initSidebar() {
         $('#hundo-ivs-notify-pokemon-switch').prop('checked', settings.notifyHundoIvsPokemon)
         $('#notify-pokemon-ivs-slider-title').text(`Notify IVs (${settings.minNotifyIvs}% - ${settings.maxNotifyIvs}%)`)
         $('#notify-pokemon-level-slider-title').text(`Notify Levels (${settings.minNotifyLevel} - ${settings.maxNotifyLevel})`)
+        $('#notify-tiny-rattata-switch').prop('checked', settings.notifyTinyRattata)
+        $('#notify-big-magikarp-switch').prop('checked', settings.notifyBigMagikarp)
     }
 
 
@@ -2102,7 +2108,7 @@ function initPokemonFilters() {
 
             updatePokemons(newNotifyPokemon.concat(newNoNotifyPokemon))
 
-            if (newNotifyPokemon.length > 0 && (settings.showNotifyPokemonAlways || settings.showNotifyPokemonOnly)) {
+            if (newNotifyPokemon.length > 0 && (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways)) {
                 lastpokemon = false
                 updateMap()
             }
@@ -2140,7 +2146,7 @@ function initPokemonFilters() {
 
             updatePokemons(newValues.concat(removedValues))
 
-            if (newValues.length > 0 && (settings.showNotifyPokemonAlways || settings.showNotifyPokemonOnly)) {
+            if (newValues.length > 0 && (settings.showNotifyPokemonOnly || settings.showNotifyPokemonAlways)) {
                 lastpokemon = false
                 updateMap()
             }

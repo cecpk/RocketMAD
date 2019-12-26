@@ -486,7 +486,21 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
 }
 
 function isNotifyPokemon(pokemon) {
-    if (!settings.showPokemon || !settings.pokemonNotifications || !settings.notifyPokemon.includes(pokemon.pokemon_id)) {
+    if (!settings.showPokemon || !settings.pokemonNotifications) {
+        return false
+    }
+
+    if (settings.showPokemonValues && pokemon.weight) {
+        if (settings.notifyTinyRattata && pokemon.pokemon_id === 19 && pokemon.weight < 2.40625) {
+            return true
+        }
+
+        if (settings.notifyBigMagikarp && pokemon.pokemon_id === 129 && pokemon.weight > 13.125) {
+            return true
+        }
+    }
+
+    if (!settings.notifyPokemon.includes(pokemon.pokemon_id)) {
         return false
     }
 

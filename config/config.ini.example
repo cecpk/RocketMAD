@@ -40,7 +40,6 @@
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
-#medalpokemon                   # Notify of tiny rattata and big magikarp on map. (default=False)
 
 #no-gyms                        # Disables gyms. (default=False)
 #no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)

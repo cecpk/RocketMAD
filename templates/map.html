@@ -952,8 +952,8 @@
                 <a data-target="notify-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications"><i class="material-icons left">filter_list</i></a>
               </div>
             </div>
-            {% if settings.pokemonValues %}
             <div id="pokemon-notification-filters-wrapper">
+              {% if settings.pokemonValues %}
               <div class="form-control">
                 <div class="switch">
                   <label>
@@ -1000,8 +1000,26 @@
                   </div>
                 </div>
               </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="notify-tiny-rattata-switch">
+                    <span class="lever"></span>
+                    Notify tiny Rattata
+                  </label>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="notify-big-magikarp-switch">
+                    <span class="lever"></span>
+                    Notify big Magikarp
+                  </label>
+                </div>
+              </div>
+              {% endif %}
             </div>
-            {% endif %}
           </div>
           {% endif %}
         </div>

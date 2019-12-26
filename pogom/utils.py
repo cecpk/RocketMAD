@@ -151,9 +151,6 @@ def get_args():
     parser.add_argument('-nrs', '--no-ranges',
                         help=('Disables user to show ranges.'),
                         action='store_true', default=False)
-    parser.add_argument('-mpm', '--medalpokemon',
-                        help='Show notifications for tiny Rattata and big Magikarp.',
-                        action='store_true', default=False)
     parser.add_argument('-vdt', '--verified-despawn-time',
                         help='Show if pokemon despawn time is verified.',
                         action='store_true', default=False)
