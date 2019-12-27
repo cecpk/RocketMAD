@@ -118,7 +118,7 @@
     {% if settings.pokemonValues %}
     <div id="pokemon-values-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="filter-values-pokemon-title">Pokémon filtered by Values</h6>
+        <h6 id="filter-values-pokemon-title">Pokémon filtered by values</h6>
         <label for="unfiltered-pokemon">
           <input id="unfiltered-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -236,11 +236,11 @@
     {% endif %}
 
     {% if settings.pokemons %}
-    <div id="notify-pokemon-filter-modal" class="modal filter-modal">
+    <div id="notif-pokemon-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="filter-notify-pokemon-title">Notify Pokémon</h6>
-        <label for="notify-pokemon">
-          <input id="notify-pokemon" type="text" readonly="true" style="display:none;">
+        <h6 id="notif-pokemon-filter-title">Pokémon notifications</h6>
+        <label for="no-notif-pokemon">
+          <input id="no-notif-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
@@ -260,11 +260,11 @@
     {% endif %}
 
     {% if settings.pokemonValues %}
-    <div id="notify-pokemon-values-filter-modal" class="modal filter-modal">
+    <div id="notif-pokemon-values-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="filter-notify-pokemon-values-title">Notify Pokémon filtered by Values</h6>
-        <label for="unfiltered-notify-pokemon">
-          <input id="unfiltered-notify-pokemon" type="text" readonly="true" style="display:none;">
+        <h6 id="notif-pokemon-values-filter-title">Pokémon values notifs</h6>
+        <label for="no-notif-values-pokemon">
+          <input id="no-notif-values-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
@@ -326,7 +326,7 @@
         {% if settings.pokemons %}
         <p>
           <label>
-            <input type="checkbox" id="import-notify-pokemon-checkbox"/>
+            <input type="checkbox" id="import-notif-pokemon-checkbox"/>
             <span>Pokémon notification filter</span>
           </label>
         </p>
@@ -359,10 +359,10 @@
         <p><a id="export-quest-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Quest Pokémon list</a></p>
         {% endif %}
         {% if settings.pokemons %}
-        <p><a id="export-notify-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon notifications list</a></p>
+        <p><a id="export-notif-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon notifications list</a></p>
         {% endif %}
         {% if settings.pokemonValues %}
-        <p><a id="export-notify-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon values notifications list</a></p>
+        <p><a id="export-notif-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>Pokémon values notifications list</a></p>
         {% endif %}
       </div>
     </div>
@@ -393,7 +393,7 @@
                   <label>
                     <input type="checkbox" id="pokemon-values-switch">
                     <span class="lever"></span>
-                    Pokémon Values
+                    Pokémon values
                   </label>
                 </div>
               </div>
@@ -403,7 +403,7 @@
                     <label>
                       <input type="checkbox" id="filter-values-switch">
                       <span class="lever"></span>
-                      Filter by Values
+                      Filter by values
                     </label>
                     <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon to be filtered by values"><i class="material-icons left">filter_list</i></a>
                   </div>
@@ -416,6 +416,17 @@
                           <input type="checkbox" id="zero-ivs-pokemon-switch">
                           <span class="lever"></span>
                           0% IV Pokémon
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="hundo-ivs-pokemon-switch-wrapper">
+                    <div class="form-control">
+                      <div class="switch">
+                        <label>
+                          <input type="checkbox" id="hundo-ivs-pokemon-switch">
+                          <span class="lever"></span>
+                          100% IV Pokémon
                         </label>
                       </div>
                     </div>
@@ -945,76 +956,91 @@
             <div class="form-control">
               <div class="switch">
                 <label>
-                  <input type="checkbox" id="pokemon-notifications-switch">
+                  <input type="checkbox" id="pokemon-notifs-switch">
                   <span class="lever"></span>
-                  Pokémon notifications
+                  Pokémon notifs
                 </label>
-                <a data-target="notify-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications"><i class="material-icons left">filter_list</i></a>
+                <a data-target="notif-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications"><i class="material-icons left">filter_list</i></a>
               </div>
             </div>
-            <div id="pokemon-notification-filters-wrapper">
+            <div id="pokemon-notif-filters-wrapper">
               {% if settings.pokemonValues %}
               <div class="form-control">
                 <div class="switch">
                   <label>
-                    <input type="checkbox" id="pokemon-values-notifications-switch">
+                    <input type="checkbox" id="pokemon-values-notifs-switch">
                     <span class="lever"></span>
-                    Filter by Values
+                    Pokémon values notifs
                   </label>
-                  <a data-target="notify-pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications for values"><i class="material-icons left">filter_list</i></a>
+                  <a data-target="notif-pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications for values"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
-              <div id="pokemon-values-notification-filters-wrapper">
-                <div id="zero-ivs-notify-pokemon-switch-wrapper">
+              <div id="pokemon-values-notif-filters-wrapper">
+                <div id="zero-ivs-pokemon-notifs-switch-wrapper">
                   <div class="form-control">
                     <div class="switch">
                       <label>
-                        <input type="checkbox" id="zero-ivs-notify-pokemon-switch">
+                        <input type="checkbox" id="zero-ivs-pokemon-notifs-switch">
                         <span class="lever"></span>
-                        Notify 0% IV Pokémon
+                        0% IV Pokémon notifs
                       </label>
                     </div>
                   </div>
                 </div>
-                <div id="hundo-ivs-notify-pokemon-switch-wrapper">
+                <div id="hundo-ivs-pokemon-notifs-switch-wrapper">
                   <div class="form-control">
                     <div class="switch">
                       <label>
-                        <input type="checkbox" id="hundo-ivs-notify-pokemon-switch">
+                        <input type="checkbox" id="hundo-ivs-pokemon-notifs-switch">
                         <span class="lever"></span>
-                        Notify 100% IV Pokémon
+                        100% IV Pokémon notifs
                       </label>
                     </div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="notify-pokemon-ivs-slider-title" class="slider-title">Notify IVs</span>
+                  <span id="pokemon-ivs-notifs-slider-title" class="slider-title">IVs notifs</span>
                   <div class="slider-container">
-                    <div id="notify-pokemon-ivs-slider"></div>
+                    <div id="pokemon-ivs-notifs-slider"></div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="notify-pokemon-level-slider-title" class="slider-title">Notify Levels</span>
+                  <span id="pokemon-level-notifs-slider-title" class="slider-title">Levels notifs</span>
                   <div class="slider-container">
-                    <div id="notify-pokemon-level-slider"></div>
+                    <div id="pokemon-level-notifs-slider"></div>
                   </div>
                 </div>
               </div>
+              {% if settings.rarity %}
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Rarity notifs</div>
+                  <select id="rarity-notifs-select" multiple>
+                    <option value="1">Common</option>
+                    <option value="2">Uncommon</option>
+                    <option value="3">Rare</option>
+                    <option value="4">Very Rare</option>
+                    <option value="5">Ultra Rare</option>
+                    <option value="6">New Spawn</option>
+                  </select>
+                </div>
+              </div>
+              {% endif %}
               <div class="form-control">
                 <div class="switch">
                   <label>
-                    <input type="checkbox" id="notify-tiny-rattata-switch">
+                    <input type="checkbox" id="tiny-rattata-notifs-switch">
                     <span class="lever"></span>
-                    Notify tiny Rattata
+                    Tiny Rattata notifs
                   </label>
                 </div>
               </div>
               <div class="form-control">
                 <div class="switch">
                   <label>
-                    <input type="checkbox" id="notify-big-magikarp-switch">
+                    <input type="checkbox" id="big-magikarp-notifs-switch">
                     <span class="lever"></span>
-                    Notify big Magikarp
+                    Big Magikarp notifs
                   </label>
                 </div>
               </div>

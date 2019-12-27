@@ -9,16 +9,16 @@ function isPokemonRarityExcluded(pokemon) {
     return false
 }
 
-function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
+function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
     if (!settings.showPokemon) {
         return false
     }
 
-    if (Store.get('showNotifiedPokemonAlways') && isNotifyPokemon) {
+    if (Store.get('showNotifiedPokemonAlways') && isNotifPokemon) {
         return true
     }
 
-    if (getExcludedPokemon().includes(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (Store.get('showNotifiedPokemonOnly') && !isNotifyPokemon)) {
+    if (getExcludedPokemon().includes(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (Store.get('showNotifiedPokemonOnly') && !isNotifPokemon)) {
         return false
     }
 
@@ -28,7 +28,7 @@ function isPokemonMeetsFilters(pokemon, isNotifyPokemon) {
             if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
                 return false
             }
-            if (ivsPercentage > settings.maxIvs) {
+            if (ivsPercentage > settings.maxIvs && !(settings.showHundoIvsPokemon && ivsPercentage === 100)) {
                 return false
             }
 
@@ -49,7 +49,7 @@ function isPokemonRangesActive() {
     return settings.showRanges && settings.includedRangeTypes.includes(1)
 }
 
-function customizePokemonMarker(pokemon, marker, isNotifyPokemon) {
+function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
     marker.setBouncingOptions({
         bounceHeight: 20,
         bounceSpeed: 80,
@@ -58,7 +58,7 @@ function customizePokemonMarker(pokemon, marker, isNotifyPokemon) {
     })
 
     marker.encounter_id = pokemon.encounter_id
-    updatePokemonMarker(pokemon, marker, isNotifyPokemon)
+    updatePokemonMarker(pokemon, marker, isNotifPokemon)
     marker.bindPopup()
 
     addListeners(marker, 'pokemon')
@@ -66,10 +66,10 @@ function customizePokemonMarker(pokemon, marker, isNotifyPokemon) {
     return marker
 }
 
-function updatePokemonMarker(pokemon, marker, isNotifyPokemon) {
+function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
     var iconSize = 32 * (Store.get('pokemonIconSizeModifier') / 100)
     var upscaleModifier = 1
-    if (isNotifyPokemon && Store.get('upscaleNotifyPokemon')) {
+    if (isNotifPokemon && Store.get('upscaleNotifyPokemon')) {
         upscaleModifier = 1.3
     } else if (Store.get('upscalePokemon')) {
         const upscaledPokemon = Store.get('upscaledPokemon')
@@ -96,7 +96,7 @@ function updatePokemonMarker(pokemon, marker, isNotifyPokemon) {
     icon.options.iconSize = [iconSize, iconSize]
     marker.setIcon(icon)
 
-    if (isNotifyPokemon) {
+    if (isNotifPokemon) {
         marker.setZIndexOffset(pokemonNotifiedZIndex)
     } else if (serverSettings.rarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
@@ -123,17 +123,17 @@ function updatePokemonMarker(pokemon, marker, isNotifyPokemon) {
         marker.setZIndexOffset(pokemonZIndex)
     }
 
-    if (Store.get('bouncePokemon') && isNotifyPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
+    if (Store.get('bouncePokemon') && isNotifPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
-    } else if (marker.isBouncing() && (!Store.get('bouncePokemon') || !isNotifyPokemon)) {
+    } else if (marker.isBouncing() && (!Store.get('bouncePokemon') || !isNotifPokemon)) {
         marker.stopBouncing()
     }
 
-    if (isNotifyPokemon && markers.hasLayer(marker)) {
+    if (isNotifPokemon && markers.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markers.removeLayer(marker)
         markersNoCluster.addLayer(marker)
-    } else if (!isNotifyPokemon && markersNoCluster.hasLayer(marker)) {
+    } else if (!isNotifPokemon && markersNoCluster.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markersNoCluster.removeLayer(marker)
         markers.addLayer(marker)
@@ -260,8 +260,8 @@ function pokemonLabel(item) {
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    const notifyText = notifyPokemon.includes(id) ? 'Unnotify' : 'Notify'
-    const notifyIconClass = notifyPokemon.includes(id) ? 'fas fa-bell-slash' : 'fas fa-bell'
+    const notifyText = settings.notifPokemon.includes(id) ? 'Unnotify' : 'Notify'
+    const notifyIconClass = settings.notifPokemon ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
         <div>
@@ -313,26 +313,23 @@ function processPokemon(pokemon) {
 
     const id = pokemon.encounter_id
     if (!mapData.pokemons.hasOwnProperty(id)) {
-        const isNotifyPoke = isNotifyPokemon(pokemon)
-        if (!isPokemonMeetsFilters(pokemon, isNotifyPoke) || pokemon.disappear_time <= Date.now() + 3000) {
-            if (isPokemonRarityExcluded(pokemon)) {
-                excludedPokemonByRarity.push(id)
-            }
+        const isNotifPoke = isNotifPokemon(pokemon)
+        if (!isPokemonMeetsFilters(pokemon, isNotifPoke) || pokemon.disappear_time <= Date.now() + 3000) {
             return true
         }
 
-        if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
+        if (isNotifPoke && !hasSentPokemonNotification(pokemon)) {
             sendPokemonNotification(pokemon)
         }
 
-        if (isNotifyPoke) {
+        if (isNotifPoke) {
             pokemon.marker = setupPokemonMarker(pokemon, markersNoCluster)
         } else {
             pokemon.marker = setupPokemonMarker(pokemon, markers)
         }
-        customizePokemonMarker(pokemon, pokemon.marker, isNotifyPoke)
+        customizePokemonMarker(pokemon, pokemon.marker, isNotifPoke)
         if (isPokemonRangesActive()) {
-            pokemon.rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifyPoke)
+            pokemon.rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifPoke)
         }
 
         pokemon.updated = true
@@ -354,11 +351,8 @@ function updatePokemon(id, pokemon = null) {
         pokemon = mapData.pokemons[id]
     }
 
-    const isNotifyPoke = isNotifyPokemon(pokemon)
-    if (!isPokemonMeetsFilters(pokemon, isNotifyPoke)) {
-        if (isPokemonRarityExcluded(pokemon)) {
-            excludedPokemonByRarity.push(id)
-        }
+    const isNotifPoke = isNotifPokemon(pokemon)
+    if (!isPokemonMeetsFilters(pokemon, isNotifPoke)) {
         removePokemon(pokemon)
         return true
     }
@@ -369,13 +363,13 @@ function updatePokemon(id, pokemon = null) {
                 pokemon.cp_multiplier !== oldPokemon.cp_multiplier || pokemon.individual_attack !== oldPokemon.individual_attack ||
                 pokemon.individual_defense !== oldPokemon.individual_defense || pokemon.individual_stamina !== oldPokemon.individual_stamina ||
                 pokemon.weight !== oldPokemon.weight || pokemon.height !== oldPokemon.height) {
-            if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
+            if (isNotifPoke && !hasSentPokemonNotification(pokemon)) {
                 sendPokemonNotification(pokemon)
             }
 
-            pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
+            pokemon.marker = updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifPoke)
             if (oldPokemon.rangeCircle) {
-                pokemon.rangeCircle = updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifyPoke)
+                pokemon.rangeCircle = updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifPoke)
             }
 
             if (pokemon.marker.isPopupOpen()) {
@@ -388,15 +382,15 @@ function updatePokemon(id, pokemon = null) {
             mapData.pokemons[id] = pokemon
         }
     } else {
-        if (isNotifyPoke && !hasSentPokemonNotification(pokemon)) {
+        if (isNotifPoke && !hasSentPokemonNotification(pokemon)) {
             sendPokemonNotification(pokemon)
         }
 
-        updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifyPoke)
+        updatePokemonMarker(pokemon, mapData.pokemons[id].marker, isNotifPoke)
         if (isPokemonRangesActive() && !pokemon.rangeCircle) {
-            mapData.pokemons[id].rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifyPoke)
+            mapData.pokemons[id].rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifPoke)
         } else {
-            updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifyPoke)
+            updateRangeCircle(mapData.pokemons[id], 'pokemon', !isNotifPoke)
         }
 
         if (pokemon.marker.isPopupOpen()) {
@@ -466,15 +460,17 @@ function getExcludedPokemon() {
         return []
     }
 
-    if (settings.showNotifyPokemonOnly) {
-        return getPokemonIds().filter(id => !settings.notifyPokemon.includes(id))
+    if (settings.pokemonNotifs) {
+        if (settings.showNotifyPokemonOnly) {
+            return getPokemonIds().filter(id => !settings.notifPokemon.includes(id))
+        }
+
+        if (settings.showNotifyPokemonAlways) {
+            return settings.excludedPokemon.filter(id => !settings.notifPokemon.includes(id))
+        }
     }
 
-    if (settings.showNotifyPokemonAlways) {
-        return settings.excludedPokemon.filter(id => !settings.notifyPokemon.includes(id))
-    }
-
-    return settings.excludedPokemon
+    return isShowAllZoom() ? [] : settings.excludedPokemon
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
@@ -485,107 +481,52 @@ function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-
     $('label[for="notify-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
-function isNotifyPokemon(pokemon) {
-    if (!settings.showPokemon || !settings.pokemonNotifications) {
+function isNotifPokemon(pokemon) {
+    if (!settings.showPokemon || !settings.pokemonNotifs) {
         return false
     }
 
-    if (settings.showPokemonValues && pokemon.weight) {
-        if (settings.notifyTinyRattata && pokemon.pokemon_id === 19 && pokemon.weight < 2.40625) {
-            return true
-        }
-
-        if (settings.notifyBigMagikarp && pokemon.pokemon_id === 129 && pokemon.weight > 13.125) {
-            return true
-        }
+    if (settings.notifPokemon.includes(pokemon.pokemon_id)) {
+        return true
     }
 
-    if (!settings.notifyPokemon.includes(pokemon.pokemon_id)) {
-        return false
-    }
-
-    if (settings.showPokemonValues && settings.filterNotifyValues && !settings.noFilterValuesNotifyPokemon.includes(pokemon.pokemon_id)) {
-        if (pokemon.individual_attack !== null) {
+    if (settings.showPokemonValues) {
+        if (pokemon.individual_attack && settings.pokemonValuesNotifs && !settings.noNotifValuesPokemon.includes(pokemon.pokemon_id)) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
-            if (ivsPercentage < settings.minNotifyIvs && !(settings.notifyZeroIvsPokemon && ivsPercentage === 0)) {
-                return false
-            }
-            if (ivsPercentage > settings.maxNotifyIvs && !(settings.notifyHundoIvsPokemon && ivsPercentage === 100)) {
-                return false
-            }
-
             const level = getPokemonLevel(pokemon.cp_multiplier)
-            if (level < settings.minNotifyLevel || level > settings.maxNotifyLevel) {
-                return false
+            if ((ivsPercentage >= settings.minNotifIvs || (settings.zeroIvsPokemonNotifs && ivsPercentage === 0)) &&
+                    (ivsPercentage <= settings.maxNotifIvs || (settings.hundoIvsPokemonNotifs && ivsPercentage === 100)) &&
+                    (level >= settings.minNotifLevel && level <= settings.maxNotifLevel)) {
+                return true
             }
-        } else {
-            // Pokemon is not encountered.
-            return false
-        }
-    }
-
-    return true
-
-    /*if (settings.showPokemon && settings.pokemonNotifications) {
-        if (!settings.notifyPokemon.includes(pokemon.pokemon_id)) {
-            return false
         }
 
-        if (pokemon.individual_attack !== null && settings.showPokemonValues) {
-            const notifyIvsPercentage = Store.get('notifyIvsPercentage')
-            if (notifyIvsPercentage > 0) {
-                const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
-                if (ivsPercentage >= notifyIvsPercentage) {
-                    return true
-                }
+        if (pokemon.weight) {
+            if (settings.tinyRattataNotifs && pokemon.pokemon_id === 19 && pokemon.weight < 2.40625) {
+                return true
             }
 
-            const notifyLevel = Store.get('notifyLevel')
-            if (notifyLevel > 0) {
-                const level = getPokemonLevel(pokemon.cp_multiplier)
-                if (level >= notifyLevel) {
-                    return true
-                }
-            }
-
-            if (serverSettings.medalpokemon) {
-                if (Store.get('notifyTinyRattata') && pokemon.pokemon_id === 19) {
-                    const baseHeight = 0.30
-                    const baseWeight = 3.50
-                    const ratio = sizeRatio(pokemon.height, pokemon.weight, baseHeight, baseWeight)
-                    if (ratio < 1.5) {
-                        return true
-                    }
-                }
-                if (Store.get('notifyBigMagikarp') && pokemon.pokemon_id === 129) {
-                    const baseHeight = 0.90
-                    const baseWeight = 10.00
-                    const ratio = sizeRatio(pokemon.height, pokemon.weight, baseHeight, baseWeight)
-                    if (ratio > 2.5) {
-                        return true
-                    }
-                }
-            }
-
-            if (serverSettings.rarity) {
-                const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
-                const notifyRarities = Store.get('notifyRarities')
-                if (notifyRarities.includes(pokemonRarity)) {
-                    return true
-                }
+            if (settings.bigMagikarpNotifs && pokemon.pokemon_id === 129 && pokemon.weight > 13.125) {
+                return true
             }
         }
     }
 
-    return false*/
+    if (serverSettings.rarity) {
+        const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
+        if (settings.notifRarities.includes(pokemonRarity)) {
+            return true
+        }
+    }
+
+    return false
 }
 
 function hasSentPokemonNotification(pokemon) {
     const id = pokemon.encounter_id
     return notifiedPokemonData.hasOwnProperty(id) && pokemon.disappear_time === notifiedPokemonData[id].disappear_time &&
         pokemon.cp_multiplier === notifiedPokemonData[id].cp_multiplier && pokemon.individual_attack === notifiedPokemonData[id].individual_attack &&
-        pokemon.individual_defense === notifiedPokemonData[id].individual_defense && pokemon.individual_stamina === notifiedPokemonData[id].individual_stamina &&
-        pokemon.weight === notifiedPokemonData[id].weight && pokemon.height === notifiedPokemonData[id].height
+        pokemon.individual_defense === notifiedPokemonData[id].individual_defense && pokemon.individual_stamina === notifiedPokemonData[id].individual_stamina
 }
 
 function sendPokemonNotification(pokemon) {
@@ -624,7 +565,5 @@ function sendPokemonNotification(pokemon) {
     notificationData.individual_defense = pokemon.individual_defense
     notificationData.individual_stamina = pokemon.individual_stamina
     notificationData.cp_multiplier = pokemon.cp_multiplier
-    notificationData.weight = pokemon.weight
-    notificationData.height = pokemon.height
     notifiedPokemonData[pokemon.encounter_id] = notificationData
 }

@@ -57,10 +57,6 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
-    'showNotifiedPokemonAlways': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
     'notifyIvsPercentage': {
         default: '-1',
         type: StoreTypes.Number
@@ -68,10 +64,6 @@ var StoreOptions = {
     'notifyLevel': {
         default: '-1',
         type: StoreTypes.Number
-    },
-    'notifyRarities': {
-        default: [], // Common, Uncommon, Rare, Very Rare, Ultra Rare
-        type: StoreTypes.JSON
     },
     'showPokemon': {
         default: true,
@@ -105,6 +97,10 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'showHundoIvsPokemon': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'minLevel': {
         default: 1,
         type: StoreTypes.Number
@@ -121,51 +117,63 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-    'pokemonNotifications': {
+    'pokemonNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'notifyPokemon': {
+    'notifPokemon': {
         default: [],
         type: StoreTypes.JSON
     },
-    'filterNotifyValues': {
+    'pokemonValuesNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'noFilterValuesNotifyPokemon': {
+    'noNotifValuesPokemon': {
         default: [],
         type: StoreTypes.JSON
     },
-    'notifyZeroIvsPokemon': {
+    'zeroIvsPokemonNotifs': {
         default: true,
         type: StoreTypes.Boolean
     },
-    'notifyHundoIvsPokemon': {
+    'hundoIvsPokemonNotifs': {
         default: true,
         type: StoreTypes.Boolean
     },
-    'minNotifyIvs': {
+    'minNotifIvs': {
         default: 0,
         type: StoreTypes.Number
     },
-    'maxNotifyIvs': {
+    'maxNotifIvs': {
         default: 100,
         type: StoreTypes.Number
     },
-    'minNotifyLevel': {
+    'minNotifLevel': {
         default: 1,
         type: StoreTypes.Number
     },
-    'maxNotifyLevel': {
+    'maxNotifLevel': {
         default: 35,
         type: StoreTypes.Number
     },
-    'notifyTinyRattata': {
+    'notifRarities': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'tinyRattataNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    'notifyBigMagikarp': {
+    'bigMagikarpNotifs': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showNotifPokemonOnly': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'showNotifPokemonAlways': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -348,10 +356,6 @@ var StoreOptions = {
     'lastUserLocation': {
         default: [],
         type: StoreTypes.JSON
-    },
-    'showNotifiedPokemonOnly': {
-        default: false,
-        type: StoreTypes.Boolean
     },
     'notifyPokestops': {
         default: false,
