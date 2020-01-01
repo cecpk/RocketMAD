@@ -4,7 +4,7 @@ var pokemonRarities = {}
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
 var pokemonSearchList = []
 const availablePokemonCount = 649
-var pokemonIds = []
+let pokemonIds = new Set()
 
 function initPokemonData(callback) {
     if (!$.isEmptyObject(pokemonData)) {
@@ -76,15 +76,15 @@ function updatePokemonRarities(rarityFileName, callback) {
 }
 
 function getPokemonIds() {
-    if (pokemonIds.length === 0) {
-        for (var i = 1; i <= availablePokemonCount; i++) {
-            pokemonIds.push(i)
+    if (pokemonIds.size === 0) {
+        for (let i = 1; i <= availablePokemonCount; i++) {
+            pokemonIds.add(i)
         }
         // Meltan and Melmetal.
-        pokemonIds.push(808)
-        pokemonIds.push(809)
+        pokemonIds.add(808)
+        pokemonIds.add(809)
     }
-    return pokemonIds
+    return new Set(pokemonIds)
 }
 
 function getPokemonName(id) {

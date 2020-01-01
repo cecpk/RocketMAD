@@ -8,7 +8,7 @@ function isPokestopMeetsQuestFilters(pokestop) {
                 var id = 6 + '_' + pokestop.quest.stardust
                 return !settings.excludedQuestItems.includes(id)
             case 7:
-                return !settings.excludedQuestPokemon.includes(pokestop.quest.pokemon_id)
+                return !settings.excludedQuestPokemon.has(pokestop.quest.pokemon_id)
         }
     }
 

@@ -60,7 +60,7 @@ function isGymMeetsRaidFilters(gym) {
                 return false
             }
         } else { // Ongoing raid.
-            if (raid.pokemon_id && settings.excludedRaidPokemon.includes(raid.pokemon_id)) {
+            if (raid.pokemon_id && settings.excludedRaidPokemon.has(raid.pokemon_id)) {
                 return false
             }
         }

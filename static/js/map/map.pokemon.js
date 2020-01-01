@@ -14,15 +14,15 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
         return false
     }
 
-    if (Store.get('showNotifiedPokemonAlways') && isNotifPokemon) {
+    if (settings.showNotifPokemonAlways && isNotifPokemon) {
         return true
     }
 
-    if (getExcludedPokemon().includes(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (Store.get('showNotifiedPokemonOnly') && !isNotifPokemon)) {
+    if (getExcludedPokemon().has(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (settings.showNotifPokemonOnly && !isNotifPokemon)) {
         return false
     }
 
-    if (settings.showPokemonValues && settings.filterValues && !settings.noFilterValuesPokemon.includes(pokemon.pokemon_id)) {
+    if (settings.showPokemonValues && settings.filterValues && !settings.noFilterValuesPokemon.has(pokemon.pokemon_id)) {
         if (pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
@@ -260,7 +260,7 @@ function pokemonLabel(item) {
 
     const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
-    const notifyText = settings.notifPokemon.includes(id) ? 'Unnotify' : 'Notify'
+    const notifyText = settings.notifPokemon.has(id) ? 'Unnotify' : 'Notify'
     const notifyIconClass = settings.notifPokemon ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
@@ -404,16 +404,16 @@ function updatePokemon(id, pokemon = null) {
     return true
 }
 
-function updatePokemons(pokemonIds = [], encounteredOnly = false) {
-    if (pokemonIds.length > 0 && encounteredOnly) {
+function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
+    if (pokemonIds.size > 0 && encounteredOnly) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            if (pokemonIds.includes(pokemon.pokemon_id) && pokemon.individual_attack !== null) {
+            if (pokemonIds.has(pokemon.pokemon_id) && pokemon.individual_attack !== null) {
                 updatePokemon(encounterId)
             }
         })
-    } else if (pokemonIds.length > 0) {
+    } else if (pokemonIds.size > 0) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            if (pokemonIds.includes(pokemon.pokemon_id)) {
+            if (pokemonIds.has(pokemon.pokemon_id)) {
                 updatePokemon(encounterId)
             }
         })
@@ -456,21 +456,11 @@ function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
 }
 
 function getExcludedPokemon() {
-    if (isShowAllZoom()) {
-        return []
+    if (isShowAllZoom() || (settings.pokemonNotifs && (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways))) {
+        return new Set()
+    } else {
+        return settings.excludedPokemon
     }
-
-    if (settings.pokemonNotifs) {
-        if (settings.showNotifyPokemonOnly) {
-            return getPokemonIds().filter(id => !settings.notifPokemon.includes(id))
-        }
-
-        if (settings.showNotifyPokemonAlways) {
-            return settings.excludedPokemon.filter(id => !settings.notifPokemon.includes(id))
-        }
-    }
-
-    return isShowAllZoom() ? [] : settings.excludedPokemon
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
@@ -486,12 +476,12 @@ function isNotifPokemon(pokemon) {
         return false
     }
 
-    if (settings.notifPokemon.includes(pokemon.pokemon_id)) {
+    if (settings.notifPokemon.has(pokemon.pokemon_id)) {
         return true
     }
 
     if (settings.showPokemonValues) {
-        if (pokemon.individual_attack && settings.pokemonValuesNotifs && !settings.noNotifValuesPokemon.includes(pokemon.pokemon_id)) {
+        if (pokemon.individual_attack && settings.pokemonValuesNotifs && !settings.noNotifValuesPokemon.has(pokemon.pokemon_id)) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             const level = getPokemonLevel(pokemon.cp_multiplier)
             if ((ivsPercentage >= settings.minNotifIvs || (settings.zeroIvsPokemonNotifs && ivsPercentage === 0)) &&

@@ -37,6 +37,14 @@ var StoreTypes = {
         stringify: function (number) {
             return number.toString()
         }
+    },
+    Set: {
+        parse: function (str) {
+            return new Set(JSON.parse(str))
+        },
+        stringify: function (set) {
+            return JSON.stringify(Array.from(set))
+        }
     }
 }
 
@@ -70,8 +78,8 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'excludedPokemon': {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     'showPokemonValues': {
         default: true,
@@ -82,8 +90,8 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'noFilterValuesPokemon': {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     'minIvs': {
         default: 0,
@@ -122,16 +130,16 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'notifPokemon': {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     'pokemonValuesNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
     'noNotifValuesPokemon': {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     'zeroIvsPokemonNotifs': {
         default: true,
@@ -218,8 +226,8 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'excludedRaidPokemon': {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     'showActiveRaidsOnly': {
         default: false,
@@ -246,8 +254,8 @@ var StoreOptions = {
         type: StoreTypes.Boolean
     },
     'excludedQuestPokemon': {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     'excludedQuestItems': {
         default: [],

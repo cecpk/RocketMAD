@@ -141,3 +141,69 @@ function getPointDistance(origin, destination) {
     const EARTH_RADIUS = 6371
     return c * EARTH_RADIUS * 1000 // Distance in meters.
 }
+
+function union(setA, setB) {
+    let union = new Set(setA)
+    for (let elem of setB) {
+        union.add(elem)
+    }
+    return union
+}
+
+function intersection(setA, setB) {
+    let intersection = new Set()
+    if (setA.size >= setB.size) {
+        for (let elem of setB) {
+            if (setA.has(elem)) {
+                intersection.add(elem)
+            }
+        }
+    } else {
+        for (let elem of setA) {
+            if (setB.has(elem)) {
+                intersection.add(elem)
+            }
+        }
+    }
+    return intersection
+}
+
+function difference(setA, setB) {
+    let difference = new Set(setA)
+    if (setA.size >= setB.size) {
+        for (let elem of setB) {
+            difference.delete(elem)
+        }
+    } else {
+        for (let elem of setA) {
+            if (setB.has(elem)) {
+                difference.delete(elem)
+            }
+        }
+    }
+    return difference
+}
+
+function symmetricDifference(setA, setB) {
+    let difference
+    if (setA.size >= setB.size) {
+        difference = new Set(setA)
+        for (let elem of setB) {
+            if (difference.has(elem)) {
+                difference.delete(elem)
+            } else {
+                difference.add(elem)
+            }
+        }
+    } else {
+        difference = new Set(setB)
+        for (let elem of setA) {
+            if (difference.has(elem)) {
+                difference.delete(elem)
+            } else {
+                difference.add(elem)
+            }
+        }
+    }
+    return difference
+}
