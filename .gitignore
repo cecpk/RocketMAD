@@ -42,5 +42,5 @@ static/rarity.json
 !static/icons/hsl*.png
 !static/app/settings.json
 static/data/parks/*.json
-static/data/sounds/cries/*.mp3
-static/data/sounds/cries/*.wav
+static/sounds/cries/*.mp3
+static/sounds/cries/*.wav
