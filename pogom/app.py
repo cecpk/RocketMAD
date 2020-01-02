@@ -332,7 +332,7 @@ class Pogom(Flask):
             eids = None
             ids = None
             if (request.args.get('eids') and
-                    request.args.get('prionotify', 'false') == 'false'):
+                    request.args.get('prionotif', 'false') == 'false'):
                 request_eids = request.args.get('eids').split(',')
                 eids = [int(i) for i in request_eids]
             elif not request.args.get('eids') and request.args.get('ids'):

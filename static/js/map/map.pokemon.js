@@ -18,7 +18,8 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
         return true
     }
 
-    if (getExcludedPokemon().has(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) || (settings.showNotifPokemonOnly && !isNotifPokemon)) {
+    if (getExcludedPokemon().has(pokemon.pokemon_id) || isPokemonRarityExcluded(pokemon) ||
+            (settings.pokemonNotifs && settings.showNotifPokemonOnly && !isNotifPokemon)) {
         return false
     }
 
@@ -456,11 +457,7 @@ function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
 }
 
 function getExcludedPokemon() {
-    if (isShowAllZoom() || (settings.pokemonNotifs && (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways))) {
-        return new Set()
-    } else {
-        return settings.excludedPokemon
-    }
+    return isShowAllZoom() ? new Set() : settings.excludedPokemon
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
