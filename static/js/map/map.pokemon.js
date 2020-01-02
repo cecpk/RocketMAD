@@ -70,7 +70,7 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
     var iconSize = 32 * (Store.get('pokemonIconSizeModifier') / 100)
     var upscaleModifier = 1
-    if (isNotifPokemon && Store.get('upscaleNotifyPokemon')) {
+    if (isNotifPokemon && settings.upscaleNotifMarkers) {
         upscaleModifier = 1.3
     } else if (Store.get('upscalePokemon')) {
         const upscaledPokemon = Store.get('upscaledPokemon')
@@ -124,9 +124,9 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
         marker.setZIndexOffset(pokemonZIndex)
     }
 
-    if (Store.get('bouncePokemon') && isNotifPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
+    if (settings.bounceNotifMarkers && isNotifPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
-    } else if (marker.isBouncing() && (!Store.get('bouncePokemon') || !isNotifPokemon)) {
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifPokemon)) {
         marker.stopBouncing()
     }
 

@@ -74,7 +74,7 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
     var shadowImage = null
     var shadowSize = null
     var shadowAnchor = null
-    const upscaleModifier = Store.get('upscalePokestops') && isNotifyPokestop ? 1.3 : 1
+    const upscaleModifier = isNotifyPokestop && settings.upscaleNotifMarkers ? 1.3 : 1
 
     if (isPokestopMeetsQuestFilters(pokestop)) {
         const quest = pokestop.quest
@@ -123,10 +123,9 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
         marker.setZIndexOffset(pokestopZIndex)
     }
 
-
-    if (Store.get('bouncePokestops') && isNotifyPokestop && !notifiedPokestopData[pokestop.pokestop_id].animationDisabled && !marker.isBouncing()) {
+    if (settings.bounceNotifMarkers && isNotifyPokestop && !notifiedPokestopData[pokestop.pokestop_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
-    } else if (marker.isBouncing() && (!Store.get('bouncePokestops') || !isNotifyPokestop)) {
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifyPokestop)) {
         marker.stopBouncing()
     }
 

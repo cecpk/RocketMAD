@@ -87,7 +87,9 @@ var settings = {
     startAtLastLocation: null,
     isStartLocationMarkerMovable: null,
     followUserLocation: null,
-    playSound: null
+    playSound: null,
+    upscaleNotifMarkers: null,
+    bounceNotifMarkers: null
 }
 
 var timestamp
@@ -633,6 +635,8 @@ function initSettings() {
     settings.followUserLocation = hasLocationSupport() && Store.get('followUserLocation')
 
     settings.playSound = Store.get('playSound')
+    settings.upscaleNotifMarkers = Store.get('upscaleNotifMarkers')
+    settings.bounceNotifMarkers = Store.get('bounceNotifMarkers')
 }
 
 function initSidebar() {
@@ -1594,35 +1598,32 @@ function initSidebar() {
         Store.set('playSound', this.checked)
     })
 
-
-    $('#pokemon-bounce-switch').change(function () {
-        Store.set('bouncePokemon', this.checked)
-        updatePokemons()
+    $('#upscale-notif-markers-switch').on('change', function () {
+        settings.upscaleNotifMarkers = this.checked
+        if (settings.pokemonNotifs) {
+            updatePokemons()
+        }
+        if (settings.gymNotifs) {
+            updateGyms()
+        }
+        if (settings.pokestopNotifs) {
+            updatePokestops()
+        }
+        Store.set('upscaleNotifMarkers', this.checked)
     })
 
-    $('#gym-bounce-switch').change(function () {
-        Store.set('bounceGyms', this.checked)
-        updateGyms()
-    })
-
-    $('#pokestop-bounce-switch').change(function () {
-        Store.set('bouncePokestops', this.checked)
-        updatePokestops()
-    })
-
-    $('#pokemon-upscale-switch').change(function () {
-        Store.set('upscaleNotifyPokemon', this.checked)
-        updatePokemons()
-    })
-
-    $('#gym-upscale-switch').change(function () {
-        Store.set('upscaleGyms', this.checked)
-        updateGyms()
-    })
-
-    $('#pokestop-upscale-switch').change(function () {
-        Store.set('upscalePokestops', this.checked)
-        updatePokestops()
+    $('#bounce-notif-markers-switch').on('change', function () {
+        settings.bounceNotifMarkers = this.checked
+        if (settings.pokemonNotifs) {
+            updatePokemons()
+        }
+        if (settings.gymNotifs) {
+            updateGyms()
+        }
+        if (settings.pokestopNotifs) {
+            updatePokestops()
+        }
+        Store.set('bounceNotifMarkers', this.checked)
     })
 
     $('#notify-gyms-switch').change(function () {
@@ -1837,15 +1838,13 @@ function initSidebar() {
     }
 
     $('#notif-sound-switch').prop('checked', settings.playSound)
+    $('#upscale-notif-markers-switch').prop('checked', settings.upscaleNotifMarkers)
+    $('#bounce-notif-markers-switch').prop('checked', settings.bounceNotifMarkers)
 
 
-    $('#pokemon-bounce-switch').prop('checked', Store.get('bouncePokemon'))
-    $('#pokemon-upscale-switch').prop('checked', Store.get('upscaleNotifyPokemon'))
     $('#notify-gyms-switch-wrapper').toggle(settings.showRaids)
     $('#notify-gyms-switch').prop('checked', Store.get('notifyGyms'))
     $('#notify-gyms-filter-wrapper').toggle(Store.get('notifyGyms'))
-    $('#gym-bounce-switch').prop('checked', Store.get('bounceGyms'))
-    $('#gym-upscale-switch').prop('checked', Store.get('upscaleGyms'))
     $('#notify-pokestops-switch-wrapper').toggle(settings.showPokestops)
     $('#notify-pokestops-switch').prop('checked', Store.get('notifyPokestops'))
     $('#notify-pokestops-filter-wrapper').toggle(Store.get('notifyPokestops'))
@@ -1853,8 +1852,6 @@ function initSidebar() {
     $('#notify-glacial-lures-switch').prop('checked', Store.get('notifyGlacialLures'))
     $('#notify-magnetic-lures-switch').prop('checked', Store.get('notifyMagneticLures'))
     $('#notify-mossy-lures-switch').prop('checked', Store.get('notifyMossyLures'))
-    $('#pokestop-bounce-switch').prop('checked', Store.get('bouncePokestops'))
-    $('#pokestop-upscale-switch').prop('checked', Store.get('upscalePokestops'))
     $('#popups-switch').prop('checked', Store.get('showPopups'))
 
     // Style.

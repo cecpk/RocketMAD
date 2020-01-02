@@ -137,7 +137,7 @@ function setupGymMarker(gym, isNotifyGym) {
 
 function updateGymMarker(gym, marker, isNotifyGym) {
     var markerImage = ''
-    const upscaleModifier = Store.get('upscaleGyms') && isNotifyGym ? 1.2 : 1
+    const upscaleModifier = isNotifyGym && settings.upscaleNotifMarkers ? 1.2 : 1
     const gymLevel = getGymLevel(gym)
 
     if (isGymMeetsRaidFilters(gym)) {
@@ -175,9 +175,9 @@ function updateGymMarker(gym, marker, isNotifyGym) {
         marker.setZIndexOffset(gymNotifiedZIndex)
     }
 
-    if (Store.get('bounceGyms') && isNotifyGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
+    if (settings.bounceNotifMarkers && isNotifyGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
-    } else if (marker.isBouncing() && (!Store.get('bounceGyms') || !isNotifyGym)) {
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifyGym)) {
         marker.stopBouncing()
     }
 

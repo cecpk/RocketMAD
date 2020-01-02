@@ -373,6 +373,14 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'upscaleNotifMarkers': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'bounceNotifMarkers': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'notifyPokestops': {
         default: false,
         type: StoreTypes.Boolean
@@ -413,10 +421,6 @@ var StoreOptions = {
         default: 100,
         type: StoreTypes.Number
     },
-    'upscalePokemon': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
     'upscaledPokemon': {
         default: [],
         type: StoreTypes.JSON
@@ -436,30 +440,6 @@ var StoreOptions = {
     'mapServiceProvider': {
         default: 'googlemaps',
         type: StoreTypes.String
-    },
-    'bouncePokemon': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'bounceGyms': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'bouncePokestops': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'upscaleNotifyPokemon': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'upscaleGyms': {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    'upscalePokestops': {
-        default: true,
-        type: StoreTypes.Boolean
     },
     'twelveHourTime': {
         default: false,
@@ -488,8 +468,11 @@ var StoreOptions = {
     'rarityNewSpawn': {
         default: 1,
         type: StoreTypes.Number
+    },
+    'upscalePokemon': {
+        default: false,
+        type: StoreTypes.Boolean
     }
-
 }
 
 var Store = {
