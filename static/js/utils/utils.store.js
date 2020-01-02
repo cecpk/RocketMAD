@@ -185,6 +185,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'playCries': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'showGyms': {
         default: true,
         type: StoreTypes.Boolean
@@ -365,6 +369,10 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'playSound': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'notifyPokestops': {
         default: false,
         type: StoreTypes.Boolean
@@ -391,14 +399,6 @@ var StoreOptions = {
     },
     'showPopups': {
         default: true,
-        type: StoreTypes.Boolean
-    },
-    'playSound': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'playCries': {
-        default: false,
         type: StoreTypes.Boolean
     },
     'geoLocate': {

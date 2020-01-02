@@ -1063,9 +1063,33 @@
                   </label>
                 </div>
               </div>
+              {% if settings.pokemonCries %}
+              <div id="pokemon-cries-switch-wrapper">
+                <div class="form-control">
+                  <div class="switch">
+                    <label>
+                      <input type="checkbox" id="pokemon-cries-switch">
+                      <span class="lever"></span>
+                      Use Pokémon cries
+                    </label>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
             </div>
           </div>
           {% endif %}
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="notif-sound-switch">
+                  <span class="lever"></span>
+                  Notif with sound
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
       <li>

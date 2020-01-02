@@ -200,6 +200,7 @@ class Pogom(Flask):
             'rarity': not args.no_pokemon and
                 args.rarity_update_frequency > 0,
             'rarityFileName': args.rarity_filename,
+            'pokemonCries': not args.no_pokemon and args.pokemon_cries,
             'gyms': not args.no_gyms,
             'gymSidebar': (not args.no_gyms or not args.no_raids) and
                 not args.no_gym_sidebar,

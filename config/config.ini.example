@@ -40,6 +40,7 @@
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
+#pokemon-cries                  # Play cries for pokemon notifications. Place your sound files (wav or mp3) in static/sounds/cries. (default=False)
 
 #no-gyms                        # Disables gyms. (default=False)
 #no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)

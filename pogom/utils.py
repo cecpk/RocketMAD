@@ -299,6 +299,9 @@ def get_args():
                         help='Disables dragging the start marker and hence ' +
                              'disables changing the start position.',
                         action='store_true', default=False)
+    parser.add_argument('-pc', '--pokemon-cries',
+                        help='Play cries for pokemon notifications.',
+                        action='store_true', default=False)
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMap'),
                         default='RocketMap')

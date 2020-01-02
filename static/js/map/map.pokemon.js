@@ -516,6 +516,35 @@ function hasSentPokemonNotification(pokemon) {
         pokemon.individual_defense === notifiedPokemonData[id].individual_defense && pokemon.individual_stamina === notifiedPokemonData[id].individual_stamina
 }
 
+function playPokemonSound(pokemonId, cryFileTypes) {
+    if (!settings.playSound) {
+        return
+    }
+
+    if (!settings.playCries) {
+        audio.play()
+    } else {
+        // Stop if we don't have any supported filetypes left.
+        if (cryFileTypes.length === 0) {
+            return
+        }
+
+        // Try to load the first filetype in the list.
+        const filetype = cryFileTypes.shift()
+        const audioCry = new Audio('static/sounds/cries/' + pokemonId + '.' + filetype)
+
+        audioCry.play().catch(function (err) {
+            // Try a different filetype.
+            if (err) {
+                console.log('Sound filetype %s for Pokémon %s is missing.', filetype, pokemonId)
+
+                // If there's more left, try something else.
+                playPokemonSound(pokemonId, cryFileTypes)
+            }
+        })
+    }
+}
+
 function sendPokemonNotification(pokemon) {
     playPokemonSound(pokemon.pokemon_id, cryFileTypes)
 

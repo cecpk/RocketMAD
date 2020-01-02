@@ -44,6 +44,7 @@ var settings = {
     bigMagikarpNotifs: null,
     showNotifPokemonOnly: null,
     showNotifPokemonAlways: null,
+    playCries: null,
     useGymSidebar: null,
     showGyms: null,
     includedGymTeams: null,
@@ -85,7 +86,8 @@ var settings = {
     startAtUserLocation: null,
     startAtLastLocation: null,
     isStartLocationMarkerMovable: null,
-    followUserLocation: null
+    followUserLocation: null,
+    playSound: null
 }
 
 var timestamp
@@ -533,6 +535,7 @@ function initSettings() {
         settings.notifPokemon = Store.get('notifPokemon')
         settings.showNotifPokemonOnly = Store.get('showNotifPokemonOnly')
         settings.showNotifPokemonAlways = Store.get('showNotifPokemonAlways')
+        settings.playCries = serverSettings.pokemonCries && Store.get('playCries')
     }
     if (serverSettings.pokemonValues) {
         settings.filterValues = Store.get('filterValues')
@@ -628,6 +631,8 @@ function initSettings() {
     settings.lockStartLocationMarker = serverSettings.lockStartMarker && Store.get('lockStartLocationMarker')
     settings.isStartLocationMarkerMovable = serverSettings.isStartMarkerMovable && Store.get('isStartLocationMarkerMovable')
     settings.followUserLocation = hasLocationSupport() && Store.get('followUserLocation')
+
+    settings.playSound = Store.get('playSound')
 }
 
 function initSidebar() {
@@ -1571,17 +1576,24 @@ function initSidebar() {
         })
     }
 
+    if (serverSettings.pokemonCries) {
+        $('#pokemon-cries-switch').on('change', function () {
+            settings.playCries = this.checked
+            Store.set('playCries', this.checked)
+        })
+    }
 
-
-    $('#sound-switch').change(function () {
-        Store.set('playSound', this.checked)
-        var criesWrapper = $('#cries-wrapper')
+    $('#notif-sound-switch').on('change', function () {
+        settings.playSound = this.checked
+        let criesWrapper = $('#pokemon-cries-switch-wrapper')
         if (this.checked) {
             criesWrapper.show()
         } else {
             criesWrapper.hide()
         }
+        Store.set('playSound', this.checked)
     })
+
 
     $('#pokemon-bounce-switch').change(function () {
         Store.set('bouncePokemon', this.checked)
@@ -1650,10 +1662,6 @@ function initSidebar() {
     $('#popups-switch').change(function () {
         Store.set('showPopups', this.checked)
         location.reload()
-    })
-
-    $('#cries-switch').change(function () {
-        Store.set('playCries', this.checked)
     })
 
     $('#pokemon-icon-size').on('change', function () {
@@ -1823,10 +1831,14 @@ function initSidebar() {
         $('#tiny-rattata-notifs-switch').prop('checked', settings.tinyRattataNotifs)
         $('#big-magikarp-notifs-switch').prop('checked', settings.bigMagikarpNotifs)
     }
+    if (serverSettings.pokemonCries) {
+        $('#pokemon-cries-switch').prop('checked', settings.playCries)
+        $('#pokemon-cries-switch-wrapper').toggle(settings.playSound)
+    }
+
+    $('#notif-sound-switch').prop('checked', settings.playSound)
 
 
-    $('#cries-switch').prop('checked', Store.get('playCries'))
-    $('#cries-wrapper').toggle(Store.get('playSound'))
     $('#pokemon-bounce-switch').prop('checked', Store.get('bouncePokemon'))
     $('#pokemon-upscale-switch').prop('checked', Store.get('upscaleNotifyPokemon'))
     $('#notify-gyms-switch-wrapper').toggle(settings.showRaids)
@@ -1844,7 +1856,6 @@ function initSidebar() {
     $('#pokestop-bounce-switch').prop('checked', Store.get('bouncePokestops'))
     $('#pokestop-upscale-switch').prop('checked', Store.get('upscalePokestops'))
     $('#popups-switch').prop('checked', Store.get('showPopups'))
-    $('#sound-switch').prop('checked', Store.get('playSound'))
 
     // Style.
     $('#map-service-provider').val(Store.get('mapServiceProvider'))
@@ -2634,42 +2645,6 @@ function getTimeUntil(time) {
         'now': now,
         'ttime': time
     }
-}
-
-function playPokemonSound(pokemonID, cryFileTypes) {
-    if (!Store.get('playSound')) {
-        return
-    }
-
-    if (!Store.get('playCries')) {
-        audio.play()
-    } else {
-        // Stop if we don't have any supported filetypes left.
-        if (cryFileTypes.length === 0) {
-            return
-        }
-
-        // Try to load the first filetype in the list.
-        const filetype = cryFileTypes.shift()
-        const audioCry = new Audio('static/sounds/cries/' + pokemonID + '.' + filetype)
-
-        audioCry.play().catch(function (err) {
-            // Try a different filetype.
-            if (err) {
-                console.log('Sound filetype %s for Pokémon %s is missing.', filetype, pokemonID)
-
-                // If there's more left, try something else.
-                playPokemonSound(pokemonID, cryFileTypes)
-            }
-        })
-    }
-}
-
-function sizeRatio(height, weight, baseHeight, baseWeight) {
-    var heightRatio = height / baseHeight
-    var weightRatio = weight / baseWeight
-
-    return heightRatio + weightRatio
 }
 
 function addListeners(marker, type) {
