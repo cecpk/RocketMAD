@@ -3060,6 +3060,7 @@ function sendNotification(title, text, icon, lat, lng) {
 function sendToastNotification(title, text, iconUrl, lat, lng) {
     var toastId = 'toast' + lat + '_' + lng
     toastId = toastId.replace(/\./gi, '') // Remove all dots.
+    text = text.replace(/\n/gi, '<br>')
     const toastHTML = `<div id='${toastId}'style='margin-right:15px;'><img src='${iconUrl}' width='48'></div><div><strong>${title}</strong><br>${text}</div>`
     M.toast({html: toastHTML, displayLength: 10000})
 
