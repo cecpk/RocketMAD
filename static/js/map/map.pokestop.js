@@ -489,11 +489,11 @@ function sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNoti
         return
     }
 
-    if (Store.get('playSound')) {
+    if (settings.playSound) {
         audio.play()
     }
 
-    if (Store.get('showPopups')) {
+    if (settings.showBrowserPopups) {
         const pokestopName = pokestop.name !== null && pokestop.name !== '' ? pokestop.name : 'unknown'
         var notifyTitle = ''
         var notifyText = 'PokéStop: ' + pokestopName

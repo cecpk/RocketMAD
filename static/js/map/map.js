@@ -87,6 +87,7 @@ var settings = {
     startAtLastLocation: null,
     isStartLocationMarkerMovable: null,
     followUserLocation: null,
+    showBrowserPopups: null,
     playSound: null,
     upscaleNotifMarkers: null,
     bounceNotifMarkers: null
@@ -634,6 +635,7 @@ function initSettings() {
     settings.isStartLocationMarkerMovable = serverSettings.isStartMarkerMovable && Store.get('isStartLocationMarkerMovable')
     settings.followUserLocation = hasLocationSupport() && Store.get('followUserLocation')
 
+    settings.showBrowserPopups = Store.get('showBrowserPopups')
     settings.playSound = Store.get('playSound')
     settings.upscaleNotifMarkers = Store.get('upscaleNotifMarkers')
     settings.bounceNotifMarkers = Store.get('bounceNotifMarkers')
@@ -1587,6 +1589,11 @@ function initSidebar() {
         })
     }
 
+    $('#browser-popups-switch').on('change', function () {
+        settings.showBrowserPopups = this.checked
+        Store.set('showBrowserPopups', this.checked)
+    })
+
     $('#notif-sound-switch').on('change', function () {
         settings.playSound = this.checked
         let criesWrapper = $('#pokemon-cries-switch-wrapper')
@@ -1658,11 +1665,6 @@ function initSidebar() {
     $('#notify-mossy-lures-switch').change(function () {
         Store.set('notifyMossyLures', this.checked)
         updatePokestops()
-    })
-
-    $('#popups-switch').change(function () {
-        Store.set('showPopups', this.checked)
-        location.reload()
     })
 
     $('#pokemon-icon-size').on('change', function () {
@@ -1837,6 +1839,7 @@ function initSidebar() {
         $('#pokemon-cries-switch-wrapper').toggle(settings.playSound)
     }
 
+    $('#browser-popups-switch').prop('checked', settings.showBrowserPopups)
     $('#notif-sound-switch').prop('checked', settings.playSound)
     $('#upscale-notif-markers-switch').prop('checked', settings.upscaleNotifMarkers)
     $('#bounce-notif-markers-switch').prop('checked', settings.bounceNotifMarkers)
@@ -1852,7 +1855,6 @@ function initSidebar() {
     $('#notify-glacial-lures-switch').prop('checked', Store.get('notifyGlacialLures'))
     $('#notify-magnetic-lures-switch').prop('checked', Store.get('notifyMagneticLures'))
     $('#notify-mossy-lures-switch').prop('checked', Store.get('notifyMossyLures'))
-    $('#popups-switch').prop('checked', Store.get('showPopups'))
 
     // Style.
     $('#map-service-provider').val(Store.get('mapServiceProvider'))

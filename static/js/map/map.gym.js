@@ -595,11 +595,11 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
         return
     }
 
-    if (Store.get('playSound')) {
+    if (settings.playSound) {
         audio.play()
     }
 
-    if (Store.get('showPopups')) {
+    if (settings.showBrowserPopups) {
         const gymName = gym.name !== null && gym.name !== '' ? gym.name : 'unknown'
         var notifyTitle = ''
         var notifyText = ''

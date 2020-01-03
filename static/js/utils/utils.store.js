@@ -369,6 +369,10 @@ var StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    'showBrowserPopups': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     'playSound': {
         default: false,
         type: StoreTypes.Boolean
@@ -403,10 +407,6 @@ var StoreOptions = {
     },
     'notifyMossyLures': {
         default: false,
-        type: StoreTypes.Boolean
-    },
-    'showPopups': {
-        default: true,
         type: StoreTypes.Boolean
     },
     'geoLocate': {

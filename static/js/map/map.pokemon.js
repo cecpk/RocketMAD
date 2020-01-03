@@ -548,7 +548,7 @@ function playPokemonSound(pokemonId, cryFileTypes) {
 function sendPokemonNotification(pokemon) {
     playPokemonSound(pokemon.pokemon_id, cryFileTypes)
 
-    if (Store.get('showPopups')) {
+    if (settings.showBrowserPopups) {
         var notifyTitle = pokemon.pokemon_name
         var notifyText = ''
 
