@@ -39,7 +39,8 @@ costume_names = {
     7: 'NOVEMBER_2018',
     8: 'WINTER_2018',
     9: 'FEB_2019',
-    10: 'MAY_2019_NOEVOLVE'
+    10: 'MAY_2019_NOEVOLVE',
+    11: 'JAN_2020_NOEVOLVE'
 }
 
 weather_names = {
