@@ -175,7 +175,8 @@ def get_pokemon_map_icon(pkm, weather=None, gender=None,
     return run_imagemagick(source, im_lines, target)
 
 
-def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible):
+def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, costume,
+                 is_ex_raid_eligible):
     level = int(level)
 
     if not generate_images:
@@ -185,12 +186,13 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eli
     if pkm and pkm != 'null':
         # Gym with ongoing raid
         form_extension = "_F{}".format(form) if form else ""
+        costume_extension = "_C{}".format(costume) if costume else ""
         out_filename = os.path.join(
             path_generated_gym,
-            "{}_L{}_R{}_P{}{}.png".format(team, level, raidlevel, pkm,
-                                          form_extension)
+            "{}_L{}_R{}_P{}{}{}.png".format(team, level, raidlevel, pkm,
+                                          form_extension, costume_extension)
         )
-        im_lines.extend(draw_raid_pokemon(pkm, form))
+        im_lines.extend(draw_raid_pokemon(pkm, form, costume))
         im_lines.extend(draw_raid_level(int(raidlevel)))
         if level > 0:
             im_lines.extend(draw_gym_level(level, team))
@@ -227,9 +229,10 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eli
     return run_imagemagick(gym_image, im_lines, out_filename)
 
 
-def draw_raid_pokemon(pkm, form):
+def draw_raid_pokemon(pkm, form, costume):
     if pogo_assets:
-        pkm_path, dummy = pokemon_asset_path(int(pkm), form=form)
+        pkm_path, dummy = pokemon_asset_path(int(pkm), form=form,
+                                             costume=costume)
         trim = True
     else:
         pkm_path = os.path.join(path_icons, '{}.png'.format(pkm))

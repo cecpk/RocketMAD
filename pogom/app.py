@@ -90,12 +90,15 @@ class Pogom(Flask):
         raidlevel = request.args.get('raidlevel')
         pkm = request.args.get('pkm')
         form = request.args.get('form')
+        costume = int(
+            request.args.get('costume')) if 'costume' in request.args else None
         is_in_battle = 'in_battle' in request.args
         is_ex_raid_eligible = 'is_ex_raid_eligible' in request.args
 
         if level is None or raidlevel is None:
             return send_file(
-                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible),
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form,
+                             costume, is_ex_raid_eligible),
                 mimetype='image/png'
             )
 
@@ -105,7 +108,8 @@ class Pogom(Flask):
 
         else:
             return send_file(
-                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible),
+                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form,
+                             costume, is_ex_raid_eligible),
                 mimetype='image/png'
             )
 
