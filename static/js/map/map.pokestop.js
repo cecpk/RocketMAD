@@ -1,5 +1,9 @@
 function isPokestopMeetsQuestFilters(pokestop) {
-    if (settings.showQuests && pokestop.quest) {
+    if (!settings.showQuests || !pokestop.quest) {
+        return false
+    }
+
+    if (settings.filterQuests) {
         switch (pokestop.quest.reward_type) {
             case 2:
                 var id = pokestop.quest.item_id + '_' + pokestop.quest.item_amount
@@ -12,15 +16,23 @@ function isPokestopMeetsQuestFilters(pokestop) {
         }
     }
 
-    return false
+    return true
 }
 
 function isPokestopMeetsInvasionFilters(pokestop) {
-    return settings.showInvasions && isInvadedPokestop(pokestop) && !settings.excludedInvasions.includes(pokestop.incident_grunt_type)
+    if (!settings.showInvasions || !isInvadedPokestop(pokestop)) {
+        return false
+    }
+
+    if (settings.filterInvasions) {
+        return !settings.excludedInvasions.includes(pokestop.incident_grunt_type)
+    }
+
+    return true
 }
 
 function isPokestopMeetsLureFilters(pokestop) {
-    return settings.showLures && isLuredPokestop(pokestop) && settings.includedLureTypes.includes(pokestop.active_fort_modifier)
+    return serverSettings.lures && isLuredPokestop(pokestop) && settings.includedLureTypes.includes(pokestop.active_fort_modifier)
 }
 
 function isPokestopMeetsFilters(pokestop) {

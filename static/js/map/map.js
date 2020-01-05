@@ -17,9 +17,10 @@ var searchMarkerStyles
 
 var settings = {
     showPokemon: null,
+    filterPokemonById: null,
     excludedPokemon: null,
     showPokemonValues: null,
-    filterValues: null,
+    filterPokemonByValues: null,
     noFilterValuesPokemon: null,
     minIvs: null,
     maxIvs: null,
@@ -55,6 +56,7 @@ var settings = {
     showInBattleGymsOnly: null,
     gymLastScannedHours: null,
     showRaids: null,
+    filterRaidPokemon: null,
     excludedRaidPokemon: null,
     showActiveRaidsOnly: null,
     showExEligibleRaidsOnly: null,
@@ -62,10 +64,11 @@ var settings = {
     showPokestops: null,
     showPokestopsNoEvent: null,
     showQuests: null,
+    filterQuests: null,
     excludedQuestPokemon: null,
     excludedQuestItems: null,
     showInvasions: null,
-    showLures: null,
+    filterInvasions: null,
     includedLureTypes: null,
     excludedInvasions: null,
     showWeather: null,
@@ -531,6 +534,7 @@ function updateUserLocationMarker(style) {
 
 function initSettings() {
     settings.showPokemon = serverSettings.pokemons && Store.get('showPokemon')
+    settings.filterPokemonById = serverSettings.pokemons && Store.get('filterPokemonById')
     settings.excludedPokemon = serverSettings.pokemons ? Store.get('excludedPokemon') : new Set()
     settings.pokemonNotifs = serverSettings.pokemons && Store.get('pokemonNotifs')
     if (serverSettings.pokemons) {
@@ -541,7 +545,7 @@ function initSettings() {
         settings.playCries = serverSettings.pokemonCries && Store.get('playCries')
     }
     if (serverSettings.pokemonValues) {
-        settings.filterValues = Store.get('filterValues')
+        settings.filterPokemonByValues = Store.get('filterPokemonByValues')
         settings.noFilterValuesPokemon = Store.get('noFilterValuesPokemon')
         settings.minIvs = Store.get('minIvs')
         settings.maxIvs = Store.get('maxIvs')
@@ -579,6 +583,7 @@ function initSettings() {
     }
     settings.showRaids = serverSettings.raids && Store.get('showRaids')
     if (serverSettings.raidFilters) {
+        settings.filterRaidPokemon = Store.get('filterRaidPokemon')
         settings.excludedRaidPokemon = Store.get('excludedRaidPokemon')
         settings.showActiveRaidsOnly = Store.get('showActiveRaidsOnly')
         settings.showExEligibleRaidsOnly = Store.get('showExEligibleRaidsOnly')
@@ -590,17 +595,16 @@ function initSettings() {
         settings.showPokestopsNoEvent = Store.get('showPokestopsNoEvent')
         settings.showQuests = serverSettings.quests && Store.get('showQuests')
         settings.showInvasions = serverSettings.invasions && Store.get('showInvasions')
-        settings.showLures = serverSettings.lures && Store.get('showLures')
+        settings.includedLureTypes = Store.get('includedLureTypes')
     }
     if (serverSettings.quests) {
+        settings.filterQuests = Store.get('filterQuests')
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
     }
     if (serverSettings.invasions) {
+        settings.filterInvasions = Store.get('filterInvasions')
         settings.excludedInvasions = Store.get('excludedInvasions')
-    }
-    if (serverSettings.lures) {
-        settings.includedLureTypes = Store.get('includedLureTypes')
     }
 
     settings.showWeather = serverSettings.weather && Store.get('showWeather')
@@ -647,19 +651,30 @@ function initSidebar() {
     if (serverSettings.pokemons) {
         $('#pokemon-switch').on('change', function () {
             settings.showPokemon = this.checked
-            const filtersWrapper = $('#pokemon-filters-wrapper')
-            const filterButton = $('a[data-target="pokemon-filter-modal"]')
+            const filtersWrapper = $('.pokemon-filters-wrapper')
             if (this.checked) {
-                filterButton.show()
                 filtersWrapper.show()
                 lastpokemon = false
                 updateMap()
             } else {
-                filterButton.hide()
                 filtersWrapper.hide()
                 updatePokemons()
             }
             Store.set('showPokemon', this.checked)
+        })
+
+        $('#filter-pokemon-switch').on('change', function () {
+            settings.filterPokemonById = this.checked
+            const filterButton = $('a[data-target="pokemon-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+                updatePokemons()
+            } else {
+                filterButton.hide()
+                reincludedPokemon = union(reincludedPokemon, settings.excludedPokemon)
+                updateMap()
+            }
+            Store.set('filterPokemonById', this.checked)
         })
     }
 
@@ -671,7 +686,7 @@ function initSidebar() {
                 filterValuesWrapper.show()
             } else {
                 filterValuesWrapper.hide()
-                if (settings.filterValues) {
+                if (settings.filterPokemonByValues) {
                     lastpokemon = false
                     updateMap()
                 }
@@ -681,7 +696,7 @@ function initSidebar() {
         })
 
         $('#filter-values-switch').on('change', function () {
-            settings.filterValues = this.checked
+            settings.filterPokemonByValues = this.checked
             const filtersWrapper = $('#pokemon-values-filters-wrapper')
             const filterButton = $('a[data-target="pokemon-values-filter-modal"]')
             if (this.checked) {
@@ -694,7 +709,7 @@ function initSidebar() {
                 lastpokemon = false
                 updateMap()
             }
-            Store.set('filterValues', this.checked)
+            Store.set('filterPokemonByValues', this.checked)
         })
 
         $('#zero-ivs-pokemon-switch').on('change', function () {
@@ -981,11 +996,9 @@ function initSidebar() {
             settings.showRaids = this.checked
             const filtersWrapper = $('#raid-filters-wrapper')
             const nameFilterSidebarWrapper = $('#gym-name-filter-sidebar-wrapper')
-            const filterButton = $('a[data-target="raid-pokemon-filter-modal"]')
             if (this.checked) {
                 if (serverSettings.raidFilters) {
                     filtersWrapper.show()
-                    filterButton.show()
                 }
                 if (!settings.showGyms) {
                     nameFilterSidebarWrapper.show()
@@ -998,7 +1011,6 @@ function initSidebar() {
             } else {
                 if (serverSettings.raidFilters) {
                     filtersWrapper.hide()
-                    filterButton.hide()
                 }
                 if (!settings.showGyms) {
                     nameFilterSidebarWrapper.hide()
@@ -1010,6 +1022,23 @@ function initSidebar() {
     }
 
     if (serverSettings.raidFilters) {
+        $('#filter-raid-pokemon-switch').on('change', function () {
+            settings.filterRaidPokemon = this.checked
+            const filterButton = $('a[data-target="raid-pokemon-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+                updateGyms()
+            } else {
+                filterButton.hide()
+                if (settings.showGyms) {
+                    updateGyms()
+                }
+                lastgyms = false
+                updateMap()
+            }
+            Store.set('filterRaidPokemon', this.checked)
+        })
+
         $('#raid-active-switch').on('change', function () {
             settings.showActiveRaidsOnly = this.checked
             if (this.checked) {
@@ -1057,7 +1086,7 @@ function initSidebar() {
     if (serverSettings.pokestops) {
         $('#pokestop-switch').on('change', function () {
             settings.showPokestops = this.checked
-            const filtersWrapper = $('#pokestop-filters-wrapper')
+            const filtersWrapper = $('.pokestop-filters-wrapper')
             if (this.checked) {
                 filtersWrapper.show()
                 lastpokestops = false
@@ -1091,23 +1120,21 @@ function initSidebar() {
     if (serverSettings.quests) {
         $('#quest-switch').on('change', function () {
             settings.showQuests = this.checked
-            var filterButton = $('a[data-target="quest-filter-modal"]')
+            let wrapper = $('#filter-quests-switch-wrapper')
             if (this.checked) {
-                filterButton.show()
+                wrapper.show()
             } else {
-                filterButton.hide()
+                wrapper.hide()
             }
             updatePokestops()
             lastpokestops = false
             updateMap()
             Store.set('showQuests', this.checked)
         })
-    }
 
-    if (serverSettings.invasions) {
-        $('#invasion-switch').on('change', function () {
-            settings.showInvasions = this.checked
-            var filterButton = $('a[data-target="invasion-filter-modal"]')
+        $('#filter-quests-switch').on('change', function () {
+            settings.filterQuests = this.checked
+            let filterButton = $('a[data-target="quest-filter-modal"]')
             if (this.checked) {
                 filterButton.show()
             } else {
@@ -1116,25 +1143,41 @@ function initSidebar() {
             updatePokestops()
             lastpokestops = false
             updateMap()
-            Store.set('showInvasions', this.checked)
+            Store.set('filterQuests', this.checked)
         })
     }
 
-    if (serverSettings.lures) {
-        $('#lure-switch').on('change', function () {
-            settings.showLures = this.checked
-            const lureTypeWrapper = $('#lure-type-select-wrapper')
+    if (serverSettings.invasions) {
+        $('#invasion-switch').on('change', function () {
+            settings.showInvasions = this.checked
+            let wrapper = $('#filter-invasions-switch-wrapper')
             if (this.checked) {
-                lureTypeWrapper.show()
+                wrapper.show()
             } else {
-                lureTypeWrapper.hide()
+                wrapper.hide()
             }
             updatePokestops()
             lastpokestops = false
             updateMap()
-            Store.set('showLures', this.checked)
+            Store.set('showInvasions', this.checked)
         })
 
+        $('#filter-invasions-switch').on('change', function () {
+            settings.filterInvasions = this.checked
+            let filterButton = $('a[data-target="invasion-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+            } else {
+                filterButton.hide()
+            }
+            updatePokestops()
+            lastpokestops = false
+            updateMap()
+            Store.set('filterInvasions', this.checked)
+        })
+    }
+
+    if (serverSettings.lures) {
         $('#lure-type-select').on('change', function () {
             settings.includedLureTypes = $(this).val().map(Number)
             updateGyms()
@@ -1684,23 +1727,24 @@ function initSidebar() {
     // Pokemon.
     if (serverSettings.pokemons) {
         $('#pokemon-switch').prop('checked', settings.showPokemon)
-        $('a[data-target="pokemon-filter-modal"]').toggle(settings.showPokemon)
-        $('#pokemon-filters-wrapper').toggle(settings.showPokemon)
+        $('#filter-pokemon-switch').prop('checked', settings.filterPokemonById)
+        $('a[data-target="pokemon-filter-modal"]').toggle(settings.filterPokemonById)
+        $('.pokemon-filters-wrapper').toggle(settings.showPokemon)
     }
     if (serverSettings.pokemonValues) {
         $('#pokemon-values-switch').prop('checked', settings.showPokemonValues)
         $('#filter-pokemon-values-wrapper').toggle(settings.showPokemonValues)
-        $('#filter-values-switch').prop('checked', settings.filterValues)
-        $('a[data-target="pokemon-values-filter-modal"]').toggle(settings.filterValues)
-        $('#pokemon-values-filters-wrapper').toggle(settings.filterValues)
+        $('#filter-values-switch').prop('checked', settings.filterPokemonByValues)
+        $('a[data-target="pokemon-values-filter-modal"]').toggle(settings.filterPokemonByValues)
+        $('#pokemon-values-filters-wrapper').toggle(settings.filterPokemonByValues)
         $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
-        $('#pokemon-ivs-slider-wrapper').toggle(settings.filterValues)
+        $('#pokemon-ivs-slider-wrapper').toggle(settings.filterPokemonByValues)
         $('#zero-ivs-pokemon-switch').prop('checked', settings.showZeroIvsPokemon)
         $('#zero-ivs-pokemon-switch-wrapper').toggle(settings.minIvs > 0)
         $('#hundo-ivs-pokemon-switch').prop('checked', settings.showHundoIvsPokemon)
         $('#hundo-ivs-pokemon-switch-wrapper').toggle(settings.maxIvs < 100)
         $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
-        $('#pokemon-level-slider-wrapper').toggle(settings.filterValues)
+        $('#pokemon-level-slider-wrapper').toggle(settings.filterPokemonByValues)
     }
     if (serverSettings.rarity) {
         $('#rarity-select').val(settings.includedRarities)
@@ -1735,7 +1779,8 @@ function initSidebar() {
         $('#raid-switch').prop('checked', settings.showRaids)
     }
     if (serverSettings.raidFilters) {
-        $('a[data-target="raid-pokemon-filter-modal"]').toggle(settings.showRaids)
+        $('#filter-raid-pokemon-switch').prop('checked', settings.filterRaidPokemon)
+        $('a[data-target="raid-pokemon-filter-modal"]').toggle(settings.filterRaidPokemon)
         $('#raid-filters-wrapper').toggle(settings.showRaids)
         $('#raid-active-switch').prop('checked', settings.showActiveRaidsOnly)
         $('#raid-ex-eligible-switch').prop('checked', settings.showExEligibleRaidsOnly)
@@ -1746,20 +1791,22 @@ function initSidebar() {
     // Pokestops.
     if (serverSettings.pokestops) {
         $('#pokestop-switch').prop('checked', settings.showPokestops)
-        $('#pokestop-filters-wrapper').toggle(settings.showPokestops)
+        $('.pokestop-filters-wrapper').toggle(settings.showPokestops)
         $('#pokestop-no-event-switch').prop('checked', settings.showPokestopsNoEvent)
     }
     if (serverSettings.quests) {
         $('#quest-switch').prop('checked', settings.showQuests)
-        $('a[data-target="quest-filter-modal"]').toggle(settings.showQuests)
+        $('#filter-quests-switch-wrapper').toggle(settings.showQuests)
+        $('#filter-quests-switch').prop('checked', settings.filterQuests)
+        $('a[data-target="quest-filter-modal"]').toggle(settings.filterQuests)
     }
     if (serverSettings.invasions) {
         $('#invasion-switch').prop('checked', settings.showInvasions)
-        $('a[data-target="invasion-filter-modal"]').toggle(settings.showInvasions)
+        $('#filter-invasions-switch-wrapper').toggle(settings.showInvasions)
+        $('#filter-invasions-switch').prop('checked', settings.filterInvasions)
+        $('a[data-target="invasion-filter-modal"]').toggle(settings.filterInvasions)
     }
     if (serverSettings.lures) {
-        $('#lure-switch').prop('checked', settings.showLures)
-        $('#lure-type-select-wrapper').toggle(settings.showLures)
         $('#lure-type-select').val(settings.includedLureTypes)
         $('#lure-type-select').formSelect()
     }
@@ -2862,7 +2909,7 @@ function loadRawData() {
     const loadPokestopsNoEvent = settings.showPokestopsNoEvent
     const loadQuests = settings.showQuests
     const loadInvasions = settings.showInvasions
-    const loadLures = settings.showLures
+    const loadLures = settings.includedLureTypes.length > 0
     const loadWeather = settings.showWeather
     const loadSpawnpoints = settings.showSpawnpoints
     const loadScannedLocs = settings.showScannedLocations

@@ -77,6 +77,10 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'filterPokemonById': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'excludedPokemon': {
         default: new Set(),
         type: StoreTypes.Set
@@ -85,7 +89,7 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
-    'filterValues': {
+    'filterPokemonByValues': {
         default: false,
         type: StoreTypes.Boolean
     },
@@ -229,6 +233,10 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'filterRaidPokemon': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'excludedRaidPokemon': {
         default: new Set(),
         type: StoreTypes.Set
@@ -257,6 +265,10 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'filterQuests': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'excludedQuestPokemon': {
         default: new Set(),
         type: StoreTypes.Set
@@ -269,13 +281,13 @@ var StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    'filterInvasions': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'excludedInvasions': {
         default: [],
         type: StoreTypes.JSON
-    },
-    'showLures': {
-        default: true,
-        type: StoreTypes.Boolean
     },
     'includedLureTypes': {
         default: [501, 502, 503, 504],

@@ -23,7 +23,7 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
         return false
     }
 
-    if (settings.showPokemonValues && settings.filterValues && !settings.noFilterValuesPokemon.has(pokemon.pokemon_id)) {
+    if (settings.showPokemonValues && settings.filterPokemonByValues && !settings.noFilterValuesPokemon.has(pokemon.pokemon_id)) {
         if (pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
@@ -457,7 +457,7 @@ function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
 }
 
 function getExcludedPokemon() {
-    return isShowAllZoom() ? new Set() : settings.excludedPokemon
+    return !settings.filterPokemonById || isShowAllZoom() ? new Set() : settings.excludedPokemon
 }
 
 function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars

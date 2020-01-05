@@ -381,11 +381,22 @@
                   <span class="lever"></span>
                   Pokémon
                 </label>
-                <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon"><i class="material-icons left">filter_list</i></a>
+              </div>
+            </div>
+            <div class="pokemon-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="filter-pokemon-switch">
+                    <span class="lever"></span>
+                    Filter Pokémon
+                  </label>
+                  <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon"><i class="material-icons left">filter_list</i></a>
+                </div>
               </div>
             </div>
           </div>
-          <div id="pokemon-filters-wrapper">
+          <div class="pokemon-filters-wrapper">
             {% if settings.pokemonValues %}
             <div class="settings-container">
               <div class="form-control">
@@ -594,13 +605,20 @@
                   <span class="lever"></span>
                   Raids
                 </label>
-                {% if settings.raidFilters %}
-                <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Raid Bosses"><i class="material-icons left">filter_list</i></a>
-                {% endif %}
               </div>
             </div>
             {% if settings.raidFilters %}
             <div id="raid-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="filter-raid-pokemon-switch">
+                    <span class="lever"></span>
+                    Filter Raid Bosses
+                  </label>
+                  <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Raid Bosses"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
               <div class="form-control">
                 <div class="switch">
                   <label>
@@ -652,7 +670,7 @@
                 </label>
               </div>
             </div>
-            <div id="pokestop-filters-wrapper">
+            <div class="pokestop-filters-wrapper">
               <div class="form-control">
                 <div class="input-field">
                   <div class="text-input-title">Name includes</div>
@@ -668,7 +686,11 @@
                   </label>
                 </div>
               </div>
-              {% if settings.quests %}
+            </div>
+          </div>
+          <div class="pokestop-filters-wrapper">
+            {% if settings.quests %}
+            <div class="settings-container">
               <div class="form-control">
                 <div class="switch">
                   <label>
@@ -676,47 +698,62 @@
                     <span class="lever"></span>
                     Quests
                   </label>
-                  <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Quests"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
-              {% endif %}
-              {% if settings.invasions %}
+              <div id="filter-quests-switch-wrapper">
+                <div class="form-control">
+                  <div class="switch">
+                    <label>
+                      <input type="checkbox" id="filter-quests-switch">
+                      <span class="lever"></span>
+                      Filter Quests
+                    </label>
+                    <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Quests"><i class="material-icons left">filter_list</i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% if settings.invasions %}
+            <div class="settings-container">
               <div class="form-control">
                 <div class="switch">
                   <label>
                     <input type="checkbox" id="invasion-switch">
                     <span class="lever"></span>
-                    Team Rocket Invasions
-                  </label>
-                  <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Invasions"><i class="material-icons left">filter_list</i></a>
-                </div>
-              </div>
-              {% endif %}
-              {% if settings.lures %}
-              <div class="form-control">
-                <div class="switch">
-                  <label>
-                    <input type="checkbox" id="lure-switch">
-                    <span class="lever"></span>
-                    Lures
+                    Rocket Invasions
                   </label>
                 </div>
               </div>
-              <div id="lure-type-select-wrapper">
+              <div id="filter-invasions-switch-wrapper">
                 <div class="form-control">
-                  <div class="input-field">
-                    <div class="select-title">Filter Lures</div>
-                    <select id="lure-type-select" multiple>
-                      <option value="501">Normal Lures</option>
-                      <option value="502">Glacial Lures</option>
-                      <option value="504">Magnetic Lures</option>
-                      <option value="503">Mossy Lures</option>
-                    </select>
+                  <div class="switch">
+                    <label>
+                      <input type="checkbox" id="filter-invasions-switch">
+                      <span class="lever"></span>
+                      Filter Rocket Invasions
+                    </label>
+                    <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Invasions"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
               </div>
-              {% endif %}
             </div>
+            {% endif %}
+            {% if settings.lures %}
+            <div class="settings-container">
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Lures</div>
+                  <select id="lure-type-select" multiple>
+                    <option value="501">Normal Lures</option>
+                    <option value="502">Glacial Lures</option>
+                    <option value="504">Magnetic Lures</option>
+                    <option value="503">Mossy Lures</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            {% endif %}
           </div>
         </div>
       </li>
