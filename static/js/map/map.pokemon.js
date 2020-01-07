@@ -473,7 +473,7 @@ function isNotifPokemon(pokemon) {
         return false
     }
 
-    if (settings.notifPokemon.has(pokemon.pokemon_id)) {
+    if (settings.pokemonIdNotifs && settings.notifPokemon.has(pokemon.pokemon_id)) {
         return true
     }
 

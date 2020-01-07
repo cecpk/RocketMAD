@@ -31,6 +31,7 @@ var settings = {
     includedRarities: null,
     scaleByRarity: null,
     pokemonNotifs: null,
+    pokemonIdNotifs: null,
     notifPokemon: null,
     pokemonValuesNotifs: null,
     noNotifValuesPokemon: null,
@@ -539,6 +540,7 @@ function initSettings() {
     settings.pokemonNotifs = serverSettings.pokemons && Store.get('pokemonNotifs')
     if (serverSettings.pokemons) {
         settings.showPokemonValues = serverSettings.pokemonValues && Store.get('showPokemonValues')
+        settings.pokemonIdNotifs = Store.get('pokemonIdNotifs')
         settings.notifPokemon = Store.get('notifPokemon')
         settings.showNotifPokemonOnly = Store.get('showNotifPokemonOnly')
         settings.showNotifPokemonAlways = Store.get('showNotifPokemonAlways')
@@ -1419,18 +1421,15 @@ function initSidebar() {
     if (serverSettings.pokemons) {
         $('#pokemon-notifs-switch').on('change', function () {
             settings.pokemonNotifs = this.checked
-            var wrapper = $('#pokemon-notif-filters-wrapper')
-            const filterButton = $('a[data-target="notif-pokemon-filter-modal"]')
+            let wrapper = $('#pokemon-notif-filters-wrapper')
             if (this.checked) {
                 wrapper.show()
-                filterButton.show()
                 if (settings.showNotifPokemonAlways) {
                     lastpokemon = false
                     updateMap()
                 }
             } else {
                 wrapper.hide()
-                filterButton.hide()
                 if (settings.showNotifPokemonOnly) {
                     lastpokemon = false
                     updateMap()
@@ -1439,13 +1438,29 @@ function initSidebar() {
             updatePokemons()
             Store.set('pokemonNotifs', this.checked)
         })
+
+        $('#pokemon-id-notifs-switch').on('change', function () {
+            settings.pokemonIdNotifs = this.checked
+            let filterButton = $('a[data-target="notif-pokemon-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+                if (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways) {
+                    lastpokemon = false
+                    updateMap()
+                }
+            } else {
+                filterButton.hide()
+            }
+            updatePokemons()
+            Store.set('pokemonIdNotifs', this.checked)
+        })
     }
 
     if (serverSettings.pokemonValues) {
         $('#pokemon-values-notifs-switch').on('change', function () {
             settings.pokemonValuesNotifs = this.checked
-            var wrapper = $('#pokemon-values-notif-filters-wrapper')
-            const filterButton = $('a[data-target="notif-pokemon-values-filter-modal"]')
+            let wrapper = $('#pokemon-values-notif-filters-wrapper')
+            let filterButton = $('a[data-target="notif-pokemon-values-filter-modal"]')
             if (this.checked) {
                 wrapper.show()
                 filterButton.show()
@@ -1505,7 +1520,7 @@ function initSidebar() {
             settings.minNotifIvs = this.get()[0]
             settings.maxNotifIvs = this.get()[1]
 
-            $('#pokemon-ivs-notifs-slider-title').text(`IVs notifs (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
+            $('#pokemon-ivs-notifs-slider-title').text(`Notif IVs (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
             const zeroIvsWrapper = $('#zero-ivs-pokemon-notifs-switch-wrapper')
             const hundoIvsWrapper = $('#hundo-ivs-pokemon-notifs-switch-wrapper')
             if (settings.minNotifIvs > 0) {
@@ -1553,7 +1568,7 @@ function initSidebar() {
             const oldMaxLevel = settings.maxNotifLevel
             settings.minNotifLevel = this.get()[0]
             settings.maxNotifLevel = this.get()[1]
-            $('#pokemon-level-notifs-slider-title').text(`Levels notifs (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
+            $('#pokemon-level-notifs-slider-title').text(`Notif Levels (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
 
             if ((settings.minNotifLevel < oldMinLevel || settings.maxNotifLevel > oldMaxLevel) &&
                     (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
@@ -1863,7 +1878,8 @@ function initSidebar() {
     // Notifications.
     if (serverSettings.pokemons) {
         $('#pokemon-notifs-switch').prop('checked', settings.pokemonNotifs)
-        $('a[data-target="notif-pokemon-filter-modal"]').toggle(settings.pokemonNotifs)
+        $('#pokemon-id-notifs-switch').prop('checked', settings.pokemonIdNotifs)
+        $('a[data-target="notif-pokemon-filter-modal"]').toggle(settings.pokemonIdNotifs)
         $('#pokemon-notif-filters-wrapper').toggle(settings.pokemonNotifs)
         $('#notif-pokemon-only-switch').prop('checked', settings.showNotifPokemonOnly)
         $('#notif-pokemon-always-switch').prop('checked', settings.showNotifPokemonAlways)
@@ -1876,8 +1892,8 @@ function initSidebar() {
         $('#zero-ivs-pokemon-notifs-switch').prop('checked', settings.zeroIvsPokemonNotifs)
         $('#hundo-ivs-pokemon-notifs-switch-wrapper').toggle(settings.maxNotifIvs < 100)
         $('#hundo-ivs-pokemon-notifs-switch').prop('checked', settings.hundoIvsPokemonNotifs)
-        $('#pokemon-ivs-notifs-slider-title').text(`IVs notifs (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
-        $('#pokemon-level-notifs-slider-title').text(`Levels notifs (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
+        $('#pokemon-ivs-notifs-slider-title').text(`Notif IVs (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
+        $('#pokemon-level-notifs-slider-title').text(`Notif Levels (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
         $('#tiny-rattata-notifs-switch').prop('checked', settings.tinyRattataNotifs)
         $('#big-magikarp-notifs-switch').prop('checked', settings.bigMagikarpNotifs)
     }
@@ -2185,9 +2201,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifPokemon)
         $('#no-notif-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifPokemon.size === pokemonIds.size) {
-            $('#notif-pokemon-filter-title').text('Pokémon notifications (All)')
+            $('#notif-pokemon-filter-title').text('Notif Pokémon (All)')
         } else {
-            $('#notif-pokemon-filter-title').text(`Pokémon notifications (${settings.notifPokemon.size})`)
+            $('#notif-pokemon-filter-title').text(`Notif Pokémon (${settings.notifPokemon.size})`)
         }
 
         $('label[for="no-notif-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2212,9 +2228,9 @@ function initPokemonFilters() {
             }
 
             if (settings.notifPokemon.size === pokemonIds.size) {
-                $('#notif-pokemon-filter-title').text('Pokémon notifications (All)')
+                $('#notif-pokemon-filter-title').text('Notif Pokémon (All)')
             } else {
-                $('#notif-pokemon-filter-title').text(`Pokémon notifications (${settings.notifPokemon.size})`)
+                $('#notif-pokemon-filter-title').text(`Notif Pokémon (${settings.notifPokemon.size})`)
             }
 
             Store.set('notifPokemon', settings.notifPokemon)
@@ -2224,9 +2240,9 @@ function initPokemonFilters() {
     if (serverSettings.pokemonValues) {
         $('#no-notif-values-pokemon').val(Array.from(settings.noNotifValuesPokemon))
         if (settings.noNotifValuesPokemon.size === 0) {
-            $('#notif-pokemon-values-filter-title').text('Pokémon values notifs (All)')
+            $('#notif-pokemon-values-filter-title').text('Notif Pokémon filtered by values (All)')
         } else {
-            $('#notif-pokemon-values-filter-title').text(`Pokémon values notifs (${pokemonIds.size - settings.noNotifValuesPokemon.size})`)
+            $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${pokemonIds.size - settings.noNotifValuesPokemon.size})`)
         }
 
         $('label[for="no-notif-values-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2250,9 +2266,9 @@ function initPokemonFilters() {
             }
 
             if (settings.noNotifValuesPokemon.size === 0) {
-                $('#notif-pokemon-values-filter-title').text('Pokémon values notifs (All)')
+                $('#notif-pokemon-values-filter-title').text('Notif Pokémon filtered by values (All)')
             } else {
-                $('#notif-pokemon-values-filter-title').text(`Pokémon values notifs (${pokemonIds.size - settings.noNotifValuesPokemon.size})`)
+                $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${pokemonIds.size - settings.noNotifValuesPokemon.size})`)
             }
 
             Store.set('noNotifValuesPokemon', settings.noNotifValuesPokemon)
@@ -2369,9 +2385,9 @@ function initInvasionFilters() {
 
     $('#exclude-invasions').val(settings.excludedInvasions)
     if (settings.excludedInvasions.length === 0) {
-        $('#filter-invasion-title').text('Team Rocket Invasions (All)')
+        $('#filter-invasion-title').text('Rocket Invasions (All)')
     } else {
-        $('#filter-invasion-title').text(`Team Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
+        $('#filter-invasion-title').text(`Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
     }
 
     $('label[for="exclude-invasions"] .invasion-filter-list .filter-button').each(function () {
@@ -2416,9 +2432,9 @@ function initInvasionFilters() {
         updateMap()
 
         if (settings.excludedInvasions.length === 0) {
-            $('#filter-invasion-title').text('Team Rocket Invasions (All)')
+            $('#filter-invasion-title').text('Rocket Invasions (All)')
         } else {
-            $('#filter-invasion-title').text(`Team Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
+            $('#filter-invasion-title').text(`Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
         }
 
         Store.set('excludedInvasions', settings.excludedInvasions)

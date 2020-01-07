@@ -208,7 +208,7 @@
     {% if settings.invasions %}
     <div id="invasion-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="filter-invasion-title">Team Rocket Invasions</h6>
+        <h6 id="filter-invasion-title">Rocket Invasions</h6>
         <label for="exclude-invasions">
           <input id="exclude-invasions" type="text" readonly="true" style="display:none;">
           <div class="invasion-filter-list"></div>
@@ -238,7 +238,7 @@
     {% if settings.pokemons %}
     <div id="notif-pokemon-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="notif-pokemon-filter-title">Pokémon notifications</h6>
+        <h6 id="notif-pokemon-filter-title">Notif Pokémon</h6>
         <label for="no-notif-pokemon">
           <input id="no-notif-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -262,7 +262,7 @@
     {% if settings.pokemonValues %}
     <div id="notif-pokemon-values-filter-modal" class="modal filter-modal">
       <div class="modal-content">
-        <h6 id="notif-pokemon-values-filter-title">Pokémon values notifs</h6>
+        <h6 id="notif-pokemon-values-filter-title">Notif Pokémon filtered by values</h6>
         <label for="no-notif-values-pokemon">
           <input id="no-notif-values-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -391,7 +391,7 @@
                     <span class="lever"></span>
                     Filter Pokémon
                   </label>
-                  <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon"><i class="material-icons left">filter_list</i></a>
+                  <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
             </div>
@@ -416,7 +416,7 @@
                       <span class="lever"></span>
                       Filter by values
                     </label>
-                    <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon to be filtered by values"><i class="material-icons left">filter_list</i></a>
+                    <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
                 <div id="pokemon-values-filters-wrapper">
@@ -616,7 +616,7 @@
                     <span class="lever"></span>
                     Filter Raid Bosses
                   </label>
-                  <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Raid Bosses"><i class="material-icons left">filter_list</i></a>
+                  <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
               <div class="form-control">
@@ -708,7 +708,7 @@
                       <span class="lever"></span>
                       Filter Quests
                     </label>
-                    <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Quests"><i class="material-icons left">filter_list</i></a>
+                    <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select rewards"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
               </div>
@@ -733,7 +733,7 @@
                       <span class="lever"></span>
                       Filter Rocket Invasions
                     </label>
-                    <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Invasions"><i class="material-icons left">filter_list</i></a>
+                    <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Rocket Invasions"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
               </div>
@@ -997,19 +997,28 @@
                   <span class="lever"></span>
                   Pokémon notifs
                 </label>
-                <a data-target="notif-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications"><i class="material-icons left">filter_list</i></a>
               </div>
             </div>
             <div id="pokemon-notif-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="pokemon-id-notifs-switch">
+                    <span class="lever"></span>
+                    Notifs filtered by ID
+                  </label>
+                  <a data-target="notif-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
               {% if settings.pokemonValues %}
               <div class="form-control">
                 <div class="switch">
                   <label>
                     <input type="checkbox" id="pokemon-values-notifs-switch">
                     <span class="lever"></span>
-                    Pokémon values notifs
+                    Notifs filtered by values
                   </label>
-                  <a data-target="notif-pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Filter Pokémon notifications for values"><i class="material-icons left">filter_list</i></a>
+                  <a data-target="notif-pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
               <div id="pokemon-values-notif-filters-wrapper">
@@ -1036,13 +1045,13 @@
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="pokemon-ivs-notifs-slider-title" class="slider-title">IVs notifs</span>
+                  <span id="pokemon-ivs-notifs-slider-title" class="slider-title">Notif IVs</span>
                   <div class="slider-container">
                     <div id="pokemon-ivs-notifs-slider"></div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="pokemon-level-notifs-slider-title" class="slider-title">Levels notifs</span>
+                  <span id="pokemon-level-notifs-slider-title" class="slider-title">Notif Levels</span>
                   <div class="slider-container">
                     <div id="pokemon-level-notifs-slider"></div>
                   </div>
