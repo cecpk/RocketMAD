@@ -4,8 +4,6 @@
 // Global map.js variables
 //
 
-var $selectNotifyRaidPokemon
-var $selectNotifyEggs
 var $selectNotifyInvasions
 var $selectStyle
 var $selectSearchIconMarker
@@ -62,6 +60,10 @@ var settings = {
     showActiveRaidsOnly: null,
     showExEligibleRaidsOnly: null,
     includedRaidLevels: null,
+    raidNotifs: null,
+    raidPokemonNotifs: null,
+    notifRaidPokemon: null,
+    notifEggs: null,
     showPokestops: null,
     showPokestopsNoEvent: null,
     showQuests: null,
@@ -100,8 +102,6 @@ var settings = {
 var timestamp
 var reincludedPokemon = new Set()
 
-var notifyRaidPokemon = []
-var notifyEggs = []
 var notifyInvasions = []
 
 var notifiedPokemonData = {}
@@ -584,12 +584,16 @@ function initSettings() {
         settings.gymLastScannedHours = Store.get('gymLastScannedHours')
     }
     settings.showRaids = serverSettings.raids && Store.get('showRaids')
+    settings.raidNotifs = serverSettings.raids && Store.get('raidNotifs')
     if (serverSettings.raidFilters) {
         settings.filterRaidPokemon = Store.get('filterRaidPokemon')
         settings.excludedRaidPokemon = Store.get('excludedRaidPokemon')
         settings.showActiveRaidsOnly = Store.get('showActiveRaidsOnly')
         settings.showExEligibleRaidsOnly = Store.get('showExEligibleRaidsOnly')
         settings.includedRaidLevels = Store.get('includedRaidLevels')
+        settings.raidPokemonNotifs = Store.get('raidPokemonNotifs')
+        settings.notifRaidPokemon = Store.get('notifRaidPokemon')
+        settings.notifEggs = Store.get('notifEggs')
     }
 
     settings.showPokestops = serverSettings.pokestops && Store.get('showPokestops')
@@ -1647,6 +1651,38 @@ function initSidebar() {
         })
     }
 
+    if (serverSettings.raids) {
+        $('#raid-notifs-switch').on('change', function () {
+            settings.raidNotifs = this.checked
+            let wrapper = $('#raid-notif-filters-wrapper')
+            if (this.checked) {
+                wrapper.show()
+            } else {
+                wrapper.hide()
+            }
+            updateGyms()
+            Store.set('raidNotifs', this.checked)
+        })
+
+        $('#raid-pokemon-notifs-switch').on('change', function () {
+            settings.raidPokemonNotifs = this.checked
+            let filterButton = $('a[data-target="notif-raid-pokemon-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+            } else {
+                filterButton.hide()
+            }
+            updateGyms()
+            Store.set('raidPokemonNotifs', this.checked)
+        })
+
+        $('#egg-notifs-select').on('change', function () {
+            settings.notifEggs = $(this).val().map(Number)
+            updateGyms()
+            Store.set('notifEggs', settings.notifEggs)
+        })
+    }
+
     $('#browser-popups-switch').on('change', function () {
         settings.showBrowserPopups = this.checked
         Store.set('showBrowserPopups', this.checked)
@@ -1668,7 +1704,7 @@ function initSidebar() {
         if (settings.pokemonNotifs) {
             updatePokemons()
         }
-        if (settings.gymNotifs) {
+        if (settings.raidNotifs) {
             updateGyms()
         }
         if (settings.pokestopNotifs) {
@@ -1682,7 +1718,7 @@ function initSidebar() {
         if (settings.pokemonNotifs) {
             updatePokemons()
         }
-        if (settings.gymNotifs) {
+        if (settings.raidNotifs) {
             updateGyms()
         }
         if (settings.pokestopNotifs) {
@@ -1901,7 +1937,14 @@ function initSidebar() {
         $('#pokemon-cries-switch').prop('checked', settings.playCries)
         $('#pokemon-cries-switch-wrapper').toggle(settings.playSound)
     }
-
+    if (serverSettings.raids) {
+        $('#raid-notifs-switch').prop('checked', settings.raidNotifs)
+        $('#raid-notif-filters-wrapper').toggle(settings.raidNotifs)
+        $('#raid-pokemon-notifs-switch').prop('checked', settings.raidPokemonNotifs)
+        $('a[data-target="notif-raid-pokemon-filter-modal"]').toggle(settings.raidPokemonNotifs)
+        $('#egg-notifs-select').val(settings.notifEggs)
+        $('#egg-notifs-select').formSelect()
+    }
     $('#browser-popups-switch').prop('checked', settings.showBrowserPopups)
     $('#notif-sound-switch').prop('checked', settings.playSound)
     $('#upscale-notif-markers-switch').prop('checked', settings.upscaleNotifMarkers)
@@ -2272,6 +2315,38 @@ function initPokemonFilters() {
             }
 
             Store.set('noNotifValuesPokemon', settings.noNotifValuesPokemon)
+        })
+    }
+
+    if (serverSettings.raids) {
+        const noNotifPoke = difference(pokemonIds, settings.notifRaidPokemon)
+        $('#no-notif-raid-pokemon').val(Array.from(noNotifPoke))
+        if (settings.notifRaidPokemon.size === pokemonIds.size) {
+            $('#notif-raid-pokemon-filter-title').text('Notif Raid Bosses (All)')
+        } else {
+            $('#notif-raid-pokemon-filter-title').text(`Notif Raid Bosses (${settings.notifRaidPokemon.size})`)
+        }
+
+        $('label[for="no-notif-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+            if (settings.notifRaidPokemon.has($(this).data('id'))) {
+                $(this).addClass('active')
+            }
+        })
+
+        $('#no-notif-raid-pokemon').on('change', function (e) {
+            const prevNotifPokemon = settings.notifRaidPokemon
+            const noNotifPokemon = $(this).val().length > 0 ? new Set($(this).val().split(',').map(Number)) : new Set()
+            settings.notifRaidPokemon = difference(pokemonIds, noNotifPokemon)
+
+            updateGyms()
+
+            if (settings.notifRaidPokemon.size === pokemonIds.size) {
+                $('#notif-raid-pokemon-filter-title').text('Notif Raid Bosses (All)')
+            } else {
+                $('#notif-raid-pokemon-filter-title').text(`Notif Raid Bosses (${settings.notifRaidPokemon.size})`)
+            }
+
+            Store.set('notifRaidPokemon', settings.notifRaidPokemon)
         })
     }
 }
@@ -3503,8 +3578,6 @@ $(function () {
 $(function () {
     moment.locale(language)
 
-    $selectNotifyRaidPokemon = $('#notify-raid-pokemon')
-    $selectNotifyEggs = $('#notify-eggs')
     $selectNotifyInvasions = $('#notify-invasions')
 
     /*$.each(questItemIds, function (key, id) {
@@ -3524,32 +3597,6 @@ $(function () {
         pokemonIds.push(808)
         pokemonIds.push(809)
 
-        $selectNotifyRaidPokemon.on('change', function (e) {
-            if ($selectNotifyRaidPokemon.val().length > 0) {
-                notifyRaidPokemon = $selectNotifyRaidPokemon.val().split(',').map(Number).sort(function (a, b) {
-                    return a - b
-                })
-            } else {
-                notifyRaidPokemon = []
-            }
-            if (notifyRaidPokemon.length === pokemonIds.length) {
-                $('a[href$="#tabs_notify_raid_pokemon-1"]').text('Raid Bosses (All)')
-            } else {
-                $('a[href$="#tabs_notify_raid_pokemon-1"]').text(`Raid Bosses (${notifyRaidPokemon.length})`)
-            }
-            updateGyms()
-            Store.set('remember_select_notify_raid_pokemon', notifyRaidPokemon)
-        })
-
-        $selectNotifyEggs.on('change', function (e) {
-            notifyEggs = $selectNotifyEggs.val().map(Number)
-            updateGyms()
-            Store.set('remember_select_notify_eggs', notifyEggs)
-        })
-
-        // Recall saved lists.
-        $selectNotifyRaidPokemon.val(Store.get('remember_select_notify_raid_pokemon')).trigger('change')
-        $selectNotifyEggs.val(Store.get('remember_select_notify_eggs')).trigger('change')
 
         /*if (isTouchDevice() && isMobileDevice()) {
             $('.select2-search input').prop('readonly', true)

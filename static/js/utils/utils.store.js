@@ -257,6 +257,22 @@ var StoreOptions = {
         default: [1, 2, 3, 4, 5],
         type: StoreTypes.JSON
     },
+    'raidNotifs': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'raidPokemonNotifs': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifRaidPokemon': {
+        default: new Set(),
+        type: StoreTypes.Set
+    },
+    'notifEggs': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'showPokestops': {
         default: true,
         type: StoreTypes.Boolean

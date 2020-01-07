@@ -283,6 +283,30 @@
     </div>
     {% endif %}
 
+    {% if settings.raids %}
+    <div id="notif-raid-pokemon-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <h6 id="notif-raid-pokemon-filter-title">Notif Raid Bosses</h6>
+        <label for="no-notif-raid-pokemon">
+          <input id="no-notif-raid-pokemon" type="text" readonly="true" style="display:none;">
+          <div class="pokemon-filter-list"></div>
+          <div class="filter-footer-container">
+            <div class="filter-footer-left">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="Search...">
+            </div>
+            <div class="filter-footer-right">
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
     {% if settings.pokemons or settings.raids or settings.quests %}
     <div id="import-pokemon-list-modal" class="modal">
       <div class="modal-content">
@@ -1122,6 +1146,43 @@
                 </div>
               </div>
               {% endif %}
+            </div>
+          </div>
+          {% endif %}
+          {% if settings.raids %}
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="raid-notifs-switch">
+                  <span class="lever"></span>
+                  Raid notifs
+                </label>
+              </div>
+            </div>
+            <div id="raid-notif-filters-wrapper">
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="raid-pokemon-notifs-switch">
+                    <span class="lever"></span>
+                    Raid Boss notifs
+                  </label>
+                  <a data-target="notif-raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Egg notifs</div>
+                  <select id="egg-notifs-select" multiple>
+                    <option value="1">Level 1</option>
+                    <option value="2">Level 2</option>
+                    <option value="3">Level 3</option>
+                    <option value="4">Level 4</option>
+                    <option value="5">Level 5</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
           {% endif %}

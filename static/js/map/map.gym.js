@@ -267,8 +267,9 @@ function gymLabel(gym) {
             let fastMoveType = getMoveTypeNoI8ln(raid.move_1)
             let chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
 
-            const notifyText = notifyRaidPokemon.includes(raid.pokemon_id) ? 'Unnotify' : 'Notify'
-            const notifyIconClass = notifyRaidPokemon.includes(raid.pokemon_id) ? 'fas fa-bell-slash' : 'fas fa-bell'
+            const isNotifRaid = settings.notifRaidPokemon.has(raid.pokemon_id)
+            const notifyText = isNotifRaid ? 'Unnotify' : 'Notify'
+            const notifyIconClass = isNotifRaid ? 'fas fa-bell-slash' : 'fas fa-bell'
 
             raidDisplay = `
                 <div class='section-divider'></div>
@@ -312,7 +313,7 @@ function gymLabel(gym) {
                   </div>
                 </div>`
         } else {
-            const isNotifyEgg = notifyEggs.includes(raid.level)
+            const isNotifyEgg = settings.notifEggs.includes(raid.level)
             const notifyText = isNotifyEgg ? 'Unnotify' : 'Notify'
             const notifyIconClass = isNotifyEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
             const notifyFunction = isNotifyEgg ? 'unnotifyAboutEgg' : 'notifyAboutEgg'
@@ -568,24 +569,24 @@ function notifyAboutRaidPokemon(id) { // eslint-disable-line no-unused-vars
 }
 
 function getGymNotificationInfo(gym) {
-    var isEggNotifyGym = false
-    var isRaidPokemonNotifyGym = false
-    var isNewNotifyGym = false
-    if (Store.get('notifyGyms') && isGymMeetsRaidFilters(gym)) {
+    var isEggNotifGym = false
+    var isRaidPokemonNotifGym = false
+    var isNewNotifGym = false
+    if (settings.raidNotifs && isGymMeetsRaidFilters(gym)) {
         const id = gym.gym_id
-        if (isUpcomingRaid(gym.raid) && notifyEggs.includes(gym.raid.level)) {
-            isEggNotifyGym = true
-            isNewNotifyGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentEggNotification || gym.raid.end > notifiedGymData[id].raidEnd
-        } else if (isOngoingRaid(gym.raid) && notifyRaidPokemon.includes(gym.raid.pokemon_id)) {
-            isRaidPokemonNotifyGym = true
-            isNewNotifyGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentRaidPokemonNotification || gym.raid.end > notifiedGymData[id].raidEnd
+        if (isUpcomingRaid(gym.raid) && settings.notifEggs.includes(gym.raid.level)) {
+            isEggNotifGym = true
+            isNewNotifGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentEggNotification || gym.raid.end > notifiedGymData[id].raidEnd
+        } else if (isOngoingRaid(gym.raid) && settings.raidPokemonNotifs && settings.notifRaidPokemon.has(gym.raid.pokemon_id)) {
+            isRaidPokemonNotifGym = true
+            isNewNotifGym = !notifiedGymData.hasOwnProperty(id) || !notifiedGymData[id].hasSentRaidPokemonNotification || gym.raid.end > notifiedGymData[id].raidEnd
         }
     }
 
     return {
-        'isEggNotifyGym': isEggNotifyGym,
-        'isRaidPokemonNotifyGym': isRaidPokemonNotifyGym,
-        'isNewNotifyGym': isNewNotifyGym
+        'isEggNotifyGym': isEggNotifGym,
+        'isRaidPokemonNotifyGym': isRaidPokemonNotifGym,
+        'isNewNotifyGym': isNewNotifGym
     }
 }
 
