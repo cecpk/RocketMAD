@@ -32,7 +32,7 @@ var settings = {
     pokemonIdNotifs: null,
     notifPokemon: null,
     pokemonValuesNotifs: null,
-    noNotifValuesPokemon: null,
+    notifValuesPokemon: null,
     zeroIvsPokemonNotifs: null,
     hundoIvsPokemonNotifs: null,
     minNotifIvs: null,
@@ -556,7 +556,7 @@ function initSettings() {
         settings.minLevel = Store.get('minLevel')
         settings.maxLevel = Store.get('maxLevel')
         settings.pokemonValuesNotifs = Store.get('pokemonValuesNotifs')
-        settings.noNotifValuesPokemon = Store.get('noNotifValuesPokemon')
+        settings.notifValuesPokemon = Store.get('notifValuesPokemon')
         settings.zeroIvsPokemonNotifs = Store.get('zeroIvsPokemonNotifs')
         settings.hundoIvsPokemonNotifs = Store.get('hundoIvsPokemonNotifs')
         settings.minNotifIvs = Store.get('minNotifIvs')
@@ -2281,25 +2281,27 @@ function initPokemonFilters() {
     }
 
     if (serverSettings.pokemonValues) {
-        $('#no-notif-values-pokemon').val(Array.from(settings.noNotifValuesPokemon))
-        if (settings.noNotifValuesPokemon.size === 0) {
+        const noNotifPoke = difference(pokemonIds, settings.notifValuesPokemon)
+        $('#no-notif-values-pokemon').val(Array.from(noNotifPoke))
+        if (settings.notifValuesPokemon.size === pokemonIds.size) {
             $('#notif-pokemon-values-filter-title').text('Notif Pokémon filtered by values (All)')
         } else {
-            $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${pokemonIds.size - settings.noNotifValuesPokemon.size})`)
+            $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${settings.notifValuesPokemon.size})`)
         }
 
         $('label[for="no-notif-values-pokemon"] .pokemon-filter-list .filter-button').each(function () {
-            if (!settings.noNotifValuesPokemon.has($(this).data('id'))) {
+            if (settings.notifValuesPokemon.has($(this).data('id'))) {
                 $(this).addClass('active')
             }
         })
 
         $('#no-notif-values-pokemon').on('change', function (e) {
-            const oldValues = settings.noNotifValuesPokemon
-            settings.noNotifValuesPokemon = $(this).val().length > 0 ? new Set($(this).val().split(',').map(Number)) : new Set()
+            const oldValues = settings.notifValuesPokemon
+            const noNotifPokemon = $(this).val().length > 0 ? new Set($(this).val().split(',').map(Number)) : new Set()
+            settings.notifValuesPokemon = difference(pokemonIds, noNotifPokemon)
 
-            const newValues = difference(settings.noNotifValuesPokemon, oldValues)
-            const removedValues = difference(oldValues, settings.noNotifValuesPokemon)
+            const newValues = difference(settings.notifValuesPokemon, oldValues)
+            const removedValues = intersection(oldValues, settings.notifValuesPokemon)
 
             updatePokemons(union(newValues, removedValues))
 
@@ -2308,13 +2310,13 @@ function initPokemonFilters() {
                 updateMap()
             }
 
-            if (settings.noNotifValuesPokemon.size === 0) {
+            if (settings.notifValuesPokemon.size === pokemonIds.size) {
                 $('#notif-pokemon-values-filter-title').text('Notif Pokémon filtered by values (All)')
             } else {
-                $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${pokemonIds.size - settings.noNotifValuesPokemon.size})`)
+                $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${settings.notifValuesPokemon.size})`)
             }
 
-            Store.set('noNotifValuesPokemon', settings.noNotifValuesPokemon)
+            Store.set('notifValuesPokemon', settings.notifValuesPokemon)
         })
     }
 

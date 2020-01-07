@@ -145,7 +145,7 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    'noNotifValuesPokemon': {
+    'notifValuesPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
