@@ -1342,12 +1342,22 @@
       <li>
         <div class="collapsible-header"><i class="material-icons">palette</i>Style</div>
         <div class="collapsible-body">
-          <div class="switch">
-            <label>
-              style
-              <input type="checkbox">
-              <span class="lever"></span>
-            </label>
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="input-field">
+                <div class="select-title">Map style</div>
+                <select id="map-style-select">
+                  <option value="mapnik">Mapnik</option>
+                  <option value="wikimedia">Wikimedia</option>
+                  <option value="topomap">ToPo Map</option>
+                  <option value="cartodbdarkmatter">CartoDB Darkmatter</option>
+                  <option value="cartodbdarkmatternolabels">CartoDB Darkmatter (no labels)</option>
+                  <option value="cartodbpositron">CartoDB Positron</option>
+                  <option value="cartodbpositronnolabels">CartoDB Positron (no labels)</option>
+                  <option value="satellite">Satellite</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
       </li>

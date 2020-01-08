@@ -49,10 +49,6 @@ var StoreTypes = {
 }
 
 var StoreOptions = {
-    'map_style': {
-        default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikimedia
-        type: StoreTypes.String
-    },
     'showPokemon': {
         default: true,
         type: StoreTypes.Boolean
@@ -424,6 +420,10 @@ var StoreOptions = {
     'bounceNotifMarkers': {
         default: true,
         type: StoreTypes.Boolean
+    },
+    'mapStyle': {
+        default: 'mapnik',
+        type: StoreTypes.String
     },
     'geoLocate': {
         default: false,

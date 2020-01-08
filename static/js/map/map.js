@@ -4,7 +4,6 @@
 // Global map.js variables
 //
 
-var $selectStyle
 var $selectSearchIconMarker
 var $selectLocationIconMarker
 var $gymNameFilter = ''
@@ -105,11 +104,6 @@ var settings = {
     bounceNotifMarkers: null
 }
 
-var timestamp
-var reincludedPokemon = new Set()
-
-var notifyInvasions = []
-
 var notifiedPokemonData = {}
 var notifiedGymData = {}
 var notifiedPokestopData = {}
@@ -131,11 +125,14 @@ var mapData = {
     exParks: [],
     nestParks: []
 }
-var rawDataIsLoading = false
 var startLocationMarker
 var userLocationMarker
 var followUserHandle
 const gymRangeColors = ['#999999', '#0051CF', '#FF260E', '#FECC23'] // 'Uncontested', 'Mystic', 'Valor', 'Instinct'
+
+var timestamp
+var rawDataIsLoading = false
+var reincludedPokemon = new Set()
 
 var oSwLat
 var oSwLng
@@ -152,7 +149,18 @@ var lastweather
 var map
 var markers
 var markersNoCluster
-var _oldlayer = 'stylemapnik'
+var currentTileLayerName = 'mapnik'
+
+/* eslint-disable no-unused-vars */
+var mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
+var wikimedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'})
+var topomap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
+var cartodbdarkmatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
+var cartodbdarkmatternolabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
+var cartodbpositron = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
+var cartodbpositronnolabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
+var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'})
+/* eslint-enable no-unused-vars */
 
 var nestParksLayerGroup
 var exParksLayerGroup
@@ -178,8 +186,6 @@ const pokestopNotifiedZIndex = 13000
 const gymNotifiedZIndex = 14000
 const pokemonNotifiedZIndex = 15000
 const startLocationMarkerZIndex = 20000 // Highest value so it doesn't get stuck behind other markers.
-
-var selectedStyle = 'stylemapnik'
 
 var updateWorker
 var lastUpdateTime
@@ -272,7 +278,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         preferCanvas: true
     })
 
-    setTitleLayer(Store.get('map_style'))
+    setTileLayer(Store.get('mapStyle'))
 
     L.control.zoom({
         position: 'bottomright'
@@ -410,7 +416,6 @@ function initMap() { // eslint-disable-line no-unused-vars
         })
     }
 
-    // Initialize materialize components.
     $('.dropdown-trigger').dropdown({
       constrainWidth: false,
       coverTrigger: false
@@ -419,6 +424,8 @@ function initMap() { // eslint-disable-line no-unused-vars
         draggable: false
     })
     $('.collapsible').collapsible()
+    initSidebar()
+    initBackupModals()
     $('.tabs').tabs()
     $('.modal').modal()
     $('#weather-modal').modal({
@@ -437,32 +444,19 @@ function initMap() { // eslint-disable-line no-unused-vars
         }
     })
     $('.tooltipped').tooltip()
-
-    initSidebar()
-    initBackupModals()
 }
 
-/* eslint-disable no-unused-vars */
-var stylemapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
-var styletopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
-var stylesatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'})
-var stylewikimedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'})
-var stylecartodbdarkmatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var stylecartodbdarkmatternolabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var stylecartodbpositron = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var stylecartodbpositronnolabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var stylecartodbvoyager = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-/* eslint-enable no-unused-vars */
-
-function setTitleLayer(layername) {
-    // fallback in case layername does not exist (anymore)
-    if (!window.hasOwnProperty(layername)) {
-        layername = 'stylemapnik'
+function setTileLayer(layerName) {
+    // Fallback in case layername does not exist (anymore).
+    if (!window.hasOwnProperty(layerName)) {
+        layerName = 'mapnik'
     }
 
-    if (map.hasLayer(window[_oldlayer])) { map.removeLayer(window[_oldlayer]) }
-    map.addLayer(window[layername])
-    _oldlayer = layername
+    if (map.hasLayer(window[currentTileLayerName])) {
+        map.removeLayer(window[currentTileLayerName])
+    }
+    map.addLayer(window[layerName])
+    currentTileLayerName = layerName
 }
 
 function createStartLocationMarker() {
@@ -1797,6 +1791,11 @@ function initSidebar() {
         Store.set('bounceNotifMarkers', this.checked)
     })
 
+    $('#map-style-select').on('change', function () {
+        setTileLayer($(this).val())
+        Store.set('mapStyle', $(this).val())
+    })
+
     $('#pokemon-icon-size').on('change', function () {
         Store.set('pokemonIconSizeModifier', this.value)
         updatePokemons()
@@ -1835,9 +1834,7 @@ function initSidebar() {
     }
     if (serverSettings.rarity) {
         $('#rarity-select').val(settings.includedRarities)
-        $('#rarity-select').formSelect()
         $('#rarity-notifs-select').val(settings.notifRarities)
-        $('#rarity-notifs-select').formSelect()
         $('#scale-rarity-switch').prop('checked', settings.scaleByRarity)
     }
 
@@ -1854,13 +1851,11 @@ function initSidebar() {
     if (serverSettings.gymFilters) {
         $('#gym-filters-wrapper').toggle(settings.showGyms)
         $('#gym-team-select').val(settings.includedGymTeams)
-        $('#gym-team-select').formSelect()
         $('#gym-level-slider-title').text(`Gym levels (${settings.minGymLevel} - ${settings.maxGymLevel})`)
         $('#gym-open-spot-switch').prop('checked', settings.showOpenSpotGymsOnly)
         $('#gym-ex-eligible-switch').prop('checked', settings.showExGymsOnly)
         $('#gym-in-battle-switch').prop('checked', settings.showInBattleGymsOnly)
         $('#gym-last-scanned-select').val(settings.gymLastScannedHours)
-        $('#gym-last-scanned-select').formSelect()
     }
     if (serverSettings.raids) {
         $('#raid-switch').prop('checked', settings.showRaids)
@@ -1872,7 +1867,6 @@ function initSidebar() {
         $('#raid-active-switch').prop('checked', settings.showActiveRaidsOnly)
         $('#raid-ex-eligible-switch').prop('checked', settings.showExEligibleRaidsOnly)
         $('#raid-level-select').val(settings.includedRaidLevels)
-        $('#raid-level-select').formSelect()
     }
 
     // Pokestops.
@@ -1895,7 +1889,6 @@ function initSidebar() {
     }
     if (serverSettings.lures) {
         $('#lure-type-select').val(settings.includedLureTypes)
-        $('#lure-type-select').formSelect()
     }
 
     // Weather.
@@ -1932,7 +1925,6 @@ function initSidebar() {
         $('#ranges-switch').prop('checked', settings.showRanges)
         $('#range-type-select-wrapper').toggle(settings.showRanges)
         $('#range-type-select').val(settings.includedRangeTypes)
-        $('#range-type-select').formSelect()
     }
 
     // Location.
@@ -1979,7 +1971,6 @@ function initSidebar() {
         $('#raid-pokemon-notifs-switch').prop('checked', settings.raidPokemonNotifs)
         $('a[data-target="notif-raid-pokemon-filter-modal"]').toggle(settings.raidPokemonNotifs)
         $('#egg-notifs-select').val(settings.notifEggs)
-        $('#egg-notifs-select').formSelect()
     }
     if (serverSettings.quests || serverSettings.invasions || serverSettings.lures) {
         $('#pokestop-notifs-switch').prop('checked', settings.pokestopNotifs)
@@ -1995,15 +1986,14 @@ function initSidebar() {
     }
     if (serverSettings.lures) {
         $('#lure-notifs-select').val(settings.notifLureTypes)
-        $('#lure-notifs-select').formSelect()
     }
     $('#browser-popups-switch').prop('checked', settings.showBrowserPopups)
     $('#notif-sound-switch').prop('checked', settings.playSound)
     $('#upscale-notif-markers-switch').prop('checked', settings.upscaleNotifMarkers)
     $('#bounce-notif-markers-switch').prop('checked', settings.bounceNotifMarkers)
 
-
     // Style.
+    $('#map-style-select').val(Store.get('mapStyle'))
     $('#map-service-provider').val(Store.get('mapServiceProvider'))
     $('#pokemon-icon-size').val(Store.get('pokemonIconSizeModifier'))
 
@@ -2012,15 +2002,8 @@ function initSidebar() {
     $('#gym-stats-container').toggle(settings.showGyms)
     $('#pokestop-stats-container').toggle(settings.showPokestops)
 
-    /*$('select:not([multiple])').select2({
-        minimumResultsForSearch: Infinity
-    })
-
-    $('select[multiple]').select2()
-    $('select[multiple]').parent().find('.select2-search__field').remove()
-    $('select[multiple]').on('select2:opening select2:closing', function(event) {
-        $(this).parent().find('.select2-search__field').remove()
-    })*/
+    // Initialize select elements.
+    $('select').formSelect()
 }
 
 function initPokemonFilters() {
@@ -3631,43 +3614,6 @@ function toggleGymPokemonDetails(e) { // eslint-disable-line no-unused-vars
 //
 
 $(function () {
-   /* TODO: Some items are being loaded asynchronously, but synchronous code
-    * depends on it. Restructure to make sure these "loading" tasks are
-    * completed before continuing. Right now it "works" because the first
-    * map update is scheduled after 5s. */
-
-    // populate Navbar Style menu
-    $selectStyle = $('#map-style')
-
-    // Load Stylenames, translate entries, and populate lists
-    $.getJSON('static/dist/data/mapstyle.min.json').done(function (data) {
-        var styleList = []
-
-        $.each(data, function (key, value) {
-            styleList.push({
-                id: key,
-                text: i8ln(value)
-            })
-        })
-
-        // setup the stylelist
-        /*$selectStyle.select2({
-            placeholder: 'Select Style',
-            data: styleList,
-            minimumResultsForSearch: Infinity
-        })*/
-
-        // setup the list change behavior
-        $selectStyle.on('change', function (e) {
-            selectedStyle = $selectStyle.val()
-            setTitleLayer(selectedStyle)
-            Store.set('map_style', selectedStyle)
-        })
-
-        // recall saved mapstyle
-        $selectStyle.val(Store.get('map_style')).trigger('change')
-    })
-
     $selectSearchIconMarker = $('#iconmarker-style')
     $selectLocationIconMarker = $('#locationmarker-style')
 
