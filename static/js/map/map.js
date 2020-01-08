@@ -4,7 +4,6 @@
 // Global map.js variables
 //
 
-var $selectNotifyInvasions
 var $selectStyle
 var $selectSearchIconMarker
 var $selectLocationIconMarker
@@ -74,6 +73,13 @@ var settings = {
     filterInvasions: null,
     includedLureTypes: null,
     excludedInvasions: null,
+    pokestopNotifs: null,
+    questNotifs: null,
+    notifQuestPokemon: null,
+    notifQuestItems: null,
+    invasionNotifs: null,
+    notifInvasions: null,
+    notifLureTypes: null,
     showWeather: null,
     showWeatherCells: null,
     showMainWeather: null,
@@ -425,6 +431,11 @@ function initMap() { // eslint-disable-line no-unused-vars
             $('#quest-filter-tabs').tabs('updateTabIndicator')
         }
     })
+    $('#notif-quest-filter-modal').modal({
+        onOpenEnd: function () {
+            $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
+        }
+    })
     $('.tooltipped').tooltip()
 
     initSidebar()
@@ -597,20 +608,29 @@ function initSettings() {
     }
 
     settings.showPokestops = serverSettings.pokestops && Store.get('showPokestops')
+    settings.pokestopNotifs = (serverSettings.quests || serverSettings.invasions || serverSettings.lures) && Store.get('pokestopNotifs')
     if (serverSettings.pokestops) {
         settings.showPokestopsNoEvent = Store.get('showPokestopsNoEvent')
         settings.showQuests = serverSettings.quests && Store.get('showQuests')
         settings.showInvasions = serverSettings.invasions && Store.get('showInvasions')
-        settings.includedLureTypes = Store.get('includedLureTypes')
+        settings.includedLureTypes = serverSettings.lures ? Store.get('includedLureTypes') : []
     }
     if (serverSettings.quests) {
         settings.filterQuests = Store.get('filterQuests')
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
+        settings.questNotifs = Store.get('questNotifs')
+        settings.notifQuestPokemon = Store.get('notifQuestPokemon')
+        settings.notifQuestItems = Store.get('notifQuestItems')
     }
     if (serverSettings.invasions) {
         settings.filterInvasions = Store.get('filterInvasions')
         settings.excludedInvasions = Store.get('excludedInvasions')
+        settings.invasionNotifs = Store.get('invasionNotifs')
+        settings.notifInvasions = Store.get('notifInvasions')
+    }
+    if (serverSettings.lures) {
+        settings.notifLureTypes = Store.get('notifLureTypes')
     }
 
     settings.showWeather = serverSettings.weather && Store.get('showWeather')
@@ -1186,7 +1206,7 @@ function initSidebar() {
     if (serverSettings.lures) {
         $('#lure-type-select').on('change', function () {
             settings.includedLureTypes = $(this).val().map(Number)
-            updateGyms()
+            updatePokestops()
             lastpokestops = false
             updateMap()
             Store.set('includedLureTypes', settings.includedLureTypes)
@@ -1683,6 +1703,56 @@ function initSidebar() {
         })
     }
 
+    if (serverSettings.quests || serverSettings.invasions || serverSettings.lures) {
+        $('#pokestop-notifs-switch').on('change', function () {
+            settings.pokestopNotifs = this.checked
+            let wrapper = $('#pokestop-notif-filters-wrapper')
+            if (this.checked) {
+                wrapper.show()
+            } else {
+                wrapper.hide()
+            }
+            updatePokestops()
+            Store.set('pokestopNotifs', this.checked)
+        })
+    }
+
+    if (serverSettings.quests) {
+        $('#quest-notifs-switch').on('change', function () {
+            settings.questNotifs = this.checked
+            let filterButton = $('a[data-target="notif-quest-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+            } else {
+                filterButton.hide()
+            }
+            updatePokestops()
+            Store.set('questNotifs', this.checked)
+        })
+    }
+
+    if (serverSettings.invasions) {
+        $('#invasion-notifs-switch').on('change', function () {
+            settings.invasionNotifs = this.checked
+            let filterButton = $('a[data-target="notif-invasion-filter-modal"]')
+            if (this.checked) {
+                filterButton.show()
+            } else {
+                filterButton.hide()
+            }
+            updatePokestops()
+            Store.set('invasionNotifs', this.checked)
+        })
+    }
+
+    if (serverSettings.lures) {
+        $('#lure-notifs-select').on('change', function () {
+            settings.notifLureTypes = $(this).val().map(Number)
+            updatePokestops()
+            Store.set('notifLureTypes', settings.notifLureTypes)
+        })
+    }
+
     $('#browser-popups-switch').on('change', function () {
         settings.showBrowserPopups = this.checked
         Store.set('showBrowserPopups', this.checked)
@@ -1725,40 +1795,6 @@ function initSidebar() {
             updatePokestops()
         }
         Store.set('bounceNotifMarkers', this.checked)
-    })
-
-    $('#notify-gyms-switch').change(function () {
-        var wrapper = $('#notify-gyms-filter-wrapper')
-        this.checked ? wrapper.show() : wrapper.hide()
-        Store.set('notifyGyms', this.checked)
-        updateGyms()
-    })
-
-    $('#notify-pokestops-switch').change(function () {
-        var wrapper = $('#notify-pokestops-filter-wrapper')
-        this.checked ? wrapper.show() : wrapper.hide()
-        Store.set('notifyPokestops', this.checked)
-        updatePokestops()
-    })
-
-    $('#notify-normal-lures-switch').change(function () {
-        Store.set('notifyNormalLures', this.checked)
-        updatePokestops()
-    })
-
-    $('#notify-glacial-lures-switch').change(function () {
-        Store.set('notifyGlacialLures', this.checked)
-        updatePokestops()
-    })
-
-    $('#notify-magnetic-lures-switch').change(function () {
-        Store.set('notifyMagneticLures', this.checked)
-        updatePokestops()
-    })
-
-    $('#notify-mossy-lures-switch').change(function () {
-        Store.set('notifyMossyLures', this.checked)
-        updatePokestops()
     })
 
     $('#pokemon-icon-size').on('change', function () {
@@ -1945,22 +1981,27 @@ function initSidebar() {
         $('#egg-notifs-select').val(settings.notifEggs)
         $('#egg-notifs-select').formSelect()
     }
+    if (serverSettings.quests || serverSettings.invasions || serverSettings.lures) {
+        $('#pokestop-notifs-switch').prop('checked', settings.pokestopNotifs)
+        $('#pokestop-notif-filters-wrapper').toggle(settings.pokestopNotifs)
+    }
+    if (serverSettings.quests) {
+        $('#quest-notifs-switch').prop('checked', settings.questNotifs)
+        $('a[data-target="notif-quest-filter-modal"]').toggle(settings.questNotifs)
+    }
+    if (serverSettings.invasions) {
+        $('#invasion-notifs-switch').prop('checked', settings.invasionNotifs)
+        $('a[data-target="notif-invasion-filter-modal"]').toggle(settings.invasionNotifs)
+    }
+    if (serverSettings.lures) {
+        $('#lure-notifs-select').val(settings.notifLureTypes)
+        $('#lure-notifs-select').formSelect()
+    }
     $('#browser-popups-switch').prop('checked', settings.showBrowserPopups)
     $('#notif-sound-switch').prop('checked', settings.playSound)
     $('#upscale-notif-markers-switch').prop('checked', settings.upscaleNotifMarkers)
     $('#bounce-notif-markers-switch').prop('checked', settings.bounceNotifMarkers)
 
-
-    $('#notify-gyms-switch-wrapper').toggle(settings.showRaids)
-    $('#notify-gyms-switch').prop('checked', Store.get('notifyGyms'))
-    $('#notify-gyms-filter-wrapper').toggle(Store.get('notifyGyms'))
-    $('#notify-pokestops-switch-wrapper').toggle(settings.showPokestops)
-    $('#notify-pokestops-switch').prop('checked', Store.get('notifyPokestops'))
-    $('#notify-pokestops-filter-wrapper').toggle(Store.get('notifyPokestops'))
-    $('#notify-normal-lures-switch').prop('checked', Store.get('notifyNormalLures'))
-    $('#notify-glacial-lures-switch').prop('checked', Store.get('notifyGlacialLures'))
-    $('#notify-magnetic-lures-switch').prop('checked', Store.get('notifyMagneticLures'))
-    $('#notify-mossy-lures-switch').prop('checked', Store.get('notifyMossyLures'))
 
     // Style.
     $('#map-service-provider').val(Store.get('mapServiceProvider'))
@@ -2351,12 +2392,45 @@ function initPokemonFilters() {
             Store.set('notifRaidPokemon', settings.notifRaidPokemon)
         })
     }
+
+    if (serverSettings.quests) {
+        const noNotifPoke = difference(pokemonIds, settings.notifQuestPokemon)
+        $('#no-notif-quest-pokemon').val(Array.from(noNotifPoke))
+        if (settings.notifQuestPokemon.size === pokemonIds.size) {
+            $('a[href="#notif-quest-pokemon-tab"]').text('Notif Quest Pokémon (All)')
+        } else {
+            $('a[href="#notif-quest-pokemon-tab"]').text(`Notif Quest Pokémon (${settings.notifQuestPokemon.size})`)
+        }
+
+        $('label[for="no-notif-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+            if (settings.notifQuestPokemon.has($(this).data('id'))) {
+                $(this).addClass('active')
+            }
+        })
+
+        $('#no-notif-quest-pokemon').on('change', function (e) {
+            const prevNotifPokemon = settings.notifQuestPokemon
+            const noNotifPokemon = $(this).val().length > 0 ? new Set($(this).val().split(',').map(Number)) : new Set()
+            settings.notifQuestPokemon = difference(pokemonIds, noNotifPokemon)
+
+            updatePokestops()
+
+            if (settings.notifQuestPokemon.size === pokemonIds.size) {
+                $('a[href="#notif-quest-pokemon-tab"]').text('Notif Quest Pokémon (All)')
+            } else {
+                $('a[href="#notif-quest-pokemon-tab"]').text(`Notif Quest Pokémon (${settings.notifQuestPokemon.size})`)
+            }
+            $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
+
+            Store.set('notifQuestPokemon', settings.notifQuestPokemon)
+        })
+    }
 }
 
 function initItemFilters() {
-    var questItemIds = []
+    let questItemIds = []
     const includeInFilter = [6, 1, 2, 3, 701, 703, 705, 706, 708, 101, 102, 103, 104, 201, 202, 1301, 1201, 1202, 501, 502, 503, 504, 1101, 1102, 1103, 1104, 1105, 1106, 1107]
-    for (var i = 0; i < includeInFilter.length; i++) {
+    for (let i = 0; i < includeInFilter.length; i++) {
         const id = includeInFilter[i]
         const iconUrl = getItemImageUrl(id)
         const name = getItemName(id)
@@ -2377,27 +2451,10 @@ function initItemFilters() {
         })
     }
 
-    $('#exclude-quest-items').val(settings.excludedQuestItems)
-    if (settings.excludedQuestItems.length === 0) {
-        $('a[href="#quest-item-tab"]').text('Quest Items (All)')
-    } else {
-        $('a[href="#quest-item-tab"]').text(`Quest Items (${questItemIds.length - settings.excludedQuestItems.length})`)
-    }
-
-    $('label[for="exclude-quest-items"] .quest-item-filter-list .filter-button').each(function () {
-        var id = $(this).data('id').toString()
-        if ($(this).data('bundle')) {
-            id += '_' + $(this).data('bundle')
-        }
-        if (!settings.excludedQuestItems.includes(id)) {
-            $(this).addClass('active')
-        }
-    })
-
     $('.quest-item-filter-list').on('click', '.filter-button', function () {
-        var inputElement = $(this).parent().parent().find('input[id$=items]')
-        var value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
-        var id = $(this).data('id').toString()
+        let inputElement = $(this).parent().parent().find('input[id$=items]')
+        let value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
+        let id = $(this).data('id').toString()
         if ($(this).data('bundle')) {
             id += '_' + $(this).data('bundle')
         }
@@ -2413,19 +2470,35 @@ function initItemFilters() {
     })
 
     $('.quest-item-select-all').on('click', function (e) {
-        var parent = $(this).parent().parent().parent()
+        let parent = $(this).parent().parent().parent()
         parent.find('.quest-item-filter-list .filter-button:visible').addClass('active')
         parent.find('input[id$=items]').val('').trigger('change')
     })
 
     $('.quest-item-deselect-all').on('click', function (e) {
-        var parent = $(this).parent().parent().parent()
+        let parent = $(this).parent().parent().parent()
         parent.find('.quest-item-filter-list .filter-button:visible').removeClass('active')
         parent.find('input[id$=items]').val(questItemIds.join(',')).trigger('change')
     })
 
+    $('#exclude-quest-items').val(settings.excludedQuestItems)
+    if (settings.excludedQuestItems.length === 0) {
+        $('a[href="#quest-item-tab"]').text('Quest Items (All)')
+    } else {
+        $('a[href="#quest-item-tab"]').text(`Quest Items (${questItemIds.length - settings.excludedQuestItems.length})`)
+    }
+
+    $('label[for="exclude-quest-items"] .quest-item-filter-list .filter-button').each(function () {
+        let id = $(this).data('id').toString()
+        if ($(this).data('bundle')) {
+            id += '_' + $(this).data('bundle')
+        }
+        if (!settings.excludedQuestItems.includes(id)) {
+            $(this).addClass('active')
+        }
+    })
+
     $('#exclude-quest-items').on('change', function () {
-        const oldExcludedQuestItems = settings.excludedQuestItems
         settings.excludedQuestItems = $(this).val().length > 0 ? $(this).val().split(',') : []
 
         updatePokestops()
@@ -2440,6 +2513,40 @@ function initItemFilters() {
         $('#quest-filter-tabs').tabs('updateTabIndicator')
 
         Store.set('excludedQuestItems', settings.excludedQuestItems)
+    })
+
+    const noNotifItems = questItemIds.filter(id => !settings.notifQuestItems.includes(id))
+    $('#no-notif-quest-items').val(noNotifItems)
+    if (settings.notifQuestItems.length === questItemIds.length) {
+        $('a[href="#notif-quest-item-tab"]').text('Notif Quest Items (All)')
+    } else {
+        $('a[href="#notif-quest-item-tab"]').text(`Notif Quest Items (${settings.notifQuestItems.length})`)
+    }
+
+    $('label[for="no-notif-quest-items"] .quest-item-filter-list .filter-button').each(function () {
+        let id = $(this).data('id').toString()
+        if ($(this).data('bundle')) {
+            id += '_' + $(this).data('bundle')
+        }
+        if (settings.notifQuestItems.includes(id)) {
+            $(this).addClass('active')
+        }
+    })
+
+    $('#no-notif-quest-items').on('change', function () {
+        const noNotifQuestItems = $(this).val().length > 0 ? $(this).val().split(',') : []
+        settings.notifQuestItems = questItemIds.filter(id => !noNotifQuestItems.includes(id))
+
+        updatePokestops()
+
+        if (settings.notifQuestItems.length === questItemIds.length) {
+            $('a[href="#notif-quest-item-tab"]').text('Notif Quest Items (All)')
+        } else {
+            $('a[href="#notif-quest-item-tab"]').text(`Notif Quest Items (${settings.notifQuestItems.length})`)
+        }
+        $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
+
+        Store.set('notifQuestItems', settings.notifQuestItems)
     })
 }
 
@@ -2459,19 +2566,6 @@ function initInvasionFilters() {
               </div>
             </div>`)
     }
-
-    $('#exclude-invasions').val(settings.excludedInvasions)
-    if (settings.excludedInvasions.length === 0) {
-        $('#filter-invasion-title').text('Rocket Invasions (All)')
-    } else {
-        $('#filter-invasion-title').text(`Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
-    }
-
-    $('label[for="exclude-invasions"] .invasion-filter-list .filter-button').each(function () {
-        if (!settings.excludedInvasions.includes($(this).data('id'))) {
-            $(this).addClass('active')
-        }
-    })
 
     $('.invasion-filter-list').on('click', '.filter-button', function () {
         var inputElement = $(this).parent().parent().find('input[id$=invasions]')
@@ -2500,8 +2594,20 @@ function initInvasionFilters() {
         parent.find('input[id$=invasions]').val(invasionIds.join(',')).trigger('change')
     })
 
+    $('#exclude-invasions').val(settings.excludedInvasions)
+    if (settings.excludedInvasions.length === 0) {
+        $('#filter-invasion-title').text('Rocket Invasions (All)')
+    } else {
+        $('#filter-invasion-title').text(`Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
+    }
+
+    $('label[for="exclude-invasions"] .invasion-filter-list .filter-button').each(function () {
+        if (!settings.excludedInvasions.includes($(this).data('id'))) {
+            $(this).addClass('active')
+        }
+    })
+
     $('#exclude-invasions').on('change', function () {
-        const oldExcludedinvasions = settings.excludedInvasions
         settings.excludedInvasions = $(this).val().length > 0 ? $(this).val().split(',').map(Number) : []
 
         updatePokestops()
@@ -2515,6 +2621,35 @@ function initInvasionFilters() {
         }
 
         Store.set('excludedInvasions', settings.excludedInvasions)
+    })
+
+    const noNotifInvasions = invasionIds.filter(id => !settings.notifInvasions.includes(id))
+    $('#no-notif-invasions').val(noNotifInvasions)
+    if (settings.notifInvasions.length === invasionIds.length) {
+        $('#notif-invasion-filter-title').text('Notif Rocket Invasions (All)')
+    } else {
+        $('#notif-invasion-filter-title').text(`Notif Rocket Invasions (${settings.notifInvasions.length})`)
+    }
+
+    $('label[for="no-notif-invasions"] .invasion-filter-list .filter-button').each(function () {
+        if (settings.notifInvasions.includes($(this).data('id'))) {
+            $(this).addClass('active')
+        }
+    })
+
+    $('#no-notif-invasions').on('change', function () {
+        const noNotifInvasions = $(this).val().length > 0 ? $(this).val().split(',').map(Number) : []
+        settings.notifInvasions = invasionIds.filter(id => !noNotifInvasions.includes(id))
+
+        updatePokestops()
+
+        if (settings.notifInvasions.length === invasionIds.length) {
+            $('#notif-invasion-filter-title').text('Notif Rocket Invasions (All)')
+        } else {
+            $('#notif-invasion-filter-title').text(`Notif Rocket Invasions (${settings.notifInvasions.length})`)
+        }
+
+        Store.set('notifInvasions', settings.notifInvasions)
     })
 }
 
@@ -3579,90 +3714,6 @@ $(function () {
 
 $(function () {
     moment.locale(language)
-
-    $selectNotifyInvasions = $('#notify-invasions')
-
-    /*$.each(questItemIds, function (key, id) {
-        $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='${id}'><img class='quest-item-select-icon' src='static/images/quest/reward_${id}_1.png'></div>`)
-    })
-    $('.quest-item-list').append(`<div class='quest-item-sprite' data-value='6'><img class='quest-item-select-icon' src='static/images/quest/reward_stardust.png'></div>`)*/
-
-    // Load pokemon names and populate lists
-    $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
-        var pokemonIds = []
-
-        var id
-        for (id = 1; id <= availablePokemonCount; id++) {
-            pokemonIds.push(id)
-        }
-        // Meltan and Melmetal
-        pokemonIds.push(808)
-        pokemonIds.push(809)
-
-
-        /*if (isTouchDevice() && isMobileDevice()) {
-            $('.select2-search input').prop('readonly', true)
-        }*/
-    })
-
-    /*// Load invasion data and populate list.
-    $.getJSON('static/dist/data/invasions.min.json').done(function (data) {
-        let invasionIds = []
-        for (var id in data) {
-            idToInvasion[id] = data[id]
-            $('.invasion-list').append(`<div class='invasion-sprite' data-value='${id}'><div id='invasion-type-list'>${idToInvasion[id].type}</div><img class='invasion-select-icon' src='static/images/invasion/${id}.png' width='32px'><div id='invasion-gender-list'>${idToInvasion[id].grunt}</div></div>`)
-            invasionIds.push(id)
-        }
-
-        $('.invasion-list').on('click', '.invasion-sprite', function () {
-            var img = $(this)
-            var inputElement = $(this).parent().parent().find('input[id$=invasions]')
-            var value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
-            var id = img.data('value').toString()
-            if (img.hasClass('active')) {
-                inputElement.val(value.filter(function (elem) {
-                    return elem !== id
-                }).join(',')).trigger('change')
-                img.removeClass('active')
-            } else {
-                inputElement.val((value.concat(id).join(','))).trigger('change')
-                img.addClass('active')
-            }
-        })
-
-        $('.invasion-select-all').on('click', function (e) {
-            e.preventDefault()
-            var parent = $(this).parent().parent()
-            parent.find('.invasion-list .invasion-sprite').addClass('active')
-            parent.find('input[id$=invasions]').val(invasionIds.join(',')).trigger('change')
-        })
-
-        $('.invasion-deselect-all').on('click', function (e) {
-            e.preventDefault()
-            var parent = $(this).parent().parent()
-            parent.find('.invasion-list .invasion-sprite').removeClass('active')
-            parent.find('input[id$=invasions]').val('').trigger('change')
-        })
-
-        $selectNotifyInvasions.on('change', function (e) {
-            if ($selectNotifyInvasions.val().length > 0) {
-                notifyInvasions = $selectNotifyInvasions.val().split(',').map(Number).sort(function (a, b) {
-                    return a - b
-                })
-            } else {
-                notifyInvasions = []
-            }
-            if (notifyInvasions.length === invasionIds.length) {
-                $('a[href$="#tabs_notify_invasion-1"]').text('Invasions (All)')
-            } else {
-                $('a[href$="#tabs_notify_invasion-1"]').text(`Invasions (${notifyInvasions.length})`)
-            }
-            updatePokestops()
-            Store.set('remember_select_notify_invasions', notifyInvasions)
-        })
-
-        $selectNotifyInvasions.val(Store.get('remember_select_notify_invasions')).trigger('change')
-    })*/
 
     // run interval timers to regularly update map, rarity and timediffs
     window.setInterval(updateLabelDiffTime, 1000)

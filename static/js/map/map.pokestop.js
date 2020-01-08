@@ -5,14 +5,17 @@ function isPokestopMeetsQuestFilters(pokestop) {
 
     if (settings.filterQuests) {
         switch (pokestop.quest.reward_type) {
-            case 2:
-                var id = pokestop.quest.item_id + '_' + pokestop.quest.item_amount
+            case 2: {
+                let id = pokestop.quest.item_id + '_' + pokestop.quest.item_amount
                 return !settings.excludedQuestItems.includes(id)
-            case 3:
-                var id = 6 + '_' + pokestop.quest.stardust
+            }
+            case 3: {
+                let id = '6_' + pokestop.quest.stardust
                 return !settings.excludedQuestItems.includes(id)
-            case 7:
+            }
+            case 7: {
                 return !settings.excludedQuestPokemon.has(pokestop.quest.pokemon_id)
+            }
         }
     }
 
@@ -59,9 +62,9 @@ function isPokestopRangesActive() {
     return settings.showRanges && settings.includedRangeTypes.includes(3)
 }
 
-function setupPokestopMarker(pokestop, isNotifyPokestop) {
+function setupPokestopMarker(pokestop, isNotifPokestop) {
     var marker = L.marker([pokestop.latitude, pokestop.longitude])
-    if (isNotifyPokestop) {
+    if (isNotifPokestop) {
         markersNoCluster.addLayer(marker)
     } else {
         markers.addLayer(marker)
@@ -75,18 +78,18 @@ function setupPokestopMarker(pokestop, isNotifyPokestop) {
     })
 
     marker.pokestop_id = pokestop.pokestop_id
-    updatePokestopMarker(pokestop, marker, isNotifyPokestop)
+    updatePokestopMarker(pokestop, marker, isNotifPokestop)
     marker.bindPopup()
     addListeners(marker, 'pokestop')
 
     return marker
 }
 
-function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
+function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
     var shadowImage = null
     var shadowSize = null
     var shadowAnchor = null
-    const upscaleModifier = isNotifyPokestop && settings.upscaleNotifMarkers ? 1.3 : 1
+    const upscaleModifier = isNotifPokestop && settings.upscaleNotifMarkers ? 1.3 : 1
 
     if (isPokestopMeetsQuestFilters(pokestop)) {
         const quest = pokestop.quest
@@ -123,7 +126,7 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
     })
     marker.setIcon(icon)
 
-    if (isNotifyPokestop) {
+    if (isNotifPokestop) {
         marker.setZIndexOffset(pokestopNotifiedZIndex)
     } else if (isInvadedPokestop(pokestop)) {
         marker.setZIndexOffset(pokestopInvasionZIndex)
@@ -135,20 +138,20 @@ function updatePokestopMarker(pokestop, marker, isNotifyPokestop) {
         marker.setZIndexOffset(pokestopZIndex)
     }
 
-    if (settings.bounceNotifMarkers && isNotifyPokestop && !notifiedPokestopData[pokestop.pokestop_id].animationDisabled && !marker.isBouncing()) {
-        marker.bounce()
-    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifyPokestop)) {
-        marker.stopBouncing()
-    }
-
-    if (isNotifyPokestop && markers.hasLayer(marker)) {
+    if (isNotifPokestop && markers.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markers.removeLayer(marker)
         markersNoCluster.addLayer(marker)
-    } else if (!isNotifyPokestop && markersNoCluster.hasLayer(marker)) {
+    } else if (!isNotifPokestop && markersNoCluster.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markersNoCluster.removeLayer(marker)
         markers.addLayer(marker)
+    }
+
+    if (settings.bounceNotifMarkers && isNotifPokestop && !notifiedPokestopData[pokestop.pokestop_id].animationDisabled && !marker.isBouncing()) {
+        marker.bounce()
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifPokestop)) {
+        marker.stopBouncing()
     }
 
     return marker
@@ -316,14 +319,15 @@ function processPokestop(pokestop) {
             return true
         }
 
-        const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
-        if (isNewNotifyPokestop) {
-            sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
+        const {questNotif, invasionNotif, lureNotif, newNotif} = getPokestopNotificationInfo(pokestop)
+        const isNotifPokestop = questNotif || invasionNotif || lureNotif
+        if (newNotif) {
+            sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif)
         }
 
-        pokestop.marker = setupPokestopMarker(pokestop, isInvasionNotifyPokestop || isLureNotifyPokestop)
+        pokestop.marker = setupPokestopMarker(pokestop, isNotifPokestop)
         if (isPokestopRangesActive()) {
-            pokestop.rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
+            pokestop.rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isNotifPokestop)
         }
         pokestop.updated = true
         mapData.pokestops[id] = pokestop
@@ -362,13 +366,14 @@ function updatePokestop(id, pokestop = null) {
         const newLure = !isLuredPokestop(oldPokestop) && isLuredPokestop(pokestop)
         const questChange = JSON.stringify(oldPokestop.quest) !== JSON.stringify(pokestop.quest)
         if (newInvasion || newLure || questChange) {
-            const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
-            if (isNewNotifyPokestop) {
-                sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
+            const {questNotif, invasionNotif, lureNotif, newNotif} = getPokestopNotificationInfo(pokestop)
+            const isNotifPokestop = questNotif || invasionNotif || lureNotif
+            if (newNotif) {
+                sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif)
             }
-            pokestop.marker = updatePokestopMarker(pokestop, oldPokestop.marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
+            pokestop.marker = updatePokestopMarker(pokestop, oldPokestop.marker, isNotifPokestop)
             if (oldPokestop.rangeCircle) {
-                pokestop.rangeCircle = updateRangeCircle(mapData.pokestops[id], 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
+                pokestop.rangeCircle = updateRangeCircle(mapData.pokestops[id], 'pokestop', !isNotifPokestop)
             }
         } else {
             pokestop.marker = oldPokestop.marker
@@ -393,12 +398,13 @@ function updatePokestop(id, pokestop = null) {
             luredPokestopIds.add(id)
         }
     } else {
-        const {isInvasionNotifyPokestop, isLureNotifyPokestop, isNewNotifyPokestop} = getPokestopNotificationInfo(pokestop)
-        if (isNewNotifyPokestop) {
-            sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop)
+        const {questNotif, invasionNotif, lureNotif, newNotif} = getPokestopNotificationInfo(pokestop)
+        const isNotifPokestop = questNotif || invasionNotif || lureNotif
+        if (newNotif) {
+            sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif)
         }
 
-        updatePokestopMarker(pokestop, mapData.pokestops[id].marker, isInvasionNotifyPokestop || isLureNotifyPokestop)
+        updatePokestopMarker(pokestop, mapData.pokestops[id].marker, isNotifPokestop)
         if (pokestop.marker.isPopupOpen()) {
             updatePokestopLabel(pokestop, mapData.pokestops[id].marker)
         } else {
@@ -406,9 +412,9 @@ function updatePokestop(id, pokestop = null) {
             mapData.pokestops[id].updated = true
         }
         if (isPokestopRangesActive() && !pokestop.rangeCircle) {
-            mapData.pokestops[id].rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
+            mapData.pokestops[id].rangeCircle = setupRangeCircle(pokestop, 'pokestop', !isNotifPokestop)
         } else {
-            updateRangeCircle(mapData.pokestops[id], 'pokestop', !isInvasionNotifyPokestop && !isLureNotifyPokestop)
+            updateRangeCircle(mapData.pokestops[id], 'pokestop', !isNotifPokestop)
         }
     }
 
@@ -459,45 +465,64 @@ function getPokestopIconUrlFiltered(pokestop) {
 }
 
 function getPokestopNotificationInfo(pokestop) {
-    var isInvasionNotifyPokestop = false
-    var isLureNotifyPokestop = false
-    var isNewNotifyPokestop = false
-    if (Store.get('notifyPokestops')) {
+    let questNotif = false
+    let invasionNotif = false
+    let lureNotif = false
+    let newNotif = false
+    if (settings.pokestopNotifs) {
         const id = pokestop.pokestop_id
-        if (isPokestopMeetsInvasionFilters(pokestop) && notifyInvasions.includes(pokestop.incident_grunt_type)) {
-            isInvasionNotifyPokestop = true
-        }
-        if (isPokestopMeetsLureFilters(pokestop)) {
-            switch (pokestop.active_fort_modifier) {
-                case ActiveFortModifierEnum.normal:
-                    isLureNotifyPokestop = Store.get('notifyNormalLures')
+        if (settings.questNotifs && isPokestopMeetsQuestFilters(pokestop)) {
+            switch (pokestop.quest.reward_type) {
+                case 2: {
+                    let itemId = pokestop.quest.item_id + '_' + pokestop.quest.item_amount
+                    if (settings.notifQuestItems.includes(itemId)) {
+                        questNotif = true
+                    }
                     break
-                case ActiveFortModifierEnum.glacial:
-                    isLureNotifyPokestop = Store.get('notifyGlacialLures')
+                }
+                case 3: {
+                    let itemId = '6_' + pokestop.quest.stardust
+                    if (settings.notifQuestItems.includes(itemId)) {
+                        questNotif = true
+                    }
                     break
-                case ActiveFortModifierEnum.magnetic:
-                    isLureNotifyPokestop = Store.get('notifyMagneticLures')
+                }
+                case 7: {
+                    if (settings.notifQuestPokemon.has(pokestop.quest.pokemon_id)) {
+                        questNotif = true
+                    }
                     break
-                case ActiveFortModifierEnum.mossy:
-                    isLureNotifyPokestop = Store.get('notifyMossyLures')
-                    break
+                }
             }
         }
 
-        isNewNotifyPokestop = !notifiedPokestopData.hasOwnProperty(id) ||
-            (isInvasionNotifyPokestop && (!notifiedPokestopData[id].hasSentInvasionNotification || pokestop.incident_expiration > notifiedPokestopData[id].invasionEnd)) ||
-            (isLureNotifyPokestop && (!notifiedPokestopData[id].hasSentLureNotification || pokestop.lure_expiration > notifiedPokestopData[id].lureEnd))
+        if (settings.invasionNotifs && isPokestopMeetsInvasionFilters(pokestop) &&
+                settings.notifInvasions.includes(pokestop.incident_grunt_type)) {
+            invasionNotif = true
+        }
+
+        if (isPokestopMeetsLureFilters(pokestop)) {
+            if (settings.notifLureTypes.includes(pokestop.active_fort_modifier)) {
+                lureNotif = true
+            }
+        }
+
+        newNotif = !notifiedPokestopData.hasOwnProperty(id) ||
+            (questNotif && (!notifiedPokestopData[id].questNotif || pokestop.quest.timestamp > notifiedPokestopData[id].questTimestamp)) ||
+            (invasionNotif && (!notifiedPokestopData[id].invasionNotif || pokestop.incident_expiration > notifiedPokestopData[id].invasionEnd)) ||
+            (lureNotif && (!notifiedPokestopData[id].lureNotif || pokestop.lure_expiration > notifiedPokestopData[id].lureEnd))
     }
 
     return {
-        'isInvasionNotifyPokestop': isInvasionNotifyPokestop,
-        'isLureNotifyPokestop': isLureNotifyPokestop,
-        'isNewNotifyPokestop': isNewNotifyPokestop
+        'questNotif': questNotif,
+        'invasionNotif': invasionNotif,
+        'lureNotif': lureNotif,
+        'newNotif': newNotif
     }
 }
 
-function sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNotifyPokestop) {
-    if (!isInvasionNotifyPokestop && !isLureNotifyPokestop) {
+function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif) {
+    if (!(questNotif || invasionNotif || lureNotif)) {
         return
     }
 
@@ -507,40 +532,61 @@ function sendPokestopNotification(pokestop, isInvasionNotifyPokestop, isLureNoti
 
     if (settings.showBrowserPopups) {
         const pokestopName = pokestop.name !== null && pokestop.name !== '' ? pokestop.name : 'unknown'
-        var notifyTitle = ''
-        var notifyText = 'PokéStop: ' + pokestopName
-        if (isInvasionNotifyPokestop) {
+        let notifTitle = ''
+        let notifText = 'PokéStop: ' + pokestopName
+        if (questNotif) {
+            switch (pokestop.quest.reward_type) {
+                case 2:
+                    notifTitle += `${pokestop.quest.item_amount} ${getItemName(pokestop.quest.item_id)}(s) Quest`
+                    break
+                case 3:
+                    notifTitle += `${pokestop.quest.stardust} ${i8ln('Stardust')} Quest`
+                    break
+                case 7:
+                    notifTitle += `${getPokemonName(pokestop.quest.pokemon_id)} Quest`
+                    break
+            }
+            notifText += `\nQuest task: ${pokestop.quest.task}`
+        }
+        if (invasionNotif) {
             let expireTime = timestampToTime(pokestop.incident_expiration)
             let timeUntil = getTimeUntil(pokestop.incident_expiration)
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            notifyText += `\nInvasion ends at ${expireTime} (${expireTimeCountdown})`
-            notifyTitle += `${getInvasionType(pokestop.incident_grunt_type)} (${getInvasionGrunt(pokestop.incident_grunt_type)}) Invasion`
+            if (questNotif) {
+                notifTitle += ' & '
+            }
+            notifTitle += `${getInvasionType(pokestop.incident_grunt_type)} (${getInvasionGrunt(pokestop.incident_grunt_type)}) Invasion`
+            notifText += `\nInvasion ends at ${expireTime} (${expireTimeCountdown})`
         }
-        if (isLureNotifyPokestop) {
+        if (lureNotif) {
             let expireTime = timestampToTime(pokestop.lure_expiration)
             let timeUntil = getTimeUntil(pokestop.lure_expiration)
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            if (isInvasionNotifyPokestop) {
-                notifyTitle += ' & '
+            if (questNotif || invasionNotif) {
+                notifTitle += ' & '
             }
-            notifyTitle += `${lureTypes[pokestop.active_fort_modifier]} Lure`
-            notifyText += `\nLure ends at ${expireTime} (${expireTimeCountdown})`
+            notifTitle += `${lureTypes[pokestop.active_fort_modifier]} Lure`
+            notifText += `\nLure ends at ${expireTime} (${expireTimeCountdown})`
         }
 
-        sendNotification(notifyTitle, notifyText, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
+        sendNotification(notifTitle, notifText, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)
     }
 
-    var notificationData = {}
-    if (isInvasionNotifyPokestop) {
-        notificationData.hasSentInvasionNotification = true
+    let notificationData = {}
+    if (questNotif) {
+        notificationData.questNotif = true
+        notificationData.questTimestamp = pokestop.quest.timestamp
+    }
+    if (invasionNotif) {
+        notificationData.invasionNotif = true
         notificationData.invasionEnd = pokestop.incident_expiration
     }
-    if (isLureNotifyPokestop) {
-        notificationData.hasSentLureNotification = true
+    if (lureNotif) {
+        notificationData.lureNotif = true
         notificationData.lureEnd = pokestop.lure_expiration
     }
     notifiedPokestopData[pokestop.pokestop_id] = notificationData

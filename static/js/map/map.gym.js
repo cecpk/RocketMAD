@@ -175,12 +175,6 @@ function updateGymMarker(gym, marker, isNotifyGym) {
         marker.setZIndexOffset(gymNotifiedZIndex)
     }
 
-    if (settings.bounceNotifMarkers && isNotifyGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
-        marker.bounce()
-    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifyGym)) {
-        marker.stopBouncing()
-    }
-
     if (isNotifyGym && markers.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markers.removeLayer(marker)
@@ -189,6 +183,12 @@ function updateGymMarker(gym, marker, isNotifyGym) {
         // Marker in wrong layer, move to other layer.
         markersNoCluster.removeLayer(marker)
         markers.addLayer(marker)
+    }
+
+    if (settings.bounceNotifMarkers && isNotifyGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
+        marker.bounce()
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifyGym)) {
+        marker.stopBouncing()
     }
 
     return marker

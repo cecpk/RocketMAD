@@ -53,26 +53,6 @@ var StoreOptions = {
         default: 'stylemapnik', // stylemapnik, styleblackandwhite, styletopo, stylesatellite, stylewikimedia
         type: StoreTypes.String
     },
-    'remember_select_notify_raid_pokemon': {
-        default: [],
-        type: StoreTypes.JSON
-    },
-    'remember_select_notify_eggs': {
-        default: [],
-        type: StoreTypes.JSON
-    },
-    'remember_select_notify_invasions': {
-        default: [],
-        type: StoreTypes.JSON
-    },
-    'notifyIvsPercentage': {
-        default: '-1',
-        type: StoreTypes.Number
-    },
-    'notifyLevel': {
-        default: '-1',
-        type: StoreTypes.Number
-    },
     'showPokemon': {
         default: true,
         type: StoreTypes.Boolean
@@ -313,6 +293,34 @@ var StoreOptions = {
         default: [501, 502, 503, 504],
         type: StoreTypes.JSON
     },
+    'pokestopNotifs': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'questNotifs': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifQuestPokemon': {
+        default: new Set(),
+        type: StoreTypes.Set
+    },
+    'notifQuestItems': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'invasionNotifs': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'notifInvasions': {
+        default: [],
+        type: StoreTypes.JSON
+    },
+    'notifLureTypes': {
+        default: [],
+        type: StoreTypes.JSON
+    },
     'showWeather': {
         default: false,
         type: StoreTypes.Boolean
@@ -415,30 +423,6 @@ var StoreOptions = {
     },
     'bounceNotifMarkers': {
         default: true,
-        type: StoreTypes.Boolean
-    },
-    'notifyPokestops': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'notifyGyms': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'notifyNormalLures': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'notifyGlacialLures': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'notifyMagneticLures': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'notifyMossyLures': {
-        default: false,
         type: StoreTypes.Boolean
     },
     'geoLocate': {

@@ -307,6 +307,67 @@
     </div>
     {% endif %}
 
+    {% if settings.quests %}
+    <div id="notif-quest-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <ul id ="notif-quest-filter-tabs" class="tabs grey lighten-5">
+          <li class="tab"><a href="#notif-quest-pokemon-tab" class="active">Notif Quest Pokémon</a></li>
+          <li class="tab"><a href="#notif-quest-item-tab">Notif Quest Items</a></li>
+        </ul>
+        <div id="notif-quest-pokemon-tab">
+          <label for="no-notif-quest-pokemon">
+            <input id="no-notif-quest-pokemon" type="text" readonly="true" style="display:none;">
+            <div class="pokemon-filter-list"></div>
+            <div class="filter-footer-container">
+              <div class="filter-footer-left">
+                <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="You can search for:<br>Name, ID, Type and Generation.<br>Multiple search terms can be used<br>by separating them with commas.<br>Exclusion is possible by prepending<br>'-' to a search term."><i class="material-icons">info_outline</i></a>
+                <input type="search" class="search" placeholder="Search...">
+              </div>
+              <div class="filter-footer-right">
+                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="Deselect all">clear</i></a>
+                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+              </div>
+            </div>
+          </label>
+        </div>
+        <div id="notif-quest-item-tab">
+          <label for="no-notif-quest-items">
+            <input id="no-notif-quest-items" type="text" readonly="true" style="display:none;">
+            <div class="quest-item-filter-list"></div>
+            <div class="filter-footer-container">
+              <div></div>
+              <div class="filter-footer-right">
+                <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if settings.invasions %}
+    <div id="notif-invasion-filter-modal" class="modal filter-modal">
+      <div class="modal-content">
+        <h6 id="notif-invasion-filter-title">Notif Rocket Invasions</h6>
+        <label for="no-notif-invasions">
+          <input id="no-notif-invasions" type="text" readonly="true" style="display:none;">
+          <div class="invasion-filter-list"></div>
+          <div class="filter-footer-container">
+            <div></div>
+            <div class="filter-footer-right">
+              <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="Select all">select_all</i></a>
+              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    {% endif %}
+
     {% if settings.pokemons or settings.raids or settings.quests %}
     <div id="import-pokemon-list-modal" class="modal">
       <div class="modal-content">
@@ -1183,6 +1244,58 @@
                   </select>
                 </div>
               </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if settings.quests or settings.invasions or settings.lures %}
+          <div class="settings-container">
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="pokestop-notifs-switch">
+                  <span class="lever"></span>
+                  PokéStop notifs
+                </label>
+              </div>
+            </div>
+            <div id="pokestop-notif-filters-wrapper">
+              {% if settings.quests %}
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="quest-notifs-switch">
+                    <span class="lever"></span>
+                    Quest notifs
+                  </label>
+                  <a data-target="notif-quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select rewards"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
+              {% endif %}
+              {% if settings.invasions %}
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="invasion-notifs-switch">
+                    <span class="lever"></span>
+                    Rocket Invasion notifs
+                  </label>
+                  <a data-target="notif-invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Rocket Invasions"><i class="material-icons left">filter_list</i></a>
+                </div>
+              </div>
+              {% endif %}
+              {% if settings.lures %}
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Lure notifs</div>
+                  <select id="lure-notifs-select" multiple>
+                    <option value="501">Normal Lures</option>
+                    <option value="502">Glacial Lures</option>
+                    <option value="504">Magnetic Lures</option>
+                    <option value="503">Mossy Lures</option>
+                  </select>
+                </div>
+              </div>
+              {% endif %}
             </div>
           </div>
           {% endif %}

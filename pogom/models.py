@@ -633,6 +633,7 @@ class Pokestop(LatLongModel):
                 datetime.combine(today, datetime.min.time()))
             quests = (Trs_Quest
                       .select(Trs_Quest.GUID.alias('pokestop_id'),
+                              Trs_Quest.quest_timestamp.alias('timestamp'),
                               Trs_Quest.quest_task.alias('task'),
                               Trs_Quest.quest_type.alias('type'),
                               Trs_Quest.quest_stardust.alias('stardust'),

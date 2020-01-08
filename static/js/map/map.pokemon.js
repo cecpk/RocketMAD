@@ -124,12 +124,6 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
         marker.setZIndexOffset(pokemonZIndex)
     }
 
-    if (settings.bounceNotifMarkers && isNotifPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
-        marker.bounce()
-    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifPokemon)) {
-        marker.stopBouncing()
-    }
-
     if (isNotifPokemon && markers.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markers.removeLayer(marker)
@@ -138,6 +132,12 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
         // Marker in wrong layer, move to other layer.
         markersNoCluster.removeLayer(marker)
         markers.addLayer(marker)
+    }
+
+    if (settings.bounceNotifMarkers && isNotifPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
+        marker.bounce()
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifPokemon)) {
+        marker.stopBouncing()
     }
 
     return marker
