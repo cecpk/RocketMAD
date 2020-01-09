@@ -41,14 +41,25 @@ function getParameterByName(name, url) {
 }
 
 function openMapDirections(lat, lng, mapServiceProvider) { // eslint-disable-line no-unused-vars
-    var url = ''
-    if (mapServiceProvider === 'googlemaps') {
-        url = 'http://maps.google.com/maps?q=' + lat + ',' + lng
-        window.open(url, '_blank')
-    } else if (mapServiceProvider === 'applemaps') {
-        url = 'https://maps.apple.com/maps?daddr=' + lat + ',' + lng
-        window.open(url, '_self')
+    let url = ''
+    switch (mapServiceProvider) {
+        case 'googlemaps':
+            url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&zoom=16`
+            break
+        case 'applemaps':
+            url = `https://maps.apple.com/maps?daddr=${lat},${lng}`
+            break
+        case 'bingmaps':
+            url = `https://www.bing.com/maps/?v=2&lvl=16&where1=${lat},${lng}`
+            break
+        case 'openstreetmap':
+            url = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=16/${lat}/${lng}`
+            break
+        case 'waze':
+            url = `https://www.waze.com/ul?ll=${lat}%2C${lng}&zoom=16`
+            break
     }
+    window.open(url, '_blank')
 }
 
 // Converts timestamp to readable time String.

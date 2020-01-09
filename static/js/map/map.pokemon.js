@@ -68,7 +68,7 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 }
 
 function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
-    var iconSize = 32 * (Store.get('pokemonIconSizeModifier') / 100)
+    var iconSize = 32 * (settings.pokemonIconSizeModifier / 100)
     var upscaleModifier = 1
     if (isNotifPokemon && settings.upscaleNotifMarkers) {
         upscaleModifier = 1.3
@@ -286,7 +286,7 @@ function pokemonLabel(item) {
               ${statsDisplay}
               ${genRarityDisplayRight}
               <div class='coordinates'>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},${Store.get('mapServiceProvider')});' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
               </div>
               <div>
                 <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>

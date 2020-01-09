@@ -479,6 +479,18 @@
                   <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
+              <div class="form-control">
+                <div class="input-field">
+                  <div class="select-title">Icon size</div>
+                  <select id="pokemon-icon-size-select">
+                    <option value="50">X-Small</option>
+                    <option value="75">Small</option>
+                    <option value="100">Normal</option>
+                    <option value="150">Large</option>
+                    <option value="200">X-Large</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
           <div class="pokemon-filters-wrapper">
@@ -1355,6 +1367,34 @@
                   <option value="cartodbpositron">CartoDB Positron</option>
                   <option value="cartodbpositronnolabels">CartoDB Positron (no labels)</option>
                   <option value="satellite">Satellite</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-control">
+              <div class="input-field">
+                <div class="select-title">Map service provider</div>
+                <select id="map-service-provider-select">
+                  <option value="googlemaps">Google Maps</option>
+                  <option value="applemaps">Apple Maps</option>
+                  <option value="bingmaps">Bing Maps</option>
+                  <option value="openstreetmap">OpenStreetMap</option>
+                  <option value="waze">Waze</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-control">
+              <div class="input-field">
+                <div class="select-title">Start location marker icon</div>
+                <select id="start-location-marker-icon-select">
+                  <!-- Options are dynamically added. -->
+                </select>
+              </div>
+            </div>
+            <div class="form-control">
+              <div class="input-field">
+                <div class="select-title">My location marker icon</div>
+                <select id="user-location-marker-icon-select">
+                  <!-- Options are dynamically added. -->
                 </select>
               </div>
             </div>

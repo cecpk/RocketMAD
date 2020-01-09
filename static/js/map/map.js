@@ -4,17 +4,14 @@
 // Global map.js variables
 //
 
-var $selectSearchIconMarker
-var $selectLocationIconMarker
 var $gymNameFilter = ''
 var $pokestopNameFilter = ''
-
-var searchMarkerStyles
 
 var settings = {
     showPokemon: null,
     filterPokemonById: null,
     excludedPokemon: null,
+    pokemonIconSizeModifier: null,
     showPokemonValues: null,
     filterPokemonByValues: null,
     noFilterValuesPokemon: null,
@@ -101,7 +98,10 @@ var settings = {
     showBrowserPopups: null,
     playSound: null,
     upscaleNotifMarkers: null,
-    bounceNotifMarkers: null
+    bounceNotifMarkers: null,
+    mapServiceProvider: null,
+    startLocationMarkerStyle: null,
+    userLocationMarkerStyle: null
 }
 
 var notifiedPokemonData = {}
@@ -125,6 +125,8 @@ var mapData = {
     exParks: [],
     nestParks: []
 }
+
+var markerStyles
 var startLocationMarker
 var userLocationMarker
 var followUserHandle
@@ -467,6 +469,7 @@ function createStartLocationMarker() {
     var marker = L.marker([lat, lng], {draggable: settings.isStartLocationMarkerMovable}).addTo(markersNoCluster)
     marker.bindPopup(`<div><b>${i8ln('Start location')}</b></div>`)
     marker.setZIndexOffset(startLocationMarkerZIndex)
+    updateStartLocationMarker()
     addListeners(marker)
 
     marker.on('dragend', function () {
@@ -480,22 +483,22 @@ function createStartLocationMarker() {
     return marker
 }
 
-function updateStartLocationMarker(style) {
-    if (style in searchMarkerStyles) {
-        Store.set('searchMarkerStyle', style)
+function updateStartLocationMarker() {
+    // Don't do anything if it's disabled.
+    if (!startLocationMarker) {
+        return
+    }
 
-        // If it's disabled, stop.
-        if (!startLocationMarker) {
-            return
-        }
-
-        var url = searchMarkerStyles[style].icon
-        if (url) {
-            var startIcon = L.icon({
-                iconUrl: url,
+    if (markerStyles.hasOwnProperty(settings.startLocationMarkerStyle)) {
+        let iconUrl = markerStyles[settings.startLocationMarkerStyle].icon
+        if (iconUrl) {
+            let icon = L.icon({
+                iconUrl: iconUrl,
                 iconSize: [24, 24]
             })
-            startLocationMarker.setIcon(startIcon)
+            startLocationMarker.setIcon(icon)
+        } else {
+            startLocationMarker.setIcon(new L.Icon.Default())
         }
     }
 
@@ -511,6 +514,7 @@ function createUserLocationMarker() {
     var marker = L.marker([lat, lng]).addTo(markersNoCluster)
     marker.bindPopup(`<div><b>${i8ln('My location')}</b></div>`)
     marker.setZIndexOffset(userLocationMarkerZIndex)
+    updateUserLocationMarker()
     addListeners(marker)
 
     return marker
@@ -521,19 +525,20 @@ function updateUserLocationMarker(style) {
     if (!userLocationMarker) {
         return
     }
-    var locationIcon
-    if (style in searchMarkerStyles) {
-        var url = searchMarkerStyles[style].icon
+
+    if (markerStyles.hasOwnProperty(settings.userLocationMarkerStyle)) {
+        let url = markerStyles[settings.userLocationMarkerStyle].icon
         if (url) {
             locationIcon = L.icon({
                 iconUrl: url,
                 iconSize: [24, 24]
             })
             userLocationMarker.setIcon(locationIcon)
+        } else {
+            userLocationMarker.setIcon(new L.Icon.Default())
         }
-        Store.set('locationMarkerStyle', style)
     }
-    // Return value is currently unused.
+
     return userLocationMarker
 }
 
@@ -543,6 +548,7 @@ function initSettings() {
     settings.excludedPokemon = serverSettings.pokemons ? Store.get('excludedPokemon') : new Set()
     settings.pokemonNotifs = serverSettings.pokemons && Store.get('pokemonNotifs')
     if (serverSettings.pokemons) {
+        settings.pokemonIconSizeModifier = Store.get('pokemonIconSizeModifier')
         settings.showPokemonValues = serverSettings.pokemonValues && Store.get('showPokemonValues')
         settings.pokemonIdNotifs = Store.get('pokemonIdNotifs')
         settings.notifPokemon = Store.get('notifPokemon')
@@ -654,7 +660,6 @@ function initSettings() {
 
     settings.startAtUserLocation = hasLocationSupport() && Store.get('startAtUserLocation')
     settings.startAtLastLocation = Store.get('startAtLastLocation')
-    settings.lockStartLocationMarker = serverSettings.lockStartMarker && Store.get('lockStartLocationMarker')
     settings.isStartLocationMarkerMovable = serverSettings.isStartMarkerMovable && Store.get('isStartLocationMarkerMovable')
     settings.followUserLocation = hasLocationSupport() && Store.get('followUserLocation')
 
@@ -662,6 +667,10 @@ function initSettings() {
     settings.playSound = Store.get('playSound')
     settings.upscaleNotifMarkers = Store.get('upscaleNotifMarkers')
     settings.bounceNotifMarkers = Store.get('bounceNotifMarkers')
+
+    settings.mapServiceProvider = Store.get('mapServiceProvider')
+    settings.startLocationMarkerStyle = Store.get('startLocationMarkerStyle')
+    settings.userLocationMarkerStyle = Store.get('userLocationMarkerStyle')
 }
 
 function initSidebar() {
@@ -694,6 +703,13 @@ function initSidebar() {
                 updateMap()
             }
             Store.set('filterPokemonById', this.checked)
+        })
+
+        $('#pokemon-icon-size-select').on('change', function () {
+            const iconSize = Number(this.value)
+            settings.pokemonIconSizeModifier = iconSize
+            updatePokemons()
+            Store.set('pokemonIconSizeModifier', iconSize)
         })
     }
 
@@ -1791,30 +1807,46 @@ function initSidebar() {
     })
 
     $('#map-style-select').on('change', function () {
-        setTileLayer($(this).val())
-        Store.set('mapStyle', $(this).val())
+        setTileLayer(this.value)
+        Store.set('mapStyle', this.value)
     })
 
-    $('#pokemon-icon-size').on('change', function () {
-        Store.set('pokemonIconSizeModifier', this.value)
-        updatePokemons()
-    })
-
-    /*$('#map-service-provider').select2({
-        placeholder: 'Select map provider',
-        data: ['googlemaps', 'applemaps'],
-        minimumResultsForSearch: Infinity
-    })*/
-    $('#map-service-provider').change(function () {
+    $('#map-service-provider-select').on('change', function () {
+        settings.mapServiceProvider = this.value
+        if (settings.showPokemon) {
+            updatePokemons()
+        }
+        if (settings.showGyms || settings.showRaids) {
+            updateGyms()
+        }
+        if (settings.showPokestops) {
+            updatePokestops()
+        }
+        if (settings.showSpawnpoints) {
+            updateSpawnpoints()
+        }
         Store.set('mapServiceProvider', this.value)
+    })
+
+    $('#start-location-marker-icon-select').on('change', function () {
+        settings.startLocationMarkerStyle = this.value
+        updateStartLocationMarker()
+        Store.set('startLocationMarkerStyle', this.value)
+    })
+
+    $('#user-location-marker-icon-select').on('change', function () {
+        settings.userLocationMarkerStyle = this.value
+        updateUserLocationMarker()
+        Store.set('userLocationMarkerStyle', this.value)
     })
 
     // Pokemon.
     if (serverSettings.pokemons) {
         $('#pokemon-switch').prop('checked', settings.showPokemon)
+        $('.pokemon-filters-wrapper').toggle(settings.showPokemon)
         $('#filter-pokemon-switch').prop('checked', settings.filterPokemonById)
         $('a[data-target="pokemon-filter-modal"]').toggle(settings.filterPokemonById)
-        $('.pokemon-filters-wrapper').toggle(settings.showPokemon)
+        $('#pokemon-icon-size-select').val(settings.pokemonIconSizeModifier)
     }
     if (serverSettings.pokemonValues) {
         $('#pokemon-values-switch').prop('checked', settings.showPokemonValues)
@@ -1993,13 +2025,31 @@ function initSidebar() {
 
     // Style.
     $('#map-style-select').val(Store.get('mapStyle'))
-    $('#map-service-provider').val(Store.get('mapServiceProvider'))
-    $('#pokemon-icon-size').val(Store.get('pokemonIconSizeModifier'))
+    $('#map-service-provider-select').val(settings.mapServiceProvider)
 
     // Stats sidebar.
     $('#pokemon-stats-container').toggle(settings.showPokemon)
     $('#gym-stats-container').toggle(settings.showGyms)
     $('#pokestop-stats-container').toggle(settings.showPokestops)
+
+    $.getJSON('static/dist/data/markerstyles.min.json')
+    .done(function (data) {
+        markerStyles = data
+        updateStartLocationMarker()
+        updateUserLocationMarker()
+        $.each(data, function(id, value) {
+            const option = `<option value="${id}" data-icon="${value.icon}">${i8ln(value.name)}</option>`
+            $('#start-location-marker-icon-select').append(option)
+            $('#user-location-marker-icon-select').append(option)
+        })
+        $('#start-location-marker-icon-select').val(settings.startLocationMarkerStyle)
+        $('#user-location-marker-icon-select').val(settings.userLocationMarkerStyle)
+        $('#start-location-marker-icon-select').formSelect()
+        $('#user-location-marker-icon-select').formSelect()
+    })
+    .fail(function () {
+        console.log('Error loading search marker styles JSON.')
+    })
 
     // Initialize select elements.
     $('select').formSelect()
@@ -3611,51 +3661,6 @@ function toggleGymPokemonDetails(e) { // eslint-disable-line no-unused-vars
 //
 // Page Ready Execution
 //
-
-$(function () {
-    $selectSearchIconMarker = $('#iconmarker-style')
-    $selectLocationIconMarker = $('#locationmarker-style')
-
-    $.getJSON('static/dist/data/searchmarkerstyle.min.json').done(function (data) {
-        searchMarkerStyles = data
-        var searchMarkerStyleList = []
-
-        $.each(data, function (key, value) {
-            searchMarkerStyleList.push({
-                id: key,
-                text: value.name
-            })
-        })
-
-        /*$selectSearchIconMarker.select2({
-            placeholder: 'Select Icon Marker',
-            data: searchMarkerStyleList,
-            minimumResultsForSearch: Infinity
-        })*/
-
-        $selectSearchIconMarker.on('change', function (e) {
-            var selectSearchIconMarker = $selectSearchIconMarker.val()
-            Store.set('searchMarkerStyle', selectSearchIconMarker)
-            setTimeout(function () { updateStartLocationMarker(selectSearchIconMarker) }, 300)
-        })
-
-        $selectSearchIconMarker.val(Store.get('searchMarkerStyle')).trigger('change')
-
-        /*$selectLocationIconMarker.select2({
-            placeholder: 'Select Location Marker',
-            data: searchMarkerStyleList,
-            minimumResultsForSearch: Infinity
-        })*/
-
-        $selectLocationIconMarker.on('change', function (e) {
-            var locStyle = this.value
-            Store.set('locationMarkerStyle', locStyle)
-            setTimeout(function () { updateUserLocationMarker(locStyle) }, 300)
-        })
-
-        $selectLocationIconMarker.val(Store.get('locationMarkerStyle')).trigger('change')
-    })
-})
 
 $(function () {
     moment.locale(language)

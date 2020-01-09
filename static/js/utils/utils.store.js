@@ -61,6 +61,10 @@ var StoreOptions = {
         default: new Set(),
         type: StoreTypes.Set
     },
+    'pokemonIconSizeModifier': {
+        default: 100,
+        type: StoreTypes.Number
+    },
     'showPokemonValues': {
         default: true,
         type: StoreTypes.Boolean
@@ -425,6 +429,18 @@ var StoreOptions = {
         default: 'mapnik',
         type: StoreTypes.String
     },
+    'mapServiceProvider': {
+        default: 'googlemaps',
+        type: StoreTypes.String
+    },
+    'startLocationMarkerStyle': {
+        default: 'pokesition',
+        type: StoreTypes.String
+    },
+    'userLocationMarkerStyle': {
+        default: 'mobile',
+        type: StoreTypes.String
+    },
     'geoLocate': {
         default: false,
         type: StoreTypes.Boolean
@@ -433,29 +449,13 @@ var StoreOptions = {
         default: 'highres',
         type: StoreTypes.String
     },
-    'pokemonIconSizeModifier': {
-        default: 100,
-        type: StoreTypes.Number
-    },
     'upscaledPokemon': {
         default: [],
         type: StoreTypes.JSON
     },
-    'searchMarkerStyle': {
-        default: 'pokesition',
-        type: StoreTypes.String
-    },
-    'locationMarkerStyle': {
-        default: 'mobile',
-        type: StoreTypes.String
-    },
     'zoomLevel': {
         default: 16,
         type: StoreTypes.Number
-    },
-    'mapServiceProvider': {
-        default: 'googlemaps',
-        type: StoreTypes.String
     },
     'twelveHourTime': {
         default: false,
