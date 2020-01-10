@@ -159,7 +159,6 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
 
 function pokestopLabel(pokestop) {
     const pokestopName = pokestop.name != null && pokestop.name != '' ? pokestop.name : 'PokéStop'
-    const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
     var imageUrl = ''
     var imageClass = ''
     var imageOnclick = ''
@@ -179,22 +178,43 @@ function pokestopLabel(pokestop) {
 
     if (isPokestopMeetsQuestFilters(pokestop)) {
         const quest = pokestop.quest
-        let rewardImageUrl = ''
-        let rewardText = ''
+        let rewardImageUrl
+        let rewardText
+        let isNotifQuest
+        let notifFunction
+        let excludeFunction
+        let infoButtonDisplay = ''
 
         switch (quest.reward_type) {
             case 2:
                 rewardImageUrl = getItemImageUrl(quest.item_id)
                 rewardText = quest.item_amount + ' ' + getItemName(quest.item_id)
+                isNotifQuest = settings.notifQuestItems.includes(quest.item_id + '_' + quest.item_amount)
                 break
             case 3:
                 rewardImageUrl = getItemImageUrl(6)
                 rewardText = quest.stardust + ' ' + getItemName(6)
+                isNotifQuest = settings.notifQuestItems.includes('6_' + quest.item_amount)
                 break
-            case 7:
+            case 7: {
                 rewardImageUrl = getPokemonRawIconUrl(quest)
-                rewardText = `${getPokemonName(quest.pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
+                rewardText = `${getPokemonName(quest.pokemon_id)} #${quest.pokemon_id}`
+                isNotifQuest = settings.notifQuestPokemon.has(quest.pokemon_id)
                 break
+            }
+        }
+
+        const notifText = isNotifQuest ? 'Don\'t notify' : 'Notify'
+        const notifIconClass = isNotifQuest ? 'fas fa-bell-slash' : 'fas fa-bell'
+        if (quest.reward_type === 7) {
+            excludeFunction = `excludeQuestPokemon(${quest.pokemon_id})`
+            notifFunction = `toggleQuestPokemonNotif(${quest.pokemon_id})`
+            infoButtonDisplay = `<a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>`
+        } else {
+            const itemId = quest.reward_type === 2 ? quest.item_id : 6
+            const itemAmount = quest.reward_type === 2 ? quest.item_amount : quest.stardust
+            excludeFunction = `excludeQuestItem(${itemId},${itemAmount})`
+            notifFunction = `toggleQuestItemNotif(${itemId},${itemAmount})`
         }
 
         questDisplay = `
@@ -209,11 +229,18 @@ function pokestopLabel(pokestop) {
                 <div class='title'>
                   Quest
                 </div>
-                <div>
-                  Task: <strong>${quest.task}</strong>
+                <div class='info-container'>
+                  <div>
+                    Task: <strong>${quest.task}</strong>
+                  </div>
+                  <div>
+                    Reward: <strong>${rewardText}</strong>
+                  </div>
                 </div>
                 <div>
-                  Reward: <strong>${rewardText}</strong>
+                  <a href='javascript:${notifFunction}' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
+                  <a href='javascript:${excludeFunction}' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                  ${infoButtonDisplay}
                 </div>
               </div>
             </div>`
@@ -222,15 +249,20 @@ function pokestopLabel(pokestop) {
     if (isPokestopMeetsInvasionFilters(pokestop)) {
         const invasionId = pokestop.incident_grunt_type
         const invasionExpireTime = pokestop.incident_expiration
-        var typeDisplay = ''
         const grunt = getInvasionGrunt(invasionId)
         const invasionType = getInvasionType(invasionId)
+        const isNotifInvasion = settings.notifInvasions.includes(invasionId)
+        const notifText = isNotifInvasion ? 'Don\'t notify' : 'Notify'
+        const notifIconClass = isNotifInvasion ? 'fas fa-bell-slash' : 'fas fa-bell'
+        let typeDisplay = ''
+
         if (invasionType) {
             typeDisplay = `
                 <div>
                   Type: <strong>${invasionType}</strong>
                 </div>`
         }
+
         invasionDisplay = `
             <div class='section-divider'></div>
             <div class='pokestop-container'>
@@ -242,15 +274,21 @@ function pokestopLabel(pokestop) {
               <div class='pokestop-container-right'>
                 <div class='title invasion'>
                   <div>
-                    Team Rocket Invasion
+                    Team GO Rocket Invasion
                   </div>
                 </div>
                 <div class='disappear'>
                   ${timestampToTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
                 </div>
-                ${typeDisplay}
+                <div class='info-container'>
+                  ${typeDisplay}
+                  <div>
+                    Grunt: <strong>${grunt}</strong>
+                  </div>
+                </div>
                 <div>
-                  Grunt: <strong>${grunt}</strong>
+                  <a href='javascript:toggleInvasionNotif(${invasionId})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
+                  <a href='javascript:excludeInvasion(${invasionId})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
                 </div>
               </div>
             </div>`
@@ -289,12 +327,12 @@ function pokestopLabel(pokestop) {
                 Last scanned: <strong>${timestampToDateTime(pokestop.last_updated)}</strong>
               </div>
               <div>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
-          ${invasionDisplay}
           ${questDisplay}
+          ${invasionDisplay}
         </div>`
 }
 
@@ -447,6 +485,36 @@ function removePokestop(pokestop) {
             luredPokestopIds.delete(id)
         }
     }
+}
+
+function excludeQuestPokemon(id) {
+    if (!settings.excludedQuestPokemon.has(id)) {
+        $('label[for="exclude-quest-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+    }
+}
+
+function excludeQuestItem(id, bundle) {
+    if (!settings.excludedQuestItems.includes(id + '_' + bundle)) {
+        $('label[for="exclude-quest-items"] .quest-item-filter-list .filter-button[data-id="' + id + '"][data-bundle="' + bundle + '"]').click()
+    }
+}
+
+function excludeInvasion(id) {
+    if (!settings.excludedInvasions.includes(id)) {
+        $('label[for="exclude-invasions"] .invasion-filter-list .filter-button[data-id="' + id + '"]').click()
+    }
+}
+
+function toggleQuestPokemonNotif(id) {
+    $('label[for="no-notif-quest-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+}
+
+function toggleQuestItemNotif(id, bundle) {
+    $('label[for="no-notif-quest-items"] .quest-item-filter-list .filter-button[data-id="' + id + '"][data-bundle="' + bundle + '"]').click()
+}
+
+function toggleInvasionNotif(id) {
+    $('label[for="no-notif-invasions"] .invasion-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
 function getPokestopIconUrlFiltered(pokestop) {

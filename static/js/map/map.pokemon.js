@@ -181,8 +181,7 @@ function pokemonLabel(item) {
     }
 
     if (weatherBoostedCondition > 0) {
-        const weatherImage = getWeatherIconUrl({ gameplay_weather: weatherBoostedCondition, severity: 0, world_time: 1 })
-        weatherBoostDisplay = `<img id='weather-icon' src='${weatherImage}' width='24'>`
+        weatherBoostDisplay = `<i class='${weatherClassesDay[weatherBoostedCondition]}' title='${weatherNames[weatherBoostedCondition]}'></i>`
     }
 
     if (item.verified_disappear_time) {
@@ -259,10 +258,8 @@ function pokemonLabel(item) {
             </div>`
     }
 
-    const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
-
-    const notifyText = settings.notifPokemon.has(id) ? 'Unnotify' : 'Notify'
-    const notifyIconClass = settings.notifPokemon ? 'fas fa-bell-slash' : 'fas fa-bell'
+    const notifText = settings.notifPokemon.has(id) ? 'Don\'t notify' : 'Notify'
+    const notifIconClass = settings.notifPokemon.has(id) ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
         <div>
@@ -278,7 +275,7 @@ function pokemonLabel(item) {
             </div>
             <div id='pokemon-container-right'>
               <div class='title'>
-                <span>${name} ${formDisplay} <i class="fas ${genderClasses[gender - 1]}"></i> #${id}</span> ${weatherBoostDisplay}
+                ${name} ${formDisplay} <i class='fas ${genderClasses[gender - 1]}'></i> #${id} ${weatherBoostDisplay}
               </div>
               <div class='disappear'>
                 ${timestampToTime(disappearTime)} (<span class='label-countdown' disappears-at='${disappearTime}'>00m00s</span>) ${verifiedDisplay}
@@ -286,11 +283,11 @@ function pokemonLabel(item) {
               ${statsDisplay}
               ${genRarityDisplayRight}
               <div class='coordinates'>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
               </div>
               <div>
-                <a href='javascript:notifyAboutPokemon(${id}, "${encounterId}")' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
-                <a href='javascript:excludePokemon(${id}, "${encounterId}")' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                <a href='javascript:togglePokemonNotif(${id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
+                <a href='javascript:excludePokemon(${id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
                 <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
                 <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
               </div>
@@ -460,12 +457,14 @@ function getExcludedPokemon() {
     return !settings.filterPokemonById || isShowAllZoom() ? new Set() : settings.excludedPokemon
 }
 
-function excludePokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $('label[for="include-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+function excludePokemon(id) { // eslint-disable-line no-unused-vars
+    if (!settings.excludedPokemon.has(id)) {
+        $('label[for="exclude-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+    }
 }
 
-function notifyAboutPokemon(id, encounterId) { // eslint-disable-line no-unused-vars
-    $('label[for="notify-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+function togglePokemonNotif(id) { // eslint-disable-line no-unused-vars
+    $('label[for="no-notif-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
 function isNotifPokemon(pokemon) {
@@ -549,12 +548,12 @@ function sendPokemonNotification(pokemon) {
     playPokemonSound(pokemon.pokemon_id, cryFileTypes)
 
     if (settings.showBrowserPopups) {
-        var notifyTitle = pokemon.pokemon_name
-        var notifyText = ''
+        var notifTitle = pokemon.pokemon_name
+        var notifText = ''
 
         const formName = pokemon.form ? getFormName(pokemon.pokemon_id, pokemon.form) : false
         if (formName) {
-            notifyTitle += ` (${formName})`
+            notifTitle += ` (${formName})`
         }
 
         let expireTime = timestampToTime(pokemon.disappear_time)
@@ -562,17 +561,17 @@ function sendPokemonNotification(pokemon) {
         let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
         expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-        notifyText = `Disappears at ${expireTime} (${expireTimeCountdown})`
+        notifText = `Disappears at ${expireTime} (${expireTimeCountdown})`
 
         if (settings.showPokemonValues && pokemon.individual_attack !== null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
-            notifyTitle += ` ${ivsPercentage}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon.cp_multiplier)}`
+            notifTitle += ` ${ivsPercentage}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon.cp_multiplier)}`
             const move1 = getMoveName(pokemon.move_1)
             const move2 = getMoveName(pokemon.move_2)
-            notifyText += `\nMoves: ${move1} / ${move2}`
+            notifText += `\nMoves: ${move1} / ${move2}`
         }
 
-        sendNotification(notifyTitle, notifyText, getPokemonRawIconUrl(pokemon), pokemon.latitude, pokemon.longitude)
+        sendNotification(notifTitle, notifText, getPokemonRawIconUrl(pokemon), pokemon.latitude, pokemon.longitude)
     }
 
     var notificationData = {}

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-geosearch@2.7.0/assets/css/leaflet.min.css">
-    <link rel="stylesheet" type="text/css" href="static/dist/css/map.min.css">
+    <link rel="stylesheet" type="text/css" href="static/dist/css/app.min.css">
     {% if custom_css %}
     <link rel="stylesheet" type="text/css" href="static/css/custom.css">
     {% endif %}
@@ -90,6 +90,13 @@
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
       {% endif %}
     </ul>
+
+    <div id="image-modal" class="modal">
+      <div class="modal-content">
+        <h6>Title</h6>
+        <img class="responsive-img">
+      </div>
+    </div>
 
     {% if settings.pokemons %}
     <div id="pokemon-filter-modal" class="modal filter-modal">

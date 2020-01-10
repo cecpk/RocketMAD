@@ -2253,7 +2253,7 @@ function initPokemonFilters() {
             settings.excludedRaidPokemon = $(this).val().length > 0 ? new Set($(this).val().split(',').map(Number)) : new Set()
 
             const newExcludedPokemon = difference(settings.excludedRaidPokemon, prevExcludedPokemon)
-            if (newExcludedPokemon.size > 0) {
+            if (newExcludedPokemon.size > 0 || settings.showGyms) {
                 updateGyms()
             }
 

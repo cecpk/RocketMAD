@@ -85,9 +85,9 @@ function isGymRangesActive() {
     return settings.showRanges && settings.includedRangeTypes.includes(2)
 }
 
-function setupGymMarker(gym, isNotifyGym) {
+function setupGymMarker(gym, isNotifGym) {
     var marker = L.marker([gym.latitude, gym.longitude])
-    if (isNotifyGym) {
+    if (isNotifGym) {
         markersNoCluster.addLayer(marker)
     } else {
         markers.addLayer(marker)
@@ -101,7 +101,7 @@ function setupGymMarker(gym, isNotifyGym) {
     })
 
     marker.gym_id = gym.gym_id
-    updateGymMarker(gym, marker, isNotifyGym)
+    updateGymMarker(gym, marker, isNotifGym)
     if (!settings.useGymSidebar) {
         marker.bindPopup()
     }
@@ -135,9 +135,9 @@ function setupGymMarker(gym, isNotifyGym) {
     return marker
 }
 
-function updateGymMarker(gym, marker, isNotifyGym) {
+function updateGymMarker(gym, marker, isNotifGym) {
     var markerImage = ''
-    const upscaleModifier = isNotifyGym && settings.upscaleNotifMarkers ? 1.2 : 1
+    const upscaleModifier = isNotifGym && settings.upscaleNotifMarkers ? 1.2 : 1
     const gymLevel = getGymLevel(gym)
 
     if (isGymMeetsRaidFilters(gym)) {
@@ -171,23 +171,23 @@ function updateGymMarker(gym, marker, isNotifyGym) {
     })
     marker.setIcon(icon)
 
-    if (isNotifyGym) {
+    if (isNotifGym) {
         marker.setZIndexOffset(gymNotifiedZIndex)
     }
 
-    if (isNotifyGym && markers.hasLayer(marker)) {
+    if (isNotifGym && markers.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markers.removeLayer(marker)
         markersNoCluster.addLayer(marker)
-    } else if (!isNotifyGym && markersNoCluster.hasLayer(marker)) {
+    } else if (!isNotifGym && markersNoCluster.hasLayer(marker)) {
         // Marker in wrong layer, move to other layer.
         markersNoCluster.removeLayer(marker)
         markers.addLayer(marker)
     }
 
-    if (settings.bounceNotifMarkers && isNotifyGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
+    if (settings.bounceNotifMarkers && isNotifGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
         marker.bounce()
-    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifyGym)) {
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifGym)) {
         marker.stopBouncing()
     }
 
@@ -197,7 +197,6 @@ function updateGymMarker(gym, marker, isNotifyGym) {
 function gymLabel(gym) {
     const teamName = gymTypes[gym.team_id]
     const titleText = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
-    const mapLabel = Store.get('mapServiceProvider') === 'googlemaps' ? 'Google' : 'Apple'
 
     var exDisplay = ''
     var gymImageDisplay = ''
@@ -268,8 +267,8 @@ function gymLabel(gym) {
             let chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
 
             const isNotifRaid = settings.notifRaidPokemon.has(raid.pokemon_id)
-            const notifyText = isNotifRaid ? 'Unnotify' : 'Notify'
-            const notifyIconClass = isNotifRaid ? 'fas fa-bell-slash' : 'fas fa-bell'
+            const notifText = isNotifRaid ? 'Don\'t notify' : 'Notify'
+            const notifIconClass = isNotifRaid ? 'fas fa-bell-slash' : 'fas fa-bell'
 
             raidDisplay = `
                 <div class='section-divider'></div>
@@ -306,17 +305,16 @@ function gymLabel(gym) {
                       </div>
                     </div>
                     <div>
-                      <a href='javascript:notifyAboutRaidPokemon(${raid.pokemon_id})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
+                      <a href='javascript:toggleRaidPokemonNotif(${raid.pokemon_id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
                       <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
                       <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
                     </div>
                   </div>
                 </div>`
         } else {
-            const isNotifyEgg = settings.notifEggs.includes(raid.level)
-            const notifyText = isNotifyEgg ? 'Unnotify' : 'Notify'
-            const notifyIconClass = isNotifyEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
-            const notifyFunction = isNotifyEgg ? 'unnotifyAboutEgg' : 'notifyAboutEgg'
+            const isNotifEgg = settings.notifEggs.includes(raid.level)
+            const notifText = isNotifEgg ? 'Don\'t notify' : 'Notify'
+            const notifIconClass = isNotifEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
 
             raidDisplay = `
                 <div class='section-divider'></div>
@@ -337,8 +335,8 @@ function gymLabel(gym) {
                       </div>
                     </div>
                     <div>
-                      <a href='javascript:${notifyFunction}(${raid.level})' class='link-button' title='${notifyText}'><i class="${notifyIconClass}"></i></a>
-                      <a href='javascript:excludeEgg(${raid.level})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                      <a href='javascript:toggleEggNotif(${raid.level})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
+                      <a href='javascript:excludeRaidLevel(${raid.level})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
                     </div>
                   </div>
                 </div>`
@@ -372,7 +370,7 @@ function gymLabel(gym) {
                 </div>
               </div>
               <div>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
@@ -399,14 +397,14 @@ function processGym(gym = null) {
             return true
         }
 
-        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
-        if (isNewNotifyGym) {
-            sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
+        const {isEggNotifGym, isRaidPokemonNotifGym, isNewNotifGym} = getGymNotificationInfo(gym)
+        if (isNewNotifGym) {
+            sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym)
         }
 
-        gym.marker = setupGymMarker(gym, isEggNotifyGym || isRaidPokemonNotifyGym)
+        gym.marker = setupGymMarker(gym, isEggNotifGym || isRaidPokemonNotifGym)
         if (isGymRangesActive()) {
-            gym.rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
+            gym.rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifGym && !isRaidPokemonNotifGym)
         }
         gym.updated = true
         mapData.gyms[id] = gym
@@ -453,13 +451,13 @@ function updateGym(id, gym = null) {
 
         if (gym.last_modified > oldGym.last_modified || hasNewRaid || hasNewOngoingRaid || gym.is_in_battle !== oldGym.is_in_battle) {
             // Visual change, send notification if necessary and update marker.
-            const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
-            if (isNewNotifyGym) {
-                sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
+            const {isEggNotifGym, isRaidPokemonNotifGym, isNewNotifGym} = getGymNotificationInfo(gym)
+            if (isNewNotifGym) {
+                sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym)
             }
-            gym.marker = updateGymMarker(gym, oldGym.marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+            gym.marker = updateGymMarker(gym, oldGym.marker, isEggNotifGym || isRaidPokemonNotifGym)
             if (oldGym.rangeCircle) {
-                gym.rangeCircle = updateRangeCircle(mapData.gyms[id], 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
+                gym.rangeCircle = updateRangeCircle(mapData.gyms[id], 'gym', !isEggNotifGym && !isRaidPokemonNotifGym)
             }
         } else {
             gym.marker = oldGym.marker
@@ -484,12 +482,12 @@ function updateGym(id, gym = null) {
             upcomingRaidIds.add(id)
         }
     } else {
-        const {isEggNotifyGym, isRaidPokemonNotifyGym, isNewNotifyGym} = getGymNotificationInfo(gym)
-        if (isNewNotifyGym) {
-            sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym)
+        const {isEggNotifGym, isRaidPokemonNotifGym, isNewNotifGym} = getGymNotificationInfo(gym)
+        if (isNewNotifGym) {
+            sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym)
         }
 
-        updateGymMarker(gym, mapData.gyms[id].marker, isEggNotifyGym || isRaidPokemonNotifyGym)
+        updateGymMarker(gym, mapData.gyms[id].marker, isEggNotifGym || isRaidPokemonNotifGym)
         if (gym.marker.isPopupOpen()) {
             updateGymLabel(gym, mapData.gyms[id].marker)
         } else {
@@ -497,9 +495,9 @@ function updateGym(id, gym = null) {
             mapData.gyms[id].updated = true
         }
         if (isGymRangesActive() && !gym.rangeCircle) {
-            mapData.gyms[id].rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
+            mapData.gyms[id].rangeCircle = setupRangeCircle(gym, 'gym', !isEggNotifGym && !isRaidPokemonNotifGym)
         } else {
-            updateRangeCircle(mapData.gyms[id], 'gym', !isEggNotifyGym && !isRaidPokemonNotifyGym)
+            updateRangeCircle(mapData.gyms[id], 'gym', !isEggNotifGym && !isRaidPokemonNotifGym)
         }
     }
 
@@ -534,38 +532,38 @@ function removeGym(gym) {
     }
 }
 
-function excludeEgg(level) { // eslint-disable-line no-unused-vars
-    var temp = settings.includedEggLevels
-    const index = temp.indexOf(level)
+function excludeRaidLevel(level) { // eslint-disable-line no-unused-vars
+    let levels = settings.includedRaidLevels
+    const index = levels.indexOf(level)
     if (index > -1) {
-        temp.splice(index, 1)
-        $('#egg-levels-select').val(temp).trigger('change')
+        levels.splice(index, 1)
+        $('#raid-level-select').val(levels).trigger('change')
+        // Reintialize select.
+        $('#raid-level-select').formSelect()
     }
 }
 
 function excludeRaidPokemon(id) { // eslint-disable-line no-unused-vars
-    $('label[for="include-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
-}
-
-function notifyAboutEgg(level) { // eslint-disable-line no-unused-vars
-    var temp = notifyEggs
-    if (!temp.includes(level)) {
-        temp.push(level)
-        $('#notify-eggs').val(temp).trigger('change')
+    if (!settings.excludedRaidPokemon.has(id)) {
+        $('label[for="exclude-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
     }
 }
 
-function unnotifyAboutEgg(level) { // eslint-disable-line no-unused-vars
-    var temp = notifyEggs
-    const index = temp.indexOf(level)
-    if (index > -1) {
-        temp.splice(index, 1)
-        $('#notify-eggs').val(temp).trigger('change')
+function toggleEggNotif(level) { // eslint-disable-line no-unused-vars
+    let notifEggs = settings.notifEggs
+    if (!notifEggs.includes(level)) {
+        notifEggs.push(level)
+    } else {
+        const index = notifEggs.indexOf(level)
+        notifEggs.splice(index, 1)
     }
+    $('#egg-notifs-select').val(notifEggs).trigger('change')
+    // Reintialize select.
+    $('#egg-notifs-select').formSelect()
 }
 
-function notifyAboutRaidPokemon(id) { // eslint-disable-line no-unused-vars
-    $('label[for="notify-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+function toggleRaidPokemonNotif(id) { // eslint-disable-line no-unused-vars
+    $('label[for="no-notif-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
 }
 
 function getGymNotificationInfo(gym) {
@@ -584,15 +582,15 @@ function getGymNotificationInfo(gym) {
     }
 
     return {
-        'isEggNotifyGym': isEggNotifGym,
-        'isRaidPokemonNotifyGym': isRaidPokemonNotifGym,
-        'isNewNotifyGym': isNewNotifGym
+        'isEggNotifGym': isEggNotifGym,
+        'isRaidPokemonNotifGym': isRaidPokemonNotifGym,
+        'isNewNotifGym': isNewNotifGym
     }
 }
 
-function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
+function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
     const raid = gym.raid
-    if (!isValidRaid(raid) || (!isEggNotifyGym && !isRaidPokemonNotifyGym)) {
+    if (!isValidRaid(raid) || (!isEggNotifGym && !isRaidPokemonNotifGym)) {
         return
     }
 
@@ -602,17 +600,17 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
 
     if (settings.showBrowserPopups) {
         const gymName = gym.name !== null && gym.name !== '' ? gym.name : 'unknown'
-        var notifyTitle = ''
-        var notifyText = ''
+        var notifTitle = ''
+        var notifText = ''
         var iconUrl = ''
-        if (isEggNotifyGym) {
+        if (isEggNotifGym) {
             let expireTime = timestampToTime(raid.start)
             let timeUntil = getTimeUntil(raid.start)
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            notifyTitle = `Level ${raid.level} Raid`
-            notifyText = `Gym: ${gymName}\nStarts at ${expireTime} (${expireTimeCountdown})`
+            notifTitle = `Level ${raid.level} Raid`
+            notifText = `Gym: ${gymName}\nStarts at ${expireTime} (${expireTimeCountdown})`
             iconUrl = 'static/images/gym/' + raidEggImages[raid.level]
         } else {
             let expireTime = timestampToTime(raid.end)
@@ -629,19 +627,19 @@ function sendGymNotification(gym, isEggNotifyGym, isRaidPokemonNotifyGym) {
                 pokemonName += ` (${formName})`
             }
 
-            notifyTitle = `${pokemonName} Raid (L${raid.level})`
-            notifyText = `Gym: ${gymName}\nEnds at ${expireTime} (${expireTimeCountdown})\nMoves: ${fastMoveName} / ${chargeMoveName}`
+            notifTitle = `${pokemonName} Raid (L${raid.level})`
+            notifText = `Gym: ${gymName}\nEnds at ${expireTime} (${expireTimeCountdown})\nMoves: ${fastMoveName} / ${chargeMoveName}`
             iconUrl = getPokemonRawIconUrl(raid)
         }
 
-        sendNotification(notifyTitle, notifyText, iconUrl, gym.latitude, gym.longitude)
+        sendNotification(notifTitle, notifText, iconUrl, gym.latitude, gym.longitude)
     }
 
     var notificationData = {}
     notificationData.raidEnd = gym.raid.end
-    if (isEggNotifyGym) {
+    if (isEggNotifGym) {
         notificationData.hasSentEggNotification = true
-    } else if (isRaidPokemonNotifyGym) {
+    } else if (isRaidPokemonNotifGym) {
         notificationData.hasSentRaidPokemonNotification = true
     }
     notifiedGymData[gym.gym_id] = notificationData

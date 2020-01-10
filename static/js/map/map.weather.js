@@ -146,8 +146,8 @@ function weatherLabel(weather) {
     return `
         <div class='title'>${weatherTitle}</div>
         ${alertDisplay}
-        <div>${i8ln('Time of day')}: ${i8ln(time)}</div>
-        <div>${i8ln('Last updated')}: ${lastUpdated}</div>`
+        <div>${i8ln('Time of day')}: <strong>${i8ln(time)}</strong></div>
+        <div>${i8ln('Last updated')}: <strong>${lastUpdated}</strong></div>`
 }
 
 function updateWeatherLabel(weather, marker) {

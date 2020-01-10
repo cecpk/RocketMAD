@@ -1,8 +1,8 @@
-#ex-icon {
+.leaflet-popup-content #ex-icon {
   vertical-align: middle;
 }
 
-#gym-container {
+.leaflet-popup-content #gym-container {
   display: flex;
 
   #gym-container-left {
@@ -11,7 +11,7 @@
 
     .gym-image {
       border-radius: 32px;
-      cursor: pointer;
+      cursor: zoom-in;
 
       &:hover {
         opacity: 0.7;
@@ -48,7 +48,7 @@
   }
 }
 
-#raid-container {
+.leaflet-popup-content #raid-container {
   display: flex;
 
   #raid-container-left {

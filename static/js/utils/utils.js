@@ -1,6 +1,13 @@
-var touchDevice = null
-var mobileDevice = null
-var locationSupport = null
+let touchDevice = null
+let mobileDevice = null
+let locationSupport = null
+const mapServiceProviderNames = {
+    'googlemaps': 'Google Maps',
+    'applemaps': 'Apple Maps',
+    'bingmaps': 'Bing Maps',
+    'openstreetmap': 'OpenStreetMap',
+    'waze': 'Waze'
+}
 
 function isTouchDevice() {
     if (touchDevice === null) {
@@ -38,6 +45,14 @@ function getParameterByName(name, url) {
         return ''
     }
     return decodeURIComponent(results[2].replace(/\+/g, ' '))
+}
+
+function showImageModal(url, title) {
+    $('#image-modal > .modal-content > h6').text(title)
+    $('#image-modal > .modal-content > img').attr('src', url)
+    let elem = document.getElementById('image-modal')
+    let instance = M.Modal.getInstance(elem)
+    instance.open()
 }
 
 function openMapDirections(lat, lng, mapServiceProvider) { // eslint-disable-line no-unused-vars
