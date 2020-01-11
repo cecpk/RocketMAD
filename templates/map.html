@@ -380,7 +380,17 @@
       <div class="modal-content">
         <h4>Import Pokémon list</h4>
         <p>
-          <input id="pokemon-list-file" type="file" id="avatar" name="avatar" accept=".txt">
+          <form action="#">
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>File</span>
+                <input id="pokemon-list-file" type="file" accept=".txt">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+            </div>
+          </form>
         </p>
         <p>Import to:</p>
         {% if settings.pokemons %}
@@ -1435,13 +1445,14 @@
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
-              <div><a class="waves-effect waves-light btn"><i class="material-icons left">file_download</i>Import settings</a></div>
+              <input id="settings-file-input" type="file" accept=".txt" style="display:none;">
+              <div><a id="import-settings-button" class="waves-effect waves-light btn" onclick="document.getElementById('settings-file-input').click()"><i class="material-icons left">file_download</i>Import settings</a></div>
             </div>
             <div class="form-control">
-              <div><a class="waves-effect waves-light btn"><i class="material-icons left">file_upload</i>Export settings</a></div>
+              <div><a id="export-settings-button" class="waves-effect waves-light btn"><i class="material-icons left">file_upload</i>Export settings</a></div>
             </div>
             <div class="form-control">
-              <div><a class="waves-effect waves-light btn"><i class="material-icons left">autorenew</i>Reset settings</a></div>
+              <div><a id="reset-settings-button" class="waves-effect waves-light btn"><i class="material-icons left">autorenew</i>Reset settings</a></div>
             </div>
           </div>
           {% if settings.pokemons or settings.raids or settings.quests %}

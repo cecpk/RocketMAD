@@ -226,15 +226,6 @@ function isShowAllZoom() {
     return serverSettings.showAllZoomLevel > 0 && map.getZoom() >= serverSettings.showAllZoomLevel
 }
 
-function loadSettingsFile(file) { // eslint-disable-line no-unused-vars
-    var reader = new FileReader()
-    reader.onload = function () {
-        //Object.assign(localStorage, JSON.parse(reader.result))
-    }
-    reader.readAsText(file.target.files[0])
-    window.location.reload()
-}
-
 function loadData(file, onLoad, onError) {
     var reader = new FileReader()
     reader.readAsText(file)
@@ -1840,6 +1831,44 @@ function initSidebar() {
         Store.set('userLocationMarkerStyle', this.value)
     })
 
+    $('#settings-file-input').on('change', function () {
+        let elem = document.getElementById('settings-file-input')
+        if (elem.value != '') {
+            function loaded(e) {
+                const confirmed = confirm('Are you sure you want to import settings?')
+                if (!confirmed) {
+                    return
+                }
+
+                let fileString = e.target.result
+                Object.assign(localStorage, JSON.parse(fileString))
+                window.location.reload()
+            }
+
+            function error(e) {
+                console.error('Error while loading settings file: ' + e)
+                toastError(i8ln('Error while loading settings file!'), i8ln('Please try again.'))
+            }
+
+            let file = elem.files[0]
+            loadData(file, loaded, error)
+            // Reset file input.
+            $(this).val('')
+        }
+    })
+
+    $('#export-settings-button').on('click', function () {
+        downloadData('rocketmad_settings', JSON.stringify(localStorage))
+    })
+
+    $('#reset-settings-button').on('click', function () {
+        const confirmed = confirm('Are you sure you want to reset all settings to default values?')
+        if (confirmed) {
+            localStorage.clear()
+            window.location.reload()
+        }
+    })
+
     // Pokemon.
     if (serverSettings.pokemons) {
         $('#pokemon-switch').prop('checked', settings.showPokemon)
@@ -2881,7 +2910,7 @@ function initBackupModals() {
     }
 
     $('#import-pokemon-list').on('click', function () {
-        var elem = document.getElementById('pokemon-list-file')
+        let elem = document.getElementById('pokemon-list-file')
         if (elem.value != '') {
             var file = elem.files[0]
             loadData(file, loaded, error)
