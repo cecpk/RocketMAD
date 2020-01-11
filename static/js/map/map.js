@@ -2729,6 +2729,18 @@ function initBackupModals() {
         })
     }
 
+    if (serverSettings.raids) {
+        $('#export-notif-raid-pokemon-button').on('click',  function () {
+            downloadData('raid_pokemon', JSON.stringify(Array.from(settings.notifRaidPokemon)))
+        })
+    }
+
+    if (serverSettings.quests) {
+        $('#export-notif-quest-pokemon-button').on('click',  function () {
+            downloadData('quest_pokemon', JSON.stringify(Array.from(settings.notifQuestPokemon)))
+        })
+    }
+
     function loaded(e) {
         var fileString = e.target.result
         var checkBoxSelected = false
@@ -2823,6 +2835,32 @@ function initBackupModals() {
 
             $('label[for="no-notif-values-pokemon"] .pokemon-filter-list .filter-button').each(function () {
                 if (!settings.noNotifValuesPokemon.has($(this).data('id'))) {
+                    $(this).addClass('active')
+                } else {
+                    $(this).removeClass('active')
+                }
+            })
+        }
+
+        if (serverSettings.raids && $('#import-notif-raid-pokemon-checkbox').is(':checked')) {
+            checkBoxSelected = true
+            $('#no-notif-raid-pokemon').val(excludedPokemon).trigger('change')
+
+            $('label[for="no-notif-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+                if (settings.notifRaidPokemon.has($(this).data('id'))) {
+                    $(this).addClass('active')
+                } else {
+                    $(this).removeClass('active')
+                }
+            })
+        }
+
+        if (serverSettings.quests && $('#import-notif-quest-pokemon-checkbox').is(':checked')) {
+            checkBoxSelected = true
+            $('#no-notif-quest-pokemon').val(excludedPokemon).trigger('change')
+
+            $('label[for="no-notif-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
+                if (settings.notifQuestPokemon.has($(this).data('id'))) {
                     $(this).addClass('active')
                 } else {
                     $(this).removeClass('active')
