@@ -182,7 +182,7 @@ def startup_db(app, clear_db):
         log.info('Clearing database')
         drop_tables(db)
 
-    verify_database_schema(db)
+    #verify_database_schema(db)
 
     create_tables(db)
 
