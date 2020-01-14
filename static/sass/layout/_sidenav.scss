@@ -12,12 +12,12 @@
   }
 
   .collapsible-body {
-    line-height: 1.5;
+    line-height: 1.5 !important;
   }
 
   .settings-container {
-    padding: 16px 24px;
-    border-bottom: 1px solid #ddd;
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #ddd !important;
   }
 
   .form-control {
@@ -26,12 +26,12 @@
 
   .lever {
     margin: 4px 0 0 0 !important;
-    float: right;
+    float: right !important;
   }
 
   .switch label {
     font-size: 1rem !important;
-    color: #000 !important;
+    color: $text-color !important;
   }
 
   input, .input-field {
@@ -39,12 +39,12 @@
   }
 
   input.select-dropdown, input[type=text] {
-    height: 2rem;
-    width: calc(100% - 8px);
-    padding: 0 4px;
-    border: 1px solid #9e9e9e;
-    border-radius: 4px;
-    font-size: inherit;
+    height: 2rem !important;
+    width: calc(100% - 8px) !important;
+    padding: 0 4px !important;
+    border: 1px solid #9e9e9e !important;
+    border-radius: 4px !important;
+    font-size: inherit !important;
   }
 
   input[type=text]:focus {
@@ -65,13 +65,26 @@
       margin-right: 0;
     }
   }
+}
 
-  .slider-title {
-    margin-bottom: 5px;
-    color: #000;
+.dark .sidenav {
+  color: $text-color-dark !important;
+  background-color: $background-color-dark !important;
+  border: 0;
+
+  .collapsible-header, .settings-container {
+    border-bottom: 1px solid #9e9e9e !important;
   }
 
-  .text-input-title, .select-title {
-    color: #000;
+  .collapsible-header:hover, li.active {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .collapsible-body {
+    background-color: $background-color-dark !important;
+  }
+
+  .btn-flat {
+    color: $text-color-dark !important;
   }
 }

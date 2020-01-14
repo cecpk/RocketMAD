@@ -1,3 +1,8 @@
+.dark .modal {
+  background-color: $popup-color-dark;
+  color: $text-color-dark;
+}
+
 #image-modal .modal-content {
   text-align: center;
 
@@ -74,7 +79,7 @@
     margin-right: 8px;
     float: left;
     line-height: initial;
-    color: #000;
+    color: $text-color;
     background-color: #ffcdd2;
     cursor: pointer;
 
@@ -97,8 +102,33 @@
   }
 }
 
-#import-pokemon-list-modal {
-  label {
-    color: rgba(0,0,0,0.87);
+.dark .filter-modal {
+  h6, .filter-footer-container, .tabs {
+    background-color: $popup-color-dark !important;
   }
+
+  .filter-button {
+    background-color: #b71c1c;
+    color: $text-color-dark;
+
+    &.active {
+      background-color: #004d40;
+    }
+  }
+
+  .btn-flat {
+    color: $text-color-dark !important;
+  }
+}
+
+#import-pokemon-list-modal label {
+  color: $text-color;
+}
+
+.dark #import-pokemon-list-modal label {
+  color: $text-color-dark;
+}
+
+.dark #export-pokemon-list-modal a {
+  color: $text-color-dark;
 }

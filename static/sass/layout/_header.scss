@@ -20,22 +20,18 @@ nav, nav i, nav a.sidenav-trigger {
   background-color: #fff !important;
 
   a {
-    color: #000 !important;
+    color: $text-color !important;
   }
+}
 
-  .dropdown-trigger {
-    //padding: 0;
-  }
+.dark .nav-wrapper {
+  background-color: $background-color-dark !important;
 
-  &.dark-mode {
-    background-color: #000 !important;
+  a {
+    color: $text-color-dark !important;
 
-    a {
-      color: #fff !important;
-
-      &:hover {
-        color: #e0e0e0 !important;
-      }
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.25) !important;
     }
   }
 }

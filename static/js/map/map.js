@@ -101,7 +101,8 @@ var settings = {
     bounceNotifMarkers: null,
     mapServiceProvider: null,
     startLocationMarkerStyle: null,
-    userLocationMarkerStyle: null
+    userLocationMarkerStyle: null,
+    darkMode: null
 }
 
 var notifiedPokemonData = {}
@@ -245,6 +246,10 @@ function downloadData(fileName, data) {
 
 function initMap() { // eslint-disable-line no-unused-vars
     initSettings()
+
+    if (settings.darkMode) {
+        enableDarkMode()
+    }
 
     // URL query parameters.
     const paramLat = Number(getParameterByName('lat'))
@@ -533,6 +538,14 @@ function updateUserLocationMarker(style) {
     return userLocationMarker
 }
 
+function enableDarkMode() {
+    $('body').addClass('dark')
+}
+
+function disableDarkMode() {
+    $('body').removeClass('dark')
+}
+
 function initSettings() {
     settings.showPokemon = serverSettings.pokemons && Store.get('showPokemon')
     settings.filterPokemonById = serverSettings.pokemons && Store.get('filterPokemonById')
@@ -662,6 +675,7 @@ function initSettings() {
     settings.mapServiceProvider = Store.get('mapServiceProvider')
     settings.startLocationMarkerStyle = Store.get('startLocationMarkerStyle')
     settings.userLocationMarkerStyle = Store.get('userLocationMarkerStyle')
+    settings.darkMode = Store.get('darkMode')
 }
 
 function initSidebar() {
@@ -1831,6 +1845,16 @@ function initSidebar() {
         Store.set('userLocationMarkerStyle', this.value)
     })
 
+    $('#dark-mode-switch').on('change', function () {
+        settings.darkMode = this.checked
+        if (this.checked) {
+            enableDarkMode()
+        } else {
+            disableDarkMode()
+        }
+        Store.set('darkMode', this.checked)
+    })
+
     $('#settings-file-input').on('change', function () {
         let elem = document.getElementById('settings-file-input')
         if (elem.value != '') {
@@ -2055,6 +2079,7 @@ function initSidebar() {
     // Style.
     $('#map-style-select').val(Store.get('mapStyle'))
     $('#map-service-provider-select').val(settings.mapServiceProvider)
+    $('#dark-mode-switch').prop('checked', settings.darkMode)
 
     // Stats sidebar.
     $('#pokemon-stats-container').toggle(settings.showPokemon)

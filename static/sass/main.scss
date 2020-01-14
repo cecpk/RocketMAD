@@ -1,3 +1,4 @@
+@import 'abstracts/variables';
 @import 'layout/header';
 @import 'layout/sidenav';
 @import 'layout/main';
@@ -8,5 +9,8 @@
 @import 'layout/weather';
 @import 'components/tabs';
 @import 'components/modal';
-@import 'components/slider';
 @import 'components/dropdown';
+@import 'components/select';
+@import 'components/slider';
+@import 'components/switch';
+@import 'components/text-input';

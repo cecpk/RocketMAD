@@ -441,6 +441,10 @@ var StoreOptions = {
         default: 'mobile',
         type: StoreTypes.String
     },
+    'darkMode': {
+        default: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches,
+        type: StoreTypes.Boolean
+    },
     'geoLocate': {
         default: false,
         type: StoreTypes.Boolean

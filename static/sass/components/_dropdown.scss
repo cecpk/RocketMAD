@@ -1,26 +1,22 @@
 .dropdown-content {
   a {
-    color: #000 !important;
+    color: $text-color !important;
   }
 
   i {
     height: inherit !important;
     line-height: inherit !important;
   }
+}
 
-  &.dark-mode {
-    background-color: #000 !important;
+.dark .dropdown-content {
+  background-color: $popup-color-dark !important;
 
-    li:hover:not(.divider) {
-      background-color: #000 !important;
+  li:hover:not(.divider) {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+  }
 
-      a {
-        color: #e0e0e0 !important;
-      }
-    }
-
-    a {
-      color: #fff !important;
-    }
+  a {
+    color: $text-color-dark !important;
   }
 }

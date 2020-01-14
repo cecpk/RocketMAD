@@ -1,0 +1,19 @@
+.text-input-title {
+  color: $text-color;
+}
+
+.dark .text-input-title {
+  color: $text-color-dark;
+}
+
+.dark input[type="text"], .dark input[type="search"] {
+  color: $text-color-dark !important;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  &::-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+}

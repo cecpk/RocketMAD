@@ -3,9 +3,14 @@
 }
 
 .slider-title {
-  color: #000;
+  margin-bottom: 5px;
+  color: $text-color;
+}
+
+.dark .slider-title {
+  color: $text-color-dark !important;
 }
 
 .noUi-handle-touch-area {
-  z-index: 5;
+  z-index: 5 !important;
 }
