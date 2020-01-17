@@ -1,149 +1,337 @@
 /* global getPokemonRawIconUrl */
-function countMarkers(map) { // eslint-disable-line no-unused-vars
-    var i = 0
-    var pokemonCount = {}
-    var pokemonTotal = 0
-    var gymCount = []
-    var gymTotal = 0
-    var pokestopCount = []
-    var pokestopTotal = 0
-    var $pokemonTable = $('#pokemon-table').DataTable()
-    var $gymTable = $('#gym-table').DataTable()
-    var $pokestopTable = $('#pokestop-table').DataTable()
+let navInstance
+let tabsInstance
 
-    // Bounds of the currently visible map
-    var currentVisibleMap = map.getBounds()
+function updateStatsTable() {
+    if (!navInstance) {
+        let navElem = document.getElementById('stats-sidenav')
+        navInstance = M.Sidenav.getInstance(navElem)
+    }
 
-    // Is a particular Pokémon/Gym/Pokéstop within the currently visible map?
-    var thisPokeIsVisible = false
-    var thisGymIsVisible = false
-    var thisPokestopIsVisible = false
+    if (!navInstance.isOpen) {
+        return
+    }
 
-    if (Store.get('showPokemon')) {
+    if (!tabsInstance) {
+        let tabsElem = document.getElementById('stats-tabs')
+        tabsInstance = M.Tabs.getInstance(tabsElem)
+    }
+
+    const selectedTab = $(`#stats-tabs li:nth-child(${tabsInstance.index + 1}) > a`).attr('href')
+    const mapBounds = map.getBounds()
+
+    if (selectedTab === '#pokemon-stats-tab') { // Pokémon tab.
+        let pokemonData = {}
+        let pokemonCount = 0
+
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            var thisPokeLocation = { lat: pokemon.latitude, lng: pokemon.longitude }
-            thisPokeIsVisible = currentVisibleMap.contains(thisPokeLocation)
-            const key = pokemon.pokemon_id + '_' + pokemon.form
-
-            if (thisPokeIsVisible) {
-                pokemonTotal++
-                if (!pokemonCount.hasOwnProperty(key)) {
-                    pokemonCount[key] = {
-                        'Count': 1,
-                        'ID': pokemon.pokemon_id,
-                        'Name': pokemon.pokemon_name,
-                        'Form': pokemon.form
+            const location = { lat: pokemon.latitude, lng: pokemon.longitude }
+            if (mapBounds.contains(location)) {
+                const key = pokemon.pokemon_id + '_' + pokemon.form + '_' + pokemon.costume
+                pokemonCount++
+                if (!pokemonData.hasOwnProperty(key)) {
+                    pokemonData[key] = {
+                        'count': 1,
+                        'id': pokemon.pokemon_id,
+                        'name': pokemon.pokemon_name,
+                        'form': pokemon.form,
+                        'costume': pokemon.costume
                     }
                 } else {
-                    pokemonCount[key].Count += 1
+                    pokemonData[key].count++
                 }
             }
         })
 
-        var pokeCounts = []
-        $.each(pokemonCount, function (key, data) {
-            var pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.ID, 'form': data.Form})
-            pokeCounts.push(
+        let pokemonRows = []
+        $.each(pokemonData, function (key, data) {
+            const pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.id, 'form': data.form, 'costume': data.costume})
+            pokemonRows.push(
                 [
-                    '<img class="pokemonListString pokemon-icon" src=\'' + pokemonIcon + '\' />',
-                    `<a href='https://pokemongo.gamepress.gg/pokemon/${data.ID}' target='_blank' title='View on GamePress'>${data.ID}</a>`,
-                    data.Name,
-                    data.Count,
-                    ((data.Count * 100) / pokemonTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    '<img src="' + pokemonIcon + '" width=32 />',
+                    `<a href='https://pokemongo.gamepress.gg/pokemon/${data.id}' target='_blank' title='View on GamePress'>${data.id}</a>`,
+                    data.name,
+                    data.count,
+                    ((data.count * 100) / pokemonCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
                 ]
             )
         })
 
-        $('#stats-pokemon-label').text(`Pokémon (${pokemonTotal})`)
+        $('a[href$="#pokemon-stats-tab"]').html(`<i class="material-icons">pets</i> (${pokemonCount})`)
+
         // Clear stale data, add fresh data, redraw
-        $pokemonTable
+        $('#pokemon-table').DataTable()
             .clear()
-            .rows.add(pokeCounts)
+            .rows.add(pokemonRows)
             .draw()
+    } else if (serverSettings.pokemons) {
+        let pokemonCount = 0
+        $.each(mapData.pokemons, function (encounterId, pokemon) {
+            const location = { lat: pokemon.latitude, lng: pokemon.longitude }
+            if (mapBounds.contains(location)) {
+                pokemonCount++
+            }
+        })
+        $('a[href$="#pokemon-stats-tab"]').html(`<i class="material-icons">pets</i> (${pokemonCount})`)
     }
 
-    // begin Gyms processing
-    if (Store.get('showGyms')) {
-        $.each(mapData.gyms, function (key, value) {
-            var thisGymLocation = { lat: mapData.gyms[key]['latitude'], lng: mapData.gyms[key]['longitude'] }
-            thisGymIsVisible = currentVisibleMap.contains(thisGymLocation)
+    if (selectedTab === '#gym-stats-tab') {
+        let teamCounts = [0, 0, 0, 0]
+        let eggCounts = [0, 0, 0, 0, 0]
+        let raidPokemonData = {}
+        let gymCount = 0
+        let eggCount = 0
+        let raidPokemonCount = 0
+        let totalCount = 0
 
-            if (thisGymIsVisible) {
-                gymTotal++
-                if (gymCount[mapData.gyms[key]['team_id']] === 0 || !gymCount[mapData.gyms[key]['team_id']]) {
-                    gymCount[mapData.gyms[key]['team_id']] = 1
-                } else {
-                    gymCount[mapData.gyms[key]['team_id']] += 1
+        $.each(mapData.gyms, function (id, gym) {
+            const location = { lat: gym.latitude, lng: gym.longitude }
+            if (mapBounds.contains(location)) {
+                totalCount++;
+                if (isGymMeetsGymFilters(gym)) {
+                    gymCount++
+                    teamCounts[gym.team_id]++
+                }
+                if (isGymMeetsRaidFilters(gym)) {
+                    const raid = gym.raid
+                    if (isUpcomingRaid(raid)) {
+                        eggCount++
+                        eggCounts[raid.level - 1]++
+                    } else if (raid.pokemon_id) {
+                        const key = raid.pokemon_id + '_' + raid.form + '_' + raid.costume
+                        raidPokemonCount++
+                        if (!raidPokemonData.hasOwnProperty(key)) {
+                            raidPokemonData[key] = {
+                                'count': 1,
+                                'level': raid.level,
+                                'id': raid.pokemon_id,
+                                'name': raid.pokemon_name,
+                                'form': raid.form,
+                                'costume': raid.costume
+                            }
+                        } else {
+                            raidPokemonData[key].count++
+                        }
+                    }
                 }
             }
         })
 
-        var gymCounts = []
-        for (i = 0; i < gymCount.length; i++) {
-            if (gymCount[i] && gymCount[i] > 0) {
-                gymCounts.push(
+        let gymRows = []
+        for (let i = 0; i < 4; i++) {
+            if (teamCounts[i] > 0) {
+                gymRows.push(
                     [
-                        `<img class="arenaListString" src="static/images/gym/${gymTypes[i]}.png" />`,
+                        `<img src="static/images/gym/${gymTypes[i]}.png" width=32 />`,
                         gymTypes[i],
-                        gymCount[i],
-                        ((gymCount[i] * 100) / gymTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                        teamCounts[i],
+                        ((teamCounts[i] * 100) / gymCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
                     ]
                 )
             }
         }
 
-        $('#stats-gym-label').text(`Gyms (${gymTotal})`)
+        let eggRows = []
+        for (let i = 0; i < 5; i++) {
+            if (eggCounts[i] > 0) {
+                eggRows.push(
+                    [
+                        `<img src="static/images/gym/${raidEggImages[i + 1]}" width=32 />`,
+                        i + 1,
+                        eggCounts[i],
+                        ((eggCounts[i] * 100) / eggCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    ]
+                )
+            }
+        }
+
+        let raidPokemonRows = []
+        $.each(raidPokemonData, function (key, data) {
+            const pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.id, 'form': data.form, 'costume': data.costume})
+            raidPokemonRows.push(
+                [
+                    '<img src="' + pokemonIcon + '" width=32 />',
+                    data.level,
+                    `<a href='https://pokemongo.gamepress.gg/pokemon/${data.id}' target='_blank' title='View on GamePress'>${data.id}</a>`,
+                    data.name,
+                    data.count,
+                    ((data.count * 100) / raidPokemonCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        })
+
+        $('a[href$="#gym-stats-tab"]').html(`<i class="material-icons">security</i> (${totalCount})`)
+
         // Clear stale data, add fresh data, redraw
-        $gymTable
-            .clear()
-            .rows.add(gymCounts)
-            .draw()
+        if (serverSettings.gyms) {
+            const count = settings.showGyms ? gymCount : 0
+            $('#gym-table-title').text(`Gyms (${count})`)
+
+            $('#gym-table').DataTable()
+                .clear()
+                .rows.add(gymRows)
+                .draw()
+        }
+
+        if (serverSettings.raids) {
+            $('#egg-table-title').text(`Eggs (${eggCount})`)
+            $('#raid-pokemon-table-title').text(`Raid Bosses (${raidPokemonCount})`)
+
+            $('#egg-table').DataTable()
+                .clear()
+                .rows.add(eggRows)
+                .draw()
+
+            $('#raid-pokemon-table').DataTable()
+                .clear()
+                .rows.add(raidPokemonRows)
+                .draw()
+        }
+    } else if (serverSettings.gyms || serverSettings.raids) {
+        let gymCount = 0
+        $.each(mapData.gyms, function (id, gym) {
+            const location = { lat: gym.latitude, lng: gym.longitude }
+            if (mapBounds.contains(location)) {
+                gymCount++
+            }
+        })
+        $('a[href$="#gym-stats-tab"]').html(`<i class="material-icons">security</i> (${gymCount})`)
     }
 
-    if (Store.get('showPokestops')) {
-        $.each(mapData.pokestops, function (key, value) {
-            var thisPokestopLocation = { lat: mapData.pokestops[key]['latitude'], lng: mapData.pokestops[key]['longitude'] }
-            thisPokestopIsVisible = currentVisibleMap.contains(thisPokestopLocation)
+    if (selectedTab === '#pokestop-stats-tab') {
+        let noStatusCount = 0
+        let questCount = 0
+        let invasionCount = 0
+        let normalLureCount = 0
+        let glacialLureCount = 0
+        let magneticLureCount = 0
+        let mossyLureCount = 0
+        let pokestopCount = 0
 
-            if (thisPokestopIsVisible) {
-                if (isLuredPokestop(mapData.pokestops[key])) {
-                    if (pokestopCount[1] === 0 || !pokestopCount[1]) {
-                        pokestopCount[1] = 1
-                    } else {
-                        pokestopCount[1] += 1
-                    }
-                } else {
-                    if (pokestopCount[0] === 0 || !pokestopCount[0]) {
-                        pokestopCount[0] = 1
-                    } else {
-                        pokestopCount[0] += 1
-                    }
+        $.each(mapData.pokestops, function (id, pokestop) {
+            const location = { lat: pokestop.latitude, lng: pokestop.longitude }
+            if (mapBounds.contains(location)) {
+                pokestopCount++
+                let hasStatus = false
+                if (isPokestopMeetsQuestFilters(pokestop)) {
+                    questCount++
+                    hasStatus = true
                 }
-                pokestopTotal++
+                if (isPokestopMeetsInvasionFilters(pokestop)) {
+                    invasionCount++
+                    hasStatus = true
+                }
+                if (isPokestopMeetsLureFilters(pokestop)) {
+                    switch (pokestop.active_fort_modifier) {
+                        case ActiveFortModifierEnum.normal:
+                            normalLureCount++
+                            break
+                        case ActiveFortModifierEnum.glacial:
+                            glacialLureCount++
+                            break
+                        case ActiveFortModifierEnum.magnetic:
+                            magneticLureCount++
+                            break
+                        case ActiveFortModifierEnum.mossy:
+                            mossyLureCount++
+                            break
+                    }
+                    hasStatus = true
+                }
+                if (settings.showPokestopsNoEvent && !hasStatus) {
+                    noStatusCount++
+                }
             }
         })
 
-        var pokestopCounts = []
-        for (i = 0; i < pokestopCount.length; i++) {
-            if (pokestopCount[i] && pokestopCount[i] > 0) {
-                const status = i === 0 ? 'Not Lured' : 'Lured'
-                const image = i === 0 ? 'stop' : 'stop_l_501'
-                pokestopCounts.push(
-                    [
-                        `<img class="pokestopListString" src="static/images/pokestop/${image}.png" />`,
-                        status,
-                        pokestopCount[i],
-                        ((pokestopCount[i] * 100) / pokestopTotal).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
-                    ]
-                )
-            }
+        let pokestopRows = []
+        if (noStatusCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop.png" width=32 />',
+                    '',
+                    noStatusCount,
+                    ((noStatusCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        }
+        if (questCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop_q.png" width=32 />',
+                    'Quest',
+                    questCount,
+                    ((questCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        }
+        if (invasionCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop_i.png" width=32 />',
+                    'Rocket Invasion',
+                    invasionCount,
+                    ((invasionCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        }
+        if (normalLureCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop_l_501.png" width=32 />',
+                    'Normal Lure',
+                    normalLureCount,
+                    ((normalLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        }
+        if (glacialLureCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop_l_502.png" width=32 />',
+                    'Glacial Lure',
+                    glacialLureCount,
+                    ((glacialLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        }
+        if (magneticLureCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop_l_504.png" width=32 />',
+                    'Magnetic Lure',
+                    magneticLureCount,
+                    ((magneticLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
+        }
+        if (mossyLureCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop_l_503.png" width=32 />',
+                    'Mossy Lure',
+                    mossyLureCount,
+                    ((mossyLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                ]
+            )
         }
 
-        $('#stats-pokestop-label').text(`PokéStops (${pokestopTotal})`)
-        // Clear stale data, add fresh data, redraw
-        $pokestopTable
+        $('a[href$="#pokestop-stats-tab"]').html(`<i class="material-icons">nature</i> (${pokestopCount})`)
+
+        $('#pokestop-table').DataTable()
             .clear()
-            .rows.add(pokestopCounts)
+            .rows.add(pokestopRows)
             .draw()
+    } else if (serverSettings.pokestops) {
+        let pokestopCount = 0
+        $.each(mapData.pokestops, function (id, pokestop) {
+            const location = { lat: pokestop.latitude, lng: pokestop.longitude }
+            if (mapBounds.contains(location)) {
+                pokestopCount++
+            }
+        })
+        $('a[href$="#pokestop-stats-tab"]').html(`<i class="material-icons">nature</i> (${pokestopCount})`)
     }
+
+    tabsInstance.updateTabIndicator()
 }

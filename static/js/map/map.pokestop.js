@@ -463,10 +463,6 @@ function updatePokestops() {
     $.each(mapData.pokestops, function (id, pokestop) {
         updatePokestop(id)
     })
-
-    if ($('#stats').hasClass('visible')) {
-        countMarkers(map)
-    }
 }
 
 function removePokestop(pokestop) {

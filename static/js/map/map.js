@@ -334,10 +334,6 @@ function initMap() { // eslint-disable-line no-unused-vars
                 }
             }
         }
-
-        if ($('#stats').hasClass('visible')) {
-            countMarkers(map)
-        }
     })
 
     markers = L.markerClusterGroup({
@@ -420,15 +416,21 @@ function initMap() { // eslint-disable-line no-unused-vars
     $('.sidenav').sidenav({
         draggable: false
     })
+    $('#stats-sidenav').sidenav({
+        edge: 'right',
+        draggable: false,
+        onOpenStart: updateStatsTable
+    })
     $('.collapsible').collapsible()
     initSidebar()
     initBackupModals()
     $('.tabs').tabs()
+    $('#stats-tabs').tabs({
+        onShow: updateStatsTable
+    })
     $('.modal').modal()
     $('#weather-modal').modal({
-        onOpenStart: function () {
-            setupWeatherModal()
-        }
+        onOpenStart: setupWeatherModal
     })
     $('#quest-filter-modal').modal({
         onOpenEnd: function () {
@@ -441,6 +443,76 @@ function initMap() { // eslint-disable-line no-unused-vars
         }
     })
     $('.tooltipped').tooltip()
+
+    $.extend($.fn.dataTable.defaults, {
+        'language': {
+            'decimal': getDecimalSeparator(),
+            'thousands': getThousandsSeparator()
+        }
+    })
+
+    if (serverSettings.pokemons) {
+        $('#pokemon-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 3, "desc" ]]
+        })
+    }
+
+    if (serverSettings.gyms) {
+        $('#gym-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 2, "desc" ]]
+        })
+    }
+
+    if (serverSettings.raids) {
+        $('#egg-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 2, "desc" ]]
+        })
+
+        $('#raid-pokemon-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 4, "desc" ]]
+        })
+    }
+
+    if (serverSettings.pokestops) {
+        $('#pokestop-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 2, "desc" ]]
+        })
+    }
 }
 
 function setTileLayer(layerName) {
@@ -3183,6 +3255,7 @@ function updateStaleMarkers() {
             mapData.gyms[id].raid = null
             updateGym(id)
             raidIds.delete(id)
+            markerChange = true
         }
     }
 
@@ -3190,6 +3263,7 @@ function updateStaleMarkers() {
         if (isOngoingRaid(mapData.gyms[id].raid)) {
             updateGym(id)
             upcomingRaidIds.delete(id)
+            markerChange = true
         }
     }
 
@@ -3197,6 +3271,7 @@ function updateStaleMarkers() {
         if (!isInvadedPokestop(mapData.pokestops[id])) {
             updatePokestop(id)
             invadedPokestopIds.delete(id)
+            markerChange = true
         }
     }
 
@@ -3235,9 +3310,8 @@ function updateStaleMarkers() {
 
     })
 
-    if ($('#stats').hasClass('visible') && markerChange) {
-        // Update stats sidebar.
-        countMarkers(map)
+    if (markerChange) {
+        updateStatsTable()
     }
 }
 
@@ -3353,9 +3427,7 @@ function updateMap() {
             processScannedLocation(scannedLoc)
         })
 
-        if ($('#stats').hasClass('visible')) {
-            countMarkers(map)
-        }
+        updateStatsTable()
 
         oSwLat = result.oSwLat
         oSwLng = result.oSwLng

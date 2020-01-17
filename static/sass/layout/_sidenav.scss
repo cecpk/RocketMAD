@@ -1,6 +1,7 @@
 .sidenav {
   width: 350px;
   max-width: 80%;
+  height: 100%;
   z-index: 1001;
 
   .collapsible-header {
@@ -87,4 +88,32 @@
   .btn-flat {
     color: $text-color-dark !important;
   }
+}
+
+#stats-sidenav {
+  width: 400px;
+
+  @media screen and (min-width: 601px) {
+    padding: 0 20px;
+  }
+
+  h6 {
+    text-align: center;
+  }
+
+  table.dataTable {
+    width: 100% !important;
+  }
+
+  .dataTables_wrapper {
+    margin-bottom: 24px;
+  }
+
+  #gym-stats-tab .dataTables_scrollHead {
+    border-top: 1px solid #111 !important;
+  }
+}
+
+.dark #stats-sidenav #gym-stats-tab .dataTables_scrollHead {
+  border-top: 1px solid #ddd !important;
 }

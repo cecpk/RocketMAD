@@ -26,6 +26,7 @@
   .tabs {
     position: sticky;
     top: 0;
+    background-color: #fafafa;
   }
 
   h6 {
@@ -103,7 +104,7 @@
 }
 
 .dark .filter-modal {
-  h6, .filter-footer-container, .tabs {
+  h6, .tabs, .filter-footer-container {
     background-color: $popup-color-dark !important;
   }
 

@@ -426,11 +426,6 @@ function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
             updatePokemon(encounterId)
         })
     }
-
-    if ($('#stats').hasClass('visible')) {
-        // Update stats sidebar.
-        countMarkers(map)
-    }
 }
 
 function removePokemon(pokemon) {

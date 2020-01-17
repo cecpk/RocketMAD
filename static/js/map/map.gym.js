@@ -508,10 +508,6 @@ function updateGyms() {
     $.each(mapData.gyms, function (id, gym) {
         updateGym(id)
     })
-
-    if ($('#stats').hasClass('visible')) {
-        countMarkers(map)
-    }
 }
 
 function removeGym(gym) {

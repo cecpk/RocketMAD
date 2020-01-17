@@ -1,6 +1,8 @@
 let touchDevice = null
 let mobileDevice = null
 let locationSupport = null
+let decimalSeparator = null
+let thousandsSeparator = null
 const mapServiceProviderNames = {
     'googlemaps': 'Google Maps',
     'applemaps': 'Apple Maps',
@@ -29,6 +31,22 @@ function hasLocationSupport() {
         locationSupport = navigator.geolocation && window.isSecureContext
     }
     return locationSupport
+}
+
+function getDecimalSeparator() {
+    if (decimalSeparator === null) {
+        let n = 1.1
+        decimalSeparator = n.toLocaleString().substring(1, 2)
+    }
+    return decimalSeparator
+}
+
+function getThousandsSeparator() {
+    if (thousandsSeparator === null) {
+        let n = 1000
+        thousandsSeparator = n.toLocaleString().substring(1, 2)
+    }
+    return thousandsSeparator
 }
 
 function getParameterByName(name, url) {
