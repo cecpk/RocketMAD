@@ -1,3 +1,9 @@
+.map-body .sidenav-overlay {
+  @media screen and (min-width: 601px) {
+    display: none !important;
+  }
+}
+
 #main-container {
   position: absolute;
   height: calc(100% - 56px);

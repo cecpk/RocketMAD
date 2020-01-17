@@ -6,6 +6,8 @@
 
 var $gymNameFilter = ''
 var $pokestopNameFilter = ''
+var settingsSideNav
+var statsSideNav
 
 var settings = {
     showPokemon: null,
@@ -416,10 +418,26 @@ function initMap() { // eslint-disable-line no-unused-vars
     $('.sidenav').sidenav({
         draggable: false
     })
+    let settingsSideNavElem = document.getElementById('settings-sidenav')
+    settingsSideNav = M.Sidenav.getInstance(settingsSideNavElem)
+    $('.sidenav-trigger[data-target="settings-sidenav"]').on('click', function (e) {
+        if (settingsSideNav.isOpen) {
+            settingsSideNav.close()
+            e.stopPropagation()
+        }
+    })
     $('#stats-sidenav').sidenav({
         edge: 'right',
         draggable: false,
         onOpenStart: updateStatsTable
+    })
+    let statsSideNavElem = document.getElementById('stats-sidenav')
+    statsSideNav = M.Sidenav.getInstance(statsSideNavElem)
+    $('.sidenav-trigger[data-target="stats-sidenav"]').on('click', function (e) {
+        if (statsSideNav.isOpen) {
+            statsSideNav.close()
+            e.stopPropagation()
+        }
     })
     $('.collapsible').collapsible()
     initSidebar()
