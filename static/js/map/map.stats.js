@@ -3,6 +3,10 @@ let navInstance
 let tabsInstance
 
 function updateStatsTable() {
+    if (!serverSettings.statsSidebar) {
+        return
+    }
+
     if (!navInstance) {
         let navElem = document.getElementById('stats-sidenav')
         navInstance = M.Sidenav.getInstance(navElem)

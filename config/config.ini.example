@@ -61,6 +61,8 @@
 #no-s2-cells                    # Disables s2 cells. (default=False)
 #no-ranges                      # Disables user to show interaction ranges. (default=False)
 
+#no-stats-sidebar               # Hides stats sidebar. (default=False)
+
 
 # Database settings
 ###################

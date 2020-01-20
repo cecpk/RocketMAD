@@ -67,7 +67,9 @@
               {% endif %}
               <li><a data-target="weather-modal" id="weather-button" class="modal-trigger" title="Weather" style="display:none;"><i class="material-icons"></i></a></li>
               <li><a href="stats" class="hide-on-small-only" title="Statistics"><i class="material-icons">pie_chart</i></a></li>
+              {% if settings.statsSidebar %}
               <li><a href="#" data-target="stats-sidenav" class="sidenav-trigger" title="Live stats"><i class="material-icons">equalizer</i></a></li>
+              {% endif %}
             </ul>
           </div>
         </nav>

@@ -426,19 +426,21 @@ function initMap() { // eslint-disable-line no-unused-vars
             e.stopPropagation()
         }
     })
-    $('#stats-sidenav').sidenav({
-        edge: 'right',
-        draggable: false,
-        onOpenStart: updateStatsTable
-    })
-    let statsSideNavElem = document.getElementById('stats-sidenav')
-    statsSideNav = M.Sidenav.getInstance(statsSideNavElem)
-    $('.sidenav-trigger[data-target="stats-sidenav"]').on('click', function (e) {
-        if (statsSideNav.isOpen) {
-            statsSideNav.close()
-            e.stopPropagation()
-        }
-    })
+    if (serverSettings.statsSidebar) {
+        $('#stats-sidenav').sidenav({
+            edge: 'right',
+            draggable: false,
+            onOpenStart: updateStatsTable
+        })
+        let statsSideNavElem = document.getElementById('stats-sidenav')
+        statsSideNav = M.Sidenav.getInstance(statsSideNavElem)
+        $('.sidenav-trigger[data-target="stats-sidenav"]').on('click', function (e) {
+            if (statsSideNav.isOpen) {
+                statsSideNav.close()
+                e.stopPropagation()
+            }
+        })
+    }
     $('.collapsible').collapsible()
     initSidebar()
     initBackupModals()
