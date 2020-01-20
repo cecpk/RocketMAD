@@ -36,7 +36,11 @@
           <div class="nav-wrapper">
             <ul>
               <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
-              <li><a href="./" class="brand-logo">{{ map_title }}</a></li>
+              <li>
+                <a href="./" class="brand-logo">
+                  {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
+                </a>
+              </li>
             </ul>
             <ul class="right">
               <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>

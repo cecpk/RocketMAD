@@ -36,16 +36,29 @@ nav, nav i, nav a.sidenav-trigger {
   }
 }
 
-.brand-logo {
-  font-size: 1.7rem !important;
-  left: initial !important;
-  -webkit-transform: none !important;
-  transform: none !important;
+nav {
+  .brand-logo {
+    font-size: 1.7rem !important;
+    left: initial !important;
+    -webkit-transform: none !important;
+    transform: none !important;
 
-  @media screen and (max-width: 600px) {
-    font-size: 1.5rem !important;
+    @media screen and (max-width: 600px) {
+      font-size: 1.5rem !important;
+    }
+  }
+
+  .brand-logo-image {
+    margin: 0px 0 -7px 5px;
+
+    @media screen and (max-width: 600px) {
+      height: 28px;
+      margin: 0px 0 -6px 5px;
+    }
   }
 }
+
+
 
 .sidenav-trigger {
   display: inline-block !important;

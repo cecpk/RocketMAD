@@ -305,6 +305,9 @@ def get_args():
     parser.add_argument('-mt', '--map-title',
                         help=('The title of the map. Default: RocketMAD'),
                         default='RocketMAD')
+    parser.add_argument('-nhi', '--no-header-image',
+                        help=('Hides header image.'),
+                        action='store_true', default=False)
     parser.add_argument('-hi', '--header-image',
                          help='Image in header.',
                          default='rocket.png')

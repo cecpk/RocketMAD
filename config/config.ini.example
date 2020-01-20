@@ -19,6 +19,7 @@
 #################
 
 #map-title:                     # Title of the map. (default='RocketMAD')
+#no-header-image                # Hides header image. (default=False)
 #header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
 #madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
 #donate-url:                    # Donation link, e.g. PayPal. (default=None)

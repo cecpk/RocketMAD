@@ -17,6 +17,7 @@ src/
 _build
 _build_html
 beehive.*
+static/images/header/*.jpeg
 static/images/header/*.png
 !static/images/header/rocket.png
 static/images/raid/*.png
