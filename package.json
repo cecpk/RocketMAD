@@ -1,7 +1,7 @@
 {
-  "name": "pogomap",
-  "version": "0.1.0",
-  "description": "RocketMap - Live Visualization",
+  "name": "rocketmad",
+  "version": "1.0.0",
+  "description": "RocketMAD - Live Visualization",
   "main": "Gruntfile.js",
   "dependencies": {
     "babel-core": "^6.26.3",
@@ -12,11 +12,11 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "grunt": "^1.0.3",
+    "grunt": "~1.0.4",
     "grunt-babel": "^7.0.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "latest",
-    "grunt-contrib-concat": "latest",
+    "grunt-contrib-concat": "~1.0.1",
     "grunt-contrib-connect": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
@@ -43,16 +43,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cecpk/OSM-Rocketmap.git"
+    "url": "git+https://github.com/cecpk/RocketMAD.git"
   },
   "keywords": [
     "Pokemon",
-    "Go"
+    "Go",
+    "Map"
   ],
   "author": "Carl Taylor",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cecpk/OSM-Rocketmap/issues"
+    "url": "https://github.com/cecpk/RocketMAD/issues"
   },
-  "homepage": "https://github.com/cecpk/OSM-Rocketmap#readme"
+  "homepage": "https://github.com/cecpk/RocketMAD#readme"
 }

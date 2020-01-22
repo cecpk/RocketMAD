@@ -26,6 +26,20 @@ module.exports = function (grunt) {
         eslint: {
             src: ['static/js/*.js', '!static/js/vendor/**/*.js']
         },
+        concat: {
+            dist: {
+                src: [
+                    'static/js/utils/utils.gym.js', 'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.item.js',
+                    'static/js/utils/utils.long.js', 'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.pokestop.js',
+                    'static/js/utils/utils.s2geometry.js', 'static/js/utils/utils.store.js', 'static/js/utils/utils.js',
+                    'static/js/map/map.gym.js', 'static/js/map/map.park.js', 'static/js/map/map.pokemon.js',
+                    'static/js/map/map.pokestop.js', 'static/js/map/map.s2.js', 'static/js/map/map.scannedloc.js',
+                    'static/js/map/map.spawnpoint.js', 'static/js/map/map.stats.js', 'static/js/map/map.weather.js',
+                    'static/js/map/map.js'
+                ],
+                dest: 'static/dist/js/map.concat.js'
+            }
+        },
         babel: {
             options: {
                 sourceMap: true,
@@ -40,7 +54,7 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'static/dist/js/app.built.js': 'static/js/app.js',
-                    'static/dist/js/map.built.js': 'static/js/map.js',
+                    'static/dist/js/map.built.js': 'static/dist/js/map.concat.js',
                     'static/dist/js/map.common.built.js': 'static/js/map.common.js',
                     'static/dist/js/utils.built.js': 'static/js/utils.js',
                     'static/dist/js/mobile.built.js': 'static/js/mobile.js',
@@ -158,7 +172,7 @@ module.exports = function (grunt) {
     grunt.registerTask('js-lint', ['newer:eslint'])
     grunt.registerTask('json', ['newer:minjson'])
 
-    grunt.registerTask('build', ['clean', 'js-build', 'css-build', 'json', 'unzip'])
+    grunt.registerTask('build', ['clean', 'concat', 'js-build', 'css-build', 'json', 'unzip'])
     grunt.registerTask('lint', ['js-lint'])
     grunt.registerTask('default', ['build', 'watch'])
 }

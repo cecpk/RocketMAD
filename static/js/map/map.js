@@ -448,8 +448,8 @@ function initMap() { // eslint-disable-line no-unused-vars
             edge: 'right',
             draggable: false,
             onCloseEnd: function () {
-                // Make sure sidebar is updated next time it's opened.
-                mapData.gyms[openGymSidebarId].updated = false
+                // Make sure label/sidebar is updated next time it's opened.
+                mapData.gyms[openGymSidebarId].updated = true
             }
         })
         let gymSidebarElem = document.getElementById('gym-sidebar')
@@ -631,7 +631,7 @@ function updateUserLocationMarker(style) {
     if (markerStyles.hasOwnProperty(settings.userLocationMarkerStyle)) {
         let url = markerStyles[settings.userLocationMarkerStyle].icon
         if (url) {
-            locationIcon = L.icon({
+            let locationIcon = L.icon({
                 iconUrl: url,
                 iconSize: [24, 24]
             })
@@ -1952,24 +1952,24 @@ function initSidebar() {
     })
 
     $('#settings-file-input').on('change', function () {
+        function loaded(e) {
+            const confirmed = confirm('Are you sure you want to import settings?')
+            if (!confirmed) {
+                return
+            }
+
+            let fileString = e.target.result
+            Object.assign(localStorage, JSON.parse(fileString))
+            window.location.reload()
+        }
+
+        function error(e) {
+            console.error('Error while loading settings file: ' + e)
+            toastError(i8ln('Error while loading settings file!'), i8ln('Please try again.'))
+        }
+
         let elem = document.getElementById('settings-file-input')
         if (elem.value != '') {
-            function loaded(e) {
-                const confirmed = confirm('Are you sure you want to import settings?')
-                if (!confirmed) {
-                    return
-                }
-
-                let fileString = e.target.result
-                Object.assign(localStorage, JSON.parse(fileString))
-                window.location.reload()
-            }
-
-            function error(e) {
-                console.error('Error while loading settings file: ' + e)
-                toastError(i8ln('Error while loading settings file!'), i8ln('Please try again.'))
-            }
-
             let file = elem.files[0]
             loadData(file, loaded, error)
             // Reset file input.
@@ -3815,61 +3815,4 @@ $(function () {
     }
 
     createUpdateWorker()
-
-
-    // Initialize dataTable in statistics sidebar
-    //   - turn off sorting for the 'icon' column
-    //   - initially sort 'name' column alphabetically
-
-    /*$('#pokemon-table').DataTable({
-        paging: false,
-        searching: false,
-        info: false,
-        'scrollX': true,
-        errMode: 'throw',
-        'language': {
-            'emptyTable': ''
-        },
-        'columns': [
-            { 'orderable': false },
-            null,
-            null,
-            null,
-            null
-        ]
-    }).order([1, 'asc'])
-
-    $('#gym-table').DataTable({
-        paging: false,
-        searching: false,
-        info: false,
-        'scrollX': true,
-        errMode: 'throw',
-        'language': {
-            'emptyTable': ''
-        },
-        'columns': [
-            { 'orderable': false },
-            null,
-            null,
-            null
-        ]
-    }).order([1, 'asc'])
-
-    $('#pokestop-table').DataTable({
-        paging: false,
-        searching: false,
-        info: false,
-        'scrollX': true,
-        errMode: 'throw',
-        'language': {
-            'emptyTable': ''
-        },
-        'columns': [
-            { 'orderable': false },
-            null,
-            null,
-            null
-        ]
-    }).order([1, 'asc'])*/
 })
