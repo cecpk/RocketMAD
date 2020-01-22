@@ -24,7 +24,7 @@ module.exports = function (grunt) {
             }
         },
         eslint: {
-            src: ['static/js/*.js', '!static/js/vendor/**/*.js']
+            src: ['static/js/**/*.js']
         },
         concat: {
             dist: {
@@ -43,13 +43,7 @@ module.exports = function (grunt) {
         babel: {
             options: {
                 sourceMap: true,
-                presets: [
-                    ['env', {
-                        'targets': {
-                            'browsers': ['>0.5%']
-                        }
-                    }]
-                ]
+                presets: ['@babel/preset-env']
             },
             dist: {
                 files: {
@@ -111,11 +105,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        clean: {
-            build: {
-                src: 'static/dist'
-            }
-        },
+        clean: ['static/dist'],
         watch: {
             options: {
                 interval: 1000,
@@ -167,12 +157,12 @@ module.exports = function (grunt) {
 
     })
 
-    grunt.registerTask('js-build', ['newer:babel', 'newer:uglify'])
+    grunt.registerTask('js-build', ['newer:concat', 'newer:babel', 'newer:uglify'])
     grunt.registerTask('css-build', ['newer:sass', 'newer:cssmin'])
     grunt.registerTask('js-lint', ['newer:eslint'])
     grunt.registerTask('json', ['newer:minjson'])
 
-    grunt.registerTask('build', ['clean', 'concat', 'js-build', 'css-build', 'json', 'unzip'])
+    grunt.registerTask('build', ['clean', 'js-build', 'css-build', 'json', 'unzip'])
     grunt.registerTask('lint', ['js-lint'])
     grunt.registerTask('default', ['build', 'watch'])
 }
