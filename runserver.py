@@ -181,14 +181,14 @@ def startup_db(app, clear_db):
     db = init_database(app)
     if clear_db:
         log.info('Clearing database')
-        drop_tables(db)
+        #drop_tables(db)
 
-    verify_database_schema(db)
+    #verify_database_schema(db)
 
-    create_tables(db)
+    #create_tables(db)
 
     # Fix encoding on present and future tables.
-    verify_table_encoding(db)
+    #verify_table_encoding(db)
 
     if clear_db:
         log.info(

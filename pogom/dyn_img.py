@@ -5,13 +5,6 @@ import logging
 import os
 import subprocess
 
-from pgoapi.protos.pogoprotos.enums.form_pb2 import Form
-from pgoapi.protos.pogoprotos.enums.gender_pb2 import (
-    MALE, FEMALE, Gender, GENDERLESS, GENDER_UNSET)
-from pgoapi.protos.pogoprotos.enums.weather_condition_pb2 import (
-    WeatherCondition, CLEAR, RAINY,
-    PARTLY_CLOUDY, OVERCAST, WINDY, SNOW, FOG)
-
 from pogom.utils import get_args, get_pokemon_data
 
 log = logging.getLogger(__name__)
@@ -30,13 +23,11 @@ path_weather = os.path.join(path_images, 'weather')
 path_generated = os.path.join(path_images, 'generated')
 path_generated_gym = os.path.join(path_generated, 'gym')
 
-egg_images = {
-    1: os.path.join(path_gym, 'egg_normal.png'),
-    2: os.path.join(path_gym, 'egg_normal.png'),
-    3: os.path.join(path_gym, 'egg_rare.png'),
-    4: os.path.join(path_gym, 'egg_rare.png'),
-    5: os.path.join(path_gym, 'egg_legendary.png')
-}
+# Protos constants.
+GENDER_UNSET = 0
+MALE = 1
+FEMALE = 2
+GENDERLESS = 3
 
 costume_names = {
     1: 'HOLIDAY_2016',
@@ -48,17 +39,36 @@ costume_names = {
     7: 'NOVEMBER_2018',
     8: 'WINTER_2018',
     9: 'FEB_2019',
-    10: 'MAY_2019_NOEVOLVE'
+    10: 'MAY_2019_NOEVOLVE',
+    11: 'JAN_2020_NOEVOLVE'
+}
+
+weather_names = {
+    1: 'CLEAR',
+    2: 'RAINY',
+    3: 'PARTLY_CLOUDY',
+    4: 'OVERCAST',
+    5: 'WINDY',
+    6: 'SNOW',
+    7: 'FOG'
+}
+
+egg_images = {
+    1: os.path.join(path_gym, 'egg_normal.png'),
+    2: os.path.join(path_gym, 'egg_normal.png'),
+    3: os.path.join(path_gym, 'egg_rare.png'),
+    4: os.path.join(path_gym, 'egg_rare.png'),
+    5: os.path.join(path_gym, 'egg_legendary.png')
 }
 
 weather_images = {
-    CLEAR:          os.path.join(path_weather, 'weather_icon_clear.png'),
-    RAINY:          os.path.join(path_weather, 'weather_icon_rain.png'),
-    PARTLY_CLOUDY:  os.path.join(path_weather, 'weather_icon_partlycloudy.png'),
-    OVERCAST:       os.path.join(path_weather, 'weather_icon_cloudy.png'),
-    WINDY:          os.path.join(path_weather, 'weather_icon_windy.png'),
-    SNOW:           os.path.join(path_weather, 'weather_icon_snow.png'),
-    FOG:            os.path.join(path_weather, 'weather_icon_fog.png')
+    1: os.path.join(path_weather, 'weather_sunny.png'),
+    2: os.path.join(path_weather, 'weather_rain.png'),
+    3: os.path.join(path_weather, 'weather_partlycloudy_day.png'),
+    4: os.path.join(path_weather, 'weather_cloudy.png'),
+    5: os.path.join(path_weather, 'weather_windy.png'),
+    6: os.path.join(path_weather, 'weather_snow.png'),
+    7: os.path.join(path_weather, 'weather_fog.png')
 }
 
 # Info about Pokemon spritesheet
@@ -137,7 +147,7 @@ def get_pokemon_map_icon(pkm, weather=None, gender=None,
         # Extract pokemon icon from spritesheet
         source = path_pokemon_spritesheet
         weather_suffix = '_{}'.format(
-            WeatherCondition.Name(weather)) if weather else ''
+            weather_names[weather]) if weather else ''
         target_path = os.path.join(
             path_generated, 'pokemon_spritesheet_marker')
         target = os.path.join(
@@ -165,7 +175,8 @@ def get_pokemon_map_icon(pkm, weather=None, gender=None,
     return run_imagemagick(source, im_lines, target)
 
 
-def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eligible):
+def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, costume,
+                 is_ex_raid_eligible):
     level = int(level)
 
     if not generate_images:
@@ -175,12 +186,13 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eli
     if pkm and pkm != 'null':
         # Gym with ongoing raid
         form_extension = "_F{}".format(form) if form else ""
+        costume_extension = "_C{}".format(costume) if costume else ""
         out_filename = os.path.join(
             path_generated_gym,
-            "{}_L{}_R{}_P{}{}.png".format(team, level, raidlevel, pkm,
-                                          form_extension)
+            "{}_L{}_R{}_P{}{}{}.png".format(team, level, raidlevel, pkm,
+                                          form_extension, costume_extension)
         )
-        im_lines.extend(draw_raid_pokemon(pkm, form))
+        im_lines.extend(draw_raid_pokemon(pkm, form, costume))
         im_lines.extend(draw_raid_level(int(raidlevel)))
         if level > 0:
             im_lines.extend(draw_gym_level(level, team))
@@ -217,9 +229,10 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, is_ex_raid_eli
     return run_imagemagick(gym_image, im_lines, out_filename)
 
 
-def draw_raid_pokemon(pkm, form):
+def draw_raid_pokemon(pkm, form, costume):
     if pogo_assets:
-        pkm_path, dummy = pokemon_asset_path(int(pkm), form=form)
+        pkm_path, dummy = pokemon_asset_path(int(pkm), form=form,
+                                             costume=costume)
         trim = True
     else:
         pkm_path = os.path.join(path_icons, '{}.png'.format(pkm))
@@ -308,13 +321,12 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
     gender_suffix = gender_assets_suffix = ''
     form_suffix = form_assets_suffix = ''
     costume_suffix = costume_assets_suffix = ''
-    weather_suffix = '_{}'.format(
-        WeatherCondition.Name(weather)) if weather else ''
+    weather_suffix = '_{}'.format(weather_names[weather]) if weather else ''
     shiny_suffix = '_shiny' if shiny else ''
 
     if gender in (MALE, FEMALE):
         gender_assets_suffix = '_{:02d}'.format(gender - 1)
-        gender_suffix = '_{}'.format(Gender.Name(gender))
+        gender_suffix = '_MALE' if gender == MALE else '_FEMALE'
     elif gender in (GENDER_UNSET, GENDERLESS):
         gender_assets_suffix = '_00' if pkm > 0 else ''
 

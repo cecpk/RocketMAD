@@ -30,7 +30,7 @@ args = get_args()
 flaskDb = FlaskDB()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
-db_schema_version = 36
+db_schema_version = 37
 
 
 class RetryOperationalError(object):
@@ -491,6 +491,7 @@ class Raid(BaseModel):
     form = SmallIntegerField(null=True)
     is_exclusive = BooleanField(null=True)
     gender = SmallIntegerField(null=True)
+    costume = SmallIntegerField(null=True)
 
 
 class Pokestop(LatLongModel):
@@ -1663,6 +1664,17 @@ def database_migrate(db, old_ver):
         db.execute_sql(
             'ALTER TABLE pokemon MODIFY spawnpoint_id bigint(20) unsigned ' +
             'NOT NULL;')
+
+    if old_ver < 37:
+        # Column might already exist if created by MAD.
+        if not does_column_exist(db, 'raid', 'costume'):
+            migrate(
+                migrator.add_column(
+                    'raid',
+                    'costume',
+                    SmallIntegerField(null=True)
+                )
+            )
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')

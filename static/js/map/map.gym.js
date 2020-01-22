@@ -137,6 +137,9 @@ function updateGymMarker(gym, marker, isNotifGym) {
             if (raid.form != null && raid.form > 0) {
                 markerImage += '&form=' + raid.form
             }
+            if (raid.costume != null && raid.costume > 0) {
+                markerImage += '&costume=' + raid.costume
+            }
             marker.setZIndexOffset(gymRaidBossZIndex)
         } else { // Upcoming raid.
             markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel + '&raidlevel=' + raid.level

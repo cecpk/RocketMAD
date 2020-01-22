@@ -238,12 +238,11 @@ def get_args():
                         type=int, default=0)
     verbose = parser.add_mutually_exclusive_group()
     verbose.add_argument('-v',
-                         help=('Show debug messages from RocketMap ' +
-                               'and pgoapi. Can be repeated up to 3 times.'),
+                         help=('Show debug messages from RocketMap. ' +
+                               'Can be repeated up to 3 times.'),
                          action='count', default=0, dest='verbose')
     verbose.add_argument('--verbosity',
-                         help=('Show debug messages from RocketMap ' +
-                               'and pgoapi.'),
+                         help=('Show debug messages from RocketMap.'),
                          type=int, dest='verbose')
     parser.add_argument('-gen', '--generate-images',
                         help=('Use ImageMagick to generate dynamic' +
