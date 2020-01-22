@@ -8,8 +8,8 @@ var $gymNameFilter = ''
 var $pokestopNameFilter = ''
 var settingsSideNav
 var statsSideNav
-var gymSideNav
-var openGymSideNavId = ''
+var gymSidebar
+var openGymSidebarId = ''
 
 var settings = {
     showPokemon: null,
@@ -444,12 +444,16 @@ function initMap() { // eslint-disable-line no-unused-vars
         })
     }
     if (serverSettings.gymSidebar) {
-        $('#gym-sidenav').sidenav({
+        $('#gym-sidebar').sidenav({
             edge: 'right',
-            draggable: false
+            draggable: false,
+            onCloseEnd: function () {
+                // Make sure sidebar is updated next time it's opened.
+                mapData.gyms[openGymSidebarId].updated = false
+            }
         })
-        let gymSideNavElem = document.getElementById('gym-sidenav')
-        gymSideNav = M.Sidenav.getInstance(gymSideNavElem)
+        let gymSidebarElem = document.getElementById('gym-sidebar')
+        gymSidebar = M.Sidenav.getInstance(gymSidebarElem)
     }
     $('.collapsible').collapsible()
     initSidebar()
@@ -1012,8 +1016,8 @@ function initSidebar() {
     if (serverSettings.gymSidebar) {
         $('#gym-sidebar-switch').on('change', function () {
             settings.useGymSidebar = this.checked
-            if (!this.checked && gymSideNav.isOpen) {
-                gymSideNav.close()
+            if (!this.checked && gymSidebar.isOpen) {
+                gymSidebar.close()
             }
             readdGymMarkers()
             Store.set('useGymSidebar', this.checked)

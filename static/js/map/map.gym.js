@@ -108,14 +108,14 @@ function setupGymMarker(gym, isNotifGym) {
 
     if (settings.useGymSidebar) {
         marker.on('click', function () {
-            if (gymSideNav.isOpen && openGymSideNavId === gym.gym_id) {
-                gymSideNav.close()
+            if (gymSidebar.isOpen && openGymSidebarId === gym.gym_id) {
+                gymSidebar.close()
             } else {
-                updateGymSideNav(gym.gym_id)
-                if (!gymSideNav.isOpen) {
-                    gymSideNav.open()
+                updateGymSidebar(gym.gym_id)
+                if (!gymSidebar.isOpen) {
+                    gymSidebar.open()
                 }
-                openGymSideNavId = gym.gym_id
+                openGymSidebarId = gym.gym_id
             }
         })
     } else {
@@ -184,18 +184,18 @@ function updateGymMarker(gym, marker, isNotifGym) {
     return marker
 }
 
-function updateGymSideNav(id) {
+function updateGymSidebar(id) {
     const gym = mapData.gyms[id]
-    let title = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
+    const title = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
     let exIcon = ''
     if (gym.is_ex_raid_eligible) {
-        exIcon += ' <img id="gym-sidenav-ex-icon" src="static/images/gym/ex.png" title="EX eligible Gym">'
+        exIcon += ' <img id="sidebar-gym-ex-icon" src="static/images/gym/ex.png" title="EX eligible Gym">'
     }
     const teamName = gymTypes[gym.team_id]
 
-    $('#gym-sidenav-title').html(title + exIcon)
+    $('#sidebar-gym-title').html(title + exIcon)
 
-    let $image = $('#gym-sidenav-image')
+    let $image = $('#sidebar-gym-image')
     if (gym.url) {
         const url = gym.url.replace(/^http:\/\//i, '//')
         $image.attr('src', url)
@@ -212,30 +212,31 @@ function updateGymSideNav(id) {
         $image.attr('src', url)
     }
 
-    let $team = $('#gym-sidenav .team')
+    let $team = $('#gym-sidebar .team')
     if (gym.slots_available < 6) {
         $team.text('Team ' + teamName)
     } else {
         $team.text(teamName)
     }
-    $team.attr('class', 'team');
+    $team.attr('class', 'team')
     $team.addClass(teamName.toLowerCase())
 
-    $('#gym-sidenav-free-slots').text(gym.slots_available)
+    $('#sidebar-gym-free-slots').text(gym.slots_available)
     if (gym.slots_available < 6) {
-        $('#gym-sidenav-leader').html(`${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>`)
-        $('#gym-sidenav-leader-container').show()
+        $('#sidebar-gym-leader').html(`${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>`)
+        $('#sidebar-gym-leader-container').show()
     } else {
-        $('#gym-sidenav-leader-container').hide()
+        $('#sidebar-gym-leader-container').hide()
     }
-    $('#gym-sidenav-last-scanned').text(timestampToDateTime(gym.last_scanned))
-    $('#gym-sidenav-last-modified').text(timestampToDateTime(gym.last_modified))
-    $('#gym-sidenav-coordinates').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
+    $('#sidebar-gym-last-scanned').text(timestampToDateTime(gym.last_scanned))
+    $('#sidebar-gym-last-modified').text(timestampToDateTime(gym.last_modified))
+    $('#sidebar-gym-coordinates-container').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
         const levelStars = '★'.repeat(raid.level)
-        if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
+
+        if (isOngoingRaid(raid) && raid.pokemon_id) {
             let pokemonName = raid.pokemon_name
             const formName = raid.form ? getFormName(raid.pokemon_id, raid.form) : false
             if (formName) {
@@ -246,25 +247,40 @@ function updateGymSideNav(id) {
             const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
             const chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
 
-            $('#gym-sidenav-upcoming-raid-container').hide()
-            $('#gym-sidenav-raid-title').html(`${pokemonName} <i class='fas ${genderClasses[raid.gender - 1]}'></i> #${raid.pokemon_id}`)
-            $('#gym-sidenav-raid-image').attr('src', getPokemonRawIconUrl(raid))
-            $('#gym-sidenav-raid-level-container').html(`Raid <span class='raid-level-${raid.level}'>${levelStars}</span>`)
-            $('#gym-sidenav-raid-end-container').html(`${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
-            $('#gym-sidenav-raid-cp').text(raid.cp)
-            $('#gym-sidenav-raid-fast-move').html(`${fastMoveName} <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>`)
-            $('#gym-sidenav-raid-charge-move').html(`${chargeMoveName} <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>`)
-            $('#gym-sidenav-ongoing-raid-container').show()
-        } else {
-            $('#gym-sidenav-ongoing-raid-container').hide()
+            $('#sidebar-upcoming-raid-container').hide()
+            $('#sidebar-ongoing-raid-title').html(`${pokemonName} <i class='fas ${genderClasses[raid.gender - 1]}'></i> #${raid.pokemon_id}`)
+            $('#sidebar-ongoing-raid-level-container').html(`Raid <span class='raid-level-${raid.level}'>${levelStars}</span>`)
+            $('#sidebar-ongoing-raid-end-container').html(`${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
+            $('#sidebar-raid-pokemon-image').attr('src', getPokemonRawIconUrl(raid))
 
-            $('#gym-sidenav-upcoming-raid-container').show()
+            let typesDisplay = ''
+            const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
+            $.each(types, function (index, type) {
+                if (index === 1) {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='24' style='margin-left:4px;'>`
+                } else {
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='24'>`
+                }
+            })
+            $('#sidebar-raid-types-container').html(typesDisplay)
+
+            $('#sidebar-raid-cp').text(raid.cp)
+            $('#sidebar-raid-fast-move').html(`${fastMoveName} <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>`)
+            $('#sidebar-raid-charge-move').html(`${chargeMoveName} <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>`)
+            $('#sidebar-ongoing-raid-container').show()
+        } else {
+            $('#sidebar-ongoing-raid-container').hide()
+            $('#sidebar-upcoming-raid-title').html(`Raid <span class='raid-level-${raid.level}'>${levelStars}</span>`)
+            $('#sidebar-raid-egg-image').attr('src', 'static/images/gym/' + raidEggImages[raid.level])
+            $('#sidebar-upcoming-raid-start-container').html(`Start: ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)`)
+            $('#sidebar-upcoming-raid-end-container').html(`End: ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
+            $('#sidebar-upcoming-raid-container').show()
         }
         // Update countdown time to prevent a countdown time of 0.
         updateLabelDiffTime()
     } else {
-        $('#gym-sidenav-ongoing-raid-container').hide()
-        $('#gym-sidenav-upcoming-raid-container').hide()
+        $('#sidebar-ongoing-raid-container').hide()
+        $('#sidebar-upcoming-raid-container').hide()
     }
 }
 
@@ -397,7 +413,7 @@ function gymLabel(gym) {
                   </div>
                   <div id='raid-container-right'>
                     <div class='title upcoming'>
-                      Raid <span class='.raid-level-${raid.level}'>${levelStars}</span>
+                      Raid <span class='raid-level-${raid.level}'>${levelStars}</span>
                     </div>
                     <div class='info-container'>
                       <div>
@@ -539,10 +555,12 @@ function updateGym(id, gym = null) {
             }
         }
 
-        if (gym.marker.isPopupOpen()) {
+        if (settings.useGymSidebar && gymSidebar.isOpen && openGymSidebarId === id) {
+            updateGymSidebar(id)
+        } else if (gym.marker.isPopupOpen()) {
             updateGymLabel(gym, gym.marker)
         } else {
-            // Make sure label is updated next time it's opened.
+            // Make sure label/sidebar is updated next time it's opened.
             gym.updated = true
         }
 
@@ -561,7 +579,9 @@ function updateGym(id, gym = null) {
         }
 
         updateGymMarker(gym, mapData.gyms[id].marker, isEggNotifGym || isRaidPokemonNotifGym)
-        if (gym.marker.isPopupOpen()) {
+        if (settings.useGymSidebar && gymSidebar.isOpen && openGymSidebarId === id) {
+            updateGymSidebar(id)
+        } else if (gym.marker.isPopupOpen()) {
             updateGymLabel(gym, mapData.gyms[id].marker)
         } else {
             // Make sure label is updated next time it's opened.

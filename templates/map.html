@@ -1595,60 +1595,94 @@
     </ul>
 
     {% if settings.gyms or settings.raids %}
-    <ul id="gym-sidenav" class="sidenav">
+    <ul id="gym-sidebar" class="sidenav">
       <i class="material-icons sidenav-close">close</i>
       <div class="center-align">
-        {% if settings.gyms %}
-        <h5 id="gym-sidenav-title"></h5>
-        <div id="gym-sidenav-team-container">
-          <span class="team"></span>
+        <h5 id="sidebar-gym-title"></h5>
+        <div class="gym-sidebar-subheader-container">
+          <div class="team"></div>
         </div>
-        <div>
-          <img id="gym-sidenav-image" width=162 height=162>
+        <div class="gym-sidebar-image-container">
+          <img id="sidebar-gym-image" class="gym-image" width=162 height=162>
         </div>
-        <div id="gym-sidenav-info-container">
-          <div>
-            Free slots: <strong><span id="gym-sidenav-free-slots"></span></strong>
+        <div class="gym-sidebar-info-container">
+          <div class="gym-sidebar-info-container-left">
+            <div>
+              Free slots:
+            </div>
+            <div id="sidebar-gym-leader-container">
+              Gym leader:
+            </div>
+            <div>
+              Last scanned:
+            </div>
+            <div>
+              Last modified:
+            </div>
           </div>
-          <div id="gym-sidenav-leader-container">
-            Gym leader: <strong><span id="gym-sidenav-leader"></span></strong>
-          </div>
-          <div>
-            Last scanned: <strong><span id="gym-sidenav-last-scanned"></span></strong>
-          </div>
-          <div>
-            Last modified: <strong><span id="gym-sidenav-last-modified"></span></strong>
-          </div>
-          <div>
-            <span id="gym-sidenav-coordinates"></span>
+          <div class="gym-sidebar-info-container-right">
+            <div>
+              <strong><span id="sidebar-gym-free-slots"></span></strong>
+            </div>
+            <div id="sidebar-gym-leader-container">
+              <strong><span id="sidebar-gym-leader"></span></strong>
+            </div>
+            <div>
+              <strong><span id="sidebar-gym-last-scanned"></span></strong>
+            </div>
+            <div>
+              <strong><span id="sidebar-gym-last-modified"></span></strong>
+            </div>
           </div>
         </div>
-        {% endif %}
+        <div id="sidebar-gym-coordinates-container"></div>
         {% if settings.raids %}
-        <div id="gym-sidenav-ongoing-raid-container">
+        <div id="sidebar-ongoing-raid-container">
           <div class="divider"></div>
-          <h5 id="gym-sidenav-raid-title"></h5>
-          <div id="gym-sidenav-raid-level-container"></div>
-          <div id="gym-sidenav-raid-end-container"></div>
-          <div>
-            <img id="gym-sidenav-raid-image" width=128>
+          <h5 id="sidebar-ongoing-raid-title"></h5>
+          <div class="gym-sidebar-subheader-container">
+            <div id="sidebar-ongoing-raid-level-container"></div>
+            <div id="sidebar-ongoing-raid-end-container"></div>
           </div>
-          <div id="gym-sidenav-raid-info-container">
-            <div id="gym-sidenav-leader-container">
-              CP: <strong><span id="gym-sidenav-raid-cp"></span></strong>
-            </div>
+          <div class="gym-sidebar-image-container">
             <div>
-              Fast move: <strong><span id="gym-sidenav-raid-fast-move"></span></strong>
+              <img id="sidebar-raid-pokemon-image" width=128>
             </div>
-            <div>
-              Charge move: <strong><span id="gym-sidenav-raid-charge-move"></span></strong>
+            <div id="sidebar-raid-types-container"></div>
+          </div>
+          <div class="gym-sidebar-info-container">
+            <div class="gym-sidebar-info-container-left">
+              <div>
+                CP:
+              </div>
+              <div>
+                Fast move:
+              </div>
+              <div>
+                Charge move:
+              </div>
+            </div>
+            <div class="gym-sidebar-info-container-right">
+              <div>
+                <strong><span id="sidebar-raid-cp"></span></strong>
+              </div>
+              <div>
+                <strong><span id="sidebar-raid-fast-move"></span></strong>
+              </div>
+              <div>
+                <strong><span id="sidebar-raid-charge-move"></span></strong>
+              </div>
             </div>
           </div>
         </div>
-        <div id="gym-sidenav-upcoming-raid-container">
+        <div id="sidebar-upcoming-raid-container">
           <div class="divider"></div>
-          <h5 id="gym-sidenav-raid-title"></h5>
-          <img id="gym-sidenav-raid-image" width=128>
+          <h5 id="sidebar-upcoming-raid-title"></h5>
+          <div class="gym-sidebar-subheader-container">
+            <div id="sidebar-upcoming-raid-start-container"></div>
+            <div id="sidebar-upcoming-raid-end-container"></div>
+          </div>
+          <img id="sidebar-raid-egg-image" width=96>
         </div>
         {% endif %}
       </div>

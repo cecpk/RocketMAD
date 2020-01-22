@@ -132,18 +132,23 @@
   border-top: 1px solid #ddd !important;
 }
 
-#gym-sidenav {
+#gym-sidebar {
   padding: 0 20px;
 
-  h5 {
+  h5:not(#sidebar-upcoming-raid-title) {
     margin-bottom: 0;
   }
 
-  #gym-sidenav-ex-icon {
+  #sidebar-gym-ex-icon {
     vertical-align: middle;
   }
 
-  #gym-sidenav-image, #gym-sidenav-raid-image {
+  .gym-sidebar-subheader-container {
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+  }
+
+  .gym-sidebar-image-container {
     margin-bottom: 8px;
   }
 
@@ -152,24 +157,25 @@
     border-width: 4px;
   }
 
-  #gym-sidenav-team-container, #gym-sidenav-raid-end-container {
-    margin-bottom: 16px;
-  }
+  .gym-sidebar-info-container {
+    display: flex;
+    justify-content: center;
 
-  .team, #gym-sidenav-raid-level-container, #gym-sidenav-raid-end-container {
-    font-size: 1.2rem;
-  }
+    .gym-sidebar-info-container-left {
+      margin-right: 4px;
+      text-align: right;
+    }
 
-  #gym-sidenav-info-container, #gym-sidenav-raid-info-container {
-    display: inline-block;
-    text-align: left;
-  }
-
-  .divider {
-    margin: 24px 0;
+    .gym-sidebar-info-container-right {
+      text-align: left;
+    }
   }
 
   .move-type-icon {
     vertical-align: middle;
+  }
+
+  .divider {
+    margin: 24px 0;
   }
 }
