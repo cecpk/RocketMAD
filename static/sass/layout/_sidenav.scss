@@ -4,6 +4,13 @@
   height: 100%;
   z-index: 1001;
 
+  .sidenav-close {
+    position: absolute;
+    right: 0;
+    padding: 4px;
+    cursor: pointer;
+  }
+
   .collapsible-header {
     border-bottom: 1px solid #ddd !important;
   }
@@ -123,4 +130,46 @@
 
 .dark #stats-sidenav #gym-stats-tab .dataTables_scrollHead {
   border-top: 1px solid #ddd !important;
+}
+
+#gym-sidenav {
+  padding: 0 20px;
+
+  h5 {
+    margin-bottom: 0;
+  }
+
+  #gym-sidenav-ex-icon {
+    vertical-align: middle;
+  }
+
+  #gym-sidenav-image, #gym-sidenav-raid-image {
+    margin-bottom: 8px;
+  }
+
+  .gym-image {
+    border-radius: 96px;
+    border-width: 4px;
+  }
+
+  #gym-sidenav-team-container, #gym-sidenav-raid-end-container {
+    margin-bottom: 16px;
+  }
+
+  .team, #gym-sidenav-raid-level-container, #gym-sidenav-raid-end-container {
+    font-size: 1.2rem;
+  }
+
+  #gym-sidenav-info-container, #gym-sidenav-raid-info-container {
+    display: inline-block;
+    text-align: left;
+  }
+
+  .divider {
+    margin: 24px 0;
+  }
+
+  .move-type-icon {
+    vertical-align: middle;
+  }
 }

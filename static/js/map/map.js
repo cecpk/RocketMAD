@@ -8,6 +8,8 @@ var $gymNameFilter = ''
 var $pokestopNameFilter = ''
 var settingsSideNav
 var statsSideNav
+var gymSideNav
+var openGymSideNavId = ''
 
 var settings = {
     showPokemon: null,
@@ -440,6 +442,14 @@ function initMap() { // eslint-disable-line no-unused-vars
                 e.stopPropagation()
             }
         })
+    }
+    if (serverSettings.gymSidebar) {
+        $('#gym-sidenav').sidenav({
+            edge: 'right',
+            draggable: false
+        })
+        let gymSideNavElem = document.getElementById('gym-sidenav')
+        gymSideNav = M.Sidenav.getInstance(gymSideNavElem)
     }
     $('.collapsible').collapsible()
     initSidebar()
@@ -1002,20 +1012,10 @@ function initSidebar() {
     if (serverSettings.gymSidebar) {
         $('#gym-sidebar-switch').on('change', function () {
             settings.useGymSidebar = this.checked
-            updateGyms()
-            /*lastgyms = false
-            $.each(['gyms'], function (d, dType) {
-                $.each(mapData[dType], function (key, value) {
-                    // for any marker you're turning off, you'll want to wipe off the range
-                    if (mapData[dType][key].marker.rangeCircle) {
-                        markers.removeLayer(mapData[dType][key].marker.rangeCircle)
-                        delete mapData[dType][key].marker.rangeCircle
-                    }
-                    markers.removeLayer(mapData[dType][key].marker)
-                })
-                mapData[dType] = {}
-            })
-            updateMap()*/
+            if (!this.checked && gymSideNav.isOpen) {
+                gymSideNav.close()
+            }
+            readdGymMarkers()
             Store.set('useGymSidebar', this.checked)
         })
     }
@@ -2020,6 +2020,9 @@ function initSidebar() {
         if (serverSettings.gym_sidebar) {
             $('#gym-sidebar-switch').prop('checked', settings.useGymSidebar)
         }
+    }
+    if (serverSettings.gymSidebar) {
+        $('#gym-sidebar-switch').prop('checked', settings.useGymSidebar)
     }
     if (serverSettings.gyms) {
         $('#gym-switch').prop('checked', settings.showGyms)
@@ -3678,56 +3681,6 @@ function createUpdateWorker() {
     } catch (ex) {
         console.log('Webworker error: ' + ex.message)
     }
-}
-
-function showGymDetails(id) { // eslint-disable-line no-unused-vars
-    var sidebar = document.querySelector('#gym-details')
-    var sidebarClose
-
-    sidebar.classList.add('visible')
-
-    var data = $.ajax({
-        url: 'gym_data',
-        type: 'GET',
-        data: {
-            'id': id
-        },
-        dataType: 'json',
-        cache: false
-    })
-
-    data.done(function (result) {
-        var pokemonHtml = ''
-        var pokemonIcon
-        if (serverSettings.generateImages) {
-            result.pokemon_id = result.guard_pokemon_id
-            pokemonIcon = `<img class='guard-pokemon-icon' src='${getPokemonRawIconUrl(result)}'>`
-        } else {
-            pokemonIcon = `<i class="pokemon-large-sprite n${result.guard_pokemon_id}"></i>`
-        }
-        pokemonHtml = `
-            <div class='section-divider'></div>
-              <center>
-                Gym Leader:<br>
-                ${pokemonIcon}<br>
-                <b>${result.guard_pokemon_name}</b>
-              </center>`
-
-        var topPart = gymLabel(result)
-        sidebar.innerHTML = `${topPart}${pokemonHtml}`
-
-        sidebarClose = document.createElement('a')
-        sidebarClose.href = '#'
-        sidebarClose.className = 'close'
-        sidebarClose.tabIndex = 0
-        sidebar.appendChild(sidebarClose)
-
-        sidebarClose.addEventListener('click', function (event) {
-            event.preventDefault()
-            event.stopPropagation()
-            sidebar.classList.remove('visible')
-        })
-    })
 }
 
 // TODO: maybe delete.

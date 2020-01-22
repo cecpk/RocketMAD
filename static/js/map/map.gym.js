@@ -108,25 +108,15 @@ function setupGymMarker(gym, isNotifGym) {
 
     if (settings.useGymSidebar) {
         marker.on('click', function () {
-            var gymSidebar = document.querySelector('#gym-details')
-            if (gymSidebar.getAttribute('data-id') === gym.gym_id && gymSidebar.classList.contains('visible')) {
-                gymSidebar.classList.remove('visible')
+            if (gymSideNav.isOpen && openGymSideNavId === gym.gym_id) {
+                gymSideNav.close()
             } else {
-                gymSidebar.setAttribute('data-id', gym.gym_id)
-                showGymDetails(gym.gym_id)
+                updateGymSideNav(gym.gym_id)
+                if (!gymSideNav.isOpen) {
+                    gymSideNav.open()
+                }
+                openGymSideNavId = gym.gym_id
             }
-        })
-
-        if (!isMobileDevice() && !isTouchDevice()) {
-            marker.on('mouseover', function () {
-                marker.openPopup()
-                updateLabelDiffTime()
-            })
-        }
-
-        marker.on('mouseout', function () {
-            marker.closePopup()
-            updateLabelDiffTime()
         })
     } else {
         addListeners(marker, 'gym')
@@ -194,6 +184,90 @@ function updateGymMarker(gym, marker, isNotifGym) {
     return marker
 }
 
+function updateGymSideNav(id) {
+    const gym = mapData.gyms[id]
+    let title = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
+    let exIcon = ''
+    if (gym.is_ex_raid_eligible) {
+        exIcon += ' <img id="gym-sidenav-ex-icon" src="static/images/gym/ex.png" title="EX eligible Gym">'
+    }
+    const teamName = gymTypes[gym.team_id]
+
+    $('#gym-sidenav-title').html(title + exIcon)
+
+    let $image = $('#gym-sidenav-image')
+    if (gym.url) {
+        const url = gym.url.replace(/^http:\/\//i, '//')
+        $image.attr('src', url)
+        $image.attr('class', 'gym-image')
+        $image.addClass(teamName.toLowerCase())
+        $image.attr('onclick', `showImageModal('${url}', '${title.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}')`)
+    } else {
+        let url = `gym_img?team=${teamName}&level=${getGymLevel(gym)}`
+        if (gym.is_in_battle) {
+            gymUrl += '&in_battle=1'
+        }
+        $image.removeClass('gym-image')
+        $image.removeAttr('onclick')
+        $image.attr('src', url)
+    }
+
+    let $team = $('#gym-sidenav .team')
+    if (gym.slots_available < 6) {
+        $team.text('Team ' + teamName)
+    } else {
+        $team.text(teamName)
+    }
+    $team.attr('class', 'team');
+    $team.addClass(teamName.toLowerCase())
+
+    $('#gym-sidenav-free-slots').text(gym.slots_available)
+    if (gym.slots_available < 6) {
+        $('#gym-sidenav-leader').html(`${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>`)
+        $('#gym-sidenav-leader-container').show()
+    } else {
+        $('#gym-sidenav-leader-container').hide()
+    }
+    $('#gym-sidenav-last-scanned').text(timestampToDateTime(gym.last_scanned))
+    $('#gym-sidenav-last-modified').text(timestampToDateTime(gym.last_modified))
+    $('#gym-sidenav-coordinates').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
+
+    if (isGymMeetsRaidFilters(gym)) {
+        const raid = gym.raid
+        const levelStars = '★'.repeat(raid.level)
+        if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
+            let pokemonName = raid.pokemon_name
+            const formName = raid.form ? getFormName(raid.pokemon_id, raid.form) : false
+            if (formName) {
+                pokemonName += ` (${formName})`
+            }
+            const fastMoveName = getMoveName(raid.move_1)
+            const chargeMoveName = getMoveName(raid.move_2)
+            const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
+            const chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
+
+            $('#gym-sidenav-upcoming-raid-container').hide()
+            $('#gym-sidenav-raid-title').html(`${pokemonName} <i class='fas ${genderClasses[raid.gender - 1]}'></i> #${raid.pokemon_id}`)
+            $('#gym-sidenav-raid-image').attr('src', getPokemonRawIconUrl(raid))
+            $('#gym-sidenav-raid-level-container').html(`Raid <span class='raid-level-${raid.level}'>${levelStars}</span>`)
+            $('#gym-sidenav-raid-end-container').html(`${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
+            $('#gym-sidenav-raid-cp').text(raid.cp)
+            $('#gym-sidenav-raid-fast-move').html(`${fastMoveName} <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>`)
+            $('#gym-sidenav-raid-charge-move').html(`${chargeMoveName} <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>`)
+            $('#gym-sidenav-ongoing-raid-container').show()
+        } else {
+            $('#gym-sidenav-ongoing-raid-container').hide()
+
+            $('#gym-sidenav-upcoming-raid-container').show()
+        }
+        // Update countdown time to prevent a countdown time of 0.
+        updateLabelDiffTime()
+    } else {
+        $('#gym-sidenav-ongoing-raid-container').hide()
+        $('#gym-sidenav-upcoming-raid-container').hide()
+    }
+}
+
 function gymLabel(gym) {
     const teamName = gymTypes[gym.team_id]
     const titleText = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
@@ -205,7 +279,7 @@ function gymLabel(gym) {
     var raidDisplay = ''
 
     if (gym.is_ex_raid_eligible) {
-        exDisplay = `<img id='ex-icon' src='static/images/gym/ex.png' width='22'>`
+        exDisplay = `<img id='ex-icon' src='static/images/gym/ex.png' width='22' title='EX eligible Gym'>`
     }
 
     if (gym.url) {
@@ -239,8 +313,7 @@ function gymLabel(gym) {
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
-        const raidColor = ['252,112,176', '255,158,22', '184,165,221']
-        const levelStr = '★'.repeat(raid.level)
+        const levelStars = '★'.repeat(raid.level)
 
         if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid)
@@ -281,7 +354,7 @@ function gymLabel(gym) {
                       ${typesDisplay}
                     </div>
                     <div>
-                      <strong><span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span></strong>
+                      <strong><span class='raid-level-${raid.level}'>${levelStars}</span></strong>
                     </div>
                   </div>
                   <div id='raid-container-right'>
@@ -324,7 +397,7 @@ function gymLabel(gym) {
                   </div>
                   <div id='raid-container-right'>
                     <div class='title upcoming'>
-                      Raid <span style='color:rgb(${raidColor[Math.floor((raid.level - 1) / 2)]})'>${levelStr}</span>
+                      Raid <span class='.raid-level-${raid.level}'>${levelStars}</span>
                     </div>
                     <div class='info-container'>
                       <div>
@@ -348,7 +421,7 @@ function gymLabel(gym) {
           <div id='gym-container'>
             <div id='gym-container-left'>
               ${gymImageDisplay}
-              <div class='team-name ${teamName.toLowerCase()}'>
+              <div class='team ${teamName.toLowerCase()}'>
                 <strong>${teamName}</strong>
               </div>
             </div>
@@ -526,6 +599,13 @@ function removeGym(gym) {
             upcomingRaidIds.delete(id)
         }
     }
+}
+
+function readdGymMarkers() {
+    $.each(mapData.gyms, function (id, gym) {
+        removeMarker(gym.marker)
+        gym.marker = setupGymMarker(gym)
+    })
 }
 
 function excludeRaidLevel(level) { // eslint-disable-line no-unused-vars

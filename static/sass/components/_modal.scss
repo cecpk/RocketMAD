@@ -9,6 +9,14 @@
   @media screen and (max-width: 600px) {
     padding: 0 12px;
   }
+
+  h5 {
+    margin-top: 0;
+
+    @media screen and (max-width: 600px) {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .filter-modal {

@@ -11,39 +11,11 @@
 
     .gym-image {
       border-radius: 32px;
-      cursor: zoom-in;
-
-      &:hover {
-        opacity: 0.7;
-      }
-
-      &.mystic {
-        border: 3px solid rgba(0,134,255,1);
-      }
-
-      &.valor {
-        border: 3px solid rgba(255,26,26,1);
-      }
-
-      &.instinct {
-        border: 3px solid rgba(255,159,25,1);
-      }
+      border-width: 3px;
     }
 
-    .team-name {
+    .team {
       font-size: 14px;
-
-      &.mystic {
-        color: rgba(0,134,255,1);
-      }
-
-      &.valor {
-        color: rgba(255,26,26,1);
-      }
-
-      &.instinct {
-        color: rgba(255,159,25,1);
-      }
     }
   }
 }
@@ -69,4 +41,55 @@
       vertical-align: middle;
     }
   }
+}
+
+.gym-image {
+  border-style: solid;
+  cursor: zoom-in;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &.mystic {
+    border-color: $mystic-blue;
+  }
+
+  &.valor {
+    border-color: $valor-red;
+  }
+
+  &.instinct {
+    border-color: $instinct-yellow;
+  }
+
+  &.uncontested {
+    border-style: none;
+  }
+}
+
+.team {
+  &.mystic {
+    color: $mystic-blue;
+  }
+
+  &.valor {
+    color: $valor-red;
+  }
+
+  &.instinct {
+    color: $instinct-yellow;
+  }
+}
+
+.raid-level-1, .raid-level-2 {
+  color: rgb(252, 112, 176);
+}
+
+.raid-level-3, .raid-level-4 {
+  color: rgb(255, 158, 22);
+}
+
+.raid-level-5 {
+  color: rgb(184, 165, 221);
 }

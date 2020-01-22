@@ -66,7 +66,7 @@ function getParameterByName(name, url) {
 }
 
 function showImageModal(url, title) {
-    $('#image-modal > .modal-content > h6').text(title)
+    $('#image-modal > .modal-content > h5').text(title)
     $('#image-modal > .modal-content > img').attr('src', url)
     let elem = document.getElementById('image-modal')
     let instance = M.Modal.getInstance(elem)

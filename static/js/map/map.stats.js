@@ -1,5 +1,4 @@
 /* global getPokemonRawIconUrl */
-let navInstance
 let tabsInstance
 
 function updateStatsTable() {
@@ -7,12 +6,7 @@ function updateStatsTable() {
         return
     }
 
-    if (!navInstance) {
-        let navElem = document.getElementById('stats-sidenav')
-        navInstance = M.Sidenav.getInstance(navElem)
-    }
-
-    if (!navInstance.isOpen) {
+    if (!statsSideNav.isOpen) {
         return
     }
 
