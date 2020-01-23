@@ -114,7 +114,10 @@ function getFormName(pokemonId, formId) {
 function getPokemonNameWithForm(pokemonId, formId) {
     let name = getPokemonName(pokemonId)
     if (formId) {
-        name += ` (${getFormName(pokemonId, formId)})`
+        const formName = getFormName(pokemonId, formId)
+        if (formName !== '') {
+            name += ` (${formName})`
+        }
     }
     return name
 }

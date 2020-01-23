@@ -421,9 +421,6 @@ class Gym(LatLongModel):
                                .dicts())
 
                 for r in raids_query:
-                    if r['pokemon_id']:
-                        r['pokemon_name'] = get_pokemon_name(r['pokemon_id'])
-                        r['pokemon_types'] = get_pokemon_types(r['pokemon_id'])
                     gyms[r['gym_id']]['raid'] = r
 
         # Re-enable the GC.

@@ -543,13 +543,8 @@ function sendPokemonNotification(pokemon) {
     playPokemonSound(pokemon.pokemon_id, cryFileTypes)
 
     if (settings.showBrowserPopups) {
-        var notifTitle = pokemon.pokemon_name
+        var notifTitle = getPokemonNameWithForm(pokemon.pokemon_id, pokemon.form)
         var notifText = ''
-
-        const formName = pokemon.form ? getFormName(pokemon.pokemon_id, pokemon.form) : false
-        if (formName) {
-            notifTitle += ` (${formName})`
-        }
 
         let expireTime = timestampToTime(pokemon.disappear_time)
         let timeUntil = getTimeUntil(pokemon.disappear_time)
