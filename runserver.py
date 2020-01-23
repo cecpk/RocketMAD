@@ -155,7 +155,7 @@ def validate_assets(args):
         gen_time = os.path.getmtime(os.path.join(generated_js_path, file))
         if gen_time > last_js_gen_time:
             last_js_gen_time = gen_time
-    
+
     js_path = os.path.join(root_path, 'static/js')
     if not validate_js_files(js_path, last_js_gen_time):
         log.critical(assets_error_log)

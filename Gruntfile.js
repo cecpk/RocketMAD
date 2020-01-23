@@ -27,7 +27,7 @@ module.exports = function (grunt) {
             src: ['static/js/**/*.js']
         },
         concat: {
-            dist: {
+            dist1: {
                 src: [
                     'static/js/utils/utils.gym.js', 'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.item.js',
                     'static/js/utils/utils.long.js', 'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.pokestop.js',
@@ -38,6 +38,10 @@ module.exports = function (grunt) {
                     'static/js/map/map.js', 'static/js/custom.js'
                 ],
                 dest: 'static/dist/js/map.concat.js'
+            },
+            dist2: {
+                src: ['static/dist/css/app.built.css', 'static/css/custom.css'],
+                dest: 'static/dist/css/app.concat.css'
             }
         },
         babel: {
@@ -133,7 +137,7 @@ module.exports = function (grunt) {
             },
             build: {
                 files: {
-                    'static/dist/css/app.min.css': 'static/dist/css/app.built.css',
+                    'static/dist/css/app.min.css': 'static/dist/css/app.concat.css',
                     'static/dist/css/mobile.min.css': 'static/dist/css/mobile.built.css',
                     'static/dist/css/statistics.min.css': 'static/dist/css/statistics.built.css',
                     'static/dist/css/quests.min.css': 'static/dist/css/quests.built.css'
@@ -157,8 +161,8 @@ module.exports = function (grunt) {
 
     })
 
-    grunt.registerTask('js-build', ['newer:concat', 'newer:babel', 'newer:uglify'])
-    grunt.registerTask('css-build', ['newer:sass', 'newer:cssmin'])
+    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:babel', 'newer:uglify'])
+    grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist2', 'newer:cssmin'])
     grunt.registerTask('js-lint', ['newer:eslint'])
     grunt.registerTask('json', ['newer:minjson'])
 
