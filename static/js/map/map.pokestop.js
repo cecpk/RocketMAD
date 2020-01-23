@@ -105,7 +105,7 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
                 break
             case 7:
                 if (serverSettings.generateImages) {
-                    shadowImage = `pkm_img?pkm=${quest.pokemon_id}`
+                    shadowImage = getPokemonMapIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
                     shadowSize = [35, 35]
                 } else {
                     shadowImage = pokemonSprites(quest.pokemon_id).filename
@@ -197,8 +197,8 @@ function pokestopLabel(pokestop) {
                 isNotifQuest = settings.notifQuestItems.includes('6_' + quest.item_amount)
                 break
             case 7: {
-                rewardImageUrl = getPokemonRawIconUrl(quest)
-                rewardText = `${getPokemonName(quest.pokemon_id)} #${quest.pokemon_id}`
+                rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
+                rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} #${quest.pokemon_id}`
                 isNotifQuest = settings.notifQuestPokemon.has(quest.pokemon_id)
                 break
             }
@@ -607,7 +607,7 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
                     notifTitle += `${pokestop.quest.stardust} ${i8ln('Stardust')} Quest`
                     break
                 case 7:
-                    notifTitle += `${getPokemonName(pokestop.quest.pokemon_id)} Quest`
+                    notifTitle += `${getPokemonNameWithForm(pokestop.quest.pokemon_id, pokestop.quest.form_id)} Quest`
                     break
             }
             notifText += `\nQuest task: ${pokestop.quest.task}`

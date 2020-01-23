@@ -639,6 +639,9 @@ class Pokestop(LatLongModel):
                               Trs_Quest.quest_type.alias('type'),
                               Trs_Quest.quest_stardust.alias('stardust'),
                               Trs_Quest.quest_pokemon_id.alias('pokemon_id'),
+                              Trs_Quest.quest_pokemon_form_id.alias('form_id'),
+                              Trs_Quest.quest_pokemon_costume_id.alias(
+                                  'costume_id'),
                               Trs_Quest.quest_reward_type.alias('reward_type'),
                               Trs_Quest.quest_item_id.alias('item_id'),
                               Trs_Quest.quest_item_amount.alias('item_amount'))
@@ -662,6 +665,8 @@ class Trs_Quest(BaseModel):
     quest_type = TinyIntegerField()
     quest_stardust = SmallIntegerField()
     quest_pokemon_id = SmallIntegerField()
+    quest_pokemon_form_id = SmallIntegerField()
+    quest_pokemon_costume_id = SmallIntegerField()
     quest_reward_type = SmallIntegerField()
     quest_item_id = SmallIntegerField()
     quest_item_amount = TinyIntegerField()

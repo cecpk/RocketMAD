@@ -545,7 +545,6 @@ class Pogom(Flask):
             messengerUrl=args.messenger_url,
             telegramUrl=args.telegram_url,
             whatsappUrl=args.whatsapp_url,
-            show=visibility_flags,
             generateImages=str(args.generate_images).lower()
         )
 
@@ -567,7 +566,6 @@ class Pogom(Flask):
             messengerUrl=args.messenger_url,
             telegramUrl=args.telegram_url,
             whatsappUrl=args.whatsapp_url,
-            show=visibility_flags,
             generateImages=str(args.generate_images).lower()
         )
 

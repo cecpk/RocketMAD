@@ -111,6 +111,14 @@ function getFormName(pokemonId, formId) {
     return i8ln(pokemonData[pokemonId].forms[formId].formName)
 }
 
+function getPokemonNameWithForm(pokemonId, formId) {
+    let name = getPokemonName(pokemonId)
+    if (formId) {
+        name += ` (${getFormName(pokemonId, formId)})`
+    }
+    return name
+}
+
 function getPokemonGen(id) {
     return pokemonData[id].gen
 }
