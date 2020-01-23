@@ -144,7 +144,7 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
 }
 
 function pokemonLabel(item) {
-    var name = item['pokemon_name']
+    var name = getPokemonName(item.pokemon_id)
     var types = getPokemonTypesNoI8ln(item.pokemon_id, item.form)
     var encounterId = item['encounter_id']
     var id = item['pokemon_id']
