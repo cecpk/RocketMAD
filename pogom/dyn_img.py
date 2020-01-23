@@ -62,13 +62,13 @@ egg_images = {
 }
 
 weather_images = {
-    1: os.path.join(path_weather, 'weather_sunny.png'),
-    2: os.path.join(path_weather, 'weather_rain.png'),
-    3: os.path.join(path_weather, 'weather_partlycloudy_day.png'),
-    4: os.path.join(path_weather, 'weather_cloudy.png'),
-    5: os.path.join(path_weather, 'weather_windy.png'),
-    6: os.path.join(path_weather, 'weather_snow.png'),
-    7: os.path.join(path_weather, 'weather_fog.png')
+    1: os.path.join(path_weather, 'weather_icon_clear.png'),
+    2: os.path.join(path_weather, 'weather_icon_rain.png'),
+    3: os.path.join(path_weather, 'weather_icon_partlycloudy.png'),
+    4: os.path.join(path_weather, 'weather_icon_cloudy.png'),
+    5: os.path.join(path_weather, 'weather_icon_windy.png'),
+    6: os.path.join(path_weather, 'weather_icon_snow.png'),
+    7: os.path.join(path_weather, 'weather_icon_fog.png')
 }
 
 # Info about Pokemon spritesheet
