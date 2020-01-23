@@ -461,10 +461,6 @@ var StoreOptions = {
         default: 16,
         type: StoreTypes.Number
     },
-    'twelveHourTime': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
     'rarityCommon': {
         default: 1,
         type: StoreTypes.Number

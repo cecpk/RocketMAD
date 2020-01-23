@@ -99,7 +99,7 @@ function openMapDirections(lat, lng, mapServiceProvider) { // eslint-disable-lin
 function timestampToTime(timestamp) {
     var timeStr = 'Unknown'
     if (timestamp) {
-        timeStr = Store.get('twelveHourTime') ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
+        timeStr = serverSettings.twelveHourClock ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
     }
     return timeStr
 }
@@ -123,7 +123,7 @@ function timestampToDate(timestamp) {
 function timestampToDateTime(timestamp) {
     var dateStr = 'Unknown'
     if (timestamp) {
-        var time = Store.get('twelveHourTime') ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
+        var time = serverSettings.twelveHourClock ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
         if (moment(timestamp).isSame(moment(), 'day')) {
             dateStr = 'Today ' + time
         } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {

@@ -197,6 +197,7 @@ class Pogom(Flask):
             'isStartMarkerMovable': not args.lock_start_marker,
             'generateImages': args.generate_images,
             'statsSidebar': not args.no_stats_sidebar,
+            'twelveHourClock': args.twelve_hour_clock,
             'pokemons': not args.no_pokemon,
             'pokemonValues': not args.no_pokemon and
                 not args.no_pokemon_values,

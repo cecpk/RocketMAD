@@ -62,6 +62,7 @@
 #no-ranges                      # Disables user to show interaction ranges. (default=False)
 
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
+#twelve-hour-clock              # Display time with the 12-hour clock format.
 
 
 # Database settings
