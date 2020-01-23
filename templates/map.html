@@ -1696,7 +1696,7 @@
     <script>
       const serverSettings = {{settings|tojson|safe}};
     </script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
@@ -1710,10 +1710,6 @@
     <script src="https://cdn.jsdelivr.net/npm/push.js@1.0.12/bin/push.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.18.6/dist/sweetalert2.all.min.js"></script>
 
-    <!-- Load custom JS before utils.store.js so it can change Store defaults. -->
-    {% if custom_js %}
-    <script src="static/dist/js/custom.min.js"></script>
-    {% endif %}
     <script src="static/dist/js/map.min.js"></script>
 
     <script>

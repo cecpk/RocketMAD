@@ -238,8 +238,6 @@ class Pogom(Flask):
             messenger_url=args.messenger_url,
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
-            custom_css=args.custom_css,
-            custom_js=args.custom_js,
             settings=settings
         )
 
@@ -525,24 +523,14 @@ class Pogom(Flask):
             pokemon_list.append((entry, entry['distance']))
         pokemon_list = [y[0] for y in sorted(pokemon_list, key=lambda x: x[1])]
 
-        visibility_flags = {
-            'custom_css': args.custom_css,
-            'custom_js': args.custom_js
-        }
-
-        return render_template('mobile_list.html',
-                               pokemon_list=pokemon_list,
-                               origin_lat=lat,
-                               origin_lng=lon,
-                               show=visibility_flags
-                               )
+        return render_template(
+            'mobile_list.html',
+            pokemon_list=pokemon_list,
+            origin_lat=lat,
+            origin_lng=lon,
+        )
 
     def get_stats(self):
-        visibility_flags = {
-            'custom_css': args.custom_css,
-            'custom_js': args.custom_js
-        }
-
         return render_template(
             'statistics.html',
             lat=self.location[0],
@@ -558,16 +546,12 @@ class Pogom(Flask):
             telegramUrl=args.telegram_url,
             whatsappUrl=args.whatsapp_url,
             show=visibility_flags,
-            generateImages=str(args.generate_images).lower())
+            generateImages=str(args.generate_images).lower()
+        )
 
     def get_quests(self):
         if args.no_quests:
             abort(404)
-
-        visibility_flags = {
-            'custom_css': args.custom_css,
-            'custom_js': args.custom_js
-        }
 
         return render_template(
             'quests.html',
@@ -584,7 +568,8 @@ class Pogom(Flask):
             telegramUrl=args.telegram_url,
             whatsappUrl=args.whatsapp_url,
             show=visibility_flags,
-            generateImages=str(args.generate_images).lower())
+            generateImages=str(args.generate_images).lower()
+        )
 
     def get_gymdata(self):
         gym_id = request.args.get('id')
