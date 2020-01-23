@@ -249,12 +249,6 @@ function downloadData(fileName, data) {
 }
 
 function initMap() { // eslint-disable-line no-unused-vars
-    initSettings()
-
-    if (settings.darkMode) {
-        enableDarkMode()
-    }
-
     // URL query parameters.
     const paramLat = Number(getParameterByName('lat'))
     const paramLng = Number(getParameterByName('lon'))
@@ -374,178 +368,6 @@ function initMap() { // eslint-disable-line no-unused-vars
 
     if (settings.followUserLocation) {
         startFollowingUser()
-    }
-
-    updateMainS2CellId()
-    getAllParks()
-    updateS2Overlay()
-
-    initPushJS()
-    if (Push._agents.chrome.isSupported()) {
-        createServiceWorkerReceiver()
-    }
-
-    if (serverSettings.rarity) {
-        updatePokemonRarities(serverSettings.rarityFileName, function () {
-            updateMap()
-        })
-    } else {
-        updateMap()
-    }
-
-    initI8lnDictionary(function () {
-        initPokemonData(function () {
-            initPokemonFilters()
-        })
-    })
-
-    initMoveData(function () {})
-
-    if (serverSettings.quests) {
-        initItemData(function () {
-            initItemFilters()
-        })
-    }
-
-    if (serverSettings.invasions) {
-        initInvasionData(function () {
-            initInvasionFilters()
-        })
-    }
-
-    $('.dropdown-trigger').dropdown({
-      constrainWidth: false,
-      coverTrigger: false
-    })
-    $('.sidenav').sidenav({
-        draggable: false
-    })
-    let settingsSideNavElem = document.getElementById('settings-sidenav')
-    settingsSideNav = M.Sidenav.getInstance(settingsSideNavElem)
-    $('.sidenav-trigger[data-target="settings-sidenav"]').on('click', function (e) {
-        if (settingsSideNav.isOpen) {
-            settingsSideNav.close()
-            e.stopPropagation()
-        }
-    })
-    if (serverSettings.statsSidebar) {
-        $('#stats-sidenav').sidenav({
-            edge: 'right',
-            draggable: false,
-            onOpenStart: updateStatsTable
-        })
-        let statsSideNavElem = document.getElementById('stats-sidenav')
-        statsSideNav = M.Sidenav.getInstance(statsSideNavElem)
-        $('.sidenav-trigger[data-target="stats-sidenav"]').on('click', function (e) {
-            if (statsSideNav.isOpen) {
-                statsSideNav.close()
-                e.stopPropagation()
-            }
-        })
-    }
-    if (serverSettings.gymSidebar) {
-        $('#gym-sidebar').sidenav({
-            edge: 'right',
-            draggable: false,
-            onCloseEnd: function () {
-                // Make sure label/sidebar is updated next time it's opened.
-                mapData.gyms[openGymSidebarId].updated = true
-            }
-        })
-        let gymSidebarElem = document.getElementById('gym-sidebar')
-        gymSidebar = M.Sidenav.getInstance(gymSidebarElem)
-    }
-    $('.collapsible').collapsible()
-    initSidebar()
-    initBackupModals()
-    $('.tabs').tabs()
-    $('#stats-tabs').tabs({
-        onShow: updateStatsTable
-    })
-    $('.modal').modal()
-    $('#weather-modal').modal({
-        onOpenStart: setupWeatherModal
-    })
-    $('#quest-filter-modal').modal({
-        onOpenEnd: function () {
-            $('#quest-filter-tabs').tabs('updateTabIndicator')
-        }
-    })
-    $('#notif-quest-filter-modal').modal({
-        onOpenEnd: function () {
-            $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
-        }
-    })
-    $('.tooltipped').tooltip()
-
-    $.extend($.fn.dataTable.defaults, {
-        'language': {
-            'decimal': getDecimalSeparator(),
-            'thousands': getThousandsSeparator()
-        }
-    })
-
-    if (serverSettings.pokemons) {
-        $('#pokemon-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            "scrollX": true,
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            "order": [[ 3, "desc" ]]
-        })
-    }
-
-    if (serverSettings.gyms) {
-        $('#gym-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            "scrollX": true,
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            "order": [[ 2, "desc" ]]
-        })
-    }
-
-    if (serverSettings.raids) {
-        $('#egg-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            "scrollX": true,
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            "order": [[ 2, "desc" ]]
-        })
-
-        $('#raid-pokemon-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            "scrollX": true,
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            "order": [[ 4, "desc" ]]
-        })
-    }
-
-    if (serverSettings.pokestops) {
-        $('#pokestop-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            "scrollX": true,
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            "order": [[ 2, "desc" ]]
-        })
     }
 }
 
@@ -3804,15 +3626,208 @@ function toggleGymPokemonDetails(e) { // eslint-disable-line no-unused-vars
 //
 
 $(function () {
+    initSettings()
+
+    if (settings.darkMode) {
+        enableDarkMode()
+    }
+
+    initMap()
+
     moment.locale(language)
 
-    // run interval timers to regularly update map, rarity and timediffs
-    window.setInterval(updateLabelDiffTime, 1000)
-    window.setInterval(updateMap, 2000)
-    window.setInterval(updateStaleMarkers, 2500)
-    if (serverSettings.rarity) {
-        window.setInterval(updatePokemonRarities(serverSettings.rarityFileName, function () {}), 300000)
+    initPushJS()
+    if (Push._agents.chrome.isSupported()) {
+        createServiceWorkerReceiver()
     }
+
+    updateMainS2CellId()
+
+    if (serverSettings.rarity) {
+        updatePokemonRarities(serverSettings.rarityFileName, function () {
+            updateMap()
+            window.setInterval(updateMap, 2000)
+        })
+        window.setInterval(updatePokemonRarities(serverSettings.rarityFileName, function () {}), 300000)
+    } else {
+        updateMap()
+        window.setInterval(updateMap, 2000)
+    }
+
+    getAllParks()
+    updateS2Overlay()
+
+    initI8lnDictionary(function () {
+        initPokemonData(function () {
+            initPokemonFilters()
+        })
+    })
+
+    initMoveData(function () {})
+
+    if (serverSettings.quests) {
+        initItemData(function () {
+            initItemFilters()
+        })
+    }
+
+    if (serverSettings.invasions) {
+        initInvasionData(function () {
+            initInvasionFilters()
+        })
+    }
+
+    $('.dropdown-trigger').dropdown({
+      constrainWidth: false,
+      coverTrigger: false
+    })
+
+    $('.sidenav').sidenav({
+        draggable: false
+    })
+
+    let settingsSideNavElem = document.getElementById('settings-sidenav')
+    settingsSideNav = M.Sidenav.getInstance(settingsSideNavElem)
+    $('.sidenav-trigger[data-target="settings-sidenav"]').on('click', function (e) {
+        if (settingsSideNav.isOpen) {
+            settingsSideNav.close()
+            e.stopPropagation()
+        }
+    })
+
+    if (serverSettings.statsSidebar) {
+        $('#stats-sidenav').sidenav({
+            edge: 'right',
+            draggable: false,
+            onOpenStart: updateStatsTable
+        })
+        let statsSideNavElem = document.getElementById('stats-sidenav')
+        statsSideNav = M.Sidenav.getInstance(statsSideNavElem)
+        $('.sidenav-trigger[data-target="stats-sidenav"]').on('click', function (e) {
+            if (statsSideNav.isOpen) {
+                statsSideNav.close()
+                e.stopPropagation()
+            }
+        })
+    }
+
+    if (serverSettings.gymSidebar) {
+        $('#gym-sidebar').sidenav({
+            edge: 'right',
+            draggable: false,
+            onCloseEnd: function () {
+                // Make sure label/sidebar is updated next time it's opened.
+                mapData.gyms[openGymSidebarId].updated = true
+            }
+        })
+        let gymSidebarElem = document.getElementById('gym-sidebar')
+        gymSidebar = M.Sidenav.getInstance(gymSidebarElem)
+    }
+
+    $('.collapsible').collapsible()
+
+    initSidebar()
+    initBackupModals()
+
+    $('.tabs').tabs()
+
+    $('#stats-tabs').tabs({
+        onShow: updateStatsTable
+    })
+
+    $('.modal').modal()
+
+    $('#weather-modal').modal({
+        onOpenStart: setupWeatherModal
+    })
+
+    $('#quest-filter-modal').modal({
+        onOpenEnd: function () {
+            $('#quest-filter-tabs').tabs('updateTabIndicator')
+        }
+    })
+
+    $('#notif-quest-filter-modal').modal({
+        onOpenEnd: function () {
+            $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
+        }
+    })
+
+    $('.tooltipped').tooltip()
+
+    // Init data tables.
+    $.extend($.fn.dataTable.defaults, {
+        'language': {
+            'decimal': getDecimalSeparator(),
+            'thousands': getThousandsSeparator()
+        }
+    })
+
+    if (serverSettings.pokemons) {
+        $('#pokemon-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 3, "desc" ]]
+        })
+    }
+
+    if (serverSettings.gyms) {
+        $('#gym-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 2, "desc" ]]
+        })
+    }
+
+    if (serverSettings.raids) {
+        $('#egg-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 2, "desc" ]]
+        })
+
+        $('#raid-pokemon-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 4, "desc" ]]
+        })
+    }
+
+    if (serverSettings.pokestops) {
+        $('#pokestop-table').DataTable({
+            paging: false,
+            searching: false,
+            info: false,
+            "scrollX": true,
+            "columnDefs": [
+                { "orderable": false, "targets": 0 }
+            ],
+            "order": [[ 2, "desc" ]]
+        })
+    }
+
+    window.setInterval(updateLabelDiffTime, 1000)
+    window.setInterval(updateStaleMarkers, 2500)
 
     createUpdateWorker()
 })
