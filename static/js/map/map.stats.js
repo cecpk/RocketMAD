@@ -31,7 +31,7 @@ function updateStatsTable() {
                     pokemonData[key] = {
                         'count': 1,
                         'id': pokemon.pokemon_id,
-                        'name': pokemon.pokemon_name,
+                        'name': getPokemonName(pokemon.pokemon_id),
                         'form': pokemon.form,
                         'costume': pokemon.costume
                     }
@@ -103,7 +103,7 @@ function updateStatsTable() {
                                 'count': 1,
                                 'level': raid.level,
                                 'id': raid.pokemon_id,
-                                'name': raid.pokemon_name,
+                                'name': getPokemonName(raid.pokemon_id),
                                 'form': raid.form,
                                 'costume': raid.costume
                             }
