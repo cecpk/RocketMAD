@@ -106,7 +106,8 @@ var settings = {
     mapServiceProvider: null,
     startLocationMarkerStyle: null,
     userLocationMarkerStyle: null,
-    darkMode: null
+    darkMode: null,
+    clusterZoomLevel: null
 }
 
 var notifiedPokemonData = {}
@@ -322,7 +323,7 @@ function initMap() { // eslint-disable-line no-unused-vars
 
     map.on('zoomend', function () {
         if (settings.showRanges) {
-            if (map.getZoom() > serverSettings.clusterZoomLevel) {
+            if (map.getZoom() > settings.clusterZoomLevel) {
                 if (!map.hasLayer(rangesLayerGroup)) {
                     map.addLayer(rangesLayerGroup)
                 }
@@ -335,7 +336,7 @@ function initMap() { // eslint-disable-line no-unused-vars
     })
 
     markers = L.markerClusterGroup({
-        disableClusteringAtZoom: serverSettings.clusterZoomLevel + 1,
+        disableClusteringAtZoom: settings.clusterZoomLevel + 1,
         maxClusterRadius: serverSettings.maxClusterRadius,
         spiderfyOnMaxZoom: serverSettings.spiderfyClusters
     }).addTo(map)
@@ -352,11 +353,11 @@ function initMap() { // eslint-disable-line no-unused-vars
     }
     if (serverSettings.ranges) {
         rangesLayerGroup = L.layerGroup()
-        if (map.getZoom() > serverSettings.clusterZoomLevel) {
+        if (map.getZoom() > settings.clusterZoomLevel) {
             map.addLayer(rangesLayerGroup)
         }
     }
-
+    
     startLocationMarker = createStartLocationMarker()
     if (hasLocationSupport()) {
         userLocationMarker = createUserLocationMarker()
@@ -604,6 +605,8 @@ function initSettings() {
     settings.startLocationMarkerStyle = Store.get('startLocationMarkerStyle')
     settings.userLocationMarkerStyle = Store.get('userLocationMarkerStyle')
     settings.darkMode = Store.get('darkMode')
+
+    settings.clusterZoomLevel = isMobileDevice() ? serverSettings.clusterZoomLevelMobile : serverSettings.clusterZoomLevel
 }
 
 function initSidebar() {

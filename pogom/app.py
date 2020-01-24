@@ -188,9 +188,8 @@ class Pogom(Flask):
             'centerLng': self.location[1],
             'maxZoomLevel': args.max_zoom_level,
             'showAllZoomLevel': args.show_all_zoom_level,
-            'clusterZoomLevel': (
-                args.cluster_zoom_level_mobile if request.MOBILE else
-                args.cluster_zoom_level),
+            'clusterZoomLevel': args.cluster_zoom_level,
+            'clusterZoomLevelMobile': args.cluster_zoom_level_mobile,
             'maxClusterRadius': args.max_cluster_radius,
             'spiderfyClusters': args.spiderfy_clusters,
             'isStartMarkerMovable': not args.lock_start_marker,
