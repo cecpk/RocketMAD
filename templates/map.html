@@ -57,15 +57,15 @@
               <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="Patreon" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
               {% endif %}
               {% if donate_url %}
-              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="Donate" target="_blank"><i class="material-icons">attach_money</i></a></li>
+              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ donate_text }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
               {% endif %}
               {% if madmin_url %}
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">info</i></a></li>
               {% endif %}
               <li><a data-target="weather-modal" id="weather-button" class="modal-trigger" title="Weather" style="display:none;"><i class="material-icons"></i></a></li>
-              <li><a href="stats" class="hide-on-small-only" title="Statistics"><i class="material-icons">pie_chart</i></a></li>
+              <li><a href="stats" class="hide-on-small-only" title="{{ statistics_text }}"><i class="material-icons">pie_chart</i></a></li>
               {% if settings.statsSidebar %}
-              <li><a href="#" data-target="stats-sidenav" class="sidenav-trigger" title="Live stats"><i class="material-icons">equalizer</i></a></li>
+              <li><a href="#" data-target="stats-sidenav" class="sidenav-trigger" title="{{ live_stats_text }}"><i class="material-icons">equalizer</i></a></li>
               {% endif %}
             </ul>
           </div>
@@ -74,7 +74,7 @@
     </header>
 
     <ul id="navbar-dropdown" class="dropdown-content">
-      <li><a href="stats"><i class="material-icons">pie_chart</i>Statistics</a></li>
+      <li><a href="stats"><i class="material-icons">pie_chart</i>{{ statistics_text }}</a></li>
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
       {% endif %}
@@ -82,7 +82,7 @@
       <li class="divider" tabindex="-1"></li>
       {% endif %}
       {% if donate_url %}
-      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>Donate</a></li>
+      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ donate_text }}</a></li>
       {% endif %}
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
@@ -508,7 +508,7 @@
     <ul id="settings-sidenav" class="sidenav collapsible">
       {% if settings.pokemons %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">pets</i>Pokémon</div>
+        <div class="collapsible-header"><i class="material-icons">pets</i>{{ pokemon_text }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -516,7 +516,7 @@
                 <label>
                   <input type="checkbox" id="pokemon-switch">
                   <span class="lever"></span>
-                  Pokémon
+                  {{ pokemon_text }}
                 </label>
               </div>
             </div>
@@ -526,20 +526,20 @@
                   <label>
                     <input type="checkbox" id="filter-pokemon-switch">
                     <span class="lever"></span>
-                    Filter Pokémon
+                    {{ filter_pokemon_text }}
                   </label>
                   <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Icon size</div>
+                  <div class="select-title">{{ icon_size_text }}</div>
                   <select id="pokemon-icon-size-select">
-                    <option value="50">X-Small</option>
-                    <option value="75">Small</option>
-                    <option value="100">Normal</option>
-                    <option value="150">Large</option>
-                    <option value="200">X-Large</option>
+                    <option value="50">{{ x_small_text }}</option>
+                    <option value="75">{{ small_text }}</option>
+                    <option value="100">{{ normal_text }}</option>
+                    <option value="150">{{ large_text }}</option>
+                    <option value="200">{{ x_large_text }}</option>
                   </select>
                 </div>
               </div>
@@ -553,7 +553,7 @@
                   <label>
                     <input type="checkbox" id="pokemon-values-switch">
                     <span class="lever"></span>
-                    Pokémon values
+                    {{ pokemon_values_text }}
                   </label>
                 </div>
               </div>
@@ -563,7 +563,7 @@
                     <label>
                       <input type="checkbox" id="filter-values-switch">
                       <span class="lever"></span>
-                      Filter by values
+                      {{ filter_by_values_text }}
                     </label>
                     <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                   </div>
@@ -575,7 +575,7 @@
                         <label>
                           <input type="checkbox" id="zero-ivs-pokemon-switch">
                           <span class="lever"></span>
-                          0% IV Pokémon
+                          {{ zero_iv_pokemon_text }}
                         </label>
                       </div>
                     </div>
@@ -586,7 +586,7 @@
                         <label>
                           <input type="checkbox" id="hundo-ivs-pokemon-switch">
                           <span class="lever"></span>
-                          100% IV Pokémon
+                          {{ hundo_iv_pokemon_text }}
                         </label>
                       </div>
                     </div>
@@ -611,14 +611,14 @@
             <div class="settings-container">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Rarity</div>
+                  <div class="select-title">{{ rarity_text }}</div>
                   <select id="rarity-select" multiple>
-                    <option value="1">Common</option>
-                    <option value="2">Uncommon</option>
-                    <option value="3">Rare</option>
-                    <option value="4">Very Rare</option>
-                    <option value="5">Ultra Rare</option>
-                    <option value="6">New Spawn</option>
+                    <option value="1">{{ common_text }}</option>
+                    <option value="2">{{ uncommon_text }}</option>
+                    <option value="3">{{ rare_text }}</option>
+                    <option value="4">{{ very_rare_text }}</option>
+                    <option value="5">{{ ultra_rare_text }}</option>
+                    <option value="6">{{ new_spawn_text }}</option>
                   </select>
                 </div>
               </div>
@@ -627,7 +627,7 @@
                   <label>
                     <input type="checkbox" id="scale-rarity-switch">
                     <span class="lever"></span>
-                    Scale by Rarity
+                    {{ scale_by_rarity_text }}
                   </label>
                 </div>
               </div>
@@ -640,19 +640,19 @@
       {% if settings.gyms or settings.raids %}
       <li>
         {% if settings.gyms and settings.raids %}
-        <div class="collapsible-header"><i class="material-icons">security</i>Gyms & Raids</div>
+        <div class="collapsible-header"><i class="material-icons">security</i>{{ gyms_and_raids_text }}</div>
         {% elif settings.gyms %}
-        <div class="collapsible-header"><i class="material-icons">security</i>Gyms</div>
+        <div class="collapsible-header"><i class="material-icons">security</i>{{ gyms_text }}</div>
         {% else %}
-        <div class="collapsible-header"><i class="material-icons">security</i>Raids</div>
+        <div class="collapsible-header"><i class="material-icons">security</i>{{ raids_text }}</div>
         {% endif %}
         <div class="collapsible-body">
           <div id="gym-name-filter-sidebar-wrapper">
             <div class="settings-container">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="text-input-title">Name includes</div>
-                  <input placeholder="Filter..." id="gym-name-filter" type="text">
+                  <div class="text-input-title">{{ name_includes_text }}</div>
+                  <input placeholder="{{ input_placeholder_filter_text }}" id="gym-name-filter" type="text">
                 </div>
               </div>
               {% if settings.gymSidebar %}
@@ -661,7 +661,7 @@
                   <label>
                     <input type="checkbox" id="gym-sidebar-switch">
                     <span class="lever"></span>
-                    Gym sidebar
+                    {{ gym_sidebar_text }}
                   </label>
                 </div>
               </div>
@@ -675,7 +675,7 @@
                 <label>
                   <input type="checkbox" id="gym-switch">
                   <span class="lever"></span>
-                  Gyms
+                  {{ gyms_text }}
                 </label>
               </div>
             </div>
@@ -683,12 +683,12 @@
             <div id="gym-filters-wrapper">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Teams</div>
+                  <div class="select-title">{{ teams_text }}</div>
                   <select id="gym-team-select" multiple>
-                    <option value="0">Uncontested</option>
-                    <option value="1">Mystic</option>
-                    <option value="2">Valor</option>
-                    <option value="3">Instinct</option>
+                    <option value="0">{{ uncontested_text }}</option>
+                    <option value="1">{{ mystic_text }}</option>
+                    <option value="2">{{ valor_text }}</option>
+                    <option value="3">{{ instinct_text }}</option>
                   </select>
                 </div>
               </div>
@@ -703,7 +703,7 @@
                   <label>
                     <input type="checkbox" id="gym-open-spot-switch">
                     <span class="lever"></span>
-                    Open spot only
+                    {{ open_spot_only_text }}
                   </label>
                 </div>
               </div>
@@ -712,7 +712,7 @@
                   <label>
                     <input type="checkbox" id="gym-ex-eligible-switch">
                     <span class="lever"></span>
-                    EX eligible Gyms only
+                    {{ ex_gyms_only_text }}
                   </label>
                 </div>
               </div>
@@ -721,23 +721,23 @@
                   <label>
                     <input type="checkbox" id="gym-in-battle-switch">
                     <span class="lever"></span>
-                    Gyms in battle only
+                    {{ gyms_in_battle_only_text }}
                   </label>
                 </div>
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Last scanned</div>
+                  <div class="select-title">{{ last_scanned_text }}</div>
                   <select id="gym-last-scanned-select">
-                    <option value="0">Any time</option>
-                    <option value="1">Within last hour</option>
-                    <option value="6">Within last 6 hours</option>
-                    <option value="12">Within last 12 hours</option>
-                    <option value="24">Within last day</option>
-                    <option value="168">Within last week</option>
-                    <option value="730">Within last month</option>
-                    <option value="4380">Within last 6 months</option>
-                    <option value="8760">Within last year</option>
+                    <option value="0">{{ any_time_text }}</option>
+                    <option value="1">{{ within_hour_text }}</option>
+                    <option value="6">{{ within_six_hours_text }}</option>
+                    <option value="12">{{ within_twelve_hours_text }}</option>
+                    <option value="24">{{ within_day_text }}</option>
+                    <option value="168">{{ within_week_text }}</option>
+                    <option value="730">{{ within_month_text }}</option>
+                    <option value="4380">{{ within_six_months_text }}</option>
+                    <option value="8760">{{ within_year_text }}</option>
                   </select>
                 </div>
               </div>
@@ -752,7 +752,7 @@
                 <label>
                   <input type="checkbox" id="raid-switch">
                   <span class="lever"></span>
-                  Raids
+                  {{ raids_text }}
                 </label>
               </div>
             </div>
@@ -763,7 +763,7 @@
                   <label>
                     <input type="checkbox" id="filter-raid-pokemon-switch">
                     <span class="lever"></span>
-                    Filter Raid Bosses
+                    {{ filter_raid_bosses_text }}
                   </label>
                   <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
@@ -773,7 +773,7 @@
                   <label>
                     <input type="checkbox" id="raid-active-switch">
                     <span class="lever"></span>
-                    Active Raids only
+                    {{ active_raids_only_text }}
                   </label>
                 </div>
               </div>
@@ -782,19 +782,19 @@
                   <label>
                     <input type="checkbox" id="raid-ex-eligible-switch">
                     <span class="lever"></span>
-                    EX eligible Raids only
+                    {{ ex_raids_only_text }}
                   </label>
                 </div>
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Raid levels</div>
+                  <div class="select-title">{{ raid_levels_text }}</div>
                   <select id="raid-level-select" multiple>
-                    <option value="1">Level 1</option>
-                    <option value="2">Level 2</option>
-                    <option value="3">Level 3</option>
-                    <option value="4">Level 4</option>
-                    <option value="5">Level 5</option>
+                    <option value="1">{{ level_1_text }}</option>
+                    <option value="2">{{ level_2_text }}</option>
+                    <option value="3">{{ level_3_text }}</option>
+                    <option value="4">{{ level_4_text }}</option>
+                    <option value="5">{{ level_5_text }}</option>
                   </select>
                 </div>
               </div>
@@ -807,7 +807,7 @@
       {% endif %}
       {% if settings.pokestops %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">nature</i>PokéStops</div>
+        <div class="collapsible-header"><i class="material-icons">nature</i>{{ pokestops_text }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -815,15 +815,15 @@
                 <label>
                   <input type="checkbox" id="pokestop-switch">
                   <span class="lever"></span>
-                  PokéStops
+                  {{ pokestops_text }}
                 </label>
               </div>
             </div>
             <div class="pokestop-filters-wrapper">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="text-input-title">Name includes</div>
-                  <input placeholder="Filter..." id="pokestop-name-filter" type="text">
+                  <div class="text-input-title">{{ name_includes_text }}</div>
+                  <input placeholder="{{ input_placeholder_filter_text }}" id="pokestop-name-filter" type="text">
                 </div>
               </div>
               <div class="form-control">
@@ -831,7 +831,7 @@
                   <label>
                     <input type="checkbox" id="pokestop-no-event-switch">
                     <span class="lever"></span>
-                    PokéStops without event
+                    {{ pokestops_without_event_text }}
                   </label>
                 </div>
               </div>
@@ -845,7 +845,7 @@
                   <label>
                     <input type="checkbox" id="quest-switch">
                     <span class="lever"></span>
-                    Quests
+                    {{ quests_text }}
                   </label>
                 </div>
               </div>
@@ -855,7 +855,7 @@
                     <label>
                       <input type="checkbox" id="filter-quests-switch">
                       <span class="lever"></span>
-                      Filter Quests
+                      {{ filter_quests_text }}
                     </label>
                     <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select rewards"><i class="material-icons left">filter_list</i></a>
                   </div>
@@ -870,7 +870,7 @@
                   <label>
                     <input type="checkbox" id="invasion-switch">
                     <span class="lever"></span>
-                    Rocket Invasions
+                    {{ rocket_invasions_text }}
                   </label>
                 </div>
               </div>
@@ -880,7 +880,7 @@
                     <label>
                       <input type="checkbox" id="filter-invasions-switch">
                       <span class="lever"></span>
-                      Filter Rocket Invasions
+                      {{ filter_rocket_invasions_text }}
                     </label>
                     <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Rocket Invasions"><i class="material-icons left">filter_list</i></a>
                   </div>
@@ -892,12 +892,12 @@
             <div class="settings-container">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Lures</div>
+                  <div class="select-title">{{ lures_text }}</div>
                   <select id="lure-type-select" multiple>
-                    <option value="501">Normal Lures</option>
-                    <option value="502">Glacial Lures</option>
-                    <option value="504">Magnetic Lures</option>
-                    <option value="503">Mossy Lures</option>
+                    <option value="501">{{ normal_lures_text }}</option>
+                    <option value="502">{{ glacial_lures_text }}</option>
+                    <option value="504">{{ magnetic_lures_text }}</option>
+                    <option value="503">{{ mossy_lures_text }}</option>
                   </select>
                 </div>
               </div>

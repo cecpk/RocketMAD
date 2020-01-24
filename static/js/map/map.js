@@ -357,7 +357,7 @@ function initMap() { // eslint-disable-line no-unused-vars
             map.addLayer(rangesLayerGroup)
         }
     }
-    
+
     startLocationMarker = createStartLocationMarker()
     if (hasLocationSupport()) {
         userLocationMarker = createUserLocationMarker()
@@ -729,7 +729,7 @@ function initSidebar() {
             settings.minIvs = this.get()[0]
             settings.maxIvs = this.get()[1]
 
-            $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
+            $('#pokemon-ivs-slider-title').text(`${i8ln('IVs')} (${settings.minIvs}% - ${settings.maxIvs}%)`)
             const zeroIvsWrapper = $('#zero-ivs-pokemon-switch-wrapper')
             const hundoIvsWrapper = $('#hundo-ivs-pokemon-switch-wrapper')
             if (settings.minIvs > 0) {
@@ -777,7 +777,7 @@ function initSidebar() {
             const oldMaxLevel = settings.maxLevel
             settings.minLevel = this.get()[0]
             settings.maxLevel = this.get()[1]
-            $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
+            $('#pokemon-level-slider-title').text(`${i8ln('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
 
             if (settings.minLevel > oldMinLevel || settings.maxLevel < oldMaxLevel) {
                 updatePokemons()
@@ -892,7 +892,7 @@ function initSidebar() {
             const oldMaxLevel = settings.maxGymLevel
             settings.minGymLevel = this.get()[0]
             settings.maxGymLevel = this.get()[1]
-            $('#gym-level-slider-title').text(`Gym levels (${settings.minGymLevel} - ${settings.maxGymLevel})`)
+            $('#gym-level-slider-title').text(`${i8ln('Gym levels')} (${settings.minGymLevel} - ${settings.maxGymLevel})`)
 
             if (settings.minGymLevel > oldMinLevel || settings.maxGymLevel < oldMaxLevel) {
                 updateGyms()
@@ -1828,13 +1828,13 @@ function initSidebar() {
         $('#filter-values-switch').prop('checked', settings.filterPokemonByValues)
         $('a[data-target="pokemon-values-filter-modal"]').toggle(settings.filterPokemonByValues)
         $('#pokemon-values-filters-wrapper').toggle(settings.filterPokemonByValues)
-        $('#pokemon-ivs-slider-title').text(`IVs (${settings.minIvs}% - ${settings.maxIvs}%)`)
+        $('#pokemon-ivs-slider-title').text(`${i8ln('IVs')} (${settings.minIvs}% - ${settings.maxIvs}%)`)
         $('#pokemon-ivs-slider-wrapper').toggle(settings.filterPokemonByValues)
         $('#zero-ivs-pokemon-switch').prop('checked', settings.showZeroIvsPokemon)
         $('#zero-ivs-pokemon-switch-wrapper').toggle(settings.minIvs > 0)
         $('#hundo-ivs-pokemon-switch').prop('checked', settings.showHundoIvsPokemon)
         $('#hundo-ivs-pokemon-switch-wrapper').toggle(settings.maxIvs < 100)
-        $('#pokemon-level-slider-title').text(`Levels (${settings.minLevel} - ${settings.maxLevel})`)
+        $('#pokemon-level-slider-title').text(`${i8ln('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
         $('#pokemon-level-slider-wrapper').toggle(settings.filterPokemonByValues)
     }
     if (serverSettings.rarity) {
@@ -1859,7 +1859,7 @@ function initSidebar() {
     if (serverSettings.gymFilters) {
         $('#gym-filters-wrapper').toggle(settings.showGyms)
         $('#gym-team-select').val(settings.includedGymTeams)
-        $('#gym-level-slider-title').text(`Gym levels (${settings.minGymLevel} - ${settings.maxGymLevel})`)
+        $('#gym-level-slider-title').text(`${i8ln('Gym levels')} (${settings.minGymLevel} - ${settings.maxGymLevel})`)
         $('#gym-open-spot-switch').prop('checked', settings.showOpenSpotGymsOnly)
         $('#gym-ex-eligible-switch').prop('checked', settings.showExGymsOnly)
         $('#gym-in-battle-switch').prop('checked', settings.showInBattleGymsOnly)
@@ -3664,6 +3664,7 @@ $(function () {
         initPokemonData(function () {
             initPokemonFilters()
         })
+        initSidebar()
     })
 
     initMoveData(function () {})
@@ -3729,7 +3730,6 @@ $(function () {
 
     $('.collapsible').collapsible()
 
-    initSidebar()
     initBackupModals()
 
     $('.tabs').tabs()
