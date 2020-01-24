@@ -11,6 +11,7 @@ from bisect import bisect_left
 from flask import (Flask, abort, jsonify, render_template, request,
                    make_response, send_from_directory, send_file)
 from flask.json import JSONEncoder
+from flask_caching import Cache
 from flask_compress import Compress
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
@@ -24,6 +25,7 @@ from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
 log = logging.getLogger(__name__)
+cache = Cache(config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 0})
 compress = Compress()
 
 args = get_args()
@@ -52,6 +54,7 @@ class Pogom(Flask):
     def __init__(self, import_name, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
         compress.init_app(self)
+        cache.init_app(self)
 
         # Global blist
         if not args.disable_blacklist:
@@ -182,6 +185,7 @@ class Pogom(Flask):
     def auth_callback(self):
         return render_template('auth_callback.html')
 
+    @cache.cached()
     def fullmap(self):
         settings = {
             'centerLat': self.location[0],
