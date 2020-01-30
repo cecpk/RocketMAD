@@ -909,7 +909,7 @@
       {% endif %}
       {% if settings.weather %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">cloud</i>Weather</div>
+        <div class="collapsible-header"><i class="material-icons">cloud</i>{{ weather_text }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -917,7 +917,7 @@
                 <label>
                   <input type="checkbox" id="weather-switch">
                   <span class="lever"></span>
-                  Weather
+                  {{ weather_text }}
                 </label>
               </div>
             </div>
@@ -927,7 +927,7 @@
                   <label>
                     <input type="checkbox" id="weather-cells-switch">
                     <span class="lever"></span>
-                    Weather cells
+                    {{ weather_cells_text }}
                   </label>
                 </div>
               </div>
@@ -936,7 +936,7 @@
                   <label>
                     <input type="checkbox" id="main-weather-switch">
                     <span class="lever"></span>
-                    Main weather in header
+                    {{ main_weather_header_text }}
                   </label>
                 </div>
               </div>
@@ -947,7 +947,7 @@
       {% endif %}
       {% if settings.s2Cells %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">grid_on</i>S2 cells</div>
+        <div class="collapsible-header"><i class="material-icons">grid_on</i>{{ s2_cells_text }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -955,7 +955,7 @@
                 <label>
                   <input type="checkbox" id="s2-cell-switch">
                   <span class="lever"></span>
-                  S2 cells
+                  {{ s2_cells_text }}
                 </label>
               </div>
             </div>
@@ -965,7 +965,7 @@
                   <label>
                     <input type="checkbox" id="s2-level10-switch">
                     <span class="lever"></span>
-                    Weather cells (S2 L10)
+                    {{ weather_cells_text }} (S2 L10)
                   </label>
                 </div>
               </div>
@@ -974,7 +974,7 @@
                   <label>
                     <input type="checkbox" id="s2-level13-switch">
                     <span class="lever"></span>
-                    Ex trigger cells (S2 L13)
+                    {{ ex_cells_text }} (S2 L13)
                   </label>
                 </div>
               </div>
@@ -983,7 +983,7 @@
                   <label>
                     <input type="checkbox" id="s2-level14-switch">
                     <span class="lever"></span>
-                    Gym cells (S2 L14)
+                    {{ gym_cells_text }} (S2 L14)
                   </label>
                 </div>
               </div>
@@ -992,7 +992,7 @@
                   <label>
                     <input type="checkbox" id="s2-level17-switch">
                     <span class="lever"></span>
-                    PokéStop cells (S2 L17)
+                    {{ pokestop_cells_text }} (S2 L17)
                   </label>
                 </div>
               </div>
@@ -1001,7 +1001,7 @@
                   <label>
                     <input type="checkbox" id="s2-cells-warning-switch">
                     <span class="lever"></span>
-                    Warn about hidden cells
+                    {{ warning_hidden_cells_text }}
                   </label>
                 </div>
               </div>
@@ -1012,7 +1012,7 @@
       {% endif %}
       {% if settings.spawnpoints or settings.scannedLocs or settings.nestParks or settings.exParks or settings.ranges %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">map</i>Map misc</div>
+        <div class="collapsible-header"><i class="material-icons">map</i>{{ map_misc_text }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             {% if settings.spawnpoints %}
@@ -1021,7 +1021,7 @@
                 <label>
                   <input type="checkbox" id="spawnpoint-switch">
                   <span class="lever"></span>
-                  Spawn points
+                  {{ spawnpoints_text }}
                 </label>
               </div>
             </div>
@@ -1032,7 +1032,7 @@
                 <label>
                   <input type="checkbox" id="scanned-locs-switch">
                   <span class="lever"></span>
-                  Scanned locations
+                  {{ scanned_locations_text}}
                 </label>
               </div>
             </div>
@@ -1043,7 +1043,7 @@
                 <label>
                   <input type="checkbox" id="nest-park-switch">
                   <span class="lever"></span>
-                  Nest parks
+                  {{ nest_parks_text }}
                 </label>
               </div>
             </div>
@@ -1054,7 +1054,7 @@
                 <label>
                   <input type="checkbox" id="ex-park-switch">
                   <span class="lever"></span>
-                  EX eligible parks
+                  {{ ex_parks_text }}
                 </label>
               </div>
             </div>
@@ -1064,19 +1064,19 @@
                 <label>
                   <input type="checkbox" id="ranges-switch">
                   <span class="lever"></span>
-                  Interaction ranges
+                  {{ interaction_ranges_text }}
                 </label>
               </div>
             </div>
             <div id="range-type-select-wrapper">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Filter interaction ranges</div>
+                  <div class="select-title">{{ filter_interaction_ranges_text }}</div>
                   <select id="range-type-select" multiple>
-                    <option value="1">Pokémon ranges</option>
-                    <option value="2">Gym ranges</option>
-                    <option value="3">PokéStop ranges</option>
-                    <option value="4">Spawn point ranges</option>
+                    <option value="1">{{ pokemon_ranges_text }}</option>
+                    <option value="2">{{ gym_ranges_text }}</option>
+                    <option value="3">{{ pokestop_ranges_text }}</option>
+                    <option value="4">{{ spawnpoint_ranges_text }}</option>
                   </select>
                 </div>
               </div>
@@ -1086,7 +1086,7 @@
       </li>
       {% endif %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">place</i>Location</div>
+        <div class="collapsible-header"><i class="material-icons">place</i>{{ location_text }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div id="start-at-user-location-wrapper">
@@ -1095,7 +1095,7 @@
                   <label>
                     <input type="checkbox" id="start-at-user-location-switch">
                     <span class="lever"></span>
-                    Start map at my position
+                    {{ start_map_my_position_text }}
                   </label>
                 </div>
               </div>
@@ -1105,7 +1105,7 @@
                 <label>
                   <input type="checkbox" id="start-at-last-location-switch">
                   <span class="lever"></span>
-                  Start map at last position
+                  {{ start_map_last_position_text }}
                 </label>
               </div>
             </div>
@@ -1115,7 +1115,7 @@
                 <label>
                   <input type="checkbox" id="lock-start-marker-switch">
                   <span class="lever"></span>
-                  Lock start location marker
+                  {{ lock_start_marker }}
                 </label>
               </div>
             </div>
@@ -1126,7 +1126,7 @@
                   <label>
                     <input type="checkbox" id="follow-user-location-switch">
                     <span class="lever"></span>
-                    Follow me
+                    {{ follow_me_text }}
                   </label>
                 </div>
               </div>
@@ -1135,7 +1135,7 @@
         </div>
       </li>
       <li>
-        <div class="collapsible-header"><i class="material-icons">notifications</i>Notifications</div>
+        <div class="collapsible-header"><i class="material-icons">notifications</i>{{ notifications_text }}</div>
         <div class="collapsible-body">
           {% if settings.pokemons %}
           <div class="settings-container">
@@ -1144,7 +1144,7 @@
                 <label>
                   <input type="checkbox" id="pokemon-notifs-switch">
                   <span class="lever"></span>
-                  Pokémon notifs
+                  {{ pokemon_notifs_text }}
                 </label>
               </div>
             </div>
@@ -1154,7 +1154,7 @@
                   <label>
                     <input type="checkbox" id="pokemon-id-notifs-switch">
                     <span class="lever"></span>
-                    Notifs filtered by ID
+                    {{ notifs_filtered_by_id_text }}
                   </label>
                   <a data-target="notif-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
@@ -1165,7 +1165,7 @@
                   <label>
                     <input type="checkbox" id="pokemon-values-notifs-switch">
                     <span class="lever"></span>
-                    Notifs filtered by values
+                    {{ notifs_filtered_by_values_text }}
                   </label>
                   <a data-target="notif-pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
@@ -1177,7 +1177,7 @@
                       <label>
                         <input type="checkbox" id="zero-ivs-pokemon-notifs-switch">
                         <span class="lever"></span>
-                        0% IV Pokémon notifs
+                        {{ zero_iv_pokemon_notifs_text }}
                       </label>
                     </div>
                   </div>
@@ -1188,7 +1188,7 @@
                       <label>
                         <input type="checkbox" id="hundo-ivs-pokemon-notifs-switch">
                         <span class="lever"></span>
-                        100% IV Pokémon notifs
+                        {{ hundo_iv_pokemon_notifs_text }}
                       </label>
                     </div>
                   </div>
@@ -1209,14 +1209,14 @@
               {% if settings.rarity %}
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Rarity notifs</div>
+                  <div class="select-title">{{ rarity_notifs_text }}</div>
                   <select id="rarity-notifs-select" multiple>
-                    <option value="1">Common</option>
-                    <option value="2">Uncommon</option>
-                    <option value="3">Rare</option>
-                    <option value="4">Very Rare</option>
-                    <option value="5">Ultra Rare</option>
-                    <option value="6">New Spawn</option>
+                    <option value="1">{{ common_text }}</option>
+                    <option value="2">{{ uncommon_text }}</option>
+                    <option value="3">{{ rare_text }}</option>
+                    <option value="4">{{ very_rare_text }}</option>
+                    <option value="5">{{ ultra_rare_text }}</option>
+                    <option value="6">{{ new_spawn_text }}</option>
                   </select>
                 </div>
               </div>
@@ -1226,7 +1226,7 @@
                   <label>
                     <input type="checkbox" id="tiny-rattata-notifs-switch">
                     <span class="lever"></span>
-                    Tiny Rattata notifs
+                    {{ tiny_rattata_notifs_text }}
                   </label>
                 </div>
               </div>
@@ -1235,7 +1235,7 @@
                   <label>
                     <input type="checkbox" id="big-magikarp-notifs-switch">
                     <span class="lever"></span>
-                    Big Magikarp notifs
+                    {{ big_magikarp_notifs_text }}
                   </label>
                 </div>
               </div>
@@ -1245,7 +1245,7 @@
                   <label>
                     <input type="checkbox" id="notif-pokemon-only-switch">
                     <span class="lever"></span>
-                    Show notif Pokémon only
+                    {{ notif_pokemon_only_text }}
                   </label>
                 </div>
               </div>
@@ -1254,7 +1254,7 @@
                   <label>
                     <input type="checkbox" id="notif-pokemon-always-switch">
                     <span class="lever"></span>
-                    Always show notif Pokémon
+                    {{ always_show_notif_pokemon }}
                   </label>
                 </div>
               </div>
@@ -1265,7 +1265,7 @@
                     <label>
                       <input type="checkbox" id="pokemon-cries-switch">
                       <span class="lever"></span>
-                      Use Pokémon cries
+                      {{ use_pokemon_cries_text }}
                     </label>
                   </div>
                 </div>
@@ -1281,7 +1281,7 @@
                 <label>
                   <input type="checkbox" id="raid-notifs-switch">
                   <span class="lever"></span>
-                  Raid notifs
+                  {{ raid_notifs_text }}
                 </label>
               </div>
             </div>
@@ -1291,20 +1291,20 @@
                   <label>
                     <input type="checkbox" id="raid-pokemon-notifs-switch">
                     <span class="lever"></span>
-                    Raid Boss notifs
+                    {{ raid_boss_notifs_text }}
                   </label>
                   <a data-target="notif-raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Pokémon"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Egg notifs</div>
+                  <div class="select-title">{{ egg_notifs_text }}</div>
                   <select id="egg-notifs-select" multiple>
-                    <option value="1">Level 1</option>
-                    <option value="2">Level 2</option>
-                    <option value="3">Level 3</option>
-                    <option value="4">Level 4</option>
-                    <option value="5">Level 5</option>
+                    <option value="1">{{ level_1_text }}</option>
+                    <option value="2">{{ level_2_text }}</option>
+                    <option value="3">{{ level_3_text }}</option>
+                    <option value="4">{{ level_4_text }}</option>
+                    <option value="5">{{ level_5_text }}</option>
                   </select>
                 </div>
               </div>
@@ -1318,7 +1318,7 @@
                 <label>
                   <input type="checkbox" id="pokestop-notifs-switch">
                   <span class="lever"></span>
-                  PokéStop notifs
+                  {{ pokestop_notifs_text }}
                 </label>
               </div>
             </div>
@@ -1329,7 +1329,7 @@
                   <label>
                     <input type="checkbox" id="quest-notifs-switch">
                     <span class="lever"></span>
-                    Quest notifs
+                    {{ quest_notifs_text }}
                   </label>
                   <a data-target="notif-quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select rewards"><i class="material-icons left">filter_list</i></a>
                 </div>
@@ -1341,7 +1341,7 @@
                   <label>
                     <input type="checkbox" id="invasion-notifs-switch">
                     <span class="lever"></span>
-                    Rocket Invasion notifs
+                    {{ rocket_invasion_notifs_text }}
                   </label>
                   <a data-target="notif-invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="Select Rocket Invasions"><i class="material-icons left">filter_list</i></a>
                 </div>
@@ -1350,12 +1350,12 @@
               {% if settings.lures %}
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">Lure notifs</div>
+                  <div class="select-title">{{ lure_notifs_text }}</div>
                   <select id="lure-notifs-select" multiple>
-                    <option value="501">Normal Lures</option>
-                    <option value="502">Glacial Lures</option>
-                    <option value="504">Magnetic Lures</option>
-                    <option value="503">Mossy Lures</option>
+                    <option value="501">{{ normal_lures_text }}</option>
+                    <option value="502">{{ glacial_lures_text }}</option>
+                    <option value="504">{{ magnetic_lures_text }}</option>
+                    <option value="503">{{ mossy_lures_text }}</option>
                   </select>
                 </div>
               </div>
@@ -1369,7 +1369,7 @@
                 <label>
                   <input type="checkbox" id="browser-popups-switch">
                   <span class="lever"></span>
-                  Browser popups
+                  {{ browser_popups_text }}
                 </label>
               </div>
             </div>
@@ -1378,7 +1378,7 @@
                 <label>
                   <input type="checkbox" id="notif-sound-switch">
                   <span class="lever"></span>
-                  Play sound on notif
+                  {{ play_sound_on_notif_text }}
                 </label>
               </div>
             </div>
@@ -1387,7 +1387,7 @@
                 <label>
                   <input type="checkbox" id="upscale-notif-markers-switch">
                   <span class="lever"></span>
-                  Upscale notif markers
+                  {{ upscale_notif_markers_text }}
                 </label>
               </div>
             </div>
@@ -1396,7 +1396,7 @@
                 <label>
                   <input type="checkbox" id="bounce-notif-markers-switch">
                   <span class="lever"></span>
-                  Bounce notif markers
+                  {{ bounce_notif_markers }}
                 </label>
               </div>
             </div>

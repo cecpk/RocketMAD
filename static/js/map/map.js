@@ -1479,7 +1479,7 @@ function initSidebar() {
             settings.minNotifIvs = this.get()[0]
             settings.maxNotifIvs = this.get()[1]
 
-            $('#pokemon-ivs-notifs-slider-title').text(`Notif IVs (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
+            $('#pokemon-ivs-notifs-slider-title').text(`${i8ln('Notif IVs')} (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
             const zeroIvsWrapper = $('#zero-ivs-pokemon-notifs-switch-wrapper')
             const hundoIvsWrapper = $('#hundo-ivs-pokemon-notifs-switch-wrapper')
             if (settings.minNotifIvs > 0) {
@@ -1527,7 +1527,7 @@ function initSidebar() {
             const oldMaxLevel = settings.maxNotifLevel
             settings.minNotifLevel = this.get()[0]
             settings.maxNotifLevel = this.get()[1]
-            $('#pokemon-level-notifs-slider-title').text(`Notif Levels (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
+            $('#pokemon-level-notifs-slider-title').text(`${i8ln('Notif Levels')} (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
 
             if ((settings.minNotifLevel < oldMinLevel || settings.maxNotifLevel > oldMaxLevel) &&
                     (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
@@ -1964,8 +1964,8 @@ function initSidebar() {
         $('#zero-ivs-pokemon-notifs-switch').prop('checked', settings.zeroIvsPokemonNotifs)
         $('#hundo-ivs-pokemon-notifs-switch-wrapper').toggle(settings.maxNotifIvs < 100)
         $('#hundo-ivs-pokemon-notifs-switch').prop('checked', settings.hundoIvsPokemonNotifs)
-        $('#pokemon-ivs-notifs-slider-title').text(`Notif IVs (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
-        $('#pokemon-level-notifs-slider-title').text(`Notif Levels (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
+        $('#pokemon-ivs-notifs-slider-title').text(`${i8ln('Notif IVs')} (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
+        $('#pokemon-level-notifs-slider-title').text(`${i8ln('Notif Levels')} (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
         $('#tiny-rattata-notifs-switch').prop('checked', settings.tinyRattataNotifs)
         $('#big-magikarp-notifs-switch').prop('checked', settings.bigMagikarpNotifs)
     }
