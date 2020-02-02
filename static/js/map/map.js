@@ -2016,7 +2016,8 @@ function initSidebar() {
         updateStartLocationMarker()
         updateUserLocationMarker()
         $.each(data, function(id, value) {
-            const option = `<option value="${id}" data-icon="${value.icon}">${i8ln(value.name)}</option>`
+            let dataIconStr = value.icon ? `data-icon="${value.icon}"` : ''
+            const option = `<option value="${id}" ${dataIconStr}>${i8ln(value.name)}</option>`
             $('#start-location-marker-icon-select').append(option)
             $('#user-location-marker-icon-select').append(option)
         })
@@ -2137,9 +2138,9 @@ function initPokemonFilters() {
     if (serverSettings.pokemons) {
         $('#exclude-pokemon').val(Array.from(settings.excludedPokemon))
         if (settings.excludedPokemon.size === 0) {
-            $('#filter-pokemon-title').text('Pokémon (All)')
+            $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${i8ln('All')})`)
         } else {
-            $('#filter-pokemon-title').text(`Pokémon (${pokemonIds.size - settings.excludedPokemon.size})`)
+            $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${pokemonIds.size - settings.excludedPokemon.size})`)
         }
 
         $('label[for="exclude-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2164,9 +2165,9 @@ function initPokemonFilters() {
             }
 
             if (settings.excludedPokemon.size === 0) {
-                $('#filter-pokemon-title').text('Pokémon (All)')
+                $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${i8ln('All')})`)
             } else {
-                $('#filter-pokemon-title').text(`Pokémon (${pokemonIds.size - settings.excludedPokemon.size})`)
+                $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${pokemonIds.size - settings.excludedPokemon.size})`)
             }
 
             Store.set('excludedPokemon', settings.excludedPokemon)
@@ -3682,8 +3683,8 @@ $(function () {
     }
 
     $('.dropdown-trigger').dropdown({
-      constrainWidth: false,
-      coverTrigger: false
+        constrainWidth: false,
+        coverTrigger: false
     })
 
     $('.sidenav').sidenav({
