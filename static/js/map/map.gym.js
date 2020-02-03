@@ -189,12 +189,12 @@ function updateGymMarker(gym, marker, isNotifGym) {
 
 function updateGymSidebar(id) {
     const gym = mapData.gyms[id]
+    const teamName = gymTypes[gym.team_id]
     const title = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
     let exIcon = ''
     if (gym.is_ex_raid_eligible) {
         exIcon += ` <img id="sidebar-gym-ex-icon" src="static/images/gym/ex.png" title="${i8ln('EX eligible Gym')}">`
     }
-    const teamName = gymTypes[gym.team_id]
 
     $('#sidebar-gym-title').html(title + exIcon)
 

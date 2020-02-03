@@ -3661,6 +3661,11 @@ $(function () {
     getAllParks()
     updateS2Overlay()
 
+    $('.dropdown-trigger').dropdown({
+        constrainWidth: false,
+        coverTrigger: false
+    })
+
     initI8lnDictionary(function () {
         initPokemonData(function () {
             initPokemonFilters()
@@ -3681,11 +3686,6 @@ $(function () {
             initInvasionFilters()
         })
     }
-
-    $('.dropdown-trigger').dropdown({
-        constrainWidth: false,
-        coverTrigger: false
-    })
 
     $('.sidenav').sidenav({
         draggable: false
