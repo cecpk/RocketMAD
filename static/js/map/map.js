@@ -2177,9 +2177,9 @@ function initPokemonFilters() {
     if (serverSettings.pokemonValues) {
         $('#unfiltered-pokemon').val(Array.from(settings.noFilterValuesPokemon))
         if (settings.noFilterValuesPokemon.size === 0) {
-            $('#filter-values-pokemon-title').text('Pokémon filtered by values (All)')
+            $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${i8ln('All')})`)
         } else {
-            $('#filter-values-pokemon-title').text(`Pokémon filtered by values (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
+            $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
         }
 
         $('label[for="unfiltered-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2204,9 +2204,9 @@ function initPokemonFilters() {
             }
 
             if (settings.noFilterValuesPokemon.size === 0) {
-                $('#filter-values-pokemon-title').text('Pokémon filtered by values (All)')
+                $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${i8ln('All')})`)
             } else {
-                $('#filter-values-pokemon-title').text(`Pokémon filtered by values (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
+                $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
             }
 
             Store.set('noFilterValuesPokemon', settings.noFilterValuesPokemon)
@@ -2216,9 +2216,9 @@ function initPokemonFilters() {
     if (serverSettings.raidFilters) {
         $('#exclude-raid-pokemon').val(Array.from(settings.excludedRaidPokemon))
         if (settings.excludedRaidPokemon.size === 0) {
-            $('#filter-raid-pokemon-title').text('Raid Bosses (All)')
+            $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${i8ln('All')})`)
         } else {
-            $('#filter-raid-pokemon-title').text(`Raid Bosses (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
+            $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
         }
 
         $('label[for="exclude-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2243,9 +2243,9 @@ function initPokemonFilters() {
             }
 
             if (settings.excludedRaidPokemon.size === 0) {
-                $('#filter-raid-pokemon-title').text('Raid Bosses (All)')
+                $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${i8ln('All')})`)
             } else {
-                $('#filter-raid-pokemon-title').text(`Raid Bosses (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
+                $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
             }
 
             Store.set('excludedRaidPokemon', settings.excludedRaidPokemon)
@@ -2255,9 +2255,9 @@ function initPokemonFilters() {
     if (serverSettings.quests) {
         $('#exclude-quest-pokemon').val(Array.from(settings.excludedQuestPokemon))
         if (settings.excludedQuestPokemon.size === 0) {
-            $('a[href="#quest-pokemon-tab"]').text('Quest Pokémon (All)')
+            $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${i8ln('All')})`)
         } else {
-            $('a[href="#quest-pokemon-tab"]').text(`Quest Pokémon (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
+            $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
         }
 
         $('label[for="exclude-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2282,9 +2282,9 @@ function initPokemonFilters() {
             }
 
             if (settings.excludedQuestPokemon.size === 0) {
-                $('a[href="#quest-pokemon-tab"]').text('Quest Pokémon (All)')
+                $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${i8ln('All')})`)
             } else {
-                $('a[href="#quest-pokemon-tab"]').text(`Quest Pokémon (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
+                $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
             }
             $('#quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -2296,9 +2296,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifPokemon)
         $('#no-notif-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifPokemon.size === pokemonIds.size) {
-            $('#notif-pokemon-filter-title').text('Notif Pokémon (All)')
+            $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${i8ln('All')})`)
         } else {
-            $('#notif-pokemon-filter-title').text(`Notif Pokémon (${settings.notifPokemon.size})`)
+            $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${settings.notifPokemon.size})`)
         }
 
         $('label[for="no-notif-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2323,9 +2323,9 @@ function initPokemonFilters() {
             }
 
             if (settings.notifPokemon.size === pokemonIds.size) {
-                $('#notif-pokemon-filter-title').text('Notif Pokémon (All)')
+                $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${i8ln('All')})`)
             } else {
-                $('#notif-pokemon-filter-title').text(`Notif Pokémon (${settings.notifPokemon.size})`)
+                $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${settings.notifPokemon.size})`)
             }
 
             Store.set('notifPokemon', settings.notifPokemon)
@@ -2336,9 +2336,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifValuesPokemon)
         $('#no-notif-values-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifValuesPokemon.size === pokemonIds.size) {
-            $('#notif-pokemon-values-filter-title').text('Notif Pokémon filtered by values (All)')
+            $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${i8ln('All')})`)
         } else {
-            $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${settings.notifValuesPokemon.size})`)
+            $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${settings.notifValuesPokemon.size})`)
         }
 
         $('label[for="no-notif-values-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2363,9 +2363,9 @@ function initPokemonFilters() {
             }
 
             if (settings.notifValuesPokemon.size === pokemonIds.size) {
-                $('#notif-pokemon-values-filter-title').text('Notif Pokémon filtered by values (All)')
+                $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${i8ln('All')})`)
             } else {
-                $('#notif-pokemon-values-filter-title').text(`Notif Pokémon filtered by values (${settings.notifValuesPokemon.size})`)
+                $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${settings.notifValuesPokemon.size})`)
             }
 
             Store.set('notifValuesPokemon', settings.notifValuesPokemon)
@@ -2376,9 +2376,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifRaidPokemon)
         $('#no-notif-raid-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifRaidPokemon.size === pokemonIds.size) {
-            $('#notif-raid-pokemon-filter-title').text('Notif Raid Bosses (All)')
+            $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${i8ln('All')})`)
         } else {
-            $('#notif-raid-pokemon-filter-title').text(`Notif Raid Bosses (${settings.notifRaidPokemon.size})`)
+            $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${settings.notifRaidPokemon.size})`)
         }
 
         $('label[for="no-notif-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2395,9 +2395,9 @@ function initPokemonFilters() {
             updateGyms()
 
             if (settings.notifRaidPokemon.size === pokemonIds.size) {
-                $('#notif-raid-pokemon-filter-title').text('Notif Raid Bosses (All)')
+                $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${i8ln('All')})`)
             } else {
-                $('#notif-raid-pokemon-filter-title').text(`Notif Raid Bosses (${settings.notifRaidPokemon.size})`)
+                $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${settings.notifRaidPokemon.size})`)
             }
 
             Store.set('notifRaidPokemon', settings.notifRaidPokemon)
@@ -2408,9 +2408,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifQuestPokemon)
         $('#no-notif-quest-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifQuestPokemon.size === pokemonIds.size) {
-            $('a[href="#notif-quest-pokemon-tab"]').text('Notif Quest Pokémon (All)')
+            $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${i8ln('All')})`)
         } else {
-            $('a[href="#notif-quest-pokemon-tab"]').text(`Notif Quest Pokémon (${settings.notifQuestPokemon.size})`)
+            $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${settings.notifQuestPokemon.size})`)
         }
 
         $('label[for="no-notif-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -2427,9 +2427,9 @@ function initPokemonFilters() {
             updatePokestops()
 
             if (settings.notifQuestPokemon.size === pokemonIds.size) {
-                $('a[href="#notif-quest-pokemon-tab"]').text('Notif Quest Pokémon (All)')
+                $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${i8ln('All')})`)
             } else {
-                $('a[href="#notif-quest-pokemon-tab"]').text(`Notif Quest Pokémon (${settings.notifQuestPokemon.size})`)
+                $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${settings.notifQuestPokemon.size})`)
             }
             $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -2453,11 +2453,11 @@ function initItemFilters() {
             questItemIds.push(id + '_' + bundleAmount)
             $('.quest-item-filter-list').append(`
                 <div class='filter-button' data-id='${id}' data-bundle='${bundleAmount}'>
-                <div class='filter-button-content'>
-                <div>${name}</div>
-                <div><img src='${iconUrl}' width='32'></div>
-                <div>x${bundleAmount}</div>
-                </div>
+                  <div class='filter-button-content'>
+                    <div>${name}</div>
+                    <div><img src='${iconUrl}' width='32'></div>
+                    <div>x${bundleAmount}</div>
+                  </div>
                 </div>`)
         })
     }
@@ -2494,9 +2494,9 @@ function initItemFilters() {
 
     $('#exclude-quest-items').val(settings.excludedQuestItems)
     if (settings.excludedQuestItems.length === 0) {
-        $('a[href="#quest-item-tab"]').text('Quest Items (All)')
+        $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${i8ln('All')})`)
     } else {
-        $('a[href="#quest-item-tab"]').text(`Quest Items (${questItemIds.length - settings.excludedQuestItems.length})`)
+        $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${questItemIds.length - settings.excludedQuestItems.length})`)
     }
 
     $('label[for="exclude-quest-items"] .quest-item-filter-list .filter-button').each(function () {
@@ -2517,9 +2517,9 @@ function initItemFilters() {
         updateMap()
 
         if (settings.excludedQuestItems.length === 0) {
-            $('a[href="#quest-item-tab"]').text('Quest Items (All)')
+            $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${i8ln('All')})`)
         } else {
-            $('a[href="#quest-item-tab"]').text(`Quest Items (${questItemIds.length - settings.excludedQuestItems.length})`)
+            $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${questItemIds.length - settings.excludedQuestItems.length})`)
         }
         $('#quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -2529,9 +2529,9 @@ function initItemFilters() {
     const noNotifItems = questItemIds.filter(id => !settings.notifQuestItems.includes(id))
     $('#no-notif-quest-items').val(noNotifItems)
     if (settings.notifQuestItems.length === questItemIds.length) {
-        $('a[href="#notif-quest-item-tab"]').text('Notif Quest Items (All)')
+        $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${i8ln('All')})`)
     } else {
-        $('a[href="#notif-quest-item-tab"]').text(`Notif Quest Items (${settings.notifQuestItems.length})`)
+        $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${settings.notifQuestItems.length})`)
     }
 
     $('label[for="no-notif-quest-items"] .quest-item-filter-list .filter-button').each(function () {
@@ -2551,9 +2551,9 @@ function initItemFilters() {
         updatePokestops()
 
         if (settings.notifQuestItems.length === questItemIds.length) {
-            $('a[href="#notif-quest-item-tab"]').text('Notif Quest Items (All)')
+            $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${i8ln('All')})`)
         } else {
-            $('a[href="#notif-quest-item-tab"]').text(`Notif Quest Items (${settings.notifQuestItems.length})`)
+            $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${settings.notifQuestItems.length})`)
         }
         $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -2607,9 +2607,9 @@ function initInvasionFilters() {
 
     $('#exclude-invasions').val(settings.excludedInvasions)
     if (settings.excludedInvasions.length === 0) {
-        $('#filter-invasion-title').text('Rocket Invasions (All)')
+        $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${i8ln('All')})`)
     } else {
-        $('#filter-invasion-title').text(`Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
+        $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${invasionIds.length - settings.excludedInvasions.length})`)
     }
 
     $('label[for="exclude-invasions"] .invasion-filter-list .filter-button').each(function () {
@@ -2626,9 +2626,9 @@ function initInvasionFilters() {
         updateMap()
 
         if (settings.excludedInvasions.length === 0) {
-            $('#filter-invasion-title').text('Rocket Invasions (All)')
+            $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${i8ln('All')})`)
         } else {
-            $('#filter-invasion-title').text(`Rocket Invasions (${invasionIds.length - settings.excludedInvasions.length})`)
+            $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${invasionIds.length - settings.excludedInvasions.length})`)
         }
 
         Store.set('excludedInvasions', settings.excludedInvasions)
@@ -2637,9 +2637,9 @@ function initInvasionFilters() {
     const noNotifInvasions = invasionIds.filter(id => !settings.notifInvasions.includes(id))
     $('#no-notif-invasions').val(noNotifInvasions)
     if (settings.notifInvasions.length === invasionIds.length) {
-        $('#notif-invasion-filter-title').text('Notif Rocket Invasions (All)')
+        $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${i8ln('All')})`)
     } else {
-        $('#notif-invasion-filter-title').text(`Notif Rocket Invasions (${settings.notifInvasions.length})`)
+        $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${settings.notifInvasions.length})`)
     }
 
     $('label[for="no-notif-invasions"] .invasion-filter-list .filter-button').each(function () {
@@ -2655,9 +2655,9 @@ function initInvasionFilters() {
         updatePokestops()
 
         if (settings.notifInvasions.length === invasionIds.length) {
-            $('#notif-invasion-filter-title').text('Notif Rocket Invasions (All)')
+            $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${i8ln('All')})`)
         } else {
-            $('#notif-invasion-filter-title').text(`Notif Rocket Invasions (${settings.notifInvasions.length})`)
+            $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${settings.notifInvasions.length})`)
         }
 
         Store.set('notifInvasions', settings.notifInvasions)

@@ -192,7 +192,7 @@ function updateGymSidebar(id) {
     const title = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
     let exIcon = ''
     if (gym.is_ex_raid_eligible) {
-        exIcon += ' <img id="sidebar-gym-ex-icon" src="static/images/gym/ex.png" title="EX eligible Gym">'
+        exIcon += ` <img id="sidebar-gym-ex-icon" src="static/images/gym/ex.png" title="${i8ln('EX eligible Gym')}">`
     }
     const teamName = gymTypes[gym.team_id]
 
@@ -217,23 +217,23 @@ function updateGymSidebar(id) {
 
     let $team = $('#gym-sidebar .team')
     if (gym.slots_available < 6) {
-        $team.text('Team ' + teamName)
+        $team.text(i8ln('Team ' + teamName))
     } else {
-        $team.text(teamName)
+        $team.text(i8ln(teamName))
     }
     $team.attr('class', 'team')
     $team.addClass(teamName.toLowerCase())
 
     $('#sidebar-gym-free-slots').text(gym.slots_available)
     if (gym.slots_available < 6) {
-        $('#sidebar-gym-leader').html(`${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a>`)
+        $('#sidebar-gym-leader').html(`${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='${i8ln('View on GamePress')}'>#${gym.guard_pokemon_id}</a>`)
         $('#sidebar-gym-leader-container').show()
     } else {
         $('#sidebar-gym-leader-container').hide()
     }
     $('#sidebar-gym-last-scanned').text(timestampToDateTime(gym.last_scanned))
     $('#sidebar-gym-last-modified').text(timestampToDateTime(gym.last_modified))
-    $('#sidebar-gym-coordinates-container').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
+    $('#sidebar-gym-coordinates-container').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i8ln('Open in ' + mapServiceProviderNames[settings.mapServiceProvider])}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
@@ -248,7 +248,7 @@ function updateGymSidebar(id) {
 
             $('#sidebar-upcoming-raid-container').hide()
             $('#sidebar-ongoing-raid-title').html(`${name} <i class='fas ${genderClasses[raid.gender - 1]}'></i> #${raid.pokemon_id}`)
-            $('#sidebar-ongoing-raid-level-container').html(`Raid <span class='raid-level-${raid.level}'>${levelStars}</span>`)
+            $('#sidebar-ongoing-raid-level-container').html(`${i8ln('Raid')} <span class='raid-level-${raid.level}'>${levelStars}</span>`)
             $('#sidebar-ongoing-raid-end-container').html(`${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
             $('#sidebar-raid-pokemon-image').attr('src', getPokemonRawIconUrl(raid))
 
@@ -269,10 +269,10 @@ function updateGymSidebar(id) {
             $('#sidebar-ongoing-raid-container').show()
         } else {
             $('#sidebar-ongoing-raid-container').hide()
-            $('#sidebar-upcoming-raid-title').html(`Raid <span class='raid-level-${raid.level}'>${levelStars}</span>`)
+            $('#sidebar-upcoming-raid-title').html(`${i8ln('Raid')} <span class='raid-level-${raid.level}'>${levelStars}</span>`)
             $('#sidebar-raid-egg-image').attr('src', 'static/images/gym/' + raidEggImages[raid.level])
-            $('#sidebar-upcoming-raid-start-container').html(`Start: ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)`)
-            $('#sidebar-upcoming-raid-end-container').html(`End: ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
+            $('#sidebar-upcoming-raid-start-container').html(`${i8ln('Start')}: ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)`)
+            $('#sidebar-upcoming-raid-end-container').html(`${i8ln('End')}: ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
             $('#sidebar-upcoming-raid-container').show()
         }
         // Update countdown time to prevent a countdown time of 0.
