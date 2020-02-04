@@ -1,44 +1,44 @@
+<!DOCTYPE html>
 <html>
-<head>
-	<title>Nearby Pokémon</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{{ url_for('static', filename='dist/css/mobile.min.css').lstrip('/') }}" type="text/css" />
-	<!-- Custom CSS code-->
-		{% if show.custom_css %}
-	<link rel="stylesheet" type="text/css" href="static/css/custom.css">
-		{% endif %}
-</head>
-<body class="mobilePage">
-	<h1>Nearby Pokémon</h1>
+  <head>
+  	<title>Nearby Pokémon</title>
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/appicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/appicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/appicons/favicon-16x16.png">
+    <link rel="manifest" href="/static/images/appicons/site.webmanifest">
+    <link rel="mask-icon" href="/static/images/appicons/safari-pinned-tab.svg" color="black">
+    <link rel="shortcut icon" href="/static/images/appicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/static/images/appicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
+  </head>
 
-	<ol>
-{% for pokemon in pokemon_list[:20] %}
-{% set img = 'icons/' ~ pokemon.id ~ '.png' -%}
-		<li style="list-style-type: none; background-image: url('{{ url_for('static', filename=img).lstrip('/') }}');"
-				href='https://maps.google.com/?q={{pokemon.latitude}},{{pokemon.longitude}}&amp;ll={{pokemon.latitude}},{{pokemon.longitude}}'>
-				<p>
-						<span class="name">{{pokemon.name}}</span><span class="dir"> - {{pokemon.distance}}m ({{pokemon.card_dir}})</span>
-						<br>
-						<span class="remain" disappear="{{pokemon.disappear_sec}}">{{pokemon.time_to_disappear}}</span>
-				</p>
-		</li>
-{% endfor %}
-	</ol>
+  <body class="mobilePage">
+  	<h1>Nearby Pokémon</h1>
+  	<ol>
+    {% for pokemon in pokemon_list[:20] %}
+    {% set img = 'icons/' ~ pokemon.id ~ '.png' -%}
+  		<li style="list-style-type: none; background-image: url('{{ url_for('static', filename=img).lstrip('/') }}');"
+  		  href='https://maps.google.com/?q={{pokemon.latitude}},{{pokemon.longitude}}&amp;ll={{pokemon.latitude}},{{pokemon.longitude}}'>
+  			<p>
+  			  <span class="name">{{pokemon.name}}</span><span class="dir"> - {{pokemon.distance}}m ({{pokemon.card_dir}})</span>
+  				<br>
+  				<span class="remain" disappear="{{pokemon.disappear_sec}}">{{pokemon.time_to_disappear}}</span>
+  			</p>
+  		</li>
+    {% endfor %}
+  	</ol>
+  	<div id="nav">
+  		<button>Refresh</button>
+  		<div>
+  			<label><input type="checkbox" id="use-loc">Use device location</label>
+  		</div>
+  	</div>
 
-	<div id="nav">
-		<button>Refresh</button>
-		<div>
-			<label><input type="checkbox" id="use-loc">Use device location</label>
-		</div>
-	</div>
-
-	<!-- Load JS libs before custom scripts. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>var pageLoaded = new Date().getTime();</script>
-    <!-- Load custom JS before mobile.js so it can change Store defaults. -->
-      {% if show.custom_js %}
-    <script src="{{ url_for('static', filename='dist/js/custom.min.js').lstrip('/') }}"></script>
-      {% endif %}
-	<script src="{{ url_for('static', filename='dist/js/mobile.min.js').lstrip('/') }}"></script>
-</body>
+    <script src="{{ url_for('static', filename='dist/js/mobile.min.js').lstrip('/') }}"></script>
+  </body>
 </html>

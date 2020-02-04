@@ -17,7 +17,6 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'static/dist/css/app.built.css': 'static/sass/main.scss',
-                    'static/dist/css/mobile.built.css': 'static/sass/mobile.scss',
                     'static/dist/css/statistics.built.css': 'static/sass/statistics.scss',
                     'static/dist/css/quests.built.css': 'static/sass/quests.scss'
                 }
@@ -40,6 +39,12 @@ module.exports = function (grunt) {
                 dest: 'static/dist/js/map.concat.js'
             },
             dist2: {
+                src: [
+                    'static/js/utils/utils.store.js', 'static/js/custom.js', 'static/js/mobile.js'
+                ],
+                dest: 'static/dist/js/mobile.concat.js'
+            },
+            dist3: {
                 src: ['static/dist/css/app.built.css', 'static/css/custom.css'],
                 dest: 'static/dist/css/app.concat.css'
             }
@@ -53,9 +58,9 @@ module.exports = function (grunt) {
                 files: {
                     'static/dist/js/app.built.js': 'static/js/app.js',
                     'static/dist/js/map.built.js': 'static/dist/js/map.concat.js',
+                    'static/dist/js/mobile.built.js': 'static/dist/js/mobile.concat.js',
                     'static/dist/js/map.common.built.js': 'static/js/map.common.js',
                     'static/dist/js/utils.built.js': 'static/js/utils.js',
-                    'static/dist/js/mobile.built.js': 'static/js/mobile.js',
                     'static/dist/js/stats.built.js': 'static/js/stats.js',
                     'static/dist/js/statistics.built.js': 'static/js/statistics.js',
                     'static/dist/js/quests.built.js': 'static/js/quests.js',
@@ -77,9 +82,9 @@ module.exports = function (grunt) {
                 files: {
                     'static/dist/js/app.min.js': 'static/dist/js/app.built.js',
                     'static/dist/js/map.min.js': 'static/dist/js/map.built.js',
+                    'static/dist/js/mobile.min.js': 'static/dist/js/mobile.built.js',
                     'static/dist/js/map.common.min.js': 'static/dist/js/map.common.built.js',
                     'static/dist/js/utils.min.js': 'static/dist/js/utils.built.js',
-                    'static/dist/js/mobile.min.js': 'static/dist/js/mobile.built.js',
                     'static/dist/js/stats.min.js': 'static/dist/js/stats.built.js',
                     'static/dist/js/statistics.min.js': 'static/dist/js/statistics.built.js',
                     'static/dist/js/quests.min.js': 'static/dist/js/quests.built.js',
@@ -138,7 +143,6 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     'static/dist/css/app.min.css': 'static/dist/css/app.concat.css',
-                    'static/dist/css/mobile.min.css': 'static/dist/css/mobile.built.css',
                     'static/dist/css/statistics.min.css': 'static/dist/css/statistics.built.css',
                     'static/dist/css/quests.min.css': 'static/dist/css/quests.built.css'
                 }
@@ -161,8 +165,8 @@ module.exports = function (grunt) {
 
     })
 
-    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:babel', 'newer:uglify'])
-    grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist2', 'newer:cssmin'])
+    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:babel', 'newer:uglify'])
+    grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist3', 'newer:cssmin'])
     grunt.registerTask('js-lint', ['newer:eslint'])
     grunt.registerTask('json', ['newer:minjson'])
 

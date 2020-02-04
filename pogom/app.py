@@ -511,7 +511,7 @@ class Pogom(Flask):
                          if abs(diff_lng) > 1e-4 else '')
             entry = {
                 'id': pokemon['pokemon_id'],
-                'name': pokemon['pokemon_name'],
+                'name': get_pokemon_name(pokemon['pokemon_id']),
                 'card_dir': direction,
                 'distance': int(origin_point.get_distance(
                     pokemon_point).radians * 6366468.241830914),
