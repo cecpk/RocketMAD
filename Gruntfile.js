@@ -39,9 +39,7 @@ module.exports = function (grunt) {
                 dest: 'static/dist/js/map.concat.js'
             },
             dist2: {
-                src: [
-                    'static/js/utils/utils.store.js', 'static/js/custom.js', 'static/js/mobile.js'
-                ],
+                src: ['static/js/utils/utils.store.js', 'static/js/custom.js', 'static/js/mobile.js'],
                 dest: 'static/dist/js/mobile.concat.js'
             },
             dist3: {
@@ -56,17 +54,11 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    'static/dist/js/app.built.js': 'static/js/app.js',
                     'static/dist/js/map.built.js': 'static/dist/js/map.concat.js',
                     'static/dist/js/mobile.built.js': 'static/dist/js/mobile.concat.js',
-                    'static/dist/js/map.common.built.js': 'static/js/map.common.js',
-                    'static/dist/js/utils.built.js': 'static/js/utils.js',
-                    'static/dist/js/stats.built.js': 'static/js/stats.js',
                     'static/dist/js/statistics.built.js': 'static/js/statistics.js',
                     'static/dist/js/quests.built.js': 'static/js/quests.js',
-                    'static/dist/js/custom.built.js': 'static/js/custom.js',
-                    'static/dist/js/serviceWorker.built.js': 'static/js/serviceWorker.js',
-                    'static/dist/js/weather.built.js': 'static/js/weather.js'
+                    'static/dist/js/serviceWorker.built.js': 'static/js/serviceWorker.js'
                }
             }
         },
@@ -80,17 +72,11 @@ module.exports = function (grunt) {
             },
             build: {
                 files: {
-                    'static/dist/js/app.min.js': 'static/dist/js/app.built.js',
                     'static/dist/js/map.min.js': 'static/dist/js/map.built.js',
                     'static/dist/js/mobile.min.js': 'static/dist/js/mobile.built.js',
-                    'static/dist/js/map.common.min.js': 'static/dist/js/map.common.built.js',
-                    'static/dist/js/utils.min.js': 'static/dist/js/utils.built.js',
-                    'static/dist/js/stats.min.js': 'static/dist/js/stats.built.js',
                     'static/dist/js/statistics.min.js': 'static/dist/js/statistics.built.js',
                     'static/dist/js/quests.min.js': 'static/dist/js/quests.built.js',
-                    'static/dist/js/custom.min.js': 'static/dist/js/custom.built.js',
-                    'static/dist/js/serviceWorker.min.js': 'static/dist/js/serviceWorker.built.js',
-                    'static/dist/js/weather.min.js': 'static/dist/js/weather.built.js'
+                    'static/dist/js/serviceWorker.min.js': 'static/dist/js/serviceWorker.built.js'
                 }
             }
         },
