@@ -445,6 +445,10 @@ var StoreOptions = {
         default: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches,
         type: StoreTypes.Boolean
     },
+    'pokemonHistoryDuration': {
+        default: 24,
+        type: StoreTypes.Number
+    },
     'geoLocate': {
         default: false,
         type: StoreTypes.Boolean

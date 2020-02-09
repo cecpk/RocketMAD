@@ -17,7 +17,6 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'static/dist/css/app.built.css': 'static/sass/main.scss',
-                    'static/dist/css/statistics.built.css': 'static/sass/statistics.scss',
                     'static/dist/css/quests.built.css': 'static/sass/quests.scss'
                 }
             }
@@ -29,9 +28,9 @@ module.exports = function (grunt) {
             dist1: {
                 src: [
                     'static/js/utils/utils.gym.js', 'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.item.js',
-                    'static/js/utils/utils.long.js', 'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.pokestop.js',
-                    'static/js/utils/utils.s2geometry.js', 'static/js/utils/utils.store.js', 'static/js/utils/utils.js',
-                    'static/js/map/map.gym.js', 'static/js/map/map.park.js', 'static/js/map/map.pokemon.js',
+                    'static/js/utils/utils.leaflet.js', 'static/js/utils/utils.long.js', 'static/js/utils/utils.pokemon.js',
+                    'static/js/utils/utils.pokestop.js', 'static/js/utils/utils.s2geometry.js', 'static/js/utils/utils.store.js',
+                    'static/js/utils/utils.js', 'static/js/map/map.gym.js', 'static/js/map/map.park.js', 'static/js/map/map.pokemon.js',
                     'static/js/map/map.pokestop.js', 'static/js/map/map.s2.js', 'static/js/map/map.scannedloc.js',
                     'static/js/map/map.spawnpoint.js', 'static/js/map/map.stats.js', 'static/js/map/map.weather.js',
                     'static/js/custom.js', 'static/js/map/map.js'
@@ -39,10 +38,18 @@ module.exports = function (grunt) {
                 dest: 'static/dist/js/map.concat.js'
             },
             dist2: {
+                src: [
+                    'static/js/utils/utils.store.js', 'static/js/utils/utils.js', 'static/js/utils/utils.i8ln.js',
+                    'static/js/utils/utils.leaflet.js', 'static/js/utils/utils.pokemon.js', 'static/js/custom.js',
+                    'static/js/pokemon-history.js'
+                ],
+                dest: 'static/dist/js/pokemon-history.concat.js'
+            },
+            dist3: {
                 src: ['static/js/utils/utils.store.js', 'static/js/custom.js', 'static/js/mobile.js'],
                 dest: 'static/dist/js/mobile.concat.js'
             },
-            dist3: {
+            dist4: {
                 src: ['static/dist/css/app.built.css', 'static/css/custom.css'],
                 dest: 'static/dist/css/app.concat.css'
             }
@@ -55,8 +62,8 @@ module.exports = function (grunt) {
             dist: {
                 files: {
                     'static/dist/js/map.built.js': 'static/dist/js/map.concat.js',
+                    'static/dist/js/pokemon-history.built.js': 'static/dist/js/pokemon-history.concat.js',
                     'static/dist/js/mobile.built.js': 'static/dist/js/mobile.concat.js',
-                    'static/dist/js/statistics.built.js': 'static/js/statistics.js',
                     'static/dist/js/quests.built.js': 'static/js/quests.js',
                     'static/dist/js/serviceWorker.built.js': 'static/js/serviceWorker.js'
                }
@@ -73,8 +80,8 @@ module.exports = function (grunt) {
             build: {
                 files: {
                     'static/dist/js/map.min.js': 'static/dist/js/map.built.js',
+                    'static/dist/js/pokemon-history.min.js': 'static/dist/js/pokemon-history.built.js',
                     'static/dist/js/mobile.min.js': 'static/dist/js/mobile.built.js',
-                    'static/dist/js/statistics.min.js': 'static/dist/js/statistics.built.js',
                     'static/dist/js/quests.min.js': 'static/dist/js/quests.built.js',
                     'static/dist/js/serviceWorker.min.js': 'static/dist/js/serviceWorker.built.js'
                 }
@@ -151,8 +158,8 @@ module.exports = function (grunt) {
 
     })
 
-    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:babel', 'newer:uglify'])
-    grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist3', 'newer:cssmin'])
+    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:concat:dist3', 'newer:babel', 'newer:uglify'])
+    grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist4', 'newer:cssmin'])
     grunt.registerTask('js-lint', ['newer:eslint'])
     grunt.registerTask('json', ['newer:minjson'])
 

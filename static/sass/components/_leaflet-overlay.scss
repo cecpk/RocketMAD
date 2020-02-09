@@ -1,0 +1,29 @@
+.leaflet-overlay {
+  z-index: 1002;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+
+  .leaflet-overlay-content {
+    background-color: white;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    @media screen and (min-width: 601px) {
+      margin: 1.5em;
+      padding: 0.7em;
+      border-radius: 10px;
+      -moz-border-radius: 10px;
+    }
+  }
+}
+
+.dark .leaflet-overlay .leaflet-overlay-content {
+  background-color: $overlay-color-dark-2;
+}

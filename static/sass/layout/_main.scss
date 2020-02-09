@@ -1,3 +1,8 @@
+body.dark {
+  background-color: $background-color-dark;
+  color: $text-color-dark;
+}
+
 .map-body .sidenav-overlay {
   z-index: 1000;
 
@@ -6,10 +11,10 @@
   }
 }
 
-#main-container {
+.map-container {
   position: absolute;
-  height: calc(100% - 56px);
   width: 100%;
+  height: calc(100% - 56px);
 
   @media screen and (max-width: 600px) {
     height: calc(100% - 48px);

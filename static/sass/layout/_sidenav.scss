@@ -19,10 +19,6 @@
       border-bottom: 0 !important;
   }
 
-  .collapsible-body {
-    line-height: 1.5 !important;
-  }
-
   .settings-container {
     padding: 16px 24px !important;
     border-bottom: 1px solid #ddd !important;
@@ -30,6 +26,7 @@
 
   .form-control {
     padding: 8px 0;
+    line-height: 1.5;
   }
 
   .lever {
@@ -84,7 +81,7 @@
 
 .dark .sidenav {
   color: $text-color-dark !important;
-  background-color: $background-color-dark !important;
+  background-color: $overlay-color-dark-1 !important;
   border: 0;
 
   .collapsible-header, .settings-container {
@@ -96,7 +93,7 @@
   }
 
   .collapsible-body {
-    background-color: $background-color-dark !important;
+    background-color: $overlay-color-dark-1 !important;
   }
 
   .btn-flat {
@@ -115,21 +112,9 @@
     text-align: center;
   }
 
-  table.dataTable {
-    width: 100% !important;
-  }
-
   .dataTables_wrapper {
     margin-bottom: 24px;
   }
-
-  #gym-stats-tab .dataTables_scrollHead {
-    border-top: 1px solid #111 !important;
-  }
-}
-
-.dark #stats-sidenav #gym-stats-tab .dataTables_scrollHead {
-  border-top: 1px solid #ddd !important;
 }
 
 #gym-sidebar {

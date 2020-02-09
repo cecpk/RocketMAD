@@ -32,7 +32,7 @@
         <nav>
           <div class="nav-wrapper">
             <ul>
-              <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
+              <li><a href="javascript:void(0);" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
                 <a href="./" class="brand-logo">
                   {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
@@ -40,7 +40,10 @@
               </li>
             </ul>
             <ul class="right">
+              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or pokemon_history_page or quest_page %}
+              {% if use_dropdown %}
               <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>
+              {% endif %}
               {% if discord_url %}
               <li><a href="{{ discord_url }}" class="hide-on-small-only" title="Discord" target="_blank"><i class="fab fa-discord material-icons"></i></a></li>
               {% endif %}
@@ -63,9 +66,14 @@
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">info</i></a></li>
               {% endif %}
               <li><a data-target="weather-modal" id="weather-button" class="modal-trigger" title="Weather" style="display:none;"><i class="material-icons"></i></a></li>
-              <li><a href="stats" class="hide-on-small-only" title="{{ i18n('Statistics') }}"><i class="material-icons">pie_chart</i></a></li>
+              {% if pokemon_history_page %}
+              <li><a href="pokemon-history" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
+              {% endif %}
+              {% if quest_page %}
+              <li><a href="quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
+              {% endif %}
               {% if settings.statsSidebar %}
-              <li><a href="#" data-target="stats-sidenav" class="sidenav-trigger" title="{{ i18n('Live stats') }}"><i class="material-icons">equalizer</i></a></li>
+              <li><a href="javascript:void(0);" data-target="stats-sidenav" class="sidenav-trigger" title="{{ i18n('Live stats') }}"><i class="material-icons">equalizer</i></a></li>
               {% endif %}
             </ul>
           </div>
@@ -73,8 +81,14 @@
       </div>
     </header>
 
+    {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
-      <li><a href="stats"><i class="material-icons">pie_chart</i>{{ i18n('Statistics') }}</a></li>
+      {% if pokemon_history_page %}
+      <li><a href="pokemon-history"><i class="material-icons">pets</i>Pokémon history</a></li>
+      {% endif %}
+      {% if quest_page %}
+      <li><a href="quests"><i class="material-icons">explore</i>Quests</a></li>
+      {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
       {% endif %}
@@ -103,6 +117,7 @@
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
       {% endif %}
     </ul>
+    {% endif %}
 
     <div id="image-modal" class="modal">
       <div class="modal-content">
@@ -1509,7 +1524,7 @@
       </ul>
       {% if settings.pokemons %}
       <div id="pokemon-stats-tab">
-        <table id="pokemon-table" class="order-column row-border hover">
+        <table id="pokemon-table" class="order-column row-border hover" style="width:100%;">
           <thead>
             <tr>
               <th></th>
@@ -1528,7 +1543,7 @@
       <div id="gym-stats-tab">
         {% if settings.gyms %}
         <h6 id="gym-table-title">Gyms</h6>
-        <table id="gym-table" class="order-column row-border hover">
+        <table id="gym-table" class="order-column row-border top-border hover" style="width:100%;">
           <thead>
             <tr>
               <th></th>
@@ -1543,7 +1558,7 @@
         {% endif %}
         {% if settings.raids %}
         <h6 id="egg-table-title">Eggs</h6>
-        <table id="egg-table" class="order-column row-border hover">
+        <table id="egg-table" class="order-column row-border top-border hover" style="width:100%;">
           <thead>
             <tr>
               <th></th>
@@ -1556,7 +1571,7 @@
           </tbody>
         </table>
         <h6 id="raid-pokemon-table-title">Raid Bosses</h6>
-        <table id="raid-pokemon-table" class="order-column row-border hover">
+        <table id="raid-pokemon-table" class="order-column row-border top-border hover" style="width:100%;">
           <thead>
             <tr>
               <th></th>
@@ -1575,7 +1590,7 @@
       {% endif %}
       {% if settings.pokestops %}
       <div id="pokestop-stats-tab">
-        <table id="pokestop-table" class="order-column row-border hover">
+        <table id="pokestop-table" class="order-column row-border hover" style="width:100%;">
           <thead>
             <tr>
               <th></th>
@@ -1686,8 +1701,8 @@
     </ul>
     {% endif %}
 
-    <div id="main-container">
-      <div id="map"></div>
+    <div class="map-container">
+      <div id="map" class="leaflet-map"></div>
     </div>
 
     <script>

@@ -157,18 +157,6 @@ var lastweather
 var map
 var markers
 var markersNoCluster
-var currentTileLayerName = 'mapnik'
-
-/* eslint-disable no-unused-vars */
-var mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
-var wikimedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {maxZoom: 19, attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'})
-var topomap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {maxZoom: 17, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'})
-var cartodbdarkmatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var cartodbdarkmatternolabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var cartodbpositron = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var cartodbpositronnolabels = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/light_nolabels/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'})
-var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom: 20, attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'})
-/* eslint-enable no-unused-vars */
 
 var nestParksLayerGroup
 var exParksLayerGroup
@@ -274,7 +262,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         preferCanvas: true
     })
 
-    setTileLayer(Store.get('mapStyle'))
+    setTileLayer(Store.get('mapStyle'), map)
 
     L.control.zoom({
         position: 'bottomright'
@@ -372,19 +360,6 @@ function initMap() { // eslint-disable-line no-unused-vars
     }
 }
 
-function setTileLayer(layerName) {
-    // Fallback in case layername does not exist (anymore).
-    if (!window.hasOwnProperty(layerName)) {
-        layerName = 'mapnik'
-    }
-
-    if (map.hasLayer(window[currentTileLayerName])) {
-        map.removeLayer(window[currentTileLayerName])
-    }
-    map.addLayer(window[layerName])
-    currentTileLayerName = layerName
-}
-
 function createStartLocationMarker() {
     const pos = Store.get('startLocationPosition')
     const useStoredPosition = 'lat' in pos && 'lng' in pos
@@ -469,10 +444,12 @@ function updateUserLocationMarker(style) {
 
 function enableDarkMode() {
     $('body').addClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#212121')
 }
 
 function disableDarkMode() {
     $('body').removeClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#ffffff')
 }
 
 function initSettings() {
@@ -1733,7 +1710,7 @@ function initSidebar() {
     })
 
     $('#map-style-select').on('change', function () {
-        setTileLayer(this.value)
+        setTileLayer(this.value, map)
         Store.set('mapStyle', this.value)
     })
 
@@ -2004,11 +1981,6 @@ function initSidebar() {
     $('#map-style-select').val(Store.get('mapStyle'))
     $('#map-service-provider-select').val(settings.mapServiceProvider)
     $('#dark-mode-switch').prop('checked', settings.darkMode)
-
-    // Stats sidebar.
-    $('#pokemon-stats-container').toggle(settings.showPokemon)
-    $('#gym-stats-container').toggle(settings.showGyms)
-    $('#pokestop-stats-container').toggle(settings.showPokestops)
 
     $.getJSON('static/dist/data/markerstyles.min.json')
     .done(function (data) {
@@ -3402,21 +3374,14 @@ function sendToastNotification(title, text, iconUrl, lat, lng) {
 function createUserLocationButton() {
     var locationMarker = L.control({position: 'bottomright'})
     locationMarker.onAdd = function (map) {
-        var locationContainer = L.DomUtil.create('div', 'leaflet-control-locate leaflet-bar')
+        var locationContainer = L.DomUtil.create('div', 'leaflet-control-locate leaflet-control-custom leaflet-bar')
 
         var locationButton = document.createElement('a')
         locationButton.innerHTML = '<i class="material-icons">my_location</i>'
         locationButton.title = 'My location'
-        locationButton.href = '#'
+        locationButton.href = 'javascript:void(0);'
         locationContainer.appendChild(locationButton)
-
-        var locationIcon = locationButton.firstChild
-        locationIcon.style.fontSize = '20px'
-        locationIcon.style.marginTop = '3px'
-
-        locationButton.addEventListener('click', function () {
-            centerMapOnUserLocation()
-        })
+        locationButton.addEventListener('click', centerMapOnUserLocation)
 
         return locationContainer
     }

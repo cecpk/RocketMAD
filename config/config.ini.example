@@ -38,6 +38,7 @@
 
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
+#no-pokemon-history-page        # Disables pokemon history page. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
@@ -52,6 +53,7 @@
 
 #no-pokestops                   # Disables pokestops. (default=False)
 #no-quests                      # Disables quests. (default=False)
+#no-quest-page                  # Disables quest page. (default=False)
 #no-invasions                   # Disables team rocket invasions. (default=False)
 #no-lures                       # Disables lures. (default=False)
 

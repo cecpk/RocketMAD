@@ -109,6 +109,9 @@ def get_args():
     parser.add_argument('-npv', '--no-pokemon-values',
                         help='Disables pokemon values.',
                         action='store_true', default=False)
+    parser.add_argument('-nphp', '--no-pokemon-history-page',
+                        help='Disables pokemon history page.',
+                        action='store_true', default=False)
     parser.add_argument('-ng', '--no-gyms',
                         help=('Disables Gyms.'),
                         action='store_true', default=False)
@@ -129,6 +132,9 @@ def get_args():
                         action='store_true', default=False)
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables Quests.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nqp', '--no-quest-page',
+                        help='Disables quest page.',
                         action='store_true', default=False)
     parser.add_argument('-ni', '--no-invasions',
                         help=('Disables Team Rocket Invasions.'),

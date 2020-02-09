@@ -8,6 +8,7 @@
 @import 'layout/pokestop';
 @import 'layout/weather';
 @import 'layout/mobile';
+@import 'layout/pokemon-history';
 @import 'components/tabs';
 @import 'components/modal';
 @import 'components/dropdown';
@@ -16,3 +17,5 @@
 @import 'components/switch';
 @import 'components/table';
 @import 'components/text-input';
+@import 'components/preloader';
+@import 'components/leaflet-overlay';

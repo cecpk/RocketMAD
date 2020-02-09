@@ -7,7 +7,6 @@ import logging
 import sys
 import time
 
-from cachetools import cached
 from cachetools import TTLCache
 from datetime import datetime, timedelta
 from functools import reduce
@@ -248,7 +247,6 @@ class Pokemon(LatLongModel):
         return {'pokemon': query, 'total': total}
 
     @staticmethod
-    @cached(cache)
     def get_seen(timediff):
         if timediff:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
@@ -266,21 +264,19 @@ class Pokemon(LatLongModel):
                  .group_by((Pokemon.pokemon_id + 0), Pokemon.form)
                  .dicts())
 
-        # Performance:  disable the garbage collector prior to creating a
+        # Performance: disable the garbage collector prior to creating a
         # (potentially) large dict with append().
         gc.disable()
 
         pokemon = []
         total = 0
         for p in query:
-            p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
             pokemon.append(p)
             total += p['count']
 
-        # Re-enable the GC.
         gc.enable()
 
-        return {'pokemon': pokemon, 'total': total}
+        return { 'pokemon': pokemon, 'total': total }
 
     @staticmethod
     def get_appearances(pokemon_id, form_id, timediff):

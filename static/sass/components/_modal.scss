@@ -1,5 +1,5 @@
 .dark .modal {
-  background-color: $popup-color-dark;
+  background-color: $overlay-color-dark-2;
   color: $text-color-dark;
 }
 
@@ -113,7 +113,7 @@
 
 .dark .filter-modal {
   h6, .tabs, .filter-footer-container {
-    background-color: $popup-color-dark !important;
+    background-color: $overlay-color-dark-2 !important;
   }
 
   .filter-button {

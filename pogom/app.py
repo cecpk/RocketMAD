@@ -76,8 +76,12 @@ class Pogom(Flask):
         self.route("/auth_callback", methods=['GET'])(self.auth_callback)
         self.route("/raw_data", methods=['GET'])(self.raw_data)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
-        self.route("/stats", methods=['GET'])(self.get_stats)
-        self.route("/quests", methods=['GET'])(self.get_quests)
+        if not args.no_pokemon and not args.no_pokemon_history_page:
+            self.route("/pokemon-history", methods=['GET'])(
+                self.get_pokemon_history)
+        if (not args.no_pokestops and not args.no_quests and
+                not args.no_quest_page):
+            self.route("/quests", methods=['GET'])(self.get_quests)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
         self.route("/submit_token", methods=['POST'])(self.submit_token)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
@@ -241,10 +245,57 @@ class Pogom(Flask):
             messenger_url=args.messenger_url,
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
+            pokemon_history_page=settings['pokemons'] and
+                not args.no_pokemon_history_page,
+            quest_page=settings['quests'] and not args.no_quest_page,
             settings=settings,
             i18n=i8ln
         )
 
+    @cache.cached()
+    def get_pokemon_history(self):
+        settings = {
+            'centerLat': self.location[0],
+            'centerLng': self.location[1],
+            'generateImages': args.generate_images,
+        }
+
+        return render_template(
+            'pokemon-history.html',
+            lang=args.locale,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            quest_page=not args.no_pokestops and not args.no_quests and
+                not args.no_quest_page,
+            settings=settings
+        )
+
+    @cache.cached()
+    def get_quests(self):
+        return render_template(
+            'quests.html',
+            lat=self.location[0],
+            lng=self.location[1],
+            lang=args.locale,
+            mapTitle=args.map_title,
+            headerImage=args.header_image,
+            madminUrl=args.madmin_url,
+            donateUrl=args.donate_url,
+            patreonUrl=args.patreon_url,
+            discordUrl=args.discord_url,
+            messengerUrl=args.messenger_url,
+            telegramUrl=args.telegram_url,
+            whatsappUrl=args.whatsapp_url,
+            generateImages=str(args.generate_images).lower()
+        )
 
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.
@@ -532,45 +583,6 @@ class Pogom(Flask):
             pokemon_list=pokemon_list,
             origin_lat=lat,
             origin_lng=lon,
-        )
-
-    def get_stats(self):
-        return render_template(
-            'statistics.html',
-            lat=self.location[0],
-            lng=self.location[1],
-            lang=args.locale,
-            mapTitle=args.map_title,
-            headerImage=args.header_image,
-            madminUrl=args.madmin_url,
-            donateUrl=args.donate_url,
-            patreonUrl=args.patreon_url,
-            discordUrl=args.discord_url,
-            messengerUrl=args.messenger_url,
-            telegramUrl=args.telegram_url,
-            whatsappUrl=args.whatsapp_url,
-            generateImages=str(args.generate_images).lower()
-        )
-
-    def get_quests(self):
-        if args.no_quests:
-            abort(404)
-
-        return render_template(
-            'quests.html',
-            lat=self.location[0],
-            lng=self.location[1],
-            lang=args.locale,
-            mapTitle=args.map_title,
-            headerImage=args.header_image,
-            madminUrl=args.madmin_url,
-            donateUrl=args.donate_url,
-            patreonUrl=args.patreon_url,
-            discordUrl=args.discord_url,
-            messengerUrl=args.messenger_url,
-            telegramUrl=args.telegram_url,
-            whatsappUrl=args.whatsapp_url,
-            generateImages=str(args.generate_images).lower()
         )
 
     def get_gymdata(self):

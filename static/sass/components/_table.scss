@@ -3,22 +3,34 @@ table.dataTable {
     border-radius: 0;
   }
 
+  &.top-border thead th, &.top-border thead td {
+    border-top: 1px solid #111;
+  }
+
   thead {
     .sorting_desc {
       background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" fill-opacity="0.87" d="M7 10l5 5 5-5z"></path></svg>');
     }
 
-    .sorting_desc {
-      background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" fill-opacity="0.87" d="M7 10l5 5 5-5z"></path></svg>');
+    .sorting_asc {
+      background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" fill-opacity="0.87" d="M7 14l5-5 5 5z"></path></svg>');
     }
 
     .sorting {
       background-image: none;
     }
   }
+
+  tbody tr {
+    background-color: transparent;
+  }
 }
 
 .dark table.dataTable {
+  &.top-border thead th, &.top-border thead td {
+    border-top: 1px solid #ddd;
+  }
+
   thead {
     .sorting_desc {
       background-image: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" fill-opacity="0.87" d="M7 10l5 5 5-5z"></path></svg>');
@@ -33,23 +45,23 @@ table.dataTable {
     }
   }
 
-  tbody tr {
-    background-color: $background-color-dark;
-  }
-
   &.hover tbody, &.display {
     tr:hover {
-      background-color: rgba(255, 255, 255, 0.15);
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 
   &.order-column, &.display {
-    tbody tr>.sorting_1, tbody tr>.sorting_2, tbody tr>.sorting_3 {
+    tbody tr > .sorting_1, tbody tr > .sorting_2, tbody tr > .sorting_3 {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    tbody tr:hover > .sorting_1, &.hover tbody tr:hover > .sorting_1 {
       background-color: rgba(255, 255, 255, 0.2);
     }
   }
-}
 
-.dark .dataTables_wrapper.no-footer .dataTables_scrollBody {
-  border-bottom: 1px solid #ddd;
+  &.no-footer {
+    border-bottom: 1px solid #ddd !important;
+  }
 }
