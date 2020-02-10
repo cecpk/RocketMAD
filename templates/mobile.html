@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title>Nearby Pokémon</title>
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/appicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/appicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/appicons/favicon-16x16.png">
+    <link rel="manifest" href="/static/images/appicons/site.webmanifest">
+    <link rel="mask-icon" href="/static/images/appicons/safari-pinned-tab.svg" color="black">
+    <link rel="shortcut icon" href="/static/images/appicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/static/images/appicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
+  </head>
+
+  <body class="mobile-page">
+    {% if settings.motd %}
+    <div id="motd-modal" class="modal">
+      <div class="modal-content">
+        <h4 id="motd-title"></h4>
+        <span id="motd-content"></span>
+      </div>
+    </div>
+    {% endif %}
+
+    <div id="main-container">
+    	<h4>Nearby Pokémon</h4>
+      <div id="nav">
+        <a class="waves-effect waves-light btn" id="refresh-button"><i class="material-icons left">refresh</i>Refresh</a>
+        <label>
+          <input type="checkbox" id="use-loc"/>
+          <span>Use my location</span>
+        </label>
+      </div>
+    	<ol>
+      {% for pokemon in pokemon_list[:20] %}
+      {% set img = 'pkm_img?raw=1&pkm=' ~ pokemon.id %}
+    		<li style="list-style-type: none; background-image: url('{{ img }}');"
+    		  href='https://maps.google.com/?q={{pokemon.latitude}},{{pokemon.longitude}}&amp;ll={{pokemon.latitude}},{{pokemon.longitude}}'>
+    			<p>
+    			  <span class="name">{{pokemon.name}}</span><span class="dir"> - {{pokemon.distance}}m ({{pokemon.card_dir}})</span>
+    				<br>
+    				<span class="remain" disappear="{{pokemon.disappear_sec}}">{{pokemon.time_to_disappear}}</span>
+    			</p>
+    		</li>
+      {% endfor %}
+    	</ol>
+    </div>
+
+    <script>
+      const serverSettings = {{settings|tojson|safe}};
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>const pageLoaded = new Date().getTime();</script>
+    <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='dist/js/mobile.min.js').lstrip('/') }}"></script>
+  </body>
+</html>

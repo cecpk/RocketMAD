@@ -1,8 +1,16 @@
-.mobilePage {
-  font-family: 'Open Sans', sans-serif;
+.mobile-page {
+  #main-container {
+    padding: 0 8px 8px 8px;
+  }
 
-  h1 {
-    margin: 5px 0 65px 0;
+  #nav {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  #refresh-button {
+    margin-right: 16px;
   }
 
   ol {
@@ -14,15 +22,14 @@
     border: solid 1px #aaa;
     border-radius: 2px;
     box-shadow: 2px 2px 2px #eee;
-    font-family: 'Open Sans', sans-serif;
     text-decoration: none;
     color: #444;
     background-repeat: no-repeat;
-    background-size: 80px 60px;
+    background-size: 64px 64px;
     background-position: 0px 0px;
-    padding-left: 80px;
+    padding-left: 72px;
     margin: 5px 2px;
-    height: 60px;
+    height: 64px;
     image-rendering: pixelated;
     cursor: pointer;
 
@@ -36,41 +43,6 @@
     position: relative;
     top: 20px;
     padding-bottom: 10px;
-  }
-
-  #nav {
-    position: absolute;
-    top: 55px;
-    left: 10px;
-
-    button {
-      float: left;
-      padding: .7em 1em;
-      border: solid 1px #ddd;
-      background: white;
-      font-size: 17px;
-      border-radius: 3px;
-      color: #333;
-      cursor: pointer;
-      width: 140px;
-    }
-
-    > div {
-      display: inline-block;
-      float: left;
-      text-align: middle;
-    }
-
-    label {
-      display: block;
-      cursor: pointer;
-      padding: 2px 0;
-
-      input {
-        margin-top: 15px;
-        margin-left: 10px;
-      }
-    }
   }
 
   .name {

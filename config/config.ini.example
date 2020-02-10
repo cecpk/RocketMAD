@@ -66,6 +66,11 @@
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
 #twelve-hour-clock              # Display time with the 12-hour clock format.
 
+#motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
+#motd-title:                    # MOTD title, can be HTML. (default='MOTD')
+#motd-text:                     # MOTD text, can be HTML. (default='Hi there! This is an easily customizable MOTD.')
+#motd-pages:                    # Pages the MOTD should be shown on. (default='/,/mobile')
+#show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)
 
 # Database settings
 ###################

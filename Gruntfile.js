@@ -28,25 +28,29 @@ module.exports = function (grunt) {
             dist1: {
                 src: [
                     'static/js/utils/utils.gym.js', 'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.item.js',
-                    'static/js/utils/utils.leaflet.js', 'static/js/utils/utils.long.js', 'static/js/utils/utils.pokemon.js',
-                    'static/js/utils/utils.pokestop.js', 'static/js/utils/utils.s2geometry.js', 'static/js/utils/utils.store.js',
-                    'static/js/utils/utils.js', 'static/js/map/map.gym.js', 'static/js/map/map.park.js', 'static/js/map/map.pokemon.js',
-                    'static/js/map/map.pokestop.js', 'static/js/map/map.s2.js', 'static/js/map/map.scannedloc.js',
-                    'static/js/map/map.spawnpoint.js', 'static/js/map/map.stats.js', 'static/js/map/map.weather.js',
-                    'static/js/custom.js', 'static/js/map/map.js'
+                    'static/js/utils/utils.leaflet.js', 'static/js/utils/utils.long.js', 'static/js/utils/utils.motd.js',
+                    'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.pokestop.js', 'static/js/utils/utils.s2geometry.js',
+                    'static/js/utils/utils.store.js', 'static/js/utils/utils.js', 'static/js/map/map.gym.js',
+                    'static/js/map/map.park.js', 'static/js/map/map.pokemon.js', 'static/js/map/map.pokestop.js',
+                    'static/js/map/map.s2.js', 'static/js/map/map.scannedloc.js', 'static/js/map/map.spawnpoint.js',
+                    'static/js/map/map.stats.js', 'static/js/map/map.weather.js', 'static/js/custom.js',
+                    'static/js/map/map.js'
                 ],
                 dest: 'static/dist/js/map.concat.js'
             },
             dist2: {
                 src: [
                     'static/js/utils/utils.store.js', 'static/js/utils/utils.js', 'static/js/utils/utils.i8ln.js',
-                    'static/js/utils/utils.leaflet.js', 'static/js/utils/utils.pokemon.js', 'static/js/custom.js',
-                    'static/js/pokemon-history.js'
+                    'static/js/utils/utils.leaflet.js', 'static/js/utils/utils.motd.js', 'static/js/utils/utils.pokemon.js',
+                    'static/js/custom.js', 'static/js/pokemon-history.js'
                 ],
                 dest: 'static/dist/js/pokemon-history.concat.js'
             },
             dist3: {
-                src: ['static/js/utils/utils.store.js', 'static/js/custom.js', 'static/js/mobile.js'],
+                src: [
+                    'static/js/utils/utils.motd.js', 'static/js/utils/utils.store.js', 'static/js/custom.js',
+                    'static/js/mobile.js'
+                ],
                 dest: 'static/dist/js/mobile.concat.js'
             },
             dist4: {

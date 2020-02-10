@@ -324,6 +324,7 @@ function appearanceTab(item) {
 
 function showMapOverlay(pokemonId, formId) {
     // Only initialize map once, and only if requested.
+    $('body').css('overflow', 'hidden')
     $('#map-overlay').show()
     if (!mapLoaded) {
         initMap()
@@ -334,7 +335,8 @@ function showMapOverlay(pokemonId, formId) {
     location.hash = 'overlay_' + pokemonId + '_' + formId
 }
 
-function hideMapOverlay() { // eslint-disable-line no-unused-vars
+function hideMapOverlay() {
+    $('body').css('overflow', '')
     $('#map-overlay').hide()
     closeTimes()
     resetMap()
@@ -357,6 +359,8 @@ $(function () {
     if (Store.get('darkMode')) {
         enableDarkMode()
     }
+
+    showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
 
     if (location.href.match(/overlay_[0-9]+_[0-9]+/g)) {
         const pokemonId = location.href.replace(/^.*overlay_([0-9]+)_([0-9]+).*$/, '$1')

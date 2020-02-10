@@ -15,7 +15,6 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/extras/noUiSlider/nouislider.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.min.css">
@@ -104,6 +103,15 @@
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
       {% endif %}
     </ul>
+    {% endif %}
+
+    {% if settings.motd %}
+    <div id="motd-modal" class="modal">
+      <div class="modal-content">
+        <h4 id="motd-title"></h4>
+        <span id="motd-content"></span>
+      </div>
+    </div>
     {% endif %}
 
     <ul id="settings-sidenav" class="sidenav">
@@ -207,11 +215,9 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/extras/noUiSlider/nouislider.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.18.6/dist/sweetalert2.all.min.js"></script>
 
     <script src="{{ url_for('static', filename='dist/js/pokemon-history.min.js') }}"></script>
   </body>

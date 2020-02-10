@@ -166,6 +166,24 @@ def get_args():
     parser.add_argument('-thc', '--twelve-hour-clock',
                         help=('Display time with the 12-hour clock format.'),
                         action='store_true', default=False)
+    parser.add_argument('-MO', '--motd',
+                        action='store_true', default=False,
+                        help='Shows a MOTD (Message of the Day) on visit.')
+    parser.add_argument('-MOt', '--motd-title',
+                         default='MOTD',
+                         help='MOTD title, can be HTML.')
+    parser.add_argument('-MOtxt', '--motd-text',
+                         default=('Hi there! This is an easily customizable ' +
+                                  'MOTD.'),
+                        help='MOTD text, can be HTML.')
+    parser.add_argument('-MOp', '--motd-pages',
+                        default='/,/mobile',
+                        help='Pages the MOTD should be shown on.')
+    parser.add_argument('-MOa', '--show-motd-always',
+                        action='store_true', default=False,
+                        help=('Show MOTD on every visit. If disabled, the ' +
+                              'MOTD will only be shown when its title or ' +
+                              'text has changed.'))
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)

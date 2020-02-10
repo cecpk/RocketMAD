@@ -4,7 +4,7 @@ useLoc.onchange = function () {
     localStorage.useLoc = useLoc.checked
 }
 
-var navBtn = document.querySelector('#nav button')
+var navBtn = document.getElementById('refresh-button')
 navBtn.onclick = function () {
     if (localStorage.useLoc !== 'true') {
         navBtn.disabled = true
@@ -56,4 +56,8 @@ document.querySelectorAll('li').forEach(function (listItem) {
     listItem.onclick = function () {
         window.document.location = this.getAttribute('href')
     }
+})
+
+$(function () {
+    showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
 })

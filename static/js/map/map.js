@@ -3706,6 +3706,8 @@ $(function () {
 
     $('.modal').modal()
 
+    showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+
     $('#weather-modal').modal({
         onOpenStart: setupWeatherModal
     })

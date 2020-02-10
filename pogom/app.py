@@ -204,6 +204,11 @@ class Pogom(Flask):
             'generateImages': args.generate_images,
             'statsSidebar': not args.no_stats_sidebar,
             'twelveHourClock': args.twelve_hour_clock,
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages.split(','),
+            'showMotdAlways': args.show_motd_always,
             'pokemons': not args.no_pokemon,
             'pokemonValues': not args.no_pokemon and
                 not args.no_pokemon_values,
@@ -258,6 +263,11 @@ class Pogom(Flask):
             'centerLat': self.location[0],
             'centerLng': self.location[1],
             'generateImages': args.generate_images,
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages.split(','),
+            'showMotdAlways': args.show_motd_always
         }
 
         return render_template(
@@ -295,6 +305,61 @@ class Pogom(Flask):
             telegramUrl=args.telegram_url,
             whatsappUrl=args.whatsapp_url,
             generateImages=str(args.generate_images).lower()
+        )
+
+    def list_pokemon(self):
+        # todo: Check if client is Android/iOS/Desktop for geolink, currently
+        # only supports Android.
+        pokemon_list = []
+
+        settings = {
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages.split(','),
+            'showMotdAlways': args.show_motd_always
+        }
+
+        # Allow client to specify location.
+        lat = request.args.get('lat', self.location[0], type=float)
+        lon = request.args.get('lon', self.location[1], type=float)
+        origin_point = LatLng.from_degrees(lat, lon)
+
+        for pokemon in convert_pokemon_list(
+                Pokemon.get_active(None, None, None, None)):
+            pokemon_point = LatLng.from_degrees(pokemon['latitude'],
+                                                pokemon['longitude'])
+            diff = pokemon_point - origin_point
+            diff_lat = diff.lat().degrees
+            diff_lng = diff.lng().degrees
+            direction = (('N' if diff_lat >= 0 else 'S')
+                         if abs(diff_lat) > 1e-4 else '') +\
+                        (('E' if diff_lng >= 0 else 'W')
+                         if abs(diff_lng) > 1e-4 else '')
+            entry = {
+                'id': pokemon['pokemon_id'],
+                'name': get_pokemon_name(pokemon['pokemon_id']),
+                'card_dir': direction,
+                'distance': int(origin_point.get_distance(
+                    pokemon_point).radians * 6366468.241830914),
+                'time_to_disappear': '%d min %d sec' % (divmod(
+                    (pokemon['disappear_time'] - datetime.utcnow()).seconds,
+                    60)),
+                'disappear_time': pokemon['disappear_time'],
+                'disappear_sec': (
+                    pokemon['disappear_time'] - datetime.utcnow()).seconds,
+                'latitude': pokemon['latitude'],
+                'longitude': pokemon['longitude']
+            }
+            pokemon_list.append((entry, entry['distance']))
+        pokemon_list = [y[0] for y in sorted(pokemon_list, key=lambda x: x[1])]
+
+        return render_template(
+            'mobile.html',
+            pokemon_list=pokemon_list,
+            origin_lat=lat,
+            origin_lng=lon,
+            settings=settings
         )
 
     def raw_data(self):
@@ -538,52 +603,6 @@ class Pogom(Flask):
         #    d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
 
         return jsonify(d)
-
-    def list_pokemon(self):
-        # todo: Check if client is Android/iOS/Desktop for geolink, currently
-        # only supports Android.
-        pokemon_list = []
-
-        # Allow client to specify location.
-        lat = request.args.get('lat', self.location[0], type=float)
-        lon = request.args.get('lon', self.location[1], type=float)
-        origin_point = LatLng.from_degrees(lat, lon)
-
-        for pokemon in convert_pokemon_list(
-                Pokemon.get_active(None, None, None, None)):
-            pokemon_point = LatLng.from_degrees(pokemon['latitude'],
-                                                pokemon['longitude'])
-            diff = pokemon_point - origin_point
-            diff_lat = diff.lat().degrees
-            diff_lng = diff.lng().degrees
-            direction = (('N' if diff_lat >= 0 else 'S')
-                         if abs(diff_lat) > 1e-4 else '') +\
-                        (('E' if diff_lng >= 0 else 'W')
-                         if abs(diff_lng) > 1e-4 else '')
-            entry = {
-                'id': pokemon['pokemon_id'],
-                'name': get_pokemon_name(pokemon['pokemon_id']),
-                'card_dir': direction,
-                'distance': int(origin_point.get_distance(
-                    pokemon_point).radians * 6366468.241830914),
-                'time_to_disappear': '%d min %d sec' % (divmod(
-                    (pokemon['disappear_time'] - datetime.utcnow()).seconds,
-                    60)),
-                'disappear_time': pokemon['disappear_time'],
-                'disappear_sec': (
-                    pokemon['disappear_time'] - datetime.utcnow()).seconds,
-                'latitude': pokemon['latitude'],
-                'longitude': pokemon['longitude']
-            }
-            pokemon_list.append((entry, entry['distance']))
-        pokemon_list = [y[0] for y in sorted(pokemon_list, key=lambda x: x[1])]
-
-        return render_template(
-            'mobile_list.html',
-            pokemon_list=pokemon_list,
-            origin_lat=lat,
-            origin_lng=lon,
-        )
 
     def get_gymdata(self):
         gym_id = request.args.get('id')
