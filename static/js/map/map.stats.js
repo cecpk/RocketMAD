@@ -47,10 +47,10 @@ function updateStatsTable() {
             pokemonRows.push(
                 [
                     '<img src="' + pokemonIcon + '" width=32 />',
-                    `<a href='https://pokemongo.gamepress.gg/pokemon/${data.id}' target='_blank' title='${i8ln('View on GamePress')}'>${data.id}</a>`,
+                    data.id,
                     data.name,
                     data.count,
-                    ((data.count * 100) / pokemonCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (data.count * 100) / pokemonCount
                 ]
             )
         })
@@ -123,7 +123,7 @@ function updateStatsTable() {
                         `<img src="static/images/gym/${gymTypes[i]}.png" width=32 />`,
                         i8ln(gymTypes[i]),
                         teamCounts[i],
-                        ((teamCounts[i] * 100) / gymCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                        (teamCounts[i] * 100) / gymCount
                     ]
                 )
             }
@@ -137,7 +137,7 @@ function updateStatsTable() {
                         `<img src="static/images/gym/${raidEggImages[i + 1]}" width=32 />`,
                         i + 1,
                         eggCounts[i],
-                        ((eggCounts[i] * 100) / eggCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                        (eggCounts[i] * 100) / eggCount
                     ]
                 )
             }
@@ -150,10 +150,10 @@ function updateStatsTable() {
                 [
                     '<img src="' + pokemonIcon + '" width=32 />',
                     data.level,
-                    `<a href='https://pokemongo.gamepress.gg/pokemon/${data.id}' target='_blank' title='${i8ln('View on GamePress')}'>${data.id}</a>`,
+                    data.id,
                     data.name,
                     data.count,
-                    ((data.count * 100) / raidPokemonCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (data.count * 100) / raidPokemonCount
                 ]
             )
         })
@@ -249,7 +249,7 @@ function updateStatsTable() {
                     '<img src="static/images/pokestop/stop.png" width=32 />',
                     '',
                     noStatusCount,
-                    ((noStatusCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (noStatusCount * 100) / pokestopCount
                 ]
             )
         }
@@ -259,7 +259,7 @@ function updateStatsTable() {
                     '<img src="static/images/pokestop/stop_q.png" width=32 />',
                     i8ln('Quest'),
                     questCount,
-                    ((questCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (questCount * 100) / pokestopCount
                 ]
             )
         }
@@ -269,7 +269,7 @@ function updateStatsTable() {
                     '<img src="static/images/pokestop/stop_i.png" width=32 />',
                     i8ln('Rocket Invasion'),
                     invasionCount,
-                    ((invasionCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (invasionCount * 100) / pokestopCount
                 ]
             )
         }
@@ -279,7 +279,7 @@ function updateStatsTable() {
                     '<img src="static/images/pokestop/stop_l_501.png" width=32 />',
                     i8ln('Normal Lure'),
                     normalLureCount,
-                    ((normalLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (normalLureCount * 100) / pokestopCount
                 ]
             )
         }
@@ -289,7 +289,7 @@ function updateStatsTable() {
                     '<img src="static/images/pokestop/stop_l_502.png" width=32 />',
                     i8ln('Glacial Lure'),
                     glacialLureCount,
-                    ((glacialLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (glacialLureCount * 100) / pokestopCount
                 ]
             )
         }
@@ -299,7 +299,7 @@ function updateStatsTable() {
                     '<img src="static/images/pokestop/stop_l_504.png" width=32 />',
                     i8ln('Magnetic Lure'),
                     magneticLureCount,
-                    ((magneticLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (magneticLureCount * 100) / pokestopCount
                 ]
             )
         }
@@ -309,7 +309,7 @@ function updateStatsTable() {
                     '<img src="static/images/pokestop/stop_l_503.png" width=32 />',
                     i8ln('Mossy Lure'),
                     mossyLureCount,
-                    ((mossyLureCount * 100) / pokestopCount).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 1}) + '%'
+                    (mossyLureCount * 100) / pokestopCount
                 ]
             )
         }

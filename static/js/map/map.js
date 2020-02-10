@@ -3727,13 +3727,6 @@ $(function () {
     $('.tooltipped').tooltip()
 
     // Init data tables.
-    $.extend($.fn.dataTable.defaults, {
-        'language': {
-            'decimal': getDecimalSeparator(),
-            'thousands': getThousandsSeparator()
-        }
-    })
-
     if (serverSettings.pokemons) {
         $('#pokemon-table').DataTable({
             paging: false,
@@ -3741,7 +3734,34 @@ $(function () {
             info: false,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": 0 }
+                { "orderable": false, "targets": 0 },
+                {
+                    'targets': 1,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title="View on GamePress">#${row[1]}</a>`
+                        }
+                        return row[1]
+                    }
+                },
+                {
+                    'targets': 3,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[3].toLocaleString()
+                        }
+                        return row[3]
+                    }
+                },
+                {
+                    'targets': 4,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[4].toLocaleString(undefined, {maximumFractionDigits: 1}) + '%'
+                        }
+                        return row[4]
+                    }
+                }
             ],
             "order": [[ 3, "desc" ]]
         })
@@ -3754,7 +3774,25 @@ $(function () {
             info: false,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": 0 }
+                { "orderable": false, "targets": 0 },
+                {
+                    'targets': 2,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[2].toLocaleString()
+                        }
+                        return row[2]
+                    }
+                },
+                {
+                    'targets': 3,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[3].toLocaleString(undefined, {maximumFractionDigits: 1}) + '%'
+                        }
+                        return row[3]
+                    }
+                }
             ],
             "order": [[ 2, "desc" ]]
         })
@@ -3767,7 +3805,25 @@ $(function () {
             info: false,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": 0 }
+                { "orderable": false, "targets": 0 },
+                {
+                    'targets': 2,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[2].toLocaleString()
+                        }
+                        return row[2]
+                    }
+                },
+                {
+                    'targets': 3,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[3].toLocaleString(undefined, {maximumFractionDigits: 1}) + '%'
+                        }
+                        return row[3]
+                    }
+                }
             ],
             "order": [[ 2, "desc" ]]
         })
@@ -3778,7 +3834,34 @@ $(function () {
             info: false,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": 0 }
+                { "orderable": false, "targets": 0 },
+                {
+                    'targets': 2,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[2]}" target="_blank" title="View on GamePress">#${row[2]}</a>`
+                        }
+                        return row[2]
+                    }
+                },
+                {
+                    'targets': 4,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[4].toLocaleString()
+                        }
+                        return row[4]
+                    }
+                },
+                {
+                    'targets': 5,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[5].toLocaleString(undefined, {maximumFractionDigits: 1}) + '%'
+                        }
+                        return row[5]
+                    }
+                }
             ],
             "order": [[ 4, "desc" ]]
         })
@@ -3791,7 +3874,25 @@ $(function () {
             info: false,
             "scrollX": true,
             "columnDefs": [
-                { "orderable": false, "targets": 0 }
+                { "orderable": false, "targets": 0 },
+                {
+                    'targets': 2,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[2].toLocaleString()
+                        }
+                        return row[2]
+                    }
+                },
+                {
+                    'targets': 3,
+                    'render': function (data, type, row) {
+                        if (type === 'display') {
+                            return row[3].toLocaleString(undefined, {maximumFractionDigits: 1}) + '%'
+                        }
+                        return row[3]
+                    }
+                }
             ],
             "order": [[ 2, "desc" ]]
         })

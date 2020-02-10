@@ -386,7 +386,6 @@ $(function () {
         info: false,
         order: [[4, 'desc']],
         responsive: true,
-        scrollResize: true,
         'columnDefs': [
             { 'orderable': false, 'targets': [0, 7]},
             { type: formNameType, 'targets': 3},
@@ -420,7 +419,7 @@ $(function () {
                 'targets': 5,
                 'render': function (data, type, row) {
                     if (type === 'display') {
-                        return row[5].toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4})
+                        return row[5].toLocaleString(undefined, {maximumFractionDigits: 4}) + '%'
                     }
                     return row[5]
                 }
