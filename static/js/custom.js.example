@@ -9,24 +9,6 @@ $(function () {
     // Looks like 'UA-XXXXX-Y'.
     const analyticsKey = ''
 
-    // MOTD.
-    const motdEnabled = false
-    const motdTitle = 'MOTD'
-    const motd = 'Hi there! This is an easily customizable MOTD with optional title!'
-
-    // Only show every unique MOTD message once. If disabled, the MOTD will be
-    // shown on every visit. Requires support for localStorage.
-    // Updating only the MOTD title (and not the text) will not make the MOTD
-    // appear again.
-    const motdShowOnlyOnce = true
-
-    // What pages should the MOTD be shown on? By default, homepage and mobile
-    // pages.
-    const motdShowOnPages = [
-        '/',
-        '/mobile'
-    ]
-
     // Rarities Sprites
     const rarityCommon = 12 // Default: 1.
     const rarityUncommon = 20 // Default: 1.
@@ -34,20 +16,6 @@ $(function () {
     const rarityVeryRare = 147 // Default: 1.
     const rarityUltraRare = 149 // Default: 1.
     const rarityNewSpawn = 151 // Default: 1.
-
-    /* Feature detection. */
-
-    const hasStorage = (function () {
-        var mod = 'RocketMAD'
-        try {
-            localStorage.setItem(mod, mod)
-            localStorage.removeItem(mod)
-            return true
-        } catch (exception) {
-            return false
-        }
-    }())
-
 
     /* Do stuff. */
 
@@ -73,27 +41,5 @@ $(function () {
         ga.l = Date.now
         ga('create', analyticsKey, 'auto')
         ga('send', 'pageview')
-    }
-
-    // Show MOTD.
-    if (motdEnabled && motdShowOnPages.indexOf(currentPage) !== -1) {
-        let motdIsUpdated = true
-
-        if (hasStorage) {
-            const lastMOTD = window.localStorage.getItem('lastMOTD') || ''
-
-            if (lastMOTD === motd) {
-                motdIsUpdated = false
-            }
-        }
-
-        if (motdIsUpdated || !motdShowOnlyOnce) {
-            window.localStorage.setItem('lastMOTD', motd)
-
-            swal({
-                title: motdTitle,
-                text: motd
-            })
-        }
     }
 })
