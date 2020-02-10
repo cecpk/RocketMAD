@@ -109,6 +109,10 @@ def get_args():
     parser.add_argument('-npv', '--no-pokemon-values',
                         help='Disables pokemon values.',
                         action='store_true', default=False)
+    parser.add_argument('-up', '--upscaled-pokemon',
+                        default=None,
+                        help='Pokémon IDs to upscale icons for. ' +
+                             'Seperate IDs with commas.')
     parser.add_argument('-nphp', '--no-pokemon-history-page',
                         help='Disables pokemon history page.',
                         action='store_true', default=False)
@@ -166,6 +170,9 @@ def get_args():
     parser.add_argument('-thc', '--twelve-hour-clock',
                         help=('Display time with the 12-hour clock format.'),
                         action='store_true', default=False)
+    parser.add_argument('-ai', '--analytics-id',
+                        default=None,
+                        help='Google Analytics Tracking-ID.'),
     parser.add_argument('-MO', '--motd',
                         action='store_true', default=False,
                         help='Shows a MOTD (Message of the Day) on visit.')

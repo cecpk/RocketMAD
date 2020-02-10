@@ -38,6 +38,7 @@
 
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
+#upscaled-pokemon:              # Pokémon IDs to upscale icons for. Seperate IDs with commas. (default=None)
 #no-pokemon-history-page        # Disables pokemon history page. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
@@ -65,6 +66,7 @@
 
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
 #twelve-hour-clock              # Display time with the 12-hour clock format.
+#analytics-id                   # Google Analytics Tracking-ID. (default=None)
 
 #motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
 #motd-title:                    # MOTD title, can be HTML. (default='MOTD')

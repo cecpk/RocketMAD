@@ -210,6 +210,9 @@ class Pogom(Flask):
             'motdPages': args.motd_pages.split(','),
             'showMotdAlways': args.show_motd_always,
             'pokemons': not args.no_pokemon,
+            'upscaledPokemon': (
+                [int(i) for i in args.upscaled_pokemon.split(',')]
+                if args.upscaled_pokemon is not None else []),
             'pokemonValues': not args.no_pokemon and
                 not args.no_pokemon_values,
             'rarity': not args.no_pokemon and
@@ -253,6 +256,7 @@ class Pogom(Flask):
             pokemon_history_page=settings['pokemons'] and
                 not args.no_pokemon_history_page,
             quest_page=settings['quests'] and not args.no_quest_page,
+            analytics_id=args.analytics_id,
             settings=settings,
             i18n=i8ln
         )
@@ -285,6 +289,7 @@ class Pogom(Flask):
             whatsapp_url=args.whatsapp_url,
             quest_page=not args.no_pokestops and not args.no_quests and
                 not args.no_quest_page,
+            analytics_id=args.analytics_id,
             settings=settings
         )
 
@@ -359,6 +364,7 @@ class Pogom(Flask):
             pokemon_list=pokemon_list,
             origin_lat=lat,
             origin_lng=lon,
+            analytics_id=args.analytics_id,
             settings=settings
         )
 

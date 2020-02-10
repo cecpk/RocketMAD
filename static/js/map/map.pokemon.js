@@ -70,13 +70,8 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
     var iconSize = 32 * (settings.pokemonIconSizeModifier / 100)
     var upscaleModifier = 1
-    if (isNotifPokemon && settings.upscaleNotifMarkers) {
+    if ((isNotifPokemon && settings.upscaleNotifMarkers) || serverSettings.upscaledPokemon.includes(pokemon.pokemon_id)) {
         upscaleModifier = 1.3
-    } else if (Store.get('upscalePokemon')) {
-        const upscaledPokemon = Store.get('upscaledPokemon')
-        if (upscaledPokemon.includes(pokemon.pokemon_id)) {
-            upscaleModifier = 1.3
-        }
     }
     if (settings.scaleByRarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)

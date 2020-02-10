@@ -449,49 +449,9 @@ var StoreOptions = {
         default: 24,
         type: StoreTypes.Number
     },
-    'geoLocate': {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    'pokemonIcons': {
-        default: 'highres',
-        type: StoreTypes.String
-    },
-    'upscaledPokemon': {
-        default: [],
-        type: StoreTypes.JSON
-    },
     'zoomLevel': {
         default: 16,
         type: StoreTypes.Number
-    },
-    'rarityCommon': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'rarityUncommon': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'rarityRare': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'rarityVeryRare': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'rarityUltraRare': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'rarityNewSpawn': {
-        default: 1,
-        type: StoreTypes.Number
-    },
-    'upscalePokemon': {
-        default: false,
-        type: StoreTypes.Boolean
     }
 }
 

@@ -1,43 +1,4 @@
 $(function () {
-    /* Settings. */
-    const upscalePokemon = false // Enable upscaling of certain Pokemon (upscaledPokemon and notify list). Default: false.
-    const upscaledPokemon = [] // Add Pokémon IDs separated by commas (e.g. [1, 2, 3]) to upscale icons. Default: [].
+    /* Place your custom code here. */
 
-    // Google Analytics property ID. Leave empty to disable.
-    // Looks like 'UA-XXXXX-Y'.
-    const analyticsKey = ''
-
-    // Rarities Sprites
-    const rarityCommon = 12 // Default: 1.
-    const rarityUncommon = 20 // Default: 1.
-    const rarityRare = 100 // Default: 1.
-    const rarityVeryRare = 147 // Default: 1.
-    const rarityUltraRare = 149 // Default: 1.
-    const rarityNewSpawn = 151 // Default: 1.
-
-    /* Do stuff. */
-
-    const currentPage = window.location.pathname
-
-    // Set custom Store values.
-    Store.set('upscalePokemon', upscalePokemon)
-    Store.set('upscaledPokemon', upscaledPokemon)
-
-    // Set rarities sprites
-    Store.set('rarityCommon', rarityCommon)
-    Store.set('rarityUncommon', rarityUncommon)
-    Store.set('rarityRare', rarityRare)
-    Store.set('rarityVeryRare', rarityVeryRare)
-    Store.set('rarityUltraRare', rarityUltraRare)
-    Store.set('rarityNewSpawn', rarityNewSpawn)
-
-    // Google Analytics.
-    if (analyticsKey.length > 0) {
-        window.ga = window.ga || function () {
-            (ga.q = ga.q || []).push(arguments)
-        }
-        ga.l = Date.now
-        ga('create', analyticsKey, 'auto')
-        ga('send', 'pageview')
-    }
 })
