@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+  <head>
+    {% if analytics_id %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '{{ analytics_id }}')
+    </script>
+    {% endif %}
+    <title>{{ map_title }} - Quests</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/appicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/appicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/appicons/favicon-16x16.png">
+    <link rel="manifest" href="/static/images/appicons/site.webmanifest">
+    <link rel="mask-icon" href="/static/images/appicons/safari-pinned-tab.svg" color="black">
+    <link rel="shortcut icon" href="/static/images/appicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/static/images/appicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
+  </head>
+
+  <body>
+    <header>
+      <div class="navbar-fixed">
+        <nav>
+          <div class="nav-wrapper">
+            <ul>
+              <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
+              <li>
+                <a href="./" class="brand-logo">
+                  {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
+                </a>
+              </li>
+            </ul>
+            <ul class="right">
+              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or quest_page %}
+              {% if use_dropdown %}
+              <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>
+              {% endif %}
+              {% if discord_url %}
+              <li><a href="{{ discord_url }}" class="hide-on-small-only" title="Discord" target="_blank"><i class="fab fa-discord material-icons"></i></a></li>
+              {% endif %}
+              {% if messenger_url %}
+              <li><a href="{{ messenger_url }}" class="hide-on-small-only" title="Messenger" target="_blank"><i class="fab fa-facebook-messenger material-icons"></i></a></li>
+              {% endif %}
+              {% if telegramUrl %}
+              <li><a href="{{ telegramUrl }}" class="hide-on-small-only" title="Telegram" target="_blank"><i class="fab fa-telegram-plane material-icons"></i></a></li>
+              {% endif %}
+              {% if whatsapp_url %}
+              <li><a href="{{ whatsapp_url }}" class="hide-on-small-only" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp material-icons"></i></a></li>
+              {% endif %}
+              {% if patreon_url %}
+              <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="Patreon" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
+              {% endif %}
+              {% if donate_url %}
+              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="Donate" target="_blank"><i class="material-icons">attach_money</i></a></li>
+              {% endif %}
+              {% if madmin_url %}
+              <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">info</i></a></li>
+              {% endif %}
+              {% if pokemon_history_page %}
+              <li><a href="pokemon-history" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    {% if use_dropdown %}
+    <ul id="navbar-dropdown" class="dropdown-content">
+      {% if pokemon_history_page %}
+      <li><a href="pokemon-history"><i class="material-icons">pets</i>Pokémon history</a></li>
+      {% endif %}
+      {% if madmin_url %}
+      <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
+      {% endif %}
+      {% if donate_url or patreon_url %}
+      <li class="divider" tabindex="-1"></li>
+      {% endif %}
+      {% if donate_url %}
+      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>Donate</a></li>
+      {% endif %}
+      {% if patreon_url %}
+      <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
+      {% endif %}
+      {% if discord_url or messenger_url or telegramUrl or whatsapp_url %}
+      <li class="divider" tabindex="-1"></li>
+      {% endif %}
+      {% if discord_url %}
+      <li><a href="{{ discord_url }}" target="_blank"><i class="fab fa-discord"></i>Discord</a></li>
+      {% endif %}
+      {% if messenger_url %}
+      <li><a href="{{ messenger_url }}" target="_blank"><i class="fab fa-facebook-messenger"></i>Messenger</a></li>
+      {% endif %}
+      {% if telegramUrl %}
+      <li><a href="{{ telegramUrl }}" target="_blank"><i class="fab fa-telegram-plane"></i>Telegram</a></li>
+      {% endif %}
+      {% if whatsapp_url %}
+      <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+
+    {% if settings.motd %}
+    <div id="motd-modal" class="modal">
+      <div class="modal-content">
+        <h4 id="motd-title"></h4>
+        <span id="motd-content"></span>
+      </div>
+    </div>
+    {% endif %}
+
+    <ul id="settings-sidenav" class="sidenav">
+      <li>
+        <div class="settings-container">
+          <div class="form-control">
+            <div class="switch">
+              <label>
+                <input type="checkbox" id="dark-mode-switch">
+                <span class="lever"></span>
+                Dark mode
+              </label>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div id="quest-container">
+      <h5 id="quest-count-title" style="display:none;"><span id="quest-count"></span> Quests</h5>
+      <div id="table-container" style="display:none;">
+        <table id="quest-table" class="order-column row-border top-border hover" style="width:100%;">
+          <thead>
+            <tr>
+              <th>PokéStop</th>
+              <th>Task</th>
+              <th>Reward</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="preloader-wrapper big active centered">
+        <div class="spinner-layer">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+              <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const serverSettings = {{settings|tojson|safe}};
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js"></script>
+
+    <script src="{{ url_for('static', filename='dist/js/quest.min.js') }}"></script>
+  </body>
+</html>

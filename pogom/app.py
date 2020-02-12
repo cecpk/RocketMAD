@@ -81,7 +81,7 @@ class Pogom(Flask):
                 self.get_pokemon_history)
         if (not args.no_pokestops and not args.no_quests and
                 not args.no_quest_page):
-            self.route("/quests", methods=['GET'])(self.get_quests)
+            self.route("/quests", methods=['GET'])(self.get_quest)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
         self.route("/submit_token", methods=['POST'])(self.submit_token)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
@@ -294,22 +294,33 @@ class Pogom(Flask):
         )
 
     @cache.cached()
-    def get_quests(self):
+    def get_quest(self):
+        settings = {
+            'generateImages': args.generate_images,
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages.split(','),
+            'showMotdAlways': args.show_motd_always
+        }
+
         return render_template(
-            'quests.html',
-            lat=self.location[0],
-            lng=self.location[1],
+            'quest.html',
             lang=args.locale,
-            mapTitle=args.map_title,
-            headerImage=args.header_image,
-            madminUrl=args.madmin_url,
-            donateUrl=args.donate_url,
-            patreonUrl=args.patreon_url,
-            discordUrl=args.discord_url,
-            messengerUrl=args.messenger_url,
-            telegramUrl=args.telegram_url,
-            whatsappUrl=args.whatsapp_url,
-            generateImages=str(args.generate_images).lower()
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            pokemon_history_page=not args.no_pokemon and
+                not args.no_pokemon_history_page,
+            analytics_id=args.analytics_id,
+            settings=settings
         )
 
     def list_pokemon(self):

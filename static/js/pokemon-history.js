@@ -22,13 +22,9 @@ function disableDarkMode() {
 }
 
 function initSidebar() {
-    $('#dark-mode-switch').on('change', function () {
-        if (this.checked) {
-            enableDarkMode()
-        } else {
-            disableDarkMode()
-        }
-        Store.set('darkMode', this.checked)
+    $('#duration-select').on('change', function () {
+        Store.set('pokemonHistoryDuration', parseInt(this.value))
+        updateHistory()
     })
 
     $('#map-style-select').on('change', function () {
@@ -38,9 +34,13 @@ function initSidebar() {
         Store.set('mapStyle', this.value)
     })
 
-    $('#duration-select').on('change', function () {
-        Store.set('pokemonHistoryDuration', parseInt(this.value))
-        updateHistory()
+    $('#dark-mode-switch').on('change', function () {
+        if (this.checked) {
+            enableDarkMode()
+        } else {
+            disableDarkMode()
+        }
+        Store.set('darkMode', this.checked)
     })
 
     $('#duration-select').val(Store.get('pokemonHistoryDuration'))
@@ -51,12 +51,11 @@ function initSidebar() {
 }
 
 function loadRawData() {
-    var userAuthCode = localStorage.getItem('userAuthCode')
     return $.ajax({
         url: 'raw_data',
         type: 'GET',
         data: {
-            'userAuthCode': userAuthCode,
+            'userAuthCode': localStorage.getItem('userAuthCode'),
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
