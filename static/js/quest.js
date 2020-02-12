@@ -138,17 +138,14 @@ function loadQuests() {
     $('.preloader-wrapper').show()
 
     loadRawData().done(function (result) {
-        let questCount = 0
         $.each(result.pokestops, function(id, pokestop) {
             if (!pokestop.quest) {
                 return true
             }
-            questCount++
-            table.row.add([pokestop.name,pokestop.name,pokestop.name])
+            table.row.add(pokestop)
         })
         table.draw()
-        $('#quest-count').text(questCount.toLocaleString())
-
+        
         $('.preloader-wrapper').hide()
         $('#quest-count-title').show()
         $('#table-container').show()
@@ -165,6 +162,8 @@ $(function () {
         enableDarkMode()
     }
 
+    $('.modal').modal()
+
     showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
 
     $('.dropdown-trigger').dropdown({
@@ -180,11 +179,98 @@ $(function () {
         pageLength: 100,
         responsive: true,
         'columnDefs': [
-            { type: 'natural', targets: 2 },
-            { responsivePriority: 1, targets: 0 },
-            { responsivePriority: 2, targets: 2 },
-            { responsivePriority: 3, targets: 1 },
-            
+            {
+                'targets': 0,
+                responsivePriority: 1,
+                'data': null,
+                'render': function (data, type, row) {
+                    const pokestopName = data.name ? data.name : 'Unknown'
+                    if (type === 'display') {
+                        const imageUrl = data.image ? data.image.replace(/^http:\/\//i, '//') : ''
+
+                        return `
+                            <div class='row-container'>
+                              <div>
+                                <img class='pokestop-image' src='${imageUrl}' width=48 height=48 onclick='showImageModal("${imageUrl}", "${pokestopName.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'>
+                              </div>
+                              <div>
+                                <div>
+                                  ${pokestopName}
+                                </div>
+                                <div>
+                                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${data.latitude},${data.longitude},"${Store.get('mapServiceProvider')}");' title='Open in ${mapServiceProviderNames[Store.get('mapServiceProvider')]}'><i class="fas fa-map-marked-alt"></i> ${data.latitude.toFixed(5)}, ${data.longitude.toFixed(5)}</a>
+                                </div>
+                              </div>
+                            </div>
+                        `
+                    }
+                    return pokestopName
+                }
+            },
+            {
+                'targets': 1,
+                responsivePriority: 3,
+                'data': null,
+                'render': function (data, type, row) {
+                    return data.quest.task
+                }
+            },
+            {
+                'targets': 2,
+                responsivePriority: 2,
+                type: 'natural',
+                'data': null,
+                'render': function (data, type, row) {
+                    const quest = data.quest
+                    if (type === 'display') {
+                        let rewardImageUrl = ''
+                        let rewardText = ''
+                        switch (quest.reward_type) {
+                            case 2:
+                                rewardImageUrl = getItemImageUrl(quest.item_id)
+                                rewardText = quest.item_amount + ' ' + getItemName(quest.item_id)
+                                break
+                            case 3:
+                                rewardImageUrl = getItemImageUrl(6)
+                                rewardText = quest.stardust + ' ' + getItemName(6)
+                                break
+                            case 7:
+                                rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
+                                rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
+                                break
+                        }
+
+                        return `
+                            <div class="row-container">
+                              <div>
+                                <img class="reward-image" src="${rewardImageUrl}" width=48 height=48>
+                              </div>
+                              <div>
+                                ${rewardText}
+                              </div>
+                            </div>
+                        `
+                    } else if (type === 'sort') {
+                        switch (quest.reward_type) {
+                            case 2:
+                                return getItemName(quest.item_id) + ' ' + quest.item_amount
+                            case 3:
+                                return getItemName(6) + ' ' + quest.stardust
+                            case 7:
+                                return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
+                        }
+                    }
+
+                    switch (quest.reward_type) {
+                        case 2:
+                            return quest.item_amount + ' ' + getItemName(quest.item_id)
+                        case 3:
+                            return quest.stardust + ' ' + getItemName(6)
+                        case 7:
+                            return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
+                    }
+                }
+            }
         ]
     })
 

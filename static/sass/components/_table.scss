@@ -65,3 +65,22 @@ table.dataTable {
     border-bottom: 1px solid #ddd !important;
   }
 }
+
+.dataTables_wrapper {
+  label {
+    font-size: inherit;
+    color: inherit;
+  }
+
+  .dataTables_length select {
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+    padding: 0;
+  }
+
+  .dataTables_filter input {
+    width: inherit;
+    height: inherit;
+  }
+}
