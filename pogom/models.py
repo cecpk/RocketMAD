@@ -629,9 +629,8 @@ class Pokestop(LatLongModel):
             pokestop_ids.append(p['pokestop_id'])
 
         if quests and len(pokestop_ids) > 0:
-            today = datetime.today()  # Local time.
-            today_timestamp = datetime.timestamp(
-                datetime.combine(today, datetime.min.time()))
+            today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)  # Local time.
+            today_timestamp = datetime.timestamp(today)
             quests = (Trs_Quest
                       .select(Trs_Quest.GUID.alias('pokestop_id'),
                               Trs_Quest.quest_task.alias('task'),
