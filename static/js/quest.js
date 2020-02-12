@@ -64,74 +64,6 @@ function loadRawData() {
     })
 }
 
-function processPokestops(pokestops) {
-    $('#quests-table > tbody').empty()
-    const mapLabel = mapServiceProviderNames[Store.get('mapServiceProvider')]
-
-    $.each(pokestops, function (pokestopId, pokestop) {
-        if (!pokestop.quest) {
-            return true
-        }
-
-        const imageUrl = pokestop.image ? pokestop.image.replace(/^http:\/\//i, '//') : ''
-        const pokestopName = pokestop.name ? pokestop.name : 'Unkown'
-
-        const quest = pokestop.quest
-        let rewardImageUrl = ''
-        let rewardText = ''
-        let rewardSortText = ''
-        switch (quest.reward_type) {
-            case 2:
-                rewardImageUrl = 'static/images/quest/reward_' + quest.item_id + '_1.png'
-                rewardText = quest.item_amount + ' ' + getItemName(quest.item_id)
-                rewardSortText = getItemName(quest.item_id) + ' ' + quest.item_amount
-                break
-            case 3:
-                rewardImageUrl = 'static/images/quest/reward_stardust.png'
-                rewardText = quest.stardust + ' ' + i8ln('Stardust')
-                rewardSortText = i8ln('Stardust') + ' ' + quest.stardust
-                break
-            case 7:
-                rewardImageUrl = getPokemonRawIconUrl(quest)
-                rewardText = `${getPokemonName(quest.pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
-                rewardSortText = getPokemonName(quest.pokemon_id)
-                break
-        }
-
-        $('#quests-table > tbody').append(`
-            <tr>
-              <td data-sort="${pokestop.name}">
-                <div class="row-container">
-                  <div class="row-container-left">
-                    <img class="pokestop-image" src="${imageUrl}" width="40" height="40" onclick='showImageModal("${imageUrl}", "${pokestopName.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'>
-                  </div>
-                  <div class="row-container-right">
-                    <div>
-                      ${pokestop.name}
-                    </div>
-                    <div>
-                      <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude},"${Store.get('mapServiceProvider')}");' title='Open in ${mapLabel} Maps'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                ${i8ln(quest.task)}
-              </td>
-              <td data-sort="${rewardSortText}">
-                <div class="row-container">
-                  <div class="row-container-left">
-                    <img class="reward-image" src="${rewardImageUrl}" width="40" height="40">
-                  </div>
-                  <div class="row-container-right">
-                    ${rewardText}
-                  </div>
-                </div>
-              </td>
-            </tr>`)
-    })
-}
-
 function loadQuests() {
     $('#quest-count-title').hide()
     $('#table-container').hide()
@@ -145,7 +77,7 @@ function loadQuests() {
             table.row.add(pokestop)
         })
         table.draw()
-        
+
         $('.preloader-wrapper').hide()
         $('#quest-count-title').show()
         $('#table-container').show()
