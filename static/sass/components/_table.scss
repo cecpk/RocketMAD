@@ -102,3 +102,14 @@ table.dataTable {
     }
   }
 }
+
+
+.dark .dataTables_wrapper {
+  label, .dataTables_info, .dataTables_paginate .paginate_button {
+    color: $text-color-dark !important;
+  }
+
+  .dataTables_paginate .paginate_button.disabled {
+    color: rgba(255, 255, 255, 0.35) !important;
+  }
+}
