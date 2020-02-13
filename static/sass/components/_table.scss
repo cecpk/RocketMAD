@@ -83,4 +83,22 @@ table.dataTable {
     width: inherit;
     height: inherit;
   }
+
+  .dataTables_info {
+    padding-top: 0.2em;
+  }
+
+  .dataTables_paginate .paginate_button {
+    padding: 0 0.75em;
+    border: 0 !important;
+
+    &.current, &.current:hover {
+      color: #fff !important;
+      background: #26a69a;
+    }
+
+    &:hover {
+      background: #84c7c1;
+    }
+  }
 }

@@ -65,7 +65,7 @@ function loadRawData() {
 }
 
 function loadQuests() {
-    $('#quest-count-title').hide()
+    $('#quest-title').hide()
     $('#table-container').hide()
     $('.preloader-wrapper').show()
 
@@ -79,7 +79,7 @@ function loadQuests() {
         table.draw()
 
         $('.preloader-wrapper').hide()
-        $('#quest-count-title').show()
+        $('#quest-title').show()
         $('#table-container').show()
         // Table was hidden when data was added, so recalculate column widths.
         table.columns.adjust()
@@ -107,8 +107,6 @@ $(function () {
     initSidebar()
 
     table = $('#quest-table').DataTable({
-        order: [[0, 'asc']],
-        pageLength: 100,
         responsive: true,
         'columnDefs': [
             {
