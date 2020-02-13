@@ -109,14 +109,27 @@ def get_args():
     parser.add_argument('-npv', '--no-pokemon-values',
                         help='Disables pokemon values.',
                         action='store_true', default=False)
+    parser.add_argument('-up', '--upscaled-pokemon',
+                        default=None,
+                        help='Pokémon IDs to upscale icons for. ' +
+                             'Seperate IDs with commas.')
+    parser.add_argument('-nphp', '--no-pokemon-history-page',
+                        help='Disables pokemon history page.',
+                        action='store_true', default=False)
     parser.add_argument('-ng', '--no-gyms',
                         help=('Disables Gyms.'),
                         action='store_true', default=False)
     parser.add_argument('-ngs', '--no-gym-sidebar',
                         help=('Disable the gym sidebar and toggle.'),
                         action='store_true', default=False)
+    parser.add_argument('-ngf', '--no-gym-filters',
+                        help=('Disables gym filters in side nav.'),
+                        action='store_true', default=False)
     parser.add_argument('-nr', '--no-raids',
                         help=('Disables Raids.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nrf', '--no-raid-filters',
+                        help=('Disables raid filters in side nav.'),
                         action='store_true', default=False)
     parser.add_argument('-nps', '--no-pokestops',
                         help=('Disables PokéStops.'),
@@ -124,12 +137,60 @@ def get_args():
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables Quests.'),
                         action='store_true', default=False)
-    parser.add_argument('-mpm', '--medalpokemon',
-                        help='Show notifications for tiny Rattata and big Magikarp.',
+    parser.add_argument('-nqp', '--no-quest-page',
+                        help='Disables quest page.',
+                        action='store_true', default=False)
+    parser.add_argument('-ni', '--no-invasions',
+                        help=('Disables Team Rocket Invasions.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nl', '--no-lures',
+                        help=('Disables Lures.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nw', '--no-weather',
+                        help=('Disables Weather.'),
+                        action='store_true', default=False)
+    parser.add_argument('-ns', '--no-spawnpoints',
+                        help=('Disables spawn points.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nsl', '--no-scanned-locs',
+                        help=('Disables scanned locations.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nsc', '--no-s2-cells',
+                        help=('Disables s2 cells.'),
+                        action='store_true', default=False)
+    parser.add_argument('-nrs', '--no-ranges',
+                        help=('Disables user to show ranges.'),
                         action='store_true', default=False)
     parser.add_argument('-vdt', '--verified-despawn-time',
                         help='Show if pokemon despawn time is verified.',
                         action='store_true', default=False)
+    parser.add_argument('-nss', '--no-stats-sidebar',
+                        help=('Hides stats sidebar.'),
+                        action='store_true', default=False)
+    parser.add_argument('-thc', '--twelve-hour-clock',
+                        help=('Display time with the 12-hour clock format.'),
+                        action='store_true', default=False)
+    parser.add_argument('-ai', '--analytics-id',
+                        default=None,
+                        help='Google Analytics Tracking-ID.'),
+    parser.add_argument('-MO', '--motd',
+                        action='store_true', default=False,
+                        help='Shows a MOTD (Message of the Day) on visit.')
+    parser.add_argument('-MOt', '--motd-title',
+                         default='MOTD',
+                         help='MOTD title, can be HTML.')
+    parser.add_argument('-MOtxt', '--motd-text',
+                         default=('Hi there! This is an easily customizable ' +
+                                  'MOTD.'),
+                        help='MOTD text, can be HTML.')
+    parser.add_argument('-MOp', '--motd-pages',
+                        default='/,/mobile',
+                        help='Pages the MOTD should be shown on.')
+    parser.add_argument('-MOa', '--show-motd-always',
+                        action='store_true', default=False,
+                        help=('Show MOTD on every visit. If disabled, the ' +
+                              'MOTD will only be shown when its title or ' +
+                              'text has changed.'))
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)
@@ -251,9 +312,38 @@ def get_args():
     parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
                         help=('Discord Bot Token for user ' +
                               'external authentication.'))
+    parser.add_argument('-mzl', '--max-zoom-level', type=int,
+                        help=('Maximum level a user can zoom out. ' +
+                             'Range: [0,18]. 0 means the user can zoom out ' +
+                             'completely.'), default=10)
+    parser.add_argument('-czl', '--cluster-zoom-level', type=int,
+                        help=('Zoom level from which markers should be ' +
+                              'clustered. Range: [0,18]. -1 to disable ' +
+                              'clustering.'), default=14)
+    parser.add_argument('-czlm', '--cluster-zoom-level-mobile', type=int,
+                        help=('Zoom level from which markers should be ' +
+                              'clustered on mobile. Range: [0,18]. -1 to ' +
+                              'disable clustering on mobile.'), default=14)
+    parser.add_argument('-mcr', '--max-cluster-radius', type=int,
+                        help=('The maximum radius that a cluster will cover ' +
+                              'from the central marker ' +
+                              '(in pixels).'), default=60)
+    parser.add_argument('-sc', '--spiderfy-clusters',
+                        help='Spiderfy clusters at the bottom zoom level.',
+                        action='store_true', default=False)
+    parser.add_argument('-lsm', '--lock-start-marker',
+                        help='Disables dragging the start marker and hence ' +
+                             'disables changing the start position.',
+                        action='store_true', default=False)
+    parser.add_argument('-pc', '--pokemon-cries',
+                        help='Play cries for pokemon notifications.',
+                        action='store_true', default=False)
     parser.add_argument('-mt', '--map-title',
-                        help=('The title of the map. Default: RocketMap'),
-                        default='RocketMap')
+                        help=('The title of the map. Default: RocketMAD'),
+                        default='RocketMAD')
+    parser.add_argument('-nhi', '--no-header-image',
+                        help=('Hides header image.'),
+                        action='store_true', default=False)
     parser.add_argument('-hi', '--header-image',
                          help='Image in header.',
                          default='rocket.png')
@@ -804,21 +894,21 @@ def get_debug_dump_link():
 
 
 def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
-    spawn_group = 'Common'
+    spawn_group = 1 # Common
 
     spawn_rate_pct = total_spawns_pokemon / float(total_spawns_all)
     spawn_rate_pct = round(100 * spawn_rate_pct, 4)
 
     if spawn_rate_pct == 0:
-        spawn_group = 'New Spawn'
+        spawn_group = 6 # New Spawn
     elif spawn_rate_pct < 0.01:
-        spawn_group = 'Ultra Rare'
+        spawn_group = 5 # Ultra Rare
     elif spawn_rate_pct < 0.03:
-        spawn_group = 'Very Rare'
+        spawn_group = 4 # Very Rare
     elif spawn_rate_pct < 0.5:
-        spawn_group = 'Rare'
+        spawn_group = 3 # Rare
     elif spawn_rate_pct < 1:
-        spawn_group = 'Uncommon'
+        spawn_group = 2 # Uncommon
 
     return spawn_group
 

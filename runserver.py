@@ -126,6 +126,17 @@ def handle_exception(exc_type, exc_value, exc_traceback):
     log.error("Uncaught exception", exc_info=(
         exc_type, exc_value, exc_traceback))
 
+def validate_js_files(path, last_gen_time):
+    for file in os.listdir(path):
+        source_path = os.path.join(path, file)
+        if os.path.isdir(source_path):
+            if not validate_js_files(source_path, last_gen_time):
+                return False
+        elif file.endswith(".js"):
+            if os.path.getmtime(source_path) > last_gen_time:
+                return False
+
+    return True
 
 def validate_assets(args):
     assets_error_log = (
@@ -137,41 +148,17 @@ def validate_assets(args):
         log.critical(assets_error_log)
         return False
 
-    static_path = os.path.join(root_path, 'static/js')
-    for file in os.listdir(static_path):
-        if file.endswith(".js"):
-            generated_path = os.path.join(static_path, '../dist/js/',
-                                          file.replace(".js", ".min.js"))
-            source_path = os.path.join(static_path, file)
-            if not os.path.exists(generated_path) or (
-                    os.path.getmtime(source_path) >
-                    os.path.getmtime(generated_path)):
-                log.critical(assets_error_log)
-                return False
+    generated_js_path = os.path.join(root_path, 'static/dist/js')
+    last_js_gen_time = 0
+    for file in os.listdir(generated_js_path):
+        gen_time = os.path.getmtime(os.path.join(generated_js_path, file))
+        if gen_time > last_js_gen_time:
+            last_js_gen_time = gen_time
 
-    # You need custom image files now.
-    if not os.path.isfile(
-            os.path.join(root_path, 'static/icons-sprite.png')):
+    js_path = os.path.join(root_path, 'static/js')
+    if not validate_js_files(js_path, last_js_gen_time):
         log.critical(assets_error_log)
         return False
-
-    # Check if custom.css is used otherwise fall back to default.
-    if os.path.exists(os.path.join(root_path, 'static/css/custom.css')):
-        args.custom_css = True
-        log.info(
-            'File \"custom.css\" found, applying user-defined settings.')
-    else:
-        args.custom_css = False
-        log.info('No file \"custom.css\" found, using default settings.')
-
-    # Check if custom.js is used otherwise fall back to default.
-    if os.path.exists(os.path.join(root_path, 'static/js/custom.js')):
-        args.custom_js = True
-        log.info(
-            'File \"custom.js\" found, applying user-defined settings.')
-    else:
-        args.custom_js = False
-        log.info('No file \"custom.js\" found, using default settings.')
 
     return True
 

@@ -1,0 +1,143 @@
+.dark .modal {
+  background-color: $overlay-color-dark-2;
+  color: $text-color-dark;
+}
+
+#image-modal .modal-content {
+  text-align: center;
+
+  @media screen and (max-width: 600px) {
+    padding: 0 12px;
+  }
+
+  h5 {
+    margin-top: 0;
+
+    @media screen and (max-width: 600px) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.filter-modal {
+  width: 80% !important;
+  max-height: 80% !important;
+
+  .modal-content {
+    padding: 0 24px;
+
+    @media screen and (max-width: 600px) {
+      padding: 0 12px;
+    }
+  }
+
+  .tabs {
+    position: sticky;
+    top: 0;
+    background-color: #fafafa;
+  }
+
+  h6 {
+    position: sticky;
+    top: 0;
+    text-align: center;
+    background-color: #fafafa;
+  }
+
+  .filter-footer-container {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    background-color: #fafafa;
+  }
+
+  .filter-footer-left {
+    white-space: nowrap;
+
+    @media screen and (max-width: 600px) {
+      width: 50%;
+    }
+  }
+
+  .filter-footer-right {
+    margin: auto 0;
+
+    @media screen and (max-width: 600px) {
+      .btn-flat {
+        padding: 0 8px;
+      }
+    }
+  }
+
+  .search-info-btn {
+    padding-left: 0;
+  }
+
+  input[type="search"] {
+      height: 2rem;
+  }
+
+  .filter-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 75px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    float: left;
+    line-height: initial;
+    color: $text-color;
+    background-color: #ffcdd2;
+    cursor: pointer;
+
+    &.active {
+      background-color: #e0f2f1;
+    }
+  }
+
+  .filter-button-content {
+    text-align: center;
+  }
+
+  .pokemon-filter-list, .quest-item-filter-list, .invasion-filter-list {
+    margin-top: 8px;
+    overflow-y: hidden;
+  }
+
+  .pokemon-filter-list {
+    min-height: 80vh;
+  }
+}
+
+.dark .filter-modal {
+  h6, .tabs, .filter-footer-container {
+    background-color: $overlay-color-dark-2 !important;
+  }
+
+  .filter-button {
+    background-color: #b71c1c;
+    color: $text-color-dark;
+
+    &.active {
+      background-color: #004d40;
+    }
+  }
+
+  .btn-flat {
+    color: $text-color-dark !important;
+  }
+}
+
+#import-pokemon-list-modal label {
+  color: $text-color;
+}
+
+.dark #import-pokemon-list-modal label {
+  color: $text-color-dark;
+}
+
+.dark #export-pokemon-list-modal a {
+  color: $text-color-dark;
+}

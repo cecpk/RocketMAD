@@ -1,0 +1,198 @@
+{
+  "0": {
+    "name": "Unkown"
+  },
+  "1": {
+    "name": "Poké Ball",
+    "questBundles": [5, 10]
+  },
+  "2": {
+    "name": "Great Ball",
+    "questBundles": [5]
+  },
+  "3": {
+    "name": "Ultra Ball",
+    "questBundles": [2, 5, 10]
+  },
+  "4": {
+    "name": "Master Ball"
+  },
+  "5": {
+    "name": "Premier Ball"
+  },
+  "6": {
+    "name": "Stardust",
+    "questBundles": [200, 500, 1000, 1500]
+  },
+  "101": {
+    "name": "Potion",
+    "questBundles": [5]
+  },
+  "102": {
+    "name": "Super Potion",
+    "questBundles": [3]
+  },
+  "103": {
+    "name": "Hyper Potion",
+    "questBundles": [3]
+  },
+  "104": {
+    "name": "Max Potion",
+    "questBundles": [3]
+  },
+  "201": {
+    "name": "Revive",
+    "questBundles": [2, 4, 6, 8]
+  },
+  "202": {
+    "name": "Max Revive",
+    "questBundles": [1, 3]
+  },
+  "301": {
+    "name": "Lucky Egg"
+  },
+  "401": {
+    "name": "Incense"
+  },
+  "402": {
+    "name": "Incense Spicy"
+  },
+  "403": {
+    "name": "Incense Cool"
+  },
+  "404": {
+    "name": "Incense Floral"
+  },
+  "501": {
+    "name": "Lure Module"
+  },
+  "502": {
+    "name": "Glacial Lure Module"
+  },
+  "503": {
+    "name": "Mossy Lure Module"
+  },
+  "504": {
+    "name": "Magnetic Lure Module"
+  },
+  "602": {
+    "name": "X Attack"
+  },
+  "603": {
+    "name": "X Defense"
+  },
+  "604": {
+    "name": "X Miracle"
+  },
+  "701": {
+    "name": "Razz Berry",
+    "questBundles": [3, 6, 9]
+  },
+  "702": {
+    "name": "Bluk Berry"
+  },
+  "703": {
+    "name": "Nanab Berry",
+    "questBundles": [5, 10]
+  },
+  "704": {
+    "name": "Wepar Berry"
+  },
+  "705": {
+    "name": "Pinap Berry",
+    "questBundles": [1, 2, 3]
+  },
+  "706": {
+    "name": "Golden Razz Berry",
+    "questBundles": [2]
+  },
+  "707": {
+    "name": "Golden Pinap Berry"
+  },
+  "708": {
+    "name": "Silver Pinap Berry",
+    "questBundles": [5]
+  },
+  "801": {
+    "name": "Camera"
+  },
+  "901": {
+    "name": "Unlimited Incubator"
+  },
+  "902": {
+    "name": "Egg Incubator"
+  },
+  "903": {
+    "name": "Super Incubator"
+  },
+  "1001": {
+    "name": "Pokémon Storage Upgrade"
+  },
+  "1002": {
+    "name": "Item Storage Upgrade"
+  },
+  "1101": {
+    "name": "Sun Stone"
+  },
+  "1102": {
+    "name": "Kings Rock"
+  },
+  "1103": {
+    "name": "Metal Coat"
+  },
+  "1104": {
+    "name": "Dragon Scale"
+  },
+  "1105": {
+    "name": "Up-Grade"
+  },
+  "1106": {
+    "name": "Sinnoh Stone"
+  },
+  "1107": {
+    "name": "Unova Stone"
+  },
+  "1201": {
+    "name": "Fast TM"
+  },
+  "1202": {
+    "name": "Charge TM"
+  },
+  "1301": {
+    "name": "Rare Candy",
+    "questBundles": [1, 3]
+  },
+  "1401": {
+    "name": "Free Raid Pass"
+  },
+  "1402": {
+    "name": "Premium Raid Pass"
+  },
+  "1403": {
+    "name": "EX Raid Pass"
+  },
+  "1404": {
+    "name": "Star Piece"
+  },
+  "1405": {
+    "name": "Gift"
+  },
+  "1406": {
+    "name": "Team Medallion"
+  },
+  "1408": {
+    "name": "VsSeekerBattleNow"
+  },
+  "1501": {
+    "name": "Mysterious Component"
+  },
+  "1502": {
+    "name": "Leader Map"
+  },
+  "1503": {
+    "name": "Giovanni Map"
+  },
+  "1600": {
+    "name": "Global Event Ticket"
+  }
+}

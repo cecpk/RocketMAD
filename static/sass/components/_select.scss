@@ -1,0 +1,29 @@
+.select-title {
+  color: $text-color;
+}
+
+.dark .select-title {
+  color: $text-color-dark !important;
+}
+
+.dark .select-wrapper {
+  .select-dropdown.dropdown-trigger {
+    color: $text-color-dark !important;
+  }
+
+  .caret {
+    fill: $text-color-dark !important;
+  }
+
+  .select-dropdown.dropdown-content {
+    background-color: $overlay-color-dark-2 !important;
+
+    li.selected {
+      background-color: rgba(255, 255, 255, 0.10) !important;
+    }
+
+    li:hover {
+      background-color: rgba(255, 255, 255, 0.15) !important;
+    }
+  }
+}

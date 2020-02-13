@@ -1,0 +1,22 @@
+.dropdown-content {
+  a {
+    color: $text-color !important;
+  }
+
+  i {
+    height: inherit !important;
+    line-height: inherit !important;
+  }
+}
+
+.dark .dropdown-content {
+  background-color: $overlay-color-dark-2 !important;
+
+  li:hover:not(.divider) {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+  }
+
+  a {
+    color: $text-color-dark !important;
+  }
+}

@@ -1,0 +1,37 @@
+#pokemon-history-container {
+  padding-bottom: 16px;
+
+  @media screen and (min-width: 601px) {
+    padding: 0 19px 16px 19px;
+  }
+}
+
+#times-list {
+  position: fixed;
+  padding-right: 0.7em;
+  height: calc(100% - 4.4em);
+  background-color: white;
+  z-index: 1003;
+  overflow: auto;
+
+  @media screen and (max-width: 600px) {
+    padding: 0.5em 0.5em 0 0.5em;
+    height: 100%;
+  }
+
+  div {
+    padding-bottom: 2px;
+  }
+
+  a {
+    color: $text-color;
+  }
+}
+
+.dark #times-list {
+  background-color: $overlay-color-dark-2;
+
+  a {
+    color: $text-color-dark;
+  }
+}

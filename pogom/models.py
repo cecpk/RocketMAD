@@ -7,7 +7,6 @@ import logging
 import sys
 import time
 
-from cachetools import cached
 from cachetools import TTLCache
 from datetime import datetime, timedelta
 from functools import reduce
@@ -248,7 +247,6 @@ class Pokemon(LatLongModel):
         return {'pokemon': query, 'total': total}
 
     @staticmethod
-    @cached(cache)
     def get_seen(timediff):
         if timediff:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
@@ -266,21 +264,19 @@ class Pokemon(LatLongModel):
                  .group_by((Pokemon.pokemon_id + 0), Pokemon.form)
                  .dicts())
 
-        # Performance:  disable the garbage collector prior to creating a
+        # Performance: disable the garbage collector prior to creating a
         # (potentially) large dict with append().
         gc.disable()
 
         pokemon = []
         total = 0
         for p in query:
-            p['pokemon_name'] = get_pokemon_name(p['pokemon_id'])
             pokemon.append(p)
             total += p['count']
 
-        # Re-enable the GC.
         gc.enable()
 
-        return {'pokemon': pokemon, 'total': total}
+        return { 'pokemon': pokemon, 'total': total }
 
     @staticmethod
     def get_appearances(pokemon_id, form_id, timediff):
@@ -421,9 +417,6 @@ class Gym(LatLongModel):
                                .dicts())
 
                 for r in raids_query:
-                    if r['pokemon_id']:
-                        r['pokemon_name'] = get_pokemon_name(r['pokemon_id'])
-                        r['pokemon_types'] = get_pokemon_types(r['pokemon_id'])
                     gyms[r['gym_id']]['raid'] = r
 
         # Re-enable the GC.
@@ -633,10 +626,14 @@ class Pokestop(LatLongModel):
             today_timestamp = datetime.timestamp(today)
             quests = (Trs_Quest
                       .select(Trs_Quest.GUID.alias('pokestop_id'),
+                              Trs_Quest.quest_timestamp.alias('timestamp'),
                               Trs_Quest.quest_task.alias('task'),
                               Trs_Quest.quest_type.alias('type'),
                               Trs_Quest.quest_stardust.alias('stardust'),
                               Trs_Quest.quest_pokemon_id.alias('pokemon_id'),
+                              Trs_Quest.quest_pokemon_form_id.alias('form_id'),
+                              Trs_Quest.quest_pokemon_costume_id.alias(
+                                  'costume_id'),
                               Trs_Quest.quest_reward_type.alias('reward_type'),
                               Trs_Quest.quest_item_id.alias('item_id'),
                               Trs_Quest.quest_item_amount.alias('item_amount'))
@@ -660,6 +657,8 @@ class Trs_Quest(BaseModel):
     quest_type = TinyIntegerField()
     quest_stardust = SmallIntegerField()
     quest_pokemon_id = SmallIntegerField()
+    quest_pokemon_form_id = SmallIntegerField()
+    quest_pokemon_costume_id = SmallIntegerField()
     quest_reward_type = SmallIntegerField()
     quest_item_id = SmallIntegerField()
     quest_item_amount = TinyIntegerField()
@@ -864,7 +863,8 @@ class Weather(BaseModel):
                                  null=True, index=True)
 
     @staticmethod
-    def get_weather_by_location(swLat, swLng, neLat, neLng, alert):
+    def get_weather(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                    oNeLat=None, oNeLng=None, timestamp=0):
         # We can filter by the center of a cell,
         # this deltas can expand the viewport bounds
         # So cells with center outside the viewport,
@@ -873,24 +873,46 @@ class Weather(BaseModel):
         # with viewport won't be rendered
         lat_delta = 0.15
         lng_delta = 0.4
-        if not alert:
-            query = Weather.select().where((
-                Weather.latitude >= float(swLat) - lat_delta) &
-                (Weather.longitude >= float(swLng) - lng_delta) &
-                (Weather.latitude <= float(neLat) + lat_delta) &
-                (Weather.longitude <= float(neLng) + lng_delta)).dicts()
-        else:
-            query = Weather.select().where((
-                Weather.latitude >= float(swLat) - lat_delta) &
-                (Weather.longitude >= float(swLng) - lng_delta) &
-                (Weather.latitude <= float(neLat) + lat_delta) &
-                (Weather.longitude <= float(neLng) + lng_delta) &
-                (Weather.severity.is_null(False))).dicts()
-        weathers = []
-        for w in query:
-            weathers.append(w)
 
-        return weathers
+        query = (Weather
+                 .select(Weather.s2_cell_id, Weather.latitude,
+                         Weather.longitude, Weather.gameplay_weather,
+                         Weather.severity, Weather.world_time,
+                         Weather.last_updated))
+
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
+            # If timestamp is known only send last scanned Weather.
+            query = (query
+                     .where((Weather.last_updated >
+                             datetime.utcfromtimestamp(timestamp / 1000)) &
+                            (Weather.latitude >= float(swLat) - lat_delta) &
+                            (Weather.longitude >= float(swLng) - lng_delta) &
+                            (Weather.latitude <= float(neLat) + lat_delta) &
+                            (Weather.longitude <= float(neLng) + lng_delta)))
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send weather in view but exclude those within old boundaries.
+            # Only send newly uncovered weather.
+            query = (query
+                     .where(
+                         ((Weather.latitude >= float(swLat) - lat_delta) &
+                          (Weather.longitude >= float(swLng) - lng_delta) &
+                          (Weather.latitude <= float(neLat) + lat_delta) &
+                          (Weather.longitude <= float(neLng) + lng_delta)) & ~
+                         ((Weather.latitude >= float(oSwLat) - lat_delta) &
+                          (Weather.longitude >= float(oSwLng) - lng_delta) &
+                          (Weather.latitude <= float(oNeLat) + lat_delta) &
+                          (Weather.longitude <= float(oNeLng) + lng_delta))))
+
+        else:
+            query = (query
+                     .where((Weather.latitude >= float(swLat) - lat_delta) &
+                            (Weather.longitude >= float(swLng) - lng_delta) &
+                            (Weather.latitude <= float(neLat) + lat_delta) &
+                            (Weather.longitude <= float(neLng) + lng_delta)))
+
+        return list(query.dicts())
 
 
 def clean_db_loop(args):

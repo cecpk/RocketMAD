@@ -1,0 +1,37 @@
+.weather-moderate {
+  color: orange;
+}
+
+.weather-outdated, .weather-extreme {
+  color: red;
+}
+
+#weather-modal .modal-content {
+  text-align: center;
+
+  h4 {
+    margin-bottom: 0;
+  }
+
+  #alert-icon {
+    vertical-align: middle;
+    margin-left: -10px;
+  }
+
+  h5 {
+    margin-top: 0;
+  }
+
+  #boosted-types-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .type {
+    margin-right: 32px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

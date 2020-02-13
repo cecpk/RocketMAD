@@ -1,58 +1,52 @@
 {
-  "name": "pogomap",
-  "version": "0.1.0",
-  "description": "RocketMap - Live Visualization",
+  "name": "rocketmad",
+  "version": "1.0.0",
+  "description": "RocketMAD - Live Visualization",
   "main": "Gruntfile.js",
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "eslint": "^6.1.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "grunt": "^1.0.3",
-    "grunt-babel": "^7.0.0",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-clean": "latest",
-    "grunt-contrib-concat": "latest",
-    "grunt-contrib-connect": "latest",
-    "grunt-contrib-copy": "latest",
-    "grunt-contrib-cssmin": "latest",
-    "grunt-contrib-uglify": "latest",
-    "grunt-contrib-watch": "latest",
-    "grunt-eslint": "^19.0.0",
-    "grunt-html-validation": "^0.1.18",
-    "grunt-include-file": "^0.1.1",
-    "grunt-legacssy": "latest",
-    "grunt-minjson": "latest",
-    "grunt-newer": "^1.2.0",
-    "grunt-sass": "^3.0.0",
-    "grunt-unused": "latest",
-    "grunt-usemin": "latest",
-    "grunt-zip": "^0.17.1",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "grunt": "^1.0.4",
+    "grunt-babel": "^8.0.0",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-eslint": "^22.0.0",
+    "grunt-minjson": "^0.4.0",
+    "grunt-newer": "^1.3.0",
+    "grunt-sass": "^3.1.0",
+    "grunt-zip": "^0.18.2",
     "jit-grunt": "^0.10.0",
-    "node-sass": "^4.13.0"
+    "node-sass": "^4.13.1"
   },
   "scripts": {
     "build": "grunt build",
     "watch": "grunt default",
     "lint": "grunt lint",
-    "grunt": "grunt"
+    "grunt": "grunt",
+    "postinstall": "grunt build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cecpk/OSM-Rocketmap.git"
+    "url": "git+https://github.com/cecpk/RocketMAD.git"
   },
   "keywords": [
     "Pokemon",
-    "Go"
+    "Go",
+    "Map"
   ],
-  "author": "Carl Taylor",
+  "author": "RocketMAD Team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cecpk/OSM-Rocketmap/issues"
+    "url": "https://github.com/cecpk/RocketMAD/issues"
   },
-  "homepage": "https://github.com/cecpk/OSM-Rocketmap#readme"
+  "homepage": "https://github.com/cecpk/RocketMAD#readme"
 }

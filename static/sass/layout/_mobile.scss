@@ -1,0 +1,55 @@
+.mobile-page {
+  #main-container {
+    padding: 0 8px 8px 8px;
+  }
+
+  #nav {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  #refresh-button {
+    margin-right: 16px;
+  }
+
+  ol {
+    margin: 0 -4px;
+    padding: 0;
+  }
+
+  li {
+    border: solid 1px #aaa;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px #eee;
+    text-decoration: none;
+    color: #444;
+    background-repeat: no-repeat;
+    background-size: 64px 64px;
+    background-position: 0px 0px;
+    padding-left: 72px;
+    margin: 5px 2px;
+    height: 64px;
+    image-rendering: pixelated;
+    cursor: pointer;
+
+    > div {
+    margin: 25px 2px 0px 2px;
+      float: left;
+    }
+  }
+
+  .origin {
+    position: relative;
+    top: 20px;
+    padding-bottom: 10px;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+
+  .remain {
+    color: #999;
+  }
+}

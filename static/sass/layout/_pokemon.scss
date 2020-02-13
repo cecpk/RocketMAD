@@ -1,4 +1,4 @@
-#pokemon-container {
+.leaflet-popup-content #pokemon-container {
   display: flex;
 
   #pokemon-container-left {
@@ -16,10 +16,6 @@
 
   .title {
     margin-bottom: 0px;
-
-    #weather-icon, span {
-      vertical-align: middle;
-    }
   }
 
   #despawn-verified {

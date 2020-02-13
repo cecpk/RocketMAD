@@ -1,0 +1,73 @@
+.leaflet-map {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-control-custom a {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  .material-icons {
+    font-size: 20px;
+  }
+}
+
+.leaflet-marker-icon.marker-cluster {
+  color: $text-color;
+}
+
+.leaflet-popup-content-wrapper {
+  color: $text-color;
+}
+
+.dark .leaflet-popup-content-wrapper {
+  background: $overlay-color-dark-1;
+  color: $text-color-dark;
+}
+
+.dark .leaflet-popup-tip {
+  background: $overlay-color-dark-1;
+}
+
+.leaflet-popup-content {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  font-size: 13px;
+
+  .title {
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .disappear {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .info-container {
+    margin-bottom: 10px;
+  }
+
+  .coordinates {
+    @media (pointer: coarse) {
+      margin-bottom: 10px;
+    }
+  }
+
+  .link-button {
+    margin-right: 10px;
+
+    @media (pointer: coarse) {
+      margin-right: 20px;
+    }
+  }
+
+  .section-divider {
+    margin: 13px 0;
+    border-bottom: 1px solid #e6e6e6;
+    height: 0px;
+  }
+}

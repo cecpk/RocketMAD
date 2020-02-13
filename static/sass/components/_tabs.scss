@@ -1,0 +1,48 @@
+.tabs {
+  background-color: transparent;
+
+  .tab a {
+    color: #80cbc4;
+
+    &:hover, &.active {
+      color: #26a69a;
+
+      .material-icons {
+        color: #26a69a;
+      }
+    }
+
+    &.active:focus {
+      background-color: transparent;
+    }
+
+    .material-icons {
+      margin: 0;
+      vertical-align: middle;
+      float: none;
+      color: #80cbc4;
+    }
+  }
+
+  .indicator {
+    background-color: #80cbc4;
+  }
+}
+
+.dark .tabs {
+  .tab a {
+    color: #26a69a;
+
+    &:hover, &.active {
+      color: #80cbc4;
+
+      .material-icons {
+        color: #80cbc4;
+      }
+    }
+
+    .material-icons {
+      color: #26a69a;
+    }
+  }
+}

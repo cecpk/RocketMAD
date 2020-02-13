@@ -1,4 +1,20 @@
 {
+  "0": {
+    "type": "",
+    "grunt": ""
+  },
+  "1": {
+    "type": "",
+    "grunt": "Blanche"
+  },
+  "2": {
+    "type": "",
+    "grunt": "Candela"
+  },
+  "3": {
+    "type": "",
+    "grunt": "Spark"
+  },
   "4": {
     "type": "Kanto starter",
     "grunt": "Male"
@@ -142,6 +158,10 @@
   "39": {
     "type": "Magikarp",
     "grunt": "Male"
+  },
+  "40": {
+    "type": "",
+    "grunt": "Team Leader"
   },
   "41": {
     "type": "",

@@ -17,6 +17,7 @@ src/
 _build
 _build_html
 beehive.*
+static/images/header/*.jpeg
 static/images/header/*.png
 !static/images/header/rocket.png
 static/images/raid/*.png
@@ -42,3 +43,5 @@ static/rarity.json
 !static/icons/hsl*.png
 !static/app/settings.json
 static/data/parks/*.json
+static/sounds/cries/*.mp3
+static/sounds/cries/*.wav
