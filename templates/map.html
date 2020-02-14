@@ -61,8 +61,8 @@
               {% if messenger_url %}
               <li><a href="{{ messenger_url }}" class="hide-on-small-only" title="Messenger" target="_blank"><i class="fab fa-facebook-messenger material-icons"></i></a></li>
               {% endif %}
-              {% if telegramUrl %}
-              <li><a href="{{ telegramUrl }}" class="hide-on-small-only" title="Telegram" target="_blank"><i class="fab fa-telegram-plane material-icons"></i></a></li>
+              {% if telegram_url %}
+              <li><a href="{{ telegram_url }}" class="hide-on-small-only" title="Telegram" target="_blank"><i class="fab fa-telegram-plane material-icons"></i></a></li>
               {% endif %}
               {% if whatsapp_url %}
               <li><a href="{{ whatsapp_url }}" class="hide-on-small-only" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp material-icons"></i></a></li>
@@ -112,7 +112,7 @@
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
       {% endif %}
-      {% if discord_url or messenger_url or telegramUrl or whatsapp_url %}
+      {% if discord_url or messenger_url or telegram_url or whatsapp_url %}
       <li class="divider" tabindex="-1"></li>
       {% endif %}
       {% if discord_url %}
@@ -121,8 +121,8 @@
       {% if messenger_url %}
       <li><a href="{{ messenger_url }}" target="_blank"><i class="fab fa-facebook-messenger"></i>Messenger</a></li>
       {% endif %}
-      {% if telegramUrl %}
-      <li><a href="{{ telegramUrl }}" target="_blank"><i class="fab fa-telegram-plane"></i>Telegram</a></li>
+      {% if telegram_url %}
+      <li><a href="{{ telegram_url }}" target="_blank"><i class="fab fa-telegram-plane"></i>Telegram</a></li>
       {% endif %}
       {% if whatsapp_url %}
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
