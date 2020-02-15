@@ -3617,25 +3617,14 @@ $(function () {
 
     updateMainS2CellId()
 
+    const promisePokemon = initPokemonData()
+    const promiseMove = initMoveData()
+    const promiseItem = serverSettings.quests ? initItemData() : Promise.resolve()
+    const promiseInvasion = serverSettings.invasions ? initInvasionData() : Promise.resolve()
+    const promiseRarity = serverSettings.rarity ? updatePokemonRarities(serverSettings.rarityFileName) : Promise.resolve()
+
     initI8lnDictionary().then(function () {
-        return initPokemonData()
-    }).then(function () {
-        return initMoveData()
-    }).then(function () {
-        if (serverSettings.quests) {
-            return initItemData()
-        }
-        return Promise.resolve()
-    }).then(function () {
-        if (serverSettings.invasions) {
-            return initInvasionData()
-        }
-        return Promise.resolve()
-    }).then(function () {
-        if (serverSettings.rarity) {
-            return updatePokemonRarities(serverSettings.rarityFileName)
-        }
-        return Promise.resolve()
+        return Promise.all([promisePokemon, promiseMove, promiseItem, promiseInvasion, promiseRarity])
     }).then(function () {
         updateMap()
         initSidebar()
