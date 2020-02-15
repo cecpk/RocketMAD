@@ -3890,7 +3890,7 @@ $(function () {
     window.setInterval(updateLabelDiffTime, 1000)
     window.setInterval(updateStaleMarkers, 2500)
     if (serverSettings.rarity) {
-        window.setInterval(updatePokemonRarities(serverSettings.rarityFileName), 300000)
+        window.setInterval(updatePokemonRarities, 300000, serverSettings.rarityFileName)
     }
 
     createUpdateWorker()
