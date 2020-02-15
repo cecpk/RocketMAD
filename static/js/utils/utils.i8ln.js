@@ -1,18 +1,14 @@
 const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
 var i8lnDictionary = {}
 
-function initI8lnDictionary(callback) {
+function initI8lnDictionary() {
     if (language === 'en' || !$.isEmptyObject(i8lnDictionary)) {
-        callback()
-        return
+        return Promise.resolve()
     }
 
-    $.getJSON('static/dist/locales/' + language + '.min.json')
-    .done(function (data) {
+    return $.getJSON('static/dist/locales/' + language + '.min.json').done(function (data) {
         i8lnDictionary = data
-        callback()
-    })
-    .fail(function () {
+    }).fail(function () {
         console.log('Error loading i8ln dictionary.')
     })
 }

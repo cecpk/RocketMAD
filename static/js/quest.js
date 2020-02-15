@@ -22,7 +22,6 @@ function initSidebar() {
     })
 
     $('#dark-mode-switch').prop('checked', Store.get('darkMode'))
-    $('select').formSelect()
 }
 
 function loadRawData() {
@@ -97,14 +96,6 @@ $(function () {
     $('.modal').modal()
 
     showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
-
-    $('.dropdown-trigger').dropdown({
-        constrainWidth: false,
-        coverTrigger: false
-    })
-    $('.sidenav').sidenav()
-
-    initSidebar()
 
     table = $('#quest-table').DataTable({
         responsive: true,
@@ -204,11 +195,19 @@ $(function () {
         ]
     })
 
-    initI8lnDictionary(function () {
-        initPokemonData(function () {
-            initItemData(function () {
-                loadQuests()
-            })
-        })
+    initI8lnDictionary().then(function () {
+        return initPokemonData()
+    }).then(function () {
+        return initItemData()
+    }).then(function () {
+        loadQuests()
     })
+
+    $('.dropdown-trigger').dropdown({
+        constrainWidth: false,
+        coverTrigger: false
+    })
+    $('.sidenav').sidenav()
+
+    initSidebar()
 })

@@ -6,14 +6,12 @@ var pokemonSearchList = []
 const availablePokemonCount = 649
 let pokemonIds = new Set()
 
-function initPokemonData(callback) {
+function initPokemonData() {
     if (!$.isEmptyObject(pokemonData)) {
-        callback()
-        return
+        return Promise.resolve()
     }
 
-    $.getJSON('static/dist/data/pokemon.min.json')
-    .done(function (data) {
+    return $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
         pokemonData = data
         $.each(pokemonData, function(id, value) {
             var gen
@@ -41,36 +39,27 @@ function initPokemonData(callback) {
                 gen: 'gen' + gen
             })
         })
-        callback()
-    })
-    .fail(function () {
+    }).fail(function () {
         console.log('Error loading pokemon data.')
     })
 }
 
-function initMoveData(callback) {
+function initMoveData() {
     if (!$.isEmptyObject(moveData)) {
-        callback()
-        return
+        return Promise.resolve()
     }
 
-    $.getJSON('static/dist/data/moves.min.json')
-    .done(function (data) {
+    return $.getJSON('static/dist/data/moves.min.json').done(function (data) {
         moveData = data
-        callback()
-    })
-    .fail(function () {
+    }).fail(function () {
         console.log('Error loading move data.')
     })
 }
 
-function updatePokemonRarities(rarityFileName, callback) {
-    $.getJSON('static/dist/data/' + rarityFileName + '.json')
-    .done(function (data) {
+function updatePokemonRarities(rarityFileName) {
+    return $.getJSON('static/dist/data/' + rarityFileName + '.json').done(function (data) {
         pokemonRarities = data
-        callback()
-    })
-    .fail(function () {
+    }).fail(function () {
         console.log("Couldn't load dynamic rarity JSON.")
     })
 }

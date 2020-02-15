@@ -3610,47 +3610,46 @@ $(function () {
         createServiceWorkerReceiver()
     }
 
-    updateMainS2CellId()
-
-    if (serverSettings.rarity) {
-        updatePokemonRarities(serverSettings.rarityFileName, function () {
-            updateMap()
-            window.setInterval(updateMap, 2000)
-        })
-        window.setInterval(updatePokemonRarities(serverSettings.rarityFileName, function () {}), 300000)
-    } else {
-        updateMap()
-        window.setInterval(updateMap, 2000)
-    }
-
-    getAllParks()
-    updateS2Overlay()
-
     $('.dropdown-trigger').dropdown({
         constrainWidth: false,
         coverTrigger: false
     })
 
-    initI8lnDictionary(function () {
-        initPokemonData(function () {
-            initPokemonFilters()
-        })
+    updateMainS2CellId()
+
+    initI8lnDictionary().then(function () {
+        return initPokemonData()
+    }).then(function () {
+        return initMoveData()
+    }).then(function () {
+        if (serverSettings.quests) {
+            return initItemData()
+        }
+        return Promise.resolve()
+    }).then(function () {
+        if (serverSettings.invasions) {
+            return initInvasionData()
+        }
+        return Promise.resolve()
+    }).then(function () {
+        if (serverSettings.rarity) {
+            return updatePokemonRarities(serverSettings.rarityFileName)
+        }
+        return Promise.resolve()
+    }).then(function () {
+        updateMap()
         initSidebar()
+        initPokemonFilters()
+        if (serverSettings.quests) {
+            initItemFilters()
+        }
+        if (serverSettings.invasions) {
+            initInvasionFilters()
+        }
     })
 
-    initMoveData(function () {})
-
-    if (serverSettings.quests) {
-        initItemData(function () {
-            initItemFilters()
-        })
-    }
-
-    if (serverSettings.invasions) {
-        initInvasionData(function () {
-            initInvasionFilters()
-        })
-    }
+    getAllParks()
+    updateS2Overlay()
 
     $('.sidenav').sidenav({
         draggable: false
@@ -3898,8 +3897,12 @@ $(function () {
         })
     }
 
+    window.setInterval(updateMap, 2000)
     window.setInterval(updateLabelDiffTime, 1000)
     window.setInterval(updateStaleMarkers, 2500)
+    if (serverSettings.rarity) {
+        window.setInterval(updatePokemonRarities(serverSettings.rarityFileName), 300000)
+    }
 
     createUpdateWorker()
 })

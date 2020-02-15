@@ -367,14 +367,6 @@ $(function () {
         showMapOverlay(pokemonId, formId)
     }
 
-    $('.dropdown-trigger').dropdown({
-        constrainWidth: false,
-        coverTrigger: false
-    })
-    $('.sidenav').sidenav()
-
-    initSidebar()
-
     let formNameType = $.fn.dataTable.absoluteOrder([
         { value: '', position: 'bottom' }
     ])
@@ -435,9 +427,17 @@ $(function () {
         ]
     })
 
-    initI8lnDictionary(function () {
-        initPokemonData(function () {
-            updateHistory()
-        })
+    initI8lnDictionary().then(function () {
+        return initPokemonData()
+    }).then(function () {
+        updateHistory()
     })
+
+    $('.dropdown-trigger').dropdown({
+        constrainWidth: false,
+        coverTrigger: false
+    })
+    $('.sidenav').sidenav()
+
+    initSidebar()
 })

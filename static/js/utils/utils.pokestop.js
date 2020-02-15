@@ -1,17 +1,13 @@
 var invasionData = {}
 
-function initInvasionData(callback) {
+function initInvasionData() {
     if (!$.isEmptyObject(invasionData)) {
-        callback()
-        return
+        return Promise.resolve()
     }
 
-    $.getJSON('static/dist/data/invasions.min.json')
-    .done(function (data) {
+    return $.getJSON('static/dist/data/invasions.min.json').done(function (data) {
         invasionData = data
-        callback()
-    })
-    .fail(function () {
+    }).fail(function () {
         console.log('Error loading invasion data.')
     })
 }

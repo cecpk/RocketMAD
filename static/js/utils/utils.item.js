@@ -1,17 +1,13 @@
 var itemData = {}
 
-function initItemData(callback) {
+function initItemData() {
     if (!$.isEmptyObject(itemData)) {
-        callback()
-        return
+        return Promise.resolve()
     }
 
-    $.getJSON('static/dist/data/items.min.json')
-    .done(function (data) {
+    return $.getJSON('static/dist/data/items.min.json').done(function (data) {
         itemData = data
-        callback()
-    })
-    .fail(function () {
+    }).fail(function () {
         console.log('Error loading item data.')
     })
 }
