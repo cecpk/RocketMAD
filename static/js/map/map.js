@@ -10,6 +10,9 @@ var settingsSideNav
 var statsSideNav
 var gymSidebar
 var openGymSidebarId = ''
+let pokemonFiltersLoaded = false
+let questItemFiltersLoaded = false
+let invasionFiltersLoaded = false
 
 var settings = {
     showPokemon: null,
@@ -185,7 +188,6 @@ const startLocationMarkerZIndex = 20000 // Highest value so it doesn't get stuck
 
 var updateWorker
 var lastUpdateTime
-var redrawTimeout = null
 
 const gymTypes = ['Uncontested', 'Mystic', 'Valor', 'Instinct']
 
@@ -1982,8 +1984,7 @@ function initSidebar() {
     $('#map-service-provider-select').val(settings.mapServiceProvider)
     $('#dark-mode-switch').prop('checked', settings.darkMode)
 
-    $.getJSON('static/dist/data/markerstyles.min.json')
-    .done(function (data) {
+    $.getJSON('static/dist/data/markerstyles.min.json').done(function (data) {
         markerStyles = data
         updateStartLocationMarker()
         updateUserLocationMarker()
@@ -1997,13 +1998,48 @@ function initSidebar() {
         $('#user-location-marker-icon-select').val(settings.userLocationMarkerStyle)
         $('#start-location-marker-icon-select').formSelect()
         $('#user-location-marker-icon-select').formSelect()
-    })
-    .fail(function () {
+    }).fail(function () {
         console.log('Error loading search marker styles JSON.')
     })
 
     // Initialize select elements.
     $('select').formSelect()
+
+    $('.pokemon-filter-modal').modal({
+        onOpenEnd: function () {
+            if (!pokemonFiltersLoaded) {
+                initPokemonFilters()
+                $('.pokemon-filter-modal .preloader-wrapper').hide()
+                pokemonFiltersLoaded = true
+            }
+        }
+    })
+
+    $('.quest-filter-modal').modal({
+        onOpenEnd: function () {
+            if (!pokemonFiltersLoaded) {
+                initPokemonFilters()
+                $('.pokemon-filter-modal .preloader-wrapper').hide()
+                pokemonFiltersLoaded = true
+            }
+            if (!questItemFiltersLoaded) {
+                initItemFilters()
+                $('.quest-filter-modal .preloader-wrapper').hide()
+                questItemFiltersLoaded = true
+            }
+            $('.quest-filter-tabs').tabs('updateTabIndicator')
+        }
+    })
+
+    $('.invasion-filter-modal').modal({
+        onOpenEnd: function () {
+            if (!invasionFiltersLoaded) {
+                initInvasionFilters()
+                $('.invasion-filter-modal .preloader-wrapper').hide()
+                invasionFiltersLoaded = true
+            }
+        }
+    })
 }
 
 function initPokemonFilters() {
@@ -3626,15 +3662,9 @@ $(function () {
     initI8lnDictionary().then(function () {
         return Promise.all([promisePokemon, promiseMove, promiseItem, promiseInvasion, promiseRarity])
     }).then(function () {
+        // Initial load.
         updateMap()
         initSidebar()
-        initPokemonFilters()
-        if (serverSettings.quests) {
-            initItemFilters()
-        }
-        if (serverSettings.invasions) {
-            initInvasionFilters()
-        }
     })
 
     getAllParks()
@@ -3698,18 +3728,6 @@ $(function () {
 
     $('#weather-modal').modal({
         onOpenStart: setupWeatherModal
-    })
-
-    $('#quest-filter-modal').modal({
-        onOpenEnd: function () {
-            $('#quest-filter-tabs').tabs('updateTabIndicator')
-        }
-    })
-
-    $('#notif-quest-filter-modal').modal({
-        onOpenEnd: function () {
-            $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
-        }
     })
 
     $('.tooltipped').tooltip()

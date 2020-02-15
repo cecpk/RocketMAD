@@ -147,7 +147,7 @@
     </div>
 
     {% if settings.pokemons %}
-    <div id="pokemon-filter-modal" class="modal filter-modal">
+    <div id="pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
         <h6 id="filter-pokemon-title">Pokémon</h6>
         <label for="exclude-pokemon">
@@ -166,12 +166,25 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.pokemonValues %}
-    <div id="pokemon-values-filter-modal" class="modal filter-modal">
+    <div id="pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
         <h6 id="filter-values-pokemon-title">Pokémon filtered by values</h6>
         <label for="unfiltered-pokemon">
@@ -190,12 +203,25 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.raidFilters %}
-    <div id="raid-pokemon-filter-modal" class="modal filter-modal">
+    <div id="raid-pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
         <h6 id="filter-raid-pokemon-title">Raid Bosses</h6>
         <label for="exclude-raid-pokemon">
@@ -214,14 +240,27 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.quests %}
-    <div id="quest-filter-modal" class="modal filter-modal">
+    <div id="quest-filter-modal" class="modal filter-modal quest-filter-modal">
       <div class="modal-content">
-        <ul id ="quest-filter-tabs" class="tabs">
+        <ul id ="quest-filter-tabs" class="tabs quest-filter-tabs">
           <li class="tab"><a href="#quest-pokemon-tab" class="active">Quest Pokémon</a></li>
           <li class="tab"><a href="#quest-item-tab">Quest Items</a></li>
         </ul>
@@ -256,12 +295,25 @@
             </div>
           </label>
         </div>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.invasions %}
-    <div id="invasion-filter-modal" class="modal filter-modal">
+    <div id="invasion-filter-modal" class="modal filter-modal invasion-filter-modal">
       <div class="modal-content">
         <h6 id="filter-invasion-title">Rocket Invasions</h6>
         <label for="exclude-invasions">
@@ -275,6 +327,19 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
@@ -291,7 +356,7 @@
     {% endif %}
 
     {% if settings.pokemons %}
-    <div id="notif-pokemon-filter-modal" class="modal filter-modal">
+    <div id="notif-pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
         <h6 id="notif-pokemon-filter-title">Notif Pokémon</h6>
         <label for="no-notif-pokemon">
@@ -310,12 +375,25 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.pokemonValues %}
-    <div id="notif-pokemon-values-filter-modal" class="modal filter-modal">
+    <div id="notif-pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
         <h6 id="notif-pokemon-values-filter-title">Notif Pokémon filtered by values</h6>
         <label for="no-notif-values-pokemon">
@@ -334,12 +412,25 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.raids %}
-    <div id="notif-raid-pokemon-filter-modal" class="modal filter-modal">
+    <div id="notif-raid-pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
         <h6 id="notif-raid-pokemon-filter-title">Notif Raid Bosses</h6>
         <label for="no-notif-raid-pokemon">
@@ -358,14 +449,27 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.quests %}
-    <div id="notif-quest-filter-modal" class="modal filter-modal">
+    <div id="notif-quest-filter-modal" class="modal filter-modal quest-filter-modal">
       <div class="modal-content">
-        <ul id ="notif-quest-filter-tabs" class="tabs">
+        <ul id ="notif-quest-filter-tabs" class="tabs quest-filter-tabs">
           <li class="tab"><a href="#notif-quest-pokemon-tab" class="active">Notif Quest Pokémon</a></li>
           <li class="tab"><a href="#notif-quest-item-tab">Notif Quest Items</a></li>
         </ul>
@@ -400,12 +504,25 @@
             </div>
           </label>
         </div>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
 
     {% if settings.invasions %}
-    <div id="notif-invasion-filter-modal" class="modal filter-modal">
+    <div id="notif-invasion-filter-modal" class="modal filter-modal invasion-filter-modal">
       <div class="modal-content">
         <h6 id="notif-invasion-filter-title">Notif Rocket Invasions</h6>
         <label for="no-notif-invasions">
@@ -419,6 +536,19 @@
             </div>
           </div>
         </label>
+        <div class="preloader-wrapper big active centered">
+          <div class="spinner-layer">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     {% endif %}
