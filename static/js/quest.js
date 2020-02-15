@@ -207,7 +207,9 @@ $(function () {
         constrainWidth: false,
         coverTrigger: false
     })
-    $('.sidenav').sidenav()
+    $('.sidenav').sidenav({
+        draggable: false
+    })
 
     initSidebar()
 })

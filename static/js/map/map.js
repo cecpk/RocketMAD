@@ -13,6 +13,7 @@ var openGymSidebarId = ''
 let pokemonFiltersLoaded = false
 let questItemFiltersLoaded = false
 let invasionFiltersLoaded = false
+let settingsSidebarLoaded = false
 
 var settings = {
     showPokemon: null,
@@ -3664,14 +3665,19 @@ $(function () {
     }).then(function () {
         // Initial load.
         updateMap()
-        initSidebar()
     })
 
     getAllParks()
     updateS2Overlay()
 
-    $('.sidenav').sidenav({
-        draggable: false
+    $('#settings-sidenav').sidenav({
+        draggable: false,
+        onOpenEnd: function () {
+            if (!settingsSidebarLoaded) {
+                initSidebar()
+                settingsSidebarLoaded = true
+            }
+        }
     })
 
     let settingsSideNavElem = document.getElementById('settings-sidenav')
