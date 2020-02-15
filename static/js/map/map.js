@@ -3910,7 +3910,7 @@ $(function () {
         })
     }
 
-    window.setInterval(updateMap, 2000)
+    window.setInterval(updateMap, serverSettings.mapUpdateInverval)
     window.setInterval(updateLabelDiffTime, 1000)
     window.setInterval(updateStaleMarkers, 2500)
     if (serverSettings.rarity) {

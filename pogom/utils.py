@@ -173,6 +173,9 @@ def get_args():
     parser.add_argument('-ai', '--analytics-id',
                         default=None,
                         help='Google Analytics Tracking-ID.'),
+    parser.add_argument('-mui', '--map-update-interval',
+                        default=2500,
+                        help='Interval between raw_data requests (map updates) in milliseconds.'),
     parser.add_argument('-MO', '--motd',
                         action='store_true', default=False,
                         help='Shows a MOTD (Message of the Day) on visit.')

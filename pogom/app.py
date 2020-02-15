@@ -204,6 +204,7 @@ class Pogom(Flask):
             'generateImages': args.generate_images,
             'statsSidebar': not args.no_stats_sidebar,
             'twelveHourClock': args.twelve_hour_clock,
+            'mapUpdateInverval': args.map_update_interval,
             'motd': args.motd,
             'motdTitle': args.motd_title,
             'motdText': args.motd_text,
