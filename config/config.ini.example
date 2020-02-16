@@ -8,8 +8,6 @@
 # Common settings
 #################
 
-#host:                          # Address to listen on (default='127.0.0.1')
-#port:                          # Port to listen on (default=5000)
 #location:                      # Location, can be an address or coordinates.
 #pogo-assets:                   # Directory pointing to optional PogoAssets root directory. (default=None)
 #generate-images                # Use ImageMagick to generate dynamic icons on demand.
@@ -99,6 +97,10 @@
 # Webserver settings
 ####################
 
+#host:                          # Address to listen on (default='127.0.0.1')
+#port:                          # Port to listen on (default=5000)
+#workers:                       # The number of worker processes for handling requests. Generally in the 2-4 x {NUM_CORES} range. (Default=2 x {NUM_CORES} + 1)
+#development-server             # Use Flask’s built-in development server. Don't use this in production. (default=False)
 #locale:                        # Pokemon translation
 #cors                           # Enable CORS on web server.
 #ssl-certificate:               # Path to ssl certificate

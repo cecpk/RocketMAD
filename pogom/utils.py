@@ -9,6 +9,7 @@ import os
 import json
 import logging
 import math
+import multiprocessing
 import time
 import socket
 import struct
@@ -90,6 +91,15 @@ def get_args():
                         default='127.0.0.1')
     parser.add_argument('-P', '--port', type=int,
                         help='Set web server listening port.', default=5000)
+    parser.add_argument('-w', '--workers',
+                        type=int, default=multiprocessing.cpu_count() * 2 + 1,
+                        help='The number of worker processes for handling ' +
+                             'requests. Generally in the 2-4 x {NUM_CORES} ' +
+                             'range.')
+    parser.add_argument('-ds', '--development-server',
+                        action='store_true', default=False,
+                        help='Use Flask’s built-in development server. ' +
+                             'Don\'t use this in production.')
     parser.add_argument('-L', '--locale',
                         help=('Locale for Pokemon names (check' +
                               ' static/dist/locales for more).'),
@@ -174,7 +184,7 @@ def get_args():
                         default=None,
                         help='Google Analytics Tracking-ID.'),
     parser.add_argument('-mui', '--map-update-interval',
-                        default=2500,
+                        type=int, default=2500,
                         help='Interval between raw_data requests (map updates) in milliseconds.'),
     parser.add_argument('-MO', '--motd',
                         action='store_true', default=False,

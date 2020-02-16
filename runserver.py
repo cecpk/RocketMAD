@@ -31,6 +31,7 @@ from pogom.parks import download_ex_parks, download_nest_parks
 from pogom.models import (init_database, create_tables, drop_tables,
                           clean_db_loop, verify_table_encoding,
                           verify_database_schema)
+from pogom.gunicorn import GunicornApplication
 
 from time import strftime
 
@@ -296,19 +297,31 @@ def main():
     cache_buster = CacheBuster()
     cache_buster.init_app(app)
 
-    ssl_context = None
-    if (args.ssl_certificate and args.ssl_privatekey and
-            os.path.exists(args.ssl_certificate) and
-            os.path.exists(args.ssl_privatekey)):
-        ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-        ssl_context.load_cert_chain(
-            args.ssl_certificate, args.ssl_privatekey)
+    use_ssl = (args.ssl_certificate and args.ssl_privatekey and
+               os.path.exists(args.ssl_certificate) and
+               os.path.exists(args.ssl_privatekey))
+    if use_ssl:
         log.info('Web server in SSL mode.')
-    if args.verbose:
-        app.run(threaded=True, use_reloader=False, debug=True,
-                host=args.host, port=args.port, ssl_context=ssl_context)
+
+    if not args.development_server:
+        options = {
+            'bind': '%s:%s' % (args.host, args.port),
+            'workers': args.workers,
+            'keyfile': args.ssl_privatekey if use_ssl else None,
+            'certfile': args.ssl_certificate if use_ssl else None,
+            'logger_class': 'pogom.gunicorn.GunicornLogger',
+            'loglevel': 'debug' if args.verbose else 'info',
+            'accesslog': '-' if args.access_logs else None
+        }
+        GunicornApplication(app, options).run()
     else:
-        app.run(threaded=True, use_reloader=False, debug=False,
+        ssl_context = None
+        if use_ssl:
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+            ssl_context.load_cert_chain(
+                args.ssl_certificate, args.ssl_privatekey)
+        debug = args.verbose > 0
+        app.run(threaded=True, use_reloader=False, debug=debug,
                 host=args.host, port=args.port, ssl_context=ssl_context)
 
 
@@ -356,7 +369,7 @@ def set_log_and_verbosity(log):
         logging.addLevelName(5, 'TRACE')
 
     # Web access logs.
-    if args.access_logs:
+    if args.development_server and args.access_logs:
         date = strftime('%Y%m%d_%H%M')
         filename = os.path.join(
             args.log_path, '{}_{}_access.log'.format(date, args.status_name))
