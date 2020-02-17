@@ -2,17 +2,20 @@
 # -*- coding: utf-8 -*-
 
 import calendar
-import logging
 import gc
+import logging
+import os
 
 from datetime import datetime
 from s2sphere import LatLng
 from bisect import bisect_left
-from flask import (Flask, abort, jsonify, render_template, request,
-                   make_response, send_from_directory, send_file)
+from flask import (abort, Flask, jsonify, make_response, redirect,
+                   render_template, request, send_from_directory, send_file,
+                   session, url_for)
 from flask.json import JSONEncoder
 from flask_caching import Cache
 from flask_compress import Compress
+from flask_session import Session
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
 from pogom.weather import (get_weather_cells, get_weather_alerts)
@@ -20,13 +23,14 @@ from .models import (Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
                      Weather)
 from .utils import (i8ln, get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
-from .client_auth import check_auth
+from .client_auth import OAuth2, check_auth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
 log = logging.getLogger(__name__)
 cache = Cache(config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 0})
 compress = Compress()
+sess = Session()
 
 args = get_args()
 
@@ -53,8 +57,12 @@ class Pogom(Flask):
 
     def __init__(self, import_name, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
-        compress.init_app(self)
+        #self.config['SESSION_TYPE'] = 'memcached'
         cache.init_app(self)
+        compress.init_app(self)
+        self.secret_key = os.urandom(16)
+        sess.init_app(self)
+        self.oauth = OAuth2(self)
 
         # Global blist
         if not args.disable_blacklist:
@@ -72,6 +80,8 @@ class Pogom(Flask):
 
         # Routes
         self.json_encoder = CustomJSONEncoder
+        self.route("/login", methods=['GET'])(self.login)
+        self.route("/authorize", methods=['GET'])(self.authorize)
         self.route("/", methods=['GET'])(self.fullmap)
         self.route("/auth_callback", methods=['GET'])(self.auth_callback)
         self.route("/raw_data", methods=['GET'])(self.raw_data)
@@ -89,6 +99,18 @@ class Pogom(Flask):
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
+
+    def login(self):
+        redirect_uri = None
+        if args.uas_host_override:
+            redirect_uri = args.uas_host_override + 'authorize'
+        else:
+            redirect_uri = url_for('authorize', _external=True)
+        return self.oauth.get_authorize_redirect(redirect_uri)
+
+    def authorize(self):
+        self.oauth.set_token()
+        return redirect('/')
 
     def gym_img(self):
         team = request.args.get('team')
@@ -381,6 +403,8 @@ class Pogom(Flask):
         )
 
     def raw_data(self):
+        print(session['access_token'])
+
         # Make sure fingerprint isn't blacklisted.
         fingerprint_blacklisted = any([
             fingerprints['no_referrer'](request),

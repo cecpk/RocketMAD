@@ -8,7 +8,8 @@ import urllib.parse
 import urllib.error
 import datetime
 
-from flask import jsonify
+from authlib.integrations.flask_client import OAuth
+from flask import jsonify, session
 from requests.exceptions import HTTPError
 
 from .utils import get_args
@@ -39,7 +40,37 @@ if args.uas_discord_required_roles:
             required_roles.append((guild_id, role_id))
 
 
+class OAuth2:
+
+    def __init__(self, app):
+        self.oauth = OAuth(app)
+        self.oauth.register(
+            name='discord',
+            client_id=args.uas_client_id,
+            client_secret=args.uas_client_secret,
+            api_base_url='https://discordapp.com/api/v6',
+            access_token_url='https://discordapp.com/api/oauth2/token',
+            authorize_url='https://discordapp.com/api/oauth2/authorize',
+            authorize_params={ 'scope' : 'identify guilds' }
+        )
+
+
+    def get_authorize_redirect(self, redirect_uri):
+        return self.oauth.discord.authorize_redirect(redirect_uri)
+
+
+    def set_token(self):
+        token = self.oauth.discord.authorize_access_token()
+        session['access_token'] = token
+
+
+    def get_resources(self):
+        resp = self.oauth.discord.get('users/@me')
+        user = resp.json()
+
+
 def check_auth(request):
+    return False
     if args.user_auth_service == "Discord":
         auth_code = request.args.get('userAuthCode')
 
