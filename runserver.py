@@ -311,7 +311,8 @@ def main():
             'certfile': args.ssl_certificate if use_ssl else None,
             'logger_class': 'pogom.gunicorn.GunicornLogger',
             'loglevel': 'debug' if args.verbose else 'info',
-            'accesslog': '-' if args.access_logs else None
+            'accesslog': '-' if args.access_logs else None,
+            'limit_request_line': 8190
         }
         GunicornApplication(app, options).run()
     else:
