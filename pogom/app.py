@@ -16,6 +16,7 @@ from flask.json import JSONEncoder
 from flask_caching import Cache
 from flask_compress import Compress
 from flask_session import Session
+from functools import wraps
 from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
                            get_pokemon_raw_icon)
 from pogom.weather import (get_weather_cells, get_weather_alerts)
@@ -57,7 +58,7 @@ class Pogom(Flask):
 
     def __init__(self, import_name, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
-        #self.config['SESSION_TYPE'] = 'memcached'
+        self.config['SESSION_TYPE'] = 'redis'
         cache.init_app(self)
         compress.init_app(self)
         self.secret_key = os.urandom(16)
@@ -99,6 +100,14 @@ class Pogom(Flask):
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
+
+    def login_required(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not 'access_token' in session:
+                return redirect(url_for('login', next=request.url))
+            return f(*args, **kwargs)
+        return decorated_function
 
     def login(self):
         redirect_uri = None
@@ -402,9 +411,8 @@ class Pogom(Flask):
             settings=settings
         )
 
+    @login_required
     def raw_data(self):
-        print(session['access_token'])
-
         # Make sure fingerprint isn't blacklisted.
         fingerprint_blacklisted = any([
             fingerprints['no_referrer'](request),

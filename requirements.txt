@@ -15,5 +15,6 @@ overpy~=0.4
 peewee~=3.11.2
 psutil~=5.6.3
 pymysql~=0.9.3
+redis~=3.4.1
 requests~=2.22.0
 s2sphere~=0.2.5
