@@ -3659,6 +3659,11 @@ $(function () {
         showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
     }
 
+    $('.dropdown-trigger').dropdown({
+        constrainWidth: false,
+        coverTrigger: false
+    })
+
     initSettingsSidebar()
 
     if (serverSettings.statsSidebar) {
@@ -3689,11 +3694,6 @@ $(function () {
         let gymSidebarElem = document.getElementById('gym-sidebar')
         gymSidebar = M.Sidenav.getInstance(gymSidebarElem)
     }
-
-    $('.dropdown-trigger').dropdown({
-        constrainWidth: false,
-        coverTrigger: false
-    })
 
     $('.tabs').tabs()
     $('#stats-tabs').tabs({
