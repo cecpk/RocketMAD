@@ -197,7 +197,7 @@ def get_args():
                                   'MOTD.'),
                         help='MOTD text, can be HTML.')
     parser.add_argument('-MOp', '--motd-pages',
-                        default='/,/mobile',
+                        nargs='+', default=['/', '/mobile'],
                         help='Pages the MOTD should be shown on.')
     parser.add_argument('-MOa', '--show-motd-always',
                         action='store_true', default=False,

@@ -10,10 +10,6 @@ var settingsSideNav
 var statsSideNav
 var gymSidebar
 var openGymSidebarId = ''
-let pokemonFiltersLoaded = false
-let questItemFiltersLoaded = false
-let invasionFiltersLoaded = false
-let settingsSidebarLoaded = false
 
 var settings = {
     showPokemon: null,
@@ -589,8 +585,20 @@ function initSettings() {
     settings.clusterZoomLevel = isMobileDevice() ? serverSettings.clusterZoomLevelMobile : serverSettings.clusterZoomLevel
 }
 
-function initSidebar() {
-    // Setup UI element interactions.
+function initSettingsSidebar() {
+    $('#settings-sidenav').sidenav({
+        draggable: false
+    })
+    $('.collapsible').collapsible()
+
+    let settingsSideNavElem = document.getElementById('settings-sidenav')
+    settingsSideNav = M.Sidenav.getInstance(settingsSideNavElem)
+    $('.sidenav-trigger[data-target="settings-sidenav"]').on('click', function (e) {
+        if (settingsSideNav.isOpen) {
+            settingsSideNav.close()
+            e.stopPropagation()
+        }
+    })
 
     if (serverSettings.pokemons) {
         $('#pokemon-switch').on('change', function () {
@@ -2005,55 +2013,20 @@ function initSidebar() {
 
     // Initialize select elements.
     $('select').formSelect()
-
-    $('.pokemon-filter-modal').modal({
-        onOpenEnd: function () {
-            if (!pokemonFiltersLoaded) {
-                initPokemonFilters()
-                $('.pokemon-filter-modal .preloader-wrapper').hide()
-                pokemonFiltersLoaded = true
-            }
-        }
-    })
-
-    $('.quest-filter-modal').modal({
-        onOpenEnd: function () {
-            if (!pokemonFiltersLoaded) {
-                initPokemonFilters()
-                $('.pokemon-filter-modal .preloader-wrapper').hide()
-                pokemonFiltersLoaded = true
-            }
-            if (!questItemFiltersLoaded) {
-                initItemFilters()
-                $('.quest-filter-modal .preloader-wrapper').hide()
-                questItemFiltersLoaded = true
-            }
-            $('.quest-filter-tabs').tabs('updateTabIndicator')
-        }
-    })
-
-    $('.invasion-filter-modal').modal({
-        onOpenEnd: function () {
-            if (!invasionFiltersLoaded) {
-                initInvasionFilters()
-                $('.invasion-filter-modal .preloader-wrapper').hide()
-                invasionFiltersLoaded = true
-            }
-        }
-    })
 }
 
 function initPokemonFilters() {
     const pokemonIds = getPokemonIds()
 
+    let list = ''
     for (let id of pokemonIds) {
         let pokemonIcon
         if (serverSettings.generateImages) {
-            pokemonIcon = `<img src='${getPokemonRawIconUrl({'pokemon_id': id})}' width='32'>`
+            pokemonIcon = `<img class='lazy' src='static/images/placeholder.png' data-src='${getPokemonRawIconUrl({'pokemon_id': id})}' width='32'>`
         } else {
             pokemonIcon = `<i class='pokemon-sprite n${id}' width='32'></i>`
         }
-        $('.pokemon-filter-list').append(`
+        list += `
             <div class='filter-button' data-id='${id}'>
               <div class='filter-button-content'>
                 <div>#${id}</div>
@@ -2061,8 +2034,8 @@ function initPokemonFilters() {
                 <div>${getPokemonName(id)}</div>
               </div>
             </div>`
-        )
     }
+    $('.pokemon-filter-list').html(list)
 
     $('.pokemon-filter-list').on('click', '.filter-button', function () {
         var img = $(this)
@@ -2448,8 +2421,16 @@ function initPokemonFilters() {
 }
 
 function initItemFilters() {
+    $('.quest-filter-modal').modal({
+        onOpenEnd: function () {
+            $('.quest-filter-tabs').tabs('updateTabIndicator')
+        }
+    })
+
     let questItemIds = []
     const includeInFilter = [6, 1, 2, 3, 701, 703, 705, 706, 708, 101, 102, 103, 104, 201, 202, 1301, 1201, 1202, 501, 502, 503, 504, 1101, 1102, 1103, 1104, 1105, 1106, 1107]
+
+    let list = ''
     for (let i = 0; i < includeInFilter.length; i++) {
         const id = includeInFilter[i]
         const iconUrl = getItemImageUrl(id)
@@ -2460,16 +2441,17 @@ function initItemFilters() {
         }
         $.each(questBundles, function (idx, bundleAmount) {
             questItemIds.push(id + '_' + bundleAmount)
-            $('.quest-item-filter-list').append(`
-                <div class='filter-button' data-id='${id}' data-bundle='${bundleAmount}'>
+            list += `
+                <div class='filter-button' data-id='${id}' bundleAmount='${bundleAmount}'>
                   <div class='filter-button-content'>
                     <div>${name}</div>
-                    <div><img src='${iconUrl}' width='32'></div>
+                    <div><img class='lazy' src='static/images/placeholder.png' data-src='${iconUrl}' width='32'></div>
                     <div>x${bundleAmount}</div>
                   </div>
-                </div>`)
+                </div>`
         })
     }
+    $('.quest-item-filter-list').html(list)
 
     $('.quest-item-filter-list').on('click', '.filter-button', function () {
         let inputElement = $(this).parent().parent().find('input[id$=items]')
@@ -2572,20 +2554,23 @@ function initItemFilters() {
 
 function initInvasionFilters() {
     const invasionIds = [41, 42, 43, 44, 5, 4, 6, 7, 10, 11, 12, 13, 49, 50, 14, 15, 16, 17, 18, 19, 20, 21, 47, 48, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 28, 29, 38, 39]
+
+    let list = ''
     for (var i = 0; i < invasionIds.length; i++) {
         const id = invasionIds[i]
         const iconUrl = getInvasionImageUrl(id)
         const type = getInvasionType(id)
         const grunt = getInvasionGrunt(id)
-        $('.invasion-filter-list').append(`
+        list += `
             <div class='filter-button' data-id='${id}'>
               <div class='filter-button-content'>
                 <div>${type}</div>
-                <div><img src='${iconUrl}' width='32'></div>
+                <div><img class='lazy' src='static/images/placeholder.png' data-src='${iconUrl}' width='32'></div>
                 <div>${grunt}</div>
               </div>
-            </div>`)
+            </div>`
     }
+    $('.invasion-filter-list').html(list)
 
     $('.invasion-filter-list').on('click', '.filter-button', function () {
         var inputElement = $(this).parent().parent().find('input[id$=invasions]')
@@ -3269,7 +3254,7 @@ function loadRawData() {
 }
 
 function updateMap() {
-    loadRawData().done(function (result) {
+    return loadRawData().done(function (result) {
         $.each(result.pokemons, function (idx, pokemon) {
             processPokemon(pokemon)
         })
@@ -3647,13 +3632,6 @@ $(function () {
         createServiceWorkerReceiver()
     }
 
-    $('.dropdown-trigger').dropdown({
-        constrainWidth: false,
-        coverTrigger: false
-    })
-
-    updateMainS2CellId()
-
     const promisePokemon = initPokemonData()
     const promiseMove = initMoveData()
     const promiseItem = serverSettings.quests ? initItemData() : Promise.resolve()
@@ -3664,30 +3642,23 @@ $(function () {
         return Promise.all([promisePokemon, promiseMove, promiseItem, promiseInvasion, promiseRarity])
     }).then(function () {
         // Initial load.
-        updateMap()
+        return updateMap()
+    }).then(function () {
+        initSettingsSidebar()
+        initPokemonFilters()
+        initItemFilters()
+        initInvasionFilters()
+        lazyLoadImages()
     })
 
     getAllParks()
     updateS2Overlay()
 
-    $('#settings-sidenav').sidenav({
-        draggable: false,
-        onOpenEnd: function () {
-            if (!settingsSidebarLoaded) {
-                initSidebar()
-                settingsSidebarLoaded = true
-            }
-        }
-    })
+    $('.modal').modal()
 
-    let settingsSideNavElem = document.getElementById('settings-sidenav')
-    settingsSideNav = M.Sidenav.getInstance(settingsSideNavElem)
-    $('.sidenav-trigger[data-target="settings-sidenav"]').on('click', function (e) {
-        if (settingsSideNav.isOpen) {
-            settingsSideNav.close()
-            e.stopPropagation()
-        }
-    })
+    if (serverSettings.motd) {
+        showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+    }
 
     if (serverSettings.statsSidebar) {
         $('#stats-sidenav').sidenav({
@@ -3718,25 +3689,23 @@ $(function () {
         gymSidebar = M.Sidenav.getInstance(gymSidebarElem)
     }
 
-    $('.collapsible').collapsible()
-
-    initBackupModals()
+    $('.dropdown-trigger').dropdown({
+        constrainWidth: false,
+        coverTrigger: false
+    })
 
     $('.tabs').tabs()
-
     $('#stats-tabs').tabs({
         onShow: updateStatsTable
     })
-
-    $('.modal').modal()
-
-    showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
 
     $('#weather-modal').modal({
         onOpenStart: setupWeatherModal
     })
 
     $('.tooltipped').tooltip()
+
+    initBackupModals()
 
     // Init data tables.
     if (serverSettings.pokemons) {

@@ -208,7 +208,7 @@ class Pogom(Flask):
             'motd': args.motd,
             'motdTitle': args.motd_title,
             'motdText': args.motd_text,
-            'motdPages': args.motd_pages.split(','),
+            'motdPages': args.motd_pages,
             'showMotdAlways': args.show_motd_always,
             'pokemons': not args.no_pokemon,
             'upscaledPokemon': (
@@ -271,7 +271,7 @@ class Pogom(Flask):
             'motd': args.motd,
             'motdTitle': args.motd_title,
             'motdText': args.motd_text,
-            'motdPages': args.motd_pages.split(','),
+            'motdPages': args.motd_pages,
             'showMotdAlways': args.show_motd_always
         }
 
@@ -301,7 +301,7 @@ class Pogom(Flask):
             'motd': args.motd,
             'motdTitle': args.motd_title,
             'motdText': args.motd_text,
-            'motdPages': args.motd_pages.split(','),
+            'motdPages': args.motd_pages,
             'showMotdAlways': args.show_motd_always
         }
 
@@ -333,7 +333,7 @@ class Pogom(Flask):
             'motd': args.motd,
             'motdTitle': args.motd_title,
             'motdText': args.motd_text,
-            'motdPages': args.motd_pages.split(','),
+            'motdPages': args.motd_pages,
             'showMotdAlways': args.show_motd_always
         }
 

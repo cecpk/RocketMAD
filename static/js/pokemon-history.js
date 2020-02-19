@@ -359,7 +359,11 @@ $(function () {
         enableDarkMode()
     }
 
-    showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+    $('.modal').modal()
+
+    if (serverSettings.motd) {
+        showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+    }
 
     if (location.href.match(/overlay_[0-9]+_[0-9]+/g)) {
         const pokemonId = location.href.replace(/^.*overlay_([0-9]+)_([0-9]+).*$/, '$1')

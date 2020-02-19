@@ -95,7 +95,9 @@ $(function () {
 
     $('.modal').modal()
 
-    showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+    if (serverSettings.motd) {
+        showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+    }
 
     table = $('#quest-table').DataTable({
         responsive: true,

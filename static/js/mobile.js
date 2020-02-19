@@ -59,5 +59,9 @@ document.querySelectorAll('li').forEach(function (listItem) {
 })
 
 $(function () {
-    showMotd(serverSettings.motd, serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+    $('.modal').modal()
+
+    if (serverSettings.motd) {
+        showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
+    }
 })

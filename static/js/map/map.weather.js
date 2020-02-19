@@ -167,6 +167,9 @@ function processWeather(weather) {
         }
         mapData.weather[id] = weather
 
+        if (mainS2CellId === null) {
+            updateMainS2CellId()
+        }
         if (weather.s2_cell_id === mainS2CellId) {
             updateWeatherButton()
         }
@@ -247,12 +250,12 @@ function removeWeather(weather) {
 function updateMainS2CellId() {
     if (typeof window.orientation !== 'undefined' || isMobileDevice()) {
         if (map.getZoom() < 12) {
-            mainS2CellId = null
+            mainS2CellId = 0
             return
         }
     } else {
         if (map.getZoom() < 13) {
-            mainS2CellId = null
+            mainS2CellId = 0
             return
         }
     }
@@ -267,7 +270,7 @@ function updateWeatherButton() {
         return
     }
 
-    if (mainS2CellId !== null && mapData.weather[mainS2CellId]) {
+    if (mainS2CellId && mapData.weather[mainS2CellId]) {
         const weather = mapData.weather[mainS2CellId]
         var weatherClass
         if (weather.world_time === 1) { // Daytime.
