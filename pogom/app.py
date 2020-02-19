@@ -24,7 +24,7 @@ from .models import (Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
                      Weather)
 from .utils import (i8ln, get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
-from .client_auth import OAuth2, check_auth
+from .client_auth.oauth2 import OAuth2
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
@@ -63,7 +63,12 @@ class Pogom(Flask):
         compress.init_app(self)
         self.secret_key = os.urandom(16)
         sess.init_app(self)
-        self.oauth = OAuth2(self)
+        redirect_uri = None
+        if args.uas_host_override:
+            redirect_uri = args.uas_host_override + 'authorize'
+        else:
+            redirect_uri = url_for('authorize', _external=True)
+        self.oauth2 = OAuth2(self, redirect_uri)
 
         # Global blist
         if not args.disable_blacklist:
@@ -82,6 +87,7 @@ class Pogom(Flask):
         # Routes
         self.json_encoder = CustomJSONEncoder
         self.route("/login", methods=['GET'])(self.login)
+        self.route("/login/<auth_type>", methods=['GET'])(self.auth_login)
         self.route("/authorize", methods=['GET'])(self.authorize)
         self.route("/", methods=['GET'])(self.fullmap)
         self.route("/auth_callback", methods=['GET'])(self.auth_callback)
@@ -104,21 +110,44 @@ class Pogom(Flask):
     def login_required(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not 'access_token' in session:
-                return redirect(url_for('login', next=request.url))
+            if not args[0].oauth2.is_authenticated():
+                return redirect(url_for('login'))
             return f(*args, **kwargs)
         return decorated_function
 
     def login(self):
-        redirect_uri = None
-        if args.uas_host_override:
-            redirect_uri = args.uas_host_override + 'authorize'
-        else:
-            redirect_uri = url_for('authorize', _external=True)
-        return self.oauth.get_authorize_redirect(redirect_uri)
+        settings = {
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages.split(','),
+            'showMotdAlways': args.show_motd_always
+        }
+
+        return render_template(
+            'login.html',
+            lang=args.locale,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            analytics_id=args.analytics_id,
+            settings=settings
+        )
+
+    def auth_login(self, auth_type):
+        session['auth_type'] = auth_type
+        return self.oauth2.get_authorize_redirect()
 
     def authorize(self):
-        self.oauth.set_token()
+        self.oauth2.set_token()
+        self.oauth2.update_resources()
         return redirect('/')
 
     def gym_img(self):
@@ -220,6 +249,7 @@ class Pogom(Flask):
     def auth_callback(self):
         return render_template('auth_callback.html')
 
+    @login_required
     @cache.cached()
     def fullmap(self):
         settings = {
@@ -293,6 +323,7 @@ class Pogom(Flask):
             i18n=i8ln
         )
 
+    @login_required
     @cache.cached()
     def get_pokemon_history(self):
         settings = {
@@ -325,6 +356,7 @@ class Pogom(Flask):
             settings=settings
         )
 
+    @login_required
     @cache.cached()
     def get_quest(self):
         settings = {
@@ -355,6 +387,7 @@ class Pogom(Flask):
             settings=settings
         )
 
+    @login_required
     def list_pokemon(self):
         # todo: Check if client is Android/iOS/Desktop for geolink, currently
         # only supports Android.
@@ -411,7 +444,6 @@ class Pogom(Flask):
             settings=settings
         )
 
-    @login_required
     def raw_data(self):
         # Make sure fingerprint isn't blacklisted.
         fingerprint_blacklisted = any([
@@ -423,9 +455,8 @@ class Pogom(Flask):
             log.debug('User denied access: blacklisted fingerprint.')
             abort(403)
 
-        auth_redirect = check_auth(request)
-        if (auth_redirect):
-            return auth_redirect
+        if not self.oauth2.is_authenticated():
+            abort(403)
 
         d = {}
 
