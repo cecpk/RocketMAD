@@ -3644,7 +3644,6 @@ $(function () {
         // Initial load.
         return updateMap()
     }).then(function () {
-        initSettingsSidebar()
         initPokemonFilters()
         initItemFilters()
         initInvasionFilters()
@@ -3659,6 +3658,8 @@ $(function () {
     if (serverSettings.motd) {
         showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
     }
+
+    initSettingsSidebar()
 
     if (serverSettings.statsSidebar) {
         $('#stats-sidenav').sidenav({
