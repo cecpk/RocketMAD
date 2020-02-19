@@ -24,7 +24,7 @@ from .models import (Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
                      Weather)
 from .utils import (i8ln, get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
-from .client_auth.oauth2 import OAuth2
+from .client_auth.client_auth import ClientAuth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
@@ -58,17 +58,18 @@ class Pogom(Flask):
 
     def __init__(self, import_name, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
-        self.config['SESSION_TYPE'] = 'redis'
         cache.init_app(self)
         compress.init_app(self)
-        self.secret_key = os.urandom(16)
-        sess.init_app(self)
-        redirect_uri = None
-        if args.uas_host_override:
-            redirect_uri = args.uas_host_override + 'authorize'
-        else:
-            redirect_uri = url_for('authorize', _external=True)
-        self.oauth2 = OAuth2(self, redirect_uri)
+        if args.client_auth:
+            self.config['SESSION_TYPE'] = 'redis'
+            self.secret_key = os.urandom(16)
+            sess.init_app(self)
+            redirect_uri = None
+            if args.uas_host_override:
+                redirect_uri = args.uas_host_override + 'authorize'
+            else:
+                redirect_uri = url_for('authorize', _external=True)
+            self.client_auth = ClientAuth(self, redirect_uri)
 
         # Global blist
         if not args.disable_blacklist:
@@ -86,11 +87,12 @@ class Pogom(Flask):
 
         # Routes
         self.json_encoder = CustomJSONEncoder
-        self.route("/login", methods=['GET'])(self.login)
-        self.route("/login/<auth_type>", methods=['GET'])(self.auth_login)
-        self.route("/authorize", methods=['GET'])(self.authorize)
+        if args.client_auth:
+            self.route("/login", methods=['GET'])(self.login)
+            self.route("/login/<auth_type>", methods=['GET'])(self.auth_login)
+            self.route("/authorize", methods=['GET'])(self.authorize)
+            self.route("/logout", methods=['GET'])(self.logout)
         self.route("/", methods=['GET'])(self.fullmap)
-        self.route("/auth_callback", methods=['GET'])(self.auth_callback)
         self.route("/raw_data", methods=['GET'])(self.raw_data)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
         if not args.no_pokemon and not args.no_pokemon_history_page:
@@ -109,10 +111,15 @@ class Pogom(Flask):
 
     def login_required(f):
         @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if not args[0].oauth2.is_authenticated():
+        def decorated_function(*args_, **kwargs):
+            if not args.client_auth:
+                return f(*args_, **kwargs)
+            if not 'logged_in' in session:
                 return redirect(url_for('login'))
-            return f(*args, **kwargs)
+            permission, redirect_url = args_[0].client_auth.has_permission()
+            if not permission:
+                return redirect(redirect_url)
+            return f(*args_, **kwargs)
         return decorated_function
 
     def login(self):
@@ -142,13 +149,18 @@ class Pogom(Flask):
         )
 
     def auth_login(self, auth_type):
+        if not self.client_auth.is_valid_auth_type(auth_type):
+            abort(404)
         session['auth_type'] = auth_type
-        return self.oauth2.get_authorize_redirect()
+        return self.client_auth.get_authorize_redirect()
 
     def authorize(self):
-        self.oauth2.set_token()
-        self.oauth2.update_resources()
+        self.client_auth.process_credentials()
         return redirect('/')
+
+    def logout(self):
+        session.clear()
+        return redirect(url_for('login'))
 
     def gym_img(self):
         team = request.args.get('team')
@@ -246,9 +258,6 @@ class Pogom(Flask):
     def set_location(self, location):
         self.location = location
 
-    def auth_callback(self):
-        return render_template('auth_callback.html')
-
     @login_required
     @cache.cached()
     def fullmap(self):
@@ -308,6 +317,7 @@ class Pogom(Flask):
             map_title=args.map_title,
             header_image=not args.no_header_image,
             header_image_name=args.header_image,
+            client_auth=args.client_auth,
             madmin_url=args.madmin_url,
             donate_url=args.donate_url,
             patreon_url=args.patreon_url,
@@ -455,8 +465,12 @@ class Pogom(Flask):
             log.debug('User denied access: blacklisted fingerprint.')
             abort(403)
 
-        if not self.oauth2.is_authenticated():
-            abort(403)
+        if args.client_auth:
+            if not 'logged_in' in session:
+                abort(403)
+            permission, direct_url = self.client_auth.has_permission()
+            if not permission:
+                abort(403)
 
         d = {}
 

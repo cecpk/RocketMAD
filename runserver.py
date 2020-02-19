@@ -210,6 +210,11 @@ def main():
 
     args = get_args()
 
+    if args.user_auth_service:
+        args.client_auth = True
+    else:
+        args.client_auth = False
+
     # Abort if status name is not valid.
     regexp = re.compile('^([\w\s\-.]+)$')
     if not regexp.match(args.status_name):
