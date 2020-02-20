@@ -3186,7 +3186,6 @@ function removeMarker(marker) {
 }
 
 function loadRawData() {
-    const userAuthCode = localStorage.getItem('userAuthCode')
     const loadPokemon = settings.showPokemon
     const eids = String(Array.from(getExcludedPokemon()))
     const reids = String(Array.from(isShowAllZoom() ? settings.excludedPokemon : reincludedPokemon))
@@ -3214,7 +3213,6 @@ function loadRawData() {
         url: 'raw_data',
         type: 'GET',
         data: {
-            'userAuthCode': userAuthCode,
             'timestamp': timestamp,
             'swLat': swLat,
             'swLng': swLng,

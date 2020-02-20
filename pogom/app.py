@@ -62,14 +62,10 @@ class Pogom(Flask):
         compress.init_app(self)
         if args.client_auth:
             self.config['SESSION_TYPE'] = 'redis'
-            self.secret_key = os.urandom(16)
+            self.config['SESSION_USE_SIGNER'] = True
+            self.secret_key = args.secret_key
             sess.init_app(self)
-            redirect_uri = None
-            if args.uas_host_override:
-                redirect_uri = args.uas_host_override + 'authorize'
-            else:
-                redirect_uri = url_for('authorize', _external=True)
-            self.client_auth = ClientAuth(self, redirect_uri)
+            self.client_auth = ClientAuth(self)
 
         # Global blist
         if not args.disable_blacklist:
@@ -102,7 +98,6 @@ class Pogom(Flask):
                 not args.no_quest_page):
             self.route("/quests", methods=['GET'])(self.get_quest)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
-        self.route("/submit_token", methods=['POST'])(self.submit_token)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
@@ -114,11 +109,12 @@ class Pogom(Flask):
         def decorated_function(*args_, **kwargs):
             if not args.client_auth:
                 return f(*args_, **kwargs)
-            if not 'logged_in' in session:
+            permission, redirect_uri = args_[0].client_auth.has_permission()
+            if not permission and not redirect_uri:
+                # User not logged in.
                 return redirect(url_for('login'))
-            permission, redirect_url = args_[0].client_auth.has_permission()
-            if not permission:
-                return redirect(redirect_url)
+            elif not permission:
+                return redirect(redirect_uri)
             return f(*args_, **kwargs)
         return decorated_function
 
@@ -149,17 +145,16 @@ class Pogom(Flask):
         )
 
     def auth_login(self, auth_type):
-        if not self.client_auth.is_valid_auth_type(auth_type):
-            abort(404)
-        session['auth_type'] = auth_type
-        return self.client_auth.get_authorize_redirect()
+        self.client_auth.start_session(auth_type)
+        redirect_uri = self.client_auth.get_authorize_redirect()
+        return redirect_uri if redirect_uri else redirect(url_for('login'))
 
     def authorize(self):
         self.client_auth.process_credentials()
         return redirect('/')
 
     def logout(self):
-        session.clear()
+        self.client_auth.end_session()
         return redirect(url_for('login'))
 
     def gym_img(self):
@@ -219,17 +214,6 @@ class Pogom(Flask):
 
     def render_service_worker_js(self):
         return send_from_directory('static/dist/js', 'serviceWorker.min.js')
-
-    def submit_token(self):
-        response = 'error'
-        if request.form:
-            token = request.form.get('token')
-            query = Token.insert(token=token, last_updated=datetime.utcnow())
-            query.execute()
-            response = 'ok'
-        r = make_response(response)
-        r.headers.add('Access-Control-Allow-Origin', '*')
-        return r
 
     def validate_request(self):
         # Get real IP behind trusted reverse proxy.
@@ -466,9 +450,7 @@ class Pogom(Flask):
             abort(403)
 
         if args.client_auth:
-            if not 'logged_in' in session:
-                abort(403)
-            permission, direct_url = self.client_auth.has_permission()
+            permission, redirect_uri = self.client_auth.has_permission()
             if not permission:
                 abort(403)
 
