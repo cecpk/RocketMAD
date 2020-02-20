@@ -2442,7 +2442,7 @@ function initItemFilters() {
         $.each(questBundles, function (idx, bundleAmount) {
             questItemIds.push(id + '_' + bundleAmount)
             list += `
-                <div class='filter-button' data-id='${id}' bundleAmount='${bundleAmount}'>
+                <div class='filter-button' data-id='${id}' data-bundle='${bundleAmount}'>
                   <div class='filter-button-content'>
                     <div>${name}</div>
                     <div><img class='lazy' src='static/images/placeholder.png' data-src='${iconUrl}' width='32'></div>
