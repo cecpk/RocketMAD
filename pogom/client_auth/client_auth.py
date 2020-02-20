@@ -7,6 +7,7 @@ import time
 
 from authlib.integrations.flask_client import OAuth
 from authlib.common.errors import AuthlibBaseError
+from base64 import b64encode
 from flask import session
 from ..utils import get_args
 
@@ -45,18 +46,22 @@ class ClientAuth():
     def end_session(self):
         auth_type = session.get('auth_type')
         if auth_type == 'discord':
+            data = (self.oauth.discord.client_id + ':' +
+                    self.oauth.discord.client_secret)
+            bytes = b64encode(data.encode("utf-8"))
+            encoded_creds = str(bytes, "utf-8")
             headers = {
-              'Authorization': 'Revoke ' + session['token']['access_token'],
+              'Authorization': 'Basic ' + encoded_creds,
               'Content-Type': 'application/x-www-form-urlencoded'
             }
+            data = 'token=' + session['token']['access_token']
             r = requests.post('https://discordapp.com/api/oauth2/token/revoke',
-                              headers=headers)
+                              data=data, headers=headers)
             try:
                 r.raise_for_status()
             except Exception:
-                log.error('' + str(r.status_code) +
-                          ' returned from Discord @me attempt: ' +
-                          r.text)
+                log.error(str(r.status_code) + ' returned from Discord revoke '
+                          'access token attempt: ' + r.text)
         session.clear()
 
     def has_permission(self):
