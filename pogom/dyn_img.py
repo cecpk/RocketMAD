@@ -5,7 +5,7 @@ import logging
 import os
 import subprocess
 
-from pogom.utils import get_args, get_pokemon_data
+from .utils import get_args, get_pokemon_data
 
 log = logging.getLogger(__name__)
 

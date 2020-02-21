@@ -75,6 +75,9 @@
               {% if quest_page %}
               <li><a href="quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
               {% endif %}
+              {% if client_auth %}
+              <li><a href="logout" class="hide-on-small-only" title="Sign out"><i class="material-icons">exit_to_app</i></a></li>
+              {% endif %}
             </ul>
           </div>
         </nav>
@@ -88,6 +91,9 @@
       {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
+      {% endif %}
+      {% if client_auth %}
+      <li><a href="logout"><i class="material-icons">exit_to_app</i>Sign out</a></li>
       {% endif %}
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
