@@ -163,8 +163,10 @@
 #discord-client-secret:            # OAuth2 client secret.
 #discord-bot-token:                # Token for bot with access to your guild. Only required for required-roles feature.
 #discord-required-guilds:          # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated list if multiple. (default=[])
-#discord-blacklisted-guilds:       # (Optional) If guild ID(s) are specified, user must not be in any of these guilds (servers) to access map. Comma separated list if multiple. (default=[])
-#discord-required-roles:           # (Optional) If specified, user must have one of these discord roles (from a specific guild).
+#discord-blacklisted-guilds:       # (Optional) If guild ID(s) are specified, user must NOT be in any of these guilds (servers) to access map. Comma separated list if multiple. (default=[])
+#discord-required-roles:           # (Optional) If specified, user must have one of these discord roles (from a specific guild) to access map.
+                                   # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
+#discord-blacklisted-roles:        # (Optional) If specified, user must NOT have any of these discord roles (from a specific guild) to access map.
                                    # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
 #discord-no-permission-redirect:   # (Optional) Link to redirect user to if user has no permission. Typically this would be your discord guild invite link.
 

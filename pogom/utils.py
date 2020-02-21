@@ -333,6 +333,13 @@ def get_args():
                             'Accepts comma separated list of role IDs, '
                             'or comma separated list of guild IDs and '
                             'roles IDs separated by \':\' e.g. 12345:6789')
+    group.add_argument('-DAbr', '--discord-blacklisted-roles',
+                       nargs='+', default=[],
+                       help='If specified, user must NOT have any of these '
+                            'discord roles (from a specific guild). '
+                            'Accepts comma separated list of role IDs, '
+                            'or comma separated list of guild IDs and '
+                            'roles IDs separated by \':\' e.g. 12345:6789')
     group.add_argument('-DAr', '--discord-no-permission-redirect',
                        default=None,
                        help='Link to redirect user to if user has no '

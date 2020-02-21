@@ -68,7 +68,7 @@ class DiscordAuth(AuthBase):
                           session['resources']['guilds'][guild]['name'])
                 return False, args.discord_no_permission_redirect
 
-        # Check roles.
+        # Check required roles.
         has_required_role = False
         for role in args.discord_required_roles:
             if ':' in role:
@@ -91,6 +91,25 @@ class DiscordAuth(AuthBase):
                       session['resources']['user']['username'],
                       session['resources']['guilds'][guild_id]['name'])
             return False, args.discord_no_permission_redirect
+
+        # Check blacklisted roles.
+        for role in args.discord_blacklisted_roles:
+            if ':' in role:
+                guild_id = role.split(':')[0]
+                role_id = role.split(':')[1]
+            else:
+                # No guild specified, use first blacklisted guild.
+                guild_id = args.discord_blacklisted_guilds[0]
+                role_id = role
+
+            roles = session['resources']['guilds'][guild_id].get('roles')
+            if roles is not None and role_id in roles:
+                log.debug('Permission denied for Discord user %s. '
+                          'Reason: has blacklisted role '
+                          'for Discord guild \'%s\'.',
+                          session['resources']['user']['username'],
+                          session['resources']['guilds'][guild_id]['name'])
+                return False, args.discord_no_permission_redirect
 
         session['has_permission'] = True
         return True, None
@@ -144,6 +163,30 @@ class DiscordAuth(AuthBase):
                 else:
                     # No guild specified, use first required guild.
                     guild_id = args.discord_required_guilds[0]
+
+                r = requests.get(self.oauth.discord.api_base_url + '/guilds/' +
+                                 guild_id + '/members/' + user_id,
+                                 headers=headers)
+                try:
+                    r.raise_for_status()
+                except Exception:
+                    log.error('%s returned from Discord guild member atempt: '
+                              '%s.', str(r.status_code), r.text)
+
+                roles = r.json()['roles']
+                session['resources']['guilds'][guild_id]['roles'] = roles
+
+        if len(args.discord_blacklisted_roles) > 0:
+            headers = {
+              'Authorization': 'Bot ' + args.discord_bot_token
+            }
+            user_id = session['resources']['user']['id']
+            for role in args.discord_blacklisted_roles:
+                if ':' in role:
+                    guild_id = role.split(':')[0]
+                else:
+                    # No guild specified, use first blacklisted guild.
+                    guild_id = args.discord_blacklisted_guilds[0]
 
                 r = requests.get(self.oauth.discord.api_base_url + '/guilds/' +
                                  guild_id + '/members/' + user_id,
