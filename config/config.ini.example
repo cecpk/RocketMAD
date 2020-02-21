@@ -149,10 +149,8 @@
 
 # Discord authentication
 ####################
-# If you want users to auth to Discord prior to accessing server, set user-auth-service to Discord, create an app here:
-# https://discordapp.com/developers/applications/me and add a redrect uri to your the application in this format: https://mysrv.com/auth_callback.
-# If you get an error on the discord page when authenticating, and the redirect_uri in the url doesn't match your servers actual web address
-# override it by specifying uas-host-override, e.g. https://mysrv.com/
+# If you want users to auth to Discord prior to accessing server, enable discord-auth, create an app here:
+# https://discordapp.com/developers/applications/me and add a redrect uri to your the application in this format: https://mysrv.com/auth/discord.
 # To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
 # they are not in any of the required guilds.
 # To require a user be in specific roles in the guild to gain access, add a bot to the application at the above developer application page,
@@ -162,12 +160,13 @@
 #discord-client-id:                # OAuth2 client ID.
 #discord-client-secret:            # OAuth2 client secret.
 #discord-bot-token:                # Token for bot with access to your guild. Only required for required-roles feature.
-#discord-required-guilds:          # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated list if multiple. (default=[])
+#discord-required-guilds:[]          # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated list if multiple. (default=[])
 #discord-blacklisted-guilds:       # (Optional) If guild ID(s) are specified, user must not be in any of these guilds (servers) to access map. Comma separated list if multiple. (default=[])
-#discord-required-roles:           # (Optional) If specified, user must have one of these discord roles (from a specific guild).
+#discord-required-roles:[]           # (Optional) If specified, user must have one of these discord roles (from a specific guild).
                                    # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
 #discord-no-permission-redirect:   # (Optional) Link to redirect user to if user has no permission. Typically this would be your discord guild invite link.
-
+#server-uri:https://mysrv.com/     #required
+#secret-key:                       #required needs to be 16 charackters long,best to randomly generate it. 
 
 # Misc
 ######
