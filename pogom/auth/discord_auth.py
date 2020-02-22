@@ -81,6 +81,9 @@ class DiscordAuth(AuthBase):
                 guild_id = args.discord_required_guilds[0]
                 role_id = role
 
+            if guild_id not in session['resources']['guilds']:
+                continue
+
             roles = session['resources']['guilds'][guild_id].get('roles')
             if roles is not None and role_id in roles:
                 has_required_role = True
@@ -103,6 +106,9 @@ class DiscordAuth(AuthBase):
                 # No guild specified, use first blacklisted guild.
                 guild_id = args.discord_blacklisted_guilds[0]
                 role_id = role
+
+            if guild_id not in session['resources']['guilds']:
+                continue
 
             roles = session['resources']['guilds'][guild_id].get('roles')
             if roles is not None and role_id in roles:
