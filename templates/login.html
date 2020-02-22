@@ -121,8 +121,13 @@
     </div>
     {% endif %}
 
-    <h3>Login</h3>
-    <a href="login/discord">Discord</a>
+    <div class="container">
+      <h4>Login to access {{ map_title }}</h4>
+      Login with:
+      <div class="collection">
+        <a href="login/discord" class="collection-item">Discord</a>
+      </div>
+    </div>
 
     <script>
       const serverSettings = {{settings|tojson|safe}};
