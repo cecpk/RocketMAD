@@ -26,7 +26,7 @@ class DiscordAuth(AuthBase):
             api_base_url='https://discordapp.com/api/v6',
             access_token_url='https://discordapp.com/api/oauth2/token',
             authorize_url='https://discordapp.com/api/oauth2/authorize',
-            authorize_params={ 'scope' : 'identify guilds' },
+            authorize_params={'scope': 'identify guilds'},
             fetch_token=self._fetch_token,
             update_token=self._update_token
         )
@@ -54,7 +54,7 @@ class DiscordAuth(AuthBase):
             if guild in session['resources']['guilds']:
                 in_required_guild = True
                 break
-        if len(args.discord_required_guilds) > 0  and not in_required_guild:
+        if len(args.discord_required_guilds) > 0 and not in_required_guild:
             log.debug('Permission denied for Discord user %s. '
                       'Reason: not a member of required Discord guilds.',
                       session['resources']['user']['username'])
@@ -64,7 +64,8 @@ class DiscordAuth(AuthBase):
         for guild in args.discord_blacklisted_guilds:
             if guild in session['resources']['guilds']:
                 log.debug('Permission denied for Discord user %s. '
-                          'Reason: member of blacklisted Discord guild \'%s\'.',
+                          'Reason: member of blacklisted Discord guild '
+                          '\'%s\'.',
                           session['resources']['user']['username'],
                           session['resources']['guilds'][guild]['name'])
                 return False, args.discord_no_permission_redirect
