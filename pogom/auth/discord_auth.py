@@ -41,10 +41,11 @@ class DiscordAuth(AuthBase):
 
     def has_permission(self):
         resources = session.get('resources')
-        if resources is None or resources.get('expires_at', 0) < time.time():
+        if (not session.get('has_permission', False) or resources is None or
+                resources.get('expires_at', 0) < time.time()):
             self.update_resources()
 
-        if session.get('has_permission', False) == True:
+        if session.get('has_permission', False):
             return True, None
 
         # Check required guilds.
