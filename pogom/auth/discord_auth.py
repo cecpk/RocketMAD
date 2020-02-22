@@ -164,6 +164,9 @@ class DiscordAuth(AuthBase):
                     # No guild specified, use first required guild.
                     guild_id = args.discord_required_guilds[0]
 
+                if guild_id not in session['resources']['guilds']:
+                    continue
+
                 r = requests.get(self.oauth.discord.api_base_url + '/guilds/' +
                                  guild_id + '/members/' + user_id,
                                  headers=headers)
@@ -187,6 +190,9 @@ class DiscordAuth(AuthBase):
                 else:
                     # No guild specified, use first blacklisted guild.
                     guild_id = args.discord_blacklisted_guilds[0]
+
+                if guild_id not in session['resources']['guilds']:
+                    continue
 
                 r = requests.get(self.oauth.discord.api_base_url + '/guilds/' +
                                  guild_id + '/members/' + user_id,
