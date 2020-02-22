@@ -133,6 +133,14 @@ class DiscordAuth(AuthBase):
                   session['resources']['user']['username'])
 
     def update_resources(self):
+        # Abort if last update was done less than 5 seconds ago
+        # to prevent rate limiting.
+        resources = session.get('resources')
+        if resources is not None:
+            last_updated_at = resources.get('last_updated_at', 0)
+            if last_updated_at + 5000 > time.time():
+                return
+
         session['resources'] = {}
 
         resp = self.oauth.discord.get('users/@me')
@@ -209,6 +217,7 @@ class DiscordAuth(AuthBase):
                 session['resources']['guilds'][guild_id]['roles'] = roles
 
         session['resources']['expires_at'] = time.time() + 3600
+        session['resources']['last_updated_at'] = time.time()
         session['has_permission'] = False
 
     def end_session(self):
