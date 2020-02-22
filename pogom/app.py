@@ -167,18 +167,18 @@ class Pogom(Flask):
 
     def login(self, auth_type):
         if self.is_logged_in():
-            return redirect('/')
+            return redirect(url_for('fullmap'))
         if auth_type not in self.accepted_auth_types:
             return redirect(url_for('login_page'))
         return self.get_authenticator(auth_type).get_authorize_redirect()
 
     def auth(self, auth_type):
         if self.is_logged_in():
-            return redirect('/')
+            return redirect(url_for('fullmap'))
         if auth_type not in self.accepted_auth_types:
             return redirect(url_for('login_page'))
         self.get_authenticator(auth_type).process_credentials()
-        return redirect('/')
+        return redirect(url_for('fullmap'))
 
     def gym_img(self):
         team = request.args.get('team')

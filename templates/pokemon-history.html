@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.css"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css').lstrip('/') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
   </head>
 
   <body>
@@ -236,6 +236,6 @@
     <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js"></script>
 
-    <script src="{{ url_for('static', filename='dist/js/pokemon-history.min.js').lstrip('/') }}"></script>
+    <script src="{{ url_for('static', filename='dist/js/pokemon-history.min.js') }}"></script>
   </body>
 </html>
