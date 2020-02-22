@@ -103,8 +103,8 @@ class DiscordAuth(AuthBase):
                 guild_id = role.split(':')[0]
                 role_id = role.split(':')[1]
             else:
-                # No guild specified, use first blacklisted guild.
-                guild_id = args.discord_blacklisted_guilds[0]
+                # No guild specified, use first required guild.
+                guild_id = args.discord_required_guilds[0]
                 role_id = role
 
             if guild_id not in session['resources']['guilds']:
@@ -204,8 +204,8 @@ class DiscordAuth(AuthBase):
                 if ':' in role:
                     guild_id = role.split(':')[0]
                 else:
-                    # No guild specified, use first blacklisted guild.
-                    guild_id = args.discord_blacklisted_guilds[0]
+                    # No guild specified, use first required guild.
+                    guild_id = args.discord_required_guilds[0]
 
                 if guild_id not in session['resources']['guilds']:
                     continue
