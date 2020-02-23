@@ -5,6 +5,7 @@ import calendar
 import gc
 import logging
 import os
+import redis
 
 from authlib.integrations.flask_client import OAuth
 from datetime import datetime
@@ -63,6 +64,9 @@ class Pogom(Flask):
         compress.init_app(self)
         if args.client_auth:
             self.config['SESSION_TYPE'] = 'redis'
+            redis_url = ('redis://' + args.redis_host + ':' +
+                         str(args.redis_port))
+            self.config['SESSION_REDIS'] = redis.from_url(redis_url)
             self.config['SESSION_USE_SIGNER'] = True
             self.secret_key = args.secret_key
             sess.init_app(self)

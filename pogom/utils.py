@@ -299,12 +299,18 @@ def get_args():
                         help=('Directory pointing to optional ' +
                               'PogoAssets root directory.'))
     group = parser.add_argument_group('Client Auth')
-    group.add_argument('-CAsk', '--secret-key', default=None,
-                       help='Secret key used to sign sessions. '
-                            'Must be at least 16 characters long.')
     group.add_argument('-CAsu', '--server-uri', default=None,
                        help='URI of your website/server. Authentication apps '
                             'will use this to redirect the user to.')
+    group.add_argument('-CAsk', '--secret-key', default=None,
+                       help='Secret key used to sign sessions. '
+                            'Must be at least 16 characters long.')
+    group.add_argument('-CArh', '--redis-host', default='127.0.0.1',
+                       help='Address of Redis server '
+                            '(Redis is used to store session data).')
+    group.add_argument('-CArp', '--redis-port',
+                       type=int, default=6379,
+                       help='Port of Redis server.')
     group = parser.add_argument_group('Discord Auth')
     group.add_argument('-DA', '--discord-auth',
                        action='store_true', default=False,
