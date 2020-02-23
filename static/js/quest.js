@@ -29,7 +29,6 @@ function loadRawData() {
         url: 'raw_data',
         type: 'GET',
         data: {
-            'userAuthCode': localStorage.getItem('userAuthCode'),
             'pokemon': false,
             'gyms': false,
             'raids': false,

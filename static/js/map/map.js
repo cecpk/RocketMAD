@@ -3171,7 +3171,6 @@ function removeMarker(marker) {
 }
 
 function loadRawData() {
-    const userAuthCode = localStorage.getItem('userAuthCode')
     const loadPokemon = settings.showPokemon
     const eids = String(Array.from(getExcludedPokemon()))
     const reids = String(Array.from(isShowAllZoom() ? settings.excludedPokemon : reincludedPokemon))
@@ -3199,7 +3198,6 @@ function loadRawData() {
         url: 'raw_data',
         type: 'GET',
         data: {
-            'userAuthCode': userAuthCode,
             'timestamp': timestamp,
             'swLat': swLat,
             'swLng': swLng,
@@ -3241,11 +3239,6 @@ function loadRawData() {
         },
         error: function () {
             toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
-        },
-        success: function (data) {
-            if (data.auth_redirect) {
-                window.location = data.auth_redirect
-            }
         },
         complete: function () {
             rawDataIsLoading = false

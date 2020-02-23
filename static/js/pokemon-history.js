@@ -55,7 +55,6 @@ function loadRawData() {
         url: 'raw_data',
         type: 'GET',
         data: {
-            'userAuthCode': localStorage.getItem('userAuthCode'),
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
@@ -91,7 +90,6 @@ function loadDetails(pokemonId, formId) {
         url: 'raw_data',
         type: 'GET',
         data: {
-            'userAuthCode': localStorage.getItem('userAuthCode'),
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
@@ -129,7 +127,6 @@ function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
         url: 'raw_data',
         type: 'GET',
         data: {
-            'userAuthCode': localStorage.getItem('userAuthCode'),
             'pokemon': false,
             'pokestops': false,
             'gyms': false,
