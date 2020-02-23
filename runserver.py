@@ -8,6 +8,9 @@ if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
           "Your version: {}.{}"
           .format(py_version.major, py_version.minor))
     sys.exit(1)
+from gevent import monkey
+monkey.patch_all()
+
 import os
 import logging
 import re
@@ -308,7 +311,7 @@ def main():
     if not args.development_server:
         options = {
             'bind': '%s:%s' % (args.host, args.port),
-            'worker_class': 'eventlet',
+            'worker_class': 'gevent',
             'workers': args.workers,
             'keyfile': args.ssl_privatekey if use_ssl else None,
             'certfile': args.ssl_certificate if use_ssl else None,
