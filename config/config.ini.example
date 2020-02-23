@@ -144,18 +144,19 @@
 
 # User authentication
 ####################
+
 #secret-key:                     # Key used to sign sessions. Must be at least 16 characters long.
 #server-uri:                     # URI of your website/server. Authentication apps will use this to redirect the user to.
 
 # Discord authentication
 ####################
 # If you want users to auth to Discord prior to accessing server, enable discord-auth, create an app here:
-# https://discordapp.com/developers/applications/me and add a redirect uri to your the application in this format:  https://mysrv.com/auth/discord.
+# https://discordapp.com/developers/applications/me and add a redirect uri to your the application in this format: https://mysrv.com/auth/discord
 # To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
 # they are not in any of the required guilds.
 # To require a user be in specific roles in the guild to gain access, add a bot to the application at the above developer application page,
 # then add that bot to your guild (server) using this link: https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot
-# Note that the required-roles feature requires a configuration with a single required guild.
+
 #discord-auth                      # Authenticate users with Discord OAuth2. (default=False)
 #discord-client-id:                # OAuth2 client ID.
 #discord-client-secret:            # OAuth2 client secret.
