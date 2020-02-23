@@ -308,6 +308,7 @@ def main():
     if not args.development_server:
         options = {
             'bind': '%s:%s' % (args.host, args.port),
+            'worker_class': 'eventlet',
             'workers': args.workers,
             'keyfile': args.ssl_privatekey if use_ssl else None,
             'certfile': args.ssl_certificate if use_ssl else None,
