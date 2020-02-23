@@ -51,10 +51,11 @@ def convert_pokemon_list(pokemon):
 
 class Pogom(Flask):
 
-    def __init__(self, import_name, **kwargs):
+    def __init__(self, import_name, db, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
         compress.init_app(self)
         cache.init_app(self)
+        self.db = db
 
         # Global blist
         if not args.disable_blacklist:
@@ -395,6 +396,8 @@ class Pogom(Flask):
         if (auth_redirect):
             return auth_redirect
 
+        self.db.connect()
+
         d = {}
 
         # Request time of this request.
@@ -619,6 +622,9 @@ class Pogom(Flask):
 
         #if request.args.get('weatherAlerts', 'false') == 'true':
         #    d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
+
+        if not self.db.is_closed():
+            self.db.close()
 
         return jsonify(d)
 

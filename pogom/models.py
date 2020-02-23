@@ -13,7 +13,7 @@ from functools import reduce
 from peewee import (Check, SQL, SmallIntegerField, IntegerField, CharField,
                     DoubleField, BooleanField, DateTimeField, fn, FloatField,
                     TextField, BigIntegerField, JOIN, OperationalError,
-                    __exception_wrapper__)
+                    __exception_wrapper__, Model, DatabaseProxy)
 from playhouse.flask_utils import FlaskDB
 from playhouse.migrate import migrate, MySQLMigrator
 from playhouse.pool import PooledMySQLDatabase
@@ -26,7 +26,7 @@ from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
 log = logging.getLogger(__name__)
 
 args = get_args()
-flaskDb = FlaskDB()
+db = DatabaseProxy()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
 db_schema_version = 37
@@ -67,10 +67,11 @@ class UBigIntegerField(BigIntegerField):
     field_type = 'bigint unsigned'
 
 
-def init_database(app):
+def init_database():
     log.info('Connecting to MySQL database on %s:%i...',
              args.db_host, args.db_port)
-    db = MyRetryDB(
+
+    db.initialize(MyRetryDB(
         args.db_name,
         user=args.db_user,
         password=args.db_pass,
@@ -79,20 +80,20 @@ def init_database(app):
         stale_timeout=30,
         max_connections=None,
         charset='utf8mb4')
+    )
 
     # Using internal method as the other way would be using internal var, we
     # could use initializer but db is initialized later
-    flaskDb._load_database(app, db)
-    if app is not None:
-        flaskDb._register_handlers(app)
+    #flaskDb._load_database(app, db)
+    #if app is not None:
+    #    flaskDb._register_handlers(app)
     return db
 
 
-class BaseModel(flaskDb.Model):
+class BaseModel(Model):
 
-    @classmethod
-    def database(cls):
-        return cls._meta.database
+    class Meta:
+        database = db
 
     @classmethod
     def get_all(cls):
@@ -967,7 +968,7 @@ def db_cleanup_regular():
     # http://docs.peewee-orm.com/en/latest/peewee/database.html#advanced-connection-management
     # When using an execution context, a separate connection from the pool
     # will be used inside the wrapped block and a transaction will be started.
-    with Pokestop.database():
+    with db:
         # Remove active modifier from expired lured pokestops.
         query = (Pokestop
                  .update(lure_expiration=None, active_fort_modifier=None)
@@ -982,7 +983,7 @@ def db_clean_pokemons(age_hours):
     log.debug('Beginning cleanup of old pokemon spawns.')
     start_timer = default_timer()
     pokemon_timeout = datetime.utcnow() - timedelta(hours=age_hours)
-    with Pokemon.database():
+    with db:
         query = (Pokemon
                  .delete()
                  .where(Pokemon.disappear_time < pokemon_timeout))
@@ -1000,7 +1001,7 @@ def db_clean_gyms(age_hours, gyms_age_days=30):
 
     gym_info_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with Gym.database():
+    with db:
         # Remove old GymDetails entries.
         query = (GymDetails
                  .delete()
@@ -1028,7 +1029,7 @@ def db_clean_spawnpoints(age_hours):
 
     spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
-    with Trs_Spawn.database():
+    with db:
         # Select old Trs_Spawn entries.
         query = (Trs_Spawn
                  .select(Trs_Spawn.spawnpoint)
@@ -1061,7 +1062,7 @@ def db_clean_forts(age_hours):
 
     fort_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with Gym.database():
+    with db:
         # Remove old Gym entries.
         query = (Gym
                  .delete()

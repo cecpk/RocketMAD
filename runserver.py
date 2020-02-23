@@ -164,8 +164,8 @@ def validate_assets(args):
     return True
 
 
-def startup_db(app, clear_db):
-    db = init_database(app)
+def startup_db(clear_db):
+    db = init_database()
     if clear_db:
         log.info('Clearing database')
         #drop_tables(db)
@@ -248,15 +248,16 @@ def main():
     log.info('Pokemon values %s.',
              'disabled' if args.no_pokemon_values else 'enabled')
 
+    db = startup_db(args.clear_db)
+
     app = None
     if not args.clear_db:
         app = Pogom(__name__,
-                    root_path=os.path.dirname(
-                        os.path.abspath(__file__)))
+                    db,
+                    root_path=os.path.dirname(os.path.abspath(__file__)))
         app.before_request(app.validate_request)
         app.set_location(position)
 
-    db = startup_db(app, args.clear_db)
 
     # Database cleaner; really only need one ever.
     if args.db_cleanup:
@@ -266,7 +267,8 @@ def main():
 
     # Dynamic rarity.
     if args.rarity_update_frequency:
-        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity')
+        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity',
+                   args=(db,))
         t.daemon = True
         log.info('Dynamic rarity is enabled.')
         t.start()

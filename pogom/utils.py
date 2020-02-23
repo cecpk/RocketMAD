@@ -926,7 +926,7 @@ def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     return spawn_group
 
 
-def dynamic_rarity_refresher():
+def dynamic_rarity_refresher(db):
     # If we import at the top, pogom.models will import pogom.utils,
     # causing the cyclic import to make some things unavailable.
     from pogom.models import Pokemon
@@ -946,7 +946,8 @@ def dynamic_rarity_refresher():
         log.info('Updating dynamic rarity...')
 
         start = default_timer()
-        db_rarities = Pokemon.get_spawn_counts(hours)
+        with db:
+            db_rarities = Pokemon.get_spawn_counts(hours)
         total = db_rarities['total']
         pokemon = db_rarities['pokemon']
 
