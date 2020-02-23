@@ -149,10 +149,8 @@
 
 # Discord authentication
 ####################
-# If you want users to auth to Discord prior to accessing server, set user-auth-service to Discord, create an app here:
-# https://discordapp.com/developers/applications/me and add a redrect uri to your the application in this format: https://mysrv.com/auth_callback.
-# If you get an error on the discord page when authenticating, and the redirect_uri in the url doesn't match your servers actual web address
-# override it by specifying uas-host-override, e.g. https://mysrv.com/
+# If you want users to auth to Discord prior to accessing server, enable discord-auth, create an app here:
+# https://discordapp.com/developers/applications/me and add a redirect uri to your the application in this format:  https://mysrv.com/auth/discord.
 # To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
 # they are not in any of the required guilds.
 # To require a user be in specific roles in the guild to gain access, add a bot to the application at the above developer application page,
