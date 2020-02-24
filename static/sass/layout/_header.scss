@@ -45,6 +45,10 @@ nav.nav-extended .nav-wrapper {
 }
 
 nav {
+  .nav-wrapper ul li:first-child .brand-logo {
+    margin-left: 15px;
+  }
+
   .brand-logo {
     font-size: 1.7rem !important;
     left: initial !important;

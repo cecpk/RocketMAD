@@ -25,7 +25,7 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css').lstrip('/') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
   </head>
 
   <body class="mobile-page">
@@ -69,6 +69,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>const pageLoaded = new Date().getTime();</script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
-    <script src="{{ url_for('static', filename='dist/js/mobile.min.js').lstrip('/') }}"></script>
+    <script src="{{ url_for('static', filename='dist/js/mobile.min.js') }}"></script>
   </body>
 </html>

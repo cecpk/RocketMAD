@@ -12,7 +12,7 @@
       gtag('config', '{{ analytics_id }}')
     </script>
     {% endif %}
-    <title>{{ map_title }} - Quests</title>
+    <title>{{ map_title }} - Login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
     <link rel="apple-touch-icon" sizes="180x180" href="static/images/appicons/apple-touch-icon.png">
@@ -27,7 +27,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
   </head>
 
@@ -37,7 +36,6 @@
         <nav>
           <div class="nav-wrapper">
             <ul>
-              <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
                 <a href="./" class="brand-logo">
                   {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
@@ -73,9 +71,6 @@
               {% if pokemon_history_page %}
               <li><a href="pokemon-history" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
               {% endif %}
-              {% if client_auth %}
-              <li><a href="logout" class="hide-on-small-only" title="Sign out"><i class="material-icons">exit_to_app</i></a></li>
-              {% endif %}
             </ul>
           </div>
         </nav>
@@ -89,9 +84,6 @@
       {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
-      {% endif %}
-      {% if client_auth %}
-      <li><a href="logout"><i class="material-icons">exit_to_app</i>Sign out</a></li>
       {% endif %}
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
@@ -129,56 +121,11 @@
     </div>
     {% endif %}
 
-    <div id="image-modal" class="modal">
-      <div class="modal-content">
-        <h5></h5>
-        <img class="responsive-img">
-      </div>
-    </div>
-
-    <ul id="settings-sidenav" class="sidenav">
-      <li>
-        <div class="settings-container">
-          <div class="form-control">
-            <div class="switch">
-              <label>
-                <input type="checkbox" id="dark-mode-switch">
-                <span class="lever"></span>
-                Dark mode
-              </label>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
-
-    <div id="quest-container">
-      <h5 id="quest-title" style="display:none;">Quests</h5>
-      <div id="table-container" style="display:none;">
-        <table id="quest-table" class="order-column row-border top-border hover" width="100%">
-          <thead>
-            <tr>
-              <th>PokéStop</th>
-              <th>Task</th>
-              <th>Reward</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-      <div class="preloader-wrapper big active centered">
-        <div class="spinner-layer">
-          <div class="circle-clipper left">
-            <div class="circle"></div>
-          </div>
-          <div class="gap-patch">
-              <div class="circle"></div>
-          </div>
-          <div class="circle-clipper right">
-            <div class="circle"></div>
-          </div>
-        </div>
+    <div class="container">
+      <h5>Login to access {{ map_title }}</h5>
+      Login with:
+      <div class="collection">
+        <a href="login/discord" class="collection-item">Discord</a>
       </div>
     </div>
 
@@ -188,10 +135,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/natural.js"></script>
-
-    <script src="{{ url_for('static', filename='dist/js/quest.min.js') }}"></script>
   </body>
 </html>

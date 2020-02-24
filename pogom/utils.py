@@ -190,11 +190,11 @@ def get_args():
                         action='store_true', default=False,
                         help='Shows a MOTD (Message of the Day) on visit.')
     parser.add_argument('-MOt', '--motd-title',
-                         default='MOTD',
-                         help='MOTD title, can be HTML.')
+                        default='MOTD',
+                        help='MOTD title, can be HTML.')
     parser.add_argument('-MOtxt', '--motd-text',
-                         default=('Hi there! This is an easily customizable ' +
-                                  'MOTD.'),
+                        default=('Hi there! This is an easily customizable ' +
+                                 'MOTD.'),
                         help='MOTD text, can be HTML.')
     parser.add_argument('-MOp', '--motd-pages',
                         nargs='+', default=['/', '/mobile'],
@@ -298,33 +298,59 @@ def get_args():
     parser.add_argument('-pa', '--pogo-assets', default=None,
                         help=('Directory pointing to optional ' +
                               'PogoAssets root directory.'))
-    parser.add_argument('-uas', '--user-auth-service', default=None,
-                        help='Force end users to auth to an external service.')
-    parser.add_argument('-uascid', '--uas-client-id', default=None,
-                        help='Client ID for user external authentication.')
-    parser.add_argument('-uascs', '--uas-client-secret', default=None,
-                        help='Client Secret for user external authentication.')
-    parser.add_argument('-uasho', '--uas-host-override', default=None,
-                        help='Host override for user external authentication.')
-    parser.add_argument('-uasdrg', '--uas-discord-required-guilds',
-                        default=None,
-                        help=('Required Discord Guild(s) for user ' +
-                              'external authentication.'))
-    parser.add_argument('-uasdr', '--uas-discord-redirect', default=None,
-                        help='Link for users not in required guild(s).')
-    parser.add_argument('-uasdbg', '--uas-discord-blacklisted-guilds',
-                        default=None,
-                        help=('Blacklisted Discord Guild(s) for user ' +
-                              'external authentication.'))
-    parser.add_argument('-uasdbr', '--uas-discord-blacklisted-redirect', default=None,
-                        help='Link to redirect user to if user is in a blacklisted guild.')
-    parser.add_argument('-uasdrr', '--uas-discord-required-roles',
-                        default=None,
-                        help=('Required Discord Guild Role(s) ' +
-                              'for user external authentication.'))
-    parser.add_argument('-uasdbt', '--uas-discord-bot-token', default=None,
-                        help=('Discord Bot Token for user ' +
-                              'external authentication.'))
+    group = parser.add_argument_group('Client Auth')
+    group.add_argument('-CAsu', '--server-uri', default=None,
+                       help='URI of your website/server. Authentication apps '
+                            'will use this to redirect the user to.')
+    group.add_argument('-CAsk', '--secret-key', default=None,
+                       help='Secret key used to sign sessions. '
+                            'Must be at least 16 characters long.')
+    group.add_argument('-CArh', '--redis-host', default='127.0.0.1',
+                       help='Address of Redis server '
+                            '(Redis is used to store session data).')
+    group.add_argument('-CArp', '--redis-port',
+                       type=int, default=6379,
+                       help='Port of Redis server.')
+    group = parser.add_argument_group('Discord Auth')
+    group.add_argument('-DA', '--discord-auth',
+                       action='store_true', default=False,
+                       help='Authenticate users with Discord OAuth2.')
+    group.add_argument('-DAci', '--discord-client-id', default=None,
+                       help='OAuth2 client ID.')
+    group.add_argument('-DAcs', '--discord-client-secret', default=None,
+                        help='OAuth2 client secret.')
+    group.add_argument('-DAbt', '--discord-bot-token', default=None,
+                       help='Token for bot with access to your guild. '
+                            'Only required for required-roles feature.')
+    group.add_argument('-DArg', '--discord-required-guilds',
+                       nargs='+', default=[],
+                       help='If guild ID(s) are specified, user must be in at '
+                            'least one discord guild (server) to access map. '
+                            'Comma separated list if multiple.')
+    group.add_argument('-DAbg', '--discord-blacklisted-guilds',
+                       nargs='+', default=[],
+                       help='If guild ID(s) are specified, user must not be '
+                            'in at least one discord guild (server) to access '
+                            'map. Comma separated list if multiple.')
+    group.add_argument('-DArr', '--discord-required-roles',
+                       nargs='+', default=[],
+                       help='If specified, user must have one of these '
+                            'discord roles (from a specific guild). '
+                            'Accepts comma separated list of role IDs, '
+                            'or comma separated list of guild IDs and '
+                            'roles IDs separated by \':\' e.g. 12345:6789')
+    group.add_argument('-DAbr', '--discord-blacklisted-roles',
+                       nargs='+', default=[],
+                       help='If specified, user must NOT have any of these '
+                            'discord roles (from a specific guild). '
+                            'Accepts comma separated list of role IDs, '
+                            'or comma separated list of guild IDs and '
+                            'roles IDs separated by \':\' e.g. 12345:6789')
+    group.add_argument('-DAr', '--discord-no-permission-redirect',
+                       default=None,
+                       help='Link to redirect user to if user has no '
+                            'permission. Typically this would be your discord '
+                            'guild invite link.')
     parser.add_argument('-mzl', '--max-zoom-level', type=int,
                         help=('Maximum level a user can zoom out. ' +
                              'Range: [0,18]. 0 means the user can zoom out ' +
@@ -436,9 +462,19 @@ def get_args():
 
     if args.location is None:
         parser.print_usage()
-        print((sys.argv[0] +
-               ": error: arguments -l/--location is required."))
+        print((sys.argv[0] + ': error: argument -l/--location is required.'))
         sys.exit(1)
+
+    if args.discord_auth:
+        args.server_uri = args.server_uri.rstrip('/')
+        if len(args.secret_key) < 16:
+            parser.print_usage()
+            print((sys.argv[0] + ': error: argument -CAs/--secret-key must be '
+                   'at least 16 characters long.'))
+            sys.exit(1)
+        args.client_auth = True
+    else:
+        args.client_auth = False
 
     args.locales_dir = 'static/dist/locales'
     args.data_dir = 'static/dist/data'

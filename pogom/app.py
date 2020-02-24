@@ -2,31 +2,38 @@
 # -*- coding: utf-8 -*-
 
 import calendar
-import logging
 import gc
+import logging
+import os
+import redis
 
+from authlib.integrations.flask_client import OAuth
 from datetime import datetime
 from s2sphere import LatLng
 from bisect import bisect_left
-from flask import (Flask, abort, jsonify, render_template, request,
-                   make_response, send_from_directory, send_file)
+from flask import (abort, Flask, jsonify, make_response, redirect,
+                   render_template, request, send_from_directory, send_file,
+                   session, url_for)
 from flask.json import JSONEncoder
 from flask_caching import Cache
 from flask_compress import Compress
-from pogom.dyn_img import (get_gym_icon, get_pokemon_map_icon,
-                           get_pokemon_raw_icon)
-from pogom.weather import (get_weather_cells, get_weather_alerts)
+from flask_session import Session
+from functools import wraps
+from .dyn_img import (get_gym_icon, get_pokemon_map_icon,
+                      get_pokemon_raw_icon)
+from .weather import (get_weather_cells, get_weather_alerts)
 from .models import (Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
                      Weather)
 from .utils import (i8ln, get_args, get_pokemon_name, get_pokemon_types, now,
                     dottedQuadToNum)
-from .client_auth import check_auth
+from .auth.discord_auth import DiscordAuth
 from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
 log = logging.getLogger(__name__)
 cache = Cache(config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 0})
 compress = Compress()
+sess = Session()
 
 args = get_args()
 
@@ -53,9 +60,24 @@ class Pogom(Flask):
 
     def __init__(self, import_name, db, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
-        compress.init_app(self)
-        cache.init_app(self)
         self.db = db
+        cache.init_app(self)
+        compress.init_app(self)
+        if args.client_auth:
+            self.config['SESSION_TYPE'] = 'redis'
+            redis_url = ('redis://' + args.redis_host + ':' +
+                         str(args.redis_port))
+            self.config['SESSION_REDIS'] = redis.from_url(redis_url)
+            self.config['SESSION_USE_SIGNER'] = True
+            self.secret_key = args.secret_key
+            sess.init_app(self)
+            self.oauth = OAuth(self)
+            self.accepted_auth_types = []
+            if args.discord_auth:
+                redirect_uri = args.server_uri + '/auth/discord'
+                self.discord_auth = DiscordAuth(self.oauth, redirect_uri)
+                self.accepted_auth_types.append('discord')
+
 
         # Global blist
         if not args.disable_blacklist:
@@ -73,8 +95,12 @@ class Pogom(Flask):
 
         # Routes
         self.json_encoder = CustomJSONEncoder
+        if args.client_auth:
+            self.route("/login", methods=['GET'])(self.login_page)
+            self.route("/logout", methods=['GET'])(self.logout)
+            self.route("/login/<auth_type>", methods=['GET'])(self.login)
+            self.route("/auth/<auth_type>", methods=['GET'])(self.auth)
         self.route("/", methods=['GET'])(self.fullmap)
-        self.route("/auth_callback", methods=['GET'])(self.auth_callback)
         self.route("/raw_data", methods=['GET'])(self.raw_data)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
         if not args.no_pokemon and not args.no_pokemon_history_page:
@@ -84,12 +110,81 @@ class Pogom(Flask):
                 not args.no_quest_page):
             self.route("/quests", methods=['GET'])(self.get_quest)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
-        self.route("/submit_token", methods=['POST'])(self.submit_token)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
+
+    def get_authenticator(self, auth_type):
+        if auth_type == 'discord':
+            return self.discord_auth
+
+    def is_logged_in(self):
+        return 'auth_type' in session
+
+    def login_required(f):
+        @wraps(f)
+        def decorated_function(*args_, **kwargs):
+            if not args.client_auth:
+                return f(*args_, **kwargs)
+
+            if not args_[0].is_logged_in():
+                return redirect(url_for('login_page'))
+
+            authenticator = args_[0].get_authenticator(session['auth_type'])
+            permission, redirect_uri = authenticator.has_permission()
+            if not permission:
+                return redirect(redirect_uri)
+
+            return f(*args_, **kwargs)
+        return decorated_function
+
+    def login_page(self):
+        settings = {
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
+        }
+
+        return render_template(
+            'login.html',
+            lang=args.locale,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            analytics_id=args.analytics_id,
+            settings=settings
+        )
+
+    def logout(self):
+        if self.is_logged_in():
+            self.get_authenticator(session['auth_type']).end_session()
+        return redirect(url_for('login_page'))
+
+    def login(self, auth_type):
+        if self.is_logged_in():
+            return redirect(url_for('fullmap'))
+        if auth_type not in self.accepted_auth_types:
+            return redirect(url_for('login_page'))
+        return self.get_authenticator(auth_type).get_authorize_redirect()
+
+    def auth(self, auth_type):
+        if self.is_logged_in():
+            return redirect(url_for('fullmap'))
+        if auth_type not in self.accepted_auth_types:
+            return redirect(url_for('login_page'))
+        self.get_authenticator(auth_type).process_credentials()
+        return redirect(url_for('fullmap'))
 
     def gym_img(self):
         team = request.args.get('team')
@@ -149,17 +244,6 @@ class Pogom(Flask):
     def render_service_worker_js(self):
         return send_from_directory('static/dist/js', 'serviceWorker.min.js')
 
-    def submit_token(self):
-        response = 'error'
-        if request.form:
-            token = request.form.get('token')
-            query = Token.insert(token=token, last_updated=datetime.utcnow())
-            query.execute()
-            response = 'ok'
-        r = make_response(response)
-        r.headers.add('Access-Control-Allow-Origin', '*')
-        return r
-
     def validate_request(self):
         # Get real IP behind trusted reverse proxy.
         ip_addr = request.remote_addr
@@ -187,9 +271,7 @@ class Pogom(Flask):
     def set_location(self, location):
         self.location = location
 
-    def auth_callback(self):
-        return render_template('auth_callback.html')
-
+    @login_required
     @cache.cached()
     def fullmap(self):
         settings = {
@@ -248,6 +330,7 @@ class Pogom(Flask):
             map_title=args.map_title,
             header_image=not args.no_header_image,
             header_image_name=args.header_image,
+            client_auth=args.client_auth,
             madmin_url=args.madmin_url,
             donate_url=args.donate_url,
             patreon_url=args.patreon_url,
@@ -263,6 +346,7 @@ class Pogom(Flask):
             i18n=i8ln
         )
 
+    @login_required
     @cache.cached()
     def get_pokemon_history(self):
         settings = {
@@ -282,6 +366,7 @@ class Pogom(Flask):
             map_title=args.map_title,
             header_image=not args.no_header_image,
             header_image_name=args.header_image,
+            client_auth=args.client_auth,
             madmin_url=args.madmin_url,
             donate_url=args.donate_url,
             patreon_url=args.patreon_url,
@@ -295,6 +380,7 @@ class Pogom(Flask):
             settings=settings
         )
 
+    @login_required
     @cache.cached()
     def get_quest(self):
         settings = {
@@ -312,6 +398,7 @@ class Pogom(Flask):
             map_title=args.map_title,
             header_image=not args.no_header_image,
             header_image_name=args.header_image,
+            client_auth=args.client_auth,
             madmin_url=args.madmin_url,
             donate_url=args.donate_url,
             patreon_url=args.patreon_url,
@@ -325,6 +412,7 @@ class Pogom(Flask):
             settings=settings
         )
 
+    @login_required
     def list_pokemon(self):
         # todo: Check if client is Android/iOS/Desktop for geolink, currently
         # only supports Android.
@@ -392,9 +480,13 @@ class Pogom(Flask):
             log.debug('User denied access: blacklisted fingerprint.')
             abort(403)
 
-        auth_redirect = check_auth(request)
-        if (auth_redirect):
-            return auth_redirect
+        if args.client_auth:
+            if not self.is_logged_in():
+                abort(403)
+            authenticator = self.get_authenticator(session['auth_type'])
+            permission, redirect_uri = authenticator.has_permission()
+            if not permission:
+                abort(403)
 
         self.db.connect()
 

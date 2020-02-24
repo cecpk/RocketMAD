@@ -88,10 +88,10 @@
 #################
 
 #db-cleanup                     # Enable regular database cleanup thread.
-#db-cleanup-pokemon             # Clear pokemon from database X hours after they disappeared. Default: 0, 0 to disable.
-#db-cleanup-gym                 # Clear gym details from database X hours after last gym scan. Default: 8, 0 to disable.
-#db-cleanup-spawnpoint          # Clear spawnpoint from database X hours after last valid scan. Default: 720, 0 to disable.
-#db-cleanup-forts               # Clear gyms and pokestops from database X hours after last valid scan. Default: 0, 0 to disable.
+#db-cleanup-pokemon:            # Clear pokemon from database X hours after they disappeared. Default: 0, 0 to disable.
+#db-cleanup-gym:                # Clear gym details from database X hours after last gym scan. Default: 8, 0 to disable.
+#db-cleanup-spawnpoint:         # Clear spawnpoint from database X hours after last valid scan. Default: 720, 0 to disable.
+#db-cleanup-forts:              # Clear gyms and pokestops from database X hours after last valid scan. Default: 0, 0 to disable.
 
 
 # Webserver settings
@@ -142,29 +142,34 @@
 #parks-query-timeout:            # The maximum allowed runtime for the parks query in seconds. (default=86400)
 
 
-# User Auth Settings
+# User authentication
 ####################
-# If you want users to auth to Discord prior to accessing server, set user-auth-service to Discord, create an app here:
-# https://discordapp.com/developers/applications/me and add a redrect uri to your the application in this format: https://mysrv.com/auth_callback.
-# If you get an error on the discord page when authenticating, and the redirect_uri in the url doesn't match your servers actual web address
-# override it by specifying uas-host-override, e.g. https://mysrv.com/
+
+#server-uri:                     # URI of your website/server. Authentication apps will use this to redirect the user to.
+#secret-key:                     # Key used to sign sessions. Must be at least 16 characters long.
+#redis-host:                     # Address of Redis server (Redis is used to store session data). (default='127.0.0.1')
+#redis-port:                     # Port of Redis server. (default=6379)
+
+# Discord authentication
+####################
+# If you want users to auth to Discord prior to accessing server, enable discord-auth, create an app here:
+# https://discordapp.com/developers/applications/me and add a redirect uri to your the application in this format: https://mysrv.com/auth/discord
 # To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
 # they are not in any of the required guilds.
 # To require a user be in specific roles in the guild to gain access, add a bot to the application at the above developer application page,
 # then add that bot to your guild (server) using this link: https://discordapp.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot
-# Note that the required-roles feature requires a configuration with a single required guild.
 
-#user-auth-service:                # Force end users to auth to an external service. Supported: Discord
-#uas-client-id:                    # OAuth2 Client ID.
-#uas-client-secret:                # OAuth2 Client Secret. Client should have auth callback url of <yourserverurl>/auth_callback
-#uas-discord-bot-token:            # Token for bot with access to your guild. Only required for required-roles feature
-#uas-host-override:                # override auth redirect host.
-#uas-discord-required-guilds:      # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated if multiple.
-#uas-discord-redirect:             # Link to redirect user to if user is not in above guild(s). Normally this would be your server invite link.
-#uas-discord-blacklisted-guilds:   # (Optional) If guild ID(s) are specified, user must not be in any of these guilds (servers) to access map. Comma separated if multiple.
-#uas-discord-blacklisted-redirect: # Link to redirect user to if user is in a blacklisted guild.
-#uas-discord-required-roles:       # (Optional) If specified, user must have one of these discord roles (from a specific server).
-                                   # Accepts comma separated list of role ids, or comma separated list of server ids and roles ids separated by ':' e.g. 12345:6789
+#discord-auth                      # Authenticate users with Discord OAuth2. (default=False)
+#discord-client-id:                # OAuth2 client ID.
+#discord-client-secret:            # OAuth2 client secret.
+#discord-bot-token:                # Token for bot with access to your guild. Only required for required-roles feature.
+#discord-required-guilds:          # (Optional) If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated list if multiple. (default=[])
+#discord-blacklisted-guilds:       # (Optional) If guild ID(s) are specified, user must NOT be in any of these guilds (servers) to access map. Comma separated list if multiple. (default=[])
+#discord-required-roles:           # (Optional) If specified, user must have one of these discord roles (from a specific guild) to access map.
+                                   # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
+#discord-blacklisted-roles:        # (Optional) If specified, user must NOT have any of these discord roles (from a specific guild) to access map.
+                                   # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
+#discord-no-permission-redirect:   # (Optional) Link to redirect user to if user has no permission. Typically this would be your discord guild invite link.
 
 
 # Misc
