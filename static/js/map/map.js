@@ -3625,13 +3625,12 @@ $(function () {
         createServiceWorkerReceiver()
     }
 
-    const promisePokemon = initPokemonData()
-    const promiseMove = initMoveData()
-    const promiseItem = serverSettings.quests ? initItemData() : Promise.resolve()
-    const promiseInvasion = serverSettings.invasions ? initInvasionData() : Promise.resolve()
     const promiseRarity = serverSettings.rarity ? updatePokemonRarities(serverSettings.rarityFileName) : Promise.resolve()
-
     initI8lnDictionary().then(function () {
+        const promisePokemon = initPokemonData()
+        const promiseMove = initMoveData()
+        const promiseItem = serverSettings.quests ? initItemData() : Promise.resolve()
+        const promiseInvasion = serverSettings.invasions ? initInvasionData() : Promise.resolve()
         return Promise.all([promisePokemon, promiseMove, promiseItem, promiseInvasion, promiseRarity])
     }).then(function () {
         // Initial load.
