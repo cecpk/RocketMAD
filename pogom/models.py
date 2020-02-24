@@ -26,7 +26,6 @@ from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
 log = logging.getLogger(__name__)
 
 args = get_args()
-db = DatabaseProxy()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
 
 db_schema_version = 37
@@ -51,6 +50,7 @@ class RetryOperationalError(object):
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
     pass
 
+db = MyRetryDB(None)
 
 # Reduction of CharField to fit max length inside 767 bytes for utf8mb4 charset
 class Utf8mb4CharField(CharField):
@@ -71,7 +71,7 @@ def init_database():
     log.info('Connecting to MySQL database on %s:%i...',
              args.db_host, args.db_port)
 
-    db.initialize(MyRetryDB(
+    db.init(
         args.db_name,
         user=args.db_user,
         password=args.db_pass,
@@ -79,7 +79,7 @@ def init_database():
         port=args.db_port,
         stale_timeout=30,
         max_connections=None,
-        charset='utf8mb4')
+        charset='utf8mb4'
     )
 
     return db
@@ -941,11 +941,12 @@ def clean_db_loop(args):
                     db_clean_forts(args.db_cleanup_forts)
 
                 # Clean weather... only changes at full hours anyway...
-                query = (Weather
-                         .delete()
-                         .where((Weather.last_updated <
-                                 (datetime.utcnow() - timedelta(minutes=15)))))
-                query.execute()
+                with db:
+                    query = (Weather
+                             .delete()
+                             .where((Weather.last_updated <
+                                     (datetime.utcnow() - timedelta(minutes=15)))))
+                    query.execute()
 
                 log.info('Full database cleanup completed.')
                 full_cleanup_timer = now

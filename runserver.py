@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from gevent import monkey
-monkey.patch_all()
+import gevent.monkey
+gevent.monkey.patch_all()
+
+from gevent.pywsgi import WSGIServer
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
@@ -260,37 +262,33 @@ def main():
         app.before_request(app.validate_request)
         app.set_location(position)
 
-
     # Database cleaner; really only need one ever.
     if args.db_cleanup:
-        t = Thread(target=clean_db_loop, name='db-cleaner', args=(args,))
-        t.daemon = True
+        t = Thread(target=clean_db_loop, name='db-cleaner', daemon=True,
+                   args=(args,))
         t.start()
 
     # Dynamic rarity.
     if args.rarity_update_frequency:
         t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity',
-                   args=(db,))
-        t.daemon = True
-        log.info('Dynamic rarity is enabled.')
+                   daemon=True, args=(db,))
         t.start()
+        log.info('Dynamic rarity is enabled.')
     else:
         log.info('Dynamic rarity is disabled.')
 
     # Parks downloading
     if args.ex_parks:
-        log.info('EX park downloading is enabled.')
-        t = Thread(target=download_ex_parks, name='ex-parks')
-        t.daemon = True
+        t = Thread(target=download_ex_parks, name='ex-parks', daemon=True)
         t.start()
+        log.info('EX park downloading is enabled.')
     else:
         log.info('EX park downloading is disabled.')
 
     if args.nest_parks:
-        log.info('Nest park downloading is enabled.')
-        t = Thread(target=download_nest_parks, name='nest-parks')
-        t.daemon = True
+        t = Thread(target=download_nest_parks, name='nest-parks', daemon=True)
         t.start()
+        log.info('Nest park downloading is enabled.')
     else:
         log.info('Nest park downloading is disabled.')
 
@@ -310,7 +308,7 @@ def main():
     if not args.development_server:
         options = {
             'bind': '%s:%s' % (args.host, args.port),
-            'worker_class': 'gevent',
+            'worker_class': 'eventlet',
             'workers': args.workers,
             'keyfile': args.ssl_privatekey if use_ssl else None,
             'certfile': args.ssl_certificate if use_ssl else None,
@@ -319,7 +317,9 @@ def main():
             'accesslog': '-' if args.access_logs else None,
             'limit_request_line': 8190
         }
-        GunicornApplication(app, options).run()
+        #GunicornApplication(app, options).run()
+        http_server = WSGIServer((args.host, args.port), app)
+        http_server.serve_forever()
     else:
         ssl_context = None
         if use_ssl:
