@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from gevent import monkey
+monkey.patch_all()
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
@@ -8,9 +10,6 @@ if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
           "Your version: {}.{}"
           .format(py_version.major, py_version.minor))
     sys.exit(1)
-from gevent import monkey
-monkey.patch_all()
-
 import os
 import logging
 import re
