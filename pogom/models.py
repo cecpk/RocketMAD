@@ -7,7 +7,6 @@ import logging
 import sys
 import time
 
-from cachetools import TTLCache
 from datetime import datetime, timedelta
 from functools import reduce
 from peewee import (Check, SQL, SmallIntegerField, IntegerField, CharField,
@@ -26,7 +25,6 @@ from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
 log = logging.getLogger(__name__)
 
 args = get_args()
-cache = TTLCache(maxsize=100, ttl=60 * 5)
 db = DatabaseProxy()
 
 db_schema_version = 37
