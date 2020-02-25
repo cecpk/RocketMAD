@@ -909,7 +909,14 @@ class Weather(BaseModel):
         return list(query.dicts())
 
 
-def clean_db_loop(args):
+def clean_db_loop(args, main_pid):
+    if not args.development_server:
+        # Wait until all processes have spawned.
+        time.sleep(10)
+        # Only run thread in main process.
+        if main_pid != os.getpid():
+            return
+
     # Run regular database cleanup once every minute.
     regular_cleanup_secs = 60
     # Run full database cleanup once every 10 minutes.

@@ -22,6 +22,7 @@ from s2sphere import CellId, LatLng
 from datetime import datetime, timedelta
 from functools import lru_cache
 from geopy.geocoders import Nominatim
+from multiprocessing import Process, current_process
 from requests import Session
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
@@ -962,13 +963,20 @@ def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     return spawn_group
 
 
-def dynamic_rarity_refresher(db):
+def dynamic_rarity_refresher(db, main_pid):
+    args = get_args()
+    if not args.development_server:
+        # Wait until all processes have spawned.
+        time.sleep(10)
+        # Only run thread in main process.
+        if main_pid != os.getpid():
+            return
+
     # If we import at the top, pogom.models will import pogom.utils,
     # causing the cyclic import to make some things unavailable.
     from pogom.models import Pokemon
 
     # Refresh every x hours.
-    args = get_args()
     hours = args.rarity_hours
     root_path = args.root_path
 

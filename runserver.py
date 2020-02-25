@@ -21,8 +21,6 @@ import time
 from threading import Thread
 
 from queue import Queue
-from flask_cors import CORS
-from flask_cachebuster import CacheBuster
 
 from colorlog import ColoredFormatter
 
@@ -253,6 +251,39 @@ def main():
              'disabled' if args.no_pokemon_values else 'enabled')
 
     db = startup_db(args.clear_db)
+    main_pid = os.getpid()
+
+    # Database cleaner; really only need one ever.
+    if args.db_cleanup:
+        t = Thread(target=clean_db_loop, name='db-cleaner', daemon=True,
+                   args=(args, main_pid))
+        t.start()
+
+    # Dynamic rarity.
+    if args.rarity_update_frequency:
+        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity',
+                   daemon=True, args=(db, main_pid))
+        t.start()
+        log.info('Dynamic rarity is enabled.')
+    else:
+        log.info('Dynamic rarity is disabled.')
+
+    # Parks downloading
+    if args.ex_parks:
+        t = Thread(target=download_ex_parks, name='ex-parks', daemon=True,
+                   args=(main_pid,))
+        t.start()
+        log.info('EX park downloading is enabled.')
+    else:
+        log.info('EX park downloading is disabled.')
+
+    if args.nest_parks:
+        t = Thread(target=download_nest_parks, name='nest-parks', daemon=True,
+                   args=(main_pid,))
+        t.start()
+        log.info('Nest park downloading is enabled.')
+    else:
+        log.info('Nest park downloading is disabled.')
 
     app = None
     if not args.clear_db:
@@ -261,45 +292,6 @@ def main():
                     root_path=os.path.dirname(os.path.abspath(__file__)))
         app.before_request(app.validate_request)
         app.set_location(position)
-
-    # Database cleaner; really only need one ever.
-    if args.db_cleanup:
-        t = Thread(target=clean_db_loop, name='db-cleaner', daemon=True,
-                   args=(args,))
-        t.start()
-
-    # Dynamic rarity.
-    if args.rarity_update_frequency:
-        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity',
-                   daemon=True, args=(db,))
-        t.start()
-        log.info('Dynamic rarity is enabled.')
-    else:
-        log.info('Dynamic rarity is disabled.')
-
-    # Parks downloading
-    if args.ex_parks:
-        t = Thread(target=download_ex_parks, name='ex-parks', daemon=True)
-        t.start()
-        log.info('EX park downloading is enabled.')
-    else:
-        log.info('EX park downloading is disabled.')
-
-    if args.nest_parks:
-        t = Thread(target=download_nest_parks, name='nest-parks', daemon=True)
-        t.start()
-        log.info('Nest park downloading is enabled.')
-    else:
-        log.info('Nest park downloading is disabled.')
-
-    time.sleep(5)
-
-    if args.cors:
-        CORS(app)
-
-    # No more stale JS.
-    cache_buster = CacheBuster()
-    cache_buster.init_app(app)
 
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and
