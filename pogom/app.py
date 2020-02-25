@@ -78,7 +78,6 @@ class Pogom(Flask):
                 self.discord_auth = DiscordAuth(self.oauth, redirect_uri)
                 self.accepted_auth_types.append('discord')
 
-
         # Global blist
         if not args.disable_blacklist:
             log.info('Retrieving blacklist...')
@@ -478,7 +477,7 @@ class Pogom(Flask):
 
         if fingerprint_blacklisted:
             log.debug('User denied access: blacklisted fingerprint.')
-            abort(403)
+            #abort(403)
 
         if args.client_auth:
             if not self.is_logged_in():
