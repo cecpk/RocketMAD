@@ -4,7 +4,6 @@
 import gevent.monkey
 gevent.monkey.patch_all()
 
-from gevent.pywsgi import WSGIServer
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
@@ -17,6 +16,7 @@ import logging
 import re
 import ssl
 import requests
+import time
 
 from threading import Thread
 
@@ -292,6 +292,8 @@ def main():
     else:
         log.info('Nest park downloading is disabled.')
 
+    time.sleep(5)
+
     if args.cors:
         CORS(app)
 
@@ -308,7 +310,7 @@ def main():
     if not args.development_server:
         options = {
             'bind': '%s:%s' % (args.host, args.port),
-            'worker_class': 'eventlet',
+            'worker_class': 'gevent',
             'workers': args.workers,
             'keyfile': args.ssl_privatekey if use_ssl else None,
             'certfile': args.ssl_certificate if use_ssl else None,
@@ -317,10 +319,7 @@ def main():
             'accesslog': '-' if args.access_logs else None,
             'limit_request_line': 8190
         }
-        #GunicornApplication(app, options).run()
-
-        http_server = WSGIServer((args.host, args.port), app)
-        http_server.serve_forever()
+        GunicornApplication(app, options).run()
     else:
         ssl_context = None
         if use_ssl:
