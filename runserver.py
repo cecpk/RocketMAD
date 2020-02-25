@@ -341,8 +341,8 @@ def set_log_and_verbosity(log):
         log.setLevel(logging.DEBUG)
 
         # Let's log some periodic resource usage stats.
-        t = Thread(target=log_resource_usage_loop, name='res-usage')
-        t.daemon = True
+        t = Thread(target=log_resource_usage_loop, name='res-usage',
+                   daemon=True, args=(60000, os.getpid(),))
         t.start()
     else:
         log.setLevel(logging.INFO)
