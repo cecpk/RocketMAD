@@ -27,6 +27,7 @@ log = logging.getLogger(__name__)
 
 args = get_args()
 cache = TTLCache(maxsize=100, ttl=60 * 5)
+db = DatabaseProxy()
 
 db_schema_version = 37
 
@@ -49,8 +50,6 @@ class RetryOperationalError(object):
 
 class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
     pass
-
-db = DatabaseProxy()
 
 
 # Reduction of CharField to fit max length inside 767 bytes for utf8mb4 charset
