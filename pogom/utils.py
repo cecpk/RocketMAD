@@ -804,7 +804,7 @@ def periodic_loop(f, loop_delay_ms):
 
 
 # Periodically log resource usage every 'loop_delay_ms' ms.
-def log_resource_usage_loop(loop_delay_ms=60000, main_pid):
+def log_resource_usage_loop(main_pid, loop_delay_ms=60000):
     args = get_args()
     if not args.development_server:
         # Wait until all processes have spawned.
