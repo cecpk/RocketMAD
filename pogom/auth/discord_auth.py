@@ -7,7 +7,7 @@ import time
 
 from authlib.common.errors import AuthlibBaseError
 from base64 import b64encode
-from flask import session
+from flask import session, url_for
 from .auth import AuthBase
 from ..utils import get_args
 
@@ -43,7 +43,17 @@ class DiscordAuth(AuthBase):
         resources = session.get('resources')
         if (not session.get('has_permission', False) or resources is None or
                 resources.get('expires_at', 0) < time.time()):
-            self.update_resources()
+            response = self.update_resources()
+            if not response:
+                if response.status_code == 401:
+                    session.clear()
+                    return False, url_for('login_page')
+                else:
+                    log.error('%s returned from Discord when '
+                              'updating resources: %s.',
+                              str(response.status_code), response.text)
+                    del session['resources']
+                    return False, url_for('fullmap')
 
         if session.get('has_permission', False):
             return True, None
@@ -134,7 +144,16 @@ class DiscordAuth(AuthBase):
             return
         session['token'] = token
         session['auth_type'] = 'discord'
-        self.update_resources()
+        response = self.update_resources()
+        if not response:
+            if response.status_code == 401:
+                session.clear()
+            else:
+                log.error('%s returned from Discord when '
+                          'updating resources: %s.',
+                          str(response.status_code), response.text)
+                del session['resources']
+            return
         log.debug('Discord user %s succesfully logged in.',
                   session['resources']['user']['username'])
 
@@ -144,13 +163,15 @@ class DiscordAuth(AuthBase):
         resources = session.get('resources')
         if resources is not None:
             last_updated_at = resources.get('last_updated_at', 0)
-            if last_updated_at + 5000 > time.time():
-                return
+            if last_updated_at + 5 > time.time():
+                return True
 
         session['resources'] = {}
 
-        resp = self.oauth.discord.get('users/@me')
-        user = resp.json()
+        response = self.oauth.discord.get('users/@me')
+        if not response:
+            return response
+        user = response.json()
         session['resources']['user'] = {}
         session['resources']['user']['id'] = user.get('id')
         session['resources']['user']['username'] = user.get('username')
@@ -158,8 +179,10 @@ class DiscordAuth(AuthBase):
         if (len(args.discord_required_guilds) > 0 or
                 len(args.discord_blacklisted_guilds) > 0 or
                 len(args.discord_required_roles) > 0):
-            resp = self.oauth.discord.get('users/@me/guilds')
-            guilds = resp.json()
+            response = self.oauth.discord.get('users/@me/guilds')
+            if not response:
+                return response
+            guilds = response.json()
             session['resources']['guilds'] = {}
             for guild in guilds:
                 id = guild.get('id')
@@ -183,16 +206,17 @@ class DiscordAuth(AuthBase):
                 if guild_id not in session['resources']['guilds']:
                     continue
 
-                r = requests.get(self.oauth.discord.api_base_url + '/guilds/' +
-                                 guild_id + '/members/' + user_id,
-                                 headers=headers)
+                response = requests.get(
+                    self.oauth.discord.api_base_url + '/guilds/' + guild_id +
+                    '/members/' + user_id,
+                    headers=headers
+                )
                 try:
-                    r.raise_for_status()
+                    response.raise_for_status()
                 except Exception:
-                    log.error('%s returned from Discord guild member atempt: '
-                              '%s.', str(r.status_code), r.text)
+                    return response
 
-                roles = r.json()['roles']
+                roles = response.json()['roles']
                 session['resources']['guilds'][guild_id]['roles'] = roles
 
         if len(args.discord_blacklisted_roles) > 0:
@@ -210,21 +234,24 @@ class DiscordAuth(AuthBase):
                 if guild_id not in session['resources']['guilds']:
                     continue
 
-                r = requests.get(self.oauth.discord.api_base_url + '/guilds/' +
-                                 guild_id + '/members/' + user_id,
-                                 headers=headers)
+                response = requests.get(
+                    self.oauth.discord.api_base_url + '/guilds/' + guild_id +
+                    '/members/' + user_id,
+                    headers=headers
+                )
                 try:
-                    r.raise_for_status()
+                    response.raise_for_status()
                 except Exception:
-                    log.error('%s returned from Discord guild member atempt: '
-                              '%s.', str(r.status_code), r.text)
+                    return response
 
-                roles = r.json()['roles']
+                roles = response.json()['roles']
                 session['resources']['guilds'][guild_id]['roles'] = roles
 
         session['resources']['expires_at'] = time.time() + 3600
         session['resources']['last_updated_at'] = time.time()
         session['has_permission'] = False
+
+        return True
 
     def end_session(self):
         data = (self.oauth.discord.client_id + ':' +
@@ -237,13 +264,16 @@ class DiscordAuth(AuthBase):
         }
         data = 'token=' + session['token']['access_token']
 
-        r = requests.post('https://discordapp.com/api/oauth2/token/revoke',
-                          data=data, headers=headers)
+        response = requests.post(
+            'https://discordapp.com/api/oauth2/token/revoke',
+            data=data,
+            headers=headers
+        )
         try:
-            r.raise_for_status()
+            response.raise_for_status()
         except Exception:
             log.error('%s returned from Discord revoke access token atempt: '
-                      '%s.', str(r.status_code), r.text)
+                      '%s.', str(response.status_code), response.text)
 
         log.debug('Discord user %s succesfully logged out.',
                   session['resources']['user']['username'])
