@@ -211,9 +211,7 @@ class DiscordAuth(AuthBase):
                     '/members/' + user_id,
                     headers=headers
                 )
-                try:
-                    response.raise_for_status()
-                except Exception:
+                if not response:
                     return response
 
                 roles = response.json()['roles']
@@ -239,9 +237,7 @@ class DiscordAuth(AuthBase):
                     '/members/' + user_id,
                     headers=headers
                 )
-                try:
-                    response.raise_for_status()
-                except Exception:
+                if not response:
                     return response
 
                 roles = response.json()['roles']
@@ -269,11 +265,10 @@ class DiscordAuth(AuthBase):
             data=data,
             headers=headers
         )
-        try:
-            response.raise_for_status()
-        except Exception:
+        if not response:
             log.error('%s returned from Discord revoke access token atempt: '
                       '%s.', str(response.status_code), response.text)
+
 
         log.debug('Discord user %s succesfully logged out.',
                   session['resources']['user']['username'])
