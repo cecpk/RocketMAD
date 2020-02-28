@@ -22,6 +22,7 @@ from s2sphere import CellId, LatLng
 from datetime import datetime, timedelta
 from functools import lru_cache
 from geopy.geocoders import Nominatim
+from multiprocessing import Process, current_process
 from requests import Session
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
@@ -803,7 +804,15 @@ def periodic_loop(f, loop_delay_ms):
 
 
 # Periodically log resource usage every 'loop_delay_ms' ms.
-def log_resource_usage_loop(loop_delay_ms=60000):
+def log_resource_usage_loop(main_pid, loop_delay_ms=60000):
+    args = get_args()
+    if not args.development_server:
+        # Wait until all processes have spawned.
+        time.sleep(10)
+        # Only run thread in main process.
+        if main_pid != os.getpid():
+            return
+
     # Helper method to log to specific log level.
     def log_resource_usage_to_debug():
         log_resource_usage(log.debug)
@@ -962,13 +971,20 @@ def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     return spawn_group
 
 
-def dynamic_rarity_refresher():
+def dynamic_rarity_refresher(db, main_pid):
+    args = get_args()
+    if not args.development_server:
+        # Wait until all processes have spawned.
+        time.sleep(10)
+        # Only run thread in main process.
+        if main_pid != os.getpid():
+            return
+
     # If we import at the top, pogom.models will import pogom.utils,
     # causing the cyclic import to make some things unavailable.
     from pogom.models import Pokemon
 
     # Refresh every x hours.
-    args = get_args()
     hours = args.rarity_hours
     root_path = args.root_path
 
@@ -982,7 +998,8 @@ def dynamic_rarity_refresher():
         log.info('Updating dynamic rarity...')
 
         start = default_timer()
-        db_rarities = Pokemon.get_spawn_counts(hours)
+        with db:
+            db_rarities = Pokemon.get_spawn_counts(hours)
         total = db_rarities['total']
         pokemon = db_rarities['pokemon']
 

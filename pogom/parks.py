@@ -5,10 +5,10 @@ import json
 import logging
 import os
 import overpy
+import time
 
 from datetime import datetime
 from matplotlib.path import Path
-from time import sleep
 from timeit import default_timer
 
 from .utils import get_args, parse_geofence_file
@@ -103,7 +103,7 @@ def _query_overpass_api(lower_left_point, upper_right_point, nest_parks=False):
         except overpy.exception.OverpassTooManyRequests:
             log.warning(
                 'Overpass API quota reached. Trying again in 5 minutes...')
-            sleep(300)
+            time.sleep(300)
 
     duration = default_timer() - start
     log.info('Overpass API park response received in %.2fs.', duration)
@@ -173,8 +173,14 @@ def _download_parks(file_path, geofences, nest_parks=False):
         log.info('0 parks downloaded. Skipping saving to %s', file_path)
 
 
-def download_ex_parks():
+def download_ex_parks(main_pid):
     args = get_args()
+    if not args.development_server:
+        # Wait until all processes have spawned.
+        time.sleep(10)
+        # Only run thread in main process.
+        if main_pid != os.getpid():
+            return
 
     file_path = os.path.join(
         args.root_path,
@@ -188,8 +194,14 @@ def download_ex_parks():
         log.info('EX parks already downloaded.')
 
 
-def download_nest_parks():
+def download_nest_parks(main_pid):
     args = get_args()
+    if not args.development_server:
+        # Wait until all processes have spawned.
+        time.sleep(10)
+        # Only run thread in main process.
+        if main_pid != os.getpid():
+            return
 
     file_path = os.path.join(
         args.root_path,

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import gevent.monkey
+gevent.monkey.patch_all()
+
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
@@ -13,12 +16,11 @@ import logging
 import re
 import ssl
 import requests
+import time
 
 from threading import Thread
 
 from queue import Queue
-from flask_cors import CORS
-from flask_cachebuster import CacheBuster
 
 from colorlog import ColoredFormatter
 
@@ -164,8 +166,8 @@ def validate_assets(args):
     return True
 
 
-def startup_db(app, clear_db):
-    db = init_database(app)
+def startup_db(clear_db):
+    db = init_database()
     if clear_db:
         log.info('Clearing database')
         #drop_tables(db)
@@ -248,54 +250,48 @@ def main():
     log.info('Pokemon values %s.',
              'disabled' if args.no_pokemon_values else 'enabled')
 
-    app = None
-    if not args.clear_db:
-        app = Pogom(__name__,
-                    root_path=os.path.dirname(
-                        os.path.abspath(__file__)))
-        app.before_request(app.validate_request)
-        app.set_location(position)
-
-    db = startup_db(app, args.clear_db)
+    db = startup_db(args.clear_db)
+    main_pid = os.getpid()
 
     # Database cleaner; really only need one ever.
     if args.db_cleanup:
-        t = Thread(target=clean_db_loop, name='db-cleaner', args=(args,))
-        t.daemon = True
+        t = Thread(target=clean_db_loop, name='db-cleaner', daemon=True,
+                   args=(args, main_pid))
         t.start()
 
     # Dynamic rarity.
     if args.rarity_update_frequency:
-        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity')
-        t.daemon = True
-        log.info('Dynamic rarity is enabled.')
+        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity',
+                   daemon=True, args=(db, main_pid))
         t.start()
+        log.info('Dynamic rarity is enabled.')
     else:
         log.info('Dynamic rarity is disabled.')
 
     # Parks downloading
     if args.ex_parks:
-        log.info('EX park downloading is enabled.')
-        t = Thread(target=download_ex_parks, name='ex-parks')
-        t.daemon = True
+        t = Thread(target=download_ex_parks, name='ex-parks', daemon=True,
+                   args=(main_pid,))
         t.start()
+        log.info('EX park downloading is enabled.')
     else:
         log.info('EX park downloading is disabled.')
 
     if args.nest_parks:
-        log.info('Nest park downloading is enabled.')
-        t = Thread(target=download_nest_parks, name='nest-parks')
-        t.daemon = True
+        t = Thread(target=download_nest_parks, name='nest-parks', daemon=True,
+                   args=(main_pid,))
         t.start()
+        log.info('Nest park downloading is enabled.')
     else:
         log.info('Nest park downloading is disabled.')
 
-    if args.cors:
-        CORS(app)
-
-    # No more stale JS.
-    cache_buster = CacheBuster()
-    cache_buster.init_app(app)
+    app = None
+    if not args.clear_db:
+        app = Pogom(__name__,
+                    db,
+                    root_path=os.path.dirname(os.path.abspath(__file__)))
+        app.before_request(app.validate_request)
+        app.set_location(position)
 
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and
@@ -306,6 +302,7 @@ def main():
     if not args.development_server:
         options = {
             'bind': '%s:%s' % (args.host, args.port),
+            'worker_class': 'gevent',
             'workers': args.workers,
             'keyfile': args.ssl_privatekey if use_ssl else None,
             'certfile': args.ssl_certificate if use_ssl else None,
@@ -344,8 +341,8 @@ def set_log_and_verbosity(log):
         log.setLevel(logging.DEBUG)
 
         # Let's log some periodic resource usage stats.
-        t = Thread(target=log_resource_usage_loop, name='res-usage')
-        t.daemon = True
+        t = Thread(target=log_resource_usage_loop, name='res-usage',
+                   daemon=True, args=(os.getpid(),))
         t.start()
     else:
         log.setLevel(logging.INFO)

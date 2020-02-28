@@ -14,6 +14,8 @@ from bisect import bisect_left
 from flask import (abort, Flask, jsonify, make_response, redirect,
                    render_template, request, send_from_directory, send_file,
                    session, url_for)
+from flask_cors import CORS
+from flask_cachebuster import CacheBuster
 from flask.json import JSONEncoder
 from flask_caching import Cache
 from flask_compress import Compress
@@ -31,11 +33,12 @@ from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
 log = logging.getLogger(__name__)
+args = get_args()
+
 cache = Cache(config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 0})
+cache_buster = CacheBuster()
 compress = Compress()
 sess = Session()
-
-args = get_args()
 
 
 def convert_pokemon_list(pokemon):
@@ -58,10 +61,14 @@ def convert_pokemon_list(pokemon):
 
 class Pogom(Flask):
 
-    def __init__(self, import_name, **kwargs):
+    def __init__(self, import_name, db, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
+        self.db = db
         cache.init_app(self)
+        cache_buster.init_app(self) # No more stale CSS/JS.
         compress.init_app(self)
+        if args.cors:
+            CORS(self)
         if args.client_auth:
             self.config['SESSION_TYPE'] = 'redis'
             redis_url = ('redis://' + args.redis_host + ':' +
@@ -486,6 +493,8 @@ class Pogom(Flask):
             if not permission:
                 abort(403)
 
+        self.db.connect()
+
         d = {}
 
         # Request time of this request.
@@ -710,6 +719,9 @@ class Pogom(Flask):
 
         #if request.args.get('weatherAlerts', 'false') == 'true':
         #    d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
+
+        if not self.db.is_closed():
+            self.db.close()
 
         return jsonify(d)
 
