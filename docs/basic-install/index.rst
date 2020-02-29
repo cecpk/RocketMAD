@@ -23,7 +23,7 @@ To run a copy from the latest ``master`` branch in ``git`` you can clone the rep
 
 .. code-block:: bash
 
-  git clone https://github.com/cecpk/OSM-Rocketmap.git
+  git clone https://github.com/cecpk/RocketMAD.git
 
 Installing Modules
 ******************
@@ -32,9 +32,9 @@ At this point you should have the following:
 
  * Python 3.6+
  * pip3
- * OSM-RocketMap application folder
+ * RocketMAD application folder
 
-First, open up your shell (``cmd.exe``/``terminal.app``) and change to the directory of OSM-RocketMap.
+First, open up your shell (``cmd.exe``/``terminal.app``) and change to the directory of RocketMAD.
 
 You can verify your installation like this:
 
@@ -104,7 +104,7 @@ Once node/npm is installed, you can install the node dependencies and build the 
 Basic Launching
 ***************
 
-Once those have run, you should be able to start using the application, make sure you're in the directory of OSM-RocketMap then:
+Once those have run, you should be able to start using the application, make sure you're in the directory of RocketMAD then:
 
 .. code-block:: bash
 
@@ -131,7 +131,7 @@ Things to Know
 Updating the Application
 ************************
 
-RocketMap is a very active project and updates often. You can follow the `latest changes <https://github.com/cecpk/OSM-Rocketmap/tree/develop>`_ to see what's changing.
+RocketMap is a very active project and updates often. You can follow the `latest changes <https://github.com/cecpk/RocketMAD/tree/master>`_ to see what's changing.
 
 You can update with a few quick commands:
 
@@ -141,6 +141,6 @@ You can update with a few quick commands:
   pip3 install -r requirements.txt --upgrade (Prepend sudo -H on Linux)
   npm run build
 
-Watch the `latest changes <https://github.com/cecpk/OSM-Rocketmap/tree/develop>`_ on `Discord <https://discord.gg/7TT58jU>`_ to know when updating will require commands other than above.
+Watch the `latest changes <https://github.com/cecpk/RocketMAD/tree/master>`_ on `Discord <https://discordapp.com/invite/7TT58jU>`_ to know when updating will require commands other than above.
 
 **IMPORTANT** Some updates will include database changes that run on first startup. You should run only **one** ``runserver.py`` command until you are certain that the DB has been updated. You will know almost immediately that your DB needs updating if **Detected database version x, updating to x** is printed in the console. This can take a while so please be patient. Once it's done, you can start all your instances like you normally would.

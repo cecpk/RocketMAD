@@ -54,9 +54,9 @@ source_suffix = ['.rst', '.md']
 master_doc = 'index'
 
 # General information about the project.
-project = u'OSM-RocketMap'
-copyright = u'2019, OSM-RocketMap Team'
-author = u'OSM-RocketMap Team'
+project = u'RocketMAD'
+copyright = u'2019, RocketMAD Team'
+author = u'RocketMAD Team'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

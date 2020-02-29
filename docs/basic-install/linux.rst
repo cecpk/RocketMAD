@@ -42,8 +42,8 @@ If your output looks as above, you can proceed with installation:
 .. code-block:: bash
 
 	cd ~/
-	git clone https://github.com/cecpk/OSM-Rocketmap.git
-	cd OSM-Rocketmap/
+	git clone https://github.com/cecpk/RocketMAD.git
+	cd RocketMAD/
 	sudo -H pip3 install -r requirements.txt
 	npm install
 	sudo npm install -g grunt-cli

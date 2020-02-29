@@ -1,9 +1,9 @@
 Contributing to this Wiki
 ##############################
 
-.. note:: This article is about contributing pages and edits to this wiki. For contributing to OSM-RocketMap itself see :doc:`development`.
+.. note:: This article is about contributing pages and edits to this wiki. For contributing to RocketMAD itself see :doc:`development`.
 
-You can fork this documentation from the main OSM-RocketMap GitHub repository and open pull requests for changes.
+You can fork this documentation from the main RocketMAD GitHub repository and open pull requests for changes.
 
 Adding or Editing Pages
 ************************
