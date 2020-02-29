@@ -36,7 +36,7 @@ log = logging.getLogger(__name__)
 args = get_args()
 
 cache = Cache(config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 0})
-cache_buster = CacheBuster()
+cache_buster = CacheBuster(config={'extensions': ['.js', '.css']})
 compress = Compress()
 sess = Session()
 
