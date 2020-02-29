@@ -11,7 +11,7 @@ Live visualization of all the Pokémon (with option to show gyms, raids, PokéSt
 
 ## Installation
 
-For instructions on how to setup and run the tool, please refer to [RocketMAD's documentation](https://osm-rocketmap.readthedocs.io).
+For instructions on how to setup and run the tool, please refer to [RocketMAD's documentation](https://rocketmad.readthedocs.io).
 
 ## Contributions
 
