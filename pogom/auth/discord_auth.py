@@ -9,6 +9,7 @@ from authlib.common.errors import AuthlibBaseError
 from base64 import b64encode
 from flask import session, url_for
 from .auth import AuthBase
+from .permissions import Permissions
 from ..utils import get_args
 
 log = logging.getLogger(__name__)
@@ -39,8 +40,37 @@ class DiscordAuth(AuthBase):
         session['token']['refresh_token'] = token.get('refresh_token')
         session['token']['expires_at'] = token['expires_at']
 
-    def has_permission(self):
-        resources = session.get('resources')
+    def get_authorize_redirect(self):
+        return self.oauth.discord.authorize_redirect(self.redirect_uri)
+
+    def process_credentials(self):
+        token = None
+        try:
+            token = self.oauth.discord.authorize_access_token()
+        except AuthlibBaseError as e:
+            log.warning(e)
+            return
+        session['token'] = token
+        session['auth_type'] = 'discord'
+        response = self.update_resources()
+        if not response:
+            if response.status_code == 401:
+                session.clear()
+            else:
+                log.error('%s returned from Discord when '
+                          'updating resources: %s.',
+                          str(response.status_code), response.text)
+                del session['resources']
+            return
+        log.debug('Discord user %s succesfully logged in.',
+                  session['resources']['user']['username'])
+
+    def get_permissions(self):
+        self.permissions[session['token']['access_token']] = Permissions()
+        print(self.permissions)
+
+
+        resources = self.resources.get(session['token']['access_token'])
         if (not session.get('has_permission', False) or resources is None or
                 resources.get('expires_at', 0) < time.time()):
             response = self.update_resources()
@@ -132,30 +162,8 @@ class DiscordAuth(AuthBase):
         session['has_permission'] = True
         return True, None
 
-    def get_authorize_redirect(self):
-        return self.oauth.discord.authorize_redirect(self.redirect_uri)
-
-    def process_credentials(self):
-        token = None
-        try:
-            token = self.oauth.discord.authorize_access_token()
-        except AuthlibBaseError as e:
-            log.warning(e)
-            return
-        session['token'] = token
-        session['auth_type'] = 'discord'
-        response = self.update_resources()
-        if not response:
-            if response.status_code == 401:
-                session.clear()
-            else:
-                log.error('%s returned from Discord when '
-                          'updating resources: %s.',
-                          str(response.status_code), response.text)
-                del session['resources']
-            return
-        log.debug('Discord user %s succesfully logged in.',
-                  session['resources']['user']['username'])
+    def update_permissions(self):
+        pass
 
     def update_resources(self):
         # Abort if last update was done less than 5 seconds ago

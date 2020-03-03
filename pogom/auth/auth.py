@@ -9,10 +9,8 @@ class AuthBase(ABC):
     def __init__(self, oauth, redirect_uri):
         self.oauth = oauth
         self.redirect_uri = redirect_uri
-
-    @abstractmethod
-    def has_permission(self):
-        pass
+        self.resources = {}
+        self.permissions = {}
 
     @abstractmethod
     def get_authorize_redirect(self):
@@ -20,6 +18,14 @@ class AuthBase(ABC):
 
     @abstractmethod
     def process_credentials(self):
+        pass
+
+    @abstractmethod
+    def get_permissions(self):
+        pass
+
+    @abstractmethod
+    def update_permissions(self):
         pass
 
     @abstractmethod

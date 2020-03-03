@@ -138,7 +138,7 @@ class Pogom(Flask):
                 return redirect(url_for('login_page'))
 
             authenticator = args_[0].get_authenticator(session['auth_type'])
-            permission, redirect_uri = authenticator.has_permission()
+            permission, redirect_uri = authenticator.get_permissions()
             if not permission:
                 return redirect(redirect_uri)
 
@@ -489,7 +489,7 @@ class Pogom(Flask):
             if not self.is_logged_in():
                 abort(403)
             authenticator = self.get_authenticator(session['auth_type'])
-            permission, redirect_uri = authenticator.has_permission()
+            permission, redirect_uri = authenticator.get_permissions()
             if not permission:
                 abort(403)
 
