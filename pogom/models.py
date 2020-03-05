@@ -740,7 +740,7 @@ class ScannedLocation(LatLongModel):
 
 
 class Trs_Spawn(LatLongModel):
-    spawnpoint = Utf8mb4CharField(primary_key=True, max_length=16, index=True)
+    spawnpoint = UBigIntegerField(primary_key=True)
     latitude = DoubleField()
     longitude = DoubleField()
     spawndef = IntegerField(default=240)
