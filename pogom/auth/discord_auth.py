@@ -7,9 +7,11 @@ import time
 
 from authlib.common.errors import AuthlibBaseError
 from base64 import b64encode
+from datetime import datetime
 from flask import session, url_for
 from .auth import AuthBase
 from .permissions import Permissions
+from ..models import DiscordUsers
 from ..utils import get_args
 
 log = logging.getLogger(__name__)
@@ -40,35 +42,36 @@ class DiscordAuth(AuthBase):
         session['token']['refresh_token'] = token.get('refresh_token')
         session['token']['expires_at'] = token['expires_at']
 
+    def _add_user(self, token):
+        response = self.oauth.discord.get('users/@me')
+        if not response:
+            return None
+        user = response.json()
+
+        (DiscordUsers
+         .replace(
+             id=user['id'],
+             username=user['username'],
+             access_token=token['access_token'],
+             refresh_token=token['refresh_token'],
+             token_expires_at=datetime.utcfromtimestamp(token['expires_at']))
+         .execute())
+
+        return DiscordUsers.get_by_id(user['id'])
+
     def get_authorize_redirect(self):
         return self.oauth.discord.authorize_redirect(self.redirect_uri)
 
     def process_credentials(self):
-        token = None
-        try:
-            token = self.oauth.discord.authorize_access_token()
-        except AuthlibBaseError as e:
-            log.warning(e)
-            return
-        session['token'] = token
+        token = self.oauth.discord.authorize_access_token()
+        user = self._add_user(token)
         session['auth_type'] = 'discord'
-        response = self.update_resources()
-        if not response:
-            if response.status_code == 401:
-                session.clear()
-            else:
-                log.error('%s returned from Discord when '
-                          'updating resources: %s.',
-                          str(response.status_code), response.text)
-                del session['resources']
-            return
-        log.debug('Discord user %s succesfully logged in.',
-                  session['resources']['user']['username'])
+        session['id'] = user.id
+        log.debug('Discord user %s succesfully logged in.', user.username)
+
 
     def get_permissions(self):
-        self.permissions[session['token']['access_token']] = Permissions()
-        print(self.permissions)
-
+        return True, None
 
         resources = self.resources.get(session['token']['access_token'])
         if (not session.get('has_permission', False) or resources is None or
@@ -258,6 +261,8 @@ class DiscordAuth(AuthBase):
         return True
 
     def end_session(self):
+        user = DiscordUsers.get_by_id(session['id'])
+
         data = (self.oauth.discord.client_id + ':' +
                 self.oauth.discord.client_secret)
         bytes = b64encode(data.encode("utf-8"))
@@ -266,7 +271,7 @@ class DiscordAuth(AuthBase):
           'Authorization': 'Basic ' + encoded_creds,
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-        data = 'token=' + session['token']['access_token']
+        data = 'token=' + user.access_token
 
         response = requests.post(
             'https://discordapp.com/api/oauth2/token/revoke',
@@ -277,7 +282,6 @@ class DiscordAuth(AuthBase):
             log.error('%s returned from Discord revoke access token atempt: '
                       '%s.', str(response.status_code), response.text)
 
-
-        log.debug('Discord user %s succesfully logged out.',
-                  session['resources']['user']['username'])
+        user.delete_instance()
         session.clear()
+        log.debug('Discord user %s succesfully logged out.', user.username)

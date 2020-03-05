@@ -98,6 +98,14 @@ class Pogom(Flask):
             self.blacklist = []
             self.blacklist_keys = []
 
+        self.db_conn_endpoint_blacklist = [
+            'static', 'login_page', 'map_page', 'pokemon_history_page',
+            'quest_page', 'render_robots_txt', 'render_service_worker_js',
+            'pokemon_img', 'gym_img'
+        ]
+        self.before_request(self.db_connect)
+        self.teardown_request(self.db_close)
+
         # Routes
         self.json_encoder = CustomJSONEncoder
         if args.client_auth:
@@ -105,21 +113,30 @@ class Pogom(Flask):
             self.route("/logout", methods=['GET'])(self.logout)
             self.route("/login/<auth_type>", methods=['GET'])(self.login)
             self.route("/auth/<auth_type>", methods=['GET'])(self.auth)
-        self.route("/", methods=['GET'])(self.fullmap)
+        self.route("/", methods=['GET'])(self.map_page)
         self.route("/raw_data", methods=['GET'])(self.raw_data)
         self.route("/mobile", methods=['GET'])(self.list_pokemon)
         if not args.no_pokemon and not args.no_pokemon_history_page:
             self.route("/pokemon-history", methods=['GET'])(
-                self.get_pokemon_history)
+                self.pokemon_history_page)
         if (not args.no_pokestops and not args.no_quests and
                 not args.no_quest_page):
-            self.route("/quests", methods=['GET'])(self.get_quest)
+            self.route("/quests", methods=['GET'])(self.quest_page)
         self.route("/gym_data", methods=['GET'])(self.get_gymdata)
         self.route("/robots.txt", methods=['GET'])(self.render_robots_txt)
         self.route("/serviceWorker.min.js", methods=['GET'])(
             self.render_service_worker_js)
         self.route("/gym_img", methods=['GET'])(self.gym_img)
         self.route("/pkm_img", methods=['GET'])(self.pokemon_img)
+
+    def db_connect(self):
+        if request.endpoint not in self.db_conn_endpoint_blacklist:
+            self.db.connect()
+
+    def db_close(self, exc):
+        if request.endpoint not in self.db_conn_endpoint_blacklist:
+            if not self.db.is_closed():
+                self.db.close()
 
     def get_authenticator(self, auth_type):
         if auth_type == 'discord':
@@ -178,18 +195,18 @@ class Pogom(Flask):
 
     def login(self, auth_type):
         if self.is_logged_in():
-            return redirect(url_for('fullmap'))
+            return redirect(url_for('map_page'))
         if auth_type not in self.accepted_auth_types:
             return redirect(url_for('login_page'))
         return self.get_authenticator(auth_type).get_authorize_redirect()
 
     def auth(self, auth_type):
         if self.is_logged_in():
-            return redirect(url_for('fullmap'))
+            return redirect(url_for('map_page'))
         if auth_type not in self.accepted_auth_types:
             return redirect(url_for('login_page'))
         self.get_authenticator(auth_type).process_credentials()
-        return redirect(url_for('fullmap'))
+        return redirect(url_for('map_page'))
 
     def gym_img(self):
         team = request.args.get('team')
@@ -278,7 +295,7 @@ class Pogom(Flask):
 
     @login_required
     @cache.cached()
-    def fullmap(self):
+    def map_page(self):
         settings = {
             'centerLat': self.location[0],
             'centerLng': self.location[1],
@@ -353,7 +370,7 @@ class Pogom(Flask):
 
     @login_required
     @cache.cached()
-    def get_pokemon_history(self):
+    def pokemon_history_page(self):
         settings = {
             'centerLat': self.location[0],
             'centerLng': self.location[1],
@@ -387,7 +404,7 @@ class Pogom(Flask):
 
     @login_required
     @cache.cached()
-    def get_quest(self):
+    def quest_page(self):
         settings = {
             'generateImages': args.generate_images,
             'motd': args.motd,
@@ -492,8 +509,6 @@ class Pogom(Flask):
             permission, redirect_uri = authenticator.get_permissions()
             if not permission:
                 abort(403)
-
-        self.db.connect()
 
         d = {}
 
@@ -719,9 +734,6 @@ class Pogom(Flask):
 
         #if request.args.get('weatherAlerts', 'false') == 'true':
         #    d['weatherAlerts'] = get_weather_alerts(swLat, swLng, neLat, neLng)
-
-        if not self.db.is_closed():
-            self.db.close()
 
         return jsonify(d)
 

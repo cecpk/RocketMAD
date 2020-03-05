@@ -28,15 +28,15 @@ class Permissions():
     def pokemon(self):
         return self._pokemon
 
-    @attribute.setter
+    @pokemon.setter
     def pokemon(self, value):
         self._pokemon = value if type(value) == bool else False
         update_full_access()
 
     def update_full_access(self):
-        self._full_access = self._pokemon and self._pokemon_values and
+        self._full_access = (self._pokemon and self._pokemon_values and
             self._gyms and self._raids and self._pokestops and self._quests and
             self._invasions and self._lures and self._weather and
             self._spawnpoints and self._scanned_locations and self._parks and
             self._map_page and self._mobile_page and
-            self.pokemon_history_page and self._quest_page
+            self.pokemon_history_page and self._quest_page)

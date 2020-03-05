@@ -9,8 +9,6 @@ class AuthBase(ABC):
     def __init__(self, oauth, redirect_uri):
         self.oauth = oauth
         self.redirect_uri = redirect_uri
-        self.resources = {}
-        self.permissions = {}
 
     @abstractmethod
     def get_authorize_redirect(self):
