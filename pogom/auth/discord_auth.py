@@ -35,7 +35,13 @@ class DiscordAuth(AuthBase):
         )
 
     def _fetch_token(self):
-        return session['token']
+        user = DiscordUsers.get_by_id(session['id'])
+        token = {
+            'access_token': user.access_token,
+            'refresh_token': user.refresh_token,
+            'expires_at': user.token_expires_at
+        }
+        return token
 
     def _update_token(self, token, refresh_token=None, access_token=None):
         session['token']['access_token'] = token['access_token']
@@ -65,9 +71,10 @@ class DiscordAuth(AuthBase):
     def process_credentials(self):
         token = self.oauth.discord.authorize_access_token()
         user = self._add_user(token)
-        session['auth_type'] = 'discord'
-        session['id'] = user.id
-        log.debug('Discord user %s succesfully logged in.', user.username)
+        if user is not None:
+            session['auth_type'] = 'discord'
+            session['id'] = user.id
+            log.debug('Discord user %s succesfully logged in.', user.username)
 
 
     def get_permissions(self):

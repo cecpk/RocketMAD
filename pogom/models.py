@@ -903,12 +903,12 @@ class Weather(BaseModel):
 
 
 class DiscordUsers(BaseModel):
-    id = Utf8mb4CharField(primary_key=True, index=True)
+    id = Utf8mb4CharField(primary_key=True)
     username = Utf8mb4CharField()
     access_token = Utf8mb4CharField()
     refresh_token = Utf8mb4CharField()
     token_expires_at = DateTimeField()
-    changed_at = DateTimeField(default=datetime.now)
+    changed_at = DateTimeField(default=datetime.utcnow)
 
 
 class RmVersions(BaseModel):
