@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 args = get_args()
 db = DatabaseProxy()
 
-db_schema_version = 37
+db_schema_version = 0
 
 
 class RetryOperationalError(object):
@@ -824,14 +824,6 @@ class Trs_Spawn(LatLongModel):
         return spawnpoints
 
 
-class Versions(BaseModel):
-    key = Utf8mb4CharField()
-    val = SmallIntegerField()
-
-    class Meta:
-        primary_key = False
-
-
 class GymDetails(BaseModel):
     gym_id = Utf8mb4CharField(primary_key=True, max_length=50)
     name = Utf8mb4CharField()
@@ -908,6 +900,31 @@ class Weather(BaseModel):
                             (Weather.longitude <= float(neLng) + lng_delta)))
 
         return list(query.dicts())
+
+
+class DiscordUsers(BaseModel):
+    id = Utf8mb4CharField(primary_key=True, index=True)
+    username = Utf8mb4CharField()
+    access_token = Utf8mb4CharField()
+    refresh_token = Utf8mb4CharField()
+    token_expires_at = DateTimeField()
+    changed_at = DateTimeField(default=datetime.now)
+
+
+class RmVersions(BaseModel):
+    key = Utf8mb4CharField()
+    val = SmallIntegerField()
+
+    class Meta:
+        primary_key = False
+
+
+class Versions(BaseModel):
+    key = Utf8mb4CharField()
+    val = SmallIntegerField()
+
+    class Meta:
+        primary_key = False
 
 
 def clean_db_loop(args, main_pid):
@@ -1084,9 +1101,8 @@ def db_clean_forts(age_hours):
               time_diff)
 
 
-def create_tables(db):
-    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, Trs_Quest, Trs_Spawn,
-              ScannedLocation, Weather]
+def create_tables():
+    tables = [DiscordUsers]
     with db:
         for table in tables:
             if not table.table_exists():
@@ -1094,12 +1110,11 @@ def create_tables(db):
                 db.create_tables([table], safe=True)
             else:
                 log.debug('Skipping table %s, it already exists.',
-                          table.__name__)
+                table.__name__)
 
 
-def drop_tables(db):
-    tables = [Pokemon, Gym, GymDetails, Raid, Pokestop, Trs_Quest, Trs_Spawn,
-              ScannedLocation, Weather, Versions]
+def drop_tables():
+    tables = [DiscordUsers]
     with db:
         db.execute_sql('SET FOREIGN_KEY_CHECKS=0;')
         for table in tables:
@@ -1116,57 +1131,19 @@ def does_column_exist(db, table_name, column_name):
     return any(column.name == column_name for column in columns)
 
 
-def verify_table_encoding(db):
-    with db:
-        cmd_sql = '''
-            SELECT table_name FROM information_schema.tables WHERE
-            table_collation != "utf8mb4_unicode_ci"
-            AND table_schema = "%s";
-            ''' % args.db_name
-        change_tables = db.execute_sql(cmd_sql)
-
-        cmd_sql = "SHOW tables;"
-        tables = db.execute_sql(cmd_sql)
-
-        if change_tables.rowcount > 0:
-            log.info('Changing collation and charset on %s tables.',
-                     change_tables.rowcount)
-
-            if change_tables.rowcount == tables.rowcount:
-                log.info('Changing whole database,' +
-                         ' this might a take while.')
-
-            db.execute_sql('SET FOREIGN_KEY_CHECKS=0;')
-            for table in change_tables:
-                log.debug('Changing collation and charset on table %s.',
-                          table[0])
-                cmd_sql = '''ALTER TABLE %s CONVERT TO CHARACTER SET utf8mb4
-                            COLLATE utf8mb4_unicode_ci;''' % str(table[0])
-                db.execute_sql(cmd_sql)
-            db.execute_sql('SET FOREIGN_KEY_CHECKS=1;')
-
-
-def verify_database_schema(db):
-    if not Versions.table_exists():
-        db.create_tables([Versions])
-
-        if ScannedLocation.table_exists() and not Trs_Spawn.table_exists():
-            # Versions table doesn't exist, but there are tables. This must
-            # mean the user is coming from a database that existed before we
-            # started tracking the schema version. Perform a full upgrade.
-            Versions.insert({Versions.key: 'schema_version',
-                             Versions.val: 0}).execute()
-            database_migrate(db, 0)
-        else:
-            Versions.insert({Versions.key: 'schema_version',
-                             Versions.val: db_schema_version}).execute()
-
+def verify_database_schema():
+    if not RmVersions.table_exists():
+        with db:
+            db.create_tables([RmVersions])
+            RmVersions.create(key='schema_version', val=0)
+        database_migrate(0)
     else:
-        db_ver = Versions.get(Versions.key == 'schema_version').val
+        with db:
+            db_ver = RmVersions.get(RmVersions.key == 'schema_version').val
 
         if db_ver < db_schema_version:
-            if not database_migrate(db, db_ver):
-                log.error('Error migrating database')
+            if not database_migrate(db_ver):
+                log.error('Error migrating database.')
                 sys.exit(1)
         elif db_ver > db_schema_version:
             log.error('Your database version (%i) appears to be newer than '
@@ -1174,507 +1151,19 @@ def verify_database_schema(db):
             log.error('Please upgrade your code base or drop all tables in '
                       'your database.')
             sys.exit(1)
-    db.close()
 
 
-def database_migrate(db, old_ver):
+def database_migrate(old_ver):
     # Update database schema version.
-    Versions.update(val=db_schema_version).where(
-        Versions.key == 'schema_version').execute()
+    with db:
+        RmVersions.update(val=db_schema_version).where(
+            RmVersions.key == 'schema_version').execute()
 
     log.info('Detected database version %i, updating to %i...',
              old_ver, db_schema_version)
 
     # Perform migrations here.
     migrator = MySQLMigrator(db)
-
-    if old_ver < 2:
-        migrate(migrator.add_column('pokestop', 'encounter_id',
-                                    Utf8mb4CharField(max_length=50,
-                                                     null=True)))
-
-    if old_ver < 3:
-        migrate(
-            migrator.add_column('pokestop', 'active_fort_modifier',
-                                Utf8mb4CharField(max_length=50, null=True)),
-            migrator.drop_column('pokestop', 'encounter_id'),
-            migrator.drop_column('pokestop', 'active_pokemon_id')
-        )
-
-    if old_ver < 4:
-        db.drop_tables([ScannedLocation])
-
-    if old_ver < 5:
-        # Some Pokemon were added before the 595 bug was "fixed".
-        # Clean those up for a better UX.
-        query = (Pokemon
-                 .delete()
-                 .where(Pokemon.disappear_time >
-                        (datetime.utcnow() - timedelta(hours=24))))
-        query.execute()
-
-    if old_ver < 6:
-        migrate(
-            migrator.add_column('gym', 'last_scanned',
-                                DateTimeField(null=True)),
-        )
-
-    if old_ver < 7:
-        migrate(
-            migrator.drop_column('gymdetails', 'description'),
-            migrator.add_column('gymdetails', 'description',
-                                TextField(null=True, default=""))
-        )
-
-    if old_ver < 8:
-        migrate(
-            migrator.add_column('pokemon', 'individual_attack',
-                                IntegerField(null=True, default=0)),
-            migrator.add_column('pokemon', 'individual_defense',
-                                IntegerField(null=True, default=0)),
-            migrator.add_column('pokemon', 'individual_stamina',
-                                IntegerField(null=True, default=0)),
-            migrator.add_column('pokemon', 'move_1',
-                                IntegerField(null=True, default=0)),
-            migrator.add_column('pokemon', 'move_2',
-                                IntegerField(null=True, default=0))
-        )
-
-    if old_ver < 9:
-        migrate(
-            migrator.add_column('pokemon', 'last_modified',
-                                DateTimeField(null=True, index=True)),
-            migrator.add_column('pokestop', 'last_updated',
-                                DateTimeField(null=True, index=True))
-        )
-
-    if old_ver < 10:
-        # Information in ScannedLocation and Member Status is probably
-        # out of date.  Drop and recreate with new schema.
-
-        db.drop_tables([ScannedLocation])
-        db.drop_tables([WorkerStatus])
-
-    if old_ver < 11:
-
-        db.drop_tables([ScanSpawnPoint])
-
-    if old_ver < 13:
-
-        db.drop_tables([WorkerStatus])
-        db.drop_tables([MainWorker])
-
-    if old_ver < 14:
-        migrate(
-            migrator.add_column('pokemon', 'weight',
-                                DoubleField(null=True, default=0)),
-            migrator.add_column('pokemon', 'height',
-                                DoubleField(null=True, default=0)),
-            migrator.add_column('pokemon', 'gender',
-                                IntegerField(null=True, default=0))
-        )
-
-    if old_ver < 15:
-        # we don't have to touch sqlite because it has REAL and INTEGER only
-        db.execute_sql('ALTER TABLE `pokemon` '
-                       'MODIFY COLUMN `weight` FLOAT NULL DEFAULT NULL,'
-                       'MODIFY COLUMN `height` FLOAT NULL DEFAULT NULL,'
-                       'MODIFY COLUMN `gender` SMALLINT NULL DEFAULT NULL'
-                       ';')
-
-    if old_ver < 16:
-        log.info('This DB schema update can take some time. '
-                 'Please be patient.')
-
-        # change some column types from INT to SMALLINT
-        # we don't have to touch sqlite because it has INTEGER only
-        db.execute_sql(
-            'ALTER TABLE `pokemon` '
-            'MODIFY COLUMN `pokemon_id` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `individual_attack` SMALLINT '
-            'NULL DEFAULT NULL,'
-            'MODIFY COLUMN `individual_defense` SMALLINT '
-            'NULL DEFAULT NULL,'
-            'MODIFY COLUMN `individual_stamina` SMALLINT '
-            'NULL DEFAULT NULL,'
-            'MODIFY COLUMN `move_1` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `move_2` SMALLINT NULL DEFAULT NULL;'
-        )
-        db.execute_sql(
-            'ALTER TABLE `gym` '
-            'MODIFY COLUMN `team_id` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `guard_pokemon_id` SMALLINT NOT NULL;'
-        )
-        db.execute_sql(
-            'ALTER TABLE `scannedlocation` '
-            'MODIFY COLUMN `band1` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `band2` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `band3` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `band4` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `band5` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `midpoint` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `width` SMALLINT NOT NULL;'
-        )
-        db.execute_sql(
-            'ALTER TABLE `spawnpoint` '
-            'MODIFY COLUMN `latest_seen` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `earliest_unseen` SMALLINT NOT NULL;'
-        )
-        db.execute_sql(
-            'ALTER TABLE `spawnpointdetectiondata` '
-            'MODIFY COLUMN `tth_secs` SMALLINT NULL DEFAULT NULL;'
-        )
-        db.execute_sql(
-            'ALTER TABLE `versions` '
-            'MODIFY COLUMN `val` SMALLINT NOT NULL;'
-        )
-        db.execute_sql(
-            'ALTER TABLE `gympokemon` '
-            'MODIFY COLUMN `pokemon_id` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `cp` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `num_upgrades` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `move_1` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `move_2` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `stamina` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `stamina_max` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `iv_defense` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `iv_stamina` SMALLINT NULL DEFAULT NULL,'
-            'MODIFY COLUMN `iv_attack` SMALLINT NULL DEFAULT NULL;'
-        )
-        db.execute_sql(
-            'ALTER TABLE `trainer` '
-            'MODIFY COLUMN `team` SMALLINT NOT NULL,'
-            'MODIFY COLUMN `level` SMALLINT NOT NULL;'
-        )
-
-        # add some missing indexes
-        migrate(
-            migrator.add_index('gym', ('last_scanned',), False),
-            migrator.add_index('gymmember', ('last_scanned',), False),
-            migrator.add_index('gymmember', ('pokemon_uid',), False),
-            migrator.add_index('gympokemon', ('trainer_name',), False),
-            migrator.add_index('pokestop', ('active_fort_modifier',), False),
-            migrator.add_index('spawnpointdetectiondata', ('spawnpoint_id',),
-                               False),
-            migrator.add_index('token', ('last_updated',), False)
-        )
-        # pokestop.last_updated was missing in a previous migration
-        # check whether we have to add it
-        has_last_updated_index = False
-        for index in db.get_indexes('pokestop'):
-            if index.columns[0] == 'last_updated':
-                has_last_updated_index = True
-                break
-        if not has_last_updated_index:
-            log.debug('pokestop.last_updated index is missing. Creating now.')
-            migrate(
-                migrator.add_index('pokestop', ('last_updated',), False)
-            )
-
-    if old_ver < 17:
-        migrate(
-            migrator.add_column('pokemon', 'form',
-                                SmallIntegerField(null=True))
-        )
-
-    if old_ver < 18:
-        migrate(
-            migrator.add_column('pokemon', 'cp',
-                                SmallIntegerField(null=True))
-        )
-
-    if old_ver < 19:
-        migrate(
-            migrator.add_column('pokemon', 'cp_multiplier',
-                                FloatField(null=True))
-        )
-
-    if old_ver < 20:
-        migrate(
-            migrator.drop_column('gym', 'gym_points'),
-            migrator.add_column('gym', 'slots_available',
-                                SmallIntegerField(null=False, default=0)),
-            migrator.add_column('gymmember', 'cp_decayed',
-                                SmallIntegerField(null=False, default=0)),
-            migrator.add_column('gymmember', 'deployment_time',
-                                DateTimeField(
-                                    null=False, default=datetime.utcnow())),
-            migrator.add_column('gym', 'total_cp',
-                                SmallIntegerField(null=False, default=0)))
-
-    if old_ver < 21:
-        migrate(
-            migrator.add_column('pokemon', 'catch_prob_1',
-                                DoubleField(null=True)),
-            migrator.add_column('pokemon', 'catch_prob_2',
-                                DoubleField(null=True)),
-            migrator.add_column('pokemon', 'catch_prob_3',
-                                DoubleField(null=True)),
-            migrator.add_column('pokemon', 'rating_attack',
-                                CharField(null=True, max_length=2)),
-            migrator.add_column('pokemon', 'rating_defense',
-                                CharField(null=True, max_length=2))
-        )
-
-    if old_ver < 22:
-        migrate(
-            migrator.add_column('gym', 'is_in_battle',
-                                BooleanField(null=False, default=False)))
-
-    if old_ver < 23:
-        migrate(
-            migrator.add_column('pokemon', 'weather_boosted_condition',
-                                SmallIntegerField(null=True))
-        )
-
-    if old_ver < 24:
-        migrate(
-            migrator.add_column('pokemon', 'costume',
-                                SmallIntegerField(null=True))
-        )
-
-    if old_ver < 25:
-        migrate(
-            migrator.add_column('gympokemon', 'gender',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gympokemon', 'form',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gympokemon', 'costume',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gympokemon', 'weather_boosted_condition',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gympokemon', 'shiny',
-                                BooleanField(null=True)),
-            migrator.add_column('gym', 'gender',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gym', 'form',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gym', 'costume',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gym', 'weather_boosted_condition',
-                                SmallIntegerField(null=True)),
-            migrator.add_column('gym', 'shiny',
-                                BooleanField(null=True))
-        )
-    if old_ver < 26:
-        # First rename all tables being modified.
-        db.execute_sql('RENAME TABLE `pokemon` TO `pokemon_old`;')
-        db.execute_sql(
-            'RENAME TABLE `locationaltitude` TO `locationaltitude_old`;')
-        db.execute_sql(
-            'RENAME TABLE `scannedlocation` TO `scannedlocation_old`;')
-        db.execute_sql('RENAME TABLE `spawnpoint` TO `spawnpoint_old`;')
-        db.execute_sql('RENAME TABLE `spawnpointdetectiondata` TO ' +
-                       '`spawnpointdetectiondata_old`;')
-        db.execute_sql('RENAME TABLE `gymmember` TO `gymmember_old`;')
-        db.execute_sql('RENAME TABLE `gympokemon` TO `gympokemon_old`;')
-        db.execute_sql(
-            'RENAME TABLE `scanspawnpoint`  TO `scanspawnpoint_old`;')
-        # Then create all tables that we renamed with the proper fields.
-        create_tables(db)
-        # Insert data back with the correct format
-        db.execute_sql(
-            'INSERT INTO `pokemon` SELECT ' +
-            'FROM_BASE64(encounter_id) as encounter_id, ' +
-            'CONV(spawnpoint_id, 16,10) as spawnpoint_id, ' +
-            'pokemon_id, latitude, longitude, disappear_time, ' +
-            'individual_attack, individual_defense, individual_stamina, ' +
-            'move_1, move_2, cp, cp_multiplier, weight, height, gender, ' +
-            'form, costume, catch_prob_1, catch_prob_2, ' +
-            'catch_prob_3, rating_attack, ' +
-            'rating_defense, weather_boosted_condition ,last_modified ' +
-            'FROM `pokemon_old`;')
-        db.execute_sql(
-            'INSERT INTO `locationaltitude` SELECT ' +
-            'CONV(cellid, 16,10) as cellid, ' +
-            'latitude, longitude, last_modified, altitude ' +
-            'FROM `locationaltitude_old`;')
-        db.execute_sql(
-            'INSERT INTO `scannedlocation` SELECT ' +
-            'CONV(cellid, 16,10) as cellid, ' +
-            'latitude, longitude, last_modified, done, band1, band2, band3, ' +
-            'band4, band5, midpoint, width ' +
-            'FROM `scannedlocation_old`;')
-        db.execute_sql(
-            'INSERT INTO `spawnpoint` SELECT ' +
-            'CONV(id, 16,10) as id, ' +
-            'latitude, longitude, last_scanned, kind, links, missed_count, ' +
-            'latest_seen, earliest_unseen ' +
-            'FROM `spawnpoint_old`;')
-        db.execute_sql(
-            'INSERT INTO `spawnpointdetectiondata` ' +
-            '(encounter_id, spawnpoint_id, scan_time, tth_secs) SELECT ' +
-            'FROM_BASE64(encounter_id) as encounter_id, ' +
-            'CONV(spawnpoint_id, 16,10) as spawnpoint_id, ' +
-            'scan_time, tth_secs ' +
-            'FROM `spawnpointdetectiondata_old`;')
-        # A simple alter table does not work ¯\_(ツ)_/¯
-        db.execute_sql(
-            'INSERT INTO `gymmember` ' +
-            'SELECT * FROM `gymmember_old`;')
-        db.execute_sql(
-            'INSERT INTO `gympokemon` ' +
-            'SELECT pokemon_uid, pokemon_id, cp,trainer_name, ' +
-            'num_upgrades ,move_1, move_2, height, weight, stamina,'
-            'stamina_max, cp_multiplier, additional_cp_multiplier,' +
-            'iv_defense, iv_stamina, iv_attack, gender, ' +
-            'form,costume, weather_boosted_condition, shiny, last_seen ' +
-            'FROM `gympokemon_old`;')
-        db.execute_sql(
-            'INSERT INTO `scanspawnpoint` SELECT ' +
-            'CONV(scannedlocation_id, 16,10) as scannedlocation_id, ' +
-            'CONV(spawnpoint_id, 16,10) as spawnpoint_id ' +
-            'FROM `scanspawnpoint_old`;')
-        db.execute_sql(
-            'ALTER TABLE `pokestop` MODIFY active_fort_modifier SMALLINT(6);')
-        # Drop all _old tables
-        db.execute_sql('DROP TABLE `scanspawnpoint_old`;')
-        db.execute_sql('DROP TABLE `pokemon_old`;')
-        db.execute_sql('DROP TABLE `locationaltitude_old`;')
-        db.execute_sql('DROP TABLE `spawnpointdetectiondata_old`;')
-        db.execute_sql('DROP TABLE `scannedlocation_old`;')
-        db.execute_sql('DROP TABLE `spawnpoint_old`;')
-        db.execute_sql('DROP TABLE `gymmember_old`;')
-        db.execute_sql('DROP TABLE `gympokemon_old`;')
-
-    if old_ver < 27:
-        migrate(
-            migrator.drop_index('pokemon', 'pokemon_disappear_time'),
-            migrator.add_index('pokemon',
-                               ('disappear_time', 'pokemon_id'), False)
-        )
-
-    if old_ver < 28:
-        db.drop_tables([WorkerStatus])
-        db.drop_tables([MainWorker])
-
-    if old_ver < 29:
-        # Drop and add CONSTRAINT_2 with the <= fix.
-        db.execute_sql('ALTER TABLE `spawnpoint` '
-                       'DROP CONSTRAINT CONSTRAINT_2;')
-        db.execute_sql('ALTER TABLE `spawnpoint` '
-                       'ADD CONSTRAINT CONSTRAINT_2 ' +
-                       'CHECK (`earliest_unseen` <= 3600);')
-
-        # Drop and add CONSTRAINT_4 with the <= fix.
-        db.execute_sql('ALTER TABLE `spawnpoint` '
-                       'DROP CONSTRAINT CONSTRAINT_4;')
-        db.execute_sql('ALTER TABLE `spawnpoint` '
-                       'ADD CONSTRAINT CONSTRAINT_4 CHECK ' +
-                       '(`latest_seen` <= 3600);')
-
-    if old_ver < 30:
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'gym', 'is_ex_raid_eligible'):
-            migrate(
-                migrator.add_column(
-                    'gym',
-                    'is_ex_raid_eligible',
-                    BooleanField(null=False, default=0)
-                )
-            )
-
-    if old_ver < 31:
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'raid', 'form'):
-            migrate(
-                migrator.add_column(
-                    'raid',
-                    'form',
-                    SmallIntegerField(null=True)
-                )
-            )
-
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'raid', 'is_exclusive'):
-            migrate(
-                migrator.add_column(
-                    'raid',
-                    'is_exclusive',
-                    BooleanField(null=True)
-                )
-            )
-
-    if old_ver < 32:
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'raid', 'gender'):
-            migrate(
-                migrator.add_column(
-                    'raid',
-                    'gender',
-                    SmallIntegerField(null=True)
-                )
-            )
-
-    if old_ver < 33:
-        # Don't use drop_tables() because model classes have been removed.
-        db.execute_sql('DROP TABLE `locationaltitude`;')
-        db.execute_sql('DROP TABLE `playerlocale`;')
-        db.execute_sql('DROP TABLE `mainworker`;')
-        db.execute_sql('DROP TABLE `workerstatus`;')
-        db.execute_sql('DROP TABLE `scanspawnpoint`;')
-        db.execute_sql('DROP TABLE `spawnpointdetectiondata`;')
-        db.execute_sql('DROP TABLE `gymmember`;')
-        db.execute_sql('DROP TABLE `gympokemon`;')
-        db.execute_sql('DROP TABLE `trainer`;')
-        db.execute_sql('DROP TABLE `token`;')
-        db.execute_sql('DROP TABLE `hashkeys`;')
-
-    if old_ver < 34:
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'pokestop', 'incident_start'):
-            migrate(
-                migrator.add_column(
-                    'pokestop',
-                    'incident_start',
-                    DateTimeField(null=True)
-                )
-            )
-
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'pokestop', 'incident_expiration'):
-            migrate(
-                migrator.add_column(
-                    'pokestop',
-                    'incident_expiration',
-                    DateTimeField(null=True)
-                )
-            )
-
-    if old_ver < 35:
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'pokestop', 'incident_grunt_type'):
-            migrate(
-                migrator.add_column(
-                    'pokestop',
-                    'incident_grunt_type',
-                    SmallIntegerField(null=True)
-                )
-            )
-
-    if old_ver < 36:
-        db.execute_sql(
-            'ALTER TABLE spawnpoint MODIFY id bigint(20) unsigned NOT NULL;')
-        db.execute_sql(
-            'ALTER TABLE scannedlocation MODIFY cellid bigint(20) unsigned ' +
-            'NOT NULL;')
-        db.execute_sql(
-            'ALTER TABLE pokemon MODIFY encounter_id bigint(20) unsigned ' +
-            'NOT NULL;')
-        db.execute_sql(
-            'ALTER TABLE pokemon MODIFY spawnpoint_id bigint(20) unsigned ' +
-            'NOT NULL;')
-
-    if old_ver < 37:
-        # Column might already exist if created by MAD.
-        if not does_column_exist(db, 'raid', 'costume'):
-            migrate(
-                migrator.add_column(
-                    'raid',
-                    'costume',
-                    SmallIntegerField(null=True)
-                )
-            )
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')

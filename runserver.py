@@ -31,8 +31,7 @@ from pogom.utils import (get_args, now, init_dynamic_images,
 from pogom.parks import download_ex_parks, download_nest_parks
 
 from pogom.models import (init_database, create_tables, drop_tables,
-                          clean_db_loop, verify_table_encoding,
-                          verify_database_schema)
+                          clean_db_loop, verify_database_schema)
 from pogom.gunicorn import GunicornApplication
 
 from time import strftime
@@ -168,21 +167,18 @@ def validate_assets(args):
 
 def startup_db(clear_db):
     db = init_database()
+
     if clear_db:
         log.info('Clearing database')
-        #drop_tables(db)
+        drop_tables()
 
-    #verify_database_schema(db)
-
-    #create_tables(db)
-
-    # Fix encoding on present and future tables.
-    #verify_table_encoding(db)
+    create_tables()
+    verify_database_schema()
 
     if clear_db:
-        log.info(
-            'Drop and recreate is complete. Now remove -cd and restart.')
+        log.info('Drop and recreate is complete. Now remove -cd and restart.')
         sys.exit()
+
     return db
 
 
