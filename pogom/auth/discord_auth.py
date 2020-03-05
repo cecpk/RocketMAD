@@ -40,6 +40,11 @@ class DiscordAuth(AuthBase):
         session['token']['expires_at'] = token['expires_at']
 
     def has_permission(self):
+        token_expires_at = session['token']['expires_at']
+        if token_expires_at < time.time():
+            session.clear()
+            return False, url_for('login_page')
+
         resources = session.get('resources')
         if (not session.get('has_permission', False) or resources is None or
                 resources.get('expires_at', 0) < time.time()):
