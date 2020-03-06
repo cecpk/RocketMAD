@@ -749,7 +749,12 @@ class Trs_Spawn(LatLongModel):
     first_detection = DateTimeField(
         constraints=[SQL('DEFAULT CURRENT_TIMESTAMP')])
     last_non_scanned = DateTimeField(null=True)
-    calc_endminsec = Utf8mb4CharField(max_length=5, null=True)
+    calc_endminsec = Utf8mb4CharField(max_length=5, null=True, index=True)
+
+    class Meta:
+        indexes = (
+            (('latitude', 'longitude'), False),
+        )
 
     @staticmethod
     def get_spawnpoints(swLat, swLng, neLat, neLng, timestamp=0,
