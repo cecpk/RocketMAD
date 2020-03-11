@@ -65,6 +65,7 @@
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
 #twelve-hour-clock              # Display time with the 12-hour clock format.
 #analytics-id                   # Google Analytics Tracking-ID. (default=None)
+#map-update-interval            # Interval between raw_data requests (map updates) in milliseconds. (default=2500)
 
 #motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
 #motd-title:                    # MOTD title, can be HTML. (default='MOTD')
