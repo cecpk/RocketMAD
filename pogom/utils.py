@@ -530,11 +530,6 @@ def get_args(access_config=None):
     return args
 
 
-def test(parser):
-    parser.add_argument('-mt', '--map-title', default='RocketMAD',
-                        help=('The title of the map. Default: RocketMAD'))
-
-
 def init_dynamic_images(args):
     if args.generate_images:
         executable = determine_imagemagick_binary()
