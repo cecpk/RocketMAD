@@ -902,15 +902,6 @@ class Weather(BaseModel):
         return list(query.dicts())
 
 
-class DiscordUsers(BaseModel):
-    id = Utf8mb4CharField(primary_key=True)
-    username = Utf8mb4CharField()
-    access_token = Utf8mb4CharField()
-    refresh_token = Utf8mb4CharField()
-    token_expires_at = DateTimeField()
-    changed_at = DateTimeField(default=datetime.utcnow)
-
-
 class RmVersions(BaseModel):
     key = Utf8mb4CharField()
     val = SmallIntegerField()
@@ -1102,7 +1093,7 @@ def db_clean_forts(age_hours):
 
 
 def create_tables():
-    tables = [DiscordUsers]
+    tables = []
     with db:
         for table in tables:
             if not table.table_exists():
@@ -1114,7 +1105,7 @@ def create_tables():
 
 
 def drop_tables():
-    tables = [DiscordUsers]
+    tables = []
     with db:
         db.execute_sql('SET FOREIGN_KEY_CHECKS=0;')
         for table in tables:
