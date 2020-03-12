@@ -67,7 +67,7 @@ class Pogom(Flask):
         args = get_args()
         self.db = db
         cache.init_app(self)
-        cache_buster.init_app(self) # No more stale CSS/JS.
+        cache_buster.init_app(self)  # No more stale CSS/JS.
         compress.init_app(self)
         if args.cors:
             CORS(self)
@@ -329,14 +329,14 @@ class Pogom(Flask):
                 [int(i) for i in args.upscaled_pokemon.split(',')]
                 if args.upscaled_pokemon is not None else []),
             'pokemonValues': (not args.no_pokemon and
-                not args.no_pokemon_values),
+                              not args.no_pokemon_values),
             'rarity': (not args.no_pokemon and not args.no_rarity and
-                args.rarity_update_frequency),
+                       args.rarity_update_frequency),
             'rarityFileName': args.rarity_filename,
             'pokemonCries': not args.no_pokemon and args.pokemon_cries,
             'gyms': not args.no_gyms,
-            'gymSidebar': (not args.no_gyms or not args.no_raids) and
-                not args.no_gym_sidebar,
+            'gymSidebar': ((not args.no_gyms or not args.no_raids) and
+                           not args.no_gym_sidebar),
             'gymFilters': not args.no_gyms and not args.no_gym_filters,
             'raids': not args.no_raids,
             'raidFilters': not args.no_raids and not args.no_raid_filters,
@@ -370,8 +370,8 @@ class Pogom(Flask):
             messenger_url=args.messenger_url,
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
-            pokemon_history_page=settings['pokemons'] and
-                not args.no_pokemon_history_page,
+            pokemon_history_page=(settings['pokemons'] and
+                                  not args.no_pokemon_history_page),
             quest_page=settings['quests'] and not args.no_quest_page,
             analytics_id=args.analytics_id,
             settings=settings,
@@ -414,8 +414,8 @@ class Pogom(Flask):
             messenger_url=args.messenger_url,
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
-            quest_page=not args.no_pokestops and not args.no_quests
-                and not args.no_quest_page,
+            quest_page=(not args.no_pokestops and not args.no_quests and
+                        not args.no_quest_page),
             analytics_id=args.analytics_id,
             settings=settings
         )
@@ -427,7 +427,7 @@ class Pogom(Flask):
         else:
             args = get_args()
 
-        if args.no_pokestops or args.no_quests:
+        if args.no_pokestops or args.no_quests or args.no_quest_page:
             abort(403)
 
         settings = {
@@ -454,8 +454,8 @@ class Pogom(Flask):
             messenger_url=args.messenger_url,
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
-            pokemon_history_page=not args.no_pokemon and
-                not args.no_pokemon_history_page,
+            pokemon_history_page=(not args.no_pokemon and
+                                  not args.no_pokemon_history_page),
             analytics_id=args.analytics_id,
             settings=settings
         )
@@ -755,12 +755,11 @@ class Pogom(Flask):
         if (request.args.get('scannedLocs', 'false') == 'true' and
                 not args.no_scanned_locs):
             if lastscannedlocs != 'true':
-                d['scannedlocs'] = ScannedLocation.get_recent(swLat, swLng,
-                                                          neLat, neLng)
+                d['scannedlocs'] = ScannedLocation.get_recent(
+                    swLat, swLng, neLat, neLng)
             else:
-                d['scannedlocs'] = ScannedLocation.get_recent(swLat, swLng,
-                                                          neLat, neLng,
-                                                          timestamp=timestamp)
+                d['scannedlocs'] = ScannedLocation.get_recent(
+                    swLat, swLng, neLat, neLng, timestamp=timestamp)
                 if newArea:
                     d['scannedlocs'] += ScannedLocation.get_recent(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
