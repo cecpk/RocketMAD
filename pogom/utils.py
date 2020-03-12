@@ -1065,7 +1065,7 @@ def dynamic_rarity_refresher(db, main_pid):
         log.info('Updating dynamic rarity...')
 
         start = default_timer()
-        with db:
+        with db.connection_context():
             db_rarities = Pokemon.get_spawn_counts(hours)
         total = db_rarities['total']
         pokemon = db_rarities['pokemon']

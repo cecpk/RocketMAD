@@ -956,7 +956,7 @@ def clean_db_loop(args, main_pid):
                     db_clean_forts(args.db_cleanup_forts)
 
                 # Clean weather... only changes at full hours anyway...
-                with db:
+                with db.connection_context():
                     query = (Weather
                              .delete()
                              .where(Weather.last_updated <
@@ -976,10 +976,7 @@ def db_cleanup_regular():
     start_timer = default_timer()
 
     now = datetime.utcnow()
-    # http://docs.peewee-orm.com/en/latest/peewee/database.html#advanced-connection-management
-    # When using an execution context, a separate connection from the pool
-    # will be used inside the wrapped block and a transaction will be started.
-    with db:
+    with db.connection_context():
         # Remove active modifier from expired lured pokestops.
         query = (Pokestop
                  .update(lure_expiration=None, active_fort_modifier=None)
@@ -994,7 +991,7 @@ def db_clean_pokemons(age_hours):
     log.debug('Beginning cleanup of old pokemon spawns.')
     start_timer = default_timer()
     pokemon_timeout = datetime.utcnow() - timedelta(hours=age_hours)
-    with db:
+    with db.connection_context():
         query = (Pokemon
                  .delete()
                  .where(Pokemon.disappear_time < pokemon_timeout))
@@ -1012,7 +1009,7 @@ def db_clean_gyms(age_hours, gyms_age_days=30):
 
     gym_info_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with db:
+    with db.connection_context():
         # Remove old GymDetails entries.
         query = (GymDetails
                  .delete()
@@ -1040,7 +1037,7 @@ def db_clean_spawnpoints(age_hours):
 
     spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
-    with db:
+    with db.connection_context():
         # Select old Trs_Spawn entries.
         query = (Trs_Spawn
                  .select(Trs_Spawn.spawnpoint)
@@ -1073,7 +1070,7 @@ def db_clean_forts(age_hours):
 
     fort_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with db:
+    with db.connection_context():
         # Remove old Gym entries.
         query = (Gym
                  .delete()
