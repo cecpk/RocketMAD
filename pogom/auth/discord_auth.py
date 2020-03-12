@@ -136,7 +136,21 @@ class DiscordAuth(OAuth2Base):
 
     def get_access_data(self):
         if session.get('access_data_updated_at', 0) + 300 < time.time():
-            self._update_access_data()
+            try:
+                self._update_access_data()
+            except requests.exceptions.HTTPError as e:
+                if 'has_permission' not in session:
+                    # Access data is still missing, retry.
+                    if e.response.status_code == 429:
+                        # We are rate limited, wait a bit.
+                        log.debug('Discord rate limit exceeded: %s', e)
+                        s = int(e.response.headers['x-ratelimit-reset-after'])
+                        time.sleep(s)
+                    else:
+                        log.warning('Exception while retrieving Discord '
+                                    'resources: %s', e)
+
+                    return self.get_access_data()
 
         has_permission = session['has_permission']
         access_config_name = session['access_config_name']

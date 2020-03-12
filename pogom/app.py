@@ -620,7 +620,7 @@ class Pogom(Flask):
 
         if (request.args.get('pokemon', 'true') == 'true' and
                 not args.no_pokemon):
-            known_despawn = args.verified_despawn_time
+            verified_despawn = args.verified_despawn_time
             eids = None
             ids = None
             if (request.args.get('eids') and
@@ -637,14 +637,15 @@ class Pogom(Flask):
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
                         swLat, swLng, neLat, neLng, eids=eids, ids=ids,
-                        known_despawn_time=known_despawn))
+                        verified_despawn_time=verified_despawn))
             else:
                 # If map is already populated only request modified Pokemon
                 # since last request time.
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
                         swLat, swLng, neLat, neLng, timestamp=timestamp,
-                        eids=eids, ids=ids, known_despawn_time=known_despawn))
+                        eids=eids, ids=ids,
+                        verified_despawn_time=verified_despawn))
 
                 if newArea:
                     # If screen is moved add newly uncovered Pokemon to the
@@ -655,14 +656,14 @@ class Pogom(Flask):
                                 swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                                 oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
                                 eids=eids, ids=ids,
-                                known_despawn_time=known_despawn)))
+                                verified_despawn_time=verified_despawn)))
 
             if request.args.get('reids'):
                 request_reids = request.args.get('reids').split(',')
                 reids = [int(x) for x in request_reids]
                 d['pokemons'] += convert_pokemon_list(
                     Pokemon.get_active(swLat, swLng, neLat, neLng, ids=ids,
-                                       known_despawn_time=known_despawn))
+                                       verified_despawn_time=verified_despawn))
                 d['reids'] = reids
 
         if request.args.get('seen', 'false') == 'true':

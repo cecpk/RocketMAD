@@ -146,10 +146,10 @@ class Pokemon(LatLongModel):
     @staticmethod
     def get_active(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
                    oNeLat=None, oNeLng=None, timestamp=0, eids=None, ids=None,
-                   known_despawn_time=False):
+                   verified_despawn_time=False):
         now_utc = datetime.utcnow()
 
-        if known_despawn_time:
+        if verified_despawn_time:
             query = (Pokemon
                      .select(Pokemon.encounter_id, Pokemon.pokemon_id,
                              Pokemon.latitude, Pokemon.longitude,
