@@ -1,6 +1,5 @@
 # DO NOT USE NOTEPAD TO EDIT CONFIG FILES! USE NOTEPAD++ INSTEAD!
 # Uncomment a line when you want to change its default value (Remove # at the beginning)
-# Please ensure to leave a space after the colon if a value is needed ("example-setting" "example-setting-with: value")
 # When your configuration is done, rename this file by removing the ".example" extension
 # A different config-files can be included directly in processes by "--config-file" or "-cf" and path
 
@@ -123,8 +122,9 @@
 # Dynamic rarity
 ################
 
+#no-rarity                      # Do not display Pokémon rarity. (default=False)
 #rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
-#rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=0)
+#rarity-update-frequency:       # How often (in minutes) the dynamic rarity should be updated. decimals allowed. 0 to disable. (default=60.0)
 #rarity-filename:               # Name of the JSON file (without .json) for dynamic rarity. Useful when running two or more instances out of the same folder. (default='rarity')
 
 
@@ -133,8 +133,10 @@
 # Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
 # Remove the JSON file(s) to redownload the parks.
 
-#ex-parks                       # Enables ex raid eligible parks downloading and drawing. (default=False)
-#nest-parks                     # Enables nest parks downloading and drawing. (default=False)
+#ex-parks                       # Display ex raid eligible parks. (default=False)
+#nest-parks                     # Display nest parks. (default=False)
+#ex-parks-downloading           # Enables ex raid eligible parks downloading. (default=False)
+#nest-parks-downloading         # Enables nest parks downloading. (default=False)
 #ex-parks-geofence-file:        # Geofence file to define outer borders of the ex park area to download.
 #nest-parks-geofence-file:      # Geofence file to define outer borders of the nest park area to download.
 #ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')

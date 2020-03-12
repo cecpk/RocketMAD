@@ -182,23 +182,6 @@ def startup_db(clear_db):
     return db
 
 
-def extract_coordinates(location):
-    # Use lat/lng directly if matches such a pattern.
-    prog = re.compile("^(\-?\d+\.\d+),?\s?(\-?\d+\.\d+)$")
-    res = prog.match(location)
-    if res:
-        log.debug('Using coordinates from CLI directly')
-        position = (float(res.group(1)), float(res.group(2)), 0)
-    else:
-        log.debug('Looking up coordinates in API')
-        position = get_pos_by_name(location)
-
-    if position is None or not any(position):
-        log.error("Location not found: '{}'".format(location))
-        sys.exit()
-    return position
-
-
 def main():
     # Patch threading to make exceptions catchable.
     install_thread_excepthook()
@@ -231,21 +214,6 @@ def main():
     if not validate_assets(args):
         sys.exit(1)
 
-    position = extract_coordinates(args.location)
-
-    log.info('Parsed location is: %.4f/%.4f/%.4f (lat/lng/alt).',
-             position[0], position[1], position[2])
-
-    # Scanning toggles.
-    log.info('Parsing of Pokemon %s.',
-             'disabled' if args.no_pokemon else 'enabled')
-    log.info('Parsing of Pokestops %s.',
-             'disabled' if args.no_pokestops else 'enabled')
-    log.info('Parsing of Gyms %s.',
-             'disabled' if args.no_gyms else 'enabled')
-    log.info('Pokemon values %s.',
-             'disabled' if args.no_pokemon_values else 'enabled')
-
     db = startup_db(args.clear_db)
     main_pid = os.getpid()
 
@@ -265,7 +233,7 @@ def main():
         log.info('Dynamic rarity is disabled.')
 
     # Parks downloading
-    if args.ex_parks:
+    if args.ex_parks_downloading:
         t = Thread(target=download_ex_parks, name='ex-parks', daemon=True,
                    args=(main_pid,))
         t.start()
@@ -273,7 +241,7 @@ def main():
     else:
         log.info('EX park downloading is disabled.')
 
-    if args.nest_parks:
+    if args.nest_parks_downloading:
         t = Thread(target=download_nest_parks, name='nest-parks', daemon=True,
                    args=(main_pid,))
         t.start()
@@ -287,7 +255,6 @@ def main():
                     db,
                     root_path=os.path.dirname(os.path.abspath(__file__)))
         app.before_request(app.validate_request)
-        app.set_location(position)
 
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and

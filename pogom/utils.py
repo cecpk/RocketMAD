@@ -10,6 +10,7 @@ import json
 import logging
 import math
 import multiprocessing
+import re
 import time
 import socket
 import struct
@@ -67,7 +68,7 @@ def memoize(function):
     return wrapper
 
 
-@lru_cache()
+@lru_cache(maxsize=None)
 def get_args(access_config=None):
     # Pre-check to see if the -cf or --config flag is used on the command line.
     # If not, we'll use the env var or default value. This prevents layering of
@@ -76,54 +77,12 @@ def get_args(access_config=None):
     if '-cf' not in sys.argv and '--config' not in sys.argv:
         default_config_files = [os.getenv('POGOMAP_CONFIG', os.path.join(
             os.path.dirname(__file__), '../config/config.ini'))]
-    if access_config is not None:
-        default_config_files.append(os.getenv('POGOMAP_CONFIG', os.path.join(
-            os.path.dirname(__file__), '../config/' + access_config)))
     parser = configargparse.ArgParser(
         default_config_files=default_config_files,
         auto_env_var_prefix='POGOMAP_')
 
-    parser.add_argument('-cf', '--config',
-                        is_config_file=True, help='Set configuration file')
-    parser.add_argument('-scf', '--shared-config',
-                        is_config_file=True, help='Set a shared config')
-    parser.add_argument('-l', '--location',
+    parser.add_argument('-l', '--location', required=True,
                         help='Location, can be an address or coordinates.')
-    parser.add_argument('-al', '--access-logs',
-                        help=("Write web logs to access.log."),
-                        action='store_true', default=False)
-    parser.add_argument('-H', '--host', help='Set web server listening host.',
-                        default='127.0.0.1')
-    parser.add_argument('-P', '--port', type=int,
-                        help='Set web server listening port.', default=5000)
-    parser.add_argument('-w', '--workers',
-                        type=int, default=multiprocessing.cpu_count() * 2 + 1,
-                        help='The number of worker processes for handling ' +
-                             'requests. Generally in the 2-4 x {NUM_CORES} ' +
-                             'range.')
-    parser.add_argument('-ds', '--development-server',
-                        action='store_true', default=False,
-                        help='Use Flask’s built-in development server. ' +
-                             'Don\'t use this in production.')
-    parser.add_argument('-L', '--locale',
-                        help=('Locale for Pokemon names (check' +
-                              ' static/dist/locales for more).'),
-                        default='en')
-    parser.add_argument('-c', '--china',
-                        help='Coordinates transformer for China.',
-                        action='store_true')
-    parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
-                        action='store_true', default=False)
-    parser.add_argument('-cd', '--clear-db',
-                        help=('Deletes the existing database before ' +
-                              'starting the Webserver.'),
-                        action='store_true', default=False)
-    parser.add_argument('-ai', '--analytics-id',
-                        default=None,
-                        help='Google Analytics Tracking-ID.'),
-    parser.add_argument('-mui', '--map-update-interval',
-                        type=int, default=2500,
-                        help='Interval between raw_data requests (map updates) in milliseconds.'),
     parser.add_argument('-np', '--no-pokemon',
                         help=('Disables Pokémon.'),
                         action='store_true', default=False)
@@ -262,6 +221,48 @@ def get_args(access_config=None):
                         ' link.', default=None)
     parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
                         ' link.', default=None)
+
+    parser.add_argument('-cf', '--config',
+                        is_config_file=True, help='Set a configuration file.')
+    parser.add_argument('-scf', '--shared-config',
+                        is_config_file=True, help='Set a shared config file.')
+    parser.add_argument('-acf', '--access-config',
+                        help='Set a default access config file.')
+    parser.add_argument('-al', '--access-logs',
+                        help=("Write web logs to access.log."),
+                        action='store_true', default=False)
+    parser.add_argument('-H', '--host', help='Set web server listening host.',
+                        default='127.0.0.1')
+    parser.add_argument('-P', '--port', type=int,
+                        help='Set web server listening port.', default=5000)
+    parser.add_argument('-w', '--workers',
+                        type=int, default=multiprocessing.cpu_count() * 2 + 1,
+                        help='The number of worker processes for handling ' +
+                             'requests. Generally in the 2-4 x {NUM_CORES} ' +
+                             'range.')
+    parser.add_argument('-ds', '--development-server',
+                        action='store_true', default=False,
+                        help='Use Flask’s built-in development server. ' +
+                             'Don\'t use this in production.')
+    parser.add_argument('-L', '--locale',
+                        help=('Locale for Pokemon names (check' +
+                              ' static/dist/locales for more).'),
+                        default='en')
+    parser.add_argument('-c', '--china',
+                        help='Coordinates transformer for China.',
+                        action='store_true')
+    parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
+                        action='store_true', default=False)
+    parser.add_argument('-cd', '--clear-db',
+                        help=('Deletes the existing database before ' +
+                              'starting the Webserver.'),
+                        action='store_true', default=False)
+    parser.add_argument('-ai', '--analytics-id',
+                        default=None,
+                        help='Google Analytics Tracking-ID.'),
+    parser.add_argument('-mui', '--map-update-interval',
+                        type=int, default=2500,
+                        help='Interval between raw_data requests (map updates) in milliseconds.'),
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)
@@ -274,9 +275,6 @@ def get_args(access_config=None):
                        default='127.0.0.1')
     group.add_argument('--db-port',
                        help='Port for the database.', type=int, default=3306)
-    group.add_argument('--db-threads',
-                       help=('Number of db threads; increase if the db ' +
-                             'queue falls behind.'), type=int, default=1)
     group = parser.add_argument_group('Database Cleanup')
     group.add_argument('-DC', '--db-cleanup',
                        help='Enable regular database cleanup thread.',
@@ -421,53 +419,57 @@ def get_args(access_config=None):
                         ' text for gym/raid level badge in gym icons.',
                         action='store_true', default=False)
     rarity = parser.add_argument_group('Dynamic Rarity')
+    rarity.add_argument('-nR', '--no-rarity',
+                        action='store_true',
+                        help='Do not display Pokémon rarity.')
     rarity.add_argument('-Rh', '--rarity-hours',
-                        help=('Number of hours of Pokemon data to use' +
-                              ' to calculate dynamic rarity. Decimals' +
-                              ' allowed. Default: 48. 0 to use all data.'),
-                        type=float, default=48)
+                        type=float, default=48,
+                        help='Number of hours of Pokemon data to use '
+                             'to calculate dynamic rarity, decimals allowed. '
+                             'Default: 48. 0 to use all data.')
     rarity.add_argument('-Rf', '--rarity-update-frequency',
-                        help=('How often (in minutes) the dynamic rarity' +
-                              ' should be updated. Decimals allowed.' +
-                              ' Default: 0. 0 to disable.'),
-                        type=float, default=0)
+                        type=float, default=60,
+                        help='How often (in minutes) the dynamic rarity '
+                             'should be updated, decimals allowed. '
+                             'Default: 0. 0 to disable.')
     rarity.add_argument('-Rfn', '--rarity-filename',
-                        help=('Filename (without .json) of rarity JSON ' +
-                              'file. Useful when running multiple ' +
-                              'instances. Default: rarity'),
-                        type=str, default='rarity')
+                        default='rarity',
+                        help='Filename (without .json) of rarity JSON '
+                             'file. Useful when running multiple '
+                             'instances. Default: rarity')
     parks = parser.add_argument_group('Parks')
-    parks.add_argument('-ep', '--ex-parks',
-                       help=('Enables ex raid eligible parks downloading ' +
-                             'and drawing.'),
-                       action='store_true', default=False)
-    parks.add_argument('-ntp', '--nest-parks',
-                       help='Enables nest parks downloading and drawing.',
-                       action='store_true', default=False)
-    parks.add_argument('-epgf', '--ex-parks-geofence-file',
-                        help=('Geofence file to define outer borders of the ' +
-                              'ex park area to download.'),
-                        default='')
-    parks.add_argument('-npgf', '--nest-parks-geofence-file',
-                        help=('Geofence file to define outer borders of the ' +
-                              'nest park area to download.'),
-                        default='')
-    parks.add_argument('-epfn', '--ex-parks-filename',
-                        help=('Filename (without .json) of ex parks JSON ' +
-                              'file. Useful when running multiple ' +
-                              'instances. Default: parks-ex-raids'),
-                        type=str, default='parks-ex')
-    parks.add_argument('-npfn', '--nest-parks-filename',
-                        help=('Filename (without .json) of nest parks JSON ' +
-                              'file. Useful when running multiple ' +
-                              'instances. Default: parks-nests'),
-                        type=str, default='parks-nest')
-    parks.add_argument('-pqt', '--parks-query-timeout',
-                        help=('The maximum allowed runtime for the parks' +
-                              ' query in seconds.'),
-                        type=int, default=86400)
-
-    parser.set_defaults(DEBUG=False)
+    parks.add_argument('-EP', '--ex-parks',
+                       action='store_true',
+                       help='Display ex raid eligible parks.')
+    parks.add_argument('-NP', '--nest-parks',
+                       action='store_true',
+                       help='Display nest parks.')
+    parks.add_argument('-EPd', '--ex-parks-downloading',
+                       action='store_true',
+                       help='Enables ex raid eligible parks downloading.')
+    parks.add_argument('-NPd', '--nest-parks-downloading',
+                       action='store_true',
+                       help='Enables nest parks downloading.')
+    parks.add_argument('-EPg', '--ex-parks-geofence-file',
+                       help='Geofence file to define outer borders of the '
+                            'ex park area to download.')
+    parks.add_argument('-NPg', '--nest-parks-geofence-file',
+                       help='Geofence file to define outer borders of the '
+                            'nest park area to download.')
+    parks.add_argument('-EPf', '--ex-parks-filename',
+                       default='parks-ex',
+                       help='Filename (without .json) of ex parks JSON '
+                            'file. Useful when running multiple '
+                            'instances. Default: parks-ex-raids')
+    parks.add_argument('-NPf', '--nest-parks-filename',
+                       default='parks-nest',
+                       help='Filename (without .json) of nest parks JSON '
+                            'file. Useful when running multiple '
+                            'instances. Default: parks-nests')
+    parks.add_argument('-Pt', '--parks-query-timeout',
+                       type=int, default=86400,
+                       help='The maximum allowed runtime for the parks query '
+                            'in seconds.')
 
     args = parser.parse_args()
     dargs = vars(args)
@@ -480,6 +482,9 @@ def get_args(access_config=None):
 
         access_args = access_parser.parse_known_args()[1]
         for a in access_args:
+            if '=' not in a:
+                # Command line arg.
+                continue
             arg = a[2:].split('=')[0].replace('-', '_')
             value = a.split('=')[1]
             if arg not in dargs:
@@ -488,10 +493,10 @@ def get_args(access_config=None):
             if value == 'None':
                 dargs[arg] = None
             elif isinstance(default, bool):
-                 if value in ['True', 'true', '1']:
-                     dargs[arg] = True
-                 elif value in ['False', 'false', '0']:
-                     dargs[arg] = False
+                if value in ['True', 'true', '1']:
+                    dargs[arg] = True
+                elif value in ['False', 'false', '0']:
+                    dargs[arg] = False
             elif isinstance(default, int):
                 dargs[arg] = int(value)
             elif isinstance(default, float):
@@ -502,30 +507,28 @@ def get_args(access_config=None):
                 dargs[arg] = value
 
     args.root_path = os.getcwd()
+    args.data_dir = 'static/dist/data'
+    args.locales_dir = 'static/dist/locales'
 
     # Allow status name and date formatting in log filename.
     args.log_filename = strftime(args.log_filename)
     args.log_filename = args.log_filename.replace('<sn>', '<SN>')
     args.log_filename = args.log_filename.replace('<SN>', args.status_name)
 
-    if args.location is None:
-        parser.print_usage()
-        print((sys.argv[0] + ': error: argument -l/--location is required.'))
-        sys.exit(1)
+    position = extract_coordinates(args.location)
+    args.center_lat = position[0]
+    args.center_lng = position[1]
 
     if args.discord_auth:
         args.server_uri = args.server_uri.rstrip('/')
         if len(args.secret_key) < 16:
             parser.print_usage()
-            print((sys.argv[0] + ': error: argument -CAs/--secret-key must be '
-                   'at least 16 characters long.'))
+            print(sys.argv[0] + ': error: argument -CAs/--secret-key must be '
+                  'at least 16 characters long.')
             sys.exit(1)
         args.client_auth = True
     else:
         args.client_auth = False
-
-    args.locales_dir = 'static/dist/locales'
-    args.data_dir = 'static/dist/data'
 
     return args
 
@@ -595,6 +598,23 @@ def date_secs(d):
 def clock_between(start, test, end):
     return ((start <= test <= end and start < end) or
             (not (end <= test <= start) and start > end))
+
+
+def extract_coordinates(location):
+    # Use lat/lng directly if matches such a pattern.
+    prog = re.compile("^(\-?\d+\.\d+),?\s?(\-?\d+\.\d+)$")
+    res = prog.match(location)
+    if res:
+        log.debug('Using coordinates from CLI directly')
+        position = (float(res.group(1)), float(res.group(2)), 0)
+    else:
+        log.debug('Looking up coordinates in API')
+        position = get_pos_by_name(location)
+
+    if position is None or not any(position):
+        log.error("Location not found: '{}'".format(location))
+        sys.exit()
+    return position
 
 
 # Return the s2sphere cellid token from a location.

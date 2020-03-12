@@ -6,7 +6,7 @@
 *.orig
 *.json
 config/*
-!config/config.ini.example
+!config/*.example
 geofences/*
 !geofences/*.example
 static/dist/

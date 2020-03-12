@@ -33,7 +33,6 @@ from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
 
 log = logging.getLogger(__name__)
-args = get_args()
 
 cache = Cache(config={'CACHE_TYPE': 'simple', 'CACHE_DEFAULT_TIMEOUT': 0})
 cache_buster = CacheBuster(config={'extensions': ['.js', '.css']})
@@ -42,6 +41,8 @@ sess = Session()
 
 
 def convert_pokemon_list(pokemon):
+    args = get_args()
+
     # Performance:  disable the garbage collector prior to creating a
     # (potentially) large dict with append().
     gc.disable()
@@ -63,6 +64,7 @@ class Pogom(Flask):
 
     def __init__(self, import_name, db, **kwargs):
         super(Pogom, self).__init__(import_name, **kwargs)
+        args = get_args()
         self.db = db
         cache.init_app(self)
         cache_buster.init_app(self) # No more stale CSS/JS.
@@ -143,6 +145,7 @@ class Pogom(Flask):
     def login_required(f):
         @wraps(f)
         def decorated_function(*_args, **kwargs):
+            args = get_args()
             if not args.client_auth:
                 return f(*_args, **kwargs)
 
@@ -162,6 +165,8 @@ class Pogom(Flask):
 
     @cache.cached()
     def login_page(self):
+        args = get_args()
+
         if self.is_logged_in():
             return redirect(url_for('map_page'))
 
@@ -272,7 +277,7 @@ class Pogom(Flask):
     def validate_request(self):
         # Get real IP behind trusted reverse proxy.
         ip_addr = request.remote_addr
-        if ip_addr in args.trusted_proxies:
+        if ip_addr in get_args().trusted_proxies:
             ip_addr = request.headers.get('X-Forwarded-For', ip_addr)
 
         # Make sure IP isn't blacklisted.
@@ -293,88 +298,81 @@ class Pogom(Flask):
 
         return start <= dottedQuadToNum(ip) <= end
 
-    def set_location(self, location):
-        self.location = location
-
     @login_required
     def map_page(self, *_args, **kwargs):
         if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
+            args = get_args(kwargs['access_config'])
         else:
-            user_args = args
+            args = get_args()
 
         settings = {
-            'centerLat': self.location[0],
-            'centerLng': self.location[1],
-            'maxZoomLevel': user_args.max_zoom_level,
-            'showAllZoomLevel': user_args.show_all_zoom_level,
-            'clusterZoomLevel': user_args.cluster_zoom_level,
-            'clusterZoomLevelMobile': user_args.cluster_zoom_level_mobile,
-            'maxClusterRadius': user_args.max_cluster_radius,
-            'spiderfyClusters': user_args.spiderfy_clusters,
-            'isStartMarkerMovable': not user_args.lock_start_marker,
+            'centerLat': args.center_lat,
+            'centerLng': args.center_lng,
+            'maxZoomLevel': args.max_zoom_level,
+            'showAllZoomLevel': args.show_all_zoom_level,
+            'clusterZoomLevel': args.cluster_zoom_level,
+            'clusterZoomLevelMobile': args.cluster_zoom_level_mobile,
+            'maxClusterRadius': args.max_cluster_radius,
+            'spiderfyClusters': args.spiderfy_clusters,
+            'isStartMarkerMovable': not args.lock_start_marker,
             'generateImages': args.generate_images,
-            'statsSidebar': not user_args.no_stats_sidebar,
-            'twelveHourClock': user_args.twelve_hour_clock,
+            'statsSidebar': not args.no_stats_sidebar,
+            'twelveHourClock': args.twelve_hour_clock,
             'mapUpdateInverval': args.map_update_interval,
-            'motd': user_args.motd,
-            'motdTitle': user_args.motd_title,
-            'motdText': user_args.motd_text,
-            'motdPages': user_args.motd_pages,
-            'showMotdAlways': user_args.show_motd_always,
-            'pokemons': not user_args.no_pokemon,
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always,
+            'pokemons': not args.no_pokemon,
             'upscaledPokemon': (
                 [int(i) for i in args.upscaled_pokemon.split(',')]
-                if user_args.upscaled_pokemon is not None else []),
-            'pokemonValues': not user_args.no_pokemon and
-                not user_args.no_pokemon_values,
-            'rarity': not user_args.no_pokemon and
-                args.rarity_update_frequency > 0,
+                if args.upscaled_pokemon is not None else []),
+            'pokemonValues': (not args.no_pokemon and
+                not args.no_pokemon_values),
+            'rarity': (not args.no_pokemon and not args.no_rarity and
+                args.rarity_update_frequency),
             'rarityFileName': args.rarity_filename,
-            'pokemonCries': (not user_args.no_pokemon and
-                user_args.pokemon_cries),
-            'gyms': not user_args.no_gyms,
-            'gymSidebar': (not user_args.no_gyms or not user_args.no_raids) and
-                not user_args.no_gym_sidebar,
-            'gymFilters': (not user_args.no_gyms and
-                not user_args.no_gym_filters),
-            'raids': not user_args.no_raids,
-            'raidFilters': (not user_args.no_raids and
-                not user_args.no_raid_filters),
-            'pokestops': not user_args.no_pokestops,
-            'quests': not user_args.no_pokestops and not user_args.no_quests,
-            'invasions': (not user_args.no_pokestops and
-                not user_args.no_invasions),
-            'lures': not user_args.no_pokestops and not user_args.no_lures,
-            'weather': not user_args.no_weather,
-            'spawnpoints': not user_args.no_spawnpoints,
-            'scannedLocs': not user_args.no_scanned_locs,
-            's2Cells': not user_args.no_s2_cells,
-            'ranges': not user_args.no_ranges,
-            'nestParks': user_args.nest_parks,
-            'nestParksFileName': user_args.nest_parks_filename,
-            'exParks': user_args.ex_parks,
-            'exParksFileName': user_args.ex_parks_filename
+            'pokemonCries': not args.no_pokemon and args.pokemon_cries,
+            'gyms': not args.no_gyms,
+            'gymSidebar': (not args.no_gyms or not args.no_raids) and
+                not args.no_gym_sidebar,
+            'gymFilters': not args.no_gyms and not args.no_gym_filters,
+            'raids': not args.no_raids,
+            'raidFilters': not args.no_raids and not args.no_raid_filters,
+            'pokestops': not args.no_pokestops,
+            'quests': not args.no_pokestops and not args.no_quests,
+            'invasions': not args.no_pokestops and not args.no_invasions,
+            'lures': not args.no_pokestops and not args.no_lures,
+            'weather': not args.no_weather,
+            'spawnpoints': not args.no_spawnpoints,
+            'scannedLocs': not args.no_scanned_locs,
+            's2Cells': not args.no_s2_cells,
+            'ranges': not args.no_ranges,
+            'nestParks': args.nest_parks,
+            'nestParksFileName': args.nest_parks_filename,
+            'exParks': args.ex_parks,
+            'exParksFileName': args.ex_parks_filename
         }
 
         return render_template(
             'map.html',
             lang=args.locale,
-            map_title=user_args.map_title,
-            header_image=not user_args.no_header_image,
-            header_image_name=user_args.header_image,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
             client_auth=args.client_auth,
             logged_in=self.is_logged_in(),
-            madmin_url=user_args.madmin_url,
-            donate_url=user_args.donate_url,
-            patreon_url=user_args.patreon_url,
-            discord_url=user_args.discord_url,
-            messenger_url=user_args.messenger_url,
-            telegram_url=user_args.telegram_url,
-            whatsapp_url=user_args.whatsapp_url,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
             pokemon_history_page=settings['pokemons'] and
-                not user_args.no_pokemon_history_page,
-            quest_page=settings['quests'] and not user_args.no_quest_page,
+                not args.no_pokemon_history_page,
+            quest_page=settings['quests'] and not args.no_quest_page,
             analytics_id=args.analytics_id,
             settings=settings,
             i18n=i8ln
@@ -383,41 +381,41 @@ class Pogom(Flask):
     @login_required
     def pokemon_history_page(self, *_args, **kwargs):
         if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
+            args = get_args(kwargs['access_config'])
         else:
-            user_args = args
+            args = get_args()
 
-        if user_args.no_pokemon or not user_args.pokemon_history_page:
+        if args.no_pokemon or args.no_pokemon_history_page:
             abort(403)
 
         settings = {
-            'centerLat': self.location[0],
-            'centerLng': self.location[1],
+            'centerLat': args.center_lat,
+            'centerLng': args.center_lng,
             'generateImages': args.generate_images,
-            'motd': user_args.motd,
-            'motdTitle': user_args.motd_title,
-            'motdText': user_args.motd_text,
-            'motdPages': user_args.motd_pages,
-            'showMotdAlways': user_args.show_motd_always
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
         }
 
         return render_template(
             'pokemon-history.html',
             lang=args.locale,
-            map_title=user_args.map_title,
-            header_image=not user_args.no_header_image,
-            header_image_name=user_args.header_image,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
             client_auth=args.client_auth,
             logged_in=self.is_logged_in(),
-            madmin_url=user_args.madmin_url,
-            donate_url=user_args.donate_url,
-            patreon_url=user_args.patreon_url,
-            discord_url=user_args.discord_url,
-            messenger_url=user_args.messenger_url,
-            telegram_url=user_args.telegram_url,
-            whatsapp_url=user_args.whatsapp_url,
-            quest_page=not user_args.no_pokestops and not user_args.no_quests
-                and not user_args.no_quest_page,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            quest_page=not args.no_pokestops and not args.no_quests
+                and not args.no_quest_page,
             analytics_id=args.analytics_id,
             settings=settings
         )
@@ -425,39 +423,39 @@ class Pogom(Flask):
     @login_required
     def quest_page(self, *_args, **kwargs):
         if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
+            args = get_args(kwargs['access_config'])
         else:
-            user_args = args
+            args = get_args()
 
-        if user_args.no_pokestops or user_args.no_quests:
+        if args.no_pokestops or args.no_quests:
             abort(403)
 
         settings = {
             'generateImages': args.generate_images,
-            'motd': user_args.motd,
-            'motdTitle': user_args.motd_title,
-            'motdText': user_args.motd_text,
-            'motdPages': user_args.motd_pages,
-            'showMotdAlways': user_args.show_motd_always
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
         }
 
         return render_template(
             'quest.html',
             lang=args.locale,
-            map_title=user_args.map_title,
-            header_image=not user_args.no_header_image,
-            header_image_name=user_args.header_image,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
             client_auth=args.client_auth,
             logged_in=self.is_logged_in(),
-            madmin_url=user_args.madmin_url,
-            donate_url=user_args.donate_url,
-            patreon_url=user_args.patreon_url,
-            discord_url=user_args.discord_url,
-            messenger_url=user_args.messenger_url,
-            telegram_url=user_args.telegram_url,
-            whatsapp_url=user_args.whatsapp_url,
-            pokemon_history_page=not user_args.no_pokemon and
-                not user_args.no_pokemon_history_page,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            pokemon_history_page=not args.no_pokemon and
+                not args.no_pokemon_history_page,
             analytics_id=args.analytics_id,
             settings=settings
         )
@@ -465,20 +463,20 @@ class Pogom(Flask):
     @login_required
     def list_pokemon(self):
         if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
+            args = get_args(kwargs['access_config'])
         else:
-            user_args = args
+            args = args
 
         # todo: Check if client is Android/iOS/Desktop for geolink, currently
         # only supports Android.
         pokemon_list = []
 
         settings = {
-            'motd': user_args.motd,
-            'motdTitle': user_args.motd_title,
-            'motdText': user_args.motd_text,
-            'motdPages': user_args.motd_pages,
-            'showMotdAlways': user_args.show_motd_always
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
         }
 
         # Allow client to specify location.
@@ -525,6 +523,8 @@ class Pogom(Flask):
         )
 
     def raw_data(self):
+        args = get_args()
+
         # Make sure fingerprint isn't blacklisted.
         fingerprint_blacklisted = any([
             fingerprints['no_referrer'](request),
@@ -543,9 +543,7 @@ class Pogom(Flask):
             permission, access_config, redirect_uri = a.get_access_data()
             if not permission:
                 abort(403)
-            user_args = get_args(access_config)
-        else:
-            user_args = args
+            args = get_args(access_config)
 
         d = {}
 
@@ -621,7 +619,7 @@ class Pogom(Flask):
         d['oNeLng'] = neLng
 
         if (request.args.get('pokemon', 'true') == 'true' and
-                not user_args.no_pokemon):
+                not args.no_pokemon):
             eids = None
             ids = None
             if (request.args.get('eids') and
@@ -681,9 +679,9 @@ class Pogom(Flask):
                     int(request.args.get('duration'))))
 
         gyms = (request.args.get('gyms', 'true') == 'true' and
-                not user_args.no_gyms)
+                not args.no_gyms)
         raids = (request.args.get('raids', 'true') == 'true' and
-                 not user_args.no_raids)
+                 not args.no_raids)
         if gyms or raids:
             if lastgyms != 'true':
                 d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
@@ -699,15 +697,15 @@ class Pogom(Flask):
                                      raids=raids))
 
         pokestops = (request.args.get('pokestops', 'true') == 'true' and
-                     not user_args.no_pokestops)
+                     not args.no_pokestops)
         pokestopsNoEvent = (request.args.get(
             'pokestopsNoEvent', 'true') == 'true')
         quests = (request.args.get('quests', 'true') == 'true' and
-                  not user_args.no_quests)
+                  not args.no_quests)
         invasions = (request.args.get('invasions', 'true') == 'true' and
-                     not user_args.no_invasions)
+                     not args.no_invasions)
         lures = (request.args.get('lures', 'true') == 'true' and
-                 not user_args.no_lures)
+                 not args.no_lures)
         if (pokestops and (pokestopsNoEvent or quests or invasions or lures)):
             if lastpokestops != 'true':
                 d['pokestops'] = Pokestop.get_stops(
@@ -729,7 +727,7 @@ class Pogom(Flask):
                                            lures=lures))
 
         if (request.args.get('weather', 'false') == 'true' and
-                not user_args.no_weather):
+                not args.no_weather):
             if lastweather != 'true':
                 d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng)
             else:
@@ -741,7 +739,7 @@ class Pogom(Flask):
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
         if (request.args.get('spawnpoints', 'false') == 'true' and
-                not user_args.no_spawnpoints):
+                not args.no_spawnpoints):
             if lastspawns != 'true':
                 d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng)
@@ -755,7 +753,7 @@ class Pogom(Flask):
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
         if (request.args.get('scannedLocs', 'false') == 'true' and
-                not user_args.no_scanned_locs):
+                not args.no_scanned_locs):
             if lastscannedlocs != 'true':
                 d['scannedlocs'] = ScannedLocation.get_recent(swLat, swLng,
                                                           neLat, neLng)
