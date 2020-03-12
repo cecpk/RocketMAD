@@ -22,16 +22,6 @@ class AuthBase(ABC):
     def _update_access_data(self):
         pass
 
-    '''
-    @abstractmethod
-    def get_permissions(self):
-        pass
-
-    @abstractmethod
-    def _update_permissions(self):
-        pass
-    '''
-
     @abstractmethod
     def _add_user(self, data):
         pass
