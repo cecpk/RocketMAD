@@ -415,7 +415,6 @@ def create_app():
         )
 
     @app.route('/login')
-    @cache.cached()
     def login_page():
         if is_logged_in():
             return redirect(url_for('map_page'))
