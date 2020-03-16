@@ -221,8 +221,9 @@ def create_app():
             'pokemonCries': (not user_args.no_pokemon and
                              user_args.pokemon_cries),
             'gyms': not user_args.no_gyms,
-            'gymSidebar': ((not user_args.no_gyms or not user_args.no_raids)
-                           and not user_args.no_gym_sidebar),
+            'gymSidebar': ((not user_args.no_gyms or
+                            not user_args.no_raids) and
+                           not user_args.no_gym_sidebar),
             'gymFilters': (not user_args.no_gyms and
                            not user_args.no_gym_filters),
             'raids': not user_args.no_raids,
@@ -777,4 +778,3 @@ def create_app():
         return send_from_directory('../static/dist/js', 'serviceWorker.min.js')
 
     return app
-    
