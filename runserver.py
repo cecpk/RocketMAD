@@ -7,116 +7,29 @@ gevent.monkey.patch_all()
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
-    print("RocketMap requires at least python 3.6! " +
+    print("RocketMAD requires at least python 3.6! " +
           "Your version: {}.{}"
           .format(py_version.major, py_version.minor))
     sys.exit(1)
-import os
+
 import logging
+import os
 import re
-import ssl
 import requests
+import ssl
 import time
 
-from threading import Thread
-
-from queue import Queue
-
 from colorlog import ColoredFormatter
-
-from pogom.app import Pogom
-from pogom.utils import (get_args, now, init_dynamic_images,
-                         log_resource_usage_loop, get_debug_dump_link,
-                         dynamic_rarity_refresher, get_pos_by_name)
-from pogom.parks import download_ex_parks, download_nest_parks
-
-from pogom.models import (init_database, create_tables, drop_tables,
-                          clean_db_loop, verify_database_schema)
-from pogom.gunicorn import GunicornApplication
-
+from threading import Thread
 from time import strftime
 
-
-class LogFilter(logging.Filter):
-
-    def __init__(self, level):
-        self.level = level
-
-    def filter(self, record):
-        return record.levelno < self.level
-
-
-# Moved here so logger is configured at load time.
-console = logging.StreamHandler()
-args = get_args()
-if not (args.verbose):
-    console.setLevel(logging.INFO)
-
-formatter = ColoredFormatter(
-    ('%(log_color)s [%(asctime)s] [%(threadName)16s] [%(module)14s]'
-     ' [%(levelname)8s] %(message)s'),
-    datefmt='%m-%d %H:%M:%S',
-    reset=True,
-    log_colors={
-        'DEBUG': 'purple',
-        'INFO': 'cyan',
-        'WARNING': 'yellow',
-        'ERROR': 'red',
-        'CRITICAL': 'red,bg_white',
-    },
-    secondary_log_colors={},
-    style='%'
-)
-
-console.setFormatter(formatter)
-
-# Redirect messages lower than WARNING to stdout
-stdout_hdlr = logging.StreamHandler(sys.stdout)
-stdout_hdlr.setFormatter(formatter)
-log_filter = LogFilter(logging.WARNING)
-stdout_hdlr.addFilter(log_filter)
-stdout_hdlr.setLevel(5)
-
-# Redirect messages equal or higher than WARNING to stderr
-stderr_hdlr = logging.StreamHandler(sys.stderr)
-stderr_hdlr.setFormatter(formatter)
-stderr_hdlr.setLevel(logging.WARNING)
+from rocketmad.app import create_app
+from rocketmad.gunicorn import GunicornApplication
+from rocketmad.utils import get_args, get_debug_dump_link
+from rocketmad.models import create_tables, drop_tables, verify_database_schema
 
 log = logging.getLogger()
-log.addHandler(stdout_hdlr)
-log.addHandler(stderr_hdlr)
-
-
-# Patch to make exceptions in threads cause an exception.
-def install_thread_excepthook():
-    """
-    Workaround for sys.excepthook thread bug
-    (https://sourceforge.net/tracker/?func=detail&atid=105470&aid=1230540&group_id=5470).
-    Call once from __main__ before creating any threads.
-    If using psyco, call psycho.cannotcompile(threading.Thread.run)
-    since this replaces a new-style class method.
-    """
-    import sys
-    run_old = Thread.run
-
-    def run(*args, **kwargs):
-        try:
-            run_old(*args, **kwargs)
-        except (KeyboardInterrupt, SystemExit):
-            raise
-        except Exception:
-            exc_type, exc_value, exc_trace = sys.exc_info()
-            print(repr(sys.exc_info()))
-
-            # Handle Flask's broken pipe when a client prematurely ends
-            # the connection.
-            if str(exc_value) == '[Errno 32] Broken pipe':
-                pass
-            else:
-                log.critical('Unhandled patched exception (%s): "%s".',
-                             exc_type, exc_value)
-                sys.excepthook(exc_type, exc_value, exc_trace)
-    Thread.run = run
+args = get_args()
 
 
 # Exception handler will log unhandled exceptions.
@@ -127,6 +40,7 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
     log.error("Uncaught exception", exc_info=(
         exc_type, exc_value, exc_traceback))
+
 
 def validate_js_files(path, last_gen_time):
     for file in os.listdir(path):
@@ -139,6 +53,7 @@ def validate_js_files(path, last_gen_time):
                 return False
 
     return True
+
 
 def validate_assets(args):
     assets_error_log = (
@@ -166,8 +81,6 @@ def validate_assets(args):
 
 
 def startup_db(clear_db):
-    db = init_database()
-
     if clear_db:
         log.info('Clearing database')
         drop_tables()
@@ -179,116 +92,53 @@ def startup_db(clear_db):
         log.info('Drop and recreate is complete. Now remove -cd and restart.')
         sys.exit()
 
-    return db
-
-
-def main():
-    # Patch threading to make exceptions catchable.
-    install_thread_excepthook()
-
-    # Make sure exceptions get logged.
-    sys.excepthook = handle_exception
-
-    args = get_args()
-
-    # Abort if status name is not valid.
-    regexp = re.compile('^([\w\s\-.]+)$')
-    if not regexp.match(args.status_name):
-        log.critical('Status name contains illegal characters.')
-        sys.exit(1)
-
-    set_log_and_verbosity(log)
-
-    args.root_path = os.path.dirname(os.path.abspath(__file__))
-    init_dynamic_images(args)
-
-    # Stop if we're just looking for a debug dump.
-    if args.dump:
-        log.info('Retrieving environment info...')
-        hastebin_id = get_debug_dump_link()
-        log.info('Done! Your debug link: https://hastebin.com/%s.txt',
-                 hastebin_id)
-        sys.exit(1)
-
-    # Let's not forget to run Grunt.
-    if not validate_assets(args):
-        sys.exit(1)
-
-    db = startup_db(args.clear_db)
-    main_pid = os.getpid()
-
-    # Database cleaner; really only need one ever.
-    if args.db_cleanup:
-        t = Thread(target=clean_db_loop, name='db-cleaner', daemon=True,
-                   args=(args, main_pid))
-        t.start()
-
-    # Dynamic rarity.
-    if args.rarity_update_frequency:
-        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity',
-                   daemon=True, args=(db, main_pid))
-        t.start()
-        log.info('Dynamic rarity is enabled.')
-    else:
-        log.info('Dynamic rarity is disabled.')
-
-    # Parks downloading
-    if args.ex_parks_downloading:
-        t = Thread(target=download_ex_parks, name='ex-parks', daemon=True,
-                   args=(main_pid,))
-        t.start()
-        log.info('EX park downloading is enabled.')
-    else:
-        log.info('EX park downloading is disabled.')
-
-    if args.nest_parks_downloading:
-        t = Thread(target=download_nest_parks, name='nest-parks', daemon=True,
-                   args=(main_pid,))
-        t.start()
-        log.info('Nest park downloading is enabled.')
-    else:
-        log.info('Nest park downloading is disabled.')
-
-    app = None
-    if not args.clear_db:
-        app = Pogom(__name__,
-                    db,
-                    root_path=os.path.dirname(os.path.abspath(__file__)))
-        app.before_request(app.validate_request)
-
-    use_ssl = (args.ssl_certificate and args.ssl_privatekey and
-               os.path.exists(args.ssl_certificate) and
-               os.path.exists(args.ssl_privatekey))
-    if use_ssl:
-        log.info('Web server in SSL mode.')
-
-    if not args.development_server:
-        options = {
-            'bind': '%s:%s' % (args.host, args.port),
-            'worker_class': 'gevent',
-            'workers': args.workers,
-            'keyfile': args.ssl_privatekey if use_ssl else None,
-            'certfile': args.ssl_certificate if use_ssl else None,
-            'logger_class': 'pogom.gunicorn.GunicornLogger',
-            'loglevel': 'debug' if args.verbose else 'info',
-            'accesslog': '-' if args.access_logs else None,
-            'limit_request_line': 8190
-        }
-        GunicornApplication(app, options).run()
-    else:
-        ssl_context = None
-        if use_ssl:
-            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-            ssl_context.load_cert_chain(
-                args.ssl_certificate, args.ssl_privatekey)
-        debug = args.verbose > 0
-        app.run(threaded=True, use_reloader=False, debug=debug,
-                host=args.host, port=args.port, ssl_context=ssl_context)
-
 
 def set_log_and_verbosity(log):
+    class LogFilter(logging.Filter):
+
+        def __init__(self, level):
+            self.level = level
+
+        def filter(self, record):
+            return record.levelno < self.level
+
+    formatter = ColoredFormatter(
+        ('%(log_color)s [%(asctime)s] [%(threadName)16s] [%(module)14s]'
+         ' [%(levelname)8s] %(message)s'),
+        datefmt='%m-%d %H:%M:%S',
+        reset=True,
+        log_colors={
+            'DEBUG': 'purple',
+            'INFO': 'cyan',
+            'WARNING': 'yellow',
+            'ERROR': 'red',
+            'CRITICAL': 'red,bg_white',
+        },
+        secondary_log_colors={},
+        style='%'
+    )
+
+    console = logging.StreamHandler()
+    if not args.verbose:
+        console.setLevel(logging.INFO)
+    console.setFormatter(formatter)
+
+    # Redirect messages lower than WARNING to stdout.
+    stdout_hdlr = logging.StreamHandler(sys.stdout)
+    stdout_hdlr.setFormatter(formatter)
+    log_filter = LogFilter(logging.WARNING)
+    stdout_hdlr.addFilter(log_filter)
+    stdout_hdlr.setLevel(5)
+
+    # Redirect messages equal or higher than WARNING to stderr.
+    stderr_hdlr = logging.StreamHandler(sys.stderr)
+    stderr_hdlr.setFormatter(formatter)
+    stderr_hdlr.setLevel(logging.WARNING)
+
+    log.addHandler(stdout_hdlr)
+    log.addHandler(stderr_hdlr)
+
     # Always write to log file.
-    args = get_args()
     # Create directory for log files.
     if not os.path.exists(args.log_path):
         os.mkdir(args.log_path)
@@ -296,17 +146,12 @@ def set_log_and_verbosity(log):
         filename = os.path.join(args.log_path, args.log_filename)
         filelog = logging.FileHandler(filename)
         filelog.setFormatter(logging.Formatter(
-            '%(asctime)s [%(threadName)18s][%(module)14s][%(levelname)8s] ' +
+            '%(asctime)s [%(threadName)18s][%(module)14s][%(levelname)8s] '
             '%(message)s'))
         log.addHandler(filelog)
 
     if args.verbose:
         log.setLevel(logging.DEBUG)
-
-        # Let's log some periodic resource usage stats.
-        t = Thread(target=log_resource_usage_loop, name='res-usage',
-                   daemon=True, args=(os.getpid(),))
-        t.start()
     else:
         log.setLevel(logging.INFO)
 
@@ -342,4 +187,58 @@ def set_log_and_verbosity(log):
 
 
 if __name__ == '__main__':
-    main()
+    # Make sure exceptions get logged.
+    sys.excepthook = handle_exception
+
+    # Abort if status name is not valid.
+    regexp = re.compile('^([\w\s\-.]+)$')
+    if not regexp.match(args.status_name):
+        log.critical('Status name contains illegal characters.')
+        sys.exit(1)
+
+    set_log_and_verbosity(log)
+
+    # Stop if we're just looking for a debug dump.
+    if args.dump:
+        log.info('Retrieving environment info...')
+        hastebin_id = get_debug_dump_link()
+        log.info('Done! Your debug link: https://hastebin.com/%s.txt',
+                 hastebin_id)
+        sys.exit(1)
+
+    # Let's not forget to run Grunt.
+    if not validate_assets(args):
+        sys.exit(1)
+
+    startup_db(args.clear_db)
+
+    use_ssl = (args.ssl_certificate and args.ssl_privatekey and
+               os.path.exists(args.ssl_certificate) and
+               os.path.exists(args.ssl_privatekey))
+    if use_ssl:
+        log.info('Web server in SSL mode.')
+
+    app = create_app()
+
+    if not args.development_server:
+        options = {
+            'bind': '%s:%s' % (args.host, args.port),
+            'worker_class': 'gevent',
+            'workers': args.workers,
+            'keyfile': args.ssl_privatekey if use_ssl else None,
+            'certfile': args.ssl_certificate if use_ssl else None,
+            'logger_class': 'rocketmad.gunicorn.GunicornLogger',
+            'loglevel': 'debug' if args.verbose else 'info',
+            'accesslog': '-' if args.access_logs else None,
+            'limit_request_line': 8190
+        }
+        GunicornApplication(app, options).run()
+    else:
+        ssl_context = None
+        if use_ssl:
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+            ssl_context.load_cert_chain(
+                args.ssl_certificate, args.ssl_privatekey)
+        debug = args.verbose > 0
+        app.run(threaded=True, use_reloader=False, debug=debug,
+                host=args.host, port=args.port, ssl_context=ssl_context)

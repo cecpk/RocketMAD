@@ -3,13 +3,13 @@
 
 import gunicorn.app.base
 import logging
-import multiprocessing
 import os
 
 from colorlog import ColoredFormatter
 from gunicorn import glogging
-from pogom.utils import get_args
 from time import strftime
+
+from .utils import get_args
 
 args = get_args()
 

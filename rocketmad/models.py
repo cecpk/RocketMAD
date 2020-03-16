@@ -24,31 +24,20 @@ from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
                     get_utc_timedelta)
 
 log = logging.getLogger(__name__)
-
 args = get_args()
-db = DatabaseProxy()
+
+db = PooledMySQLDatabase(
+    args.db_name,
+    user=args.db_user,
+    password=args.db_pass,
+    host=args.db_host,
+    port=args.db_port,
+    stale_timeout=30,
+    max_connections=None,
+    charset='utf8mb4'
+)
 
 db_schema_version = 0
-
-
-class RetryOperationalError(object):
-    def execute_sql(self, sql, params=None, commit=True):
-        try:
-            cursor = super(RetryOperationalError, self).execute_sql(
-                sql, params, commit)
-        except OperationalError:
-            if not self.is_closed():
-                self.close()
-            with __exception_wrapper__:
-                cursor = self.cursor()
-                cursor.execute(sql, params or ())
-                if commit and not self.in_transaction():
-                    self.commit()
-        return cursor
-
-
-class MyRetryDB(RetryOperationalError, PooledMySQLDatabase):
-    pass
 
 
 # Reduction of CharField to fit max length inside 767 bytes for utf8mb4 charset
@@ -64,24 +53,6 @@ class TinyIntegerField(IntegerField):
 
 class UBigIntegerField(BigIntegerField):
     field_type = 'bigint unsigned'
-
-
-def init_database():
-    log.info('Connecting to MySQL database on %s:%i...',
-             args.db_host, args.db_port)
-
-    db.initialize(MyRetryDB(
-        args.db_name,
-        user=args.db_user,
-        password=args.db_pass,
-        host=args.db_host,
-        port=args.db_port,
-        stale_timeout=30,
-        max_connections=None,
-        charset='utf8mb4')
-    )
-
-    return db
 
 
 class BaseModel(Model):
@@ -956,7 +927,7 @@ def clean_db_loop(args, main_pid):
                     db_clean_forts(args.db_cleanup_forts)
 
                 # Clean weather... only changes at full hours anyway...
-                with db.connection_context():
+                with db:
                     query = (Weather
                              .delete()
                              .where(Weather.last_updated <
@@ -976,7 +947,7 @@ def db_cleanup_regular():
     start_timer = default_timer()
 
     now = datetime.utcnow()
-    with db.connection_context():
+    with db:
         # Remove active modifier from expired lured pokestops.
         query = (Pokestop
                  .update(lure_expiration=None, active_fort_modifier=None)
@@ -991,7 +962,7 @@ def db_clean_pokemons(age_hours):
     log.debug('Beginning cleanup of old pokemon spawns.')
     start_timer = default_timer()
     pokemon_timeout = datetime.utcnow() - timedelta(hours=age_hours)
-    with db.connection_context():
+    with db:
         query = (Pokemon
                  .delete()
                  .where(Pokemon.disappear_time < pokemon_timeout))
@@ -1009,7 +980,7 @@ def db_clean_gyms(age_hours, gyms_age_days=30):
 
     gym_info_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with db.connection_context():
+    with db:
         # Remove old GymDetails entries.
         query = (GymDetails
                  .delete()
@@ -1037,7 +1008,7 @@ def db_clean_spawnpoints(age_hours):
 
     spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
-    with db.connection_context():
+    with db:
         # Select old Trs_Spawn entries.
         query = (Trs_Spawn
                  .select(Trs_Spawn.spawnpoint)
@@ -1070,7 +1041,7 @@ def db_clean_forts(age_hours):
 
     fort_timeout = datetime.utcnow() - timedelta(hours=age_hours)
 
-    with db.connection_context():
+    with db:
         # Remove old Gym entries.
         query = (Gym
                  .delete()

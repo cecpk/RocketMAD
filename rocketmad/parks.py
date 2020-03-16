@@ -14,12 +14,11 @@ from timeit import default_timer
 from .utils import get_args, parse_geofence_file
 
 log = logging.getLogger(__name__)
+args = get_args()
 
 
 def _build_overpass_query(lower_left_coord, upper_right_coord,
                           nest_parks=False):
-    args = get_args()
-
     # Tags used for both EX and nest parks.
     tags = """
     way[leisure=park];
@@ -173,15 +172,7 @@ def _download_parks(file_path, geofences, nest_parks=False):
         log.info('0 parks downloaded. Skipping saving to %s', file_path)
 
 
-def download_ex_parks(main_pid):
-    args = get_args()
-    if not args.development_server:
-        # Wait until all processes have spawned.
-        time.sleep(10)
-        # Only run thread in main process.
-        if main_pid != os.getpid():
-            return
-
+def download_ex_parks():
     file_path = os.path.join(
         args.root_path,
         'static/data/parks/' + args.ex_parks_filename + '.json')
@@ -194,15 +185,7 @@ def download_ex_parks(main_pid):
         log.info('EX parks already downloaded.')
 
 
-def download_nest_parks(main_pid):
-    args = get_args()
-    if not args.development_server:
-        # Wait until all processes have spawned.
-        time.sleep(10)
-        # Only run thread in main process.
-        if main_pid != os.getpid():
-            return
-
+def download_nest_parks():
     file_path = os.path.join(
         args.root_path,
         'static/data/parks/' + args.nest_parks_filename + '.json')

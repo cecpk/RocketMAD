@@ -4,7 +4,7 @@
 import logging
 import s2sphere
 
-from pogom.models import Weather
+from rocketmad.models import Weather
 
 log = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ def get_weather_cels(db_weathers):
         }
         db_weathers[i]['vertices'] = get_vertices_from_s2cell(cell)
         db_weathers[i]['s2_cell_id'] = str(cell.id().id())
-        
+
     return db_weathers
 
 

@@ -32,8 +32,6 @@ from pprint import pformat
 from time import strftime
 from timeit import default_timer
 
-from . import dyn_img
-
 log = logging.getLogger(__name__)
 
 
@@ -533,56 +531,6 @@ def get_args(access_config=None):
     return args
 
 
-def init_dynamic_images(args):
-    if args.generate_images:
-        executable = determine_imagemagick_binary()
-        if executable:
-            dyn_img.generate_images = True
-            dyn_img.imagemagick_executable = executable
-            log.info("Generating icons using ImageMagick " +
-                     "executable '{}'.".format(executable))
-
-            if args.pogo_assets:
-                decr_assets_dir = os.path.join(args.pogo_assets,
-                                               'pokemon_icons')
-                if os.path.isdir(decr_assets_dir):
-                    log.info("Using PogoAssets repository at '{}'".format(
-                        args.pogo_assets))
-                    dyn_img.pogo_assets = args.pogo_assets
-                else:
-                    log.error(("Could not find PogoAssets repository at '{}'. "
-                               "Clone via 'git clone -depth 1 "
-                               "https://github.com/ZeChrales/PogoAssets.git'")
-                              .format(args.pogo_assets))
-        else:
-            log.error("Could not find ImageMagick executable. Make sure "
-                      "you can execute either 'magick' (ImageMagick 7)"
-                      " or 'convert' (ImageMagick 6) from the commandline. "
-                      "Otherwise you cannot use --generate-images")
-            sys.exit(1)
-
-
-def is_imagemagick_binary(binary):
-    try:
-        process = subprocess.Popen([binary, '-version'],
-                                   stdout=subprocess.PIPE)
-        out, err = process.communicate()
-        return "ImageMagick" in out.decode('utf8')
-    except Exception as e:
-        return False
-
-
-def determine_imagemagick_binary():
-    candidates = {
-        'magick': 'magick convert',
-        'convert': None
-    }
-    for c in candidates:
-        if is_imagemagick_binary(c):
-            return candidates[c] if candidates[c] else c
-    return None
-
-
 def now():
     # The fact that you need this helper...
     return int(time.time())
@@ -871,14 +819,8 @@ def periodic_loop(f, loop_delay_ms):
 
 
 # Periodically log resource usage every 'loop_delay_ms' ms.
-def log_resource_usage_loop(main_pid, loop_delay_ms=60000):
+def log_resource_usage_loop(loop_delay_ms=60000):
     args = get_args()
-    if not args.development_server:
-        # Wait until all processes have spawned.
-        time.sleep(10)
-        # Only run thread in main process.
-        if main_pid != os.getpid():
-            return
 
     # Helper method to log to specific log level.
     def log_resource_usage_to_debug():
@@ -1038,18 +980,12 @@ def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     return spawn_group
 
 
-def dynamic_rarity_refresher(db, main_pid):
+def dynamic_rarity_refresher():
     args = get_args()
-    if not args.development_server:
-        # Wait until all processes have spawned.
-        time.sleep(10)
-        # Only run thread in main process.
-        if main_pid != os.getpid():
-            return
 
-    # If we import at the top, pogom.models will import pogom.utils,
+    # If we import at the top, rocketmad.models will import rocketmad.utils,
     # causing the cyclic import to make some things unavailable.
-    from pogom.models import Pokemon
+    from .models import db, Pokemon
 
     # Refresh every x hours.
     hours = args.rarity_hours
@@ -1065,7 +1001,7 @@ def dynamic_rarity_refresher(db, main_pid):
         log.info('Updating dynamic rarity...')
 
         start = default_timer()
-        with db.connection_context():
+        with db:
             db_rarities = Pokemon.get_spawn_counts(hours)
         total = db_rarities['total']
         pokemon = db_rarities['pokemon']
