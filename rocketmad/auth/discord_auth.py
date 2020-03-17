@@ -103,6 +103,18 @@ class DiscordAuth(OAuth2Base):
             return
         del session['state']
 
+        error = request.args.get('error')
+        if error is not None:
+            if error == 'access_denied':
+                log.debug('Discord authorization attempt denied, the resource '
+                          'owner denied the request.')
+                return
+            else:
+                error_description = request.args.get('error_description', '')
+                log.warning('Discord authorization attempt error: %s',
+                            error_description)
+                return
+
         code = request.args.get('code')
         if code is None:
             log.warning('Invalid Discord authorization attempt: '
