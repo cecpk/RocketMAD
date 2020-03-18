@@ -107,20 +107,21 @@ def is_logged_in():
 def auth_required(f):
     @wraps(f)
     def decorated_function(*_args, **kwargs):
-        if not args.client_auth:
-            return f(*_args, **kwargs)
-
-        if args.login_required and not is_logged_in():
-            return redirect(url_for('login_page'))
-
-        if is_logged_in():
+        if args.client_auth and args.login_required and not is_logged_in():
+            kwargs['has_permission'] = False
+            kwargs['redirect_uri'] = url_for('login_page')
+            kwargs['access_config'] = None
+        elif args.client_auth and is_logged_in():
             auth_type = session['auth_type']
-            authenticator = auth_factory.get_authenticator(auth_type)
-            access_data = authenticator.get_access_data()
-            if not access_data[0]:
-                return redirect(access_data[2])
-            kwargs['access_config'] = access_data[1]
-
+            a = auth_factory.get_authenticator(auth_type)
+            has_permission, redirect_uri, access_config = a.get_access_data()
+            kwargs['has_permission'] = has_permission
+            kwargs['redirect_uri'] = redirect_uri
+            kwargs['access_config'] = access_config
+        else:
+            kwargs['has_permission'] = True
+            kwargs['redirect_uri'] = None
+            kwargs['access_config'] = None
         return f(*_args, **kwargs)
     return decorated_function
 
@@ -185,10 +186,10 @@ def create_app():
     @app.route('/')
     @auth_required
     def map_page(*_args, **kwargs):
-        if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
-        else:
-            user_args = args
+        if not kwargs['has_permission']:
+            return redirect(kwargs['redirect_uri'])
+
+        user_args = get_args(kwargs['access_config'])
 
         settings = {
             'centerLat': user_args.center_lat,
@@ -271,10 +272,10 @@ def create_app():
     @app.route('/pokemon-history')
     @auth_required
     def pokemon_history_page(*_args, **kwargs):
-        if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
-        else:
-            user_args = args
+        if not kwargs['has_permission']:
+            return redirect(kwargs['redirect_uri'])
+
+        user_args = get_args(kwargs['access_config'])
 
         if user_args.no_pokemon or user_args.no_pokemon_history_page:
             abort(403)
@@ -314,10 +315,10 @@ def create_app():
     @app.route('/quests')
     @auth_required
     def quest_page(*_args, **kwargs):
-        if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
-        else:
-            user_args = args
+        if not kwargs['has_permission']:
+            return redirect(kwargs['redirect_uri'])
+
+        user_args = get_args(kwargs['access_config'])
 
         if args.no_pokestops or args.no_quests or args.no_quest_page:
             abort(403)
@@ -355,10 +356,10 @@ def create_app():
     @app.route('/mobile')
     @auth_required
     def mobile_page(*_args, **kwargs):
-        if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
-        else:
-            user_args = args
+        if not kwargs['has_permission']:
+            return redirect(kwargs['redirect_uri'])
+
+        user_args = get_args(kwargs['access_config'])
 
         # todo: Check if client is Android/iOS/Desktop for geolink, currently
         # only supports Android.
@@ -473,10 +474,10 @@ def create_app():
     @app.route('/raw_data')
     @auth_required
     def raw_data(*_args, **kwargs):
-        if 'access_config' in kwargs:
-            user_args = get_args(kwargs['access_config'])
-        else:
-            user_args = args
+        if not kwargs['has_permission']:
+            abort(401)
+
+        user_args = get_args(kwargs['access_config'])
 
         # Make sure fingerprint isn't blacklisted.
         fingerprint_blacklisted = any([

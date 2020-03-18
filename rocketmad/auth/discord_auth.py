@@ -186,11 +186,11 @@ class DiscordAuth(OAuth2Base):
                     return self.get_access_data()
 
         has_permission = session['has_permission']
-        access_config_name = session['access_config_name']
         redirect_uri = (args.discord_no_permission_redirect
                         if not has_permission else None)
+        access_config_name = session['access_config_name']
 
-        return has_permission, access_config_name, redirect_uri
+        return has_permission, redirect_uri, access_config_name
 
     def _update_access_data(self):
         user_guilds = self._get_guilds()
