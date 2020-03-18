@@ -25,6 +25,7 @@
 
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
+#no-rarity                      # Do not display Pokémon rarity. (default=False)
 #upscaled-pokemon:              # Pokémon IDs to upscale icons for. Seperate IDs with commas. (default=None)
 #no-pokemon-history-page        # Disables pokemon history page. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
@@ -53,15 +54,16 @@
 
 #ex-parks                       # Enables ex raid eligible parks drawing. (default=False)
 #nest-parks                     # Enables nest parks drawing. (default=False)
+#ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
+#nest-parks-filename:           # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
 
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
 #twelve-hour-clock              # Display time with the 12-hour clock format.
-#map-update-interval            # Interval between raw_data requests (map updates) in milliseconds. (default=2500)
+#analytics-id:                  # Google Analytics Tracking-ID. (default=None)
+#map-update-interval:           # Interval between raw_data requests (map updates) in milliseconds. (default=2500)
 
 #motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
 #motd-title:                    # MOTD title, can be HTML. (default='MOTD')
 #motd-text:                     # MOTD text, can be HTML. (default='Hi there! This is an easily customizable MOTD.')
 #motd-pages:                    # Pages the MOTD should be shown on. (default=['/', '/mobile'])
 #show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)
-
-#no-rarity                      # Do not display Pokémon rarity. (default=False)
