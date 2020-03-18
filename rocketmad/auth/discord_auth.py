@@ -108,12 +108,11 @@ class DiscordAuth(OAuth2Base):
             if error == 'access_denied':
                 log.debug('Discord authorization attempt denied, the resource '
                           'owner denied the request.')
-                return
             else:
                 error_description = request.args.get('error_description', '')
                 log.warning('Discord authorization attempt error: %s',
                             error_description)
-                return
+            return
 
         code = request.args.get('code')
         if code is None:
@@ -147,11 +146,32 @@ class DiscordAuth(OAuth2Base):
         session.clear()
 
     def get_access_data(self):
-        if (session.get('access_data_updated_at', 0) + 300 < time.time() or
+        if (session.get('access_data_updated_at', 0) + 10 < time.time() or
                 not session['has_permission']):
             try:
                 self._update_access_data()
             except requests.exceptions.HTTPError as e:
+                if e.response.status_code in [400, 401]:
+                    token = session['token']
+                    if token['expires_at'] < time.time():
+                        try:
+                            token = self._refresh_token(token['refresh_token'])
+                            session['token'] = {
+                                'access_token': token['access_token'],
+                                'refresh_token': token['refresh_token'],
+                                'expires_at': (time.time() +
+                                               token['expires_in'] - 5)
+                            }
+
+                            return self.get_access_data()
+                        except requests.exceptions.HTTPError as e:
+                            pass
+
+                    # Token has (most likely) been revoked by user,
+                    # log out the user.
+                    session.clear()
+                    return False, None, url_for('login_page')
+
                 if 'has_permission' not in session:
                     # Access data is still missing, retry.
                     if e.response.status_code == 429:
@@ -173,8 +193,6 @@ class DiscordAuth(OAuth2Base):
         return has_permission, access_config_name, redirect_uri
 
     def _update_access_data(self):
-        self._ensure_active_token(session['token'])
-
         user_guilds = self._get_guilds()
         user_roles = {}
         for guild_id in self.fetch_role_guilds:
@@ -271,21 +289,6 @@ class DiscordAuth(OAuth2Base):
         r = requests.post(self.access_token_url, data=data, headers=headers)
         r.raise_for_status()
         return r.json()
-
-    def _ensure_active_token(self, token):
-        if token['expires_at'] < time.time():
-            try:
-                token = self._refresh_token(token['refresh_token'])
-            except requests.exceptions.HTTPError as e:
-                log.warning('Exception while refreshing Discord access token: '
-                            '%s', e)
-                self._ensure_active_token(token)
-                return
-            session['token'] = {
-                'access_token': token['access_token'],
-                'refresh_token': token['refresh_token'],
-                'expires_at': time.time() + token['expires_in'] - 5
-            }
 
     def _refresh_token(self, refresh_token):
         data = {

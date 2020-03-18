@@ -16,10 +16,6 @@ class OAuth2Base(AuthBase):
         pass
 
     @abstractmethod
-    def _ensure_active_token(self, token, user_id):
-        pass
-
-    @abstractmethod
     def _refresh_token(self, refresh_token):
         pass
 
