@@ -418,6 +418,9 @@ def create_app():
 
     @app.route('/login')
     def login_page():
+        if not args.client_auth:
+            abort(404)
+
         if is_logged_in():
             return redirect(url_for('map_page'))
 
@@ -448,27 +451,43 @@ def create_app():
 
     @app.route('/login/<auth_type>')
     def login(auth_type):
+        if not args.client_auth:
+            abort(404)
+
         if is_logged_in():
             return redirect(url_for('map_page'))
+
         if auth_type not in accepted_auth_types:
             return redirect(url_for('login_page'))
+
         authenticator = auth_factory.get_authenticator(auth_type)
         auth_uri = authenticator.get_authorization_url()
+
         return redirect(auth_uri)
 
     @app.route('/auth/<auth_type>')
     def auth(auth_type):
+        if not args.client_auth:
+            abort(404)
+
         if is_logged_in():
             return redirect(url_for('map_page'))
+
         if auth_type not in accepted_auth_types:
             return redirect(url_for('login_page'))
+
         auth_factory.get_authenticator(auth_type).authorize()
+
         return redirect(url_for('map_page'))
 
     @app.route('/logout')
     def logout():
+        if not args.client_auth:
+            abort(404)
+
         if is_logged_in():
             auth_factory.get_authenticator(session['auth_type']).end_session()
+
         return redirect(url_for('map_page'))
 
     @app.route('/raw_data')
