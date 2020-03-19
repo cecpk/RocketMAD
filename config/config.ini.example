@@ -181,6 +181,13 @@
                                   # You can also only use guilds. If multiple config files correspond to one user, only the first file is used. (default=[])
 
 
+# Telegram authentication
+####################
+
+#telegram-auth                    # Authenticate users with telegram. (default=False)
+#telegram-bot-username:           # Telegram bot username.
+
+
 # Misc
 ######
 

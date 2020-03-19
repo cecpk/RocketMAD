@@ -441,6 +441,10 @@ def create_app():
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
             analytics_id=args.analytics_id,
+            discord_auth=args.discord_auth,
+            telegram_auth=args.telegram_auth,
+            telegram_bot_username=args.telegram_bot_username,
+            server_uri=args.server_uri,
             settings=settings
         )
 

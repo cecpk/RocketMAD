@@ -418,6 +418,12 @@ def get_args(access_config=None):
                             'You can also only use guilds. If multiple config '
                             'files correspond to one user, only the first '
                             'file is used.')
+    group = parser.add_argument_group('Telegram Auth')
+    group.add_argument('-TA', '--telegram-auth',
+                       action='store_true',
+                       help='Authenticate users with Telegram.')
+    group.add_argument('-TAb', '--telegram-bot-username',
+                       help='Telegram bot username.')
     parser.add_argument('-bwb', '--black-white-badges',
                         help='Use black/white background with white/black' +
                         ' text for gym/raid level badge in gym icons.',
@@ -542,7 +548,7 @@ def get_args(access_config=None):
     args.center_lat = position[0]
     args.center_lng = position[1]
 
-    if args.discord_auth:
+    if args.discord_auth or args.telegram_auth:
         args.server_uri = args.server_uri.rstrip('/')
         if len(args.secret_key) < 16:
             parser.print_usage()
