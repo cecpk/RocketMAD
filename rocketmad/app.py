@@ -216,7 +216,7 @@ def create_app():
                 if user_args.upscaled_pokemon is not None else []),
             'pokemonValues': (not user_args.no_pokemon and
                               not user_args.no_pokemon_values),
-            'rarity': (not user_args.no_pokemon and not user_args.no_rarity and
+            'rarity': (not user_args.no_pokemon and user_args.rarity and
                        user_args.rarity_update_frequency),
             'rarityFileName': user_args.rarity_filename,
             'pokemonCries': (not user_args.no_pokemon and

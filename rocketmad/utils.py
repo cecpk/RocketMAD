@@ -424,16 +424,16 @@ def get_args(access_config=None):
                         ' text for gym/raid level badge in gym icons.',
                         action='store_true', default=False)
     rarity = parser.add_argument_group('Dynamic Rarity')
-    rarity.add_argument('-nR', '--no-rarity',
+    rarity.add_argument('-R', '--rarity',
                         action='store_true',
-                        help='Do not display Pokémon rarity.')
+                        help='Display Pokémon rarity.')
     rarity.add_argument('-Rh', '--rarity-hours',
                         type=float, default=48,
                         help='Number of hours of Pokemon data to use '
                              'to calculate dynamic rarity, decimals allowed. '
                              'Default: 48. 0 to use all data.')
     rarity.add_argument('-Rf', '--rarity-update-frequency',
-                        type=float, default=60,
+                        type=float, default=0,
                         help='How often (in minutes) the dynamic rarity '
                              'should be updated, decimals allowed. '
                              'Default: 0. 0 to disable.')
