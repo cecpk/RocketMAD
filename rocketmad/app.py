@@ -4,34 +4,29 @@
 import calendar
 import gc
 import logging
-import os
 import redis
 
-from authlib.integrations.flask_client import OAuth
-from datetime import datetime
-from s2sphere import LatLng
 from bisect import bisect_left
-from flask import (abort, Flask, jsonify, make_response, redirect,
-                   render_template, request, send_from_directory, send_file,
-                   session, url_for)
-from flask_cors import CORS
-from flask_cachebuster import CacheBuster
+from datetime import datetime
+from flask import (abort, Flask, jsonify, redirect, render_template, request,
+                   send_file, send_from_directory, session, url_for)
 from flask.json import JSONEncoder
+from flask_cachebuster import CacheBuster
 from flask_caching import Cache
 from flask_compress import Compress
+from flask_cors import CORS
 from flask_session import Session
 from functools import wraps
-from .dyn_img import (get_gym_icon, get_pokemon_map_icon,
-                      get_pokemon_raw_icon)
-from .weather import (get_weather_cells, get_weather_alerts)
-from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
-                     Weather)
-from .utils import (i8ln, get_args, get_pokemon_name, get_pokemon_types, now,
-                    dottedQuadToNum)
+from s2sphere import LatLng
+
 from .auth.auth_factory import AuthFactory
 from .auth.discord_auth import DiscordAuth
-from .transform import transform_from_wgs_to_gcj
 from .blacklist import fingerprints, get_ip_blacklist
+from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
+from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
+                     Weather)
+from .transform import transform_from_wgs_to_gcj
+from .utils import dottedQuadToNum, get_args, get_pokemon_name, i8ln
 
 log = logging.getLogger(__name__)
 args = get_args()

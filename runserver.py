@@ -20,13 +20,12 @@ import ssl
 import time
 
 from colorlog import ColoredFormatter
-from threading import Thread
 from time import strftime
 
 from rocketmad.app import create_app
 from rocketmad.gunicorn import GunicornApplication
-from rocketmad.utils import get_args, get_debug_dump_link
 from rocketmad.models import create_tables, drop_tables, verify_database_schema
+from rocketmad.utils import get_args, get_debug_dump_link
 
 log = logging.getLogger()
 args = get_args()
