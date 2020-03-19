@@ -1,6 +1,7 @@
 # DO NOT USE NOTEPAD TO EDIT CONFIG FILES! USE NOTEPAD++ INSTEAD!
 # Uncomment a line when you want to change its default value (Remove # at the beginning)
 # When your configuration is done, rename this file by removing the ".example" extension
+# Access config arguments override default arguments. You can disable an argument like this: argument: False
 
 
 #location:                      # Location, can be an address or coordinates.
