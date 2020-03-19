@@ -85,6 +85,7 @@
 
 #Database cleanup
 #################
+# Database cleanup is done by running runhelper.py
 
 #db-cleanup                     # Enable regular database cleanup thread.
 #db-cleanup-pokemon:            # Clear pokemon from database X hours after they disappeared. Default: 0, 0 to disable.
@@ -122,6 +123,7 @@
 
 # Dynamic rarity
 ################
+# Updating dynamic rarity is done by running runhelper.py
 
 #rarity                         # Display Pokémon rarity. (default=False)
 #rarity-hours:                  # Number of hours of Pokémon data to use to calculate dynamic rarity, decimals allowed. 0 to use all data. (default=48.0)
@@ -132,7 +134,7 @@
 # Parks
 #######
 # Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
-# Remove the JSON file(s) to redownload the parks.
+# Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
 
 #ex-parks                       # Display ex raid eligible parks. (default=False)
 #nest-parks                     # Display nest parks. (default=False)
