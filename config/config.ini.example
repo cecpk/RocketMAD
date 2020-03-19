@@ -177,7 +177,7 @@
 #discord-blacklisted-roles:       # (Optional) If specified, user must NOT have any of these discord roles (from a specific guild) to access map.
                                   # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
 #discord-no-permission-redirect:  # (Optional) Link to redirect user to if user has no permission. Typically this would be your discord guild invite link.
-#discord-access-configs:          # Use different config file based on discord role (or guild). Accepts list with elements in this format: role_id:guild_id:access_config_name
+#discord-access-configs:          # Use different config file based on discord role (or guild). Accepts list with elements in this format: guild_id:role_id:access_config_name
                                   # You can also only use guilds. If multiple config files correspond to one user, only the first file is used. (default=[])
 
 

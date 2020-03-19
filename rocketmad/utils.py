@@ -414,7 +414,7 @@ def get_args(access_config=None):
                        nargs='+', default=[],
                        help='Use different config file based on discord role '
                             '(or guild). Accepts list with elements in this '
-                            'format: role_id:guild_id:access_config_name '
+                            'format: guild_id:role_id:access_config_name '
                             'You can also only use guilds. If multiple config '
                             'files correspond to one user, only the first '
                             'file is used.')

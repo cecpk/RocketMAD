@@ -75,8 +75,8 @@ class DiscordAuth(OAuth2Base):
                 guild_id = elem.split(':')[0]
                 config_name = elem.split(':')[1]
             elif count == 2:
-                role_id = elem.split(':')[0]
-                guild_id = elem.split(':')[1]
+                guild_id = elem.split(':')[0]
+                role_id = elem.split(':')[1]
                 config_name = elem.split(':')[2]
             self.access_configs.append((role_id, guild_id, config_name))
 
