@@ -143,6 +143,8 @@ def create_app():
         Session(app)
         if args.discord_auth:
             accepted_auth_types.append('discord')
+        if args.telegram_auth:
+            accepted_auth_types.append('telegram')
 
     if not args.disable_blacklist:
         log.info('Retrieving blacklist...')
@@ -456,7 +458,7 @@ def create_app():
         if is_logged_in():
             return redirect(url_for('map_page'))
 
-        if auth_type not in accepted_auth_types:
+        if auth_type == 'telegram' or auth_type not in accepted_auth_types:
             return redirect(url_for('login_page'))
 
         authenticator = auth_factory.get_authenticator(auth_type)
