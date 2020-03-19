@@ -86,6 +86,41 @@ def get_args(access_config=None):
         default_config_files=default_config_files,
         auto_env_var_prefix='POGOMAP_')
 
+    parser.add_argument('-cf', '--config',
+                        is_config_file=True, help='Set a configuration file.')
+    parser.add_argument('-scf', '--shared-config',
+                        is_config_file=True, help='Set a shared config file.')
+    parser.add_argument('-acf', '--access-config',
+                        help='Set a default access config file.')
+    parser.add_argument('-al', '--access-logs',
+                        help=("Write web logs to access.log."),
+                        action='store_true', default=False)
+    parser.add_argument('-H', '--host', help='Set web server listening host.',
+                        default='127.0.0.1')
+    parser.add_argument('-P', '--port', type=int,
+                        help='Set web server listening port.', default=5000)
+    parser.add_argument('-w', '--workers',
+                        type=int, default=multiprocessing.cpu_count() * 2 + 1,
+                        help='The number of worker processes for handling ' +
+                             'requests. Generally in the 2-4 x {NUM_CORES} ' +
+                             'range.')
+    parser.add_argument('-ds', '--development-server',
+                        action='store_true', default=False,
+                        help='Use Flask’s built-in development server. ' +
+                             'Don\'t use this in production.')
+    parser.add_argument('-L', '--locale',
+                        help=('Locale for Pokemon names (check' +
+                              ' static/dist/locales for more).'),
+                        default='en')
+    parser.add_argument('-c', '--china',
+                        help='Coordinates transformer for China.',
+                        action='store_true')
+    parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
+                        action='store_true', default=False)
+    parser.add_argument('-cd', '--clear-db',
+                        help=('Deletes the existing database before ' +
+                              'starting the Webserver.'),
+                        action='store_true', default=False)
     parser.add_argument('-l', '--location', required=True,
                         help='Location, can be an address or coordinates.')
     parser.add_argument('-np', '--no-pokemon',
@@ -226,42 +261,6 @@ def get_args(access_config=None):
                         ' link.', default=None)
     parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
                         ' link.', default=None)
-
-    parser.add_argument('-cf', '--config',
-                        is_config_file=True, help='Set a configuration file.')
-    parser.add_argument('-scf', '--shared-config',
-                        is_config_file=True, help='Set a shared config file.')
-    parser.add_argument('-acf', '--access-config',
-                        help='Set a default access config file.')
-    parser.add_argument('-al', '--access-logs',
-                        help=("Write web logs to access.log."),
-                        action='store_true', default=False)
-    parser.add_argument('-H', '--host', help='Set web server listening host.',
-                        default='127.0.0.1')
-    parser.add_argument('-P', '--port', type=int,
-                        help='Set web server listening port.', default=5000)
-    parser.add_argument('-w', '--workers',
-                        type=int, default=multiprocessing.cpu_count() * 2 + 1,
-                        help='The number of worker processes for handling ' +
-                             'requests. Generally in the 2-4 x {NUM_CORES} ' +
-                             'range.')
-    parser.add_argument('-ds', '--development-server',
-                        action='store_true', default=False,
-                        help='Use Flask’s built-in development server. ' +
-                             'Don\'t use this in production.')
-    parser.add_argument('-L', '--locale',
-                        help=('Locale for Pokemon names (check' +
-                              ' static/dist/locales for more).'),
-                        default='en')
-    parser.add_argument('-c', '--china',
-                        help='Coordinates transformer for China.',
-                        action='store_true')
-    parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
-                        action='store_true', default=False)
-    parser.add_argument('-cd', '--clear-db',
-                        help=('Deletes the existing database before ' +
-                              'starting the Webserver.'),
-                        action='store_true', default=False)
     parser.add_argument('-ai', '--analytics-id',
                         default=None,
                         help='Google Analytics Tracking-ID.'),
