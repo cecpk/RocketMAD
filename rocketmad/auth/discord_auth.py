@@ -6,10 +6,10 @@ import requests
 import time
 import uuid
 
-from authlib.common.errors import AuthlibBaseError
 from base64 import b64encode
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import request, session, url_for
+
 from .oauth2 import OAuth2Base
 from ..utils import get_args
 
