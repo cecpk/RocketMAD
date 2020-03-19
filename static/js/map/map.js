@@ -3635,6 +3635,8 @@ $(function () {
     }).then(function () {
         // Initial load.
         return updateMap()
+    }).catch(function(error) {
+        // updateMap() failed... ¯\_(ツ)_/¯
     }).then(function () {
         initPokemonFilters()
         initItemFilters()
