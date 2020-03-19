@@ -1,7 +1,4 @@
 function showMotd(title, text, pages, showAlways) {
-    console.log(typeof window.location.pathname)
-    console.log(pages)
-    console.log(pages.includes(window.location.pathname))
     if (pages.includes(window.location.pathname)) {
         let motdIsUpdated = false
         const lastMotd = window.localStorage.getItem('lastMotd') || ''
