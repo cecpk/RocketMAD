@@ -47,23 +47,23 @@ class DiscordAuth(OAuth2Base):
 
         for role in args.discord_required_roles:
             if ':' in role:
-                role_id = role.split(':')[0]
-                guild_id = role.split(':')[1]
+                guild_id = role.split(':')[0]
+                role_id = role.split(':')[1]
             else:
                 # No guild specified, use first required guild.
-                role_id = role
                 guild_id = args.discord_required_guilds[0]
-            self.required_roles.append((role_id, guild_id))
+                role_id = role
+            self.required_roles.append((guild_id, role_id))
 
         for role in args.discord_blacklisted_roles:
             if ':' in role:
-                role_id = role.split(':')[0]
-                guild_id = role.split(':')[1]
+                guild_id = role.split(':')[0]
+                role_id = role.split(':')[1]
             else:
                 # No guild specified, use first required guild.
-                role_id = role
                 guild_id = args.discord_required_guilds[0]
-            self.blacklisted_roles.append((role_id, guild_id))
+                role_id = role
+            self.blacklisted_roles.append((guild_id, role_id))
 
         for elem in args.discord_access_configs:
             count = 0
@@ -71,8 +71,8 @@ class DiscordAuth(OAuth2Base):
                 if c == ':':
                     count += 1
             if count == 1:
-                role_id = None
                 guild_id = elem.split(':')[0]
+                role_id = None
                 config_name = elem.split(':')[1]
             elif count == 2:
                 guild_id = elem.split(':')[0]
@@ -220,8 +220,8 @@ class DiscordAuth(OAuth2Base):
         # Check required roles.
         has_required_role = False
         for role in self.required_roles:
-            role_id = role[0]
-            guild_id = role[1]
+            guild_id = role[0]
+            role_id = role[1]
             if guild_id in user_guilds and role_id in user_roles[guild_id]:
                 has_required_role = True
                 break
@@ -232,8 +232,8 @@ class DiscordAuth(OAuth2Base):
 
         # Check blacklisted roles:
         for role in self.blacklisted_roles:
-            role_id = role[0]
-            guild_id = role[1]
+            guild_id = role[0]
+            role_id = role[1]
             if guild_id in user_guilds and role_id in user_roles[guild_id]:
                 session['has_permission'] = False
                 session['access_config_name'] = None
