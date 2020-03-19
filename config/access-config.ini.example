@@ -1,0 +1,69 @@
+# DO NOT USE NOTEPAD TO EDIT CONFIG FILES! USE NOTEPAD++ INSTEAD!
+# Uncomment a line when you want to change its default value (Remove # at the beginning)
+# When your configuration is done, rename this file by removing the ".example" extension
+# Access config arguments override default arguments. You can disable an argument like this: argument: False
+
+
+#location:                      # Location, can be an address or coordinates.
+
+#map-title:                     # Title of the map. (default='RocketMAD')
+#no-header-image                # Hides header image. (default=False)
+#header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
+#madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
+#donate-url:                    # Donation link, e.g. PayPal. (default=None)
+#patreon-url:                   # Patreon page link. (default=None)
+#discord-url:                   # Discord server invite link. (default=None)
+#messenger-url:                 # Messenger group invite link. (default=None)
+#telegram-url:                  # Telegram group invite link. (default=None)
+#whatsapp-url:                  # WhatsApp group invite link. (default=None)
+
+#max-zoom-level:                # Maximum level a user can zoom out. Range: [0,18]. 0 means the user can zoom out completely. (default=10)
+#cluster-zoom-level:            # Zoom level from which markers should be clustered. Range: [0,18]. -1 to disable clustering. (default=14)
+#cluster-zoom-level-mobile:     # Zoom level from which markers should be clustered on mobile. Range: [0,18]. -1 to disable clustering on mobile. (default=14)
+#max-cluster-radius:            # The maximum radius that a cluster will cover from the central marker (in pixels). (default=60)
+#spiderfy-clusters              # Spiderfy clusters at the bottom zoom level. (default=False)
+#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position.
+
+#no-pokemon                     # Disables pokemon. (default=False)
+#no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
+#rarity                         # Display Pokémon rarity. (default=False)
+#upscaled-pokemon:              # Pokémon IDs to upscale icons for. Seperate IDs with commas. (default=None)
+#no-pokemon-history-page        # Disables pokemon history page. (default=False)
+#verified-despawn-time          # Show if pokemon despawn time is verified.
+#show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
+                                # Set to 0 to disable this feature. Set to 19 or higher for nice results.
+#pokemon-cries                  # Play cries for pokemon notifications. Place your sound files (wav or mp3) in static/sounds/cries. (default=False)
+
+#no-gyms                        # Disables gyms. (default=False)
+#no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)
+#no-gym-filters                 # Disable gym filters in side nav. (default=False)
+#no-raids                       # Disables raids. (default=False)
+#no-raid-filters                # Disable raid filters in side nav. (default=False)
+
+#no-pokestops                   # Disables pokestops. (default=False)
+#no-quests                      # Disables quests. (default=False)
+#no-quest-page                  # Disables quest page. (default=False)
+#no-invasions                   # Disables team rocket invasions. (default=False)
+#no-lures                       # Disables lures. (default=False)
+
+#no-weather                     # Disables weather. (default=False)
+#no-spawnpoints                 # Disables spawn points. (default=False)
+#no-scanned-locs                # Disables scanned locations. (default=False)
+#no-s2-cells                    # Disables s2 cells. (default=False)
+#no-ranges                      # Disables user to show interaction ranges. (default=False)
+
+#ex-parks                       # Enables ex raid eligible parks drawing. (default=False)
+#nest-parks                     # Enables nest parks drawing. (default=False)
+#ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
+#nest-parks-filename:           # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
+
+#no-stats-sidebar               # Hides stats sidebar. (default=False)
+#twelve-hour-clock              # Display time with the 12-hour clock format.
+#analytics-id:                  # Google Analytics Tracking-ID. (default=None)
+#map-update-interval:           # Interval between raw_data requests (map updates) in milliseconds. (default=2500)
+
+#motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
+#motd-title:                    # MOTD title, can be HTML. (default='MOTD')
+#motd-text:                     # MOTD text, can be HTML. (default='Hi there! This is an easily customizable MOTD.')
+#motd-pages:                    # Pages the MOTD should be shown on. (default=['/', '/mobile'])
+#show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)

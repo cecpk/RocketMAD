@@ -3,13 +3,13 @@
 
 import gunicorn.app.base
 import logging
-import multiprocessing
 import os
 
 from colorlog import ColoredFormatter
 from gunicorn import glogging
-from pogom.utils import get_args
 from time import strftime
+
+from .utils import get_args
 
 args = get_args()
 
@@ -53,15 +53,11 @@ class GunicornLogger(glogging.Logger):
         )
 
         # Override Gunicorn's `error_log` configuration.
-        self._set_handler(
-            self.error_log, cfg.errorlog, formatter
-        )
+        self._set_handler(self.error_log, cfg.errorlog, formatter)
 
         # Override Gunicorn's `access_log` configuration.
         if cfg.accesslog is not None:
-            self._set_handler(
-                self.access_log, cfg.accesslog, formatter
-            )
+            self._set_handler(self.access_log, cfg.accesslog, formatter)
 
         if not args.no_file_logs:
             filename = os.path.join(args.log_path, args.log_filename)

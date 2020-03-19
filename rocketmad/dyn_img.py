@@ -8,6 +8,7 @@ import subprocess
 from .utils import get_args, get_pokemon_data
 
 log = logging.getLogger(__name__)
+args = get_args()
 
 # Will be set during config parsing
 generate_images = False
@@ -110,6 +111,54 @@ font = os.path.join(path_static, 'Arial Black.ttf')
 font_pointsize = 25
 
 
+def is_imagemagick_binary(binary):
+    try:
+        process = subprocess.Popen([binary, '-version'],
+                                   stdout=subprocess.PIPE)
+        out, err = process.communicate()
+        return "ImageMagick" in out.decode('utf8')
+    except Exception as e:
+        return False
+
+
+def determine_imagemagick_binary():
+    candidates = {
+        'magick': 'magick convert',
+        'convert': None
+    }
+    for c in candidates:
+        if is_imagemagick_binary(c):
+            return candidates[c] if candidates[c] else c
+    return None
+
+if args.generate_images:
+    executable = determine_imagemagick_binary()
+    if executable:
+        generate_images = True
+        imagemagick_executable = executable
+        log.info("Generating icons using ImageMagick " +
+                 "executable '{}'.".format(executable))
+
+        if args.pogo_assets:
+            decr_assets_dir = os.path.join(args.pogo_assets,
+                                           'pokemon_icons')
+            if os.path.isdir(decr_assets_dir):
+                log.info("Using PogoAssets repository at '{}'".format(
+                    args.pogo_assets))
+                pogo_assets = args.pogo_assets
+            else:
+                log.error(("Could not find PogoAssets repository at '{}'. "
+                           "Clone via 'git clone -depth 1 "
+                           "https://github.com/ZeChrales/PogoAssets.git'")
+                          .format(args.pogo_assets))
+    else:
+        log.error("Could not find ImageMagick executable. Make sure "
+                  "you can execute either 'magick' (ImageMagick 7)"
+                  " or 'convert' (ImageMagick 6) from the commandline. "
+                  "Otherwise you cannot use --generate-images")
+        sys.exit(1)
+
+
 def get_pokemon_raw_icon(pkm, gender=None, form=None,
                          costume=None, weather=None, shiny=False):
     if generate_images and pogo_assets:
@@ -192,7 +241,7 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, costume,
         out_filename = os.path.join(
             path_generated_gym,
             "{}_L{}_R{}_P{}{}{}.png".format(team, level, raidlevel, pkm,
-                                          form_extension, costume_extension)
+                                            form_extension, costume_extension)
         )
         im_lines.extend(draw_raid_pokemon(pkm, form, costume))
         im_lines.extend(draw_raid_level(int(raidlevel)))
@@ -248,13 +297,11 @@ def draw_raid_egg(raidlevel):
 
 
 def draw_gym_level(level, team):
-    args = get_args()
     fill_col = "black" if args.black_white_badges else team_colors[team]
     return draw_badge(badge_lower_right, fill_col, "white", level)
 
 
 def draw_raid_level(raidlevel):
-    args = get_args()
     fill_col = ("white" if args.black_white_badges
         else raid_colors[int((raidlevel - 1) / 2)])
     text_col = "black" if args.black_white_badges else "white"

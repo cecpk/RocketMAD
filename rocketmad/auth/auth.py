@@ -6,26 +6,22 @@ from abc import ABC, abstractmethod
 
 class AuthBase(ABC):
 
-    def __init__(self, oauth, redirect_uri):
-        self.oauth = oauth
-        self.redirect_uri = redirect_uri
-
     @abstractmethod
-    def has_permission(self):
-        pass
-
-    @abstractmethod
-    def get_authorize_redirect(self):
-        pass
-
-    @abstractmethod
-    def process_credentials(self):
-        pass
-
-    @abstractmethod
-    def update_resources(self):
+    def authorize(self):
         pass
 
     @abstractmethod
     def end_session(self):
+        pass
+
+    @abstractmethod
+    def get_access_data(self):
+        pass
+
+    @abstractmethod
+    def _update_access_data(self):
+        pass
+
+    @abstractmethod
+    def _add_user(self, data):
         pass

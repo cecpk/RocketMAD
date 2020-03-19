@@ -10,6 +10,7 @@ import json
 import logging
 import math
 import multiprocessing
+import re
 import time
 import socket
 import struct
@@ -31,9 +32,8 @@ from pprint import pformat
 from time import strftime
 from timeit import default_timer
 
-from . import dyn_img
-
 log = logging.getLogger(__name__)
+arg_cache = {}
 
 
 def read_pokemon_ids_from_file(f):
@@ -67,24 +67,31 @@ def memoize(function):
     return wrapper
 
 
-@memoize
-def get_args():
+def get_args(access_config=None):
+    if access_config is not None:
+        if access_config in arg_cache:
+            return arg_cache[access_config]
+    else:
+        if 'default_args' in arg_cache:
+            return arg_cache['default_args']
+
     # Pre-check to see if the -cf or --config flag is used on the command line.
     # If not, we'll use the env var or default value. This prevents layering of
     # config files as well as a missing config.ini.
-    defaultconfigfiles = []
+    default_config_files = []
     if '-cf' not in sys.argv and '--config' not in sys.argv:
-        defaultconfigfiles = [os.getenv('POGOMAP_CONFIG', os.path.join(
+        default_config_files = [os.getenv('POGOMAP_CONFIG', os.path.join(
             os.path.dirname(__file__), '../config/config.ini'))]
     parser = configargparse.ArgParser(
-        default_config_files=defaultconfigfiles,
+        default_config_files=default_config_files,
         auto_env_var_prefix='POGOMAP_')
+
     parser.add_argument('-cf', '--config',
-                        is_config_file=True, help='Set configuration file')
+                        is_config_file=True, help='Set a configuration file.')
     parser.add_argument('-scf', '--shared-config',
-                        is_config_file=True, help='Set a shared config')
-    parser.add_argument('-l', '--location',
-                        help='Location, can be an address or coordinates.')
+                        is_config_file=True, help='Set a shared config file.')
+    parser.add_argument('-acf', '--access-config',
+                        help='Set a default access config file.')
     parser.add_argument('-al', '--access-logs',
                         help=("Write web logs to access.log."),
                         action='store_true', default=False)
@@ -114,12 +121,19 @@ def get_args():
                         help=('Deletes the existing database before ' +
                               'starting the Webserver.'),
                         action='store_true', default=False)
+    parser.add_argument('-l', '--location', required=True,
+                        help='Location, can be an address or coordinates.')
     parser.add_argument('-np', '--no-pokemon',
                         help=('Disables Pokémon.'),
                         action='store_true', default=False)
     parser.add_argument('-npv', '--no-pokemon-values',
                         help='Disables pokemon values.',
                         action='store_true', default=False)
+    parser.add_argument('-sazl', '--show-all-zoom-level',
+                        help=('Show all Pokemon, even excluded, at this map '
+                              'zoom level. Set to 0 to disable this feature. '
+                              'Set to 19 or higher for nice results.'),
+                        type=int, default=0)
     parser.add_argument('-up', '--upscaled-pokemon',
                         default=None,
                         help='Pokémon IDs to upscale icons for. ' +
@@ -181,12 +195,6 @@ def get_args():
     parser.add_argument('-thc', '--twelve-hour-clock',
                         help=('Display time with the 12-hour clock format.'),
                         action='store_true', default=False)
-    parser.add_argument('-ai', '--analytics-id',
-                        default=None,
-                        help='Google Analytics Tracking-ID.'),
-    parser.add_argument('-mui', '--map-update-interval',
-                        type=int, default=2500,
-                        help='Interval between raw_data requests (map updates) in milliseconds.'),
     parser.add_argument('-MO', '--motd',
                         action='store_true', default=False,
                         help='Shows a MOTD (Message of the Day) on visit.')
@@ -205,6 +213,60 @@ def get_args():
                         help=('Show MOTD on every visit. If disabled, the ' +
                               'MOTD will only be shown when its title or ' +
                               'text has changed.'))
+    parser.add_argument('-mzl', '--max-zoom-level', type=int,
+                        help=('Maximum level a user can zoom out. ' +
+                             'Range: [0,18]. 0 means the user can zoom out ' +
+                             'completely.'), default=10)
+    parser.add_argument('-czl', '--cluster-zoom-level', type=int,
+                        help=('Zoom level from which markers should be ' +
+                              'clustered. Range: [0,18]. -1 to disable ' +
+                              'clustering.'), default=14)
+    parser.add_argument('-czlm', '--cluster-zoom-level-mobile', type=int,
+                        help=('Zoom level from which markers should be ' +
+                              'clustered on mobile. Range: [0,18]. -1 to ' +
+                              'disable clustering on mobile.'), default=14)
+    parser.add_argument('-mcr', '--max-cluster-radius', type=int,
+                        help=('The maximum radius that a cluster will cover ' +
+                              'from the central marker ' +
+                              '(in pixels).'), default=60)
+    parser.add_argument('-sc', '--spiderfy-clusters',
+                        help='Spiderfy clusters at the bottom zoom level.',
+                        action='store_true', default=False)
+    parser.add_argument('-lsm', '--lock-start-marker',
+                        help='Disables dragging the start marker and hence ' +
+                             'disables changing the start position.',
+                        action='store_true', default=False)
+    parser.add_argument('-pc', '--pokemon-cries',
+                        help='Play cries for pokemon notifications.',
+                        action='store_true', default=False)
+    parser.add_argument('-mt', '--map-title', default='RocketMAD',
+                        help=('The title of the map. Default: RocketMAD'))
+    parser.add_argument('-nhi', '--no-header-image',
+                        help=('Hides header image.'),
+                        action='store_true', default=False)
+    parser.add_argument('-hi', '--header-image',
+                         help='Image in header.',
+                         default='rocket.png')
+    parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
+                        default=None)
+    parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.' +
+                        ' PayPal.', default=None)
+    parser.add_argument('-pu', '--patreon-url', help='Patreon page link.',
+                        default=None)
+    parser.add_argument('-du', '--discord-url', help='Discord server invite' +
+                        ' link.', default=None)
+    parser.add_argument('-mru', '--messenger-url', help='Messenger group'
+                        ' invite link.', default=None)
+    parser.add_argument('-tu', '--telegram-url', help='Telegram group invite' +
+                        ' link.', default=None)
+    parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
+                        ' link.', default=None)
+    parser.add_argument('-ai', '--analytics-id',
+                        default=None,
+                        help='Google Analytics Tracking-ID.'),
+    parser.add_argument('-mui', '--map-update-interval',
+                        type=int, default=2500,
+                        help='Interval between raw_data requests (map updates) in milliseconds.'),
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)
@@ -217,9 +279,6 @@ def get_args():
                        default='127.0.0.1')
     group.add_argument('--db-port',
                        help='Port for the database.', type=int, default=3306)
-    group.add_argument('--db-threads',
-                       help=('Number of db threads; increase if the db ' +
-                             'queue falls behind.'), type=int, default=1)
     group = parser.add_argument_group('Database Cleanup')
     group.add_argument('-DC', '--db-cleanup',
                        help='Enable regular database cleanup thread.',
@@ -279,11 +338,6 @@ def get_args():
                               'environment and auto-upload to ' +
                               'hastebin.com.'),
                         action='store_true', default=False)
-    parser.add_argument('-sazl', '--show-all-zoom-level',
-                        help=('Show all Pokemon, even excluded, at this map '
-                              'zoom level. Set to 0 to disable this feature. '
-                              'Set to 19 or higher for nice results.'),
-                        type=int, default=0)
     verbose = parser.add_mutually_exclusive_group()
     verbose.add_argument('-v',
                          help=('Show debug messages from RocketMap. ' +
@@ -306,6 +360,10 @@ def get_args():
     group.add_argument('-CAsk', '--secret-key', default=None,
                        help='Secret key used to sign sessions. '
                             'Must be at least 16 characters long.')
+    group.add_argument('-CAlr', '--login-required',
+                       action='store_true', default=False,
+                       help='If enabled, user must be logged in with any '
+                            'auth system before one can access the map.')
     group.add_argument('-CArh', '--redis-host', default='127.0.0.1',
                        help='Address of Redis server '
                             '(Redis is used to store session data).')
@@ -352,185 +410,155 @@ def get_args():
                        help='Link to redirect user to if user has no '
                             'permission. Typically this would be your discord '
                             'guild invite link.')
-    parser.add_argument('-mzl', '--max-zoom-level', type=int,
-                        help=('Maximum level a user can zoom out. ' +
-                             'Range: [0,18]. 0 means the user can zoom out ' +
-                             'completely.'), default=10)
-    parser.add_argument('-czl', '--cluster-zoom-level', type=int,
-                        help=('Zoom level from which markers should be ' +
-                              'clustered. Range: [0,18]. -1 to disable ' +
-                              'clustering.'), default=14)
-    parser.add_argument('-czlm', '--cluster-zoom-level-mobile', type=int,
-                        help=('Zoom level from which markers should be ' +
-                              'clustered on mobile. Range: [0,18]. -1 to ' +
-                              'disable clustering on mobile.'), default=14)
-    parser.add_argument('-mcr', '--max-cluster-radius', type=int,
-                        help=('The maximum radius that a cluster will cover ' +
-                              'from the central marker ' +
-                              '(in pixels).'), default=60)
-    parser.add_argument('-sc', '--spiderfy-clusters',
-                        help='Spiderfy clusters at the bottom zoom level.',
-                        action='store_true', default=False)
-    parser.add_argument('-lsm', '--lock-start-marker',
-                        help='Disables dragging the start marker and hence ' +
-                             'disables changing the start position.',
-                        action='store_true', default=False)
-    parser.add_argument('-pc', '--pokemon-cries',
-                        help='Play cries for pokemon notifications.',
-                        action='store_true', default=False)
-    parser.add_argument('-mt', '--map-title',
-                        help=('The title of the map. Default: RocketMAD'),
-                        default='RocketMAD')
-    parser.add_argument('-nhi', '--no-header-image',
-                        help=('Hides header image.'),
-                        action='store_true', default=False)
-    parser.add_argument('-hi', '--header-image',
-                         help='Image in header.',
-                         default='rocket.png')
-    parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
-                        default=None)
-    parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.' +
-                        ' PayPal.', default=None)
-    parser.add_argument('-pu', '--patreon-url', help='Patreon page link.',
-                        default=None)
-    parser.add_argument('-du', '--discord-url', help='Discord server invite' +
-                        ' link.', default=None)
-    parser.add_argument('-mru', '--messenger-url', help='Messenger group'
-                        ' invite link.', default=None)
-    parser.add_argument('-tu', '--telegram-url', help='Telegram group invite' +
-                        ' link.', default=None)
-    parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
-                        ' link.', default=None)
+    group.add_argument('-DAac', '--discord-access-configs',
+                       nargs='+', default=[],
+                       help='Use different config file based on discord role '
+                            '(or guild). Accepts list with elements in this '
+                            'format: role_id:guild_id:access_config_name '
+                            'You can also only use guilds. If multiple config '
+                            'files correspond to one user, only the first '
+                            'file is used.')
     parser.add_argument('-bwb', '--black-white-badges',
                         help='Use black/white background with white/black' +
                         ' text for gym/raid level badge in gym icons.',
                         action='store_true', default=False)
     rarity = parser.add_argument_group('Dynamic Rarity')
+    rarity.add_argument('-R', '--rarity',
+                        action='store_true',
+                        help='Display Pokémon rarity.')
     rarity.add_argument('-Rh', '--rarity-hours',
-                        help=('Number of hours of Pokemon data to use' +
-                              ' to calculate dynamic rarity. Decimals' +
-                              ' allowed. Default: 48. 0 to use all data.'),
-                        type=float, default=48)
+                        type=float, default=48,
+                        help='Number of hours of Pokemon data to use '
+                             'to calculate dynamic rarity, decimals allowed. '
+                             'Default: 48. 0 to use all data.')
     rarity.add_argument('-Rf', '--rarity-update-frequency',
-                        help=('How often (in minutes) the dynamic rarity' +
-                              ' should be updated. Decimals allowed.' +
-                              ' Default: 0. 0 to disable.'),
-                        type=float, default=0)
+                        type=float, default=0,
+                        help='How often (in minutes) the dynamic rarity '
+                             'should be updated, decimals allowed. '
+                             'Default: 0. 0 to disable.')
     rarity.add_argument('-Rfn', '--rarity-filename',
-                        help=('Filename (without .json) of rarity JSON ' +
-                              'file. Useful when running multiple ' +
-                              'instances. Default: rarity'),
-                        type=str, default='rarity')
+                        default='rarity',
+                        help='Filename (without .json) of rarity JSON '
+                             'file. Useful when running multiple '
+                             'instances. Default: rarity')
     parks = parser.add_argument_group('Parks')
-    parks.add_argument('-ep', '--ex-parks',
-                        help=('Enables ex raid eligible parks downloading ' +
-                              'and drawing.'),
-                        action='store_true', default=False)
-    parks.add_argument('-ntp', '--nest-parks',
-                        help='Enables nest parks downloading and drawing.',
-                        action='store_true', default=False)
-    parks.add_argument('-epgf', '--ex-parks-geofence-file',
-                        help=('Geofence file to define outer borders of the ' +
-                              'ex park area to download.'),
-                        default='')
-    parks.add_argument('-npgf', '--nest-parks-geofence-file',
-                        help=('Geofence file to define outer borders of the ' +
-                              'nest park area to download.'),
-                        default='')
-    parks.add_argument('-epfn', '--ex-parks-filename',
-                        help=('Filename (without .json) of ex parks JSON ' +
-                              'file. Useful when running multiple ' +
-                              'instances. Default: parks-ex-raids'),
-                        type=str, default='parks-ex')
-    parks.add_argument('-npfn', '--nest-parks-filename',
-                        help=('Filename (without .json) of nest parks JSON ' +
-                              'file. Useful when running multiple ' +
-                              'instances. Default: parks-nests'),
-                        type=str, default='parks-nest')
-    parks.add_argument('-pqt', '--parks-query-timeout',
-                        help=('The maximum allowed runtime for the parks' +
-                              ' query in seconds.'),
-                        type=int, default=86400)
-
-    parser.set_defaults(DEBUG=False)
+    parks.add_argument('-EP', '--ex-parks',
+                       action='store_true',
+                       help='Display ex raid eligible parks.')
+    parks.add_argument('-NP', '--nest-parks',
+                       action='store_true',
+                       help='Display nest parks.')
+    parks.add_argument('-EPd', '--ex-parks-downloading',
+                       action='store_true',
+                       help='Enables ex raid eligible parks downloading.')
+    parks.add_argument('-NPd', '--nest-parks-downloading',
+                       action='store_true',
+                       help='Enables nest parks downloading.')
+    parks.add_argument('-EPg', '--ex-parks-geofence-file',
+                       help='Geofence file to define outer borders of the '
+                            'ex park area to download.')
+    parks.add_argument('-NPg', '--nest-parks-geofence-file',
+                       help='Geofence file to define outer borders of the '
+                            'nest park area to download.')
+    parks.add_argument('-EPf', '--ex-parks-filename',
+                       default='parks-ex',
+                       help='Filename (without .json) of ex parks JSON '
+                            'file. Useful when running multiple '
+                            'instances. Default: parks-ex-raids')
+    parks.add_argument('-NPf', '--nest-parks-filename',
+                       default='parks-nest',
+                       help='Filename (without .json) of nest parks JSON '
+                            'file. Useful when running multiple '
+                            'instances. Default: parks-nests')
+    parks.add_argument('-Pt', '--parks-query-timeout',
+                       type=int, default=86400,
+                       help='The maximum allowed runtime for the parks query '
+                            'in seconds.')
 
     args = parser.parse_args()
+    dargs = vars(args)
+
+    if access_config is not None:
+        valid_access_args = [
+            'location', 'map_title', 'no_header_image', 'header_image',
+            'madmin_url', 'donate_url', 'patreon_url', 'discord_url',
+            'messenger_url', 'telegram_url', 'whatsapp_url', 'max_zoom_level',
+            'cluster_zoom_level', 'cluster_zoom_level_mobile',
+            'max_cluster_radius', 'spiderfy_clusters', 'lock_start_marker',
+            'no_pokemon', 'no_pokemon_values', 'rarity', 'upscaled_pokemon',
+            'no_pokemon_history_page', 'verified_despawn_time',
+            'show_all_zoom_level', 'pokemon_cries', 'no_gyms',
+            'no_gym_sidebar', 'no_gym_filters', 'no_raids', 'no_raid_filters',
+            'black_white_badges', 'no_pokestops', 'no_quests', 'no_quest_page',
+            'no_invasions', 'no_lures', 'no_weather', 'no_spawnpoints',
+            'no_s2_cells', 'no_ranges', 'ex_parks', 'nest_parks',
+            'ex_parks_filename', 'nest_parks_filename', 'no_stats_sidebar',
+            'twelve_hour_clock', 'analytics_id', 'map_update_interval', 'motd',
+            'motd_title', 'motd_text', 'motd_pages', 'show_motd_always'
+        ]
+
+        default_config_files = [os.getenv('POGOMAP_CONFIG', os.path.join(
+            os.path.dirname(__file__), '../config/' + access_config))]
+        access_parser = configargparse.ArgParser(
+            default_config_files=default_config_files)
+
+        access_args = access_parser.parse_known_args()[1]
+        for a in access_args:
+            if '=' not in a:
+                # Command line arg.
+                continue
+            arg = a[2:].split('=')[0].replace('-', '_')
+            if arg not in valid_access_args:
+                log.warning('Argument %s is not a valid access argument.', arg)
+                continue
+            value = a.split('=')[1]
+            default = parser.get_default(arg)
+            if value == 'None':
+                dargs[arg] = None
+            elif isinstance(default, bool):
+                if value in ['True', 'true', '1']:
+                    dargs[arg] = True
+                elif value in ['False', 'false', '0']:
+                    dargs[arg] = False
+            elif isinstance(default, int):
+                dargs[arg] = int(value)
+            elif isinstance(default, float):
+                dargs[arg] = float(value)
+            elif isinstance(default, list):
+                dargs[arg] = value.strip('][').split(', ')
+            else:
+                dargs[arg] = value
+
+    args.root_path = os.getcwd()
+    args.data_dir = 'static/dist/data'
+    args.locales_dir = 'static/dist/locales'
 
     # Allow status name and date formatting in log filename.
     args.log_filename = strftime(args.log_filename)
     args.log_filename = args.log_filename.replace('<sn>', '<SN>')
     args.log_filename = args.log_filename.replace('<SN>', args.status_name)
 
-    if args.location is None:
-        parser.print_usage()
-        print((sys.argv[0] + ': error: argument -l/--location is required.'))
-        sys.exit(1)
+    position = extract_coordinates(args.location)
+    args.center_lat = position[0]
+    args.center_lng = position[1]
 
     if args.discord_auth:
         args.server_uri = args.server_uri.rstrip('/')
         if len(args.secret_key) < 16:
             parser.print_usage()
-            print((sys.argv[0] + ': error: argument -CAs/--secret-key must be '
-                   'at least 16 characters long.'))
+            print(sys.argv[0] + ': error: argument -CAs/--secret-key must be '
+                  'at least 16 characters long.')
             sys.exit(1)
         args.client_auth = True
     else:
         args.client_auth = False
 
-    args.locales_dir = 'static/dist/locales'
-    args.data_dir = 'static/dist/data'
+    if access_config is not None:
+        arg_cache[access_config] = args
+    else:
+        arg_cache['default_args'] = args
 
     return args
-
-
-def init_dynamic_images(args):
-    if args.generate_images:
-        executable = determine_imagemagick_binary()
-        if executable:
-            dyn_img.generate_images = True
-            dyn_img.imagemagick_executable = executable
-            log.info("Generating icons using ImageMagick " +
-                     "executable '{}'.".format(executable))
-
-            if args.pogo_assets:
-                decr_assets_dir = os.path.join(args.pogo_assets,
-                                               'pokemon_icons')
-                if os.path.isdir(decr_assets_dir):
-                    log.info("Using PogoAssets repository at '{}'".format(
-                        args.pogo_assets))
-                    dyn_img.pogo_assets = args.pogo_assets
-                else:
-                    log.error(("Could not find PogoAssets repository at '{}'. "
-                               "Clone via 'git clone -depth 1 "
-                               "https://github.com/ZeChrales/PogoAssets.git'")
-                              .format(args.pogo_assets))
-        else:
-            log.error("Could not find ImageMagick executable. Make sure "
-                      "you can execute either 'magick' (ImageMagick 7)"
-                      " or 'convert' (ImageMagick 6) from the commandline. "
-                      "Otherwise you cannot use --generate-images")
-            sys.exit(1)
-
-
-def is_imagemagick_binary(binary):
-    try:
-        process = subprocess.Popen([binary, '-version'],
-                                   stdout=subprocess.PIPE)
-        out, err = process.communicate()
-        return "ImageMagick" in out.decode('utf8')
-    except Exception as e:
-        return False
-
-
-def determine_imagemagick_binary():
-    candidates = {
-        'magick': 'magick convert',
-        'convert': None
-    }
-    for c in candidates:
-        if is_imagemagick_binary(c):
-            return candidates[c] if candidates[c] else c
-    return None
 
 
 def now():
@@ -548,6 +576,23 @@ def date_secs(d):
 def clock_between(start, test, end):
     return ((start <= test <= end and start < end) or
             (not (end <= test <= start) and start > end))
+
+
+def extract_coordinates(location):
+    # Use lat/lng directly if matches such a pattern.
+    prog = re.compile("^(\-?\d+\.\d+),?\s?(\-?\d+\.\d+)$")
+    res = prog.match(location)
+    if res:
+        log.debug('Using coordinates from CLI directly')
+        position = (float(res.group(1)), float(res.group(2)), 0)
+    else:
+        log.debug('Looking up coordinates in API')
+        position = get_pos_by_name(location)
+
+    if position is None or not any(position):
+        log.error("Location not found: '{}'".format(location))
+        sys.exit()
+    return position
 
 
 # Return the s2sphere cellid token from a location.
@@ -804,14 +849,8 @@ def periodic_loop(f, loop_delay_ms):
 
 
 # Periodically log resource usage every 'loop_delay_ms' ms.
-def log_resource_usage_loop(main_pid, loop_delay_ms=60000):
+def log_resource_usage_loop(loop_delay_ms=60000):
     args = get_args()
-    if not args.development_server:
-        # Wait until all processes have spawned.
-        time.sleep(10)
-        # Only run thread in main process.
-        if main_pid != os.getpid():
-            return
 
     # Helper method to log to specific log level.
     def log_resource_usage_to_debug():
@@ -971,18 +1010,12 @@ def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     return spawn_group
 
 
-def dynamic_rarity_refresher(db, main_pid):
+def dynamic_rarity_refresher():
     args = get_args()
-    if not args.development_server:
-        # Wait until all processes have spawned.
-        time.sleep(10)
-        # Only run thread in main process.
-        if main_pid != os.getpid():
-            return
 
-    # If we import at the top, pogom.models will import pogom.utils,
+    # If we import at the top, rocketmad.models will import rocketmad.utils,
     # causing the cyclic import to make some things unavailable.
-    from pogom.models import Pokemon
+    from .models import db, Pokemon
 
     # Refresh every x hours.
     hours = args.rarity_hours
@@ -1061,7 +1094,7 @@ def parse_geofence_file(geofence_file):
 
     return geofences
 
-@lru_cache(maxsize=None)
+@lru_cache()
 def get_utc_timedelta():
     ts = time.time()
     today = datetime.today()
