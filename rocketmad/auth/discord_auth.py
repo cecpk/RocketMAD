@@ -78,7 +78,7 @@ class DiscordAuth(OAuth2Base):
                 guild_id = elem.split(':')[0]
                 role_id = elem.split(':')[1]
                 config_name = elem.split(':')[2]
-            self.access_configs.append((role_id, guild_id, config_name))
+            self.access_configs.append((guild_id, role_id, config_name))
 
     def get_authorization_url(self):
         session['state'] = str(uuid.uuid4())
@@ -241,8 +241,8 @@ class DiscordAuth(OAuth2Base):
 
         access_config_name = None
         for elem in self.access_configs:
-            role_id = elem[0]
-            guild_id = elem[1]
+            guild_id = elem[0]
+            role_id = elem[1]
             config_name = elem[2]
 
             if role_id is not None:

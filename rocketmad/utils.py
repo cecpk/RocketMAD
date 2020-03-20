@@ -510,7 +510,8 @@ def get_args(access_config=None):
                 continue
             arg = a[2:].split('=')[0].replace('-', '_')
             if arg not in valid_access_args:
-                log.warning('Argument %s is not a valid access argument.', arg)
+                log.warning('Argument %s is not a valid access argument.',
+                            a[2:].split('=')[0])
                 continue
             value = a.split('=')[1]
             default = parser.get_default(arg)
