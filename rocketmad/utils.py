@@ -491,10 +491,11 @@ def get_args(access_config=None):
             'no_gym_sidebar', 'no_gym_filters', 'no_raids', 'no_raid_filters',
             'black_white_badges', 'no_pokestops', 'no_quests', 'no_quest_page',
             'no_invasions', 'no_lures', 'no_weather', 'no_spawnpoints',
-            'no_s2_cells', 'no_ranges', 'ex_parks', 'nest_parks',
-            'ex_parks_filename', 'nest_parks_filename', 'no_stats_sidebar',
-            'twelve_hour_clock', 'analytics_id', 'map_update_interval', 'motd',
-            'motd_title', 'motd_text', 'motd_pages', 'show_motd_always'
+            'no_scanned_locs', 'no_s2_cells', 'no_ranges', 'ex_parks',
+            'nest_parks', 'ex_parks_filename', 'nest_parks_filename',
+            'no_stats_sidebar', 'twelve_hour_clock', 'analytics_id',
+            'map_update_interval', 'motd', 'motd_title', 'motd_text',
+            'motd_pages', 'show_motd_always'
         ]
 
         default_config_files = [os.getenv('POGOMAP_CONFIG', os.path.join(
