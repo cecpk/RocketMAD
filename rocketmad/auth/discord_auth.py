@@ -198,8 +198,9 @@ class DiscordAuth(OAuth2Base):
         user_guilds = self._get_guilds()
         user_roles = {}
         for guild_id in self.fetch_role_guilds:
-            roles = self._get_roles(guild_id, session['id'])
-            user_roles[guild_id] = roles
+            if guild_id in user_guilds:
+                roles = self._get_roles(guild_id, session['id'])
+                user_roles[guild_id] = roles
 
         # Check required guilds.
         in_required_guild = False
