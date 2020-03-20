@@ -78,6 +78,8 @@ class DiscordAuth(OAuth2Base):
                 guild_id = elem.split(':')[0]
                 role_id = elem.split(':')[1]
                 config_name = elem.split(':')[2]
+                if guild_id not in self.fetch_role_guilds:
+                    self.fetch_role_guilds.append(guild_id)
             self.access_configs.append((guild_id, role_id, config_name))
 
     def get_authorization_url(self):
