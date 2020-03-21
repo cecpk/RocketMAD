@@ -9,6 +9,7 @@ import sys
 import time
 
 from datetime import datetime, timedelta
+from flask_sqlalchemy import SQLAlchemy
 from functools import reduce
 from peewee import (Check, SQL, SmallIntegerField, IntegerField, CharField,
                     DoubleField, BooleanField, DateTimeField, fn, FloatField,
@@ -17,6 +18,10 @@ from peewee import (Check, SQL, SmallIntegerField, IntegerField, CharField,
 from playhouse.flask_utils import FlaskDB
 from playhouse.migrate import migrate, MySQLMigrator
 from playhouse.pool import PooledMySQLDatabase
+from sqlalchemy import func, Index
+from sqlalchemy.dialects.mysql import BIGINT, DOUBLE
+from sqlalchemy.orm import Load, load_only
+from sqlalchemy.sql.expression import and_
 from timeit import default_timer
 
 from .transform import transform_from_wgs_to_gcj
@@ -26,7 +31,9 @@ from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
 log = logging.getLogger(__name__)
 args = get_args()
 
-db = PooledMySQLDatabase(
+db = SQLAlchemy()
+
+_db = PooledMySQLDatabase(
     args.db_name,
     user=args.db_user,
     password=args.db_pass,
@@ -78,7 +85,262 @@ class LatLongModel(BaseModel):
         return results
 
 
-class Pokemon(LatLongModel):
+class Pokemon(db.Model):
+    encounter_id = db.Column(BIGINT(unsigned=True), primary_key=True)
+    spawnpoint_id = db.Column(BIGINT(unsigned=True), nullable=False)
+    pokemon_id = db.Column(db.SmallInteger(), nullable=False)
+    latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    disappear_time = db.Column(db.DateTime(), nullable=False)
+    individual_attack = db.Column(db.SmallInteger())
+    individual_defense = db.Column(db.SmallInteger())
+    individual_stamina = db.Column(db.SmallInteger())
+    move_1 = db.Column(db.SmallInteger())
+    move_2 = db.Column(db.SmallInteger())
+    cp = db.Column(db.SmallInteger())
+    cp_multiplier = db.Column(db.Float())
+    weight = db.Column(db.Float())
+    height = db.Column(db.Float())
+    gender = db.Column(db.SmallInteger())
+    form = db.Column(db.SmallInteger())
+    costume = db.Column(db.SmallInteger())
+    catch_prob_1 = db.Column(DOUBLE())
+    catch_prob_2 = db.Column(DOUBLE())
+    catch_prob_3 = db.Column(DOUBLE())
+    rating_attack = db.Column(
+        db.String(length=2, collation='utf8mb4_unicode_ci'))
+    rating_defense = db.Column(
+        db.String(length=2, collation='utf8mb4_unicode_ci'))
+    weather_boosted_condition = db.Column(db.SmallInteger())
+    last_modified = db.Column(db.DateTime())
+
+    __table_args__ = (
+        Index('pokemon_spawnpoint_id', 'spawnpoint_id'),
+        Index('pokemon_pokemon_id', 'pokemon_id'),
+        Index('pokemon_last_modified', 'last_modified'),
+        Index('pokemon_latitude_longitude', 'latitude', 'longitude'),
+        Index('pokemon_disappear_time_pokemon_id', 'disappear_time',
+              'pokemon_id'),
+    )
+
+    @staticmethod
+    def get_active(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                   oNeLat=None, oNeLng=None, timestamp=0, eids=None, ids=None,
+                   verified_despawn_time=False):
+        columns = [
+            'encounter_id', 'pokemon_id', 'latitude', 'longitude',
+            'disappear_time', 'individual_attack', 'individual_defense',
+            'individual_stamina', 'move_1', 'move_2', 'cp', 'cp_multiplier',
+            'weight', 'height', 'gender', 'form', 'costume',
+            'weather_boosted_condition', 'last_modified'
+        ]
+
+        if verified_despawn_time:
+            query = (
+                db.session.query(Pokemon, TrsSpawn)
+                .outerjoin(TrsSpawn,
+                           Pokemon.spawnpoint_id == TrsSpawn.spawnpoint)
+                .options(
+                    Load(Pokemon).load_only(*columns),
+                    Load(TrsSpawn).load_only('calc_endminsec'))
+            )
+        else:
+            query = Pokemon.query.options(load_only(*columns))
+
+        if eids:
+            query = query.filter(Pokemon.pokemon_id.notin_(eids))
+        elif ids:
+            query = query.filter(Pokemon.pokemon_id.in_(ids))
+
+        if not (swLat and swLng and neLat and neLng):
+            query = query.filter(Pokemon.disappear_time > datetime.utcnow())
+        elif timestamp > 0:
+            # If timestamp is known only load modified Pokémon.
+            query = query.filter(
+                Pokemon.last_modified > datetime.utcfromtimestamp(
+                    timestamp / 1000),
+                Pokemon.disappear_time > datetime.utcnow(),
+                Pokemon.latitude >= swLat,
+                Pokemon.longitude >= swLng,
+                Pokemon.latitude <= neLat,
+                Pokemon.longitude <= neLng
+            )
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send Pokémon in view but exclude those within old boundaries.
+            # Only send newly uncovered Pokemon.
+            query = query.filter(
+                Pokemon.disappear_time > datetime.utcnow(),
+                Pokemon.latitude >= swLat,
+                Pokemon.longitude >= swLng,
+                Pokemon.latitude <= neLat,
+                Pokemon.longitude <= neLng,
+                ~and_(
+                    Pokemon.latitude >= oSwLat,
+                    Pokemon.longitude >= oSwLng,
+                    Pokemon.latitude <= oNeLat,
+                    Pokemon.longitude <= oNeLng
+                )
+            )
+        else:
+            query = query.filter(
+                Pokemon.disappear_time > datetime.utcnow(),
+                Pokemon.latitude >= swLat,
+                Pokemon.longitude >= swLng,
+                Pokemon.latitude <= neLat,
+                Pokemon.longitude <= neLng
+            )
+
+        result = query.all()
+        if verified_despawn_time:
+            pokemons = []
+            for r in result:
+                pokemon = r[0]
+                spawnpoint = r[1]
+                pokemon.verified_disappear_time = spawnpoint.calc_endminsec
+                pokemons.append(orm_to_dict(pokemon))
+        else:
+            pokemons = orm_to_dict(result)
+
+        return pokemons
+
+    # Get all Pokémon spawn counts based on the last x hours.
+    # More efficient than get_seen(): we don't do any unnecessary mojo.
+    # Returns a dict:
+    #   { 'pokemon': [ (1, 2), (2, 3) ], 'total': 5 }.
+    @staticmethod
+    def get_spawn_counts(hours):
+        query = Pokemon.query.with_entities(
+            Pokemon.pokemon_id, func.count(Pokemon.pokemon_id))
+
+        # Allow 0 to query everything.
+        if hours:
+            hours = datetime.utcnow() - timedelta(hours=hours)
+            query = query.filter(Pokemon.disappear_time > hours)
+
+        result = query.group_by(Pokemon.pokemon_id).all()
+
+        total = sum(count for id, count in result)
+
+        return {'pokemon': result, 'total': total}
+
+    @staticmethod
+    def get_seen(timediff=0):
+        if timediff:
+            timediff = datetime.utcnow() - timedelta(hours=timediff)
+
+        query = (
+            db.session.query(Pokemon, func.count(Pokemon.pokemon_id),
+                             func.max(Pokemon.disappear_time))
+            .options(load_only('pokemon_id', 'form'))
+            .filter(Pokemon.disappear_time > timediff)
+            .group_by(Pokemon.pokemon_id, Pokemon.form)
+        )
+
+        result = query.all()
+        pokemon = []
+        total = 0
+        for p in result:
+            poke = p[0]
+            count = p[1]
+            disappear_time = p[2]
+            poke.count = count
+            poke.disappear_time = disappear_time
+            pokemon.append(orm_to_dict(poke))
+            total += count
+
+        return { 'pokemon': pokemon, 'total': total }
+
+    @staticmethod
+    def get_appearances(pokemon_id, form_id=None, timediff=0):
+        '''
+        :param pokemon_id: id of Pokémon that we need appearances for
+        :param form_id: id of form that we need appearances for
+        :param timediff: limiting period of the selection
+        :return: list of Pokémon appearances over a selected period
+        '''
+        if timediff:
+            timediff = datetime.utcnow() - timedelta(hours=timediff)
+
+        columns = ['latitude', 'longitude', 'pokemon_id', 'form',
+                   'spawnpoint_id']
+        query = (
+            db.session.query(Pokemon, func.count(Pokemon.pokemon_id))
+            .options(load_only(*columns))
+            .filter(
+                Pokemon.pokemon_id == pokemon_id,
+                Pokemon.disappear_time > timediff
+            )
+        )
+        if form_id is not None:
+            query = query.filter(Pokemon.form == form_id)
+        query = query.group_by(
+            Pokemon.latitude, Pokemon.longitude, Pokemon.pokemon_id,
+            Pokemon.form, Pokemon.spawnpoint_id
+        )
+
+        result = query.all()
+        appearances = []
+        for r in result:
+            pokemon = r[0]
+            count = r[1]
+            pokemon.count = count
+            appearances.append(orm_to_dict(pokemon))
+
+        return appearances
+
+    @staticmethod
+    def get_appearances_times_by_spawnpoint(pokemon_id, spawnpoint_id,
+                                            form_id=None, timediff=0):
+        '''
+        :param pokemon_id: id of Pokemon that we need appearances times for.
+        :param spawnpoint_id: spawnpoint id we need appearances times for.
+        :param timediff: limiting period of the selection.
+        :return: list of time appearances over a selected period.
+        '''
+        if timediff:
+            timediff = datetime.utcnow() - timedelta(hours=timediff)
+
+        query = (
+            Pokemon.query.with_entities(Pokemon.disappear_time)
+            .filter(
+                Pokemon.pokemon_id == pokemon_id,
+                Pokemon.spawnpoint_id == spawnpoint_id,
+                Pokemon.disappear_time > timediff
+            )
+        )
+        if form_id is not None:
+            query = query.filter_by(form = form_id)
+        query = query.order_by(Pokemon.disappear_time)
+
+        result = query.all()
+        appearances = [a[0] for a in result]
+
+        return appearances
+
+
+class TrsSpawn(db.Model):
+    spawnpoint = db.Column(
+        db.String(length=16, collation='utf8mb4_unicode_ci'), primary_key=True,
+        nullable=False)
+    latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    spawndef = db.Column(db.Integer, default=240, nullable=False)
+    earliest_unseen = db.Column(db.Integer, nullable=False)
+    last_scanned = db.Column(db.DateTime())
+    first_detection = db.Column(
+        db.DateTime(), default=datetime.now(), nullable=False)
+    last_non_scanned = db.Column(db.DateTime())
+    calc_endminsec = db.Column(
+        db.String(length=5, collation='utf8mb4_unicode_ci'))
+    eventid = db.Column(db.Integer, default=1, nullable=False)
+
+    __table_args__ = (
+        Index('spawnpoint_2', 'spawnpoint', unique=True),
+        Index('spawnpoint', 'spawnpoint'),
+    )
+
+
+class PokemonOld(LatLongModel):
     # We are base64 encoding the ids delivered by the api
     # because they are too big for sqlite to handle.
     encounter_id = UBigIntegerField(primary_key=True)
@@ -711,7 +973,7 @@ class ScannedLocation(LatLongModel):
         return list(query)
 
 
-class Trs_Spawn(LatLongModel):
+class Trs_SpawnOld(LatLongModel):
     spawnpoint = Utf8mb4CharField(primary_key=True, max_length=16, index=True)
     latitude = DoubleField()
     longitude = DoubleField()
@@ -888,6 +1150,19 @@ class Versions(BaseModel):
 
     class Meta:
         primary_key = False
+
+
+def orm_to_dict(orm_result):
+    if isinstance(orm_result, list):
+        result = []
+        for r in orm_result:
+            dict = r.__dict__
+            del dict['_sa_instance_state']
+            result.append(dict)
+    else:
+        result = orm_result.__dict__
+        del result['_sa_instance_state']
+    return result
 
 
 def clean_db_loop():

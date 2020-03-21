@@ -1042,8 +1042,8 @@ def dynamic_rarity_refresher():
         rarities = {}
 
         for poke in pokemon:
-            rarities[poke['pokemon_id']] = get_pokemon_rarity(total,
-                                                              poke['count'])
+            id, count = poke
+            rarities[id] = get_pokemon_rarity(total, count)
 
         # Save to file.
         with open(rarities_path, 'w') as outfile:

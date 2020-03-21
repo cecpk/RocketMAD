@@ -209,7 +209,7 @@ if __name__ == '__main__':
     if not validate_assets(args):
         sys.exit(1)
 
-    startup_db(args.clear_db)
+    #startup_db(args.clear_db)
 
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and
