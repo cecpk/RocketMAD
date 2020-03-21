@@ -72,6 +72,7 @@
 #motd-pages:                    # Pages the MOTD should be shown on. (default=['/', '/mobile'])
 #show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)
 
+
 # Database settings
 ###################
 
@@ -80,7 +81,6 @@
 #db-user:                       # Required for mysql
 #db-pass:                       # Required for mysql
 #db-port:                       # Required for mysql (default=3306)
-#db-threads:                    # Number of db threads; increase if the db queue falls behind. (default=1)
 
 
 #Database cleanup
