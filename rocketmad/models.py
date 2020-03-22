@@ -19,7 +19,7 @@ from playhouse.flask_utils import FlaskDB
 from playhouse.migrate import migrate, MySQLMigrator
 from playhouse.pool import PooledMySQLDatabase
 from sqlalchemy import func, Index
-from sqlalchemy.dialects.mysql import BIGINT, DOUBLE
+from sqlalchemy.dialects.mysql import BIGINT, DOUBLE, LONGTEXT, TINYINT
 from sqlalchemy.orm import Load, load_only
 from sqlalchemy.sql.expression import and_
 from timeit import default_timer
@@ -88,31 +88,31 @@ class LatLongModel(BaseModel):
 class Pokemon(db.Model):
     encounter_id = db.Column(BIGINT(unsigned=True), primary_key=True)
     spawnpoint_id = db.Column(BIGINT(unsigned=True), nullable=False)
-    pokemon_id = db.Column(db.SmallInteger(), nullable=False)
+    pokemon_id = db.Column(db.SmallInteger, nullable=False)
     latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
     longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
-    disappear_time = db.Column(db.DateTime(), nullable=False)
-    individual_attack = db.Column(db.SmallInteger())
-    individual_defense = db.Column(db.SmallInteger())
-    individual_stamina = db.Column(db.SmallInteger())
-    move_1 = db.Column(db.SmallInteger())
-    move_2 = db.Column(db.SmallInteger())
-    cp = db.Column(db.SmallInteger())
-    cp_multiplier = db.Column(db.Float())
-    weight = db.Column(db.Float())
-    height = db.Column(db.Float())
-    gender = db.Column(db.SmallInteger())
-    form = db.Column(db.SmallInteger())
-    costume = db.Column(db.SmallInteger())
-    catch_prob_1 = db.Column(DOUBLE())
-    catch_prob_2 = db.Column(DOUBLE())
-    catch_prob_3 = db.Column(DOUBLE())
+    disappear_time = db.Column(db.DateTime, nullable=False)
+    individual_attack = db.Column(db.SmallInteger)
+    individual_defense = db.Column(db.SmallInteger)
+    individual_stamina = db.Column(db.SmallInteger)
+    move_1 = db.Column(db.SmallInteger)
+    move_2 = db.Column(db.SmallInteger)
+    cp = db.Column(db.SmallInteger)
+    cp_multiplier = db.Column(db.Float)
+    weight = db.Column(db.Float)
+    height = db.Column(db.Float)
+    gender = db.Column(db.SmallInteger)
+    form = db.Column(db.SmallInteger)
+    costume = db.Column(db.SmallInteger)
+    catch_prob_1 = db.Column(DOUBLE)
+    catch_prob_2 = db.Column(DOUBLE)
+    catch_prob_3 = db.Column(DOUBLE)
     rating_attack = db.Column(
         db.String(length=2, collation='utf8mb4_unicode_ci'))
     rating_defense = db.Column(
         db.String(length=2, collation='utf8mb4_unicode_ci'))
-    weather_boosted_condition = db.Column(db.SmallInteger())
-    last_modified = db.Column(db.DateTime())
+    weather_boosted_condition = db.Column(db.SmallInteger)
+    last_modified = db.Column(db.DateTime)
 
     __table_args__ = (
         Index('pokemon_spawnpoint_id', 'spawnpoint_id'),
@@ -120,7 +120,7 @@ class Pokemon(db.Model):
         Index('pokemon_last_modified', 'last_modified'),
         Index('pokemon_latitude_longitude', 'latitude', 'longitude'),
         Index('pokemon_disappear_time_pokemon_id', 'disappear_time',
-              'pokemon_id'),
+              'pokemon_id')
     )
 
     @staticmethod
@@ -318,25 +318,162 @@ class Pokemon(db.Model):
         return appearances
 
 
+class Gym(db.Model):
+    gym_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'), primary_key=True)
+    team_id = db.Column(db.SmallInteger, default=0, nullable=False)
+    guard_pokemon_id = db.Column(db.SmallInteger, default=0, nullable=False)
+    slots_available = db.Column(db.SmallInteger, default=6, nullable=False)
+    enabled = db.Column(TINYINT, default=1, nullable=False)
+    latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    total_cp = db.Column(db.SmallInteger, default=0, nullable=False)
+    is_in_battle = db.Column(TINYINT, default=0, nullable=False)
+    gender = db.Column(db.SmallInteger)
+    form = db.Column(db.SmallInteger)
+    costume = db.Column(db.SmallInteger)
+    weather_boosted_condition = db.Column(db.SmallInteger)
+    shiny = db.Column(TINYINT)
+    last_modified = db.Column(
+        db.DateTime, default=datetime.utcnow(), nullable=False)
+    last_scanned = db.Column(
+        db.DateTime, default=datetime.utcnow(), nullable=False)
+    is_ex_raid_eligible = db.Column(TINYINT, default=0, nullable=False)
+
+    gym_details = db.relationship(
+        'GymDetails', uselist=False, backref='gym', lazy='joined',
+        cascade='delete')
+
+    __table_args__ = (
+        Index('gym_last_modified', 'last_modified'),
+        Index('gym_last_scanned', 'last_scanned'),
+        Index('gym_latitude_longitude', 'latitude', 'longitude')
+    )
+
+    @staticmethod
+    def get_gyms(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                 oNeLat=None, oNeLng=None, timestamp=0, raids=True):
+        if raids:
+            query = (
+                db.session.query(Gym, Raid)
+                .outerjoin(Raid, Gym.gym_id == Raid.gym_id)
+            )
+        else:
+            query = Gym.query
+
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
+            # If timestamp is known only send last scanned Gyms.
+            query = query.filter(
+                Gym.last_scanned > datetime.utcfromtimestamp(timestamp / 1000),
+                Gym.latitude >= swLat,
+                Gym.longitude >= swLng,
+                Gym.latitude <= neLat,
+                Gym.longitude <= neLng
+            )
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send gyms in view but exclude those within old boundaries.
+            # Only send newly uncovered gyms.
+            query = query.filter(
+                Gym.latitude >= swLat,
+                Gym.longitude >= swLng,
+                Gym.latitude <= neLat,
+                Gym.longitude <= neLng,
+                ~and_(
+                    Gym.latitude >= oSwLat,
+                    Gym.longitude >= oSwLng,
+                    Gym.latitude <= oNeLat,
+                    Gym.longitude <= oNeLng
+                )
+            )
+        else:
+            query = query.filter(
+                Gym.latitude >= swLat,
+                Gym.longitude >= swLng,
+                Gym.latitude <= neLat,
+                Gym.longitude <= neLng
+            )
+
+        result = query.all()
+        gyms = {}
+        for r in result:
+            if raids:
+                gym = r[0]
+                raid = r[1]
+            else:
+                gym = r
+                raid = None
+            gym.name = gym.gym_details.name
+            gym.url = gym.gym_details.url
+            del gym.gym_details
+            if raid is not None:
+                gym.raid = orm_to_dict(raid)
+            else:
+                gym.raid = None
+            gyms[gym.gym_id] = orm_to_dict(gym)
+
+        return gyms
+
+
+class GymDetails(db.Model):
+    __tablename__ = 'gymdetails'
+
+    gym_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'),
+        db.ForeignKey('gym.gym_id', name='fk_gd_gym_id'), primary_key=True)
+    name = db.Column(
+        db.String(length=191, collation='utf8mb4_unicode_ci'), nullable=False)
+    description = db.Column(LONGTEXT(collation='utf8mb4_unicode_ci'))
+    url = db.Column(
+        db.String(length=191, collation='utf8mb4_unicode_ci'), nullable=False)
+    last_scanned = db.Column(
+        db.DateTime, default=datetime.utcnow(), nullable=False)
+
+
+class Raid(db.Model):
+    gym_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'), primary_key=True)
+    level = db.Column(db.Integer, nullable=False)
+    spawn = db.Column(db.DateTime, nullable=False)
+    start = db.Column(db.DateTime, nullable=False)
+    end = db.Column(db.DateTime, nullable=False)
+    pokemon_id = db.Column(db.SmallInteger)
+    cp = db.Column(db.Integer)
+    move_1 = db.Column(db.SmallInteger)
+    move_2 = db.Column(db.SmallInteger)
+    last_scanned = db.Column(db.DateTime, nullable=False)
+    form = db.Column(db.SmallInteger)
+    is_exclusive = db.Column(TINYINT)
+    gender = db.Column(TINYINT)
+    costume = db.Column(TINYINT)
+
+    __table_args__ = (
+        Index('raid_level', 'level'),
+        Index('raid_spawn', 'spawn'),
+        Index('raid_start', 'start'),
+        Index('raid_end', 'end'),
+        Index('raid_last_scanned', 'last_scanned')
+    )
+
 class TrsSpawn(db.Model):
     spawnpoint = db.Column(
-        db.String(length=16, collation='utf8mb4_unicode_ci'), primary_key=True,
-        nullable=False)
+        db.String(length=16, collation='utf8mb4_unicode_ci'), primary_key=True)
     latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
     longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
     spawndef = db.Column(db.Integer, default=240, nullable=False)
     earliest_unseen = db.Column(db.Integer, nullable=False)
-    last_scanned = db.Column(db.DateTime())
+    last_scanned = db.Column(db.DateTime)
     first_detection = db.Column(
-        db.DateTime(), default=datetime.now(), nullable=False)
-    last_non_scanned = db.Column(db.DateTime())
+        db.DateTime, default=datetime.utcnow(), nullable=False)
+    last_non_scanned = db.Column(db.DateTime)
     calc_endminsec = db.Column(
         db.String(length=5, collation='utf8mb4_unicode_ci'))
     eventid = db.Column(db.Integer, default=1, nullable=False)
 
     __table_args__ = (
         Index('spawnpoint_2', 'spawnpoint', unique=True),
-        Index('spawnpoint', 'spawnpoint'),
+        Index('spawnpoint', 'spawnpoint')
     )
 
 
@@ -554,7 +691,7 @@ class PokemonOld(LatLongModel):
         return list(itertools.chain(*query))
 
 
-class Gym(LatLongModel):
+class GymOld(LatLongModel):
     gym_id = Utf8mb4CharField(primary_key=True, max_length=50)
     team_id = SmallIntegerField(default=0)
     guard_pokemon_id = SmallIntegerField(default=0)
@@ -699,7 +836,7 @@ class Gym(LatLongModel):
         return result
 
 
-class Raid(BaseModel):
+class RaidOld(BaseModel):
     gym_id = Utf8mb4CharField(primary_key=True, max_length=50)
     level = IntegerField(index=True)
     spawn = DateTimeField(index=True)
@@ -1058,7 +1195,7 @@ class Trs_SpawnOld(LatLongModel):
         return spawnpoints
 
 
-class GymDetails(BaseModel):
+class GymDetailsOld(BaseModel):
     gym_id = Utf8mb4CharField(primary_key=True, max_length=50)
     name = Utf8mb4CharField()
     description = TextField(null=True, default="")

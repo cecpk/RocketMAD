@@ -630,10 +630,6 @@ def create_app():
                     request.args.get('formid'),
                     int(request.args.get('duration'))))
 
-
-        return jsonify(d)
-
-
         gyms = (request.args.get('gyms', 'true') == 'true' and
                 not user_args.no_gyms)
         raids = (request.args.get('raids', 'true') == 'true' and
@@ -651,6 +647,10 @@ def create_app():
                                      oSwLat=oSwLat, oSwLng=oSwLng,
                                      oNeLat=oNeLat, oNeLng=oNeLng,
                                      raids=raids))
+
+
+        return jsonify(d)
+
 
         pokestops = (request.args.get('pokestops', 'true') == 'true' and
                      not user_args.no_pokestops)
