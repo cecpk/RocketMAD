@@ -648,10 +648,6 @@ def create_app():
                                      oNeLat=oNeLat, oNeLng=oNeLng,
                                      raids=raids))
 
-
-        return jsonify(d)
-
-
         pokestops = (request.args.get('pokestops', 'true') == 'true' and
                      not user_args.no_pokestops)
         pokestopsNoEvent = (request.args.get(
@@ -664,23 +660,28 @@ def create_app():
                  not user_args.no_lures)
         if (pokestops and (pokestopsNoEvent or quests or invasions or lures)):
             if lastpokestops != 'true':
-                d['pokestops'] = Pokestop.get_stops(
+                d['pokestops'] = Pokestop.get_pokestops(
                     swLat, swLng, neLat, neLng,
-                    pokestopsNoEvent=pokestopsNoEvent, quests=quests,
-                    invasions=invasions, lures=lures)
+                    eventless_stops=pokestopsNoEvent, quests=quests,
+                    invasions=invasions, lures=lures
+                )
             else:
-                d['pokestops'] = Pokestop.get_stops(
+                d['pokestops'] = Pokestop.get_pokestops(
                     swLat, swLng, neLat, neLng, timestamp=timestamp,
-                    pokestopsNoEvent=pokestopsNoEvent, quests=quests,
-                    invasions=invasions, lures=lures)
+                    eventless_stops=pokestopsNoEvent, quests=quests,
+                    invasions=invasions, lures=lures
+                )
                 if newArea:
-                    d['pokestops'].update(
-                        Pokestop.get_stops(swLat, swLng, neLat, neLng,
-                                           oSwLat=oSwLat, oSwLng=oSwLng,
-                                           oNeLat=oNeLat, oNeLng=oNeLng,
-                                           pokestopsNoEvent=pokestopsNoEvent,
-                                           quests=quests, invasions=invasions,
-                                           lures=lures))
+                    d['pokestops'].update(Pokestop.get_pokestops(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        eventless_stops=pokestopsNoEvent, quests=quests,
+                        invasions=invasions, lures=lures
+                    ))
+
+
+        return jsonify(d)
+
 
         if (request.args.get('weather', 'false') == 'true' and
                 not user_args.no_weather):
