@@ -691,6 +691,10 @@
       "978": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2332": {
+        "formName": "",
+        "assetSuffix": "16"
       }
     }
   },
@@ -2611,6 +2615,10 @@
       "904": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2334": {
+        "formName": "",
+        "assetId": "00"
       }
     }
   },
@@ -3970,6 +3978,10 @@
       },
       "198": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2333": {
+        "formName": "",
         "assetId": "00"
       }
     }
