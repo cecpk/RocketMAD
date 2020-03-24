@@ -302,7 +302,8 @@ def create_app():
             messenger_url=user_args.messenger_url,
             telegram_url=user_args.telegram_url,
             whatsapp_url=user_args.whatsapp_url,
-            quest_page=(not user_args.no_pokestops and not args.no_quests and
+            quest_page=(not user_args.no_pokestops and
+                        not user_args.no_quests and
                         not user_args.no_quest_page),
             analytics_id=user_args.analytics_id,
             settings=settings
