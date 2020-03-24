@@ -679,10 +679,6 @@ def create_app():
                         invasions=invasions, lures=lures
                     ))
 
-
-        return jsonify(d)
-
-
         if (request.args.get('weather', 'false') == 'true' and
                 not user_args.no_weather):
             if lastweather != 'true':
@@ -698,16 +694,20 @@ def create_app():
         if (request.args.get('spawnpoints', 'false') == 'true' and
                 not user_args.no_spawnpoints):
             if lastspawns != 'true':
-                d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
+                d['spawnpoints'] = TrsSpawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng)
             else:
-                d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
+                d['spawnpoints'] = TrsSpawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
                     timestamp=timestamp)
                 if newArea:
-                    d['spawnpoints'] += Trs_Spawn.get_spawnpoints(
+                    d['spawnpoints'] += TrsSpawn.get_spawnpoints(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+
+
+        return jsonify(d)
+
 
         if (request.args.get('scannedLocs', 'false') == 'true' and
                 not user_args.no_scanned_locs):
