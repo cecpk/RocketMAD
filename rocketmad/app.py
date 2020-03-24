@@ -316,7 +316,8 @@ def create_app():
 
         user_args = get_args(kwargs['access_config'])
 
-        if args.no_pokestops or args.no_quests or args.no_quest_page:
+        if (user_args.no_pokestops or user_args.no_quests or
+                user_args.no_quest_page):
             abort(403)
 
         settings = {
