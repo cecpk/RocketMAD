@@ -302,7 +302,8 @@ def create_app():
             messenger_url=user_args.messenger_url,
             telegram_url=user_args.telegram_url,
             whatsapp_url=user_args.whatsapp_url,
-            quest_page=(not user_args.no_pokestops and not args.no_quests and
+            quest_page=(not user_args.no_pokestops and
+                        not user_args.no_quests and
                         not user_args.no_quest_page),
             analytics_id=user_args.analytics_id,
             settings=settings
@@ -316,7 +317,8 @@ def create_app():
 
         user_args = get_args(kwargs['access_config'])
 
-        if args.no_pokestops or args.no_quests or args.no_quest_page:
+        if (user_args.no_pokestops or user_args.no_quests or
+                user_args.no_quest_page):
             abort(403)
 
         settings = {
