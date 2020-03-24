@@ -531,7 +531,8 @@ def get_args(access_config=None):
             else:
                 dargs[arg] = value
 
-    args.root_path = os.getcwd()
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    args.root_path = os.path.abspath(os.path.join(current_path, os.pardir))
     args.data_dir = 'static/dist/data'
     args.locales_dir = 'static/dist/locales'
 
