@@ -18,7 +18,7 @@ from peewee import (Check, SQL, SmallIntegerField, IntegerField, CharField,
 from playhouse.flask_utils import FlaskDB
 from playhouse.migrate import migrate, MySQLMigrator
 from playhouse.pool import PooledMySQLDatabase
-from sqlalchemy import func, Index
+from sqlalchemy import func, Index, text
 from sqlalchemy.dialects.mysql import BIGINT, DOUBLE, LONGTEXT, TINYINT
 from sqlalchemy.orm import Load, load_only
 from sqlalchemy.sql.expression import and_, or_
@@ -851,14 +851,13 @@ class ScannedLocation(db.Model):
         return [loc._asdict() for loc in result]
 
 
-class RmVersions(BaseModel):
-    __tablename__ = 'rmversions'
+class RmVersion(db.Model):
+    __tablename__ = 'rmversion'
 
-    key = Utf8mb4CharField()
-    val = SmallIntegerField()
-
-    class Meta:
-        primary_key = False
+    key = db.Column(
+        db.String(length=16, collation='utf8mb4_unicode_ci'), primary_key=True
+    )
+    val = db.Column(db.SmallInteger)
 
 
 def orm_to_dict(orm_result):
@@ -872,6 +871,92 @@ def orm_to_dict(orm_result):
         result = dict(orm_result.__dict__)
         del result['_sa_instance_state']
     return result
+
+
+def table_exists(table_model):
+    return db.engine.has_table(table_model.__tablename__)
+
+
+def create_table(table_model):
+    if not table_exists(table_model):
+        table_model.__table__.create(db.engine)
+
+
+def create_rm_tables():
+    tables = []
+    for table in tables:
+        if not table_exists(table):
+            log.info('Creating table: %s', table.__tablename__)
+            table.__table__.create(db.engine)
+        else:
+            log.debug('Skipping table %s, it already exists.',
+                      table.__tablename__)
+
+
+def drop_table(table_model=None, table_name=None):
+    if table_name:
+        query = 'DROP TABLE IF EXISTS {}'.format(table_name)
+        db.session.execute(text(query))
+    elif table_model and table_exists(table_model):
+        table_model.__table__.drop(db.engine)
+
+
+def drop_rm_tables():
+    tables = [RmVersion]
+    for table in tables:
+        if table_exists(table):
+            log.info('Dropping table: %s', table.__tablename__)
+            table.__table__.drop(db.engine)
+        else:
+            log.debug('Skipping table %s, it doesn\'t exist.',
+                      table.__tablename__)
+
+
+def add_column(table_model, column):
+    column_name = column.compile(dialect=db.engine.dialect)
+    column_type = column.type.compile(db.engine.dialect)
+    db.session.execute('ALTER TABLE %s ADD COLUMN %s %s'.format(
+        table_name, column_name, column_type))
+
+
+def verify_database_schema():
+    if not table_exists(RmVersion):
+        RmVersion.__table__.create(db.session.bind)
+        db_ver = RmVersion(key='schema_version', val=-1)
+        db.session.add(db_ver)
+        db.session.commit()
+        database_migrate(-1)
+    else:
+        db_ver = RmVersion.query.get('schema_version').val
+
+        if db_ver < db_schema_version:
+            if not database_migrate(db_ver):
+                log.error('Error migrating database.')
+                sys.exit(1)
+        elif db_ver > db_schema_version:
+            log.error('Your database version (%i) appears to be newer than '
+                      'the code supports (%i).', db_ver, db_schema_version)
+            log.error('Please upgrade your code base or drop all tables in '
+                      'your database.')
+            sys.exit(1)
+
+
+def database_migrate(old_ver):
+    log.info('Detected database version %i, updating to %i...',
+             old_ver, db_schema_version)
+
+    # Update database schema version.
+    db_ver = RmVersion.query.get('schema_version')
+    db_ver.val = db_schema_version
+    db.session.commit()
+
+    # Perform migrations here.
+    if old_ver < 1:
+        drop_table(table_name='rmversions')
+
+    # Always log that we're done.
+    log.info('Schema upgrade complete.')
+    return True
 
 
 def clean_db_loop():
@@ -1036,72 +1121,3 @@ def db_clean_forts(age_hours):
     time_diff = default_timer() - start_timer
     log.debug('Completed cleanup of old forts in %.6f seconds.',
               time_diff)
-
-
-def create_tables():
-    tables = []
-    with db:
-        for table in tables:
-            if not table.table_exists():
-                log.info('Creating table: %s', table.__name__)
-                db.create_tables([table], safe=True)
-            else:
-                log.debug('Skipping table %s, it already exists.',
-                table.__name__)
-
-
-def drop_tables():
-    tables = []
-    with db:
-        db.execute_sql('SET FOREIGN_KEY_CHECKS=0;')
-        for table in tables:
-            if table.table_exists():
-                log.info('Dropping table: %s', table.__name__)
-                db.drop_tables([table], safe=True)
-
-        db.execute_sql('SET FOREIGN_KEY_CHECKS=1;')
-
-
-def does_column_exist(db, table_name, column_name):
-    columns = db.get_columns(table_name)
-
-    return any(column.name == column_name for column in columns)
-
-
-def verify_database_schema():
-    if not RmVersions.table_exists():
-        with db:
-            db.create_tables([RmVersions])
-            RmVersions.create(key='schema_version', val=0)
-        database_migrate(0)
-    else:
-        with db:
-            db_ver = RmVersions.get(RmVersions.key == 'schema_version').val
-
-        if db_ver < db_schema_version:
-            if not database_migrate(db_ver):
-                log.error('Error migrating database.')
-                sys.exit(1)
-        elif db_ver > db_schema_version:
-            log.error('Your database version (%i) appears to be newer than '
-                      'the code supports (%i).', db_ver, db_schema_version)
-            log.error('Please upgrade your code base or drop all tables in '
-                      'your database.')
-            sys.exit(1)
-
-
-def database_migrate(old_ver):
-    # Update database schema version.
-    with db:
-        RmVersions.update(val=db_schema_version).where(
-            RmVersions.key == 'schema_version').execute()
-
-    log.info('Detected database version %i, updating to %i...',
-             old_ver, db_schema_version)
-
-    # Perform migrations here.
-    migrator = MySQLMigrator(db)
-
-    # Always log that we're done.
-    log.info('Schema upgrade complete.')
-    return True

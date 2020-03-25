@@ -24,7 +24,8 @@ from time import strftime
 
 from rocketmad.app import create_app
 from rocketmad.gunicorn import GunicornApplication
-from rocketmad.models import create_tables, drop_tables, verify_database_schema
+from rocketmad.models import (create_rm_tables, drop_rm_tables,
+                              verify_database_schema)
 from rocketmad.utils import get_args, get_debug_dump_link
 
 log = logging.getLogger()
@@ -81,15 +82,15 @@ def validate_assets(args):
 
 def startup_db(clear_db):
     if clear_db:
-        log.info('Clearing database')
-        drop_tables()
+        log.info('Clearing RocketMAD tables')
+        drop_rm_tables()
 
-    create_tables()
+    create_rm_tables()
     verify_database_schema()
 
     if clear_db:
         log.info('Drop and recreate is complete. Now remove -cd and restart.')
-        sys.exit()
+        sys.exit(0)
 
 
 def set_log_and_verbosity(log):
@@ -209,8 +210,6 @@ if __name__ == '__main__':
     if not validate_assets(args):
         sys.exit(1)
 
-    #startup_db(args.clear_db)
-
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and
                os.path.exists(args.ssl_privatekey))
@@ -218,6 +217,8 @@ if __name__ == '__main__':
         log.info('Web server in SSL mode.')
 
     app = create_app()
+    with app.app_context():
+        startup_db(args.clear_db)
 
     if not args.development_server:
         options = {
