@@ -705,10 +705,6 @@ def create_app():
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
-
-        return jsonify(d)
-
-
         if (request.args.get('scannedLocs', 'false') == 'true' and
                 not user_args.no_scanned_locs):
             if lastscannedlocs != 'true':

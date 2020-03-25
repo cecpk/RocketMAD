@@ -32,57 +32,7 @@ log = logging.getLogger(__name__)
 args = get_args()
 
 db = SQLAlchemy()
-
-_db = PooledMySQLDatabase(
-    args.db_name,
-    user=args.db_user,
-    password=args.db_pass,
-    host=args.db_host,
-    port=args.db_port,
-    stale_timeout=30,
-    max_connections=None,
-    charset='utf8mb4'
-)
-
 db_schema_version = 0
-
-
-# Reduction of CharField to fit max length inside 767 bytes for utf8mb4 charset
-class Utf8mb4CharField(CharField):
-    def __init__(self, max_length=191, *args, **kwargs):
-        self.max_length = max_length
-        super(CharField, self).__init__(*args, **kwargs)
-
-
-class TinyIntegerField(IntegerField):
-    field_type = 'tinyint'
-
-
-class UBigIntegerField(BigIntegerField):
-    field_type = 'bigint unsigned'
-
-
-class BaseModel(Model):
-
-    class Meta:
-        database = db
-
-    @classmethod
-    def get_all(cls):
-        return [m for m in cls.select().dicts()]
-
-
-class LatLongModel(BaseModel):
-
-    @classmethod
-    def get_all(cls):
-        results = [m for m in cls.select().dicts()]
-        if args.china:
-            for result in results:
-                result['latitude'], result['longitude'] = \
-                    transform_from_wgs_to_gcj(
-                        result['latitude'], result['longitude'])
-        return results
 
 
 class Pokemon(db.Model):
@@ -645,6 +595,96 @@ class TrsQuest(db.Model):
     )
 
 
+class Weather(db.Model):
+    s2_cell_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'), primary_key=True
+    )
+    latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    cloud_level = db.Column(db.SmallInteger)
+    rain_level = db.Column(db.SmallInteger)
+    wind_level = db.Column(db.SmallInteger)
+    snow_level = db.Column(db.SmallInteger)
+    fog_level = db.Column(db.SmallInteger)
+    wind_direction = db.Column(db.SmallInteger)
+    gameplay_weather = db.Column(db.SmallInteger)
+    severity = db.Column(db.SmallInteger)
+    warn_weather = db.Column(db.SmallInteger)
+    world_time = db.Column(db.SmallInteger)
+    last_updated = db.Column(db.DateTime)
+
+    __table_args__ = (
+        Index('weather_cloud_level', 'cloud_level'),
+        Index('weather_rain_level', 'rain_level'),
+        Index('weather_wind_level', 'wind_level'),
+        Index('weather_snow_level', 'snow_level'),
+        Index('weather_fog_level', 'fog_level'),
+        Index('weather_wind_direction', 'wind_direction'),
+        Index('weather_gameplay_weather', 'gameplay_weather'),
+        Index('weather_severity', 'severity'),
+        Index('weather_warn_weather', 'warn_weather'),
+        Index('weather_world_time', 'world_time'),
+        Index('weather_last_updated', 'last_updated'),
+    )
+
+    @staticmethod
+    def get_weather(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                    oNeLat=None, oNeLng=None, timestamp=0):
+        # We can filter by the center of a cell,
+        # this deltas can expand the viewport bounds
+        # So cells with center outside the viewport,
+        # but close to it can be rendered
+        # otherwise edges of cells that intersects
+        # with viewport won't be rendered
+        lat_delta = 0.15
+        lng_delta = 0.4
+
+        query = db.session.query(
+            Weather.s2_cell_id, Weather.latitude, Weather.longitude,
+            Weather.gameplay_weather, Weather.severity, Weather.world_time,
+            Weather.last_updated
+        )
+
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
+            # If timestamp is known only send last scanned weather.
+            query = query.filter(
+                Weather.last_updated > datetime.utcfromtimestamp(
+                    timestamp / 1000),
+                Weather.latitude >= float(swLat) - lat_delta,
+                Weather.longitude >= float(swLng) - lng_delta,
+                Weather.latitude <= float(neLat) + lat_delta,
+                Weather.longitude <= float(neLng) + lng_delta
+            )
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send weather in view but exclude those within old boundaries.
+            # Only send newly uncovered weather.
+            query = query.filter(
+                Weather.latitude >= float(swLat) - lat_delta,
+                Weather.longitude >= float(swLng) - lng_delta,
+                Weather.latitude <= float(neLat) + lat_delta,
+                Weather.longitude <= float(neLng) + lng_delta,
+                ~and_(
+                    Weather.latitude >= float(oSwLat) - lat_delta,
+                    Weather.longitude >= float(oSwLng) - lng_delta,
+                    Weather.latitude <= float(oNeLat) + lat_delta,
+                    Weather.longitude <= float(oNeLng) + lng_delta
+                )
+            )
+        else:
+            query = query.filter(
+                Weather.latitude >= float(swLat) - lat_delta,
+                Weather.longitude >= float(swLng) - lng_delta,
+                Weather.latitude <= float(neLat) + lat_delta,
+                Weather.longitude <= float(neLng) + lng_delta
+            )
+
+        result = query.all()
+
+        return [w._asdict() for w in result]
+
+
 class TrsSpawn(db.Model):
     spawnpoint = db.Column(
         db.String(length=16, collation='utf8mb4_unicode_ci'), primary_key=True
@@ -747,171 +787,73 @@ class TrsSpawn(db.Model):
         return spawnpoints
 
 
-class ScannedLocation(LatLongModel):
-    cellid = UBigIntegerField(primary_key=True)
-    latitude = DoubleField()
-    longitude = DoubleField()
-    last_modified = DateTimeField(
-        index=True, default=datetime.utcnow, null=True)
-    # Marked true when all five bands have been completed.
-    done = BooleanField(default=False)
+class ScannedLocation(db.Model):
+    __tablename__ = 'scannedlocation'
 
-    # Five scans/hour is required to catch all spawns.
-    # Each scan must be at least 12 minutes from the previous check,
-    # with a 2 minute window during which the scan can be done.
+    cellid = db.Column(BIGINT(unsigned=True), primary_key=True)
+    latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    last_modified = db.Column(db.DateTime)
 
-    # Default of -1 is for bands not yet scanned.
-    band1 = SmallIntegerField(default=-1)
-    band2 = SmallIntegerField(default=-1)
-    band3 = SmallIntegerField(default=-1)
-    band4 = SmallIntegerField(default=-1)
-    band5 = SmallIntegerField(default=-1)
-
-    # midpoint is the center of the bands relative to band 1.
-    # If band 1 is 10.4 minutes, and band 4 is 34.0 minutes, midpoint
-    # is -0.2 minutes in minsec.  Extra 10 seconds in case of delay in
-    # recording now time.
-    midpoint = SmallIntegerField(default=0)
-
-    # width is how wide the valid window is. Default is 0, max is 2 minutes.
-    # If band 1 is 10.4 minutes, and band 4 is 34.0 minutes, midpoint
-    # is 0.4 minutes in minsec.
-    width = SmallIntegerField(default=0)
-
-    class Meta:
-        indexes = ((('latitude', 'longitude'), False),)
+    __table_args__ = (
+        Index('scannedlocation_last_modified', 'last_modified'),
+        Index('scannedlocation_latitude_longitude', 'latitude', 'longitude')
+    )
 
     @staticmethod
-    def get_recent(swLat, swLng, neLat, neLng, timestamp=0, oSwLat=None,
-                   oSwLng=None, oNeLat=None, oNeLng=None):
-        activeTime = (datetime.utcnow() - timedelta(minutes=15))
-        if timestamp > 0:
-            query = (ScannedLocation
-                     .select()
-                     .where(((ScannedLocation.last_modified >=
-                              datetime.utcfromtimestamp(timestamp / 1000))) &
-                            (ScannedLocation.latitude >= swLat) &
-                            (ScannedLocation.longitude >= swLng) &
-                            (ScannedLocation.latitude <= neLat) &
-                            (ScannedLocation.longitude <= neLng))
-                     .dicts())
-        elif oSwLat and oSwLng and oNeLat and oNeLng:
-            # Send scannedlocations in view but exclude those within old
-            # boundaries. Only send newly uncovered scannedlocations.
-            query = (ScannedLocation
-                     .select()
-                     .where((((ScannedLocation.last_modified >= activeTime)) &
-                             (ScannedLocation.latitude >= swLat) &
-                             (ScannedLocation.longitude >= swLng) &
-                             (ScannedLocation.latitude <= neLat) &
-                             (ScannedLocation.longitude <= neLng)) & ~
-                            (((ScannedLocation.last_modified >= activeTime)) &
-                             (ScannedLocation.latitude >= oSwLat) &
-                             (ScannedLocation.longitude >= oSwLng) &
-                             (ScannedLocation.latitude <= oNeLat) &
-                             (ScannedLocation.longitude <= oNeLng)))
-                     .dicts())
-        else:
-            query = (ScannedLocation
-                     .select()
-                     .where((ScannedLocation.last_modified >= activeTime) &
-                            (ScannedLocation.latitude >= swLat) &
-                            (ScannedLocation.longitude >= swLng) &
-                            (ScannedLocation.latitude <= neLat) &
-                            (ScannedLocation.longitude <= neLng))
-                     .order_by(ScannedLocation.last_modified.asc())
-                     .dicts())
+    def get_recent(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                   oNeLat=None, oNeLng=None, timestamp=0):
+        query = db.session.query(
+            ScannedLocation.cellid, ScannedLocation.latitude,
+            ScannedLocation.longitude, ScannedLocation.last_modified
+        )
 
-        return list(query)
-
-
-class GymDetailsOld(BaseModel):
-    gym_id = Utf8mb4CharField(primary_key=True, max_length=50)
-    name = Utf8mb4CharField()
-    description = TextField(null=True, default="")
-    url = Utf8mb4CharField()
-    last_scanned = DateTimeField(default=datetime.utcnow)
-
-
-class Weather(BaseModel):
-    s2_cell_id = Utf8mb4CharField(primary_key=True, max_length=50)
-    latitude = DoubleField()
-    longitude = DoubleField()
-    cloud_level = SmallIntegerField(null=True, index=True)
-    rain_level = SmallIntegerField(null=True, index=True)
-    wind_level = SmallIntegerField(null=True, index=True)
-    snow_level = SmallIntegerField(null=True, index=True)
-    fog_level = SmallIntegerField(null=True, index=True)
-    wind_direction = SmallIntegerField(null=True, index=True)
-    gameplay_weather = SmallIntegerField(null=True, index=True)
-    severity = SmallIntegerField(null=True, index=True)
-    warn_weather = SmallIntegerField(null=True, index=True)
-    world_time = SmallIntegerField(null=True, index=True)
-    last_updated = DateTimeField(default=datetime.utcnow,
-                                 null=True, index=True)
-
-    @staticmethod
-    def get_weather(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
-                    oNeLat=None, oNeLng=None, timestamp=0):
-        # We can filter by the center of a cell,
-        # this deltas can expand the viewport bounds
-        # So cells with center outside the viewport,
-        # but close to it can be rendered
-        # otherwise edges of cells that intersects
-        # with viewport won't be rendered
-        lat_delta = 0.15
-        lng_delta = 0.4
-
-        query = (Weather
-                 .select(Weather.s2_cell_id, Weather.latitude,
-                         Weather.longitude, Weather.gameplay_weather,
-                         Weather.severity, Weather.world_time,
-                         Weather.last_updated))
+        active_time = datetime.utcnow() - timedelta(minutes=15)
 
         if not (swLat and swLng and neLat and neLng):
-            pass
+            query = query.filter(ScannedLocation.last_modified >= active_time)
         elif timestamp > 0:
-            # If timestamp is known only send last scanned Weather.
-            query = (query
-                     .where((Weather.last_updated >
-                             datetime.utcfromtimestamp(timestamp / 1000)) &
-                            (Weather.latitude >= float(swLat) - lat_delta) &
-                            (Weather.longitude >= float(swLng) - lng_delta) &
-                            (Weather.latitude <= float(neLat) + lat_delta) &
-                            (Weather.longitude <= float(neLng) + lng_delta)))
+            query = query.filter(
+                ScannedLocation.last_modified >= datetime.utcfromtimestamp(
+                    timestamp / 1000),
+                ScannedLocation.latitude >= swLat,
+                ScannedLocation.longitude >= swLng,
+                ScannedLocation.latitude <= neLat,
+                ScannedLocation.longitude <= neLng
+            )
         elif oSwLat and oSwLng and oNeLat and oNeLng:
-            # Send weather in view but exclude those within old boundaries.
-            # Only send newly uncovered weather.
-            query = (query
-                     .where(
-                         ((Weather.latitude >= float(swLat) - lat_delta) &
-                          (Weather.longitude >= float(swLng) - lng_delta) &
-                          (Weather.latitude <= float(neLat) + lat_delta) &
-                          (Weather.longitude <= float(neLng) + lng_delta)) & ~
-                         ((Weather.latitude >= float(oSwLat) - lat_delta) &
-                          (Weather.longitude >= float(oSwLng) - lng_delta) &
-                          (Weather.latitude <= float(oNeLat) + lat_delta) &
-                          (Weather.longitude <= float(oNeLng) + lng_delta))))
-
+            # Send scanned locations in view but exclude those within old
+            # boundaries. Only send newly uncovered scanned locations.
+            query = query.filter(
+                ScannedLocation.last_modified >= active_time,
+                ScannedLocation.latitude >= swLat,
+                ScannedLocation.longitude >= swLng,
+                ScannedLocation.latitude <= neLat,
+                ScannedLocation.longitude <= neLng,
+                ~and_(
+                    ScannedLocation.latitude >= oSwLat,
+                    ScannedLocation.longitude >= oSwLng,
+                    ScannedLocation.latitude <= oNeLat,
+                    ScannedLocation.longitude <= oNeLng
+                )
+            )
         else:
-            query = (query
-                     .where((Weather.latitude >= float(swLat) - lat_delta) &
-                            (Weather.longitude >= float(swLng) - lng_delta) &
-                            (Weather.latitude <= float(neLat) + lat_delta) &
-                            (Weather.longitude <= float(neLng) + lng_delta)))
+            query = query.filter(
+                ScannedLocation.last_modified >= active_time,
+                ScannedLocation.latitude >= swLat,
+                ScannedLocation.longitude >= swLng,
+                ScannedLocation.latitude <= neLat,
+                ScannedLocation.longitude <= neLng
+            )
 
-        return list(query.dicts())
+        result = query.all()
+
+        return [loc._asdict() for loc in result]
 
 
 class RmVersions(BaseModel):
-    key = Utf8mb4CharField()
-    val = SmallIntegerField()
+    __tablename__ = 'rmversions'
 
-    class Meta:
-        primary_key = False
-
-
-class Versions(BaseModel):
     key = Utf8mb4CharField()
     val = SmallIntegerField()
 
