@@ -14,6 +14,7 @@ import logging
 from colorlog import ColoredFormatter
 from threading import Thread
 
+from rocketmad.app import create_app
 from rocketmad.models import clean_db_loop
 from rocketmad.parks import download_ex_parks, download_nest_parks
 from rocketmad.utils import dynamic_rarity_refresher, get_args
@@ -83,6 +84,8 @@ def set_log_and_verbosity(log):
 if __name__ == '__main__':
     set_log_and_verbosity(log)
 
+    app = create_app()
+
     # Database cleanup.
     if args.db_cleanup:
         log.info('Database cleanup is enabled.')
@@ -94,7 +97,8 @@ if __name__ == '__main__':
     # Dynamic rarity.
     if args.rarity_update_frequency:
         log.info('Dynamic rarity updating is enabled.')
-        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity')
+        t = Thread(target=dynamic_rarity_refresher, name='dynamic-rarity',
+                   args=(app,))
         t.start()
     else:
         log.info('Dynamic rarity updating is disabled.')

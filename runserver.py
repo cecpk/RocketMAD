@@ -210,15 +210,15 @@ if __name__ == '__main__':
     if not validate_assets(args):
         sys.exit(1)
 
+    app = create_app()
+    with app.app_context():
+        startup_db(args.clear_db)
+
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and
                os.path.exists(args.ssl_privatekey))
     if use_ssl:
         log.info('Web server in SSL mode.')
-
-    app = create_app()
-    with app.app_context():
-        startup_db(args.clear_db)
 
     if not args.development_server:
         options = {

@@ -1012,12 +1012,12 @@ def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     return spawn_group
 
 
-def dynamic_rarity_refresher():
+def dynamic_rarity_refresher(app):
     args = get_args()
 
     # If we import at the top, rocketmad.models will import rocketmad.utils,
     # causing the cyclic import to make some things unavailable.
-    from .models import db, Pokemon
+    from .models import Pokemon
 
     # Refresh every x hours.
     hours = args.rarity_hours
@@ -1033,7 +1033,7 @@ def dynamic_rarity_refresher():
         log.info('Updating dynamic rarity...')
 
         start = default_timer()
-        with db:
+        with app.app_context():
             db_rarities = Pokemon.get_spawn_counts(hours)
         total = db_rarities['total']
         pokemon = db_rarities['pokemon']
@@ -1042,7 +1042,8 @@ def dynamic_rarity_refresher():
         rarities = {}
 
         for poke in pokemon:
-            id, count = poke
+            id = poke['pokemon_id']
+            count = poke['count']
             rarities[id] = get_pokemon_rarity(total, count)
 
         # Save to file.
