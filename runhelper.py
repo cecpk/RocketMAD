@@ -89,7 +89,7 @@ if __name__ == '__main__':
     # Database cleanup.
     if args.db_cleanup:
         log.info('Database cleanup is enabled.')
-        t = Thread(target=clean_db_loop, name='db-cleaner')
+        t = Thread(target=clean_db_loop, name='db-cleaner', args=(app,))
         t.start()
     else:
         log.info('Database cleanup is disabled.')

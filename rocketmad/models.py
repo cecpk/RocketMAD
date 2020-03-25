@@ -959,12 +959,15 @@ def database_migrate(old_ver):
     return True
 
 
-def clean_db_loop():
+def clean_db_loop(app):
     # Run regular database cleanup once every minute.
     regular_cleanup_secs = 60
     # Run full database cleanup once every 10 minutes.
     full_cleanup_timer = default_timer()
     full_cleanup_secs = 600
+    with app.app_context():
+        db_cleanup_regular()
+    return
     while True:
         try:
             db_cleanup_regular()
@@ -1009,12 +1012,10 @@ def db_cleanup_regular():
     start_timer = default_timer()
 
     now = datetime.utcnow()
-    with db:
-        # Remove active modifier from expired lured pokestops.
-        query = (Pokestop
-                 .update(lure_expiration=None, active_fort_modifier=None)
-                 .where(Pokestop.lure_expiration < now))
-        query.execute()
+    # Remove active modifier from expired lured PokéStops.
+    Pokestop.query.filter(Pokestop.lure_expiration < datetime.utcnow()).update(
+        dict(lure_expiration=None, active_fort_modifier=None))
+    db.session.commit()
 
     time_diff = default_timer() - start_timer
     log.debug('Completed regular cleanup in %.6f seconds.', time_diff)
