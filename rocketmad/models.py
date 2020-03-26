@@ -1012,9 +1012,17 @@ def db_cleanup_regular():
     start_timer = default_timer()
 
     now = datetime.utcnow()
-    # Remove active modifier from expired lured PokéStops.
-    Pokestop.query.filter(Pokestop.lure_expiration < datetime.utcnow()).update(
-        dict(lure_expiration=None, active_fort_modifier=None))
+
+    # Remove expired lure data.
+    Pokestop.query.filter(Pokestop.lure_expiration < now).update(
+        dict(lure_expiration=None, active_fort_modifier=None)
+    )
+    db.session.commit()
+
+    # Remove expired invasion data.
+    Pokestop.query.filter(Pokestop.incident_expiration < now).update(
+        dict(incident_expiration=None, incident_grunt_type=None)
+    )
     db.session.commit()
 
     time_diff = default_timer() - start_timer
