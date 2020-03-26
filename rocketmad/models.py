@@ -11,13 +11,6 @@ import time
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from functools import reduce
-from peewee import (Check, SQL, SmallIntegerField, IntegerField, CharField,
-                    DoubleField, BooleanField, DateTimeField, fn, FloatField,
-                    TextField, BigIntegerField, JOIN, OperationalError,
-                    __exception_wrapper__, Model, DatabaseProxy)
-from playhouse.flask_utils import FlaskDB
-from playhouse.migrate import migrate, MySQLMigrator
-from playhouse.pool import PooledMySQLDatabase
 from sqlalchemy import func, Index, text
 from sqlalchemy.dialects.mysql import BIGINT, DOUBLE, LONGTEXT, TINYINT
 from sqlalchemy.orm import Load, load_only

@@ -159,7 +159,6 @@ def set_log_and_verbosity(log):
         log.setLevel(logging.INFO)
 
     # These are very noisy, let's shush them up a bit.
-    logging.getLogger('peewee').setLevel(logging.INFO)
     logging.getLogger('requests').setLevel(logging.WARNING)
     logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
@@ -173,7 +172,6 @@ def set_log_and_verbosity(log):
         urllib3_logger.setLevel(logging.INFO)
 
     if args.verbose >= 3:
-        logging.getLogger('peewee').setLevel(logging.DEBUG)
         logging.getLogger('werkzeug').setLevel(logging.DEBUG)
         logging.addLevelName(5, 'TRACE')
 

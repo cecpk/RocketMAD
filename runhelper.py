@@ -73,13 +73,6 @@ def set_log_and_verbosity(log):
     else:
         log.setLevel(logging.INFO)
 
-    # These are very noisy, let's shush them up a bit.
-    logging.getLogger('peewee').setLevel(logging.INFO)
-
-    # Turn these back up if debugging.
-    if args.verbose >= 3:
-        logging.getLogger('peewee').setLevel(logging.DEBUG)
-
 
 if __name__ == '__main__':
     set_log_and_verbosity(log)
