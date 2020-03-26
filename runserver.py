@@ -81,6 +81,9 @@ def validate_assets(args):
 
 
 def startup_db(clear_db):
+    log.info('Connecting to MySQL database on %s:%i...',
+             args.db_host, args.db_port)
+
     if clear_db:
         log.info('Clearing RocketMAD tables')
         drop_rm_tables()

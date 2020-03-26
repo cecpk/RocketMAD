@@ -89,8 +89,8 @@
 
 #db-cleanup                     # Enable regular database cleanup thread.
 #db-cleanup-pokemon:            # Clear pokemon from database X hours after they disappeared. Default: 0, 0 to disable.
-#db-cleanup-gym:                # Clear gym details from database X hours after last gym scan. Default: 8, 0 to disable.
-#db-cleanup-spawnpoint:         # Clear spawnpoint from database X hours after last valid scan. Default: 720, 0 to disable.
+#db-cleanup-gym:                # Clear gym details from database X hours after last gym scan. Default: 0, 0 to disable.
+#db-cleanup-spawnpoint:         # Clear spawnpoint from database X hours after last valid scan. Default: 0, 0 to disable.
 #db-cleanup-forts:              # Clear gyms and pokestops from database X hours after last valid scan. Default: 0, 0 to disable.
 
 
