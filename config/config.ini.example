@@ -51,6 +51,7 @@
 
 #no-pokestops                   # Disables pokestops. (default=False)
 #no-quests                      # Disables quests. (default=False)
+#quest-reset-time:              # Only show quests scanned after this time. (default=00:00)
 #no-quest-page                  # Disables quest page. (default=False)
 #no-invasions                   # Disables team rocket invasions. (default=False)
 #no-lures                       # Disables lures. (default=False)
@@ -87,11 +88,12 @@
 #################
 # Database cleanup is done by running runhelper.py
 
-#db-cleanup                     # Enable regular database cleanup thread.
+#db-cleanup-interval:           # Time between database cleanups in seconds. Default: 600
 #db-cleanup-pokemon:            # Clear pokemon from database X hours after they disappeared. Default: 0, 0 to disable.
-#db-cleanup-gym:                # Clear gym details from database X hours after last gym scan. Default: 0, 0 to disable.
-#db-cleanup-spawnpoint:         # Clear spawnpoint from database X hours after last valid scan. Default: 0, 0 to disable.
+#db-cleanup-gym:                # Clear gym details (including raids) from database X hours after last gym scan. Default: 0, 0 to disable.
+#db-cleanup-pokestop            # Clear lure data, invasion data, and quests when no longer active. Default: False
 #db-cleanup-forts:              # Clear gyms and pokestops from database X hours after last valid scan. Default: 0, 0 to disable.
+#db-cleanup-spawnpoint:         # Clear spawnpoint from database X hours after last valid scan. Default: 0, 0 to disable.
 
 
 # Webserver settings

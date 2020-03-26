@@ -454,16 +454,19 @@ class Pokestop(db.Model):
                 'quest_pokemon_costume_id', 'quest_reward_type',
                 'quest_item_id', 'quest_item_amount'
             ]
-            today = datetime.today().replace(
-                hour=0, minute=0, second=0, microsecond=0)  # Local time.
-            today_timestamp = datetime.timestamp(today)
+            hours = int(args.quest_reset_time.split(':')[0])
+            minutes = int(args.quest_reset_time.split(':')[1])
+            reset_time = datetime.today().replace(
+                hour=hours, minute=minutes, second=0, microsecond=0
+            )
+            reset_timestamp = datetime.timestamp(reset_time)
             query = (
                 db.session.query(Pokestop, TrsQuest)
                 .outerjoin(
                     TrsQuest,
                     and_(
                         Pokestop.pokestop_id == TrsQuest.GUID,
-                        TrsQuest.quest_timestamp >= today_timestamp
+                        TrsQuest.quest_timestamp >= reset_timestamp
                     )
                 )
                 .options(
@@ -957,70 +960,42 @@ def database_migrate(old_ver):
 
 
 def clean_db_loop(app):
-    # Run regular database cleanup once every minute.
-    regular_cleanup_secs = 60
-    # Run full database cleanup once every 10 minutes.
-    full_cleanup_timer = default_timer()
-    full_cleanup_secs = 600
     while True:
         try:
             with app.app_context():
-                db_cleanup_regular()
+                # Remove old pokemon spawns.
+                if args.db_cleanup_pokemon > 0:
+                    db_clean_pokemons(args.db_cleanup_pokemon)
 
-                # Check if it's time to run full database cleanup.
-                now = default_timer()
-                if now - full_cleanup_timer > full_cleanup_secs:
-                    # Remove old pokemon spawns.
-                    if args.db_cleanup_pokemon > 0:
-                        db_clean_pokemons(args.db_cleanup_pokemon)
+                # Remove old gym data.
+                if args.db_cleanup_gym > 0:
+                    db_clean_gyms(args.db_cleanup_gym)
 
-                    # Remove old gym data.
-                    if args.db_cleanup_gym > 0:
-                        db_clean_gyms(args.db_cleanup_gym)
+                # Remove old pokestop data.
+                if args.db_cleanup_pokestop:
+                    db_clean_pokestops()
 
-                    # Remove old and extinct spawnpoint data.
-                    if args.db_cleanup_spawnpoint > 0:
-                        db_clean_spawnpoints(args.db_cleanup_spawnpoint)
+                # Remove old pokestop and gym locations.
+                if args.db_cleanup_forts > 0:
+                    db_clean_forts(args.db_cleanup_forts)
 
-                    # Remove old pokestop and gym locations.
-                    if args.db_cleanup_forts > 0:
-                        db_clean_forts(args.db_cleanup_forts)
+                # Remove old and extinct spawnpoint data.
+                if args.db_cleanup_spawnpoint > 0:
+                    db_clean_spawnpoints(args.db_cleanup_spawnpoint)
 
-                    # Clean weather... only changes at full hours anyway...
-                    Weather.query.filter(
-                        Weather.last_updated <
-                        datetime.utcnow() - timedelta(hours=1)
-                    ).delete()
-                    db.session.commit()
 
-                    log.info('Full database cleanup completed.')
-                    full_cleanup_timer = now
+                # Clean weather... only changes at full hours anyway...
+                Weather.query.filter(
+                    Weather.last_updated <
+                    datetime.utcnow() - timedelta(hours=1)
+                ).delete()
+                db.session.commit()
 
-            time.sleep(regular_cleanup_secs)
+            log.info('Database cleanup completed.')
+
+            time.sleep(args.db_cleanup_interval)
         except Exception as e:
             log.exception('Database cleanup failed: %s.', e)
-
-
-def db_cleanup_regular():
-    log.debug('Regular database cleanup started.')
-    start_timer = default_timer()
-
-    now = datetime.utcnow()
-
-    # Remove expired lure data.
-    Pokestop.query.filter(Pokestop.lure_expiration < now).update(
-        dict(lure_expiration=None, active_fort_modifier=None)
-    )
-    db.session.commit()
-
-    # Remove expired invasion data.
-    Pokestop.query.filter(Pokestop.incident_expiration < now).update(
-        dict(incident_expiration=None, incident_grunt_type=None)
-    )
-    db.session.commit()
-
-    time_diff = default_timer() - start_timer
-    log.debug('Completed regular cleanup in %.6f seconds.', time_diff)
 
 
 def db_clean_pokemons(age_hours):
@@ -1037,7 +1012,7 @@ def db_clean_pokemons(age_hours):
               time_diff)
 
 
-def db_clean_gyms(age_hours, gyms_age_days=30):
+def db_clean_gyms(age_hours):
     log.debug('Beginning cleanup of old gym data.')
     start_timer = default_timer()
 
@@ -1059,6 +1034,41 @@ def db_clean_gyms(age_hours, gyms_age_days=30):
 
     time_diff = default_timer() - start_timer
     log.debug('Completed cleanup of old gym data in %.6f seconds.', time_diff)
+
+
+def db_clean_pokestops():
+    log.debug('Beginning cleanup of pokestops.')
+    start_timer = default_timer()
+
+    now = datetime.utcnow()
+
+    # Remove expired lure data.
+    Pokestop.query.filter(Pokestop.lure_expiration < now).update(
+        dict(lure_expiration=None, active_fort_modifier=None)
+    )
+    db.session.commit()
+
+    # Remove expired invasion data.
+    Pokestop.query.filter(Pokestop.incident_expiration < now).update(
+        dict(incident_expiration=None, incident_grunt_type=None)
+    )
+    db.session.commit()
+
+    # Remove old TrsQuest entries.
+    hours = int(args.quest_reset_time.split(':')[0])
+    minutes = int(args.quest_reset_time.split(':')[1])
+    reset_time = datetime.today().replace(
+        hour=hours, minute=minutes, second=0, microsecond=0
+    )
+    reset_timestamp = datetime.timestamp(reset_time)
+    rows = TrsQuest.query.filter(
+        TrsQuest.quest_timestamp < reset_timestamp
+    ).delete()
+    db.session.commit()
+    log.debug('Deleted %d old TrsQuest entries.', rows)
+
+    time_diff = default_timer() - start_timer
+    log.debug('Completed cleanup of pokestops in %.6f seconds.', time_diff)
 
 
 def db_clean_forts(age_hours):

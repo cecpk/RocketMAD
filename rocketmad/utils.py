@@ -162,6 +162,9 @@ def get_args(access_config=None):
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables Quests.'),
                         action='store_true', default=False)
+    parser.add_argument('-qr', '--quest-reset-time',
+                        default='00:00',
+                        help='Only show quests scanned after this time.')
     parser.add_argument('-nqp', '--no-quest-page',
                         help='Disables quest page.',
                         action='store_true', default=False)
@@ -280,27 +283,31 @@ def get_args(access_config=None):
     group.add_argument('--db-port',
                        help='Port for the database.', type=int, default=3306)
     group = parser.add_argument_group('Database Cleanup')
-    group.add_argument('-DC', '--db-cleanup',
-                       help='Enable regular database cleanup thread.',
-                       action='store_true', default=False)
+    group.add_argument('-DCi', '--db-cleanup-interval',
+                       type=int, default=600,
+                       help='Time between database cleanups in seconds.')
     group.add_argument('-DCp', '--db-cleanup-pokemon',
                        help=('Clear pokemon from database X hours ' +
                              'after they disappeared. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
     group.add_argument('-DCg', '--db-cleanup-gym',
-                       help=('Clear gym details from database X hours ' +
-                             'after last gym scan. ' +
+                       help=('Clear gym details (including raids) from ' +
+                             'database X hours after last gym scan. ' +
+                             'Default: 0, 0 to disable.'),
+                       type=int, default=0)
+    group.add_argument('-DCps', '--db-cleanup-pokestop',
+                       action='store_true',
+                       help='Clear lure data, invasion data, and quests when '
+                            'no longer active. Default: False')
+    group.add_argument('-DCf', '--db-cleanup-forts',
+                       help=('Clear gyms and pokestops from ' +
+                             'database X hours ' +
+                             'after last valid scan. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
     group.add_argument('-DCs', '--db-cleanup-spawnpoint',
                        help=('Clear spawnpoint from database X hours ' +
-                             'after last valid scan. ' +
-                             'Default: 0, 0 to disable.'),
-                       type=int, default=0)
-    group.add_argument('-DCf', '--db-cleanup-forts',
-                       help=('Clear gyms and pokestops from ' +
-                             'database X hours ' +
                              'after last valid scan. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
@@ -543,6 +550,13 @@ def get_args(access_config=None):
     position = extract_coordinates(args.location)
     args.center_lat = position[0]
     args.center_lng = position[1]
+
+    if (args.db_cleanup_pokemon > 0 or args.db_cleanup_gym > 0 or
+            args.db_cleanup_pokestop or args.db_cleanup_forts > 0 or
+            args.db_cleanup_spawnpoint > 0):
+        args.db_cleanup = True
+    else:
+        args.db_cleanup = False
 
     if args.discord_auth:
         args.server_uri = args.server_uri.rstrip('/')
