@@ -614,16 +614,6 @@ class Weather(db.Model):
     last_updated = db.Column(db.DateTime)
 
     __table_args__ = (
-        Index('weather_cloud_level', 'cloud_level'),
-        Index('weather_rain_level', 'rain_level'),
-        Index('weather_wind_level', 'wind_level'),
-        Index('weather_snow_level', 'snow_level'),
-        Index('weather_fog_level', 'fog_level'),
-        Index('weather_wind_direction', 'wind_direction'),
-        Index('weather_gameplay_weather', 'gameplay_weather'),
-        Index('weather_severity', 'severity'),
-        Index('weather_warn_weather', 'warn_weather'),
-        Index('weather_world_time', 'world_time'),
         Index('weather_last_updated', 'last_updated'),
     )
 
@@ -686,9 +676,7 @@ class Weather(db.Model):
 
 
 class TrsSpawn(db.Model):
-    spawnpoint = db.Column(
-        db.String(length=16, collation='utf8mb4_unicode_ci'), primary_key=True
-    )
+    spawnpoint = db.Column(BIGINT(unsigned=True), primary_key=True)
     latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
     longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
     spawndef = db.Column(db.Integer, default=240, nullable=False)
@@ -704,8 +692,7 @@ class TrsSpawn(db.Model):
     eventid = db.Column(db.Integer, default=1, nullable=False)
 
     __table_args__ = (
-        Index('spawnpoint_2', 'spawnpoint', unique=True),
-        Index('spawnpoint', 'spawnpoint')
+        Index('event_lat_long', 'eventid', 'latitude', 'longitude'),
     )
 
     @staticmethod
@@ -797,7 +784,7 @@ class ScannedLocation(db.Model):
 
     __table_args__ = (
         Index('scannedlocation_last_modified', 'last_modified'),
-        Index('scannedlocation_latitude_longitude', 'latitude', 'longitude')
+        Index('scannedlocation_latitude_longitude', 'latitude', 'longitude'),
     )
 
     @staticmethod
