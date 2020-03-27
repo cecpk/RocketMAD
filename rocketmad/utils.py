@@ -374,6 +374,14 @@ def get_args(access_config=None):
     group.add_argument('-DAbt', '--discord-bot-token', default=None,
                        help='Token for bot with access to your guild. '
                             'Only required for required-roles feature.')
+    group.add_argument('-DAbu', '--discord-blacklisted-users',
+                       nargs='+', default=[],
+                       help='List of user ID\'s that are always blocked from '
+                            'accessing the map.')
+    group.add_argument('-DAwu', '--discord-whitelisted-users',
+                       nargs='+', default=[],
+                       help='List of user ID\'s that are always allowed to '
+                            'access the map.')
     group.add_argument('-DArg', '--discord-required-guilds',
                        nargs='+', default=[],
                        help='If guild ID(s) are specified, user must be in at '

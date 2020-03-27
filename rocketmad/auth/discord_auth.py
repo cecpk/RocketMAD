@@ -195,12 +195,25 @@ class DiscordAuth(OAuth2Base):
         return has_permission, redirect_uri, access_config_name
 
     def _update_access_data(self):
+        if session['id'] in args.discord_blacklisted_users:
+            session['has_permission'] = False
+            session['access_config_name'] = None
+            return
+
         user_guilds = self._get_guilds()
         user_roles = {}
         for guild_id in self.fetch_role_guilds:
             if guild_id in user_guilds:
                 roles = self._get_roles(guild_id, session['id'])
                 user_roles[guild_id] = roles
+
+        # Whitelisted users bypass other whitelists/blacklists.
+        if session['id'] in args.discord_whitelisted_users:
+            session['has_permission'] = True
+            config_name = self._get_access_config_name(user_guilds, user_roles)
+            session['access_config_name'] = config_name
+            session['access_data_updated_at'] = time.time()
+            return
 
         # Check required guilds.
         in_required_guild = False
@@ -242,6 +255,12 @@ class DiscordAuth(OAuth2Base):
                 session['access_config_name'] = None
                 return
 
+        session['has_permission'] = True
+        config_name = self._get_access_config_name(user_guilds, user_roles)
+        session['access_config_name'] = config_name
+        session['access_data_updated_at'] = time.time()
+
+    def _get_access_config_name(self, guilds, roles):
         access_config_name = None
         for elem in self.access_configs:
             guild_id = elem[0]
@@ -249,17 +268,15 @@ class DiscordAuth(OAuth2Base):
             config_name = elem[2]
 
             if role_id is not None:
-                if guild_id in user_guilds and role_id in user_roles[guild_id]:
+                if guild_id in guilds and role_id in roles[guild_id]:
                     access_config_name = config_name
                     break
             else:
-                if guild_id in user_guilds:
+                if guild_id in guilds:
                     access_config_name = config_name
                     break
 
-        session['has_permission'] = True
-        session['access_config_name'] = access_config_name
-        session['access_data_updated_at'] = time.time()
+        return access_config_name
 
     def _add_user(self, token):
         headers = {
