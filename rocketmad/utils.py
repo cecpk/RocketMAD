@@ -33,7 +33,6 @@ from time import strftime
 from timeit import default_timer
 
 log = logging.getLogger(__name__)
-arg_cache = {}
 
 
 def read_pokemon_ids_from_file(f):
@@ -67,14 +66,8 @@ def memoize(function):
     return wrapper
 
 
+@memoize
 def get_args(access_config=None):
-    if access_config is not None:
-        if access_config in arg_cache:
-            return arg_cache[access_config]
-    else:
-        if 'default_args' in arg_cache:
-            return arg_cache['default_args']
-
     # Pre-check to see if the -cf or --config flag is used on the command line.
     # If not, we'll use the env var or default value. This prevents layering of
     # config files as well as a missing config.ini.
@@ -555,11 +548,6 @@ def get_args(access_config=None):
         args.client_auth = True
     else:
         args.client_auth = False
-
-    if access_config is not None:
-        arg_cache[access_config] = args
-    else:
-        arg_cache['default_args'] = args
 
     return args
 
