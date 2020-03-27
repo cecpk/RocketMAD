@@ -983,7 +983,6 @@ def clean_db_loop(app):
                 if args.db_cleanup_spawnpoint > 0:
                     db_clean_spawnpoints(args.db_cleanup_spawnpoint)
 
-
                 # Clean weather... only changes at full hours anyway...
                 Weather.query.filter(
                     Weather.last_updated <
