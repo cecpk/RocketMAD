@@ -5,6 +5,7 @@ import sys
 from threading import Thread
 
 import configargparse
+import configparser
 import os
 import json
 import logging
@@ -499,22 +500,20 @@ def get_args(access_config=None):
             'motd_pages', 'show_motd_always'
         ]
 
-        default_config_files = [os.getenv('POGOMAP_CONFIG', os.path.join(
-            os.path.dirname(__file__), '../config/' + access_config))]
-        access_parser = configargparse.ArgParser(
-            default_config_files=default_config_files)
+        access_parser = configparser.ConfigParser(allow_no_value=True)
+        current_path = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.abspath(os.path.join(current_path, os.pardir,
+                                                   'config', access_config))
+        with open(config_path) as stream:
+            access_parser.read_string('[DEFAULT]\n' + stream.read())
+        access_args = access_parser['DEFAULT']
 
-        access_args = access_parser.parse_known_args()[1]
-        for a in access_args:
-            if '=' not in a:
-                # Command line arg.
-                continue
-            arg = a[2:].split('=')[0].replace('-', '_')
+        for arg, value in access_args.items():
+            arg = arg.replace('-', '_')
+            value = True if value is None else value
             if arg not in valid_access_args:
-                log.warning('Argument %s is not a valid access argument.',
-                            a[2:].split('=')[0])
+                log.warning('Argument %s is not a valid access argument.', arg)
                 continue
-            value = a.split('=')[1]
             default = parser.get_default(arg)
             if value == 'None':
                 dargs[arg] = None
