@@ -183,6 +183,9 @@
 
 # Telegram authentication
 ####################
+# If you want to authenticate users with Telegram, first create a bot with @Botfather.
+# Next find your bot token with @Botfather (/mybots -> API Token). With @Botfather set the Domain to your map URL (/mybots -> Bot Settings -> Domain).
+# You can retrieve chat and member IDs like this: https://api.telegram.org/bot<your_bot_token>/getUpdates
 
 #telegram-auth                    # Authenticate users with telegram. (default=False)
 #telegram-bot-token:              # Telegram bot token.

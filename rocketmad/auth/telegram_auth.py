@@ -60,11 +60,11 @@ class TelegramAuth(AuthBase):
         self._add_user(data)
         session['auth_type'] = 'telegram'
         log.debug('Telegram user %s (%s) succesfully logged in.',
-                  data['username'], data['first_name'])
+                  data['first_name'], data['username'])
 
     def end_session(self):
         log.debug('Telegram user %s (%s) succesfully logged out.',
-                  session['username'], session['first_name'])
+                  session['first_name'], session['username'])
         session.clear()
 
     def get_access_data(self):
