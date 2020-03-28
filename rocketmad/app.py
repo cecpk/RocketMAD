@@ -106,9 +106,13 @@ def auth_required(f):
         if args.client_auth and args.login_required and not is_logged_in():
             kwargs['has_permission'] = False
             kwargs['redirect_uri'] = url_for('login_page')
-            kwargs['access_config'] = None
         elif args.client_auth and is_logged_in():
             auth_type = session['auth_type']
+            if auth_type not in accepted_auth_types:
+                session.clear()
+                kwargs['has_permission'] = False
+                kwargs['redirect_uri'] = url_for('login_page')
+                return f(*_args, **kwargs)
             a = auth_factory.get_authenticator(auth_type)
             has_permission, redirect_uri, access_config = a.get_access_data()
             if not has_permission:
@@ -486,7 +490,11 @@ def create_app():
             abort(404)
 
         if is_logged_in():
-            auth_factory.get_authenticator(session['auth_type']).end_session()
+            if session['auth_type'] in accepted_auth_types:
+                a = auth_factory.get_authenticator(session['auth_type'])
+                a.end_session()
+            else:
+                session.clear()
 
         return redirect(url_for('map_page'))
 
