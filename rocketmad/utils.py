@@ -500,7 +500,8 @@ def get_args(access_config=None):
             'motd_pages', 'show_motd_always'
         ]
 
-        access_parser = configparser.ConfigParser(allow_no_value=True)
+        access_parser = configparser.ConfigParser(allow_no_value=True,
+                                                  inline_comment_prefixes='#')
         current_path = os.path.dirname(os.path.abspath(__file__))
         config_path = os.path.abspath(os.path.join(current_path, os.pardir,
                                                    'config', access_config))
