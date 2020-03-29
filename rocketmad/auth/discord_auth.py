@@ -172,7 +172,7 @@ class DiscordAuth(OAuth2Base):
                     # Token has (most likely) been revoked by user,
                     # log out the user.
                     session.clear()
-                    return False, None, url_for('login_page')
+                    return False, url_for('login_page'), None
 
                 if 'has_permission' not in session:
                     # Access data is still missing, retry.
