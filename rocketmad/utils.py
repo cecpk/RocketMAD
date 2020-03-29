@@ -511,7 +511,7 @@ def get_args(access_config=None):
 
         for arg, value in access_args.items():
             arg = arg.replace('-', '_')
-            value = True if value is None else value
+            value = 'True' if value is None else value
             if arg not in valid_access_args:
                 log.warning('Argument %s is not a valid access argument.', arg)
                 continue
