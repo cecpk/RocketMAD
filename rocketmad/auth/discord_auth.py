@@ -215,12 +215,9 @@ class DiscordAuth(OAuth2Base):
             return
 
         # Check required guilds.
-        in_required_guild = False
-        for guild_id in args.discord_required_guilds:
-            if guild_id in user_guilds:
-                in_required_guild = True
-                break
-        if len(args.discord_required_guilds) > 0 and not in_required_guild:
+        in_required_guild = any(guild_id in user_guilds
+                                for guild_id in args.discord_required_guilds)
+        if args.discord_required_guilds and not in_required_guild:
             session['has_permission'] = False
             session['access_config_name'] = None
             return
@@ -233,14 +230,10 @@ class DiscordAuth(OAuth2Base):
                 return
 
         # Check required roles.
-        has_required_role = False
-        for role in self.required_roles:
-            guild_id = role[0]
-            role_id = role[1]
-            if guild_id in user_guilds and role_id in user_roles[guild_id]:
-                has_required_role = True
-                break
-        if len(self.required_roles) > 0 and not has_required_role:
+        has_required_role = any(role[0] in user_guilds and
+                                role[1] in user_roles[role[0]]
+                                for role in self.required_roles)
+        if self.required_roles and not has_required_role:
             session['has_permission'] = False
             session['access_config_name'] = None
             return

@@ -95,9 +95,9 @@ class TelegramAuth(AuthBase):
             if self._is_chat_member(chat_id, session['id']):
                 user_chats.append(chat_id)
 
-        in_required_chat = any(id in user_chats
-                               for id in args.telegram_required_chats)
-        if not in_required_chat:
+        in_required_chat = any(chat_id in user_chats
+                               for chat_id in args.telegram_required_chats)
+        if args.telegram_required_chats and not in_required_chat:
             session['has_permission'] = False
             session['access_config_name'] = None
             return

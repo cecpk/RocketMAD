@@ -31,8 +31,7 @@ from .utils import dottedQuadToNum, get_args, get_pokemon_name, i8ln
 log = logging.getLogger(__name__)
 args = get_args()
 
-if args.client_auth:
-    auth_factory = AuthFactory()
+auth_factory = AuthFactory()
 accepted_auth_types = []
 
 ip_blacklist = []
