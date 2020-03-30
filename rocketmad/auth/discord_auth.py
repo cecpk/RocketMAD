@@ -148,8 +148,7 @@ class DiscordAuth(OAuth2Base):
         session.clear()
 
     def get_access_data(self):
-        if (session.get('access_data_updated_at', 0) + 300 < time.time() or
-                not session['has_permission']):
+        if session.get('access_data_updated_at', 0) + 300 < time.time():
             try:
                 self._update_access_data()
             except requests.exceptions.HTTPError as e:

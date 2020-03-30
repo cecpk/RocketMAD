@@ -150,6 +150,8 @@ def create_app():
         Session(app)
         if args.discord_auth:
             accepted_auth_types.append('discord')
+        if args.telegram_auth:
+            accepted_auth_types.append('telegram')
 
     if not args.disable_blacklist:
         log.info('Retrieving blacklist...')
@@ -450,6 +452,8 @@ def create_app():
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
             analytics_id=args.analytics_id,
+            discord_auth=args.discord_auth,
+            telegram_auth=args.telegram_auth,
             settings=settings
         )
 
@@ -462,12 +466,44 @@ def create_app():
             return redirect(url_for('map_page'))
 
         if auth_type not in accepted_auth_types:
-            return redirect(url_for('login_page'))
+            abort(404)
 
         authenticator = auth_factory.get_authenticator(auth_type)
         auth_uri = authenticator.get_authorization_url()
 
         return redirect(auth_uri)
+
+    @app.route('/login/telegram')
+    def login_telegram():
+        if not args.telegram_auth:
+            abort(404)
+
+        settings = {
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
+        }
+
+        return render_template(
+            'telegram.html',
+            lang=args.locale,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            analytics_id=args.analytics_id,
+            telegram_bot_username=args.telegram_bot_username,
+            server_uri=args.server_uri,
+            settings=settings
+        )
 
     @app.route('/auth/<auth_type>')
     def auth(auth_type):
@@ -478,7 +514,7 @@ def create_app():
             return redirect(url_for('map_page'))
 
         if auth_type not in accepted_auth_types:
-            return redirect(url_for('login_page'))
+            abort(404)
 
         auth_factory.get_authenticator(auth_type).authorize()
 

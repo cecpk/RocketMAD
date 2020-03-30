@@ -420,6 +420,35 @@ def get_args(access_config=None):
                             'You can also only use guilds. If multiple config '
                             'files correspond to one user, only the first '
                             'file is used.')
+    group = parser.add_argument_group('Telegram Auth')
+    group.add_argument('-TA', '--telegram-auth',
+                       action='store_true',
+                       help='Authenticate users with Telegram.')
+    group.add_argument('-TAbt', '--telegram-bot-token',
+                       help='Telegram bot token.')
+    group.add_argument('-TAbu', '--telegram-bot-username',
+                       help='Telegram bot username.')
+    group.add_argument('-TAu', '--telegram-blacklisted-users',
+                       action='append', default=[],
+                       help='List of user ID\'s that are always blocked from '
+                            'accessing the map.')
+    group.add_argument('-TArc', '--telegram-required-chats',
+                       action='append', default=[],
+                       help='If chat ID(s) are specified, user must be in at '
+                            'least one telegram group chat to access map. '
+                            'Comma separated list if multiple.')
+    group.add_argument('-TAr', '--telegram-no-permission-redirect',
+                       default=None,
+                       help='Link to redirect user to if user has no '
+                            'permission. Typically this would be your '
+                            'telegram group chat invite link.')
+    group.add_argument('-TAac', '--telegram-access-configs',
+                       action='append', default=[],
+                       help='Use different config file based on telegram '
+                            'chat. Accepts list with elements in this format: '
+                            '<chat_id>:<access_config_name> If multiple '
+                            'config files correspond to one user, only the '
+                            'first file is used.')
     parser.add_argument('-bwb', '--black-white-badges',
                         help='Use black/white background with white/black' +
                         ' text for gym/raid level badge in gym icons.',
@@ -546,7 +575,7 @@ def get_args(access_config=None):
     args.center_lat = position[0]
     args.center_lng = position[1]
 
-    if args.discord_auth:
+    if args.discord_auth or args.telegram_auth:
         args.server_uri = args.server_uri.rstrip('/')
         if len(args.secret_key) < 16:
             parser.print_usage()
