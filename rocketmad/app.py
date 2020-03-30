@@ -33,6 +33,7 @@ args = get_args()
 
 auth_factory = AuthFactory()
 accepted_auth_types = []
+valid_access_configs = []
 
 ip_blacklist = []
 ip_blacklist_keys = []
@@ -114,7 +115,7 @@ def auth_required(f):
                 return f(*_args, **kwargs)
             a = auth_factory.get_authenticator(auth_type)
             has_permission, redirect_uri, access_config = a.get_access_data()
-            if not has_permission:
+            if not has_permission or access_config not in valid_access_configs:
                 session.clear()
             kwargs['has_permission'] = has_permission
             kwargs['redirect_uri'] = redirect_uri
@@ -149,8 +150,18 @@ def create_app():
         Session(app)
         if args.discord_auth:
             accepted_auth_types.append('discord')
+            for config in args.discord_access_configs:
+                length = len(config.split(':'))
+                name = (config.split(':')[2] if length == 3 else
+                        config.split(':')[1])
+                if name not in valid_access_configs:
+                    valid_access_configs.append(name)
         if args.telegram_auth:
             accepted_auth_types.append('telegram')
+            for config in args.telegram_access_configs:
+                name = config.split(':')[1]
+                if name not in valid_access_configs:
+                    valid_access_configs.append(name)
 
     if not args.disable_blacklist:
         log.info('Retrieving blacklist...')
