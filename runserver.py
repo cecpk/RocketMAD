@@ -24,7 +24,7 @@ from time import strftime
 
 from rocketmad.app import create_app
 from rocketmad.gunicorn import GunicornApplication
-from rocketmad.models import (create_rm_tables, drop_rm_tables,
+from rocketmad.models import (create_rm_tables, db, drop_rm_tables,
                               verify_database_schema)
 from rocketmad.utils import get_args, get_debug_dump_link
 
@@ -215,6 +215,10 @@ if __name__ == '__main__':
     with app.app_context():
         startup_db(args.clear_db)
 
+    def post_fork(server, worker):
+        with app.app_context():
+            db.engine.dispose()
+
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and
                os.path.exists(args.ssl_privatekey))
@@ -226,6 +230,7 @@ if __name__ == '__main__':
             'bind': '%s:%s' % (args.host, args.port),
             'worker_class': 'gevent',
             'workers': args.workers,
+            'post_fork': post_fork,
             'keyfile': args.ssl_privatekey if use_ssl else None,
             'certfile': args.ssl_certificate if use_ssl else None,
             'logger_class': 'rocketmad.gunicorn.GunicornLogger',

@@ -134,8 +134,6 @@ def create_app():
     }
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
-    with app.app_context():
-        db.engine.dispose()
 
     if args.client_auth:
         app.config['SESSION_TYPE'] = 'redis'
