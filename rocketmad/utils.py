@@ -5,6 +5,7 @@ import sys
 from threading import Thread
 
 import configargparse
+import configparser
 import os
 import json
 import logging
@@ -33,7 +34,6 @@ from time import strftime
 from timeit import default_timer
 
 log = logging.getLogger(__name__)
-arg_cache = {}
 
 
 def read_pokemon_ids_from_file(f):
@@ -67,14 +67,8 @@ def memoize(function):
     return wrapper
 
 
+@memoize
 def get_args(access_config=None):
-    if access_config is not None:
-        if access_config in arg_cache:
-            return arg_cache[access_config]
-    else:
-        if 'default_args' in arg_cache:
-            return arg_cache['default_args']
-
     # Pre-check to see if the -cf or --config flag is used on the command line.
     # If not, we'll use the env var or default value. This prevents layering of
     # config files as well as a missing config.ini.
@@ -388,6 +382,14 @@ def get_args(access_config=None):
     group.add_argument('-DAbt', '--discord-bot-token', default=None,
                        help='Token for bot with access to your guild. '
                             'Only required for required-roles feature.')
+    group.add_argument('-DAbu', '--discord-blacklisted-users',
+                       nargs='+', default=[],
+                       help='List of user ID\'s that are always blocked from '
+                            'accessing the map.')
+    group.add_argument('-DAwu', '--discord-whitelisted-users',
+                       nargs='+', default=[],
+                       help='List of user ID\'s that are always allowed to '
+                            'access the map.')
     group.add_argument('-DArg', '--discord-required-guilds',
                        nargs='+', default=[],
                        help='If guild ID(s) are specified, user must be in at '
@@ -425,6 +427,35 @@ def get_args(access_config=None):
                             'You can also only use guilds. If multiple config '
                             'files correspond to one user, only the first '
                             'file is used.')
+    group = parser.add_argument_group('Telegram Auth')
+    group.add_argument('-TA', '--telegram-auth',
+                       action='store_true',
+                       help='Authenticate users with Telegram.')
+    group.add_argument('-TAbt', '--telegram-bot-token',
+                       help='Telegram bot token.')
+    group.add_argument('-TAbu', '--telegram-bot-username',
+                       help='Telegram bot username.')
+    group.add_argument('-TAu', '--telegram-blacklisted-users',
+                       action='append', default=[],
+                       help='List of user ID\'s that are always blocked from '
+                            'accessing the map.')
+    group.add_argument('-TArc', '--telegram-required-chats',
+                       action='append', default=[],
+                       help='If chat ID(s) are specified, user must be in at '
+                            'least one telegram group chat to access map. '
+                            'Comma separated list if multiple.')
+    group.add_argument('-TAr', '--telegram-no-permission-redirect',
+                       default=None,
+                       help='Link to redirect user to if user has no '
+                            'permission. Typically this would be your '
+                            'telegram group chat invite link.')
+    group.add_argument('-TAac', '--telegram-access-configs',
+                       action='append', default=[],
+                       help='Use different config file based on telegram '
+                            'chat. Accepts list with elements in this format: '
+                            '<chat_id>:<access_config_name> If multiple '
+                            'config files correspond to one user, only the '
+                            'first file is used.')
     parser.add_argument('-bwb', '--black-white-badges',
                         help='Use black/white background with white/black' +
                         ' text for gym/raid level badge in gym icons.',
@@ -505,22 +536,21 @@ def get_args(access_config=None):
             'motd_pages', 'show_motd_always'
         ]
 
-        default_config_files = [os.getenv('POGOMAP_CONFIG', os.path.join(
-            os.path.dirname(__file__), '../config/' + access_config))]
-        access_parser = configargparse.ArgParser(
-            default_config_files=default_config_files)
+        access_parser = configparser.ConfigParser(allow_no_value=True,
+                                                  inline_comment_prefixes='#')
+        current_path = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.abspath(os.path.join(current_path, os.pardir,
+                                                   'config', access_config))
+        with open(config_path) as stream:
+            access_parser.read_string('[DEFAULT]\n' + stream.read())
+        access_args = access_parser['DEFAULT']
 
-        access_args = access_parser.parse_known_args()[1]
-        for a in access_args:
-            if '=' not in a:
-                # Command line arg.
-                continue
-            arg = a[2:].split('=')[0].replace('-', '_')
+        for arg, value in access_args.items():
+            arg = arg.replace('-', '_')
+            value = 'True' if value is None else value
             if arg not in valid_access_args:
-                log.warning('Argument %s is not a valid access argument.',
-                            a[2:].split('=')[0])
+                log.warning('Argument %s is not a valid access argument.', arg)
                 continue
-            value = a.split('=')[1]
             default = parser.get_default(arg)
             if value == 'None':
                 dargs[arg] = None
@@ -538,7 +568,8 @@ def get_args(access_config=None):
             else:
                 dargs[arg] = value
 
-    args.root_path = os.getcwd()
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    args.root_path = os.path.abspath(os.path.join(current_path, os.pardir))
     args.data_dir = 'static/dist/data'
     args.locales_dir = 'static/dist/locales'
 
@@ -558,7 +589,7 @@ def get_args(access_config=None):
     else:
         args.db_cleanup = False
 
-    if args.discord_auth:
+    if args.discord_auth or args.telegram_auth:
         args.server_uri = args.server_uri.rstrip('/')
         if len(args.secret_key) < 16:
             parser.print_usage()
@@ -568,11 +599,6 @@ def get_args(access_config=None):
         args.client_auth = True
     else:
         args.client_auth = False
-
-    if access_config is not None:
-        arg_cache[access_config] = args
-    else:
-        arg_cache['default_args'] = args
 
     return args
 

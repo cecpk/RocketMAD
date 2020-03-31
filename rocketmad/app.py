@@ -30,9 +30,9 @@ from .utils import dottedQuadToNum, get_args, get_pokemon_name, i8ln
 log = logging.getLogger(__name__)
 args = get_args()
 
-if args.client_auth:
-    auth_factory = AuthFactory()
+auth_factory = AuthFactory()
 accepted_auth_types = []
+valid_access_configs = []
 
 ip_blacklist = []
 ip_blacklist_keys = []
@@ -97,11 +97,17 @@ def auth_required(f):
         if args.client_auth and args.login_required and not is_logged_in():
             kwargs['has_permission'] = False
             kwargs['redirect_uri'] = url_for('login_page')
-            kwargs['access_config'] = None
         elif args.client_auth and is_logged_in():
             auth_type = session['auth_type']
+            if auth_type not in accepted_auth_types:
+                session.clear()
+                kwargs['has_permission'] = False
+                kwargs['redirect_uri'] = url_for('login_page')
+                return f(*_args, **kwargs)
             a = auth_factory.get_authenticator(auth_type)
             has_permission, redirect_uri, access_config = a.get_access_data()
+            if not has_permission or access_config not in valid_access_configs:
+                session.clear()
             kwargs['has_permission'] = has_permission
             kwargs['redirect_uri'] = redirect_uri
             kwargs['access_config'] = access_config
@@ -144,6 +150,18 @@ def create_app():
         Session(app)
         if args.discord_auth:
             accepted_auth_types.append('discord')
+            for config in args.discord_access_configs:
+                length = len(config.split(':'))
+                name = (config.split(':')[2] if length == 3 else
+                        config.split(':')[1])
+                if name not in valid_access_configs:
+                    valid_access_configs.append(name)
+        if args.telegram_auth:
+            accepted_auth_types.append('telegram')
+            for config in args.telegram_access_configs:
+                name = config.split(':')[1]
+                if name not in valid_access_configs:
+                    valid_access_configs.append(name)
 
     if not args.disable_blacklist:
         log.info('Retrieving blacklist...')
@@ -291,7 +309,8 @@ def create_app():
             messenger_url=user_args.messenger_url,
             telegram_url=user_args.telegram_url,
             whatsapp_url=user_args.whatsapp_url,
-            quest_page=(not user_args.no_pokestops and not args.no_quests and
+            quest_page=(not user_args.no_pokestops and
+                        not user_args.no_quests and
                         not user_args.no_quest_page),
             analytics_id=user_args.analytics_id,
             settings=settings
@@ -305,7 +324,8 @@ def create_app():
 
         user_args = get_args(kwargs['access_config'])
 
-        if args.no_pokestops or args.no_quests or args.no_quest_page:
+        if (user_args.no_pokestops or user_args.no_quests or
+                user_args.no_quest_page):
             abort(403)
 
         settings = {
@@ -431,6 +451,8 @@ def create_app():
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
             analytics_id=args.analytics_id,
+            discord_auth=args.discord_auth,
+            telegram_auth=args.telegram_auth,
             settings=settings
         )
 
@@ -443,12 +465,44 @@ def create_app():
             return redirect(url_for('map_page'))
 
         if auth_type not in accepted_auth_types:
-            return redirect(url_for('login_page'))
+            abort(404)
 
         authenticator = auth_factory.get_authenticator(auth_type)
         auth_uri = authenticator.get_authorization_url()
 
         return redirect(auth_uri)
+
+    @app.route('/login/telegram')
+    def login_telegram():
+        if not args.telegram_auth:
+            abort(404)
+
+        settings = {
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
+        }
+
+        return render_template(
+            'telegram.html',
+            lang=args.locale,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            analytics_id=args.analytics_id,
+            telegram_bot_username=args.telegram_bot_username,
+            server_uri=args.server_uri,
+            settings=settings
+        )
 
     @app.route('/auth/<auth_type>')
     def auth(auth_type):
@@ -459,7 +513,7 @@ def create_app():
             return redirect(url_for('map_page'))
 
         if auth_type not in accepted_auth_types:
-            return redirect(url_for('login_page'))
+            abort(404)
 
         auth_factory.get_authenticator(auth_type).authorize()
 
@@ -471,7 +525,11 @@ def create_app():
             abort(404)
 
         if is_logged_in():
-            auth_factory.get_authenticator(session['auth_type']).end_session()
+            if session['auth_type'] in accepted_auth_types:
+                a = auth_factory.get_authenticator(session['auth_type'])
+                a.end_session()
+            else:
+                session.clear()
 
         return redirect(url_for('map_page'))
 

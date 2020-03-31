@@ -3639,8 +3639,12 @@ $(function () {
         // updateMap() failed... ¯\_(ツ)_/¯
     }).then(function () {
         initPokemonFilters()
-        initItemFilters()
-        initInvasionFilters()
+        if (serverSettings.quests) {
+            initItemFilters()
+        }
+        if (serverSettings.invasions) {
+            initInvasionFilters()
+        }
         lazyLoadImages()
     })
 

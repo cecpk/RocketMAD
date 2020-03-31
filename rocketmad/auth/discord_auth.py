@@ -148,8 +148,7 @@ class DiscordAuth(OAuth2Base):
         session.clear()
 
     def get_access_data(self):
-        if (session.get('access_data_updated_at', 0) + 300 < time.time() or
-                not session['has_permission']):
+        if session.get('access_data_updated_at', 0) + 300 < time.time():
             try:
                 self._update_access_data()
             except requests.exceptions.HTTPError as e:
@@ -172,7 +171,7 @@ class DiscordAuth(OAuth2Base):
                     # Token has (most likely) been revoked by user,
                     # log out the user.
                     session.clear()
-                    return False, None, url_for('login_page')
+                    return False, url_for('login_page'), None
 
                 if 'has_permission' not in session:
                     # Access data is still missing, retry.
@@ -195,6 +194,11 @@ class DiscordAuth(OAuth2Base):
         return has_permission, redirect_uri, access_config_name
 
     def _update_access_data(self):
+        if session['id'] in args.discord_blacklisted_users:
+            session['has_permission'] = False
+            session['access_config_name'] = None
+            return
+
         user_guilds = self._get_guilds()
         user_roles = {}
         for guild_id in self.fetch_role_guilds:
@@ -202,13 +206,18 @@ class DiscordAuth(OAuth2Base):
                 roles = self._get_roles(guild_id, session['id'])
                 user_roles[guild_id] = roles
 
+        # Whitelisted users bypass other whitelists/blacklists.
+        if session['id'] in args.discord_whitelisted_users:
+            session['has_permission'] = True
+            config_name = self._get_access_config_name(user_guilds, user_roles)
+            session['access_config_name'] = config_name
+            session['access_data_updated_at'] = time.time()
+            return
+
         # Check required guilds.
-        in_required_guild = False
-        for guild_id in args.discord_required_guilds:
-            if guild_id in user_guilds:
-                in_required_guild = True
-                break
-        if len(args.discord_required_guilds) > 0 and not in_required_guild:
+        in_required_guild = any(guild_id in user_guilds
+                                for guild_id in args.discord_required_guilds)
+        if args.discord_required_guilds and not in_required_guild:
             session['has_permission'] = False
             session['access_config_name'] = None
             return
@@ -221,14 +230,10 @@ class DiscordAuth(OAuth2Base):
                 return
 
         # Check required roles.
-        has_required_role = False
-        for role in self.required_roles:
-            guild_id = role[0]
-            role_id = role[1]
-            if guild_id in user_guilds and role_id in user_roles[guild_id]:
-                has_required_role = True
-                break
-        if len(self.required_roles) > 0 and not has_required_role:
+        has_required_role = any(role[0] in user_guilds and
+                                role[1] in user_roles[role[0]]
+                                for role in self.required_roles)
+        if self.required_roles and not has_required_role:
             session['has_permission'] = False
             session['access_config_name'] = None
             return
@@ -242,6 +247,12 @@ class DiscordAuth(OAuth2Base):
                 session['access_config_name'] = None
                 return
 
+        session['has_permission'] = True
+        config_name = self._get_access_config_name(user_guilds, user_roles)
+        session['access_config_name'] = config_name
+        session['access_data_updated_at'] = time.time()
+
+    def _get_access_config_name(self, guilds, roles):
         access_config_name = None
         for elem in self.access_configs:
             guild_id = elem[0]
@@ -249,17 +260,15 @@ class DiscordAuth(OAuth2Base):
             config_name = elem[2]
 
             if role_id is not None:
-                if guild_id in user_guilds and role_id in user_roles[guild_id]:
+                if guild_id in guilds and role_id in roles[guild_id]:
                     access_config_name = config_name
                     break
             else:
-                if guild_id in user_guilds:
+                if guild_id in guilds:
                     access_config_name = config_name
                     break
 
-        session['has_permission'] = True
-        session['access_config_name'] = access_config_name
-        session['access_data_updated_at'] = time.time()
+        return access_config_name
 
     def _add_user(self, token):
         headers = {
