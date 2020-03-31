@@ -125,6 +125,7 @@ def create_app():
     Compress(app)
     if args.cors:
         CORS(app)
+
     db_uri = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'.format(
         args.db_user, args.db_pass, args.db_host, args.db_port, args.db_name)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -133,6 +134,8 @@ def create_app():
     }
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
+    with app.app_context():
+        db.engine.dispose()
 
     if args.client_auth:
         app.config['SESSION_TYPE'] = 'redis'
