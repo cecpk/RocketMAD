@@ -170,6 +170,7 @@ class DiscordAuth(OAuth2Base):
 
                     # Token has (most likely) been revoked by user,
                     # log out the user.
+                    log.debug('Exception while retrieving Discord data: %s', e)
                     session.clear()
                     return False, url_for('login_page'), None
 
@@ -181,10 +182,12 @@ class DiscordAuth(OAuth2Base):
                         s = int(e.response.headers['x-ratelimit-reset-after'])
                         time.sleep(s)
                     else:
-                        log.warning('Exception while retrieving Discord '
-                                    'resources: %s', e)
+                        log.warning('Exception while retrieving Discord data: '
+                                    '%s', e)
 
                     return self.get_access_data()
+
+                log.warning('Exception while retrieving Discord data: %s', e)
 
         has_permission = session['has_permission']
         redirect_uri = (args.discord_no_permission_redirect
