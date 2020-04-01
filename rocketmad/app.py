@@ -115,7 +115,8 @@ def auth_required(f):
                 return f(*_args, **kwargs)
             a = auth_factory.get_authenticator(auth_type)
             has_permission, redirect_uri, access_config = a.get_access_data()
-            if not has_permission or access_config not in valid_access_configs:
+            if not has_permission or (access_config is not None and
+                    access_config not in valid_access_configs):
                 session.clear()
             kwargs['has_permission'] = has_permission
             kwargs['redirect_uri'] = redirect_uri
