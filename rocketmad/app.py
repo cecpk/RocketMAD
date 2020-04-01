@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import calendar
 import gc
 import logging
 import redis
 
 from bisect import bisect_left
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import (abort, Flask, jsonify, redirect, render_template, request,
                    send_file, send_from_directory, session, url_for)
 from flask.json import JSONEncoder
@@ -23,7 +22,7 @@ from .auth.auth_factory import AuthFactory
 from .auth.discord_auth import DiscordAuth
 from .blacklist import fingerprints, get_ip_blacklist
 from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
-from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, Trs_Spawn,
+from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
                      Weather)
 from .transform import transform_from_wgs_to_gcj
 from .utils import dottedQuadToNum, get_args, get_pokemon_name, i8ln
@@ -38,11 +37,6 @@ valid_access_configs = []
 ip_blacklist = []
 ip_blacklist_keys = []
 
-db_conn_endpoint_blacklist = [
-    'static', 'login_page', 'map_page', 'pokemon_history_page', 'quest_page',
-    'render_robots_txt', 'render_service_worker_js', 'pokemon_img', 'gym_img'
-]
-
 
 class CustomJSONEncoder(JSONEncoder):
 
@@ -51,11 +45,8 @@ class CustomJSONEncoder(JSONEncoder):
             if isinstance(obj, datetime):
                 if obj.utcoffset() is not None:
                     obj = obj - obj.utcoffset()
-                millis = int(
-                    calendar.timegm(obj.timetuple()) * 1000 +
-                    obj.microsecond / 1000
-                )
-                return millis
+                # Convert datetime to POSIX timestamp in milliseconds.
+                return int(obj.replace(tzinfo=timezone.utc).timestamp() * 1000)
             iterable = iter(obj)
         except TypeError:
             pass
@@ -142,6 +133,15 @@ def create_app():
     if args.cors:
         CORS(app)
 
+    db_uri = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'.format(
+        args.db_user, args.db_pass, args.db_host, args.db_port, args.db_name)
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_size' : 0 # No limit.
+    }
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
+
     if args.client_auth:
         app.config['SESSION_TYPE'] = 'redis'
         redis_url = 'redis://' + args.redis_host + ':' + str(args.redis_port)
@@ -186,17 +186,6 @@ def create_app():
         if ip_is_blacklisted(ip_addr):
             log.debug('Denied access to %s: blacklisted IP.', ip_addr)
             abort(403)
-
-    @app.before_request
-    def db_connect():
-        if request.endpoint not in db_conn_endpoint_blacklist:
-            db.connect()
-
-    @app.teardown_request
-    def db_close(exc):
-        if request.endpoint not in db_conn_endpoint_blacklist:
-            if not db.is_closed():
-                db.close()
 
     @app.route('/')
     @auth_required
@@ -697,8 +686,8 @@ def create_app():
             d['appearancesTimes'] = (
                 Pokemon.get_appearances_times_by_spawnpoint(
                     request.args.get('pokemonid'),
-                    request.args.get('formid'),
                     request.args.get('spawnpoint_id'),
+                    request.args.get('formid'),
                     int(request.args.get('duration'))))
 
         gyms = (request.args.get('gyms', 'true') == 'true' and
@@ -731,23 +720,24 @@ def create_app():
                  not user_args.no_lures)
         if (pokestops and (pokestopsNoEvent or quests or invasions or lures)):
             if lastpokestops != 'true':
-                d['pokestops'] = Pokestop.get_stops(
+                d['pokestops'] = Pokestop.get_pokestops(
                     swLat, swLng, neLat, neLng,
-                    pokestopsNoEvent=pokestopsNoEvent, quests=quests,
-                    invasions=invasions, lures=lures)
+                    eventless_stops=pokestopsNoEvent, quests=quests,
+                    invasions=invasions, lures=lures
+                )
             else:
-                d['pokestops'] = Pokestop.get_stops(
+                d['pokestops'] = Pokestop.get_pokestops(
                     swLat, swLng, neLat, neLng, timestamp=timestamp,
-                    pokestopsNoEvent=pokestopsNoEvent, quests=quests,
-                    invasions=invasions, lures=lures)
+                    eventless_stops=pokestopsNoEvent, quests=quests,
+                    invasions=invasions, lures=lures
+                )
                 if newArea:
-                    d['pokestops'].update(
-                        Pokestop.get_stops(swLat, swLng, neLat, neLng,
-                                           oSwLat=oSwLat, oSwLng=oSwLng,
-                                           oNeLat=oNeLat, oNeLng=oNeLng,
-                                           pokestopsNoEvent=pokestopsNoEvent,
-                                           quests=quests, invasions=invasions,
-                                           lures=lures))
+                    d['pokestops'].update(Pokestop.get_pokestops(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        eventless_stops=pokestopsNoEvent, quests=quests,
+                        invasions=invasions, lures=lures
+                    ))
 
         if (request.args.get('weather', 'false') == 'true' and
                 not user_args.no_weather):
@@ -764,14 +754,14 @@ def create_app():
         if (request.args.get('spawnpoints', 'false') == 'true' and
                 not user_args.no_spawnpoints):
             if lastspawns != 'true':
-                d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
+                d['spawnpoints'] = TrsSpawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng)
             else:
-                d['spawnpoints'] = Trs_Spawn.get_spawnpoints(
+                d['spawnpoints'] = TrsSpawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
                     timestamp=timestamp)
                 if newArea:
-                    d['spawnpoints'] += Trs_Spawn.get_spawnpoints(
+                    d['spawnpoints'] += TrsSpawn.get_spawnpoints(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 

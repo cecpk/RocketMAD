@@ -24,7 +24,8 @@ from time import strftime
 
 from rocketmad.app import create_app
 from rocketmad.gunicorn import GunicornApplication
-from rocketmad.models import create_tables, drop_tables, verify_database_schema
+from rocketmad.models import (create_rm_tables, db, drop_rm_tables,
+                              verify_database_schema)
 from rocketmad.utils import get_args, get_debug_dump_link
 
 log = logging.getLogger()
@@ -80,16 +81,19 @@ def validate_assets(args):
 
 
 def startup_db(clear_db):
-    if clear_db:
-        log.info('Clearing database')
-        drop_tables()
+    log.info('Connecting to MySQL database on %s:%i...',
+             args.db_host, args.db_port)
 
-    create_tables()
+    if clear_db:
+        log.info('Clearing RocketMAD tables')
+        drop_rm_tables()
+
+    create_rm_tables()
     verify_database_schema()
 
     if clear_db:
         log.info('Drop and recreate is complete. Now remove -cd and restart.')
-        sys.exit()
+        sys.exit(0)
 
 
 def set_log_and_verbosity(log):
@@ -155,7 +159,6 @@ def set_log_and_verbosity(log):
         log.setLevel(logging.INFO)
 
     # These are very noisy, let's shush them up a bit.
-    logging.getLogger('peewee').setLevel(logging.INFO)
     logging.getLogger('requests').setLevel(logging.WARNING)
     logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
@@ -169,7 +172,6 @@ def set_log_and_verbosity(log):
         urllib3_logger.setLevel(logging.INFO)
 
     if args.verbose >= 3:
-        logging.getLogger('peewee').setLevel(logging.DEBUG)
         logging.getLogger('werkzeug').setLevel(logging.DEBUG)
         logging.addLevelName(5, 'TRACE')
 
@@ -209,7 +211,13 @@ if __name__ == '__main__':
     if not validate_assets(args):
         sys.exit(1)
 
-    startup_db(args.clear_db)
+    app = create_app()
+    with app.app_context():
+        startup_db(args.clear_db)
+
+    def post_fork(server, worker):
+        with app.app_context():
+            db.engine.dispose()
 
     use_ssl = (args.ssl_certificate and args.ssl_privatekey and
                os.path.exists(args.ssl_certificate) and
@@ -217,13 +225,12 @@ if __name__ == '__main__':
     if use_ssl:
         log.info('Web server in SSL mode.')
 
-    app = create_app()
-
     if not args.development_server:
         options = {
             'bind': '%s:%s' % (args.host, args.port),
             'worker_class': 'gevent',
             'workers': args.workers,
+            'post_fork': post_fork,
             'keyfile': args.ssl_privatekey if use_ssl else None,
             'certfile': args.ssl_certificate if use_ssl else None,
             'logger_class': 'rocketmad.gunicorn.GunicornLogger',

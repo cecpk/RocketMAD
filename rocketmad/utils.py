@@ -156,6 +156,9 @@ def get_args(access_config=None):
     parser.add_argument('-nq', '--no-quests',
                         help=('Disables Quests.'),
                         action='store_true', default=False)
+    parser.add_argument('-qr', '--quest-reset-time',
+                        default='00:00',
+                        help='Only show quests scanned after this time.')
     parser.add_argument('-nqp', '--no-quest-page',
                         help='Disables quest page.',
                         action='store_true', default=False)
@@ -274,27 +277,31 @@ def get_args(access_config=None):
     group.add_argument('--db-port',
                        help='Port for the database.', type=int, default=3306)
     group = parser.add_argument_group('Database Cleanup')
-    group.add_argument('-DC', '--db-cleanup',
-                       help='Enable regular database cleanup thread.',
-                       action='store_true', default=False)
+    group.add_argument('-DCi', '--db-cleanup-interval',
+                       type=int, default=600,
+                       help='Time between database cleanups in seconds.')
     group.add_argument('-DCp', '--db-cleanup-pokemon',
                        help=('Clear pokemon from database X hours ' +
                              'after they disappeared. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
     group.add_argument('-DCg', '--db-cleanup-gym',
-                       help=('Clear gym details from database X hours ' +
-                             'after last gym scan. ' +
-                             'Default: 8, 0 to disable.'),
-                       type=int, default=8)
-    group.add_argument('-DCs', '--db-cleanup-spawnpoint',
-                       help=('Clear spawnpoint from database X hours ' +
-                             'after last valid scan. ' +
-                             'Default: 720, 0 to disable.'),
-                       type=int, default=720)
+                       help=('Clear gym details (including raids) from ' +
+                             'database X hours after last gym scan. ' +
+                             'Default: 0, 0 to disable.'),
+                       type=int, default=0)
+    group.add_argument('-DCps', '--db-cleanup-pokestop',
+                       action='store_true',
+                       help='Clear lure data, invasion data, and quests when '
+                            'no longer active. Default: False')
     group.add_argument('-DCf', '--db-cleanup-forts',
                        help=('Clear gyms and pokestops from ' +
                              'database X hours ' +
+                             'after last valid scan. ' +
+                             'Default: 0, 0 to disable.'),
+                       type=int, default=0)
+    group.add_argument('-DCs', '--db-cleanup-spawnpoint',
+                       help=('Clear spawnpoint from database X hours ' +
                              'after last valid scan. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
@@ -574,6 +581,13 @@ def get_args(access_config=None):
     position = extract_coordinates(args.location)
     args.center_lat = position[0]
     args.center_lng = position[1]
+
+    if (args.db_cleanup_pokemon > 0 or args.db_cleanup_gym > 0 or
+            args.db_cleanup_pokestop or args.db_cleanup_forts > 0 or
+            args.db_cleanup_spawnpoint > 0):
+        args.db_cleanup = True
+    else:
+        args.db_cleanup = False
 
     if args.discord_auth or args.telegram_auth:
         args.server_uri = args.server_uri.rstrip('/')
@@ -1038,12 +1052,12 @@ def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
     return spawn_group
 
 
-def dynamic_rarity_refresher():
+def dynamic_rarity_refresher(app):
     args = get_args()
 
     # If we import at the top, rocketmad.models will import rocketmad.utils,
     # causing the cyclic import to make some things unavailable.
-    from .models import db, Pokemon
+    from .models import Pokemon
 
     # Refresh every x hours.
     hours = args.rarity_hours
@@ -1059,7 +1073,7 @@ def dynamic_rarity_refresher():
         log.info('Updating dynamic rarity...')
 
         start = default_timer()
-        with db:
+        with app.app_context():
             db_rarities = Pokemon.get_spawn_counts(hours)
         total = db_rarities['total']
         pokemon = db_rarities['pokemon']
@@ -1068,8 +1082,9 @@ def dynamic_rarity_refresher():
         rarities = {}
 
         for poke in pokemon:
-            rarities[poke['pokemon_id']] = get_pokemon_rarity(total,
-                                                              poke['count'])
+            id = poke['pokemon_id']
+            count = poke['count']
+            rarities[id] = get_pokemon_rarity(total, count)
 
         # Save to file.
         with open(rarities_path, 'w') as outfile:
@@ -1084,19 +1099,6 @@ def dynamic_rarity_refresher():
         log.debug('Waiting %d minutes before next dynamic rarity update.',
                   refresh_time_sec / 60)
         time.sleep(refresh_time_sec)
-
-
-# Translate peewee model class attribute to database column name.
-def peewee_attr_to_col(cls, field):
-    field_column = getattr(cls, field)
-
-    # Only try to do it on populated fields.
-    if field_column is not None:
-        field_column = field_column.db_column
-    else:
-        field_column = field
-
-    return field_column
 
 
 def parse_geofence_file(geofence_file):
