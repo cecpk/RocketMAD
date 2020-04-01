@@ -236,6 +236,9 @@ function pokestopLabel(pokestop) {
                   <div>
                     Reward: <strong>${rewardText}</strong>
                   </div>
+                  <div>
+                    Scanned: <strong>${timestampToDateTime(quest.scanned_at)}</strong>
+                  </div>
                 </div>
                 <div>
                   <a href='javascript:${notifFunction}' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
