@@ -575,7 +575,7 @@ function getPokestopNotificationInfo(pokestop) {
         }
 
         newNotif = !notifiedPokestopData.hasOwnProperty(id) ||
-            (questNotif && (!notifiedPokestopData[id].questNotif || pokestop.quest.timestamp > notifiedPokestopData[id].questTimestamp)) ||
+            (questNotif && (!notifiedPokestopData[id].questNotif || pokestop.quest.scanned_at > notifiedPokestopData[id].questScannedAt)) ||
             (invasionNotif && (!notifiedPokestopData[id].invasionNotif || pokestop.incident_expiration > notifiedPokestopData[id].invasionEnd)) ||
             (lureNotif && (!notifiedPokestopData[id].lureNotif || pokestop.lure_expiration > notifiedPokestopData[id].lureEnd))
     }
@@ -646,7 +646,7 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
     let notificationData = {}
     if (questNotif) {
         notificationData.questNotif = true
-        notificationData.questTimestamp = pokestop.quest.timestamp
+        notificationData.questScannedAt = pokestop.quest.scanned_at
     }
     if (invasionNotif) {
         notificationData.invasionNotif = true

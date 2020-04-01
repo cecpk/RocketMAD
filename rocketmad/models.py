@@ -533,7 +533,9 @@ class Pokestop(db.Model):
             if quest_orm is not None:
                 quest = {}
                 quest['pokestop_id'] = quest_orm.GUID
-                quest['timestamp'] = quest_orm.quest_timestamp
+                quest['scanned_at'] = datetime.utcfromtimestamp(
+                    quest_orm.quest_timestamp
+                )
                 quest['task'] = quest_orm.quest_task
                 quest['type'] = quest_orm.quest_type
                 quest['stardust'] = quest_orm.quest_stardust
@@ -543,9 +545,6 @@ class Pokestop(db.Model):
                 quest['reward_type'] = quest_orm.quest_reward_type
                 quest['item_id'] = quest_orm.quest_item_id
                 quest['item_amount'] = quest_orm.quest_item_amount
-                quest['scanned_at'] = datetime.utcfromtimestamp(
-                    quest_orm.quest_timestamp
-                )
                 pokestop['quest'] = quest
             else:
                 pokestop['quest'] = None
