@@ -61,6 +61,13 @@ module.exports = function (grunt) {
                 dest: 'static/dist/js/mobile.concat.js'
             },
             dist5: {
+                src: [
+                    'static/js/utils/utils.motd.js', 'static/js/utils/utils.store.js', 'static/js/utils/utils.js',
+                    'static/js/custom.js', 'static/js/users.js'
+                ],
+                dest: 'static/dist/js/users.concat.js'
+            },
+            dist6: {
                 src: ['static/dist/css/app.built.css', 'static/css/custom.css'],
                 dest: 'static/dist/css/app.concat.css'
             }
@@ -76,6 +83,7 @@ module.exports = function (grunt) {
                     'static/dist/js/pokemon-history.built.js': 'static/dist/js/pokemon-history.concat.js',
                     'static/dist/js/quest.built.js': 'static/dist/js/quest.concat.js',
                     'static/dist/js/mobile.built.js': 'static/dist/js/mobile.concat.js',
+                    'static/dist/js/users.built.js': 'static/dist/js/users.concat.js',
                     'static/dist/js/serviceWorker.built.js': 'static/js/serviceWorker.js'
                }
             }
@@ -94,6 +102,7 @@ module.exports = function (grunt) {
                     'static/dist/js/pokemon-history.min.js': 'static/dist/js/pokemon-history.built.js',
                     'static/dist/js/quest.min.js': 'static/dist/js/quest.built.js',
                     'static/dist/js/mobile.min.js': 'static/dist/js/mobile.built.js',
+                    'static/dist/js/users.min.js': 'static/dist/js/users.built.js',
                     'static/dist/js/serviceWorker.min.js': 'static/dist/js/serviceWorker.built.js'
                 }
             }
@@ -167,8 +176,8 @@ module.exports = function (grunt) {
 
     })
 
-    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:concat:dist3', 'newer:concat:dist4', 'newer:babel', 'newer:uglify'])
-    grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist5', 'newer:cssmin'])
+    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:concat:dist3', 'newer:concat:dist4', 'newer:concat:dist5', 'newer:babel', 'newer:uglify'])
+    grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist6', 'newer:cssmin'])
     grunt.registerTask('js-lint', ['newer:eslint'])
     grunt.registerTask('json', ['newer:minjson'])
 

@@ -65,7 +65,7 @@
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
 #twelve-hour-clock              # Display time with the 12-hour clock format.
 #analytics-id:                  # Google Analytics Tracking-ID. (default=None)
-#map-update-interval:           # Interval between raw_data requests (map updates) in milliseconds. (default=2500)
+#map-update-interval:           # Interval between raw-data requests (map updates) in milliseconds. (default=2500)
 
 #motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
 #motd-title:                    # MOTD title, can be HTML. (default='MOTD')
@@ -183,6 +183,7 @@
 #discord-no-permission-redirect:  # Link to redirect user to if user has no permission. Typically this would be your discord guild invite link.
 #discord-access-configs:          # Use different config file based on discord role (or guild). Accepts list with elements in this format: guild_id:role_id:access_config_name
                                   # You can also only use guilds. If multiple config files correspond to one user, only the first file is used. (default=[])
+#discord-admins:                  # Discord users that have admin rights. Accepts list of Discord user IDs. (default=[])
 
 
 # Telegram authentication
@@ -199,6 +200,7 @@
 #telegram-no-permission-redirect:  # Link to redirect user to if user has no permission. Typically this would be your telegram group chat invite link.
 #telegram-access-configs:         # Use different config file based on telegram chat. Accepts list with elements in this format: <chat_id>:<access_config_name>
                                   # If multiple config files correspond to one user, only the first file is used. (default=[])
+#telegram-admins:                 # Telegram users that have admin rights. Accepts list of Telegram user IDs. (default=[])
 
 
 # Misc

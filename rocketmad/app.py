@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import gc
+import pickle
 import logging
 import redis
 
 from bisect import bisect_left
 from datetime import datetime, timezone
-from flask import (abort, Flask, jsonify, redirect, render_template, request,
-                   send_file, send_from_directory, session, url_for)
+from flask import (abort, current_app,Flask, jsonify, redirect,
+                   render_template, request, send_file, send_from_directory,
+                   session, url_for)
 from flask.json import JSONEncoder
 from flask_cachebuster import CacheBuster
 from flask_caching import Cache
@@ -144,8 +146,8 @@ def create_app():
 
     if args.client_auth:
         app.config['SESSION_TYPE'] = 'redis'
-        redis_url = 'redis://' + args.redis_host + ':' + str(args.redis_port)
-        app.config['SESSION_REDIS'] = redis.from_url(redis_url)
+        r = redis.Redis(args.redis_host, args.redis_port)
+        app.config['SESSION_REDIS'] = r
         app.config['SESSION_USE_SIGNER'] = True
         app.secret_key = args.secret_key
         Session(app)
@@ -534,7 +536,48 @@ def create_app():
 
         return redirect(url_for('map_page'))
 
-    @app.route('/raw_data')
+    @app.route('/users')
+    def users_page():
+        if not args.client_auth:
+            abort(404)
+
+        if not is_logged_in():
+            abort(403)
+        elif session['auth_type'] == 'discord':
+            if session['id'] not in args.discord_admins:
+                abort(403)
+        elif session['auth_type'] == 'telegram':
+            if session['id'] not in args.telegram_admins:
+                abort(403)
+
+        settings = {
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
+        }
+
+        return render_template(
+            'users.html',
+            lang=args.locale,
+            map_title=args.map_title,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            analytics_id=args.analytics_id,
+            discord_auth=args.discord_auth,
+            telegram_auth=args.telegram_auth,
+            settings=settings
+        )
+
+    @app.route('/raw-data')
     @auth_required
     def raw_data(*_args, **kwargs):
         if not kwargs['has_permission']:
@@ -779,6 +822,51 @@ def create_app():
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
         return jsonify(d)
+
+    @app.route('/raw-data/users')
+    def users_data():
+        if not args.client_auth:
+            abort(404)
+
+        # Make sure fingerprint isn't blacklisted.
+        fingerprint_blacklisted = any([
+            fingerprints['no_referrer'](request),
+            fingerprints['iPokeGo'](request)
+        ])
+
+        if fingerprint_blacklisted:
+            log.debug('User denied access: blacklisted fingerprint.')
+            abort(403)
+
+        if not is_logged_in():
+            abort(403)
+        elif session['auth_type'] == 'discord':
+            if session['id'] not in args.discord_admins:
+                abort(403)
+        elif session['auth_type'] == 'telegram':
+            if session['id'] not in args.telegram_admins:
+                abort(403)
+
+        r = redis.Redis(args.redis_host, args.redis_port)
+
+        key_prefix = current_app.session_interface.key_prefix
+        session_keys = r.keys(key_prefix + '*')
+
+        users = []
+        for key in session_keys:
+            data = pickle.loads(r.get(key))
+            if 'auth_type' not in data or 'has_permission' not in data:
+                continue
+            del data['_permanent']
+            del data['has_permission']
+            if data['auth_type'] == 'discord':
+                del data['token']
+            data['access_data_updated_at'] = int(
+                data['access_data_updated_at'] * 1000
+            )
+            users.append(data)
+
+        return jsonify(users)
 
     @app.route('/pkm_img')
     def pokemon_img():
