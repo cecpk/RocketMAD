@@ -65,14 +65,6 @@ $(function () {
                 responsivePriority: 1,
                 'data': null,
                 'render': function (data, type, row) {
-                    return data.id
-                }
-            },
-            {
-                'targets': 1,
-                responsivePriority: 1,
-                'data': null,
-                'render': function (data, type, row) {
                     switch (data.auth_type) {
                         case 'discord':
                             return data.username
@@ -83,6 +75,14 @@ $(function () {
                                 return data.first_name
                             }
                     }
+                }
+            },
+            {
+                'targets': 1,
+                responsivePriority: 4,
+                'data': null,
+                'render': function (data, type, row) {
+                    return data.id
                 }
             },
             {
