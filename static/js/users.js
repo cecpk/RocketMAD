@@ -10,6 +10,19 @@ function disableDarkMode() {
     $('meta[name="theme-color"]').attr('content', '#ffffff')
 }
 
+function initSidebar() {
+    $('#dark-mode-switch').on('change', function () {
+        if (this.checked) {
+            enableDarkMode()
+        } else {
+            disableDarkMode()
+        }
+        Store.set('darkMode', this.checked)
+    })
+
+    $('#dark-mode-switch').prop('checked', Store.get('darkMode'))
+}
+
 function loadRawData() {
     return $.ajax({
         url: 'raw-data/users',
@@ -99,4 +112,14 @@ $(function () {
     })
 
     loadUsers()
+
+    $('.dropdown-trigger').dropdown({
+        constrainWidth: false,
+        coverTrigger: false
+    })
+    $('.sidenav').sidenav({
+        draggable: false
+    })
+
+    initSidebar()
 })

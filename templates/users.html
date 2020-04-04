@@ -37,6 +37,7 @@
         <nav>
           <div class="nav-wrapper">
             <ul>
+              <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
                 <a href="./" class="brand-logo">
                   {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
@@ -44,7 +45,7 @@
               </li>
             </ul>
             <ul class="right">
-              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or pokemon_history_page %}
+              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or pokemon_history_page or quest_page %}
               {% if use_dropdown %}
               <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>
               {% endif %}
@@ -72,6 +73,9 @@
               {% if pokemon_history_page %}
               <li><a href="pokemon-history" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
               {% endif %}
+              {% if quest_page %}
+              <li><a href="quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
+              {% endif %}
               <li><a href="logout" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
           </div>
@@ -83,6 +87,9 @@
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if pokemon_history_page %}
       <li><a href="pokemon-history"><i class="material-icons">pets</i>Pokémon history</a></li>
+      {% endif %}
+      {% if quest_page %}
+      <li><a href="quests"><i class="material-icons">explore</i>Quests</a></li>
       {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
@@ -97,7 +104,7 @@
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
       {% endif %}
-      {% if discord_url or messenger_url or telegramUrl or whatsapp_url %}
+      {% if discord_url or messenger_url or telegram_url or whatsapp_url %}
       <li class="divider" tabindex="-1"></li>
       {% endif %}
       {% if discord_url %}
@@ -106,8 +113,8 @@
       {% if messenger_url %}
       <li><a href="{{ messenger_url }}" target="_blank"><i class="fab fa-facebook-messenger"></i>Messenger</a></li>
       {% endif %}
-      {% if telegramUrl %}
-      <li><a href="{{ telegramUrl }}" target="_blank"><i class="fab fa-telegram-plane"></i>Telegram</a></li>
+      {% if telegram_url %}
+      <li><a href="{{ telegram_url }}" target="_blank"><i class="fab fa-telegram-plane"></i>Telegram</a></li>
       {% endif %}
       {% if whatsapp_url %}
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
@@ -123,6 +130,22 @@
       </div>
     </div>
     {% endif %}
+
+    <ul id="settings-sidenav" class="sidenav">
+      <li>
+        <div class="settings-container">
+          <div class="form-control">
+            <div class="switch">
+              <label>
+                <input type="checkbox" id="dark-mode-switch">
+                <span class="lever"></span>
+                Dark mode
+              </label>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
 
     <div class="container">
       <h5>Logged-in users</h5>
@@ -149,7 +172,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
 
     <script src="{{ url_for('static', filename='dist/js/users.min.js') }}"></script>
   </body>

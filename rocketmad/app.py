@@ -537,9 +537,13 @@ def create_app():
         return redirect(url_for('map_page'))
 
     @app.route('/users')
-    def users_page():
+    @auth_required
+    def users_page(*_args, **kwargs):
         if not args.client_auth:
             abort(404)
+
+        if not kwargs['has_permission']:
+            return redirect(kwargs['redirect_uri'])
 
         if not is_logged_in():
             abort(403)
@@ -550,30 +554,35 @@ def create_app():
             if session['id'] not in args.telegram_admins:
                 abort(403)
 
+        user_args = get_args(kwargs['access_config'])
+
         settings = {
-            'motd': args.motd,
-            'motdTitle': args.motd_title,
-            'motdText': args.motd_text,
-            'motdPages': args.motd_pages,
-            'showMotdAlways': args.show_motd_always
+            'motd': user_args.motd,
+            'motdTitle': user_args.motd_title,
+            'motdText': user_args.motd_text,
+            'motdPages': user_args.motd_pages,
+            'showMotdAlways': user_args.show_motd_always
         }
 
         return render_template(
             'users.html',
-            lang=args.locale,
-            map_title=args.map_title,
-            header_image=not args.no_header_image,
-            header_image_name=args.header_image,
-            madmin_url=args.madmin_url,
-            donate_url=args.donate_url,
-            patreon_url=args.patreon_url,
-            discord_url=args.discord_url,
-            messenger_url=args.messenger_url,
-            telegram_url=args.telegram_url,
-            whatsapp_url=args.whatsapp_url,
-            analytics_id=args.analytics_id,
-            discord_auth=args.discord_auth,
-            telegram_auth=args.telegram_auth,
+            lang=user_args.locale,
+            map_title=user_args.map_title,
+            header_image=not user_args.no_header_image,
+            header_image_name=user_args.header_image,
+            madmin_url=user_args.madmin_url,
+            donate_url=user_args.donate_url,
+            patreon_url=user_args.patreon_url,
+            discord_url=user_args.discord_url,
+            messenger_url=user_args.messenger_url,
+            telegram_url=user_args.telegram_url,
+            whatsapp_url=user_args.whatsapp_url,
+            analytics_id=user_args.analytics_id,
+            pokemon_history_page=(not user_args.no_pokemon and
+                                  not user_args.no_pokemon_history_page),
+            quest_page=(not user_args.no_pokestops and
+                        not user_args.no_quests and
+                        not user_args.no_quest_page),
             settings=settings
         )
 
@@ -855,7 +864,7 @@ def create_app():
         users = []
         for key in session_keys:
             data = pickle.loads(r.get(key))
-            if 'auth_type' not in data or 'has_permission' not in data:
+            if 'auth_type' not in data or 'access_data_updated_at' not in data:
                 continue
             del data['_permanent']
             del data['has_permission']
