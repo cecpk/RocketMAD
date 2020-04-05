@@ -17,15 +17,30 @@ Assuming the following:
 3. Create a file /etc/nginx/conf.d/rocketmap.conf and place the following in it:
 
    ```
+   map $scheme $proxy_x_forwarded_ssl {
+       default off;
+       https on;
+   }
+   map $http_x_forwarded_proto $proxy_x_forwarded_proto {
+       default $http_x_forwarded_proto;
+       '' $scheme;
+   }
    server {
        listen 80;
        location /go/ {
-          proxy_pass http://127.0.0.1:5000/;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Ssl $proxy_x_forwarded_ssl;
+           proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
+           proxy_set_header X-Script-Name /go;
+           proxy_pass http://127.0.0.1:5000/;
        }
    }
    ```
 
 You can now access it by http://yourip/go
+
+Note that you can pick a path other that `/go` in your address, but then you need to alter both the `location`and the `proxy_set_header X-Script-Name` line in the configuration above.
 
 ## Add a free SSL Certificate to your site:
 
@@ -47,6 +62,15 @@ You can now access it by http://yourip/go
 ## Example Config
 
 ```
+map $scheme $proxy_x_forwarded_ssl {
+    default off;
+    https on;
+}
+map $http_x_forwarded_proto $proxy_x_forwarded_proto {
+    default $http_x_forwarded_proto;
+    '' $scheme;
+}
+
 server {
     listen       80;
     server_name  PokeMaps.yourdomain.com;
@@ -76,6 +100,11 @@ server {
     add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
 
     location /go/ {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Ssl $proxy_x_forwarded_ssl;
+        proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
+        proxy_set_header X-Script-Name /go;
         proxy_pass http://127.0.0.1:5000/;
         proxy_redirect off;
     }
