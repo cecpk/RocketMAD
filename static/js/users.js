@@ -40,6 +40,7 @@ function loadUsers() {
             table.row.add(value)
         })
         table.draw()
+        table.columns.adjust()
     }).fail(function () {
         // Wait for next retry.
         setTimeout(loadQuests, 1000)
