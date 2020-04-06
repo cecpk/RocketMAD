@@ -25,7 +25,7 @@ function initSidebar() {
 
 function loadRawData() {
     return $.ajax({
-        url: 'raw-data/users',
+        url: '/raw-data/users',
         type: 'GET',
         dataType: 'json',
         error: function () {

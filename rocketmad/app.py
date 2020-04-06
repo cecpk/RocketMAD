@@ -93,6 +93,17 @@ def is_logged_in():
     return 'auth_type' in session
 
 
+def is_admin():
+    if not args.client_auth or not is_logged_in():
+        return False
+
+    auth_type = session['auth_type']
+    if auth_type == 'discord':
+        return session['id'] in args.discord_admins
+    elif auth_type == 'telegram':
+        return session['id'] in args.telegram_admins
+
+
 def auth_required(f):
     @wraps(f)
     def decorated_function(*_args, **kwargs):
@@ -260,6 +271,7 @@ def create_app():
             header_image_name=user_args.header_image,
             client_auth=user_args.client_auth,
             logged_in=is_logged_in(),
+            admin=is_admin(),
             madmin_url=user_args.madmin_url,
             donate_url=user_args.donate_url,
             patreon_url=user_args.patreon_url,
@@ -305,6 +317,7 @@ def create_app():
             header_image_name=user_args.header_image,
             client_auth=user_args.client_auth,
             logged_in=is_logged_in(),
+            admin=is_admin(),
             madmin_url=user_args.madmin_url,
             donate_url=user_args.donate_url,
             patreon_url=user_args.patreon_url,
@@ -348,6 +361,7 @@ def create_app():
             header_image_name=user_args.header_image,
             client_auth=user_args.client_auth,
             logged_in=is_logged_in(),
+            admin=is_admin(),
             madmin_url=user_args.madmin_url,
             donate_url=user_args.donate_url,
             patreon_url=user_args.patreon_url,
@@ -456,6 +470,10 @@ def create_app():
             analytics_id=args.analytics_id,
             discord_auth=args.discord_auth,
             telegram_auth=args.telegram_auth,
+            pokemon_history_page=(not args.no_pokemon and
+                                  not args.no_pokemon_history_page),
+            quest_page=(not args.no_pokestops and not args.no_quests and
+                        not args.no_quest_page),
             settings=settings
         )
 
@@ -501,6 +519,10 @@ def create_app():
             messenger_url=args.messenger_url,
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
+            pokemon_history_page=(not args.no_pokemon and
+                                  not args.no_pokemon_history_page),
+            quest_page=(not args.no_pokestops and not args.no_quests and
+                        not args.no_quest_page),
             analytics_id=args.analytics_id,
             telegram_bot_username=args.telegram_bot_username,
             server_uri=args.server_uri,
@@ -536,7 +558,11 @@ def create_app():
 
         return redirect(url_for('map_page'))
 
-    @app.route('/users')
+    @app.route('/admin')
+    def admin_page():
+        return redirect(url_for('users_page'))
+
+    @app.route('/admin/users')
     @auth_required
     def users_page(*_args, **kwargs):
         if not args.client_auth:
@@ -545,14 +571,8 @@ def create_app():
         if not kwargs['has_permission']:
             return redirect(kwargs['redirect_uri'])
 
-        if not is_logged_in():
+        if not is_admin():
             abort(403)
-        elif session['auth_type'] == 'discord':
-            if session['id'] not in args.discord_admins:
-                abort(403)
-        elif session['auth_type'] == 'telegram':
-            if session['id'] not in args.telegram_admins:
-                abort(403)
 
         user_args = get_args(kwargs['access_config'])
 
@@ -847,14 +867,8 @@ def create_app():
             log.debug('User denied access: blacklisted fingerprint.')
             abort(403)
 
-        if not is_logged_in():
+        if not is_admin():
             abort(403)
-        elif session['auth_type'] == 'discord':
-            if session['id'] not in args.discord_admins:
-                abort(403)
-        elif session['auth_type'] == 'telegram':
-            if session['id'] not in args.telegram_admins:
-                abort(403)
 
         r = redis.Redis(args.redis_host, args.redis_port)
 

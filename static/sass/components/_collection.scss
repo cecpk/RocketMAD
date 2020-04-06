@@ -1,0 +1,7 @@
+.dark .collection .collection-item {
+  background-color: $background-color-dark;
+
+  &:not(.active):hover {
+    background-color: rgba(255,255,255,.25);
+  }
+}
