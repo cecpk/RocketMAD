@@ -165,8 +165,9 @@ class DiscordAuth(OAuth2Base):
                             }
 
                             return self.get_access_data()
-                        except requests.exceptions.HTTPError as e:
-                            pass
+                        except requests.exceptions.HTTPError as ex:
+                            log.warning('Exception while refreshing Discord '
+                                        'token: %s', ex)
 
                     # Token has (most likely) been revoked by user,
                     # log out the user.
