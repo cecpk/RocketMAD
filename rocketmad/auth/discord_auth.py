@@ -175,20 +175,20 @@ class DiscordAuth(OAuth2Base):
                     session.clear()
                     return False, url_for('login_page'), None
 
+                if e.response.status.code == 429:
+                    log.debug('Discord rate limit exceeded: %s', e)
+                else:
+                    log.warning('Exception while retrieving Discord data: %s',
+                                e)
+
                 if 'has_permission' not in session:
                     # Access data is still missing, retry.
                     if e.response.status_code == 429:
                         # We are rate limited, wait a bit.
-                        log.debug('Discord rate limit exceeded: %s', e)
-                        s = int(e.response.headers['x-ratelimit-reset-after'])
-                        time.sleep(s)
-                    else:
-                        log.warning('Exception while retrieving Discord data: '
-                                    '%s', e)
+                        t = int(e.response.headers['x-ratelimit-reset-after'])
+                        time.sleep(t)
 
                     return self.get_access_data()
-
-                log.warning('Exception while retrieving Discord data: %s', e)
 
         has_permission = session['has_permission']
         redirect_uri = (args.discord_no_permission_redirect
