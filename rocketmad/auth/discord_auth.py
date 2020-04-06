@@ -153,6 +153,8 @@ class DiscordAuth(OAuth2Base):
                 self._update_access_data()
             except requests.exceptions.HTTPError as e:
                 if e.response.status_code in [400, 401]:
+                    log.debug('Exception while retrieving Discord data: %s', e)
+
                     token = session['token']
                     if token['expires_at'] < time.time():
                         try:
@@ -169,9 +171,7 @@ class DiscordAuth(OAuth2Base):
                             log.warning('Exception while refreshing Discord '
                                         'token: %s', ex)
 
-                    # Token has (most likely) been revoked by user,
-                    # log out the user.
-                    log.debug('Exception while retrieving Discord data: %s', e)
+                    # Token has (probably) been revoked by user, log out user.
                     session.clear()
                     return False, url_for('login_page'), None
 
