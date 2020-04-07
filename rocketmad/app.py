@@ -8,7 +8,7 @@ import redis
 
 from bisect import bisect_left
 from datetime import datetime, timezone
-from flask import (abort, current_app,Flask, jsonify, redirect,
+from flask import (abort, current_app, Flask, jsonify, redirect,
                    render_template, request, send_file, send_from_directory,
                    session, url_for)
 from flask.json import JSONEncoder
