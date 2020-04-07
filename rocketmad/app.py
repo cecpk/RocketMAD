@@ -200,6 +200,10 @@ def create_app():
             log.debug('Denied access to %s: blacklisted IP.', ip_addr)
             abort(403)
 
+        if args.client_auth:
+            session['ip'] = ip_addr
+            session['last_active'] = datetime.utcnow()
+
     @app.route('/')
     @auth_required
     def map_page(*_args, **kwargs):
@@ -882,11 +886,9 @@ def create_app():
                 continue
             del data['_permanent']
             del data['has_permission']
+            del data['access_data_updated_at']
             if data['auth_type'] == 'discord':
                 del data['token']
-            data['access_data_updated_at'] = int(
-                data['access_data_updated_at'] * 1000
-            )
             users.append(data)
 
         return jsonify(users)

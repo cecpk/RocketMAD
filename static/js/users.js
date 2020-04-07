@@ -80,15 +80,7 @@ $(function () {
             },
             {
                 'targets': 1,
-                responsivePriority: 4,
-                'data': null,
-                'render': function (data, type, row) {
-                    return data.id
-                }
-            },
-            {
-                'targets': 2,
-                responsivePriority: 3,
+                responsivePriority: 2,
                 'data': null,
                 'render': function (data, type, row) {
                     if (type == 'display') {
@@ -98,15 +90,32 @@ $(function () {
                 }
             },
             {
+                'targets': 2,
+                responsivePriority: 3,
+                'data': null,
+                'render': function (data, type, row) {
+                    return data.id
+                }
+            },
+            {
                 'targets': 3,
-                responsivePriority: 2,
+                responsivePriority: 5,
+                'data': null,
+                'render': function (data, type, row) {
+                    return data.ip ? data.ip : 'Unknown'
+                }
+            },
+
+            {
+                'targets': 4,
+                responsivePriority: 4,
                 type: 'natural',
                 'data': null,
                 'render': function (data, type, row) {
                     if (type == 'display') {
-                        return timestampToDateTime(data.access_data_updated_at)
+                        return data.last_active ? timestampToDateTime(data.last_active) : 'Unknown'
                     }
-                    return data.access_data_updated_at
+                    return data.last_active ? data.last_active : 0
                 }
             }
         ]
