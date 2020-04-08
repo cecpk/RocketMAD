@@ -406,7 +406,7 @@ def get_args(access_config=None):
                        help='If specified, user must have one of these '
                             'discord roles (from a specific guild) to access '
                             'map. Accepts list of role IDs, or list of guild '
-                            'IDs and roles IDs separated by ':'. Example: '
+                            'IDs and roles IDs separated by \':\'. Example: '
                             '[<guild1>:<role1>, <guild2>:<role2>].')
     group.add_argument('-DAbr', '--discord-blacklisted-roles',
                        nargs='+', default=[],
