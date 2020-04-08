@@ -381,7 +381,8 @@ def get_args(access_config=None):
                         help='OAuth2 client secret.')
     group.add_argument('-DAbt', '--discord-bot-token', default=None,
                        help='Token for bot with access to your guild. '
-                            'Only required for required-roles feature.')
+                            'Only required for required/blacklisted roles '
+                            'feature.')
     group.add_argument('-DAbu', '--discord-blacklisted-users',
                        nargs='+', default=[],
                        help='List of user ID\'s that are always blocked from '
@@ -403,17 +404,14 @@ def get_args(access_config=None):
     group.add_argument('-DArr', '--discord-required-roles',
                        nargs='+', default=[],
                        help='If specified, user must have one of these '
-                            'discord roles (from a specific guild). '
-                            'Accepts comma separated list of role IDs, '
-                            'or comma separated list of guild IDs and '
-                            'roles IDs separated by \':\' e.g. 12345:6789')
+                            'discord roles (from a specific guild) to access '
+                            'map. Accepts list of role IDs, or list of guild '
+                            'IDs and roles IDs separated by ':'. Example: '
+                            '[<guild1>:<role1>, <guild2>:<role2>].')
     group.add_argument('-DAbr', '--discord-blacklisted-roles',
                        nargs='+', default=[],
                        help='If specified, user must NOT have any of these '
-                            'discord roles (from a specific guild). '
-                            'Accepts comma separated list of role IDs, '
-                            'or comma separated list of guild IDs and '
-                            'roles IDs separated by \':\' e.g. 12345:6789')
+                            'discord roles (from a specific guild).')
     group.add_argument('-DAr', '--discord-no-permission-redirect',
                        default=None,
                        help='Link to redirect user to if user has no '
@@ -423,10 +421,10 @@ def get_args(access_config=None):
                        nargs='+', default=[],
                        help='Use different config file based on discord role '
                             '(or guild). Accepts list with elements in this '
-                            'format: guild_id:role_id:access_config_name '
-                            'You can also only use guilds. If multiple config '
-                            'files correspond to one user, only the first '
-                            'file is used.')
+                            'format: <guild_id>:<role_id>:'
+                            '<access_config_name> You can also only use '
+                            'guilds. If multiple config files correspond to '
+                            'one user, only the first file is used.')
     group.add_argument('-DAa', '--discord-admins',
                        nargs='+', default=[],
                        help='Discord users that have admin rights. '
