@@ -27,7 +27,8 @@ from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
 from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
                      Weather)
 from .transform import transform_from_wgs_to_gcj
-from .utils import dottedQuadToNum, get_args, get_pokemon_name, i8ln
+from .utils import (dottedQuadToNum, get_args, get_pokemon_name, get_sessions,
+                    i8ln)
 
 log = logging.getLogger(__name__)
 args = get_args()
@@ -546,6 +547,14 @@ def create_app():
 
         auth_factory.get_authenticator(auth_type).authorize()
 
+        if args.no_multiple_logins:
+            r = app.config['SESSION_REDIS']
+            sessions = get_sessions(r)
+            for s in sessions:
+                if 'auth_type' in s and 'id' in s:
+                    if s['id'] == session['id']:
+                        r.delete('session:' + s['session_id'])
+
         return redirect(url_for('map_page'))
 
     @app.route('/logout')
@@ -874,22 +883,17 @@ def create_app():
         if not is_admin():
             abort(403)
 
-        r = redis.Redis(args.redis_host, args.redis_port)
-
-        key_prefix = current_app.session_interface.key_prefix
-        session_keys = r.keys(key_prefix + '*')
-
+        sessions = get_sessions(app.config['SESSION_REDIS'])
         users = []
-        for key in session_keys:
-            data = pickle.loads(r.get(key))
-            if 'auth_type' not in data or 'access_data_updated_at' not in data:
+        for s in sessions:
+            if 'auth_type' not in s or 'access_data_updated_at' not in s:
                 continue
-            del data['_permanent']
-            del data['has_permission']
-            del data['access_data_updated_at']
-            if data['auth_type'] == 'discord':
-                del data['token']
-            users.append(data)
+            del s['_permanent']
+            del s['has_permission']
+            del s['access_data_updated_at']
+            if s['auth_type'] == 'discord':
+                del s['token']
+            users.append(s)
 
         return jsonify(users)
 

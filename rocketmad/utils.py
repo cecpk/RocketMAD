@@ -6,18 +6,20 @@ from threading import Thread
 
 import configargparse
 import configparser
-import os
 import json
 import logging
 import math
 import multiprocessing
+import os
+import pickle
+import psutil
 import re
-import time
+import redis
+import requests
 import socket
 import struct
-import psutil
 import subprocess
-import requests
+import time
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
@@ -361,16 +363,19 @@ def get_args(access_config=None):
     group.add_argument('-CAsk', '--secret-key', default=None,
                        help='Secret key used to sign sessions. '
                             'Must be at least 16 characters long.')
-    group.add_argument('-CAlr', '--login-required',
-                       action='store_true', default=False,
-                       help='If enabled, user must be logged in with any '
-                            'auth system before one can access the map.')
     group.add_argument('-CArh', '--redis-host', default='127.0.0.1',
                        help='Address of Redis server '
                             '(Redis is used to store session data).')
     group.add_argument('-CArp', '--redis-port',
                        type=int, default=6379,
                        help='Port of Redis server.')
+    group.add_argument('-CAlr', '--login-required',
+                       action='store_true',
+                       help='If enabled, user must be logged in with any '
+                            'auth system before one can access the map.')
+    group.add_argument('-CAnl', '--no-multiple-logins',
+                       action='store_true',
+                       help='Do not allow more than one login per account.')
     group = parser.add_argument_group('Discord Auth')
     group.add_argument('-DA', '--discord-auth',
                        action='store_true', default=False,
@@ -1130,10 +1135,14 @@ def parse_geofence_file(geofence_file):
 
     return geofences
 
-@lru_cache()
-def get_utc_timedelta():
-    ts = time.time()
-    today = datetime.today()
-    today_utc = datetime.utcfromtimestamp(ts)
-    milliseconds = int((today - today_utc).total_seconds() * 1000)
-    return timedelta(milliseconds=milliseconds)
+
+def get_sessions(redis_server):
+    session_keys = redis_server.keys('session:*')
+    sessions = []
+    for key in session_keys:
+        data = pickle.loads(redis_server.get(key))
+        session_id = str(key, 'utf-8').split(':')[1]
+        data['session_id'] = session_id
+        sessions.append(data)
+
+    return sessions

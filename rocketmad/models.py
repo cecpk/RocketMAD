@@ -18,8 +18,7 @@ from sqlalchemy.sql.expression import and_, or_
 from timeit import default_timer
 
 from .transform import transform_from_wgs_to_gcj
-from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
-                    get_utc_timedelta)
+from .utils import get_pokemon_name, get_pokemon_types, get_args, cellid
 
 log = logging.getLogger(__name__)
 args = get_args()
