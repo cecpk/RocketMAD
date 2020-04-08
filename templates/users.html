@@ -12,21 +12,22 @@
       gtag('config', '{{ analytics_id }}')
     </script>
     {% endif %}
-    <title>{{ map_title }} - Telegram login</title>
+    <title>{{ map_title }} - Users</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="static/images/appicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="static/images/appicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="static/images/appicons/favicon-16x16.png">
-    <link rel="manifest" href="static/images/appicons/site.webmanifest">
-    <link rel="mask-icon" href="static/images/appicons/safari-pinned-tab.svg" color="black">
-    <link rel="shortcut icon" href="static/images/appicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/appicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/appicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/appicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/appicons/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='images/appicons/safari-pinned-tab.svg') }}" color="black">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/appicons/favicon.ico') }}">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="static/images/appicons/browserconfig.xml">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='images/appicons/browserconfig.xml') }}">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
   </head>
 
@@ -36,8 +37,9 @@
         <nav>
           <div class="nav-wrapper">
             <ul>
+              <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
-                <a href="../" class="brand-logo">
+                <a href="/" class="brand-logo">
                   {{ map_title }}{% if header_image %}<img src="{{ url_for('static', filename='images/header/') }}{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
                 </a>
               </li>
@@ -74,6 +76,7 @@
               {% if quest_page %}
               <li><a href="/quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
               {% endif %}
+              <li><a href="/logout" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
           </div>
         </nav>
@@ -115,6 +118,8 @@
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
       {% endif %}
       {% endif %}
+      <li class="divider" tabindex="-1"></li>
+      <li><a href="/logout"><i class="material-icons">exit_to_app</i>Log out</a></li>
     </ul>
     {% endif %}
 
@@ -127,9 +132,39 @@
     </div>
     {% endif %}
 
+    <ul id="settings-sidenav" class="sidenav">
+      <li>
+        <div class="settings-container">
+          <div class="form-control">
+            <div class="switch">
+              <label>
+                <input type="checkbox" id="dark-mode-switch">
+                <span class="lever"></span>
+                Dark mode
+              </label>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
     <div class="container">
-      <h5>Log in to {{ map_title }} with Telegram</h5>
-      <script async src="https://telegram.org/js/telegram-widget.js?7" data-telegram-login="{{ telegram_bot_username }}" data-size="medium" data-auth-url="{{ server_uri }}/auth/telegram"></script>
+      <h5>Logged-in users</h5>
+      <div id="table-container">
+        <table id="user-table" class="order-column row-border top-border hover" width="100%">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Auth type</th>
+              <th>ID</th>
+              <th>IP</th>
+              <th>Last active</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <script>
@@ -138,19 +173,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.js"></script>
 
-    <script>
-    $(document).ready(function() {
-        if (localStorage.getItem('darkMode') === 'true') {
-            $('body').addClass('dark')
-            $('meta[name="theme-color"]').attr('content', '#212121')
-        }
-
-        $('.dropdown-trigger').dropdown({
-            constrainWidth: false,
-            coverTrigger: false
-        })
-    })
-    </script>
+    <script src="{{ url_for('static', filename='dist/js/users.min.js') }}"></script>
   </body>
 </html>

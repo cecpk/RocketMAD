@@ -26,7 +26,7 @@ function initSidebar() {
 
 function loadRawData() {
     return $.ajax({
-        url: 'raw_data',
+        url: 'raw-data',
         type: 'GET',
         data: {
             'pokemon': false,
@@ -53,11 +53,6 @@ function loadRawData() {
         },
         error: function () {
             toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
-        },
-        success: function (data) {
-            if (data.auth_redirect) {
-                window.location = data.auth_redirect
-            }
         }
     })
 }

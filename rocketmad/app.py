@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import gc
+import pickle
 import logging
 import redis
 
 from bisect import bisect_left
 from datetime import datetime, timezone
-from flask import (abort, Flask, jsonify, redirect, render_template, request,
-                   send_file, send_from_directory, session, url_for)
+from flask import (abort, current_app, Flask, jsonify, redirect,
+                   render_template, request, send_file, send_from_directory,
+                   session, url_for)
 from flask.json import JSONEncoder
 from flask_cachebuster import CacheBuster
 from flask_caching import Cache
@@ -91,6 +93,17 @@ def is_logged_in():
     return 'auth_type' in session
 
 
+def is_admin():
+    if not args.client_auth or not is_logged_in():
+        return False
+
+    auth_type = session['auth_type']
+    if auth_type == 'discord':
+        return session['id'] in args.discord_admins
+    elif auth_type == 'telegram':
+        return session['id'] in args.telegram_admins
+
+
 def auth_required(f):
     @wraps(f)
     def decorated_function(*_args, **kwargs):
@@ -144,8 +157,8 @@ def create_app():
 
     if args.client_auth:
         app.config['SESSION_TYPE'] = 'redis'
-        redis_url = 'redis://' + args.redis_host + ':' + str(args.redis_port)
-        app.config['SESSION_REDIS'] = redis.from_url(redis_url)
+        r = redis.Redis(args.redis_host, args.redis_port)
+        app.config['SESSION_REDIS'] = r
         app.config['SESSION_USE_SIGNER'] = True
         app.secret_key = args.secret_key
         Session(app)
@@ -186,6 +199,10 @@ def create_app():
         if ip_is_blacklisted(ip_addr):
             log.debug('Denied access to %s: blacklisted IP.', ip_addr)
             abort(403)
+
+        if args.client_auth:
+            session['ip'] = ip_addr
+            session['last_active'] = datetime.utcnow()
 
     @app.route('/')
     @auth_required
@@ -258,6 +275,7 @@ def create_app():
             header_image_name=user_args.header_image,
             client_auth=user_args.client_auth,
             logged_in=is_logged_in(),
+            admin=is_admin(),
             madmin_url=user_args.madmin_url,
             donate_url=user_args.donate_url,
             patreon_url=user_args.patreon_url,
@@ -303,6 +321,7 @@ def create_app():
             header_image_name=user_args.header_image,
             client_auth=user_args.client_auth,
             logged_in=is_logged_in(),
+            admin=is_admin(),
             madmin_url=user_args.madmin_url,
             donate_url=user_args.donate_url,
             patreon_url=user_args.patreon_url,
@@ -346,6 +365,7 @@ def create_app():
             header_image_name=user_args.header_image,
             client_auth=user_args.client_auth,
             logged_in=is_logged_in(),
+            admin=is_admin(),
             madmin_url=user_args.madmin_url,
             donate_url=user_args.donate_url,
             patreon_url=user_args.patreon_url,
@@ -454,6 +474,10 @@ def create_app():
             analytics_id=args.analytics_id,
             discord_auth=args.discord_auth,
             telegram_auth=args.telegram_auth,
+            pokemon_history_page=(not args.no_pokemon and
+                                  not args.no_pokemon_history_page),
+            quest_page=(not args.no_pokestops and not args.no_quests and
+                        not args.no_quest_page),
             settings=settings
         )
 
@@ -499,6 +523,10 @@ def create_app():
             messenger_url=args.messenger_url,
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
+            pokemon_history_page=(not args.no_pokemon and
+                                  not args.no_pokemon_history_page),
+            quest_page=(not args.no_pokestops and not args.no_quests and
+                        not args.no_quest_page),
             analytics_id=args.analytics_id,
             telegram_bot_username=args.telegram_bot_username,
             server_uri=args.server_uri,
@@ -534,7 +562,55 @@ def create_app():
 
         return redirect(url_for('map_page'))
 
-    @app.route('/raw_data')
+    @app.route('/admin')
+    def admin_page():
+        return redirect(url_for('users_page'))
+
+    @app.route('/admin/users')
+    @auth_required
+    def users_page(*_args, **kwargs):
+        if not args.client_auth:
+            abort(404)
+
+        if not kwargs['has_permission']:
+            return redirect(kwargs['redirect_uri'])
+
+        if not is_admin():
+            abort(403)
+
+        user_args = get_args(kwargs['access_config'])
+
+        settings = {
+            'motd': user_args.motd,
+            'motdTitle': user_args.motd_title,
+            'motdText': user_args.motd_text,
+            'motdPages': user_args.motd_pages,
+            'showMotdAlways': user_args.show_motd_always
+        }
+
+        return render_template(
+            'users.html',
+            lang=user_args.locale,
+            map_title=user_args.map_title,
+            header_image=not user_args.no_header_image,
+            header_image_name=user_args.header_image,
+            madmin_url=user_args.madmin_url,
+            donate_url=user_args.donate_url,
+            patreon_url=user_args.patreon_url,
+            discord_url=user_args.discord_url,
+            messenger_url=user_args.messenger_url,
+            telegram_url=user_args.telegram_url,
+            whatsapp_url=user_args.whatsapp_url,
+            analytics_id=user_args.analytics_id,
+            pokemon_history_page=(not user_args.no_pokemon and
+                                  not user_args.no_pokemon_history_page),
+            quest_page=(not user_args.no_pokestops and
+                        not user_args.no_quests and
+                        not user_args.no_quest_page),
+            settings=settings
+        )
+
+    @app.route('/raw-data')
     @auth_required
     def raw_data(*_args, **kwargs):
         if not kwargs['has_permission']:
@@ -779,6 +855,43 @@ def create_app():
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
 
         return jsonify(d)
+
+    @app.route('/raw-data/users')
+    def users_data():
+        if not args.client_auth:
+            abort(404)
+
+        # Make sure fingerprint isn't blacklisted.
+        fingerprint_blacklisted = any([
+            fingerprints['no_referrer'](request),
+            fingerprints['iPokeGo'](request)
+        ])
+
+        if fingerprint_blacklisted:
+            log.debug('User denied access: blacklisted fingerprint.')
+            abort(403)
+
+        if not is_admin():
+            abort(403)
+
+        r = redis.Redis(args.redis_host, args.redis_port)
+
+        key_prefix = current_app.session_interface.key_prefix
+        session_keys = r.keys(key_prefix + '*')
+
+        users = []
+        for key in session_keys:
+            data = pickle.loads(r.get(key))
+            if 'auth_type' not in data or 'access_data_updated_at' not in data:
+                continue
+            del data['_permanent']
+            del data['has_permission']
+            del data['access_data_updated_at']
+            if data['auth_type'] == 'discord':
+                del data['token']
+            users.append(data)
+
+        return jsonify(users)
 
     @app.route('/pkm_img')
     def pokemon_img():

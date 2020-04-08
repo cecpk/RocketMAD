@@ -52,7 +52,7 @@ function initSidebar() {
 
 function loadRawData() {
     return $.ajax({
-        url: 'raw_data',
+        url: 'raw-data',
         type: 'GET',
         data: {
             'pokemon': false,
@@ -76,18 +76,13 @@ function loadRawData() {
         },
         error: function () {
             toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
-        },
-        success: function (data) {
-            if (data.auth_redirect) {
-                window.location = data.auth_redirect
-            }
         }
     })
 }
 
 function loadDetails(pokemonId, formId) {
     return $.ajax({
-        url: 'raw_data',
+        url: 'raw-data',
         type: 'GET',
         data: {
             'pokemon': false,
@@ -113,18 +108,13 @@ function loadDetails(pokemonId, formId) {
         },
         error: function () {
             toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
-        },
-        success: function (data) {
-            if (data.auth_redirect) {
-                window.location = data.auth_redirect
-            }
         }
     })
 }
 
 function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
     return $.ajax({
-        url: 'raw_data',
+        url: 'raw-data',
         type: 'GET',
         data: {
             'pokemon': false,
@@ -152,11 +142,6 @@ function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
         },
         error: function () {
             toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
-        },
-        success: function (data) {
-            if (data.auth_redirect) {
-                window.location = data.auth_redirect
-            }
         }
     })
 }

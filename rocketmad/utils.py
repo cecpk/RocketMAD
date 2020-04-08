@@ -263,7 +263,7 @@ def get_args(access_config=None):
                         help='Google Analytics Tracking-ID.'),
     parser.add_argument('-mui', '--map-update-interval',
                         type=int, default=2500,
-                        help='Interval between raw_data requests (map updates) in milliseconds.'),
+                        help='Interval between raw-data requests (map updates) in milliseconds.'),
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)
@@ -427,6 +427,10 @@ def get_args(access_config=None):
                             'You can also only use guilds. If multiple config '
                             'files correspond to one user, only the first '
                             'file is used.')
+    group.add_argument('-DAa', '--discord-admins',
+                       nargs='+', default=[],
+                       help='Discord users that have admin rights. '
+                            'Accepts list of Discord user IDs.')
     group = parser.add_argument_group('Telegram Auth')
     group.add_argument('-TA', '--telegram-auth',
                        action='store_true',
@@ -456,6 +460,10 @@ def get_args(access_config=None):
                             '<chat_id>:<access_config_name> If multiple '
                             'config files correspond to one user, only the '
                             'first file is used.')
+    group.add_argument('-TAa', '--telegram-admins',
+                       nargs='+', default=[],
+                       help='Telegram users that have admin rights. '
+                            'Accepts list of Telegram user IDs.')
     parser.add_argument('-bwb', '--black-white-badges',
                         help='Use black/white background with white/black' +
                         ' text for gym/raid level badge in gym icons.',
