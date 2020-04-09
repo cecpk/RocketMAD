@@ -62,8 +62,8 @@ module.exports = function (grunt) {
             },
             dist5: {
                 src: [
-                    'static/js/utils/utils.motd.js', 'static/js/utils/utils.store.js', 'static/js/utils/utils.js',
-                    'static/js/custom.js', 'static/js/users.js'
+                    'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.motd.js', 'static/js/utils/utils.store.js',
+                    'static/js/utils/utils.js', 'static/js/custom.js', 'static/js/users.js'
                 ],
                 dest: 'static/dist/js/users.concat.js'
             },

@@ -24,8 +24,10 @@ function initSidebar() {
 }
 
 function loadRawData() {
+    const path = window.location.pathname
+    const base_path = path.slice(0, path.length - 'admin/users'.length)
     return $.ajax({
-        url: '/raw-data/users',
+        url: base_path + 'raw-data/users',
         type: 'GET',
         dataType: 'json',
         error: function () {
@@ -43,7 +45,7 @@ function loadUsers() {
         table.columns.adjust()
     }).fail(function () {
         // Wait for next retry.
-        setTimeout(loadQuests, 1000)
+        setTimeout(loadUsers, 1000)
     })
 }
 
