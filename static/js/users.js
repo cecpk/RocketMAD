@@ -24,10 +24,8 @@ function initSidebar() {
 }
 
 function loadRawData() {
-    const path = window.location.pathname
-    const base_path = path.slice(0, path.length - 'admin/users'.length)
     return $.ajax({
-        url: base_path + 'raw-data/users',
+        url: '../raw-data/users',
         type: 'GET',
         dataType: 'json',
         error: function () {
