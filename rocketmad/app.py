@@ -499,7 +499,7 @@ def create_app():
         return redirect(auth_uri)
 
     @app.route('/login/telegram')
-    def login_telegram():
+    def telegram_login_page():
         if not args.telegram_auth:
             abort(404)
 

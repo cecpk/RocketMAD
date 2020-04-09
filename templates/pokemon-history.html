@@ -15,14 +15,14 @@
     <title>{{ map_title }} - Pokémon history</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="static/images/appicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="static/images/appicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="static/images/appicons/favicon-16x16.png">
-    <link rel="manifest" href="static/images/appicons/site.webmanifest">
-    <link rel="mask-icon" href="static/images/appicons/safari-pinned-tab.svg" color="black">
-    <link rel="shortcut icon" href="static/images/appicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/appicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/appicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/appicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/appicons/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='images/appicons/safari-pinned-tab.svg') }}" color="black">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/appicons/favicon.ico') }}">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="static/images/appicons/browserconfig.xml">
+    <meta name="msapplication-config" content="{{ url_for('static', filename='images/appicons/browserconfig.xml') }}">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
@@ -41,8 +41,8 @@
             <ul>
               <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
-                <a href="./" class="brand-logo">
-                  {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
+                <a href="{{ url_for('map_page') }}" class="brand-logo">
+                  {{ map_title }}{% if header_image %}<img src="{{ url_for('static', filename='images/header/') }}{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
                 </a>
               </li>
             </ul>
@@ -73,16 +73,16 @@
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
               {% endif %}
               {% if admin %}
-              <li><a href="admin" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
+              <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
+              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
               {% endif %}
               {% if client_auth %}
               {% if logged_in %}
-              <li><a href="logout" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
               {% else %}
-              <li><a href="login" class="hide-on-small-only" title="Log in"><i class="material-icons">account_box</i></a></li>
+              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="Log in"><i class="material-icons">account_box</i></a></li>
               {% endif %}
               {% endif %}
             </ul>
@@ -94,10 +94,10 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if quest_page %}
-      <li><a href="quests"><i class="material-icons">explore</i>Quests</a></li>
+      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>Quests</a></li>
       {% endif %}
       {% if admin %}
-      <li><a href="admin"><i class="material-icons">dashboard</i>Admin</a></li>
+      <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
       {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">phone_android</i>MADmin</a></li>
@@ -129,9 +129,9 @@
       {% if client_auth %}
       <li class="divider" tabindex="-1"></li>
       {% if logged_in %}
-      <li><a href="logout"><i class="material-icons">exit_to_app</i>Log out</a></li>
+      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Log out</a></li>
       {% else %}
-      <li><a href="login"><i class="material-icons">account_box</i>Log in</a></li>
+      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>Log in</a></li>
       {% endif %}
       {% endif %}
 

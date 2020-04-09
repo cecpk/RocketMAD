@@ -39,7 +39,7 @@
             <ul>
               <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
-                <a href="/" class="brand-logo">
+                <a href="{{ url_for('map_page') }}" class="brand-logo">
                   {{ map_title }}{% if header_image %}<img src="{{ url_for('static', filename='images/header/') }}{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
                 </a>
               </li>
@@ -71,12 +71,12 @@
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
               {% endif %}
               {% if pokemon_history_page %}
-              <li><a href="/pokemon-history" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
+              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="/quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
+              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
               {% endif %}
-              <li><a href="/logout" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
             </ul>
           </div>
         </nav>
@@ -86,10 +86,10 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if pokemon_history_page %}
-      <li><a href="/pokemon-history"><i class="material-icons">pets</i>Pokémon history</a></li>
+      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>Pokémon history</a></li>
       {% endif %}
       {% if quest_page %}
-      <li><a href="/quests"><i class="material-icons">explore</i>Quests</a></li>
+      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>Quests</a></li>
       {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">phone_android</i>MADmin</a></li>
@@ -119,7 +119,7 @@
       {% endif %}
       {% endif %}
       <li class="divider" tabindex="-1"></li>
-      <li><a href="/logout"><i class="material-icons">exit_to_app</i>Log out</a></li>
+      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Log out</a></li>
     </ul>
     {% endif %}
 
