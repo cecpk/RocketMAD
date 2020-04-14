@@ -153,6 +153,7 @@ def create_app():
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
         'pool_size' : 0 # No limit.
     }
+    app.config['SQLALCHEMY_POOL_RECYCLE'] = args.db_pool_recycle
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 

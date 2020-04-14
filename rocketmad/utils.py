@@ -278,6 +278,10 @@ def get_args(access_config=None):
                        default='127.0.0.1')
     group.add_argument('--db-port',
                        help='Port for the database.', type=int, default=3306)
+    group.add_argument('--db-pool-recycle',
+                       type=int, default=7200,
+                       help='Number of seconds after which a connection is '
+                            'automatically recycled.')
     group = parser.add_argument_group('Database Cleanup')
     group.add_argument('-DCi', '--db-cleanup-interval',
                        type=int, default=600,

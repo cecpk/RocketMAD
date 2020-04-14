@@ -82,6 +82,7 @@
 #db-user:                       # Required for mysql
 #db-pass:                       # Required for mysql
 #db-port:                       # Required for mysql (default=3306)
+#db-pool-recycle:               # Number of seconds after which a connection is automatically recycled. (default=7200)
 
 
 #Database cleanup
