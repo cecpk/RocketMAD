@@ -29,7 +29,7 @@ RUN apt-get update \
  && npm run build \
  && rm -rf node_modules \
  && rm -rf /var/lib/apt/lists/* \
- && apt-get purge -y --auto-remove build-essential curl nodejs unzip
+ && apt-get purge -y --auto-remove build-essential nodejs unzip
 
 # Copy everything to the working directory (Python files, templates, config) in one go.
 COPY . /usr/src/app/
