@@ -23,8 +23,21 @@ class TelegramAuth(AuthBase):
         self.api_base_url = ('https://api.telegram.org/bot' +
                              args.telegram_bot_token)
 
-        self.chats_to_fetch = args.telegram_required_chats
+        self.telegram_access_configs = []
         for elem in args.telegram_access_configs:
+            if elem[0] != '-':
+                elem = '-' + elem
+            self.telegram_access_configs.append(elem)
+
+        self.telegram_required_chats = []
+        self.chats_to_fetch = []
+        for chat_id in args.telegram_required_chats:
+            if chat_id[0] != '-':
+                chat_id = '-' + chat_id
+            self.telegram_required_chats.append(chat_id)
+            self.chats_to_fetch.append(chat_id)
+
+        for elem in self.telegram_access_configs:
             chat_id = elem.split(':')[0]
             if chat_id not in self.chats_to_fetch:
                 self.chats_to_fetch.append(chat_id)
@@ -96,14 +109,14 @@ class TelegramAuth(AuthBase):
                 user_chats.append(chat_id)
 
         in_required_chat = any(chat_id in user_chats
-                               for chat_id in args.telegram_required_chats)
-        if args.telegram_required_chats and not in_required_chat:
+                               for chat_id in self.telegram_required_chats)
+        if self.telegram_required_chats and not in_required_chat:
             session['has_permission'] = False
             session['access_config_name'] = None
             return
 
         access_config_name = None
-        for elem in args.telegram_access_configs:
+        for elem in self.telegram_access_configs:
             chat_id = elem.split(':')[0]
             config_name = elem.split(':')[1]
             if chat_id in user_chats:

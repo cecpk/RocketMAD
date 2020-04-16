@@ -468,7 +468,7 @@ def get_args(access_config=None):
                             'config files correspond to one user, only the '
                             'first file is used.')
     group.add_argument('-TAa', '--telegram-admins',
-                       nargs='+', default=[],
+                       action='append', default=[],
                        help='Telegram users that have admin rights. '
                             'Accepts list of Telegram user IDs.')
     parser.add_argument('-bwb', '--black-white-badges',
