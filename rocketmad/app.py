@@ -553,7 +553,7 @@ def create_app():
             sessions = get_sessions(r)
             for s in sessions:
                 if 'auth_type' in s and 'id' in s:
-                    if s['id'] == session['id']:
+                    if s['auth_type'] == session['auth_type'] and s['id'] == session['id']:
                         r.delete('session:' + s['session_id'])
 
         return redirect(url_for('map_page'))
