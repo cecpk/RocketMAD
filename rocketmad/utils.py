@@ -605,8 +605,14 @@ def get_args(access_config=None):
         args.db_cleanup = False
 
     if args.discord_auth or args.telegram_auth:
+        if args.server_uri is None:
+            parser.print_usage()
+            print(sys.argv[0] + ': error: -CAsu/--server-uri parameter is '
+                  'required for Discord/Telegram auth.')
+            sys.exit(1)
+
         args.server_uri = args.server_uri.rstrip('/')
-        if len(args.secret_key) < 16:
+        if args.secret_key is None or len(args.secret_key) < 16:
             parser.print_usage()
             print(sys.argv[0] + ': error: argument -CAs/--secret-key must be '
                   'at least 16 characters long.')
