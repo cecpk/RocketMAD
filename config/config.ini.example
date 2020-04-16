@@ -195,7 +195,7 @@
 
 #telegram-auth                    # Authenticate users with telegram. (default=False)
 #telegram-bot-token:              # Telegram bot token.
-#telegram-bot-username:           # Telegram bot username.
+#telegram-bot-username:           # Telegram bot username (without @).
 #telegram-blacklisted-users:      # List of user ID's that are always blocked from accessing the map. (default=[])
 #telegram-required-chats:         # If chat ID(s) are specified, user must be in at least one telegram group chat to access map. Comma separated list if multiple. (default=[])
 #telegram-no-permission-redirect:  # Link to redirect user to if user has no permission. Typically this would be your telegram group chat invite link.
