@@ -15,6 +15,7 @@ if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
 import logging
 import os
 import re
+import redis
 import requests
 import ssl
 import time
@@ -210,6 +211,16 @@ if __name__ == '__main__':
     # Let's not forget to run Grunt.
     if not validate_assets(args):
         sys.exit(1)
+
+    # Make sure redis server is running.
+    if args.client_auth:
+        r = redis.Redis(host=args.redis_host, port=args.redis_port)
+        try:
+            r.ping()
+        except redis.exceptions.ConnectionError:
+            uri = args.redis_host + ':' + str(args.redis_port)
+            log.critical('No Redis server found at %s.', uri)
+            sys.exit(1)
 
     app = create_app()
     with app.app_context():
