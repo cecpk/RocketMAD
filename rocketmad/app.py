@@ -302,7 +302,13 @@ def create_app():
         user_args = get_args(kwargs['access_config'])
 
         if user_args.no_pokemon or user_args.no_pokemon_history_page:
-            abort(403)
+            if args.client_auth:
+                if is_logged_in():
+                    abort(403)
+                else:
+                    return redirect(url_for('login_page'))
+            else:
+                abort(404)
 
         settings = {
             'centerLat': user_args.center_lat,
@@ -348,7 +354,13 @@ def create_app():
 
         if (user_args.no_pokestops or user_args.no_quests or
                 user_args.no_quest_page):
-            abort(403)
+            if args.client_auth:
+                if is_logged_in():
+                    abort(403)
+                else:
+                    return redirect(url_for('login_page'))
+            else:
+                abort(404)
 
         settings = {
             'generateImages': user_args.generate_images,
