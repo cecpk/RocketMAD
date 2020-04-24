@@ -621,6 +621,22 @@ def get_args(access_config=None):
     else:
         args.client_auth = False
 
+    if args.discord_auth and not args.discord_no_permission_redirect and (
+            args.discord_blacklisted_users or args.discord_whitelisted_users or
+            args.discord_required_guilds or args.discord_blacklisted_guilds or
+            args.discord_required_roles or args.discord_blacklisted_roles):
+        parser.print_usage()
+        print(sys.argv[0] + ': error: -DAr/--discord-no-permission-redirect '
+              'parameter is required for Discord auth.')
+        sys.exit(1)
+
+    if args.telegram_auth and not args.telegram_no_permission_redirect and (
+            args.telegram_blacklisted_users or args.telegram_required_chats):
+        parser.print_usage()
+        print(sys.argv[0] + ': error: -TAr/--telegram-no-permission-redirect '
+              'parameter is required for Telegram auth.')
+        sys.exit(1)
+
     return args
 
 
