@@ -104,14 +104,8 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
                 shadowSize = [30, 30]
                 break
             case 7:
-                if (serverSettings.generateImages) {
-                    shadowImage = getPokemonMapIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
-                    shadowSize = [35, 35]
-                } else {
-                    shadowImage = pokemonSprites(quest.pokemon_id).filename
-                    shadowSize = [40, 40]
-                }
-                break
+                shadowImage = getPokemonMapIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
+                shadowSize = [35, 35]
         }
     }
 

@@ -158,7 +158,7 @@ function updateHistory() {
         for (let i = 0; i < result.seen.pokemon.length; i++) {
             const item = result.seen.pokemon[i]
             table.row.add([
-                serverSettings.generateImages ? `<img src='${getPokemonRawIconUrl(item)}' style='width: 32px;'>` : `<i class="pokemon-sprite n${item.pokemon_id}"</i>`,
+                `<img src='${getPokemonRawIconUrl(item)}' style='width: 32px;'>`,
                 item.pokemon_id,
                 getPokemonName(item.pokemon_id),
                 item.form ? getFormName(item.pokemon_id, item.form) : '',

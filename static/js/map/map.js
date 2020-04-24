@@ -2020,17 +2020,11 @@ function initPokemonFilters() {
 
     let list = ''
     for (let id of pokemonIds) {
-        let pokemonIcon
-        if (serverSettings.generateImages) {
-            pokemonIcon = `<img class='lazy' src='static/images/placeholder.png' data-src='${getPokemonRawIconUrl({'pokemon_id': id})}' width='32'>`
-        } else {
-            pokemonIcon = `<i class='pokemon-sprite n${id}' width='32'></i>`
-        }
         list += `
             <div class='filter-button' data-id='${id}'>
               <div class='filter-button-content'>
                 <div>#${id}</div>
-                <div>${pokemonIcon}</div>
+                <div><img class='lazy' src='static/images/placeholder.png' data-src='${getPokemonRawIconUrl({'pokemon_id': id})}' width='32'></div>
                 <div>${getPokemonName(id)}</div>
               </div>
             </div>`
