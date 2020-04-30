@@ -2869,11 +2869,11 @@ function setupRangeCircle(item, type, cluster) {
             break
         case 'gym':
             circleColor = gymRangeColors[item.team_id]
-            range = 40
+            range = 80
             break
         case 'pokestop':
             circleColor = '#3EB0FF'
-            range = 40
+            range = 80
             break
         case 'spawnpoint':
             circleColor = '#C233F2'
