@@ -46,9 +46,9 @@ class Pokemon(db.Model):
     gender = db.Column(db.SmallInteger)
     form = db.Column(db.SmallInteger)
     costume = db.Column(db.SmallInteger)
-    catch_prob_1 = db.Column(DOUBLE)
-    catch_prob_2 = db.Column(DOUBLE)
-    catch_prob_3 = db.Column(DOUBLE)
+    catch_prob_1 = db.Column(DOUBLE(asdecimal=False))
+    catch_prob_2 = db.Column(DOUBLE(asdecimal=False))
+    catch_prob_3 = db.Column(DOUBLE(asdecimal=False))
     rating_attack = db.Column(
         db.String(length=2, collation='utf8mb4_unicode_ci')
     )
@@ -78,6 +78,7 @@ class Pokemon(db.Model):
             Pokemon.individual_stamina, Pokemon.move_1, Pokemon.move_2,
             Pokemon.cp, Pokemon.cp_multiplier, Pokemon.weight, Pokemon.height,
             Pokemon.gender, Pokemon.form, Pokemon.costume,
+            Pokemon.catch_prob_1, Pokemon.catch_prob_2, Pokemon.catch_prob_3,
             Pokemon.weather_boosted_condition, Pokemon.last_modified
         ]
 

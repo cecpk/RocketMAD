@@ -207,6 +207,17 @@ function pokemonLabel(item) {
         var weight = item.weight.toFixed(2)
         var height = item.height.toFixed(2)
 
+        var catchRatesDisplay = ''
+        if (serverSettings.catchRates && item.catch_prob_1) {
+            catchRatesDisplay = `
+                <div>
+                  <span title='Catch rate with Poké Ball' ><span class='ball-icon' ><img src='static/images/items/1.png' width='19'></span> ${(item.catch_prob_1 * 100).toFixed(1)}%</span>
+                  <span title='Catch rate with Great Ball' ><span class='ball-icon' ><img src='static/images/items/2.png' width='19'></span> ${(item.catch_prob_2 * 100).toFixed(1)}%</span>
+                  <span title='Catch rate with Ultra Ball' ><span class='ball-icon' ><img src='static/images/items/3.png' width='19'></span> ${(item.catch_prob_3 * 100).toFixed(1)}%</span>
+                </div>
+            `
+        }
+
         statsDisplay = `
             <div class='info-container'>
               <div>
@@ -224,6 +235,7 @@ function pokemonLabel(item) {
               <div>
                 Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
               </div>
+              ${catchRatesDisplay}
             </div>`
 
         let rarityDisplay = ''
