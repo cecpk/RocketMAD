@@ -243,6 +243,14 @@ def get_args(access_config=None):
                         action='store_true', default=False)
     parser.add_argument('-mt', '--map-title', default='RocketMAD',
                         help=('The title of the map. Default: RocketMAD'))
+    parser.add_argument('-cfi', '--custom-favicon',
+                        action='store_true',
+                        help='Use a custom favicon. Generate your custom '
+                             'favicon files here: '
+                             'https://realfavicongenerator.net and place them '
+                             'in /static/images/appicons/custom. Set the path '
+                             'under Favicon Generator Options to '
+                             '/static/images/appicons/custom.')
     parser.add_argument('-nhi', '--no-header-image',
                         help=('Hides header image.'),
                         action='store_true', default=False)
@@ -536,22 +544,23 @@ def get_args(access_config=None):
 
     if access_config is not None:
         valid_access_args = [
-            'location', 'map_title', 'no_header_image', 'header_image',
-            'madmin_url', 'donate_url', 'patreon_url', 'discord_url',
-            'messenger_url', 'telegram_url', 'whatsapp_url', 'max_zoom_level',
-            'cluster_zoom_level', 'cluster_zoom_level_mobile',
-            'max_cluster_radius', 'spiderfy_clusters', 'lock_start_marker',
-            'no_pokemon', 'no_pokemon_values', 'catch_rates', 'rarity',
-            'upscaled_pokemon', 'no_pokemon_history_page',
-            'verified_despawn_time', 'show_all_zoom_level', 'pokemon_cries',
-            'no_gyms', 'no_gym_sidebar', 'no_gym_filters', 'no_raids',
-            'no_raid_filters', 'black_white_badges', 'no_pokestops',
-            'no_quests', 'no_quest_page', 'no_invasions', 'no_lures',
-            'no_weather', 'no_spawnpoints', 'no_scanned_locs', 'no_s2_cells',
-            'no_ranges', 'ex_parks', 'nest_parks', 'ex_parks_filename',
-            'nest_parks_filename', 'no_stats_sidebar', 'twelve_hour_clock',
-            'analytics_id', 'map_update_interval', 'motd', 'motd_title',
-            'motd_text', 'motd_pages', 'show_motd_always'
+            'location', 'map_title', 'custom_favicon', 'no_header_image',
+            'header_image', 'madmin_url', 'donate_url', 'patreon_url',
+            'discord_url', 'messenger_url', 'telegram_url', 'whatsapp_url',
+            'max_zoom_level', 'cluster_zoom_level',
+            'cluster_zoom_level_mobile', 'max_cluster_radius',
+            'spiderfy_clusters', 'lock_start_marker', 'no_pokemon',
+            'no_pokemon_values', 'catch_rates', 'rarity', 'upscaled_pokemon',
+            'no_pokemon_history_page', 'verified_despawn_time',
+            'show_all_zoom_level', 'pokemon_cries', 'no_gyms',
+            'no_gym_sidebar', 'no_gym_filters', 'no_raids', 'no_raid_filters',
+            'black_white_badges', 'no_pokestops', 'no_quests', 'no_quest_page',
+            'no_invasions', 'no_lures', 'no_weather', 'no_spawnpoints',
+            'no_scanned_locs', 'no_s2_cells', 'no_ranges', 'ex_parks',
+            'nest_parks', 'ex_parks_filename', 'nest_parks_filename',
+            'no_stats_sidebar', 'twelve_hour_clock', 'analytics_id',
+            'map_update_interval', 'motd', 'motd_title', 'motd_text',
+            'motd_pages', 'show_motd_always'
         ]
 
         access_parser = configparser.ConfigParser(allow_no_value=True,

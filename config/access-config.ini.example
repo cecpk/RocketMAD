@@ -7,6 +7,8 @@
 #location:                      # Location, can be an address or coordinates.
 
 #map-title:                     # Title of the map. (default='RocketMAD')
+#custom-favicon                 # Use a custom favicon. Generate your custom favicon files here: https://realfavicongenerator.net and place them in /static/images/appicons/custom.
+                                # Set the path under Favicon Generator Options to '/static/images/appicons/custom'. (default=False)
 #no-header-image                # Hides header image. (default=False)
 #header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
 #madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
