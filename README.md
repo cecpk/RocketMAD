@@ -4,7 +4,7 @@
 
 Live visualization of all the Pokémon (with option to show gyms, raids, PokéStops and much more) in your area. Used as [MAD](https://github.com/Map-A-Droid/MAD)'s frontend. Does not work as standalone and the code has been heavily modified to only work with MAD. This frontend is based on [RocketMap](https://github.com/RocketMap/RocketMap).
 
-![Map](https://github.com/cecpk/RocketMAD/blob/master/static/RocketMap.png)
+![Map](https://github.com/cecpk/RocketMAD/blob/master/static/RocketMAD.png)
 
 ## Information
 * [Github Issues](https://github.com/cecpk/RocketMAD/issues) for reporting bugs (not for support!)
