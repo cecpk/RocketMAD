@@ -175,7 +175,7 @@ class DiscordAuth(OAuth2Base):
                     session.clear()
                     return False, url_for('login_page'), None
 
-                if e.response.status.code == 429:
+                if e.response.status_code == 429:
                     log.debug('Discord rate limit exceeded: %s', e)
                 else:
                     log.warning('Exception while retrieving Discord data: %s',
