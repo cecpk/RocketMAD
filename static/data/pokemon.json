@@ -1458,6 +1458,16 @@
       "710": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2335": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Steel",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -2278,6 +2288,16 @@
       },
       "1025": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2338": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Fighting",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -14606,6 +14626,16 @@
       "2065": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2341": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -14635,6 +14665,30 @@
           }
         ],
         "assetId": "12"
+      },
+      "2342": {
+        "formName": "Galarian Standard Mode",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "00"
+      },
+      "2343": {
+        "formName": "Galarian Zen Mode",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Fire",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -16207,6 +16261,20 @@
       },
       "2248": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2345": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ground",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Steel",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -18869,6 +18937,79 @@
         "assetId": "00"
       },
       "2326": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
+  },
+  "862": {
+    "name": "Obstagoon",
+    "types": [
+      {
+        "type": "Dark",
+        "color": "#b8b8d0"
+      },
+      {
+        "type": "Normal",
+        "color": "#b8b8d0"
+      }
+    ],
+    "forms": {
+      "2501": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2502": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "2503": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
+  },
+  "863": {
+    "name": "Perrserker",
+    "types": [
+      {
+        "type": "Steel",
+        "color": "#b8b8d0"
+      }
+    ],
+    "forms": {
+      "2504": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2505": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "2506": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
+  },
+  "865": {
+    "name": "Sirfetch'd",
+    "types": [
+      {
+        "type": "Fighting",
+        "color": "#b8b8d0"
+      }
+    ],
+    "forms": {
+      "2510": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2511": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "2512": {
         "formName": "Purified",
         "assetId": "00"
       }
