@@ -3175,7 +3175,7 @@ function loadRawData() {
     const loadPokestopsNoEvent = settings.showPokestopsNoEvent
     const loadQuests = settings.showQuests
     const loadInvasions = settings.showInvasions
-    const loadLures = settings.includedLureTypes.length > 0
+    const loadLures = settings.includedLureTypes && settings.includedLureTypes.length > 0
     const loadWeather = settings.showWeather
     const loadSpawnpoints = settings.showSpawnpoints
     const loadScannedLocs = settings.showScannedLocations
