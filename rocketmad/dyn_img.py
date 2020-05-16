@@ -161,7 +161,7 @@ if args.generate_images:
                 pogo_assets = args.pogo_assets
             else:
                 log.error(("Could not find PogoAssets repository at '{}'. "
-                           "Clone via 'git clone -depth 1 "
+                           "Clone via 'git clone --depth 1 "
                            "https://github.com/ZeChrales/PogoAssets.git'")
                           .format(args.pogo_assets))
     else:
