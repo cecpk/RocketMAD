@@ -4,6 +4,7 @@
 import logging
 import os
 import subprocess
+import sys
 
 from .utils import get_args, get_pokemon_data
 
