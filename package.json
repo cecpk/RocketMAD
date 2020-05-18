@@ -31,8 +31,7 @@
     "build": "grunt build",
     "watch": "grunt default",
     "lint": "grunt lint",
-    "grunt": "grunt",
-    "postinstall": "grunt build"
+    "grunt": "grunt"
   },
   "repository": {
     "type": "git",
