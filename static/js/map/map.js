@@ -1993,7 +1993,7 @@ function initSettingsSidebar() {
     $('#map-service-provider-select').val(settings.mapServiceProvider)
     $('#dark-mode-switch').prop('checked', settings.darkMode)
 
-    $.getJSON('static/dist/data/markerstyles.min.json').done(function (data) {
+    $.getJSON('static/dist/data/markerstyles.min.json?v=' + version).done(function (data) {
         markerStyles = data
         updateStartLocationMarker()
         updateUserLocationMarker()

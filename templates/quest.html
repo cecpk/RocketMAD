@@ -205,7 +205,8 @@
     </div>
 
     <script>
-      const serverSettings = {{settings|tojson|safe}};
+      const version = "{{ version }}";
+      const serverSettings = {{ settings|tojson|safe }};
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>

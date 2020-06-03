@@ -5,7 +5,7 @@ function initInvasionData() {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/data/invasions.min.json').done(function (data) {
+    return $.getJSON('static/dist/data/invasions.min.json?v=' + version).done(function (data) {
         invasionData = data
     }).fail(function () {
         console.log('Error loading invasion data.')

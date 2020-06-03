@@ -1,6 +1,6 @@
 function getAllParks() {
     if (serverSettings.nestParks) {
-        $.getJSON('static/data/parks/' + serverSettings.nestParksFileName + '.json').done(function (response) {
+        $.getJSON('static/data/parks/' + serverSettings.nestParksFileName + '.json?v=' + version).done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }
@@ -16,7 +16,7 @@ function getAllParks() {
     }
 
     if (serverSettings.exParks) {
-        $.getJSON('static/data/parks/' + serverSettings.exParksFileName + '.json').done(function (response) {
+        $.getJSON('static/data/parks/' + serverSettings.exParksFileName + '.json?v=' + version).done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }

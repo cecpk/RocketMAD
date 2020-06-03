@@ -5,7 +5,7 @@ function initItemData() {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/data/items.min.json').done(function (data) {
+    return $.getJSON('static/dist/data/items.min.json?v=' + version).done(function (data) {
         itemData = data
     }).fail(function () {
         console.log('Error loading item data.')

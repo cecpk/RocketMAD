@@ -5,6 +5,7 @@ import gc
 import pickle
 import logging
 import redis
+import time
 
 from bisect import bisect_left
 from datetime import datetime, timezone
@@ -39,6 +40,8 @@ valid_access_configs = []
 
 ip_blacklist = []
 ip_blacklist_keys = []
+
+version = int(time.time())  # Used for cache busting.
 
 
 class CustomJSONEncoder(JSONEncoder):
@@ -272,6 +275,7 @@ def create_app():
 
         return render_template(
             'map.html',
+            version=version,
             lang=user_args.locale,
             map_title=user_args.map_title,
             custom_favicon=user_args.custom_favicon,
@@ -325,6 +329,7 @@ def create_app():
 
         return render_template(
             'pokemon-history.html',
+            version=version,
             lang=user_args.locale,
             map_title=user_args.map_title,
             custom_favicon=user_args.custom_favicon,
@@ -376,6 +381,7 @@ def create_app():
 
         return render_template(
             'quest.html',
+            version=version,
             lang=user_args.locale,
             map_title=user_args.map_title,
             custom_favicon=user_args.custom_favicon,
@@ -453,6 +459,7 @@ def create_app():
 
         return render_template(
             'mobile.html',
+            version=version,
             custom_favicon=user_args.custom_favicon,
             pokemon_list=pokemon_list,
             origin_lat=lat,
@@ -479,6 +486,7 @@ def create_app():
 
         return render_template(
             'login.html',
+            version=version,
             lang=args.locale,
             map_title=args.map_title,
             custom_favicon=args.custom_favicon,
@@ -532,6 +540,7 @@ def create_app():
 
         return render_template(
             'telegram.html',
+            version=version,
             lang=args.locale,
             map_title=args.map_title,
             custom_favicon=args.custom_favicon,
@@ -572,7 +581,8 @@ def create_app():
             sessions = get_sessions(r)
             for s in sessions:
                 if 'auth_type' in s and 'id' in s:
-                    if s['auth_type'] == session['auth_type'] and s['id'] == session['id']:
+                    if (s['auth_type'] == session['auth_type'] and
+                            s['id'] == session['id']):
                         r.delete('session:' + s['session_id'])
 
         return redirect(url_for('map_page'))
@@ -619,6 +629,7 @@ def create_app():
 
         return render_template(
             'users.html',
+            version=version,
             lang=user_args.locale,
             map_title=user_args.map_title,
             custom_favicon=user_args.custom_favicon,

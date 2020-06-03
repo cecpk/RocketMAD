@@ -11,7 +11,7 @@ function initPokemonData() {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
+    return $.getJSON('static/dist/data/pokemon.min.json?v=' + version).done(function (data) {
         pokemonData = data
         $.each(pokemonData, function(id, value) {
             var gen
@@ -49,7 +49,7 @@ function initMoveData() {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/data/moves.min.json').done(function (data) {
+    return $.getJSON('static/dist/data/moves.min.json?v=' + version).done(function (data) {
         moveData = data
     }).fail(function () {
         console.log('Error loading move data.')

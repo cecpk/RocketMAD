@@ -6,7 +6,7 @@ function initI8lnDictionary() {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/locales/' + language + '.min.json').done(function (data) {
+    return $.getJSON('static/dist/locales/' + language + '.min.json?v=' + version).done(function (data) {
         i8lnDictionary = data
     }).fail(function () {
         console.log('Error loading i8ln dictionary.')
