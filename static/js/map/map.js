@@ -1928,7 +1928,7 @@ function initSettingsSidebar() {
         $('#start-at-user-location-switch').prop('checked', settings.startAtUserLocation)
     }
     $('#start-at-last-location-switch').prop('checked', settings.startAtLastLocation)
-    if (serverSettings.isStartLocationMarkerMovable) {
+    if (serverSettings.isStartMarkerMovable) {
         $('#lock-start-marker-switch').prop('checked', !settings.isStartLocationMarkerMovable)
     }
     if (hasLocationSupport()) {
