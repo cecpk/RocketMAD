@@ -8,11 +8,10 @@ Prerequisites
 
 Follow the guide below to get the basic prerequisites installed:
 
- * :doc:`linux`
-
-You will also need a MySQL server installed:
-
- * :doc:`mysql`
+ * `MAD MYSQL database <https://mad-docs.readthedocs.io/en/latest/server-setup/#mysql-mariadb>`_
+ * Python 3.6+
+ * pip3
+ * `node and npm <https://nodejs.org/en/download/package-manager/>`_
 
 Downloading the Application
 ***************************
@@ -52,20 +51,18 @@ The output should look something like:
 
 Now you can install all the Python dependencies, make sure you're still in the directory of RocketMAD:
 
-Linux/OSX:
-
 .. code-block:: bash
 
   pip3 install -r requirements.txt
 
+.. note:: It's highly recommended to use a virtual environment <https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments>`_. A virtual environment is a Python environment such that the Python interpreter, libraries and scripts installed into it are isolated from those installed in other virtual environments.
+
 Building Front-End Assets
 ===========================
 
-In order to run from a git clone, you must compile the front-end assets with node. Make sure you have node installed for your platform:
+In order to run from a git clone, you must compile the front-end assets with node. Make sure you have `node <https://nodejs.org/en/download/package-manager/>`_ installed for your platform.
 
- * Linux -- refer to the `package installation <https://nodejs.org/en/download/package-manager/>`_ for your flavor of OS"
-
-Once node/npm is installed, open a command window and validation your install:
+Once node/npm is installed, open a shell and validate your install:
 
 .. code-block:: bash
 
