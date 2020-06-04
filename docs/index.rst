@@ -26,11 +26,7 @@ It visualizes data scanned by `MAD <https://github.com/Map-A-Droid/MAD>`_. Rocke
     :caption: Basic Installation
     :glob:
 
-    basic-install/index
-    basic-install/windows
-    basic-install/osx
-    basic-install/linux
-    basic-install/google-maps
+    basic-install/*
 
 .. toctree::
     :titlesonly:
