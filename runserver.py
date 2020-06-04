@@ -56,25 +56,24 @@ def validate_js_files(path, last_gen_time):
     return True
 
 
-def last_file_update_time(path, last_update):
+def get_lastest_update_time(path):
     if not os.path.exists(path):
         return 0
 
-    for file in os.listdir(path):
-        source_path = os.path.join(path, file)
-        if os.path.isdir(source_path):
-            last_update = last_file_update_time(source_path, last_update)
-        else:
-            update_time = os.path.getmtime(source_path)
-            if update_time > last_update:
-                last_update = update_time
+    latest_update_time = 0
+    for root, _, files in os.walk(path):
+        for file in files:
+            file = os.path.join(root, file)
+            update_time = os.path.getmtime(file)
+            if update_time > latest_update_time:
+                latest_update_time = update_time
 
-    return last_update
+    return latest_update_time
 
 
 def validate_assets(args):
     dist_path = os.path.join(args.root_path, 'static/dist')
-    last_gen_time = last_file_update_time(dist_path, 0)
+    last_gen_time = get_lastest_update_time(dist_path)
 
     paths = [
         os.path.join(args.root_path, 'static/js'),
@@ -84,7 +83,7 @@ def validate_assets(args):
         os.path.join(args.root_path, 'static/locales')
     ]
     for path in paths:
-        last_update_time = last_file_update_time(path, 0)
+        last_update_time = get_lastest_update_time(path)
         if (last_update_time > last_gen_time):
             log.critical('Missing front-end assets (static/dist) -- please '
                          'run "npm install && npm run build" before starting '
