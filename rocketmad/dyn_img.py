@@ -168,7 +168,8 @@ if args.generate_images:
         log.error("Could not find ImageMagick executable. Make sure "
                   "you can execute either 'magick' (ImageMagick 7)"
                   " or 'convert' (ImageMagick 6) from the commandline. "
-                  "Otherwise you cannot use --generate-images")
+                  "Otherwise you cannot use --generate-images. "
+                  "For Debian/Ubuntu just run: sudo apt-get install imagemagick")
         sys.exit(1)
 
 
