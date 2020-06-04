@@ -1,4 +1,4 @@
-# Nginx
+# Nginx (Outdated)
 
 If you do not want to expose RocketMap to the web directly or you want to place it under a prefix, follow this guide:
 

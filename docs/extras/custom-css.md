@@ -1,4 +1,4 @@
-# Custom CSS styles
+# Custom CSS styles (Outdated)
 RocketMap supports the use of a custom CSS file to override the default selections. Use Google Chrome developer tools or Mozilla Firebug to easily find the right element selections.
 
 ## Use of custom styles
