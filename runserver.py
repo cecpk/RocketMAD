@@ -43,19 +43,6 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         exc_type, exc_value, exc_traceback))
 
 
-def validate_js_files(path, last_gen_time):
-    for file in os.listdir(path):
-        source_path = os.path.join(path, file)
-        if os.path.isdir(source_path):
-            if not validate_js_files(source_path, last_gen_time):
-                return False
-        elif file.endswith(".js"):
-            if os.path.getmtime(source_path) > last_gen_time:
-                return False
-
-    return True
-
-
 def get_lastest_update_time(path):
     if not os.path.exists(path):
         return 0
