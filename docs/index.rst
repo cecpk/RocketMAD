@@ -9,7 +9,7 @@ It visualizes data scanned by `MAD <https://github.com/Map-A-Droid/MAD>`_. Rocke
 
 [ Wanting to install and run RocketMAD for the first time? `Start here! <https://rocketmad.readthedocs.io/en/latest/basic-install/index.html>`_ ]
 
-[ `Official GitHub <https://github.com/cecpk/RocketMAD>`_ ] [ `Discord Support <https://discordapp.com/invite/7TT58jU>`_ ] [ `GitHub Issues <https://github.com/cecpk/RocketMAD/issues>`_ ]
+[ `Official GitHub <https://github.com/cecpk/RocketMAD>`_ ] [ `Discord Support <https://discord.com/invite/arKePet>`_ ] [ `GitHub Issues <https://github.com/cecpk/RocketMAD/issues>`_ ]
 
 .. toctree::
     :titlesonly:
