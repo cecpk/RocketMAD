@@ -56,27 +56,40 @@ def validate_js_files(path, last_gen_time):
     return True
 
 
+def last_file_update_time(path, last_update):
+    if not os.path.exists(path):
+        return 0
+
+    for file in os.listdir(path):
+        source_path = os.path.join(path, file)
+        if os.path.isdir(source_path):
+            last_update = last_file_update_time(source_path, last_update)
+        else:
+            update_time = os.path.getmtime(source_path)
+            if update_time > last_update:
+                last_update = update_time
+
+    return last_update
+
+
 def validate_assets(args):
-    assets_error_log = (
-        'Missing front-end assets (static/dist) -- please run '
-        '"npm install && npm run build" before starting the server.')
+    dist_path = os.path.join(args.root_path, 'static/dist')
+    last_gen_time = last_file_update_time(dist_path, 0)
 
-    root_path = os.path.dirname(__file__)
-    if not os.path.exists(os.path.join(root_path, 'static/dist')):
-        log.critical(assets_error_log)
-        return False
-
-    generated_js_path = os.path.join(root_path, 'static/dist/js')
-    last_js_gen_time = 0
-    for file in os.listdir(generated_js_path):
-        gen_time = os.path.getmtime(os.path.join(generated_js_path, file))
-        if gen_time > last_js_gen_time:
-            last_js_gen_time = gen_time
-
-    js_path = os.path.join(root_path, 'static/js')
-    if not validate_js_files(js_path, last_js_gen_time):
-        log.critical(assets_error_log)
-        return False
+    paths = [
+        os.path.join(args.root_path, 'static/js'),
+        os.path.join(args.root_path, 'static/css'),
+        os.path.join(args.root_path, 'static/sass'),
+        os.path.join(args.root_path, 'static/data'),
+        os.path.join(args.root_path, 'static/locales')
+    ]
+    for path in paths:
+        last_update_time = last_file_update_time(path, 0)
+        if (last_update_time > last_gen_time):
+            log.critical('Missing front-end assets (static/dist) -- please '
+                         'run "npm install && npm run build" before starting '
+                         'the server.')
+            return False
 
     return True
 
