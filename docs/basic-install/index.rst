@@ -6,10 +6,8 @@ These instructions cover an installation from the master branch in git.
 Prerequisites
 *************
 
-Follow one of the guides below to get the basic prerequisites installed:
+Follow the guide below to get the basic prerequisites installed:
 
- * :doc:`osx`
- * :doc:`windows`
  * :doc:`linux`
 
 You will also need a MySQL server installed:
@@ -34,7 +32,7 @@ At this point you should have the following:
  * pip3
  * RocketMAD application folder
 
-First, open up your shell (``cmd.exe``/``terminal.app``) and change to the directory of RocketMAD.
+First, open up your shell and change to the directory of RocketMAD.
 
 You can verify your installation like this:
 
@@ -52,26 +50,19 @@ The output should look something like:
   $ pip3 --version
   pip 19.1.1 from /usr/local/lib/python3.7/site-packages (python 3.7)
 
-Now you can install all the Python dependencies, make sure you're still in the directory of RocketMap:
-
-Windows:
-
-.. code-block:: bash
-
-  pip install -r requirements.txt
+Now you can install all the Python dependencies, make sure you're still in the directory of RocketMAD:
 
 Linux/OSX:
 
 .. code-block:: bash
 
-  sudo -H pip install -r requirements.txt
+  pip3 install -r requirements.txt
 
 Building Front-End Assets
 ===========================
 
 In order to run from a git clone, you must compile the front-end assets with node. Make sure you have node installed for your platform:
 
- * `Windows/OSX <https://nodejs.org/en/download/>`_ (Click the Windows or Macintosh Installer respectively)
  * Linux -- refer to the `package installation <https://nodejs.org/en/download/package-manager/>`_ for your flavor of OS"
 
 Once node/npm is installed, open a command window and validation your install:
@@ -123,15 +114,15 @@ The most basic config you could use would look something like this:
 Things to Know
 **************
 
- * All of these flags can be set inside of a configuration file to avoid clutter in the command line. Go `here <http://rocketmap.readthedocs.io/en/develop/first-run/configuration-files.html>`_ to see how.
- * A full list of all commands are available `here. <https://rocketmap.readthedocs.io/en/develop/first-run/commandline.html>`_
- * A few tools to help you along the way are located `here. <https://rocketmap.readthedocs.io/en/develop/extras/Community-Tools.html>`_
+ * All of these flags can be set inside of a configuration file to avoid clutter in the command line. Go `here <http://rocketmad.readthedocs.io/en/develop/first-run/configuration-files.html>`_ to see how.
+ * A full list of all commands are available `here. <https://rocketmad.readthedocs.io/en/develop/first-run/commandline.html>`_
+ * A few tools to help you along the way are located `here. <https://rocketmad.readthedocs.io/en/develop/extras/Community-Tools.html>`_
 
 
 Updating the Application
 ************************
 
-RocketMap is a very active project and updates often. You can follow the `latest changes <https://github.com/cecpk/RocketMAD/tree/master>`_ to see what's changing.
+RocketMAD is a very active project and updates often. You can follow the `latest changes <https://github.com/cecpk/RocketMAD/tree/master>`_ to see what's changing.
 
 You can update with a few quick commands:
 
