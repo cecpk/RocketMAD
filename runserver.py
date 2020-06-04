@@ -73,8 +73,7 @@ def validate_assets(args):
         last_update_time = get_lastest_update_time(path)
         if (last_update_time > last_gen_time):
             log.critical('Missing front-end assets (static/dist) -- please '
-                         'run "npm install && npm run build" before starting '
-                         'the server.')
+                         'run "npm run build" before starting the server.')
             return False
 
     return True
