@@ -4,7 +4,7 @@ Welcome to RocketMAD's Documentation!
 RocketMAD gives you a map with nearby Pokémon, PokéStops, Gyms, and much more in the form of a web-app as well as a native phone application.
 It visualizes data scanned by `MAD <https://github.com/Map-A-Droid/MAD>`_. RocketMAD does not work as standalone and the code has been heavily modified to only work with MAD. This frontend is based on `RocketMap <https://github.com/RocketMap/RocketMap>`_.
 
-.. image:: _static/img/RocketMap.png
+.. image:: _static/img/RocketMAD.png
     :align: center
 
 [ Wanting to install and run RocketMAD for the first time? `Start here! <https://rocketmad.readthedocs.io/en/latest/basic-install/index.html>`_ ]
