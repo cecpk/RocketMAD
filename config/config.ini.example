@@ -82,7 +82,7 @@
 Place your geofence files in the geofences folder.
 
 #geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
-#geofence-excluded-file:        # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
+#geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
 
 
 # Parks
