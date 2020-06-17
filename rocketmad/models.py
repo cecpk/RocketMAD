@@ -11,6 +11,7 @@ import time
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from functools import reduce
+from matplotlib.path import Path
 from sqlalchemy import func, Index, text
 from sqlalchemy.dialects.mysql import BIGINT, DOUBLE, LONGTEXT, TINYINT
 from sqlalchemy.orm import Load, load_only
@@ -18,7 +19,7 @@ from sqlalchemy.sql.expression import and_, or_
 from timeit import default_timer
 
 from .transform import transform_from_wgs_to_gcj
-from .utils import get_pokemon_name, get_pokemon_types, get_args, cellid
+from .utils import get_args, get_geofence_box
 
 log = logging.getLogger(__name__)
 args = get_args()
@@ -70,7 +71,7 @@ class Pokemon(db.Model):
     @staticmethod
     def get_active(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
                    oNeLat=None, oNeLng=None, timestamp=0, eids=None, ids=None,
-                   verified_despawn_time=False):
+                   geofences=None, verified_despawn_time=False):
         columns = [
             Pokemon.encounter_id, Pokemon.pokemon_id, Pokemon.latitude,
             Pokemon.longitude, Pokemon.disappear_time,
@@ -95,33 +96,24 @@ class Pokemon(db.Model):
         else:
             query = db.session.query(*columns)
 
-        if eids:
-            query = query.filter(Pokemon.pokemon_id.notin_(eids))
-        elif ids:
-            query = query.filter(Pokemon.pokemon_id.in_(ids))
+        query = query.filter(Pokemon.disappear_time > datetime.utcnow())
 
-        if not (swLat and swLng and neLat and neLng):
-            query = query.filter(Pokemon.disappear_time > datetime.utcnow())
-        elif timestamp > 0:
+        if timestamp > 0:
             # If timestamp is known only load modified Pokémon.
+            t = datetime.utcfromtimestamp(timestamp / 1000)
+            query = query.filter(Pokemon.last_modified > t)
+
+        if swLat and swLng and neLat and neLng:
             query = query.filter(
-                Pokemon.last_modified > datetime.utcfromtimestamp(
-                    timestamp / 1000),
-                Pokemon.disappear_time > datetime.utcnow(),
                 Pokemon.latitude >= swLat,
                 Pokemon.longitude >= swLng,
                 Pokemon.latitude <= neLat,
                 Pokemon.longitude <= neLng
             )
-        elif oSwLat and oSwLng and oNeLat and oNeLng:
-            # Send Pokémon in view but exclude those within old boundaries.
-            # Only send newly uncovered Pokemon.
+
+        if oSwLat and oSwLng and oNeLat and oNeLng:
+            # Exclude Pokémon within old boundaries.
             query = query.filter(
-                Pokemon.disappear_time > datetime.utcnow(),
-                Pokemon.latitude >= swLat,
-                Pokemon.longitude >= swLng,
-                Pokemon.latitude <= neLat,
-                Pokemon.longitude <= neLng,
                 ~and_(
                     Pokemon.latitude >= oSwLat,
                     Pokemon.longitude >= oSwLng,
@@ -129,16 +121,41 @@ class Pokemon(db.Model):
                     Pokemon.longitude <= oNeLng
                 )
             )
-        else:
-            query = query.filter(
-                Pokemon.disappear_time > datetime.utcnow(),
-                Pokemon.latitude >= swLat,
-                Pokemon.longitude >= swLng,
-                Pokemon.latitude <= neLat,
-                Pokemon.longitude <= neLng
-            )
+
+        if geofences:
+            conditions = []
+            for geofence in geofences:
+                box = get_geofence_box(geofence)
+                cond = and_(
+                    Pokemon.latitude >= box['sw'][0],
+                    Pokemon.longitude >= box['sw'][1],
+                    Pokemon.latitude <= box['ne'][0],
+                    Pokemon.longitude <= box['ne'][1]
+                )
+                conditions.append(cond)
+            query = query.filter(or_(*conditions))
+
+        if eids:
+            query = query.filter(Pokemon.pokemon_id.notin_(eids))
+        elif ids:
+            query = query.filter(Pokemon.pokemon_id.in_(ids))
 
         result = query.all()
+
+        if geofences:
+            paths = []
+            for geofence in geofences:
+                coords = geofence['polygon']
+                coords.append(coords[0])
+                paths.append(Path(coords))
+            pokemon = []
+            for poke in result:
+                coord = (poke.latitude, poke.longitude)
+                for path in paths:
+                    if path.contains_point(coord):
+                        pokemon.append(poke._asdict())
+
+            return pokemon
 
         return [pokemon._asdict() for pokemon in result]
 

@@ -29,7 +29,7 @@ from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
                      Weather)
 from .transform import transform_from_wgs_to_gcj
 from .utils import (dottedQuadToNum, get_args, get_pokemon_name, get_sessions,
-                    i8ln)
+                    i8ln, parse_geofence_file)
 
 log = logging.getLogger(__name__)
 args = get_args()
@@ -729,18 +729,27 @@ def create_app():
             # moved/zoomed!
             if (oSwLng < swLng and oSwLat < swLat and
                     oNeLat > neLat and oNeLng > neLng):
-                newArea = False  # We zoomed in no new area uncovered.
+                new_area = False  # We zoomed in no new area uncovered.
             elif not (oSwLat == swLat and oSwLng == swLng and
                       oNeLat == neLat and oNeLng == neLng):
-                newArea = True
+                new_area = True
             else:
-                newArea = False
+                new_area = False
 
         # Pass current coords as old coords.
         d['oSwLat'] = swLat
         d['oSwLng'] = swLng
         d['oNeLat'] = neLat
         d['oNeLng'] = neLng
+
+        geofences = (
+            parse_geofence_file('geofences/' + user_args.geofence_file)
+            if user_args.geofence_file else None
+        )
+        excluded_geofences = (
+            parse_geofence_file('geofences/' + user_args.geofence_exclude_file)
+            if user_args.geofence_exclude_file else None
+        )
 
         if (request.args.get('pokemon', 'true') == 'true' and
                 not user_args.no_pokemon):
@@ -761,6 +770,7 @@ def create_app():
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
                         swLat, swLng, neLat, neLng, eids=eids, ids=ids,
+                        geofences=geofences,
                         verified_despawn_time=verified_despawn))
             else:
                 # If map is already populated only request modified Pokemon
@@ -768,10 +778,10 @@ def create_app():
                 d['pokemons'] = convert_pokemon_list(
                     Pokemon.get_active(
                         swLat, swLng, neLat, neLng, timestamp=timestamp,
-                        eids=eids, ids=ids,
+                        eids=eids, ids=ids, geofences=geofences,
                         verified_despawn_time=verified_despawn))
 
-                if newArea:
+                if new_area:
                     # If screen is moved add newly uncovered Pokemon to the
                     # ones that were modified since last request time.
                     d['pokemons'] += (
@@ -779,14 +789,15 @@ def create_app():
                             Pokemon.get_active(
                                 swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                                 oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
-                                eids=eids, ids=ids,
+                                eids=eids, ids=ids, geofences=geofences,
                                 verified_despawn_time=verified_despawn)))
 
             if request.args.get('reids'):
                 request_reids = request.args.get('reids').split(',')
                 reids = [int(x) for x in request_reids]
                 d['pokemons'] += convert_pokemon_list(
-                    Pokemon.get_active(swLat, swLng, neLat, neLng, ids=ids,
+                    Pokemon.get_active(swLat, swLng, neLat, neLng, ids=reids,
+                                       geofences=geofences,
                                        verified_despawn_time=verified_despawn))
                 d['reids'] = reids
 
@@ -818,7 +829,7 @@ def create_app():
             else:
                 d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
                                          timestamp=timestamp, raids=raids)
-                if newArea:
+                if new_area:
                     d['gyms'].update(
                         Gym.get_gyms(swLat, swLng, neLat, neLng,
                                      oSwLat=oSwLat, oSwLng=oSwLng,
@@ -848,7 +859,7 @@ def create_app():
                     eventless_stops=pokestopsNoEvent, quests=quests,
                     invasions=invasions, lures=lures
                 )
-                if newArea:
+                if new_area:
                     d['pokestops'].update(Pokestop.get_pokestops(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
@@ -863,7 +874,7 @@ def create_app():
             else:
                 d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng,
                                                    timestamp=timestamp)
-                if newArea:
+                if new_area:
                     d['weather'] += Weather.get_weather(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
@@ -877,7 +888,7 @@ def create_app():
                 d['spawnpoints'] = TrsSpawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
                     timestamp=timestamp)
-                if newArea:
+                if new_area:
                     d['spawnpoints'] += TrsSpawn.get_spawnpoints(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
@@ -890,7 +901,7 @@ def create_app():
             else:
                 d['scannedlocs'] = ScannedLocation.get_recent(
                     swLat, swLng, neLat, neLng, timestamp=timestamp)
-                if newArea:
+                if new_area:
                     d['scannedlocs'] += ScannedLocation.get_recent(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)

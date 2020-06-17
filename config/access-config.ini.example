@@ -55,6 +55,9 @@
 #no-s2-cells                    # Disables s2 cells. (default=False)
 #no-ranges                      # Disables user to show interaction ranges. (default=False)
 
+#geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
+#geofence-excluded-file:        # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
+
 #ex-parks                       # Enables ex raid eligible parks drawing. (default=False)
 #nest-parks                     # Enables nest parks drawing. (default=False)
 #ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
