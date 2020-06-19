@@ -24,7 +24,7 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
     }
 
     if (settings.showPokemonValues && settings.filterPokemonByValues && !settings.noFilterValuesPokemon.has(pokemon.pokemon_id)) {
-        if (pokemon.individual_attack !== null) {
+        if (pokemon.individual_attack != null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
                 return false
@@ -411,7 +411,7 @@ function updatePokemon(id, pokemon = null) {
 function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
     if (pokemonIds.size > 0 && encounteredOnly) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            if (pokemonIds.has(pokemon.pokemon_id) && pokemon.individual_attack !== null) {
+            if (pokemonIds.has(pokemon.pokemon_id) && pokemon.individual_attack != null) {
                 updatePokemon(encounterId)
             }
         })
@@ -423,7 +423,7 @@ function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
         })
     } else if (encounteredOnly) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            if (pokemon.individual_attack !== null) {
+            if (pokemon.individual_attack != null) {
                 updatePokemon(encounterId)
             }
         })
@@ -559,7 +559,7 @@ function sendPokemonNotification(pokemon) {
 
         notifText = `Disappears at ${expireTime} (${expireTimeCountdown})`
 
-        if (settings.showPokemonValues && pokemon.individual_attack !== null) {
+        if (settings.showPokemonValues && pokemon.individual_attack != null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             notifTitle += ` ${ivsPercentage}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon.cp_multiplier)}`
             const move1 = getMoveName(pokemon.move_1)
