@@ -478,7 +478,7 @@ function isNotifPokemon(pokemon) {
     }
 
     if (settings.showPokemonValues) {
-        if (pokemon.weight && settings.pokemonValuesNotifs && settings.notifValuesPokemon.has(pokemon.pokemon_id)) {
+        if (pokemon.individual_attack != null && settings.pokemonValuesNotifs && settings.notifValuesPokemon.has(pokemon.pokemon_id)) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             const level = getPokemonLevel(pokemon.cp_multiplier)
             if ((ivsPercentage >= settings.minNotifIvs || (settings.zeroIvsPokemonNotifs && ivsPercentage === 0)) &&
