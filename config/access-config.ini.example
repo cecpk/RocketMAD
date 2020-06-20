@@ -24,8 +24,8 @@
 #cluster-zoom-level-mobile:     # Zoom level from which markers should be clustered on mobile. Range: [0,18]. -1 to disable clustering on mobile. (default=14)
 #max-cluster-radius:            # The maximum radius that a cluster will cover from the central marker (in pixels). (default=60)
 #spiderfy-clusters              # Spiderfy clusters at the bottom zoom level. (default=False)
-#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position.
-#no-geocoder                    # Do not add the geocoder (location search bar) to the map.
+#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position. (default=False)
+#no-geocoder                    # Do not add the geocoder (location search bar) to the map. (default=False)
 
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
