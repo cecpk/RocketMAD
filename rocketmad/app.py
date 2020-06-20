@@ -226,6 +226,7 @@ def create_app():
             'clusterZoomLevelMobile': user_args.cluster_zoom_level_mobile,
             'maxClusterRadius': user_args.max_cluster_radius,
             'spiderfyClusters': user_args.spiderfy_clusters,
+            'geocoder': not user_args.no_geocoder,
             'isStartMarkerMovable': not user_args.lock_start_marker,
             'generateImages': user_args.generate_images,
             'statsSidebar': not user_args.no_stats_sidebar,

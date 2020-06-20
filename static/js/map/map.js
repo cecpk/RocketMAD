@@ -275,21 +275,13 @@ function initMap() { // eslint-disable-line no-unused-vars
         position: 'topright'
     }))
 
-    var GeoSearchControl = window.GeoSearch.GeoSearchControl
-    var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
-    var provider = new OpenStreetMapProvider()
-    const search = new GeoSearchControl({
-        provider: provider,
-        position: 'topright',
-        autoClose: true,
-        keepResult: false,
-        showMarker: false
-    })
-    map.addControl(search)
-
-    map.on('geosearch/showlocation', function (e) {
-        changeLocation(e.location.y, e.location.x)
-    })
+    if (serverSettings.geocoder) {
+        L.Control.geocoder({
+            defaultMarkGeocode: false
+        }).on('markgeocode', function(e) {
+            changeLocation(e.geocode.center.lat, e.geocode.center.lng)
+        }).addTo(map)
+    }
 
     map.on('moveend', function () {
         updateMainS2CellId()
