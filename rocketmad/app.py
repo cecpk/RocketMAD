@@ -746,7 +746,7 @@ def create_app():
             parse_geofence_file('geofences/' + user_args.geofence_file)
             if user_args.geofence_file else None
         )
-        excluded_geofences = (
+        exclude_geofences = (
             parse_geofence_file('geofences/' + user_args.geofence_exclude_file)
             if user_args.geofence_exclude_file else None
         )
@@ -771,7 +771,7 @@ def create_app():
                     Pokemon.get_active(
                         swLat, swLng, neLat, neLng, eids=eids, ids=ids,
                         geofences=geofences,
-                        excluded_geofences=excluded_geofences,
+                        exclude_geofences=exclude_geofences,
                         verified_despawn_time=verified_despawn))
             else:
                 # If map is already populated only request modified Pokemon
@@ -780,7 +780,7 @@ def create_app():
                     Pokemon.get_active(
                         swLat, swLng, neLat, neLng, timestamp=timestamp,
                         eids=eids, ids=ids, geofences=geofences,
-                        excluded_geofences=excluded_geofences,
+                        exclude_geofences=exclude_geofences,
                         verified_despawn_time=verified_despawn))
 
                 if new_area:
@@ -792,7 +792,7 @@ def create_app():
                                 swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                                 oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
                                 eids=eids, ids=ids, geofences=geofences,
-                                excluded_geofences=excluded_geofences,
+                                exclude_geofences=exclude_geofences,
                                 verified_despawn_time=verified_despawn)))
 
             if request.args.get('reids'):
@@ -801,7 +801,7 @@ def create_app():
                 d['pokemons'] += convert_pokemon_list(
                     Pokemon.get_active(swLat, swLng, neLat, neLng, ids=reids,
                                        geofences=geofences,
-                                       excluded_geofences=excluded_geofences,
+                                       exclude_geofences=exclude_geofences,
                                        verified_despawn_time=verified_despawn))
                 d['reids'] = reids
 
