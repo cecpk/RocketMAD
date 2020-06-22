@@ -50,7 +50,7 @@ Assuming the following:
    }
    ```
 
-If you want to use a subdirectory, e.g. http://my_domain.com/map, add this instead of the above:
+In case you want to use a subdirectory, e.g. http://my_domain.com/map, add the following instead of the above:
 
    ```
    upstream app_server {
