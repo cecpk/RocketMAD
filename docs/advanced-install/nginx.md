@@ -1,31 +1,89 @@
-# Nginx (Outdated)
+# Nginx
 
-If you do not want to expose RocketMap to the web directly or you want to place it under a prefix, follow this guide:
+If you do not want to expose RocketMAD to the web directly or you want to place it under a prefix, follow this guide:
 
 Assuming the following:
 
-* You are running RocketMap on the default port 5000
-* You've already made your machine available externally (for example, [port forwarding](http://rocketmap.readthedocs.io/en/develop/extras/external.html)
+* You are running RocketMAD on the default port 5000
+* You've already made your machine available externally (for example, [port forwarding](https://rocketmad.readthedocs.io/en/latest/extras/external.html)
 
 1. Install nginx (I'm not walking you through that, google will assist) - http://nginx.org/en/linux_packages.html
-2. In /etc/nginx/nginx.conf add the following before the last `}`
+2. In /etc/nginx/nginx.conf make sure the following is added:
 
    ```
-   include conf.d/rocketmap.conf;
+   include conf.d/*.conf;
    ```
 
-3. Create a file /etc/nginx/conf.d/rocketmap.conf and place the following in it:
+3. Create a file /etc/nginx/conf.d/rocketmad.conf and place the following in it:
 
    ```
+   upstream app_server {
+       # fail_timeout=0 means we always retry an upstream even if it failed
+       # to return a good HTTP response.
+       server 127.0.0.1:5000 fail_timeout=0;
+  }
+   
    server {
        listen 80;
-       location /go/ {
-          proxy_pass http://127.0.0.1:5000/;
+       listen [::]:80;
+       
+       # Set the correct host(s) for your site.
+       server_name my-domain.com www.my-domain.com;
+       
+       # Path to your RocketMAD folder.
+       root /path/to/RM;
+       
+       location / {
+           # Checks for static file, if not found proxy to app.
+           try_files $uri @proxy_to_app;
+       }
+       
+       location @proxy_to_app {
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+           proxy_set_header Host $http_host;
+           # We don't want nginx trying to do something clever with
+           # redirects, we set the Host: header above already.
+           proxy_redirect off;
+           proxy_pass http://app_server;
        }
    }
    ```
-
-You can now access it by http://yourip/go
+   Or if you want to use a subdirectory, e.g. http://my-domain.com/map, add this: 
+   ```
+   upstream app_server {
+       # fail_timeout=0 means we always retry an upstream even if it failed
+       # to return a good HTTP response.
+       server 127.0.0.1:5000 fail_timeout=0;
+  }
+   
+   server {
+       listen 80;
+       listen [::]:80;
+       
+       # Set the correct host(s) for your site.
+       server_name my-domain.com www.my-domain.com;
+       
+       # Path to your RocketMAD folder.
+       root /path/to/RM;
+       
+       location /map {
+           # Checks for static file, if not found proxy to app.
+           try_files $uri @proxy_to_app;
+       }
+       
+       location @proxy_to_app {
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+           proxy_set_header Host $http_host;
+           proxy_set_header SCRIPT_NAME /map;
+           # We don't want nginx trying to do something clever with
+           # redirects, we set the Host: header above already.
+           proxy_redirect off;
+           proxy_pass http://app_server;
+       }
+   }
+   ```
 
 ## Add a free SSL Certificate to your site:
 
