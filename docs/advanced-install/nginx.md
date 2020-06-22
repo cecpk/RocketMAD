@@ -5,7 +5,7 @@ If you do not want to expose RocketMAD to the web directly or you want to place 
 Assuming the following:
 
 * You are running RocketMAD on the default port 5000
-* You've already made your machine available externally (for example, [port forwarding](https://rocketmad.readthedocs.io/en/latest/extras/external.html)
+* You've already made your machine available externally (for example, [port forwarding](https://rocketmad.readthedocs.io/en/latest/extras/external.html))
 
 1. Install nginx (I'm not walking you through that, google will assist) - http://nginx.org/en/linux_packages.html
 2. In /etc/nginx/nginx.conf make sure the following is added:
