@@ -55,7 +55,7 @@ Assuming the following:
        # fail_timeout=0 means we always retry an upstream even if it failed
        # to return a good HTTP response.
        server 127.0.0.1:5000 fail_timeout=0;
-  }
+   }
    
    server {
        listen 80;
