@@ -202,5 +202,21 @@
   "50": {
     "type": "Electric",
     "grunt": "Male"
+  },
+  "51": {
+    "type": "Balloon",
+    "grunt": "Female"
+  },
+  "52": {
+    "type": "Balloon",
+    "grunt": "Male"
+  },
+  "53": {
+    "type": "",
+    "grunt": "Female"
+  },
+  "54": {
+    "type": "",
+    "grunt": "Male"
   }
 }
