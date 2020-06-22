@@ -28,7 +28,7 @@ Assuming the following:
        listen [::]:80;
        
        # Set the correct host(s) for your site.
-       server_name my-domain.com www.my-domain.com;
+       server_name my_domain.com www.my_domain.com;
        
        # Path to your RocketMAD folder.
        root /path/to/RM;
@@ -49,7 +49,7 @@ Assuming the following:
        }
    }
    ```
-   Or if you want to use a subdirectory, e.g. http://my-domain.com/map, add this: 
+If you want to use a subdirectory, e.g. http://my_domain.com/map, add this instead of the above:
    ```
    upstream app_server {
        # fail_timeout=0 means we always retry an upstream even if it failed
@@ -62,7 +62,7 @@ Assuming the following:
        listen [::]:80;
        
        # Set the correct host(s) for your site.
-       server_name my-domain.com www.my-domain.com;
+       server_name my_domain.com www.my_domain.com;
        
        # Path to your RocketMAD folder.
        root /path/to/RM;
