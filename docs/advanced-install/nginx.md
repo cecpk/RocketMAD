@@ -91,7 +91,8 @@ If you want to use a subdirectory, e.g. http://my_domain.com/map, add this inste
 
 1. Install certbot: https://certbot.eff.org/instructions
 2. Run `certbot certonly -d my_domain.com www.my_domain.com` to generate certificates
-3. Certificates last for 3 months and can be renewed by running `certbot renew`
+3. Update your rocketmap.conf file, see example below
+4. Certificates last for 3 months and can be renewed by running `certbot renew`
 
 ## SSL example config
 
