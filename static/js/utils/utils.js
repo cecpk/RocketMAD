@@ -1,5 +1,6 @@
 let touchDevice = null
 let mobileDevice = null
+let canHover = null
 let locationSupport = null
 let decimalSeparator = null
 let thousandsSeparator = null
@@ -24,6 +25,13 @@ function isMobileDevice() {
         mobileDevice = /Mobi|Android/i.test(navigator.userAgent)
     }
     return mobileDevice
+}
+
+function deviceCanHover() {
+    if (canHover === null) {
+        canHover = window.matchMedia('(any-hover: hover)').matches
+    }
+    return canHover
 }
 
 function hasLocationSupport() {

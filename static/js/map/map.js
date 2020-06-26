@@ -2996,7 +2996,7 @@ function addListeners(marker, type) {
         marker.options.persist = true
     })
 
-    if (!isMobileDevice() && !isTouchDevice()) {
+    if (deviceCanHover()) {
         marker.on('mouseover', function (e) {
             if (marker.isPopupOpen()) {
                 return true
