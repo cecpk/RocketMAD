@@ -22,7 +22,7 @@
   },
   "6": {
     "name": "Stardust",
-    "questBundles": [200, 500, 1000, 1500]
+    "questBundles": [200, 500, 800, 1000, 1200, 1500]
   },
   "101": {
     "name": "Potion",
