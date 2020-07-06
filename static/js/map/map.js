@@ -2677,14 +2677,13 @@ function initBackupModals() {
 
     if (serverSettings.pokemons) {
         $('#export-notif-pokemon-button').on('click',  function () {
-            downloadData('notif_pokemon', JSON.stringify(Array.from(pokemonsettings.notifPokemon)))
+            downloadData('notif_pokemon', JSON.stringify(Array.from(settings.notifPokemon)))
         })
     }
 
     if (serverSettings.pokemonValues) {
         $('#export-notif-values-pokemon-button').on('click',  function () {
-            const pokemon = difference(pokemonIds, settings.noNotifValuesPokemon)
-            downloadData('notif_values_pokemon', JSON.stringify(Array.from(pokemon)))
+            downloadData('notif_values_pokemon', JSON.stringify(Array.from(settings.notifValuesPokemon)))
         })
     }
 
@@ -2793,7 +2792,7 @@ function initBackupModals() {
             $('#no-notif-values-pokemon').val(excludedPokemon).trigger('change')
 
             $('label[for="no-notif-values-pokemon"] .pokemon-filter-list .filter-button').each(function () {
-                if (!settings.noNotifValuesPokemon.has($(this).data('id'))) {
+                if (settings.notifValuesPokemon.has($(this).data('id'))) {
                     $(this).addClass('active')
                 } else {
                     $(this).removeClass('active')
