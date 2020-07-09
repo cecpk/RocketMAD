@@ -100,7 +100,7 @@ function getPokemonTypesNoI8ln(pokemonId, formId) {
 }
 
 function getFormName(pokemonId, formId) {
-    return i8ln(pokemonData[pokemonId].forms[formId].formName)
+    return pokemonData[pokemonId].forms && formId in pokemonData[pokemonId].forms ? i8ln(pokemonData[pokemonId].forms[formId].formName) : '';
 }
 
 function getPokemonNameWithForm(pokemonId, formId) {
