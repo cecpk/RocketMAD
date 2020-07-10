@@ -84,15 +84,11 @@ function getPokemonName(id) {
 }
 
 function getPokemonTypes(pokemonId, formId) {
-    if (formId && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
-        return i8ln(pokemonData[pokemonId].forms[formId].formTypes)
-    } else {
-        return i8ln(pokemonData[pokemonId].types)
-    }
+    return i8ln(getPokemonTypesNoI8ln(pokemonId, formId))
 }
 
 function getPokemonTypesNoI8ln(pokemonId, formId) {
-    if (formId && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
+    if ('forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
         return pokemonData[pokemonId].forms[formId].formTypes
     } else {
         return pokemonData[pokemonId].types
@@ -100,16 +96,14 @@ function getPokemonTypesNoI8ln(pokemonId, formId) {
 }
 
 function getFormName(pokemonId, formId) {
-    return pokemonData[pokemonId].forms && formId in pokemonData[pokemonId].forms ? i8ln(pokemonData[pokemonId].forms[formId].formName) : '';
+    return 'forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms ? i8ln(pokemonData[pokemonId].forms[formId].formName) : ''
 }
 
 function getPokemonNameWithForm(pokemonId, formId) {
     let name = getPokemonName(pokemonId)
-    if (formId) {
-        const formName = getFormName(pokemonId, formId)
-        if (formName !== '') {
-            name += ` (${formName})`
-        }
+    const formName = getFormName(pokemonId, formId)
+    if (formName !== '') {
+        name += ` (${formName})`
     }
     return name
 }

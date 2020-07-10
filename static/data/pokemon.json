@@ -889,7 +889,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "776": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "777": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "778": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "33": {
     "name": "Nidorino",
