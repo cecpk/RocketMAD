@@ -2145,6 +2145,10 @@
       "1013": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2336": {
+        "formName": "Galarian",
+        "assetId": "31"
       }
     }
   },
@@ -2168,6 +2172,10 @@
       "1016": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2337": {
+        "formName": "Galarian",
+        "assetId": "31"
       }
     }
   },
@@ -2195,6 +2203,10 @@
       "1019": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2582": {
+        "formName": "Galarian",
+        "assetId": "31"
       }
     }
   },
@@ -2222,6 +2234,10 @@
       "1022": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2583": {
+        "formName": "Galarian",
+        "assetId": "31"
       }
     }
   },
@@ -2621,6 +2637,10 @@
       },
       "1046": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2586": {
+        "formName": "",
         "assetId": "00"
       }
     }
@@ -3340,6 +3360,10 @@
       "1082": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2339": {
+        "formName": "Galarian",
+        "assetId": "31"
       }
     }
   },
@@ -3562,6 +3586,10 @@
       },
       "324": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2585": {
+        "formName": "",
         "assetId": "00"
       }
     }
@@ -5948,6 +5976,10 @@
       "1285": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2340": {
+        "formName": "Galarian",
+        "assetId": "31"
       }
     }
   },
@@ -14884,6 +14916,10 @@
       "2086": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2344": {
+        "formName": "Galarian",
+        "assetId": "31"
       }
     }
   },
