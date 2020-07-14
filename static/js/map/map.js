@@ -318,7 +318,8 @@ function initMap() { // eslint-disable-line no-unused-vars
     markers = L.markerClusterGroup({
         disableClusteringAtZoom: settings.clusterZoomLevel + 1,
         maxClusterRadius: serverSettings.maxClusterRadius,
-        spiderfyOnMaxZoom: serverSettings.spiderfyClusters
+        spiderfyOnMaxZoom: serverSettings.spiderfyClusters,
+        removeOutsideVisibleBounds: serverSettings.removeMarkersOutsideWindow
     }).addTo(map)
     markersNoCluster = L.layerGroup().addTo(map)
 
