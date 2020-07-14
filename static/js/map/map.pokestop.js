@@ -151,6 +151,12 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
     return marker
 }
 
+function toggleInvasionPokemon() {
+    settings.showInvasionPokemon = !settings.showInvasionPokemon
+    updatePokestops()
+    Store.set('showInvasionPokemon', settings.showInvasionPokemon)
+}
+
 function pokestopLabel(pokestop) {
     const pokestopName = pokestop.name != null && pokestop.name != '' ? pokestop.name : 'PokéStop'
     var imageUrl = ''
@@ -248,16 +254,39 @@ function pokestopLabel(pokestop) {
         const invasionExpireTime = pokestop.incident_expiration
         const grunt = getInvasionGrunt(invasionId)
         const invasionType = getInvasionType(invasionId)
+        const pokemon = getInvasionPokemon(invasionId)
         const isNotifInvasion = settings.notifInvasions.includes(invasionId)
         const notifText = isNotifInvasion ? 'Don\'t notify' : 'Notify'
         const notifIconClass = isNotifInvasion ? 'fas fa-bell-slash' : 'fas fa-bell'
         let typeDisplay = ''
+        let pokemonDisplay = ''
 
         if (invasionType) {
             typeDisplay = `
                 <div>
                   Type: <strong>${invasionType}</strong>
                 </div>`
+        }
+
+        if (pokemon) {
+            const ballDisplay = `<img class='invasion-image' src='${getItemImageUrl(5)}' width='18'/>`
+            if (settings.showInvasionPokemon) {
+                pokemonDisplay = `<div class='invasion-pokemon-toggle' onclick='toggleInvasionPokemon()'>Hide Pokémon <i class='fas fa-chevron-up'></i></div><div class='invasion-pokemon-container'>`
+            } else {
+                pokemonDisplay = `<div class='invasion-pokemon-toggle' onclick='toggleInvasionPokemon()'>Show Pokémon <i class='fas fa-chevron-down'></i></div><div class='invasion-pokemon-container' style='display:none;'>`
+            }
+
+            for (let i = 1; i < 4; i++) {
+                const header = pokemon[i.toString()]['isReward'] ? `<div class='invasion-pokemon-ball-header'>#${i.toString() + ballDisplay}</div>` : `<div>#${i.toString()}</div>`
+                pokemonDisplay += `<div class='invasion-pokemon-column'>` + header
+                for (let j = 0; j < pokemon[i.toString()]['ids'].length; j++) {
+                  const id = pokemon[i.toString()]['ids'][j]
+                  pokemonDisplay += `<div><img title='${getPokemonName(id)}' src='${getPokemonRawIconUrl({pokemon_id: id})}' width='48'/></div>`
+                }
+                pokemonDisplay += '</div>'
+            }
+
+            pokemonDisplay += '</div>'
         }
 
         invasionDisplay = `
@@ -282,6 +311,7 @@ function pokestopLabel(pokestop) {
                   <div>
                     Grunt: <strong>${grunt}</strong>
                   </div>
+                  ${pokemonDisplay}
                 </div>
                 <div>
                   <a href='javascript:toggleInvasionNotif(${invasionId})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>

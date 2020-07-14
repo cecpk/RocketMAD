@@ -71,6 +71,7 @@ var settings = {
     excludedQuestItems: null,
     showInvasions: null,
     filterInvasions: null,
+    showInvasionPokemon: null,
     includedLureTypes: null,
     excludedInvasions: null,
     pokestopNotifs: null,
@@ -525,6 +526,7 @@ function initSettings() {
     }
     if (serverSettings.invasions) {
         settings.filterInvasions = Store.get('filterInvasions')
+        settings.showInvasionPokemon = Store.get('showInvasionPokemon')
         settings.excludedInvasions = Store.get('excludedInvasions')
         settings.invasionNotifs = Store.get('invasionNotifs')
         settings.notifInvasions = Store.get('notifInvasions')

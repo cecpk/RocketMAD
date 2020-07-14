@@ -24,6 +24,10 @@ function getInvasionImageUrl(id) {
     return 'static/images/invasion/' + id + '.png'
 }
 
+function getInvasionPokemon(id) {
+    return invasionData[id].pokemon
+}
+
 function getPokestopIconUrl(pokestop) {
     var imageName = 'stop'
     if (pokestop.quest != null) {
