@@ -2148,6 +2148,12 @@
       },
       "2336": {
         "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "31"
       }
     }
@@ -2175,6 +2181,16 @@
       },
       "2337": {
         "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Fairy",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "31"
       }
     }
@@ -2206,6 +2222,12 @@
       },
       "2582": {
         "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "31"
       }
     }
@@ -2237,6 +2259,16 @@
       },
       "2583": {
         "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Psychic",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "31"
       }
     }
@@ -3363,6 +3395,16 @@
       },
       "2339": {
         "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Psychic",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "31"
       }
     }
@@ -5979,6 +6021,12 @@
       },
       "2340": {
         "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ghost",
+            "color": "#f8d030"
+          }
+        ],
         "assetId": "31"
       }
     }
@@ -14919,6 +14967,16 @@
       },
       "2344": {
         "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ground",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Ghost",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "31"
       }
     }
