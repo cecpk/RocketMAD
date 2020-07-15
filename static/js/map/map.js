@@ -319,7 +319,7 @@ function initMap() { // eslint-disable-line no-unused-vars
         disableClusteringAtZoom: settings.clusterZoomLevel + 1,
         maxClusterRadius: serverSettings.maxClusterRadius,
         spiderfyOnMaxZoom: serverSettings.spiderfyClusters,
-        removeOutsideVisibleBounds: serverSettings.removeMarkersOutsideWindow
+        removeOutsideVisibleBounds: serverSettings.removeMarkersOutsideViewport
     }).addTo(map)
     markersNoCluster = L.layerGroup().addTo(map)
 
@@ -3142,7 +3142,6 @@ function updateStaleMarkers() {
         } else if (map.getBounds().contains(scannedLoc.marker.getLatLng())) {
             updateScannedLocation(id)
         }
-
     })
 
     if (markerChange) {

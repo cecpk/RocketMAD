@@ -234,7 +234,7 @@ def get_args(access_config=None):
     parser.add_argument('-sc', '--spiderfy-clusters',
                         help='Spiderfy clusters at the bottom zoom level.',
                         action='store_true', default=False)
-    parser.add_argument('-kmow', '--keep-markers-outside-window',
+    parser.add_argument('-mov', '--markers-outside-viewport',
                         action='store_true', default=False,
                         help='Do not remove markers outside visible bounds.')
     parser.add_argument('-lsm', '--lock-start-marker',
@@ -568,7 +568,7 @@ def get_args(access_config=None):
             'cluster_zoom_level_mobile',
             'max_cluster_radius',
             'spiderfy_clusters',
-            'keep_markers_outside_window',
+            'markers_outside_viewport',
             'lock_start_marker',
             'no_geocoder',
             'no_pokemon',
