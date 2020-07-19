@@ -4099,13 +4099,13 @@
       }
     ],
     "forms": {
-      "133": {
-        "formName": "Armored",
-        "assetSuffix": "pm0150_00_pgo_a"
-      },
       "135": {
         "formName": "",
         "assetId": "00"
+      },
+      "133": {
+        "formName": "Armored",
+        "assetSuffix": "pm0150_00_pgo_a"
       },
       "1113": {
         "formName": "Shadow",

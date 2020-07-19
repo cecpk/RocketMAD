@@ -107,7 +107,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        minjson: {
+        jsonmin: {
             build: {
                 files: {
                     'static/dist/data/pokemon.min.json': 'static/data/pokemon.json',
@@ -179,7 +179,7 @@ module.exports = function (grunt) {
     grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:concat:dist3', 'newer:concat:dist4', 'newer:concat:dist5', 'newer:babel', 'newer:uglify'])
     grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist6', 'newer:cssmin'])
     grunt.registerTask('js-lint', ['newer:eslint'])
-    grunt.registerTask('json', ['newer:minjson'])
+    grunt.registerTask('json', ['newer:jsonmin'])
 
     grunt.registerTask('build', ['clean', 'js-build', 'css-build', 'json', 'unzip'])
     grunt.registerTask('lint', ['js-lint'])
