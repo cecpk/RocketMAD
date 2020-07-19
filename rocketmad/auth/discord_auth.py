@@ -23,11 +23,11 @@ class DiscordAuth(OAuth2Base):
         self.redirect_uri = args.server_uri + '/auth/discord'
         self.client_id = args.discord_client_id
         self.client_secret = args.discord_client_secret
-        self.api_base_url = 'https://discordapp.com/api/v6'
-        self.access_token_url = 'https://discordapp.com/api/oauth2/token'
-        self.revoke_token_url = ('https://discordapp.com/api/oauth2/token/'
+        self.api_base_url = 'https://discord.com/api/v6'
+        self.access_token_url = 'https://discord.com/api/oauth2/token'
+        self.revoke_token_url = ('https://discord.com/api/oauth2/token/'
                                  'revoke')
-        self.authorize_url = 'https://discordapp.com/api/oauth2/authorize'
+        self.authorize_url = 'https://discord.com/api/oauth2/authorize'
         self.scope = 'identify guilds'
 
         self.fetch_role_guilds = []
