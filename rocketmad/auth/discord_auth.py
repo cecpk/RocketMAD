@@ -210,8 +210,9 @@ class DiscordAuth(OAuth2Base):
                 roles = self._get_roles(guild_id, session['id'])
                 user_roles[guild_id] = roles
 
-        # Whitelisted users bypass other whitelists/blacklists.
-        if session['id'] in args.discord_whitelisted_users:
+        # Whitelisted users/admins bypass other whitelists/blacklists.
+        if (session['id'] in args.discord_whitelisted_users or
+                session['id'] in args.discord_admins):
             session['has_permission'] = True
             config_name = self._get_access_config_name(user_guilds, user_roles)
             session['access_config_name'] = config_name
