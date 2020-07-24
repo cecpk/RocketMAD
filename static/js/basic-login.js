@@ -13,8 +13,7 @@ $(function () {
         const username = $('#username').val().trim()
         const password = $('#password').val().trim()
         if (username.length > 0 && password.length > 0) {
-            const url = `${window.location.origin}/auth/basic?un=${username}&pw=${password}`
-            window.location.href = url
+            window.location.href = `${serverSettings.serverUri}/auth/basic?un=${username}&pw=${password}`
         }
     })
 

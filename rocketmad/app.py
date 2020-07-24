@@ -541,6 +541,7 @@ def create_app():
             abort(404)
 
         settings = {
+            'serverUri': args.server_uri,
             'motd': args.motd,
             'motdTitle': args.motd_title,
             'motdText': args.motd_text,
