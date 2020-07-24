@@ -70,6 +70,10 @@ module.exports = function (grunt) {
             dist6: {
                 src: ['static/dist/css/app.built.css', 'static/css/custom.css'],
                 dest: 'static/dist/css/app.concat.css'
+            },
+            dist7: {
+                src: ['static/js/utils/utils.js', 'static/js/custom.js', 'static/js/basic-login.js'],
+                dest: 'static/dist/js/basic-login.concat.js'
             }
         },
         babel: {
@@ -84,6 +88,7 @@ module.exports = function (grunt) {
                     'static/dist/js/quest.built.js': 'static/dist/js/quest.concat.js',
                     'static/dist/js/mobile.built.js': 'static/dist/js/mobile.concat.js',
                     'static/dist/js/users.built.js': 'static/dist/js/users.concat.js',
+                    'static/dist/js/basic-login.built.js': 'static/dist/js/basic-login.concat.js',
                     'static/dist/js/serviceWorker.built.js': 'static/js/serviceWorker.js'
                }
             }
@@ -103,6 +108,7 @@ module.exports = function (grunt) {
                     'static/dist/js/quest.min.js': 'static/dist/js/quest.built.js',
                     'static/dist/js/mobile.min.js': 'static/dist/js/mobile.built.js',
                     'static/dist/js/users.min.js': 'static/dist/js/users.built.js',
+                    'static/dist/js/basic-login.min.js': 'static/dist/js/basic-login.built.js',
                     'static/dist/js/serviceWorker.min.js': 'static/dist/js/serviceWorker.built.js'
                 }
             }
@@ -176,7 +182,7 @@ module.exports = function (grunt) {
 
     })
 
-    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:concat:dist3', 'newer:concat:dist4', 'newer:concat:dist5', 'newer:babel', 'newer:uglify'])
+    grunt.registerTask('js-build', ['newer:concat:dist1', 'newer:concat:dist2', 'newer:concat:dist3', 'newer:concat:dist4', 'newer:concat:dist5', 'newer:concat:dist7', 'newer:babel', 'newer:uglify'])
     grunt.registerTask('css-build', ['newer:sass', 'newer:concat:dist6', 'newer:cssmin'])
     grunt.registerTask('js-lint', ['newer:eslint'])
     grunt.registerTask('json', ['newer:jsonmin'])

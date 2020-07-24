@@ -46,7 +46,7 @@ class TelegramAuth(AuthBase):
         if not request.args.get('hash'):
             log.warning('Invalid Telegram authorization attempt: '
                         'hash missing.')
-            return
+            return False
 
         query_params = []
         for key, value in request.args.items():
@@ -59,11 +59,11 @@ class TelegramAuth(AuthBase):
         if request.args.get('hash') != hash:
             log.warning('Invalid Telegram authorization attempt: '
                         'data is NOT from Telegram.')
-            return
+            return False
         if int(time.time()) - int(request.args.get('auth_date')) > 60:
             log.warning('Invalid Telegram authorization attempt: '
                         'data is outdated.')
-            return
+            return False
 
         data = {
             'id': request.args.get('id'),
@@ -74,6 +74,8 @@ class TelegramAuth(AuthBase):
         session['auth_type'] = 'telegram'
         log.debug('Telegram user %s (%s) succesfully logged in.',
                   data['first_name'], data['username'])
+
+        return True
 
     def end_session(self):
         log.debug('Telegram user %s (%s) succesfully logged out.',

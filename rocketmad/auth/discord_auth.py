@@ -95,14 +95,14 @@ class DiscordAuth(OAuth2Base):
         if 'state' not in session:
             log.warning('Invalid Discord authorization attempt: '
                         'no state in session.')
-            return
+            return False
 
         state = request.args.get('state')
         if state != session['state']:
             log.warning('Invalid Discord authorization attempt: '
                         'incorrect state.')
             del session['state']
-            return
+            return False
         del session['state']
 
         error = request.args.get('error')
@@ -114,28 +114,30 @@ class DiscordAuth(OAuth2Base):
                 error_description = request.args.get('error_description', '')
                 log.warning('Discord authorization attempt error: %s',
                             error_description)
-            return
+            return False
 
         code = request.args.get('code')
         if code is None:
             log.warning('Invalid Discord authorization attempt: '
                         'access code missing.')
-            return
+            return False
         try:
             token = self._exchange_code(code)
         except requests.exceptions.HTTPError as e:
             log.warning('Exception while retrieving Discord access token: %s',
                         e)
-            return
+            return False
 
         try:
             self._add_user(token)
         except requests.exceptions.HTTPError as e:
             log.warning('Exception while adding Discord user: %s', e)
-            return
+            return False
         session['auth_type'] = 'discord'
         log.debug('Discord user %s succesfully logged in.',
                   session['username'])
+
+        return True
 
     def end_session(self):
         try:
@@ -171,8 +173,7 @@ class DiscordAuth(OAuth2Base):
                             log.warning('Exception while refreshing Discord '
                                         'token: %s', ex)
 
-                    # Token has (probably) been revoked by user, log out user.
-                    session.clear()
+                    # Token has (probably) been revoked by user.
                     return False, url_for('login_page'), None
 
                 if e.response.status_code == 429:

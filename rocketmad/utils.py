@@ -398,6 +398,22 @@ def get_args(access_config=None):
     group.add_argument('-CAnl', '--no-multiple-logins',
                        action='store_true',
                        help='Do not allow more than one login per account.')
+    group = parser.add_argument_group('Basic Auth')
+    group.add_argument('-BA', '--basic-auth',
+                       action='store_true', default=False,
+                       help='Authenticate users with a username and password.')
+    group.add_argument('-BAc', '--basic-auth-credentials',
+                       nargs='+', default=[],
+                       help='List of username and password combinations. '
+                            'Example: [un1:pw1, un2:pw2]')
+    group.add_argument('-BAcs', '--basic-auth-case-sensitive',
+                       action='store_true', default=False,
+                       help='Use case sensitive usernames.')
+    group.add_argument('-BAac', '--basic-auth-access-configs',
+                       nargs='+', default=[],
+                       help='Use different config file based on username. '
+                            'Example: [un1:access_config_name1, '
+                            'un2:access_config_name2]')
     group = parser.add_argument_group('Discord Auth')
     group.add_argument('-DA', '--discord-auth',
                        action='store_true', default=False,
@@ -664,7 +680,7 @@ def get_args(access_config=None):
     else:
         args.db_cleanup = False
 
-    if args.discord_auth or args.telegram_auth:
+    if args.basic_auth or args.discord_auth or args.telegram_auth:
         if args.server_uri is None:
             parser.print_usage()
             print(sys.argv[0] + ': error: -CAsu/--server-uri parameter is '
@@ -680,6 +696,12 @@ def get_args(access_config=None):
         args.client_auth = True
     else:
         args.client_auth = False
+
+    if args.basic_auth and not args.basic_auth_credentials:
+        parser.print_usage()
+        print(sys.argv[0] + ': error: -BAc/--basic-auth-credentials parameter '
+              'is required for basic auth.')
+        sys.exit(1)
 
     if args.discord_auth and not args.discord_no_permission_redirect and (
             args.discord_blacklisted_users or args.discord_whitelisted_users or

@@ -19,7 +19,7 @@
       gtag('config', '{{ analytics_id }}')
     </script>
     {% endif %}
-    <title>{{ map_title }} - Log in</title>
+    <title>{{ map_title }} - Basic login</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
     <link rel="apple-touch-icon" sizes="180x180" href="{{ appicons_dir }}apple-touch-icon.png">
@@ -136,17 +136,16 @@
 
     <div class="container">
       <h5>Log in to {{ map_title }}</h5>
-      Log in with:
-      <div class="collection">
-        {% if basic_auth %}
-        <a href="{{ url_for('basic_login_page') }}" class="collection-item">Username and password</a>
-        {% endif %}
-        {% if discord_auth %}
-        <a href="{{ url_for('login_page') }}/discord" class="collection-item">Discord</a>
-        {% endif %}
-        {% if telegram_auth %}
-        <a href="{{ url_for('telegram_login_page') }}" class="collection-item">Telegram</a>
-        {% endif %}
+      <div class="input-field">
+        <input id="username" type="text" class="validate">
+        <label for="username">Username</label>
+      </div>
+      <div class="input-field">
+        <input id="password" type="password" class="validate">
+        <label for="password">Password</label>
+      </div>
+      <div>
+        <button id="login-button" class="btn waves-effect waves-light" type="submit" name="action">Log in <i class="material-icons right">send</i></button>
       </div>
     </div>
 
@@ -158,18 +157,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>
 
-    <script>
-    $(document).ready(function() {
-        if (localStorage.getItem('darkMode') === 'true') {
-            $('body').addClass('dark')
-            $('meta[name="theme-color"]').attr('content', '#212121')
-        }
-
-        $('.dropdown-trigger').dropdown({
-            constrainWidth: false,
-            coverTrigger: false
-        })
-    })
-    </script>
+    <script src="{{ url_for('static', filename='dist/js/basic-login.min.js') }}"></script>
   </body>
 </html>

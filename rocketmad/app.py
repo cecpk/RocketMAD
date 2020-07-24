@@ -167,6 +167,12 @@ def create_app():
         app.config['SESSION_USE_SIGNER'] = True
         app.secret_key = args.secret_key
         Session(app)
+        if args.basic_auth:
+            accepted_auth_types.append('basic')
+            for config in args.basic_auth_access_configs:
+                name = config.split(':')[1]
+                if name not in valid_access_configs:
+                    valid_access_configs.append(name)
         if args.discord_auth:
             accepted_auth_types.append('discord')
             for config in args.discord_access_configs:
@@ -503,6 +509,7 @@ def create_app():
             telegram_url=args.telegram_url,
             whatsapp_url=args.whatsapp_url,
             analytics_id=args.analytics_id,
+            basic_auth=args.basic_auth,
             discord_auth=args.discord_auth,
             telegram_auth=args.telegram_auth,
             pokemon_history_page=(not args.no_pokemon and
@@ -527,6 +534,42 @@ def create_app():
         auth_uri = authenticator.get_authorization_url()
 
         return redirect(auth_uri)
+
+    @app.route('/login/basic')
+    def basic_login_page():
+        if not args.basic_auth:
+            abort(404)
+
+        settings = {
+            'motd': args.motd,
+            'motdTitle': args.motd_title,
+            'motdText': args.motd_text,
+            'motdPages': args.motd_pages,
+            'showMotdAlways': args.show_motd_always
+        }
+
+        return render_template(
+            'basic-login.html',
+            version=version,
+            lang=args.locale,
+            map_title=args.map_title,
+            custom_favicon=args.custom_favicon,
+            header_image=not args.no_header_image,
+            header_image_name=args.header_image,
+            madmin_url=args.madmin_url,
+            donate_url=args.donate_url,
+            patreon_url=args.patreon_url,
+            discord_url=args.discord_url,
+            messenger_url=args.messenger_url,
+            telegram_url=args.telegram_url,
+            whatsapp_url=args.whatsapp_url,
+            pokemon_history_page=(not args.no_pokemon and
+                                  not args.no_pokemon_history_page),
+            quest_page=(not args.no_pokestops and not args.no_quests and
+                        not args.no_quest_page),
+            analytics_id=args.analytics_id,
+            settings=settings
+        )
 
     @app.route('/login/telegram')
     def telegram_login_page():
@@ -577,7 +620,14 @@ def create_app():
         if auth_type not in accepted_auth_types:
             abort(404)
 
-        auth_factory.get_authenticator(auth_type).authorize()
+        success = auth_factory.get_authenticator(auth_type).authorize()
+        if not success:
+            if auth_type == 'basic':
+                return redirect(url_for('basic_login_page') + '?success=false')
+            elif auth_type == 'discord':
+                return redirect(url_for('login_page'))
+            elif auth_type == 'telegram':
+                return redirect(url_for('telegram_login_page'))
 
         if args.no_multiple_logins:
             r = app.config['SESSION_REDIS']
