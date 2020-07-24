@@ -2,12 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import requests
-import time
-import uuid
 
-from base64 import b64encode
-from datetime import datetime
 from flask import request, session, url_for
 
 from .auth import AuthBase
