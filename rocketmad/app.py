@@ -102,7 +102,9 @@ def is_admin():
         return False
 
     auth_type = session['auth_type']
-    if auth_type == 'discord':
+    if auth_type == 'basic':
+        return session['username'] in args.basic_auth_admins
+    elif auth_type == 'discord':
         return session['id'] in args.discord_admins
     elif auth_type == 'telegram':
         return session['id'] in args.telegram_admins
@@ -541,7 +543,6 @@ def create_app():
             abort(404)
 
         settings = {
-            'serverUri': args.server_uri,
             'motd': args.motd,
             'motdTitle': args.motd_title,
             'motdText': args.motd_text,
@@ -972,13 +973,17 @@ def create_app():
         sessions = get_sessions(app.config['SESSION_REDIS'])
         users = []
         for s in sessions:
-            if 'auth_type' not in s or 'access_data_updated_at' not in s:
+            if 'auth_type' not in s:
                 continue
+            if s['auth_type'] == 'discord' or s['auth_type'] == 'telegram':
+                if 'access_data_updated_at' in s:
+                    del s['access_data_updated_at']
+                    del s['has_permission']
+                else:
+                    continue
+                if s['auth_type'] == 'discord':
+                    del s['token']
             del s['_permanent']
-            del s['has_permission']
-            del s['access_data_updated_at']
-            if s['auth_type'] == 'discord':
-                del s['token']
             users.append(s)
 
         return jsonify(users)

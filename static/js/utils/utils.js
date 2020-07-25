@@ -73,6 +73,16 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
 
+function removeLastDirsFromUrl(url, count) {
+    if (url.charAt(url.length - 1) === '/') {
+        url = url.slice(0, -1);
+    }
+    for (let i = 0; i < count; i++) {
+        url = url.substring(0, url.lastIndexOf('/'))
+    }
+    return url
+}
+
 function showImageModal(url, title) {
     $('#image-modal > .modal-content > h5').text(title)
     $('#image-modal > .modal-content > img').attr('src', url)

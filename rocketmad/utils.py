@@ -414,6 +414,10 @@ def get_args(access_config=None):
                        help='Use different config file based on username. '
                             'Example: [un1:access_config_name1, '
                             'un2:access_config_name2]')
+    group.add_argument('-BAa', '--basic-auth-admins',
+                       nargs='+', default=[],
+                       help='Users that have admin rights. '
+                            'Accepts list of usernames.')                            
     group = parser.add_argument_group('Discord Auth')
     group.add_argument('-DA', '--discord-auth',
                        action='store_true', default=False,

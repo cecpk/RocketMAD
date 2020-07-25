@@ -173,6 +173,7 @@
 #basic-auth-credentials:        # List of username and password combinations. Example: [un1:pw1, un2:pw2] (default=[])
 #basic-auth-case-sensitive      # Use case sensitive usernames. (default=False)
 #basic-auth-access-configs:     # Use different config file based on username. Example: [un1:access_config_name1, un2:access_config_name2] (default=[])
+#basic-auth-admins:             # Users that have admin rights. Accepts list of usernames. (default=[])
 
 
 # Discord authentication
