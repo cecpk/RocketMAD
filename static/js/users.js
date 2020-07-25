@@ -95,7 +95,7 @@ $(function () {
                 responsivePriority: 3,
                 'data': null,
                 'render': function (data, type, row) {
-                    return data.id ? data.id : '-'
+                    return data.id
                 }
             },
             {

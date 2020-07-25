@@ -635,10 +635,10 @@ def create_app():
             r = app.config['SESSION_REDIS']
             sessions = get_sessions(r)
             for s in sessions:
-                if 'auth_type' in s and 'id' in s:
-                    if (s['auth_type'] == session['auth_type'] and
-                            s['id'] == session['id']):
-                        r.delete('session:' + s['session_id'])
+                if ('auth_type' in s and
+                        s['auth_type'] == session['auth_type'] and
+                        s['id'] == session['id']):
+                    r.delete('session:' + s['session_id'])
 
         return redirect(url_for('map_page'))
 
@@ -973,19 +973,10 @@ def create_app():
         sessions = get_sessions(app.config['SESSION_REDIS'])
         users = []
         for s in sessions:
-            if 'auth_type' not in s:
-                continue
-            if s['auth_type'] == 'discord' or s['auth_type'] == 'telegram':
-                if 'access_data_updated_at' in s:
-                    del s['access_data_updated_at']
-                    del s['has_permission']
-                else:
-                    continue
-                if s['auth_type'] == 'discord':
-                    del s['token']
-            del s['_permanent']
-            users.append(s)
-
+            if 'auth_type' in s:
+                del s['_permanent']
+                users.append(s)
+            
         return jsonify(users)
 
     @app.route('/pkm_img')

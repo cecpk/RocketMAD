@@ -42,6 +42,7 @@ class BasicAuth(AuthBase):
             return False
 
         session['auth_type'] = 'basic'
+        session['id'] = username
         session['username'] = username
         session['password'] = password
 
