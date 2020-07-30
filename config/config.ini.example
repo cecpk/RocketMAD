@@ -161,8 +161,8 @@
 # [sudo] apt install redis-server
 # Settings without default value (server-uri, secret-key) must be set.
 
-#server-uri:                    # URI of your website/server. Authentication apps will use this to redirect the user to.
-#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long.
+#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to. 
+#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long, just generate/type some gibberish.
 #redis-host:                    # Address of Redis server (Redis is used to store session data). (default='127.0.0.1')
 #redis-port:                    # Port of Redis server. (default=6379)
 #login-required                 # If enabled, user must be logged in with any auth system before one can access the map. (default=False)
