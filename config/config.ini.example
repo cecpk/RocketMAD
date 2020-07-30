@@ -157,9 +157,12 @@
 
 # User authentication
 ####################
+# You need to have redis installed for user authentication, do not setup any password on redis.
+# [sudo] apt install redis-server
+# Settings without default value (server-uri, secret-key) must be set.
 
-#server-uri:                    # URI of your website/server. Authentication apps will use this to redirect the user to.
-#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long.
+#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to. 
+#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long, just generate/type some gibberish.
 #redis-host:                    # Address of Redis server (Redis is used to store session data). (default='127.0.0.1')
 #redis-port:                    # Port of Redis server. (default=6379)
 #login-required                 # If enabled, user must be logged in with any auth system before one can access the map. (default=False)
@@ -168,6 +171,7 @@
 
 # Basic authentication
 ####################
+# For Basic authentication submodule to work you need to enable main User authentication module few lines above
 
 #basic-auth                     # Authenticate users with a username and password. (default=False)
 #basic-auth-credentials:        # List of username and password combinations. Example: [un1:pw1, un2:pw2] (default=[])
@@ -178,6 +182,7 @@
 
 # Discord authentication
 ####################
+# For Discord authentication submodule to work you need to enable main User authentication module above
 # If you want users to auth to Discord prior to accessing server, enable discord-auth, create an app here:
 # https://discordapp.com/developers/applications/me and add a redirect uri to your the application in this format: https://mysrv.com/auth/discord
 # To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
@@ -204,6 +209,7 @@
 
 # Telegram authentication
 ####################
+# For Telegram auth submodule to work you need to enable main User authentication module above
 # If you want to authenticate users with Telegram, first create a bot with @Botfather.
 # Next find your bot token with @Botfather (/mybots -> API Token). With @Botfather set the Domain to your map URL (/mybots -> Bot Settings -> Domain).
 # You can retrieve chat and member IDs like this: https://api.telegram.org/bot<your_bot_token>/getUpdates
