@@ -28,39 +28,20 @@ db = SQLAlchemy()
 db_schema_version = 0
 
 
-def geofence_query_results(results, geofences, exclude_geofences):
-    if not geofences and not exclude_geofences:
-        return results
+def geofences_to_query(geofences, table_name):
+    query = ''
 
-    if geofences:
-        geofence_paths = []
-        for geofence in geofences:
-            coords = geofence['polygon']
-            coords.append(coords[0])
-            geofence_paths.append(Path(coords))
-    if exclude_geofences:
-        exclude_geofence_paths = []
-        for geofence in exclude_geofences:
-            coords = geofence['polygon']
-            coords.append(coords[0])
-            exclude_geofence_paths.append(Path(coords))
+    for geofence in geofences:
+        polygon = geofence['polygon']
+        coords = ','.join(f'{coord[0]} {coord[1]}' for coord in polygon)
+        # Add first coordinate to end.
+        coords += f',{polygon[0][0]} {polygon[0][1]}'
+        if query:
+            query += ' OR '
+        query += (f"ST_CONTAINS(ST_GeomFromText('POLYGON(({coords}))'), "
+                  f"Point({table_name}.latitude, {table_name}.longitude))")
 
-    geofenced_results = []
-    for result in results:
-        coord = (result['latitude'], result['longitude'])
-        if exclude_geofences:
-            for path in exclude_geofence_paths:
-                if path.contains_point(coord):
-                    continue
-        if geofences:
-            for path in geofence_paths:
-                if path.contains_point(coord):
-                    geofenced_results.append(result)
-                    continue
-        else:
-            geofenced_results.append(result)
-
-    return geofenced_results
+    return f'({query})'
 
 
 class Pokemon(db.Model):
@@ -159,17 +140,12 @@ class Pokemon(db.Model):
             )
 
         if geofences:
-            conditions = []
-            for geofence in geofences:
-                box = get_geofence_box(geofence)
-                cond = and_(
-                    Pokemon.latitude >= box['sw'][0],
-                    Pokemon.longitude >= box['sw'][1],
-                    Pokemon.latitude <= box['ne'][0],
-                    Pokemon.longitude <= box['ne'][1]
-                )
-                conditions.append(cond)
-            query = query.filter(or_(*conditions))
+            sql = geofences_to_query(geofences, 'pokemon')
+            query = query.filter(text(sql))
+
+        if exclude_geofences:
+            sql = geofences_to_query(exclude_geofences, 'pokemon')
+            query = query.filter(~text(sql))
 
         if exclude_geofences:
             conditions = []
@@ -189,9 +165,7 @@ class Pokemon(db.Model):
         elif ids:
             query = query.filter(Pokemon.pokemon_id.in_(ids))
 
-        results = [pokemon._asdict() for pokemon in query.all()]
-
-        return geofence_query_results(results, geofences, exclude_geofences)
+        return [pokemon._asdict() for pokemon in query.all()]
 
     # Get all Pokémon spawn counts based on the last x hours.
     # More efficient than get_seen(): we don't do any unnecessary mojo.
