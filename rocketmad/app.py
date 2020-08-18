@@ -806,7 +806,9 @@ def create_app():
                 d['reids'] = reids
 
         if request.args.get('seen', 'false') == 'true':
-            d['seen'] = Pokemon.get_seen(int(request.args.get('duration')))
+            d['seen'] = Pokemon.get_seen(int(request.args.get('duration')),
+                                         geofences=geofences,
+                                         exclude_geofences=exclude_geofences)
 
         if request.args.get('appearances', 'false') == 'true':
             d['appearances'] = Pokemon.get_appearances(

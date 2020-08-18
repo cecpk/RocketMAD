@@ -147,19 +147,6 @@ class Pokemon(db.Model):
             sql = geofences_to_query(exclude_geofences, 'pokemon')
             query = query.filter(~text(sql))
 
-        if exclude_geofences:
-            conditions = []
-            for geofence in exclude_geofences:
-                box = get_geofence_box(geofence)
-                cond = ~and_(
-                    Pokemon.latitude >= box['sw'][0],
-                    Pokemon.longitude >= box['sw'][1],
-                    Pokemon.latitude <= box['ne'][0],
-                    Pokemon.longitude <= box['ne'][1]
-                )
-                conditions.append(cond)
-            query = query.filter(and_(*conditions))
-
         if eids:
             query = query.filter(Pokemon.pokemon_id.notin_(eids))
         elif ids:
@@ -196,7 +183,7 @@ class Pokemon(db.Model):
         return {'pokemon': counts, 'total': total}
 
     @staticmethod
-    def get_seen(timediff=0):
+    def get_seen(timediff=0, geofences=None, exclude_geofences=None):
         query = (
             db.session.query(
                 Pokemon.pokemon_id, Pokemon.form,
@@ -205,9 +192,18 @@ class Pokemon(db.Model):
             )
             .group_by(Pokemon.pokemon_id, Pokemon.form)
         )
+
         if timediff > 0:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
             query = query.filter(Pokemon.disappear_time > timediff)
+
+        if geofences:
+            sql = geofences_to_query(geofences, 'pokemon')
+            query = query.filter(text(sql))
+
+        if exclude_geofences:
+            sql = geofences_to_query(exclude_geofences, 'pokemon')
+            query = query.filter(~text(sql))
 
         result = query.all()
 
