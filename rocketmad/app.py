@@ -869,7 +869,9 @@ def create_app():
             d['appearances'] = Pokemon.get_appearances(
                 request.args.get('pokemonid'),
                 request.args.get('formid'),
-                int(request.args.get('duration')))
+                int(request.args.get('duration')),
+                geofences=geofences,
+                exclude_geofences=exclude_geofences)
 
         if request.args.get('appearancesDetails', 'false') == 'true':
             d['appearancesTimes'] = (
@@ -877,7 +879,9 @@ def create_app():
                     request.args.get('pokemonid'),
                     request.args.get('spawnpoint_id'),
                     request.args.get('formid'),
-                    int(request.args.get('duration'))))
+                    int(request.args.get('duration')),
+                    geofences=geofences,
+                    exclude_geofences=exclude_geofences))
 
         gyms = (request.args.get('gyms', 'true') == 'true' and
                 not user_args.no_gyms)
@@ -886,16 +890,20 @@ def create_app():
         if gyms or raids:
             if lastgyms != 'true':
                 d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
-                                         raids=raids)
+                                         raids=raids, geofences=geofences,
+                                         exclude_geofences=exclude_geofences)
             else:
                 d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
-                                         timestamp=timestamp, raids=raids)
+                                         timestamp=timestamp, raids=raids,
+                                         geofences=geofences,
+                                         exclude_geofences=exclude_geofences)
                 if new_area:
                     d['gyms'].update(
                         Gym.get_gyms(swLat, swLng, neLat, neLng,
                                      oSwLat=oSwLat, oSwLng=oSwLng,
                                      oNeLat=oNeLat, oNeLng=oNeLng,
-                                     raids=raids))
+                                     raids=raids, geofences=geofences,
+                                     exclude_geofences=exclude_geofences))
 
         pokestops = (request.args.get('pokestops', 'true') == 'true' and
                      not user_args.no_pokestops)
@@ -912,60 +920,87 @@ def create_app():
                 d['pokestops'] = Pokestop.get_pokestops(
                     swLat, swLng, neLat, neLng,
                     eventless_stops=pokestopsNoEvent, quests=quests,
-                    invasions=invasions, lures=lures
+                    invasions=invasions, lures=lures, geofences=geofences,
+                    exclude_geofences=exclude_geofences
                 )
             else:
                 d['pokestops'] = Pokestop.get_pokestops(
                     swLat, swLng, neLat, neLng, timestamp=timestamp,
                     eventless_stops=pokestopsNoEvent, quests=quests,
-                    invasions=invasions, lures=lures
+                    invasions=invasions, lures=lures, geofences=geofences,
+                    exclude_geofences=exclude_geofences
                 )
                 if new_area:
                     d['pokestops'].update(Pokestop.get_pokestops(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
                         eventless_stops=pokestopsNoEvent, quests=quests,
-                        invasions=invasions, lures=lures
+                        invasions=invasions, lures=lures, geofences=geofences,
+                        exclude_geofences=exclude_geofences
                     ))
 
         if (request.args.get('weather', 'false') == 'true' and
                 not user_args.no_weather):
             if lastweather != 'true':
-                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng)
+                d['weather'] = Weather.get_weather(
+                    swLat, swLng, neLat, neLng, geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
             else:
-                d['weather'] = Weather.get_weather(swLat, swLng, neLat, neLng,
-                                                   timestamp=timestamp)
+                d['weather'] = Weather.get_weather(
+                    swLat, swLng, neLat, neLng, timestamp=timestamp,
+                    geofences=geofences, exclude_geofences=exclude_geofences
+                )
                 if new_area:
                     d['weather'] += Weather.get_weather(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
-                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        geofences=geofences,
+                        exclude_geofences=exclude_geofences
+                    )
 
         if (request.args.get('spawnpoints', 'false') == 'true' and
                 not user_args.no_spawnpoints):
             if lastspawns != 'true':
                 d['spawnpoints'] = TrsSpawn.get_spawnpoints(
-                    swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng)
+                    swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
+                    geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
             else:
                 d['spawnpoints'] = TrsSpawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
-                    timestamp=timestamp)
+                    timestamp=timestamp, geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
                 if new_area:
                     d['spawnpoints'] += TrsSpawn.get_spawnpoints(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
-                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        geofences=geofences,
+                        exclude_geofences=exclude_geofences
+                    )
 
         if (request.args.get('scannedLocs', 'false') == 'true' and
                 not user_args.no_scanned_locs):
             if lastscannedlocs != 'true':
                 d['scannedlocs'] = ScannedLocation.get_recent(
-                    swLat, swLng, neLat, neLng)
+                    swLat, swLng, neLat, neLng, geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
             else:
                 d['scannedlocs'] = ScannedLocation.get_recent(
-                    swLat, swLng, neLat, neLng, timestamp=timestamp)
+                    swLat, swLng, neLat, neLng, timestamp=timestamp,
+                    geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
                 if new_area:
                     d['scannedlocs'] += ScannedLocation.get_recent(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
-                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng)
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        geofences=geofences,
+                        exclude_geofences=exclude_geofences
+                    )
 
         return jsonify(d)
 
@@ -993,7 +1028,7 @@ def create_app():
             if 'auth_type' in s:
                 del s['_permanent']
                 users.append(s)
-            
+
         return jsonify(users)
 
     @app.route('/pkm_img')
