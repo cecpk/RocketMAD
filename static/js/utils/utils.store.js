@@ -285,6 +285,10 @@ var StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    'showInvasionPokemon': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     'excludedInvasions': {
         default: [],
         type: StoreTypes.JSON

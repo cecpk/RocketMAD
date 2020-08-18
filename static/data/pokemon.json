@@ -677,8 +677,8 @@
         "assetSuffix": "pm0025_00_pgo_fall2019"
       },
       "901": {
-        "formName": "",
-        "assetId": "00"
+        "formName": "Libre",
+        "assetId": "16"
       },
       "949": {
         "formName": "Clone",
@@ -693,8 +693,8 @@
         "assetId": "00"
       },
       "2332": {
-        "formName": "Libre",
-        "assetId": "16"
+        "formName": "Flying",
+        "assetSuffix": "pm0025_00_pgo_4thanniversary"
       }
     }
   },
@@ -889,7 +889,21 @@
         "type": "Poison",
         "color": "#a040a0"
       }
-    ]
+    ],
+    "forms": {
+      "776": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "777": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "778": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   },
   "33": {
     "name": "Nidorino",
@@ -2131,6 +2145,16 @@
       "1013": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2336": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -2154,6 +2178,20 @@
       "1016": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2337": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Fairy",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -2181,6 +2219,16 @@
       "1019": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2582": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -2208,6 +2256,20 @@
       "1022": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2583": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Psychic",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -2607,6 +2669,10 @@
       },
       "1046": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2586": {
+        "formName": "",
         "assetId": "00"
       }
     }
@@ -3326,6 +3392,20 @@
       "1082": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2339": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Psychic",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -3548,6 +3628,10 @@
       },
       "324": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2585": {
+        "formName": "",
         "assetId": "00"
       }
     }
@@ -4015,13 +4099,13 @@
       }
     ],
     "forms": {
-      "133": {
-        "formName": "Armored",
-        "assetSuffix": "pm0150_00_pgo_a"
-      },
       "135": {
         "formName": "",
         "assetId": "00"
+      },
+      "133": {
+        "formName": "Armored",
+        "assetSuffix": "pm0150_00_pgo_a"
       },
       "1113": {
         "formName": "Shadow",
@@ -5934,6 +6018,16 @@
       "1285": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2340": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ghost",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -14870,6 +14964,20 @@
       "2086": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2344": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Ground",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Ghost",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },

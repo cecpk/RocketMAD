@@ -217,7 +217,9 @@ if __name__ == '__main__':
             r.ping()
         except redis.exceptions.ConnectionError:
             uri = args.redis_host + ':' + str(args.redis_port)
-            log.critical('No Redis server found at %s.', uri)
+            log.critical('No Redis server found at %s. Make sure you have '
+                         'redis installed: [sudo] apt install redis-server',
+                         uri)
             sys.exit(1)
 
     app = create_app()

@@ -33,7 +33,9 @@
 #cluster-zoom-level-mobile:     # Zoom level from which markers should be clustered on mobile. Range: [0,18]. -1 to disable clustering on mobile. (default=14)
 #max-cluster-radius:            # The maximum radius that a cluster will cover from the central marker (in pixels). (default=60)
 #spiderfy-clusters              # Spiderfy clusters at the bottom zoom level. (default=False)
-#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position.
+#markers-outside-viewport       # Do not remove markers outside visible bounds. (default=False)
+#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position. (default=False)
+#no-geocoder                    # Do not add the geocoder (location search bar) to the map. (default=False)
 
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
@@ -163,17 +165,32 @@ Place your geofence files in the geofences folder.
 
 # User authentication
 ####################
+# You need to have redis installed for user authentication, do not setup any password on redis.
+# [sudo] apt install redis-server
+# Settings without default value (server-uri, secret-key) must be set.
 
-#server-uri:                    # URI of your website/server. Authentication apps will use this to redirect the user to.
-#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long.
+#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to. 
+#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long, just generate/type some gibberish.
 #redis-host:                    # Address of Redis server (Redis is used to store session data). (default='127.0.0.1')
 #redis-port:                    # Port of Redis server. (default=6379)
 #login-required                 # If enabled, user must be logged in with any auth system before one can access the map. (default=False)
 #no-multiple-logins             # Do not allow more than one login per account. (default=False)
 
 
+# Basic authentication
+####################
+# For Basic authentication submodule to work you need to enable main User authentication module few lines above
+
+#basic-auth                     # Authenticate users with a username and password. (default=False)
+#basic-auth-credentials:        # List of username and password combinations. Example: [un1:pw1, un2:pw2] (default=[])
+#basic-auth-case-sensitive      # Use case sensitive usernames. (default=False)
+#basic-auth-access-configs:     # Use different config file based on username. Example: [un1:access_config_name1, un2:access_config_name2] (default=[])
+#basic-auth-admins:             # Users that have admin rights. Accepts list of usernames. (default=[])
+
+
 # Discord authentication
 ####################
+# For Discord authentication submodule to work you need to enable main User authentication module above
 # If you want users to auth to Discord prior to accessing server, enable discord-auth, create an app here:
 # https://discordapp.com/developers/applications/me and add a redirect uri to your the application in this format: https://mysrv.com/auth/discord
 # To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
@@ -200,6 +217,7 @@ Place your geofence files in the geofences folder.
 
 # Telegram authentication
 ####################
+# For Telegram auth submodule to work you need to enable main User authentication module above
 # If you want to authenticate users with Telegram, first create a bot with @Botfather.
 # Next find your bot token with @Botfather (/mybots -> API Token). With @Botfather set the Domain to your map URL (/mybots -> Bot Settings -> Domain).
 # You can retrieve chat and member IDs like this: https://api.telegram.org/bot<your_bot_token>/getUpdates

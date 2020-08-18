@@ -71,6 +71,7 @@ var settings = {
     excludedQuestItems: null,
     showInvasions: null,
     filterInvasions: null,
+    showInvasionPokemon: null,
     includedLureTypes: null,
     excludedInvasions: null,
     pokestopNotifs: null,
@@ -275,21 +276,13 @@ function initMap() { // eslint-disable-line no-unused-vars
         position: 'topright'
     }))
 
-    var GeoSearchControl = window.GeoSearch.GeoSearchControl
-    var OpenStreetMapProvider = window.GeoSearch.OpenStreetMapProvider
-    var provider = new OpenStreetMapProvider()
-    const search = new GeoSearchControl({
-        provider: provider,
-        position: 'topright',
-        autoClose: true,
-        keepResult: false,
-        showMarker: false
-    })
-    map.addControl(search)
-
-    map.on('geosearch/showlocation', function (e) {
-        changeLocation(e.location.y, e.location.x)
-    })
+    if (serverSettings.geocoder) {
+        L.Control.geocoder({
+            defaultMarkGeocode: false
+        }).on('markgeocode', function(e) {
+            changeLocation(e.geocode.center.lat, e.geocode.center.lng)
+        }).addTo(map)
+    }
 
     map.on('moveend', function () {
         updateMainS2CellId()
@@ -325,7 +318,8 @@ function initMap() { // eslint-disable-line no-unused-vars
     markers = L.markerClusterGroup({
         disableClusteringAtZoom: settings.clusterZoomLevel + 1,
         maxClusterRadius: serverSettings.maxClusterRadius,
-        spiderfyOnMaxZoom: serverSettings.spiderfyClusters
+        spiderfyOnMaxZoom: serverSettings.spiderfyClusters,
+        removeOutsideVisibleBounds: serverSettings.removeMarkersOutsideViewport
     }).addTo(map)
     markersNoCluster = L.layerGroup().addTo(map)
 
@@ -533,6 +527,7 @@ function initSettings() {
     }
     if (serverSettings.invasions) {
         settings.filterInvasions = Store.get('filterInvasions')
+        settings.showInvasionPokemon = Store.get('showInvasionPokemon')
         settings.excludedInvasions = Store.get('excludedInvasions')
         settings.invasionNotifs = Store.get('invasionNotifs')
         settings.notifInvasions = Store.get('notifInvasions')
@@ -2685,14 +2680,13 @@ function initBackupModals() {
 
     if (serverSettings.pokemons) {
         $('#export-notif-pokemon-button').on('click',  function () {
-            downloadData('notif_pokemon', JSON.stringify(Array.from(pokemonsettings.notifPokemon)))
+            downloadData('notif_pokemon', JSON.stringify(Array.from(settings.notifPokemon)))
         })
     }
 
     if (serverSettings.pokemonValues) {
         $('#export-notif-values-pokemon-button').on('click',  function () {
-            const pokemon = difference(pokemonIds, settings.noNotifValuesPokemon)
-            downloadData('notif_values_pokemon', JSON.stringify(Array.from(pokemon)))
+            downloadData('notif_values_pokemon', JSON.stringify(Array.from(settings.notifValuesPokemon)))
         })
     }
 
@@ -2801,7 +2795,7 @@ function initBackupModals() {
             $('#no-notif-values-pokemon').val(excludedPokemon).trigger('change')
 
             $('label[for="no-notif-values-pokemon"] .pokemon-filter-list .filter-button').each(function () {
-                if (!settings.noNotifValuesPokemon.has($(this).data('id'))) {
+                if (settings.notifValuesPokemon.has($(this).data('id'))) {
                     $(this).addClass('active')
                 } else {
                     $(this).removeClass('active')
@@ -3004,7 +2998,7 @@ function addListeners(marker, type) {
         marker.options.persist = true
     })
 
-    if (!isMobileDevice() && !isTouchDevice()) {
+    if (deviceCanHover()) {
         marker.on('mouseover', function (e) {
             if (marker.isPopupOpen()) {
                 return true
@@ -3148,7 +3142,6 @@ function updateStaleMarkers() {
         } else if (map.getBounds().contains(scannedLoc.marker.getLatLng())) {
             updateScannedLocation(id)
         }
-
     })
 
     if (markerChange) {

@@ -1,5 +1,6 @@
 let touchDevice = null
 let mobileDevice = null
+let canHover = null
 let locationSupport = null
 let decimalSeparator = null
 let thousandsSeparator = null
@@ -24,6 +25,13 @@ function isMobileDevice() {
         mobileDevice = /Mobi|Android/i.test(navigator.userAgent)
     }
     return mobileDevice
+}
+
+function deviceCanHover() {
+    if (canHover === null) {
+        canHover = window.matchMedia('(any-hover: hover)').matches
+    }
+    return canHover
 }
 
 function hasLocationSupport() {
@@ -63,6 +71,16 @@ function getParameterByName(name, url) {
         return ''
     }
     return decodeURIComponent(results[2].replace(/\+/g, ' '))
+}
+
+function removeLastDirsFromUrl(url, count) {
+    if (url.charAt(url.length - 1) === '/') {
+        url = url.slice(0, -1);
+    }
+    for (let i = 0; i < count; i++) {
+        url = url.substring(0, url.lastIndexOf('/'))
+    }
+    return url
 }
 
 function showImageModal(url, title) {

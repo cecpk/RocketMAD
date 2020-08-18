@@ -39,7 +39,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-geosearch@2.7.0/assets/css/leaflet.min.css">
+    {% if settings.geocoder %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.min.css">
+    {% endif %}
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
   </head>
@@ -1760,7 +1762,9 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-geosearch@2.7.0/dist/bundle.min.js"></script>
+    {% if settings.geocoder %}
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.min.js"></script>
+    {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/leaflet.smooth_marker_bouncing@1.3.0/leaflet.smoothmarkerbouncing.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>

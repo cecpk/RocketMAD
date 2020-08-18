@@ -67,6 +67,7 @@ $(function () {
                 'data': null,
                 'render': function (data, type, row) {
                     switch (data.auth_type) {
+                        case 'basic':
                         case 'discord':
                             return data.username
                         case 'telegram':

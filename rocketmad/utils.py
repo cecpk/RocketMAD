@@ -238,10 +238,17 @@ def get_args(access_config=None):
     parser.add_argument('-sc', '--spiderfy-clusters',
                         help='Spiderfy clusters at the bottom zoom level.',
                         action='store_true', default=False)
+    parser.add_argument('-mov', '--markers-outside-viewport',
+                        action='store_true', default=False,
+                        help='Do not remove markers outside visible bounds.')
     parser.add_argument('-lsm', '--lock-start-marker',
                         help='Disables dragging the start marker and hence ' +
                              'disables changing the start position.',
                         action='store_true', default=False)
+    parser.add_argument('-ngc', '--no-geocoder',
+                        action='store_true', default=False,
+                        help='Do not add the geocoder (location search bar) '
+                             'to the map.')
     parser.add_argument('-pc', '--pokemon-cries',
                         help='Play cries for pokemon notifications.',
                         action='store_true', default=False)
@@ -444,7 +451,26 @@ def get_args(access_config=None):
     group.add_argument('-CAnl', '--no-multiple-logins',
                        action='store_true',
                        help='Do not allow more than one login per account.')
-
+    group = parser.add_argument_group('Basic Auth')
+    group.add_argument('-BA', '--basic-auth',
+                       action='store_true', default=False,
+                       help='Authenticate users with a username and password.')
+    group.add_argument('-BAc', '--basic-auth-credentials',
+                       nargs='+', default=[],
+                       help='List of username and password combinations. '
+                            'Example: [un1:pw1, un2:pw2]')
+    group.add_argument('-BAcs', '--basic-auth-case-sensitive',
+                       action='store_true', default=False,
+                       help='Use case sensitive usernames.')
+    group.add_argument('-BAac', '--basic-auth-access-configs',
+                       nargs='+', default=[],
+                       help='Use different config file based on username. '
+                            'Example: [un1:access_config_name1, '
+                            'un2:access_config_name2]')
+    group.add_argument('-BAa', '--basic-auth-admins',
+                       nargs='+', default=[],
+                       help='Users that have admin rights. '
+                            'Accepts list of usernames.')
     group = parser.add_argument_group('Discord Auth')
     group.add_argument('-DA', '--discord-auth',
                        action='store_true', default=False,
@@ -563,23 +589,65 @@ def get_args(access_config=None):
 
     if access_config is not None:
         valid_access_args = [
-            'location', 'map_title', 'custom_favicon', 'no_header_image',
-            'header_image', 'madmin_url', 'donate_url', 'patreon_url',
-            'discord_url', 'messenger_url', 'telegram_url', 'whatsapp_url',
-            'max_zoom_level', 'cluster_zoom_level',
-            'cluster_zoom_level_mobile', 'max_cluster_radius',
-            'spiderfy_clusters', 'lock_start_marker', 'no_pokemon',
-            'no_pokemon_values', 'catch_rates', 'rarity', 'upscaled_pokemon',
-            'no_pokemon_history_page', 'verified_despawn_time',
-            'show_all_zoom_level', 'pokemon_cries', 'no_gyms',
-            'no_gym_sidebar', 'no_gym_filters', 'no_raids', 'no_raid_filters',
-            'black_white_badges', 'no_pokestops', 'no_quests', 'no_quest_page',
-            'no_invasions', 'no_lures', 'no_weather', 'no_spawnpoints',
-            'no_scanned_locs', 'no_s2_cells', 'no_ranges', 'ex_parks',
-            'nest_parks', 'ex_parks_filename', 'nest_parks_filename',
-            'no_stats_sidebar', 'twelve_hour_clock', 'analytics_id',
-            'map_update_interval', 'motd', 'motd_title', 'motd_text',
-            'motd_pages', 'show_motd_always', 'geofence_file',
+            'location',
+            'map_title',
+            'custom_favicon',
+            'no_header_image',
+            'header_image',
+            'madmin_url',
+            'donate_url',
+            'patreon_url',
+            'discord_url',
+            'messenger_url',
+            'telegram_url',
+            'whatsapp_url',
+            'max_zoom_level',
+            'cluster_zoom_level',
+            'cluster_zoom_level_mobile',
+            'max_cluster_radius',
+            'spiderfy_clusters',
+            'markers_outside_viewport',
+            'lock_start_marker',
+            'no_geocoder',
+            'no_pokemon',
+            'no_pokemon_values',
+            'catch_rates',
+            'rarity',
+            'upscaled_pokemon',
+            'no_pokemon_history_page',
+            'verified_despawn_time',
+            'show_all_zoom_level',
+            'pokemon_cries',
+            'no_gyms',
+            'no_gym_sidebar',
+            'no_gym_filters',
+            'no_raids',
+            'no_raid_filters',
+            'black_white_badges',
+            'no_pokestops',
+            'no_quests',
+            'no_quest_page',
+            'no_invasions',
+            'no_lures',
+            'no_weather',
+            'no_spawnpoints',
+            'no_scanned_locs',
+            'no_s2_cells',
+            'no_ranges',
+            'ex_parks',
+            'nest_parks',
+            'ex_parks_filename',
+            'nest_parks_filename',
+            'no_stats_sidebar',
+            'twelve_hour_clock',
+            'analytics_id',
+            'map_update_interval',
+            'motd',
+            'motd_title',
+            'motd_text',
+            'motd_pages',
+            'show_motd_always',
+            'geofence_file',
             'geofence_exclude_file'
         ]
 
@@ -636,7 +704,7 @@ def get_args(access_config=None):
     else:
         args.db_cleanup = False
 
-    if args.discord_auth or args.telegram_auth:
+    if args.basic_auth or args.discord_auth or args.telegram_auth:
         if args.server_uri is None:
             parser.print_usage()
             print(sys.argv[0] + ': error: -CAsu/--server-uri parameter is '
@@ -652,6 +720,12 @@ def get_args(access_config=None):
         args.client_auth = True
     else:
         args.client_auth = False
+
+    if args.basic_auth and not args.basic_auth_credentials:
+        parser.print_usage()
+        print(sys.argv[0] + ': error: -BAc/--basic-auth-credentials parameter '
+              'is required for basic auth.')
+        sys.exit(1)
 
     if args.discord_auth and not args.discord_no_permission_redirect and (
             args.discord_blacklisted_users or args.discord_whitelisted_users or

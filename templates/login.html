@@ -138,6 +138,9 @@
       <h5>Log in to {{ map_title }}</h5>
       Log in with:
       <div class="collection">
+        {% if basic_auth %}
+        <a href="{{ url_for('basic_login_page') }}" class="collection-item">Username and password</a>
+        {% endif %}
         {% if discord_auth %}
         <a href="{{ url_for('login_page') }}/discord" class="collection-item">Discord</a>
         {% endif %}

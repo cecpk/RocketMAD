@@ -46,7 +46,7 @@ class TelegramAuth(AuthBase):
         if not request.args.get('hash'):
             log.warning('Invalid Telegram authorization attempt: '
                         'hash missing.')
-            return
+            return False
 
         query_params = []
         for key, value in request.args.items():
@@ -59,11 +59,11 @@ class TelegramAuth(AuthBase):
         if request.args.get('hash') != hash:
             log.warning('Invalid Telegram authorization attempt: '
                         'data is NOT from Telegram.')
-            return
+            return False
         if int(time.time()) - int(request.args.get('auth_date')) > 60:
             log.warning('Invalid Telegram authorization attempt: '
                         'data is outdated.')
-            return
+            return False
 
         data = {
             'id': request.args.get('id'),
@@ -74,6 +74,8 @@ class TelegramAuth(AuthBase):
         session['auth_type'] = 'telegram'
         log.debug('Telegram user %s (%s) succesfully logged in.',
                   data['first_name'], data['username'])
+
+        return True
 
     def end_session(self):
         log.debug('Telegram user %s (%s) succesfully logged out.',
@@ -108,6 +110,14 @@ class TelegramAuth(AuthBase):
             if self._is_chat_member(chat_id, session['id']):
                 user_chats.append(chat_id)
 
+        # Admins bypass other whitelists/blacklists.
+        if session['id'] in args.telegram_admins:
+            session['has_permission'] = True
+            config_name = self._get_access_config_name(user_chats)
+            session['access_config_name'] = config_name
+            session['access_data_updated_at'] = time.time()
+            return
+
         in_required_chat = any(chat_id in user_chats
                                for chat_id in self.telegram_required_chats)
         if self.telegram_required_chats and not in_required_chat:
@@ -115,17 +125,21 @@ class TelegramAuth(AuthBase):
             session['access_config_name'] = None
             return
 
+        session['has_permission'] = True
+        config_name = self._get_access_config_name(user_chats)
+        session['access_config_name'] = config_name
+        session['access_data_updated_at'] = time.time()
+
+    def _get_access_config_name(self, chats):
         access_config_name = None
         for elem in self.telegram_access_configs:
             chat_id = elem.split(':')[0]
             config_name = elem.split(':')[1]
-            if chat_id in user_chats:
+            if chat_id in chats:
                 access_config_name = config_name
                 break
 
-        session['has_permission'] = True
-        session['access_config_name'] = access_config_name
-        session['access_data_updated_at'] = time.time()
+        return access_config_name
 
     def _add_user(self, data):
         session['id'] = data['id']

@@ -22,7 +22,7 @@
   },
   "6": {
     "name": "Stardust",
-    "questBundles": [200, 500, 1000, 1500]
+    "questBundles": [200, 500, 800, 1000, 1200, 1500]
   },
   "101": {
     "name": "Potion",
@@ -111,7 +111,7 @@
   },
   "708": {
     "name": "Silver Pinap Berry",
-    "questBundles": [3, 5]
+    "questBundles": [2, 3, 5]
   },
   "801": {
     "name": "Camera"
