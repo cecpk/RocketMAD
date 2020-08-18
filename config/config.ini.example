@@ -81,7 +81,7 @@
 
 # Geofence settings
 ###################
-Place your geofence files in the geofences folder.
+# Place your geofence files in the geofences folder.
 
 #geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
 #geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
@@ -169,7 +169,7 @@ Place your geofence files in the geofences folder.
 # [sudo] apt install redis-server
 # Settings without default value (server-uri, secret-key) must be set.
 
-#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to. 
+#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to.
 #secret-key:                    # Key used to sign sessions. Must be at least 16 characters long, just generate/type some gibberish.
 #redis-host:                    # Address of Redis server (Redis is used to store session data). (default='127.0.0.1')
 #redis-port:                    # Port of Redis server. (default=6379)
