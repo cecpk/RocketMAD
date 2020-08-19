@@ -11,7 +11,6 @@ import time
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from functools import reduce
-from matplotlib.path import Path
 from sqlalchemy import func, Index, text
 from sqlalchemy.dialects.mysql import BIGINT, DOUBLE, LONGTEXT, TINYINT
 from sqlalchemy.orm import Load, load_only
@@ -19,7 +18,7 @@ from sqlalchemy.sql.expression import and_, or_
 from timeit import default_timer
 
 from .transform import transform_from_wgs_to_gcj
-from .utils import get_args, get_geofence_box
+from .utils import get_args
 
 log = logging.getLogger(__name__)
 args = get_args()
