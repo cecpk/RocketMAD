@@ -2,11 +2,7 @@
 let tabsInstance
 
 function updateStatsTable() {
-    if (!serverSettings.statsSidebar) {
-        return
-    }
-
-    if (!statsSideNav.isOpen) {
+    if (!serverSettings.statsSidebar || !statsSideNav.isOpen) {
         return
     }
 
