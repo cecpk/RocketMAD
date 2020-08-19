@@ -1086,9 +1086,9 @@ def db_clean_spawnpoints(age_hours):
     spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
     rows = TrsSpawn.query.filter(
-        TrsSpawn.last_scanned < spawnpoint_timeout |
+        (TrsSpawn.last_scanned < spawnpoint_timeout) |
         TrsSpawn.last_scanned.is_(None),
-        TrsSpawn.last_non_scanned < spawnpoint_timeout |
+        (TrsSpawn.last_non_scanned < spawnpoint_timeout) |
         TrsSpawn.last_non_scanned.is_(None)
     ).delete()
     db.session.commit()
