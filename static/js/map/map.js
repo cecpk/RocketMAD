@@ -3217,6 +3217,7 @@ function loadRawData() {
         },
         dataType: 'json',
         cache: false,
+        timeout: 30000,
         beforeSend: function () {
             if (rawDataIsLoading) {
                 return false
