@@ -348,10 +348,10 @@ class Gym(db.Model):
             # Exclude Gyms within old boundaries.
             query = query.filter(
                 ~and_(
-                    Pokemon.latitude >= oSwLat,
-                    Pokemon.longitude >= oSwLng,
-                    Pokemon.latitude <= oNeLat,
-                    Pokemon.longitude <= oNeLng
+                    Gym.latitude >= oSwLat,
+                    Gym.longitude >= oSwLng,
+                    Gym.latitude <= oNeLat,
+                    Gym.longitude <= oNeLng
                 )
             )
 
