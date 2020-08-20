@@ -155,6 +155,10 @@ def get_args(access_config=None):
     parser.add_argument('-nrf', '--no-raid-filters',
                         help=('Disables raid filters in side nav.'),
                         action='store_true', default=False)
+    parser.add_argument('-bwb', '--black-white-badges',
+                        help='Use black/white background with white/black' +
+                        ' text for gym/raid level badge in gym icons.',
+                        action='store_true', default=False)
     parser.add_argument('-nps', '--no-pokestops',
                         help=('Disables PokéStops.'),
                         action='store_true', default=False)
@@ -283,7 +287,52 @@ def get_args(access_config=None):
                         help='Google Analytics Tracking-ID.'),
     parser.add_argument('-mui', '--map-update-interval',
                         type=int, default=2500,
-                        help='Interval between raw-data requests (map updates) in milliseconds.'),
+                        help='Interval between raw-data requests (map '
+                             'updates) in milliseconds.'),
+
+    group = parser.add_argument_group('Geofences')
+    group.add_argument('-Gf', '--geofence-file',
+                       help='Geofence file to define outer borders of the '
+                            'area for which data is to be retrieved.')
+    group.add_argument('-Gef', '--geofence-exclude-file',
+                       help='File to exclude areas. Regard this as an '
+                            'inverted geofence. Can be combined with '
+                            '--geofence-file.')
+
+    group = parser.add_argument_group('Parks')
+    group.add_argument('-EP', '--ex-parks',
+                       action='store_true',
+                       help='Display ex raid eligible parks.')
+    group.add_argument('-NP', '--nest-parks',
+                       action='store_true',
+                       help='Display nest parks.')
+    group.add_argument('-EPd', '--ex-parks-downloading',
+                       action='store_true',
+                       help='Enables ex raid eligible parks downloading.')
+    group.add_argument('-NPd', '--nest-parks-downloading',
+                       action='store_true',
+                       help='Enables nest parks downloading.')
+    group.add_argument('-EPg', '--ex-parks-geofence-file',
+                       help='Geofence file to define outer borders of the '
+                            'ex park area to download.')
+    group.add_argument('-NPg', '--nest-parks-geofence-file',
+                       help='Geofence file to define outer borders of the '
+                            'nest park area to download.')
+    group.add_argument('-EPf', '--ex-parks-filename',
+                       default='parks-ex',
+                       help='Filename (without .json) of ex parks JSON '
+                            'file. Useful when running multiple '
+                            'instances. Default: parks-ex-raids')
+    group.add_argument('-NPf', '--nest-parks-filename',
+                       default='parks-nest',
+                       help='Filename (without .json) of nest parks JSON '
+                            'file. Useful when running multiple '
+                            'instances. Default: parks-nests')
+    group.add_argument('-Pt', '--parks-query-timeout',
+                       type=int, default=86400,
+                       help='The maximum allowed runtime for the parks query '
+                            'in seconds.')
+
     group = parser.add_argument_group('Database')
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)
@@ -329,6 +378,7 @@ def get_args(access_config=None):
                              'after last valid scan. ' +
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
+
     parser.add_argument('--ssl-certificate',
                         help='Path to SSL certificate file.')
     parser.add_argument('--ssl-privatekey',
@@ -363,6 +413,7 @@ def get_args(access_config=None):
                               'environment and auto-upload to ' +
                               'hastebin.com.'),
                         action='store_true', default=False)
+
     verbose = parser.add_mutually_exclusive_group()
     verbose.add_argument('-v',
                          help=('Show debug messages from RocketMap. ' +
@@ -371,6 +422,7 @@ def get_args(access_config=None):
     verbose.add_argument('--verbosity',
                          help=('Show debug messages from RocketMap.'),
                          type=int, dest='verbose')
+
     parser.add_argument('-gen', '--generate-images',
                         help=('Use ImageMagick to generate dynamic' +
                               'icons on demand.'),
@@ -378,6 +430,7 @@ def get_args(access_config=None):
     parser.add_argument('-pa', '--pogo-assets', default=None,
                         help=('Directory pointing to optional ' +
                               'PogoAssets root directory.'))
+
     group = parser.add_argument_group('Client Auth')
     group.add_argument('-CAsu', '--server-uri', default=None,
                        help='URI of your website/server. Authentication apps '
@@ -417,7 +470,7 @@ def get_args(access_config=None):
     group.add_argument('-BAa', '--basic-auth-admins',
                        nargs='+', default=[],
                        help='Users that have admin rights. '
-                            'Accepts list of usernames.')                            
+                            'Accepts list of usernames.')
     group = parser.add_argument_group('Discord Auth')
     group.add_argument('-DA', '--discord-auth',
                        action='store_true', default=False,
@@ -476,6 +529,7 @@ def get_args(access_config=None):
                        nargs='+', default=[],
                        help='Discord users that have admin rights. '
                             'Accepts list of Discord user IDs.')
+
     group = parser.add_argument_group('Telegram Auth')
     group.add_argument('-TA', '--telegram-auth',
                        action='store_true',
@@ -509,62 +563,26 @@ def get_args(access_config=None):
                        action='append', default=[],
                        help='Telegram users that have admin rights. '
                             'Accepts list of Telegram user IDs.')
-    parser.add_argument('-bwb', '--black-white-badges',
-                        help='Use black/white background with white/black' +
-                        ' text for gym/raid level badge in gym icons.',
-                        action='store_true', default=False)
-    rarity = parser.add_argument_group('Dynamic Rarity')
-    rarity.add_argument('-R', '--rarity',
-                        action='store_true',
-                        help='Display Pokémon rarity.')
-    rarity.add_argument('-Rh', '--rarity-hours',
-                        type=float, default=48,
-                        help='Number of hours of Pokemon data to use '
-                             'to calculate dynamic rarity, decimals allowed. '
-                             'Default: 48. 0 to use all data.')
-    rarity.add_argument('-Rf', '--rarity-update-frequency',
-                        type=float, default=0,
-                        help='How often (in minutes) the dynamic rarity '
-                             'should be updated, decimals allowed. '
-                             'Default: 0. 0 to disable.')
-    rarity.add_argument('-Rfn', '--rarity-filename',
-                        default='rarity',
-                        help='Filename (without .json) of rarity JSON '
-                             'file. Useful when running multiple '
-                             'instances. Default: rarity')
-    parks = parser.add_argument_group('Parks')
-    parks.add_argument('-EP', '--ex-parks',
+
+    group = parser.add_argument_group('Dynamic Rarity')
+    group.add_argument('-R', '--rarity',
                        action='store_true',
-                       help='Display ex raid eligible parks.')
-    parks.add_argument('-NP', '--nest-parks',
-                       action='store_true',
-                       help='Display nest parks.')
-    parks.add_argument('-EPd', '--ex-parks-downloading',
-                       action='store_true',
-                       help='Enables ex raid eligible parks downloading.')
-    parks.add_argument('-NPd', '--nest-parks-downloading',
-                       action='store_true',
-                       help='Enables nest parks downloading.')
-    parks.add_argument('-EPg', '--ex-parks-geofence-file',
-                       help='Geofence file to define outer borders of the '
-                            'ex park area to download.')
-    parks.add_argument('-NPg', '--nest-parks-geofence-file',
-                       help='Geofence file to define outer borders of the '
-                            'nest park area to download.')
-    parks.add_argument('-EPf', '--ex-parks-filename',
-                       default='parks-ex',
-                       help='Filename (without .json) of ex parks JSON '
+                       help='Display Pokémon rarity.')
+    group.add_argument('-Rh', '--rarity-hours',
+                       type=float, default=48,
+                       help='Number of hours of Pokemon data to use '
+                            'to calculate dynamic rarity, decimals allowed. '
+                            'Default: 48. 0 to use all data.')
+    group.add_argument('-Rf', '--rarity-update-frequency',
+                       type=float, default=0,
+                       help='How often (in minutes) the dynamic rarity '
+                            'should be updated, decimals allowed. '
+                            'Default: 0. 0 to disable.')
+    group.add_argument('-Rfn', '--rarity-filename',
+                       default='rarity',
+                       help='Filename (without .json) of rarity JSON '
                             'file. Useful when running multiple '
-                            'instances. Default: parks-ex-raids')
-    parks.add_argument('-NPf', '--nest-parks-filename',
-                       default='parks-nest',
-                       help='Filename (without .json) of nest parks JSON '
-                            'file. Useful when running multiple '
-                            'instances. Default: parks-nests')
-    parks.add_argument('-Pt', '--parks-query-timeout',
-                       type=int, default=86400,
-                       help='The maximum allowed runtime for the parks query '
-                            'in seconds.')
+                            'instances. Default: rarity')
 
     args = parser.parse_args()
     dargs = vars(args)
@@ -628,7 +646,9 @@ def get_args(access_config=None):
             'motd_title',
             'motd_text',
             'motd_pages',
-            'show_motd_always'
+            'show_motd_always',
+            'geofence_file',
+            'geofence_exclude_file'
         ]
 
         access_parser = configparser.ConfigParser(allow_no_value=True,
@@ -1224,9 +1244,10 @@ def dynamic_rarity_refresher(app):
         time.sleep(refresh_time_sec)
 
 
+@memoize
 def parse_geofence_file(geofence_file):
     geofences = []
-    # Read coordinates  from file.
+    # Read coordinates from file.
     if geofence_file:
         with open(geofence_file) as f:
             for line in f:
@@ -1242,10 +1263,32 @@ def parse_geofence_file(geofence_file):
                     log.debug('Found geofence: %s.', name)
                 else:  # Coordinate line.
                     lat, lon = line.split(",")
-                    LatLon = {'lat': float(lat), 'lon': float(lon)}
-                    geofences[-1]['polygon'].append(LatLon)
+                    coord = (float(lat), float(lon))
+                    geofences[-1]['polygon'].append(coord)
 
     return geofences
+
+
+def get_geofence_box(geofence):
+    sw_lat = 90
+    sw_lon = 180
+    ne_lat = -90
+    ne_lon = -180
+    for coord in geofence['polygon']:
+        lat, lon = coord
+        if lat < sw_lat:
+            sw_lat = lat
+        elif lat > ne_lat:
+            ne_lat = lat
+        if lon < sw_lon:
+            sw_lon = lon
+        elif lon > ne_lon:
+            ne_lon = lon
+
+    return {
+        'sw': (sw_lat, sw_lon),
+        'ne': (ne_lat, ne_lon)
+    }
 
 
 def get_sessions(redis_server):

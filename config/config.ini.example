@@ -79,6 +79,30 @@
 #show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)
 
 
+# Geofence settings
+###################
+# Place your geofence files in the geofences folder.
+
+#geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
+#geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
+
+
+# Parks
+#######
+# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
+# Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
+
+#ex-parks                       # Display ex raid eligible parks. (default=False)
+#nest-parks                     # Display nest parks. (default=False)
+#ex-parks-downloading           # Enables ex raid eligible parks downloading. (default=False)
+#nest-parks-downloading         # Enables nest parks downloading. (default=False)
+#ex-parks-geofence-file:        # Geofence file to define outer borders of the ex park area to download. Place file in the geofences folder.
+#nest-parks-geofence-file:      # Geofence file to define outer borders of the nest park area to download. Place file in the geofences folder.
+#ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
+#nest-parks-filename:           # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
+#parks-query-timeout:           # The maximum allowed runtime for the parks query in seconds. (default=86400)
+
+
 # Database settings
 ###################
 
@@ -139,29 +163,13 @@
 #rarity-filename:               # Name of the JSON file (without .json) for dynamic rarity. Useful when running two or more instances out of the same folder. (default='rarity')
 
 
-# Parks
-#######
-# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
-# Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
-
-#ex-parks                       # Display ex raid eligible parks. (default=False)
-#nest-parks                     # Display nest parks. (default=False)
-#ex-parks-downloading           # Enables ex raid eligible parks downloading. (default=False)
-#nest-parks-downloading         # Enables nest parks downloading. (default=False)
-#ex-parks-geofence-file:        # Geofence file to define outer borders of the ex park area to download.
-#nest-parks-geofence-file:      # Geofence file to define outer borders of the nest park area to download.
-#ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
-#nest-parks-filename:           # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
-#parks-query-timeout:           # The maximum allowed runtime for the parks query in seconds. (default=86400)
-
-
 # User authentication
 ####################
 # You need to have redis installed for user authentication, do not setup any password on redis.
 # [sudo] apt install redis-server
 # Settings without default value (server-uri, secret-key) must be set.
 
-#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to. 
+#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to.
 #secret-key:                    # Key used to sign sessions. Must be at least 16 characters long, just generate/type some gibberish.
 #redis-host:                    # Address of Redis server (Redis is used to store session data). (default='127.0.0.1')
 #redis-port:                    # Port of Redis server. (default=6379)
