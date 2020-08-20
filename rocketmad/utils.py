@@ -1270,10 +1270,10 @@ def parse_geofence_file(geofence_file):
 
 
 def get_geofence_box(geofence):
-    sw_lat = 100
-    sw_lon = 200
-    ne_lat = -100
-    ne_lon = -200
+    sw_lat = 90
+    sw_lon = 180
+    ne_lat = -90
+    ne_lon = -180
     for coord in geofence['polygon']:
         lat, lon = coord
         if lat < sw_lat:
