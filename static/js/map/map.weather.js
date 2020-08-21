@@ -181,7 +181,7 @@ function processWeather(weather) {
 }
 
 function updateWeather(id, weather = null) {
-    if (id === undefined || id === null || !mapData.weather.hasOwnProperty(id)) {
+    if (id == null || !mapData.weather.hasOwnProperty(id)) {
         return true
     }
 

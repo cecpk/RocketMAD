@@ -50,7 +50,7 @@ function processScannedLocation(scannedLoc) {
 }
 
 function updateScannedLocation(id, scannedLoc = null) {
-    if (id === undefined || id === null || !mapData.scannedLocs.hasOwnProperty(id)) {
+    if (id == null || !mapData.scannedLocs.hasOwnProperty(id)) {
         return true
     }
 

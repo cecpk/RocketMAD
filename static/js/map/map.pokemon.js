@@ -346,7 +346,7 @@ function processPokemon(pokemon) {
 }
 
 function updatePokemon(id, pokemon = null) {
-    if (id === undefined || id === null || !mapData.pokemons.hasOwnProperty(id)) {
+    if (id == null || !mapData.pokemons.hasOwnProperty(id)) {
         return true
     }
 

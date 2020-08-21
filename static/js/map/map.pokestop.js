@@ -411,7 +411,7 @@ function processPokestop(pokestop) {
 }
 
 function updatePokestop(id, pokestop = null) {
-    if (id === undefined || id === null || !mapData.pokestops.hasOwnProperty(id)) {
+    if (id == null || !mapData.pokestops.hasOwnProperty(id)) {
         return true
     }
 

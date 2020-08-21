@@ -54,7 +54,7 @@ function spawnpointLabel(spawnpoint) {
     }
 
     const lastScanned = spawnpoint.last_scanned > spawnpoint.last_non_scanned ? spawnpoint.last_scanned : spawnpoint.last_non_scanned
-    
+
     return `
         <div class='title'>
           <strong>Spawn Point</strong>
@@ -115,7 +115,7 @@ function processSpawnpoint(spawnpoint) {
 }
 
 function updateSpawnpoint(id, spawnpoint = null) {
-    if (id === undefined || id === null || !mapData.spawnpoints.hasOwnProperty(id)) {
+    if (id == null || !mapData.spawnpoints.hasOwnProperty(id)) {
         return true
     }
 

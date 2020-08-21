@@ -506,7 +506,7 @@ function processGym(gym = null) {
 }
 
 function updateGym(id, gym = null) {
-    if (id === undefined || id === null || !mapData.gyms.hasOwnProperty(id)) {
+    if (id == null || !mapData.gyms.hasOwnProperty(id)) {
         return true
     }
 
