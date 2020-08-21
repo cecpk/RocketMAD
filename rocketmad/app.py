@@ -841,7 +841,7 @@ def create_app():
                 if new_area:
                     # If screen is moved add newly uncovered Pokemon to the
                     # ones that were modified since last request time.
-                    d['pokemons'] += (
+                    d['pokemons'].extend(
                         convert_pokemon_list(
                             Pokemon.get_active(
                                 swLat, swLng, neLat, neLng, oSwLat=oSwLat,
@@ -898,7 +898,7 @@ def create_app():
                                          geofences=geofences,
                                          exclude_geofences=exclude_geofences)
                 if new_area:
-                    d['gyms'].update(
+                    d['gyms'].extend(
                         Gym.get_gyms(swLat, swLng, neLat, neLng,
                                      oSwLat=oSwLat, oSwLng=oSwLng,
                                      oNeLat=oNeLat, oNeLng=oNeLng,
@@ -931,7 +931,7 @@ def create_app():
                     exclude_geofences=exclude_geofences
                 )
                 if new_area:
-                    d['pokestops'].update(Pokestop.get_pokestops(
+                    d['pokestops'].extend(Pokestop.get_pokestops(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
                         eventless_stops=pokestopsNoEvent, quests=quests,

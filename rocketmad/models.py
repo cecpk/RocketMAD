@@ -365,7 +365,7 @@ class Gym(db.Model):
 
         result = query.all()
 
-        gyms = {}
+        gyms = []
         for r in result:
             gym = r[0] if raids else r
             raid = r[1] if raids else None
@@ -381,7 +381,7 @@ class Gym(db.Model):
                 gym_dict['raid'] = orm_to_dict(raid)
             else:
                 gym_dict['raid'] = None
-            gyms[gym.gym_id] = gym_dict
+            gyms.append(gym_dict)
 
         return gyms
 
@@ -544,7 +544,7 @@ class Pokestop(db.Model):
         result = query.all()
 
         now = datetime.utcnow()
-        pokestops = {}
+        pokestops = []
         for r in result:
             pokestop_orm = r[0] if quests else r
             quest_orm = r[1] if quests else None
@@ -573,7 +573,7 @@ class Pokestop(db.Model):
                     (pokestop['lure_expiration'] < now or not lures)):
                 pokestop['active_fort_modifier'] = None
                 pokestop['lure_expiration'] = None
-            pokestops[pokestop['pokestop_id']] = pokestop
+            pokestops.append(pokestop)
 
         return pokestops
 
