@@ -151,7 +151,7 @@ let oNeLng
 let getAllPokemon
 let getAllGyms
 let getAllPokestops
-let getAllWeathe
+let getAllWeather
 let getAllSpawnpoints
 let getAllScannedLocs
 
