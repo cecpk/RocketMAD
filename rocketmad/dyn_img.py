@@ -176,7 +176,8 @@ if args.generate_images:
                   "you can execute either 'magick' (ImageMagick 7)"
                   " or 'convert' (ImageMagick 6) from the commandline. "
                   "Otherwise you cannot use --generate-images. "
-                  "For Debian/Ubuntu just run: sudo apt-get install imagemagick")
+                  "For Debian/Ubuntu just run: sudo apt-get install "
+                  "imagemagick")
         sys.exit(1)
 
 
@@ -247,53 +248,51 @@ def get_pokemon_map_icon(pkm, gender=GENDER_UNSET, form=0, costume=0,
     return run_imagemagick(source, im_lines, target)
 
 
-def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, costume,
-                 is_ex_raid_eligible):
-    level = int(level)
-
+def get_gym_icon(team, level, raid_level=0, pkm=0, form=0, costume=0,
+                 ex_raid_eligible=False, in_battle=False):
     if not generate_images:
-        return default_gym_image(team, level, raidlevel, pkm)
+        return default_gym_image(team, level, raid_level, pkm)
 
     im_lines = ['-font "{}" -pointsize {}'.format(font, font_pointsize)]
-    if pkm and pkm != 'null':
-        # Gym with ongoing raid
-        form_extension = "_F{}".format(form) if form else ""
-        costume_extension = "_C{}".format(costume) if costume else ""
+    if pkm > 0:
+        # Gym with ongoing raid.
+        form_extension = '_F{}'.format(form) if form > 0 else ''
+        costume_extension = '_C{}'.format(costume) if costume > 0 else ''
         out_filename = os.path.join(
             path_generated_gym,
-            "{}_L{}_R{}_P{}{}{}.png".format(team, level, raidlevel, pkm,
+            "{}_L{}_R{}_P{}{}{}.png".format(team, level, raid_level, pkm,
                                             form_extension, costume_extension)
         )
         im_lines.extend(draw_raid_pokemon(pkm, form, costume))
-        im_lines.extend(draw_raid_level(int(raidlevel)))
+        im_lines.extend(draw_raid_level(raid_level))
         if level > 0:
             im_lines.extend(draw_gym_level(level, team))
-    elif raidlevel:
-        # Gym with upcoming raid (egg)
-        raidlevel = int(raidlevel)
+    elif raid_level > 0:
+        # Gym with upcoming raid (egg).
         out_filename = os.path.join(
             path_generated_gym,
-            "{}_L{}_R{}.png".format(team, level, raidlevel))
-        im_lines.extend(draw_raid_egg(raidlevel))
-        im_lines.extend(draw_raid_level(raidlevel))
+            "{}_L{}_R{}.png".format(team, level, raid_level))
+        im_lines.extend(draw_raid_egg(raid_level))
+        im_lines.extend(draw_raid_level(raid_level))
         if level > 0:
             im_lines.extend(draw_gym_level(level, team))
     elif level > 0:
-        # Occupied gym
+        # Occupied gym.
         out_filename = os.path.join(
             path_generated_gym,
             '{}_L{}.png'.format(team, level))
         im_lines.extend(draw_gym_level(level, team))
     else:
-        # Neutral gym
+        # Neutral gym.
         return os.path.join(path_gym, '{}.png'.format(team))
 
-    # Battle Indicator
-    if is_in_battle:
+    # Battle Indicator.
+    if in_battle:
         out_filename = out_filename.replace('.png', '_B.png')
         im_lines.extend(draw_battle_indicator())
 
-    if is_ex_raid_eligible:
+    # EX raid eligble indicator.
+    if ex_raid_eligible:
         out_filename = out_filename.replace('.png', '_EX.png')
         im_lines.extend(draw_ex_raid_eligible_indicator())
 
@@ -303,8 +302,7 @@ def get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form, costume,
 
 def draw_raid_pokemon(pkm, form, costume):
     if pogo_assets:
-        pkm_path, dummy = pokemon_asset_path(int(pkm), form=form,
-                                             costume=costume)
+        pkm_path, dummy = pokemon_asset_path(pkm, form=form, costume=costume)
         trim = True
     else:
         pkm_path = os.path.join(path_icons, '{}.png'.format(pkm))
@@ -312,8 +310,8 @@ def draw_raid_pokemon(pkm, form, costume):
     return draw_gym_subject(pkm_path, 64, trim=trim)
 
 
-def draw_raid_egg(raidlevel):
-    egg_path = egg_images[raidlevel]
+def draw_raid_egg(level):
+    egg_path = egg_images[level]
     return draw_gym_subject(egg_path, 36, gravity='center')
 
 
@@ -322,11 +320,11 @@ def draw_gym_level(level, team):
     return draw_badge(badge_lower_right, fill_col, "white", level)
 
 
-def draw_raid_level(raidlevel):
+def draw_raid_level(level):
     fill_col = ("white" if args.black_white_badges
-        else raid_colors[int((raidlevel - 1) / 2)])
+                else raid_colors[int((level - 1) / 2)])
     text_col = "black" if args.black_white_badges else "white"
-    return draw_badge(badge_upper_right, fill_col, text_col, raidlevel)
+    return draw_badge(badge_upper_right, fill_col, text_col, level)
 
 
 def draw_battle_indicator():
@@ -455,13 +453,13 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
             log.warning("Cannot find PogoAssets file {}".format(
                 assets_fullname))
             # Dummy Pokemon icon
-            return (
-                os.path.join(assets_basedir, 'pokemon_icon_000.png'),
-                os.path.join(target_path, 'pkm_000.png'))
+            return (os.path.join(assets_basedir, 'pokemon_icon_000.png'),
+                    os.path.join(target_path, 'pkm_000.png'))
         return pokemon_asset_path(pkm, classifier=classifier,
                                   gender=MALE, form=form,
                                   costume=costume, evolution=evolution,
                                   shiny=shiny, weather=weather,)
+
 
 def draw_gym_subject(image, size, gravity='north', trim=False):
     trim_cmd = ' -fuzz 0.5% -trim +repage' if trim else ''
@@ -496,21 +494,21 @@ def init_image_dir(path):
                 raise
 
 
-def default_gym_image(team, level, raidlevel, pkm):
+def default_gym_image(team, level, raid_level, pkm):
     path = path_gym
-    if pkm and pkm != 'null':
+    if pkm > 0:
         icon = "{}_{}.png".format(team, pkm)
         path = path_raid
-    elif raidlevel:
-        icon = "{}_{}_{}.png".format(team, level, raidlevel)
-    elif level:
+    elif raid_level > 0:
+        icon = "{}_{}_{}.png".format(team, level, raid_level)
+    elif level > 0:
         icon = "{}_{}.png".format(team, level)
     else:
         icon = "{}.png".format(team)
     if os.path.isfile(os.path.join(path, icon)):
         return os.path.join(path, icon)
     else:
-        icon = "{}_{}_unknown.png".format(team, raidlevel)
+        icon = "{}_{}_unknown.png".format(team, raid_level)
     return os.path.join(path, icon)
 
 

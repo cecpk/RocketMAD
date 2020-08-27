@@ -1047,30 +1047,20 @@ def create_app():
     @app.route('/gym_img')
     def gym_img():
         team = request.args.get('team')
-        level = request.args.get('level')
-        raidlevel = request.args.get('raidlevel')
-        pkm = request.args.get('pkm')
-        form = request.args.get('form')
-        costume = int(
-            request.args.get('costume')) if 'costume' in request.args else None
-        is_in_battle = 'in_battle' in request.args
-        is_ex_raid_eligible = 'is_ex_raid_eligible' in request.args
+        level = int(request.args.get('level'))
+        raid_level = int(request.args.get('raid-level', '0'))
+        pkm = int(request.args.get('pkm', '0'))
+        form = int(request.args.get('form', '0'))
+        costume = int(request.args.get('costume', '0'))
+        in_battle = 'in-battle' in request.args
+        ex_raid_eligible = 'ex-raid-eligible' in request.args
 
-        if level is None or raidlevel is None:
-            return send_file(
-                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form,
-                             costume, is_ex_raid_eligible),
-                mimetype='image/png'
-            )
-
-        elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or
-              int(raidlevel) > 6):
-            return abort(416)
-
+        if level < 0 or level > 6 or raid_level < 0 or raid_level > 6:
+            abort(400)
         else:
             return send_file(
-                get_gym_icon(team, level, raidlevel, pkm, is_in_battle, form,
-                             costume, is_ex_raid_eligible),
+                get_gym_icon(team, level, raid_level, pkm, form, costume,
+                             ex_raid_eligible, in_battle),
                 mimetype='image/png'
             )
 
