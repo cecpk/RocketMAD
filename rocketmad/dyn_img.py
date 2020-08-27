@@ -94,9 +94,14 @@ team_colors = {
     "Instinct": "\"rgb(255,190,8)\"",
     "Uncontested": "\"rgb(255,255,255)\""
 }
-raid_colors = [
-    "\"rgb(252,112,176)\"", "\"rgb(255,158,22)\"", "\"rgb(184,165,221)\""
-]
+raid_colors = {
+    1: "\"rgb(252,112,176)\"",
+    2: "\"rgb(252,112,176)\"",
+    3: "\"rgb(255,158,22)\"",
+    4: "\"rgb(255,158,22)\"",
+    5: "\"rgb(184,165,221)\"",
+    6: "\"rgb(141,54,40)\""
+}
 
 font = os.path.join(path_static, 'Arial Black.ttf')
 font_pointsize = 25
@@ -292,8 +297,7 @@ def draw_gym_level(level, team):
 
 
 def draw_raid_level(level):
-    fill_col = ("white" if args.black_white_badges
-                else raid_colors[int((level - 1) / 2)])
+    fill_col = "white" if args.black_white_badges else raid_colors[level]
     text_col = "black" if args.black_white_badges else "white"
     return draw_badge(badge_upper_right, fill_col, text_col, level)
 
