@@ -1028,14 +1028,10 @@ def create_app():
     def pokemon_img():
         raw = 'raw' in request.args
         pkm = int(request.args.get('pkm'))
-        weather = int(
-            request.args.get('weather')) if 'weather' in request.args else 0
-        gender = int(
-            request.args.get('gender')) if 'gender' in request.args else None
-        form = int(
-            request.args.get('form')) if 'form' in request.args else None
-        costume = int(
-            request.args.get('costume')) if 'costume' in request.args else None
+        weather = int(request.args.get('weather', '0'))
+        gender = int(request.args.get('gender', '0'))
+        form = int(request.args.get('form', '0'))
+        costume = int(request.args.get('costume', '0'))
         shiny = 'shiny' in request.args
 
         if raw:

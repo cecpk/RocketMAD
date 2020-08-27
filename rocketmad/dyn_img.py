@@ -180,7 +180,7 @@ if args.generate_images:
         sys.exit(1)
 
 
-def get_pokemon_raw_icon(pkm, gender=None, form=None, costume=None,
+def get_pokemon_raw_icon(pkm, gender=GENDER_UNSET, form=0, costume=0,
                          evolution=EVOLUTION_UNSET, shiny=False, weather=None):
     if generate_images and pogo_assets:
         source, target = pokemon_asset_path(
@@ -196,8 +196,8 @@ def get_pokemon_raw_icon(pkm, gender=None, form=None, costume=None,
         return os.path.join(path_icons, '{}.png'.format(pkm))
 
 
-def get_pokemon_map_icon(pkm, weather=None, gender=None, form=None,
-                         costume=None, evolution=EVOLUTION_UNSET):
+def get_pokemon_map_icon(pkm, gender=GENDER_UNSET, form=0, costume=0,
+                         evolution=EVOLUTION_UNSET, weather=None):
     im_lines = []
 
     # Add Pokemon icon
@@ -386,12 +386,13 @@ def battle_indicator_swords():
 
 
 def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
-                       form=None, costume=None, evolution=EVOLUTION_UNSET,
+                       form=0, costume=0, evolution=EVOLUTION_UNSET,
                        shiny=False, weather=None):
     gender_suffix = ''
     gender_form_asset_suffix = ''
     form_suffix = ''
     costume_suffix = ''
+    costume_asset_suffix = ''
     weather_suffix = '_{}'.format(weather_names[weather]) if weather else ''
     shiny_suffix = '_shiny' if shiny else ''
 
@@ -401,7 +402,9 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
         suffix = '_00'
     gender_suffix = gender_form_asset_suffix = suffix
 
-    costume_suffix = '_{:02d}'.format(costume) if costume else '_00'
+    costume_suffix = '_{:02d}'.format(costume)
+    if costume:
+        costume_asset_suffix = costume_suffix
 
     forms = get_pokemon_data(pkm).get('forms')
     should_use_asset_bundle_suffix = False
@@ -420,9 +423,9 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
             should_use_asset_bundle_suffix = True
             asset_id = form_data['assetSuffix']
 
-        if asset_id is not '00':
+        if asset_id != '00':
             gender_form_asset_suffix = '_' + asset_id
-        form_suffix = '_' + '_{:02d}'.format(form)
+        form_suffix = '_{:02d}'.format(form)
 
     assets_basedir = os.path.join(pogo_assets, 'pokemon_icons')
     if should_use_asset_bundle_suffix:
