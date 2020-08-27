@@ -725,7 +725,7 @@ class TrsSpawn(db.Model):
 
         if timestamp > 0:
             # If timestamp is known only send last scanned spawn points.
-            t = datetime.utcfromtimestamp(timestamp / 1000)
+            t = datetime.fromtimestamp(timestamp / 1000)
             query = query.filter(
                 (TrsSpawn.last_scanned > t) | (TrsSpawn.last_non_scanned > t)
             )
