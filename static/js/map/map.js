@@ -148,19 +148,19 @@ let oSwLng
 let oNeLat
 let oNeLng
 
-let getAllPokemon = true
-let getAllGyms = true
-let getAllPokestops = true
-let getAllWeather = true
-let getAllSpawnpoints = true
-let getAllScannedLocs = true
+let getAllPokemon
+let getAllGyms
+let getAllPokestops
+let getAllWeathe
+let getAllSpawnpoints
+let getAllScannedLocs
 
-let getAllPokemonTimestamp = 0
-let getAllGymsTimestamp = 0
-let getAllPokestopsTimestamp = 0
-let getAllWeatherTimestamp = 0
-let getAllSpawnpointsTimestamp = 0
-let getAllScannedLocsTimestamp = 0
+let getAllPokemonTimestamp
+let getAllGymsTimestamp
+let getAllPokestopsTimestamp
+let getAllWeatherTimestamp
+let getAllSpawnpointsTimestamp
+let getAllScannedLocsTimestamp
 
 let map
 let markers
