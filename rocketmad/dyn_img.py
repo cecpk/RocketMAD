@@ -31,6 +31,11 @@ MALE = 1
 FEMALE = 2
 GENDERLESS = 3
 
+EVOLUTION_UNSET = 0
+MEGA = 1
+MEGA_X = 2
+MEGA_Y = 3
+
 costume_names = {
     1: 'HOLIDAY_2016',
     2: 'ANNIVERSARY',
@@ -175,8 +180,8 @@ if args.generate_images:
         sys.exit(1)
 
 
-def get_pokemon_raw_icon(pkm, gender=None, form=None,
-                         costume=None, weather=None, shiny=False):
+def get_pokemon_raw_icon(pkm, gender=None, form=None, costume=None,
+                         evolution=EVOLUTION_UNSET, shiny=False, weather=None):
     if generate_images and pogo_assets:
         source, target = pokemon_asset_path(
             pkm, classifier='icon', gender=gender,
@@ -191,8 +196,8 @@ def get_pokemon_raw_icon(pkm, gender=None, form=None,
         return os.path.join(path_icons, '{}.png'.format(pkm))
 
 
-def get_pokemon_map_icon(pkm, weather=None, gender=None,
-                         form=None, costume=None):
+def get_pokemon_map_icon(pkm, weather=None, gender=None, form=None,
+                         costume=None, evolution=EVOLUTION_UNSET):
     im_lines = []
 
     # Add Pokemon icon
@@ -381,66 +386,54 @@ def battle_indicator_swords():
 
 
 def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
-                       form=None, costume=None,
-                       weather=None, shiny=False):
-    gender_suffix = gender_assets_suffix = ''
-    form_suffix = form_assets_suffix = ''
-    costume_suffix = costume_assets_suffix = ''
+                       form=None, costume=None, evolution=EVOLUTION_UNSET,
+                       shiny=False, weather=None):
+    gender_suffix = ''
+    gender_form_asset_suffix = ''
+    form_suffix = ''
+    costume_suffix = ''
     weather_suffix = '_{}'.format(weather_names[weather]) if weather else ''
     shiny_suffix = '_shiny' if shiny else ''
 
     if gender in (MALE, FEMALE):
-        gender_assets_suffix = '_{:02d}'.format(gender - 1)
-        gender_suffix = '_MALE' if gender == MALE else '_FEMALE'
-    elif gender in (GENDER_UNSET, GENDERLESS):
-        gender_assets_suffix = '_00' if pkm > 0 else ''
+        suffix = '_{:02d}'.format(gender - 1)
+    elif pkm > 0:
+        suffix = '_00'
+    gender_suffix = gender_form_asset_suffix = suffix
 
-    if costume:
-        costume_assets_suffix = '_{:02d}'.format(costume)
-        costume_suffix = '_{}'.format(costume_names[costume])
+    costume_suffix = '_{:02d}'.format(costume) if costume else '_00'
 
-    if (
-        not gender_assets_suffix and
-        not form_assets_suffix and
-        not costume_assets_suffix
-       ):
-        gender_assets_suffix = ('_16' if pkm == 201
-                                else '_00' if pkm > 0
-                                else '')
-
-    pokemon_data = get_pokemon_data(pkm)
-    forms = pokemon_data.get('forms', {})
-    should_use_suffix = False
-
+    forms = get_pokemon_data(pkm).get('forms')
+    should_use_asset_bundle_suffix = False
     if forms:
-        # default value is first form
-        form_data = list(forms.values())[0]
         if form and str(form) in forms:
             form_data = forms[str(form)]
+        else:
+            # Default value is first form.
+            form_data = list(forms.values())[0]
 
-        asset_id = ''
+        asset_id = '00'
 
         if 'assetId' in form_data:
             asset_id = form_data['assetId']
         elif 'assetSuffix' in form_data:
-            should_use_suffix = True
+            should_use_asset_bundle_suffix = True
             asset_id = form_data['assetSuffix']
 
-        gender_assets_suffix = '_' + asset_id
-        form_suffix = '_' + asset_id
+        if asset_id is not '00':
+            gender_form_asset_suffix = '_' + asset_id
+        form_suffix = '_' + '_{:02d}'.format(form)
 
     assets_basedir = os.path.join(pogo_assets, 'pokemon_icons')
-    assets_fullname = os.path.join(assets_basedir,
-                                   'pokemon_icon_{:03d}{}{}{}{}.png'.format(
-                                       pkm, gender_assets_suffix,
-                                       form_assets_suffix,
-                                       costume_assets_suffix,
-                                       shiny_suffix))
-
-    if should_use_suffix:
-        assets_fullname = os.path.join(assets_basedir,
-                                       'pokemon_icon{}.png'.format(form_suffix)
-                                       )
+    if should_use_asset_bundle_suffix:
+        assets_fullname = os.path.join(
+            assets_basedir, 'pokemon_icon{}.png'.format(
+                gender_form_asset_suffix))
+    else:
+        assets_fullname = os.path.join(
+            assets_basedir, 'pokemon_icon_{:03d}{}{}{}.png'.format(
+                pkm, gender_form_asset_suffix, costume_asset_suffix,
+                shiny_suffix))
 
     target_path = os.path.join(
         path_generated, 'pokemon_{}'.format(
@@ -449,8 +442,9 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
     target_name = os.path.join(target_path,
                                "pkm_{:03d}{}{}{}{}{}.png".format(
                                    pkm, gender_suffix, form_suffix,
-                                   costume_suffix,
-                                   weather_suffix, shiny_suffix))
+                                   costume_suffix, weather_suffix,
+                                   shiny_suffix))
+
     if os.path.isfile(assets_fullname):
         return assets_fullname, target_name
     else:
@@ -463,9 +457,8 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
                 os.path.join(target_path, 'pkm_000.png'))
         return pokemon_asset_path(pkm, classifier=classifier,
                                   gender=MALE, form=form,
-                                  costume=costume, weather=weather,
-                                  shiny=shiny)
-
+                                  costume=costume, evolution=evolution,
+                                  shiny=shiny, weather=weather,)
 
 def draw_gym_subject(image, size, gravity='north', trim=False):
     trim_cmd = ' -fuzz 0.5% -trim +repage' if trim else ''
