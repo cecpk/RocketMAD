@@ -216,7 +216,8 @@ const raidEggImages = {
     2: 'egg_normal.png',
     3: 'egg_rare.png',
     4: 'egg_rare.png',
-    5: 'egg_legendary.png'
+    5: 'egg_legendary.png',
+    6: 'egg_mega.png'
 }
 
 //
