@@ -55,11 +55,6 @@ function loadRawData() {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'pokemon': false,
-            'pokestops': false,
-            'gyms': false,
-            'raids': false,
-            'scanned': false,
             'seen': true,
             'duration': Store.get('pokemonHistoryDuration')
         },
@@ -85,11 +80,6 @@ function loadDetails(pokemonId, formId) {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'pokemon': false,
-            'pokestops': false,
-            'gyms': false,
-            'raids': false,
-            'scanned': false,
             'appearances': true,
             'pokemonid': pokemonId,
             'formid': formId,
@@ -117,12 +107,6 @@ function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'pokemon': false,
-            'pokestops': false,
-            'gyms': false,
-            'raids': false,
-            'scanned': false,
-            'appearances': false,
             'appearancesDetails': true,
             'pokemonid': pokemonId,
             'formid': formId,

@@ -29,16 +29,8 @@ function loadRawData() {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'pokemon': false,
-            'gyms': false,
-            'raids': false,
             'pokestops': true,
             'quests': true,
-            'invasions': false,
-            'lures': false,
-            'gyms': false,
-            'pokestopsNoEvent': false,
-            'scanned': false
         },
         dataType: 'json',
         beforeSend: function () {

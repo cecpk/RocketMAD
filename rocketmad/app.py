@@ -829,7 +829,7 @@ def create_app():
                 request_ids = request.args.get('ids').split(',')
                 ids = [int(i) for i in request_ids]
 
-            if all_pokemon:
+            if timestamp == 0 or all_pokemon:
                 # If this is first request since switch on, load
                 # all pokemon on screen.
                 d['pokemons'] = convert_pokemon_list(
@@ -894,7 +894,7 @@ def create_app():
                     exclude_geofences=exclude_geofences))
 
         if gyms or raids:
-            if all_gyms:
+            if timestamp == 0 or all_gyms:
                 d['gyms'] = Gym.get_gyms(swLat, swLng, neLat, neLng,
                                          raids=raids, geofences=geofences,
                                          exclude_geofences=exclude_geofences)
@@ -912,7 +912,7 @@ def create_app():
                                      exclude_geofences=exclude_geofences))
 
         if pokestops and (eventless_pokestops or quests or invasions or lures):
-            if all_pokestops:
+            if timestamp == 0 or all_pokestops:
                 d['pokestops'] = Pokestop.get_pokestops(
                     swLat, swLng, neLat, neLng,
                     eventless_stops=eventless_pokestops, quests=quests,
@@ -936,7 +936,7 @@ def create_app():
                     ))
 
         if weather:
-            if all_weather:
+            if timestamp == 0 or all_weather:
                 d['weather'] = Weather.get_weather(
                     swLat, swLng, neLat, neLng, geofences=geofences,
                     exclude_geofences=exclude_geofences
@@ -955,7 +955,7 @@ def create_app():
                     )
 
         if spawnpoints:
-            if all_spawnpoints:
+            if timestamp == 0 or all_spawnpoints:
                 d['spawnpoints'] = TrsSpawn.get_spawnpoints(
                     swLat=swLat, swLng=swLng, neLat=neLat, neLng=neLng,
                     geofences=geofences,
@@ -976,7 +976,7 @@ def create_app():
                     )
 
         if scanned_locs:
-            if all_scanned_locs:
+            if timestamp == 0 or all_scanned_locs:
                 d['scannedlocs'] = ScannedLocation.get_recent(
                     swLat, swLng, neLat, neLng, geofences=geofences,
                     exclude_geofences=exclude_geofences
