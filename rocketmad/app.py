@@ -1068,7 +1068,7 @@ def create_app():
             )
 
         elif (int(level) < 0 or int(level) > 6 or int(raidlevel) < 0 or
-              int(raidlevel) > 5):
+              int(raidlevel) > 6):
             return abort(416)
 
         else:

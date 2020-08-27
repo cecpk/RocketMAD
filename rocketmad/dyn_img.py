@@ -75,7 +75,8 @@ egg_images = {
     2: os.path.join(path_gym, 'egg_normal.png'),
     3: os.path.join(path_gym, 'egg_rare.png'),
     4: os.path.join(path_gym, 'egg_rare.png'),
-    5: os.path.join(path_gym, 'egg_legendary.png')
+    5: os.path.join(path_gym, 'egg_legendary.png'),
+    6: os.path.join(path_gym, 'egg_mega.png')
 }
 
 weather_images = {
