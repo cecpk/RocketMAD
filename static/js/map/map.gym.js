@@ -133,7 +133,7 @@ function updateGymMarker(gym, marker, isNotifGym) {
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
         if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
-            markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel + '&raidlevel=' + raid.level + '&pkm=' + raid.pokemon_id
+            markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel + '&raid-level=' + raid.level + '&pkm=' + raid.pokemon_id
             if (raid.form != null && raid.form > 0) {
                 markerImage += '&form=' + raid.form
             }
@@ -142,7 +142,7 @@ function updateGymMarker(gym, marker, isNotifGym) {
             }
             marker.setZIndexOffset(gymRaidBossZIndex)
         } else { // Upcoming raid.
-            markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel + '&raidlevel=' + raid.level
+            markerImage = 'gym_img?team=' + gymTypes[gym.team_id] + '&level=' + gymLevel + '&raid-level=' + raid.level
             marker.setZIndexOffset(gymEggZIndex)
         }
     } else {
@@ -151,11 +151,11 @@ function updateGymMarker(gym, marker, isNotifGym) {
     }
 
     if (gym.is_in_battle) {
-        markerImage += '&in_battle=1'
+        markerImage += '&in-battle=1'
     }
 
     if (gym.is_ex_raid_eligible) {
-        markerImage += '&is_ex_raid_eligible=1'
+        markerImage += '&ex-raid-eligible=1'
     }
 
     var icon = L.icon({
