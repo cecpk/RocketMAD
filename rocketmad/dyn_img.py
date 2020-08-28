@@ -161,9 +161,8 @@ def get_pokemon_raw_icon(pkm, gender=GENDER_UNSET, form=0, costume=0,
                          evolution=EVOLUTION_UNSET, shiny=False, weather=None):
     if generate_images and pogo_assets:
         source, target = pokemon_asset_path(
-            pkm, classifier='icon', gender=gender,
-            form=form, costume=costume,
-            weather=weather, shiny=shiny)
+            pkm, classifier='icon', gender=gender, form=form, costume=costume,
+            evolution=evolution, shiny=shiny, weather=weather)
         im_lines = ['-fuzz 0.5% -trim +repage'
                     ' -scale "96x96>" -unsharp 0x1'
                     ' -background none -gravity center -extent 96x96'
@@ -180,8 +179,8 @@ def get_pokemon_map_icon(pkm, gender=GENDER_UNSET, form=0, costume=0,
     # Add Pokemon icon
     if pogo_assets:
         source, target = pokemon_asset_path(
-            pkm, classifier='marker', gender=gender,
-            form=form, costume=costume, weather=weather)
+            pkm, classifier='marker', gender=gender, form=form,
+            costume=costume, evolution=evolution, weather=weather)
         target_size = 96
         im_lines.append(
             '-fuzz 0.5% -trim +repage'
@@ -225,7 +224,8 @@ def get_pokemon_map_icon(pkm, gender=GENDER_UNSET, form=0, costume=0,
 
 
 def get_gym_icon(team, level, raid_level=0, pkm=0, form=0, costume=0,
-                 ex_raid_eligible=False, in_battle=False):
+                 evolution=EVOLUTION_UNSET, ex_raid_eligible=False,
+                 in_battle=False):
     if not generate_images:
         return default_gym_image(team, level, raid_level, pkm)
 
@@ -234,12 +234,14 @@ def get_gym_icon(team, level, raid_level=0, pkm=0, form=0, costume=0,
         # Gym with ongoing raid.
         form_extension = '_F{}'.format(form) if form > 0 else ''
         costume_extension = '_C{}'.format(costume) if costume > 0 else ''
+        evolution_extension = '_E{}'.format(evolution) if evolution > 0 else ''
         out_filename = os.path.join(
             path_generated_gym,
-            "{}_L{}_R{}_P{}{}{}.png".format(team, level, raid_level, pkm,
-                                            form_extension, costume_extension)
+            "{}_L{}_R{}_P{}{}{}{}.png".format(
+                team, level, raid_level, pkm, form_extension,
+                costume_extension, evolution_extension)
         )
-        im_lines.extend(draw_raid_pokemon(pkm, form, costume))
+        im_lines.extend(draw_raid_pokemon(pkm, form, costume, evolution))
         im_lines.extend(draw_raid_level(raid_level))
         if level > 0:
             im_lines.extend(draw_gym_level(level, team))
@@ -276,9 +278,10 @@ def get_gym_icon(team, level, raid_level=0, pkm=0, form=0, costume=0,
     return run_imagemagick(gym_image, im_lines, out_filename)
 
 
-def draw_raid_pokemon(pkm, form, costume):
+def draw_raid_pokemon(pkm, form, costume, evolution):
     if pogo_assets:
-        pkm_path, dummy = pokemon_asset_path(pkm, form=form, costume=costume)
+        pkm_path, dummy = pokemon_asset_path(pkm, form=form, costume=costume,
+                                             evolution=evolution)
         trim = True
     else:
         pkm_path = os.path.join(path_icons, '{}.png'.format(pkm))
@@ -361,50 +364,48 @@ def battle_indicator_swords():
 def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
                        form=0, costume=0, evolution=EVOLUTION_UNSET,
                        shiny=False, weather=None):
-    gender_suffix = ''
-    gender_form_asset_suffix = ''
-    form_suffix = ''
-    costume_suffix = ''
-    costume_asset_suffix = ''
+    if gender == MALE or gender == FEMALE:
+        gender_suffix = gender_form_asset_suffix = '_{:02d}'.format(gender - 1)
+    else:
+        gender_suffix = gender_form_asset_suffix = '_00'
+    form_suffix = '_{:02d}'.format(form)
+    costume_suffix = '_{:02d}'.format(costume)
+    costume_asset_suffix = costume_suffix if costume > 0 else ''
+    evolution_suffix = '_{:02d}'.format(evolution)
     weather_suffix = '_{}'.format(weather_names[weather]) if weather else ''
     shiny_suffix = '_shiny' if shiny else ''
 
-    if gender in (MALE, FEMALE):
-        suffix = '_{:02d}'.format(gender - 1)
-    elif pkm > 0:
-        suffix = '_00'
-    gender_suffix = gender_form_asset_suffix = suffix
-
-    costume_suffix = '_{:02d}'.format(costume)
-    if costume:
-        costume_asset_suffix = costume_suffix
-
-    forms = get_pokemon_data(pkm).get('forms')
     should_use_asset_bundle_suffix = False
-    if forms:
-        if form and str(form) in forms:
-            form_data = forms[str(form)]
-        else:
-            # Default value is first form.
-            form_data = list(forms.values())[0]
 
-        asset_id = '00'
+    if evolution == MEGA or evolution == MEGA_X:
+        gender_form_asset_suffix = '_51'
+    elif evolution == MEGA_Y:
+        gender_form_asset_suffix = '_52'
+    else:
+        forms = get_pokemon_data(pkm).get('forms')
+        if forms:
+            if form and str(form) in forms:
+                form_data = forms[str(form)]
+            else:
+                # Default value is first form.
+                form_data = list(forms.values())[0]
 
-        if 'assetId' in form_data:
-            asset_id = form_data['assetId']
-        elif 'assetSuffix' in form_data:
-            should_use_asset_bundle_suffix = True
-            asset_id = form_data['assetSuffix']
+            asset_id = '00'
 
-        if asset_id != '00':
-            gender_form_asset_suffix = '_' + asset_id
-        form_suffix = '_{:02d}'.format(form)
+            if 'assetId' in form_data:
+                asset_id = form_data['assetId']
+            elif 'assetSuffix' in form_data:
+                should_use_asset_bundle_suffix = True
+                asset_id = form_data['assetSuffix']
+
+            if asset_id != '00':
+                gender_form_asset_suffix = '_' + asset_id
 
     assets_basedir = os.path.join(pogo_assets, 'pokemon_icons')
     if should_use_asset_bundle_suffix:
         assets_fullname = os.path.join(
-            assets_basedir, 'pokemon_icon{}.png'.format(
-                gender_form_asset_suffix))
+            assets_basedir, 'pokemon_icon{}{}.png'.format(
+                gender_form_asset_suffix, shiny_suffix))
     else:
         assets_fullname = os.path.join(
             assets_basedir, 'pokemon_icon_{:03d}{}{}{}.png'.format(
@@ -416,10 +417,10 @@ def pokemon_asset_path(pkm, classifier=None, gender=GENDER_UNSET,
             classifier)) if classifier else os.path.join(
         path_generated, 'pokemon')
     target_name = os.path.join(target_path,
-                               "pkm_{:03d}{}{}{}{}{}.png".format(
+                               "pkm_{:03d}{}{}{}{}{}{}.png".format(
                                    pkm, gender_suffix, form_suffix,
-                                   costume_suffix, weather_suffix,
-                                   shiny_suffix))
+                                   costume_suffix, evolution_suffix,
+                                   weather_suffix, shiny_suffix))
 
     if os.path.isfile(assets_fullname):
         return assets_fullname, target_name

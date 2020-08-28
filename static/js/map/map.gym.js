@@ -343,7 +343,7 @@ function gymLabel(gym) {
                 }
             })
 
-            let name = getPokemonNameWithForm(raid.pokemon_id, raid.form)
+            let name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             let fastMoveName = getMoveName(raid.move_1)
             let chargeMoveName = getMoveName(raid.move_2)
             let fastMoveType = getMoveTypeNoI8ln(raid.move_1)

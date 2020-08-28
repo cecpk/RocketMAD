@@ -79,8 +79,17 @@ function getPokemonIds() {
     return new Set(pokemonIds)
 }
 
-function getPokemonName(id) {
-    return i8ln(pokemonData[id].name)
+function getPokemonName(id, evolutionId = 0) {
+    switch(evolutionId) {
+        case 1:
+            return 'Mega ' + i8ln(pokemonData[id].name)
+        case 2:
+            return 'Mega ' + i8ln(pokemonData[id].name) + ' X'
+        case 3:
+            return 'Mega ' + i8ln(pokemonData[id].name) + ' Y'
+        default:
+            return i8ln(pokemonData[id].name)
+    }
 }
 
 function getPokemonTypes(pokemonId, formId) {
@@ -99,8 +108,8 @@ function getFormName(pokemonId, formId) {
     return 'forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms ? i8ln(pokemonData[pokemonId].forms[formId].formName) : ''
 }
 
-function getPokemonNameWithForm(pokemonId, formId) {
-    let name = getPokemonName(pokemonId)
+function getPokemonNameWithForm(pokemonId, formId, evolutionId = 0) {
+    let name = getPokemonName(pokemonId, evolutionId)
     const formName = getFormName(pokemonId, formId)
     if (formName !== '') {
         name += ` (${formName})`
@@ -140,19 +149,19 @@ function getPokemonRarityName(pokemonId) {
     return i8ln('New Spawn')
 }
 
-function getPokemonRawIconUrl(p) {
+function getPokemonRawIconUrl(pokemon) {
     if (!serverSettings.generateImages) {
-        return `static/icons/${p.pokemon_id}.png`
+        return `static/icons/${pokemon.pokemon_id}.png`
     }
-    var url = 'pkm_img?raw=1&pkm=' + p.pokemon_id
-    var props = ['gender', 'form', 'costume', 'shiny']
-    for (var i = 0; i < props.length; i++) {
-        var prop = props[i]
-        if (prop in p && p[prop] != null && p[prop]) {
-            url += '&' + prop + '=' + p[prop]
-        }
-    }
-    return url
+
+    const genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
+    const formParam = pokemon.form ? `&form=${pokemon.form}` : ''
+    const costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
+    const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
+    const shinyParm = pokemon.shiny ? '&shiny=1' : ''
+    const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
+
+    return `pkm_img?raw=1&pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${shinyParm}${weatherParam}`
 }
 
 function getPokemonMapIconUrl(pokemon) {
@@ -160,12 +169,13 @@ function getPokemonMapIconUrl(pokemon) {
         return `static/icons/${pokemon.pokemon_id}.png`
     }
 
-    let genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
-    let formParam = pokemon.form ? `&form=${pokemon.form}` : ''
-    let costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
-    let weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
+    const genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
+    const formParam = pokemon.form ? `&form=${pokemon.form}` : ''
+    const costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
+    const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
+    const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
 
-    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${weatherParam}`
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}`
 }
 
 function getIvsPercentage(atk, def, sta) {

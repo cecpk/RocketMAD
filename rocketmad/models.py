@@ -423,6 +423,7 @@ class Raid(db.Model):
     is_exclusive = db.Column(TINYINT)
     gender = db.Column(TINYINT)
     costume = db.Column(TINYINT)
+    evolution = db.Column(db.SmallInteger)
 
     __table_args__ = (
         Index('raid_level', 'level'),

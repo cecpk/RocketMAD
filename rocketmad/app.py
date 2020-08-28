@@ -27,6 +27,13 @@ from .blacklist import fingerprints, get_ip_blacklist
 from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
 from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
                      Weather)
+from .pogoprotos.enums.costume_pb2 import Costume
+from .pogoprotos.enums.form_pb2 import Form
+from .pogoprotos.enums.gender_pb2 import Gender
+from .pogoprotos.enums.pokemon_evolution_pb2 import PokemonEvolution
+from .pogoprotos.enums.pokemon_id_pb2 import PokemonId
+from .pogoprotos.enums.raid_level_pb2 import RaidLevel
+from .pogoprotos.enums.weather_condition_pb2 import WeatherCondition
 from .transform import transform_from_wgs_to_gcj
 from .utils import (dottedQuadToNum, get_args, get_pokemon_name, get_sessions,
                     i8ln, parse_geofence_file)
@@ -1026,43 +1033,65 @@ def create_app():
 
     @app.route('/pkm_img')
     def pokemon_img():
-        raw = 'raw' in request.args
-        pkm = int(request.args.get('pkm'))
-        weather = int(request.args.get('weather', '0'))
-        gender = int(request.args.get('gender', '0'))
-        form = int(request.args.get('form', '0'))
-        costume = int(request.args.get('costume', '0'))
-        shiny = 'shiny' in request.args
+        try:
+            raw = 'raw' in request.args
+            pkm = int(request.args.get('pkm'))
+            gender = int(request.args.get('gender', '0'))
+            form = int(request.args.get('form', '0'))
+            costume = int(request.args.get('costume', '0'))
+            evolution = int(request.args.get('evolution', '0'))
+            shiny = 'shiny' in request.args
+            weather = int(request.args.get('weather', '0'))
+
+            # An exception is thrown when values are invalid.
+            PokemonId.Name(pkm)
+            Gender.Name(gender)
+            Form.Name(form)
+            Costume.Name(costume)
+            PokemonEvolution.Name(evolution)
+            WeatherCondition.Name(weather)
+        except:
+            abort(400)
 
         if raw:
             filename = get_pokemon_raw_icon(
-                pkm, gender=gender, form=form,
-                costume=costume, weather=weather, shiny=shiny)
+                pkm, gender=gender, form=form, costume=costume,
+                evolution=evolution, shiny=shiny, weather=weather)
         else:
             filename = get_pokemon_map_icon(
-                pkm, weather=weather,
-                gender=gender, form=form, costume=costume)
+                pkm, gender=gender, form=form, costume=costume,
+                evolution=evolution, weather=weather)
         return send_file(filename, mimetype='image/png')
 
     @app.route('/gym_img')
     def gym_img():
-        team = request.args.get('team')
-        level = int(request.args.get('level'))
-        raid_level = int(request.args.get('raid-level', '0'))
-        pkm = int(request.args.get('pkm', '0'))
-        form = int(request.args.get('form', '0'))
-        costume = int(request.args.get('costume', '0'))
-        in_battle = 'in-battle' in request.args
-        ex_raid_eligible = 'ex-raid-eligible' in request.args
+        try:
+            team = request.args.get('team')
+            level = int(request.args.get('level'))
+            raid_level = int(request.args.get('raid-level', '0'))
+            pkm = int(request.args.get('pkm', '0'))
+            form = int(request.args.get('form', '0'))
+            costume = int(request.args.get('costume', '0'))
+            evolution = int(request.args.get('evolution', '0'))
+            in_battle = 'in-battle' in request.args
+            ex_raid_eligible = 'ex-raid-eligible' in request.args
 
-        if level < 0 or level > 6 or raid_level < 0 or raid_level > 6:
+            # An exception is thrown when values are invalid.
+            if level < 0 or level > 6:
+                raise ValueError()
+            RaidLevel.Name(raid_level)
+            PokemonId.Name(pkm)
+            Form.Name(form)
+            Costume.Name(costume)
+            PokemonEvolution.Name(evolution)
+        except:
             abort(400)
-        else:
-            return send_file(
-                get_gym_icon(team, level, raid_level, pkm, form, costume,
-                             ex_raid_eligible, in_battle),
-                mimetype='image/png'
-            )
+
+        return send_file(
+            get_gym_icon(team, level, raid_level, pkm, form, costume,
+                         evolution, ex_raid_eligible, in_battle),
+            mimetype='image/png'
+        )
 
     @app.route('/robots.txt')
     def render_robots_txt():
