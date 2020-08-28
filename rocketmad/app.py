@@ -1077,13 +1077,13 @@ def create_app():
             ex_raid_eligible = 'ex-raid-eligible' in request.args
 
             # An exception is thrown when values are invalid.
-            if level < 0 or level > 6:
-                raise ValueError()
             RaidLevel.Name(raid_level)
             PokemonId.Name(pkm)
             Form.Name(form)
             Costume.Name(costume)
             PokemonEvolution.Name(evolution)
+            if level < 0 or level > 6 or (pkm > 0 and raid_level == 0):
+                raise ValueError()
         except:
             abort(400)
 
