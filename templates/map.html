@@ -1125,6 +1125,8 @@
               </div>
             </div>
             {% endif %}
+            {% if settings.ranges %}
+            {% if settings.pokemons or settings.gyms or settings.pokestops or settings.spawnpoints %}
             <div class="form-control">
               <div class="switch">
                 <label>
@@ -1139,14 +1141,24 @@
                 <div class="input-field">
                   <div class="select-title">{{ i18n('Filter interaction ranges') }}</div>
                   <select id="range-type-select" multiple>
+                    {% if settings.pokemons %}
                     <option value="1">{{ i18n('Pokémon ranges') }}</option>
+                    {% endif %}
+                    {% if settings.gyms %}
                     <option value="2">{{ i18n('Gym ranges') }}</option>
+                    {% endif %}
+                    {% if settings.pokestops %}
                     <option value="3">{{ i18n('PokéStop ranges') }}</option>
+                    {% endif %}
+                    {% if settings.spawnpoints %}
                     <option value="4">{{ i18n('Spawn point ranges') }}</option>
+                    {% endif %}
                   </select>
                 </div>
               </div>
             </div>
+            {% endif %}
+            {% endif %}
           </div>
         </div>
       </li>
