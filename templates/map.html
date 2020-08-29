@@ -1125,8 +1125,7 @@
               </div>
             </div>
             {% endif %}
-            {% if settings.ranges %}
-            {% if settings.pokemons or settings.gyms or settings.pokestops or settings.spawnpoints %}
+            {% if settings.ranges and (settings.pokemons or settings.gyms or settings.pokestops or settings.spawnpoints) %}
             <div class="form-control">
               <div class="switch">
                 <label>
@@ -1157,7 +1156,6 @@
                 </div>
               </div>
             </div>
-            {% endif %}
             {% endif %}
           </div>
         </div>
