@@ -16,6 +16,10 @@ function isPokestopMeetsQuestFilters(pokestop) {
             case 7: {
                 return !settings.excludedQuestPokemon.has(pokestop.quest.pokemon_id)
             }
+            case 12: {
+                // TODO: mega energy filter.
+                return true
+            }
         }
     }
 
@@ -106,6 +110,10 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
             case 7:
                 shadowImage = getPokemonMapIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
                 shadowSize = [35, 35]
+                break
+            case 12:
+                shadowImage = getItemImageUrl(7)
+                shadowSize = [30, 30]
         }
     }
 
@@ -201,6 +209,12 @@ function pokestopLabel(pokestop) {
                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} #${quest.pokemon_id}`
                 isNotifQuest = settings.notifQuestPokemon.has(quest.pokemon_id)
                 break
+            }
+            case 12: {
+                rewardImageUrl = getItemImageUrl(7)
+                // TODO: add amount and pokemon name.
+                rewardText = getItemName(7)
+                // TODO: isNotifQuest = ...
             }
         }
 
@@ -582,7 +596,6 @@ function getPokestopNotificationInfo(pokestop) {
                     if (settings.notifQuestPokemon.has(pokestop.quest.pokemon_id)) {
                         questNotif = true
                     }
-                    break
                 }
             }
         }
@@ -635,7 +648,6 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
                     break
                 case 7:
                     notifTitle += `${getPokemonNameWithForm(pokestop.quest.pokemon_id, pokestop.quest.form_id)} Quest`
-                    break
             }
             notifText += `\nQuest task: ${pokestop.quest.task}`
         }

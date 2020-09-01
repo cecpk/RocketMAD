@@ -24,6 +24,9 @@
     "name": "Stardust",
     "questBundles": [200, 500, 800, 1000, 1200, 1500]
   },
+  "7": {
+    "name": "Mega Energy"
+  },
   "101": {
     "name": "Potion",
     "questBundles": [5]
