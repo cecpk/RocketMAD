@@ -560,9 +560,7 @@ class Pokestop(db.Model):
                     'pokemon_id': quest_orm.quest_pokemon_id,
                     'form_id': quest_orm.quest_pokemon_form_id,
                     'costume_id': quest_orm.quest_pokemon_costume_id,
-                    'stardust': quest_orm.quest_stardust,
-                    'mega_energy_pokemon_id': 0,
-                    'mega_energy_amount': 0
+                    'stardust': quest_orm.quest_stardust
                 }
             else:
                 pokestop['quest'] = None

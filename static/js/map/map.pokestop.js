@@ -17,7 +17,7 @@ function isPokestopMeetsQuestFilters(pokestop) {
                 return !settings.excludedQuestPokemon.has(pokestop.quest.pokemon_id)
             }
             case 12: {
-                let id = '7_' + pokestop.quest.mega_energy_amount
+                let id = '7_' + pokestop.quest.item_amount
                 return !settings.excludedQuestItems.includes(id)
             }
         }
@@ -218,10 +218,10 @@ function pokestopLabel(pokestop) {
                 break
             case 12:
                 rewardImageUrl = getItemImageUrl(7)
-                rewardText = `${quest.mega_energy_amount} ${getPokemonName(quest.mega_energy_pokemon_id)} ${getItemName(7)}`
-                excludeFunction = `excludeQuestItem(7,${quest.mega_energy_amount})`
-                notifFunction = `toggleQuestItemNotif(7,${quest.mega_energy_amount})`
-                isNotifQuest = settings.notifQuestItems.includes('7_' + quest.mega_energy_amount)
+                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
+                excludeFunction = `excludeQuestItem(7,${quest.item_amount})`
+                notifFunction = `toggleQuestItemNotif(7,${quest.item_amount})`
+                isNotifQuest = settings.notifQuestItems.includes('7_' + quest.item_amount)
         }
 
         const notifText = isNotifQuest ? 'Don\'t notify' : 'Notify'
@@ -595,7 +595,7 @@ function getPokestopNotificationInfo(pokestop) {
                     break
                 }
                 case 12: {
-                    let itemId = '7_' + pokestop.quest.mega_energy_amount
+                    let itemId = '7_' + pokestop.quest.item_amount
                     if (settings.notifQuestItems.includes(itemId)) {
                         questNotif = true
                     }
@@ -653,7 +653,7 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
                     notifTitle += `${getPokemonNameWithForm(pokestop.quest.pokemon_id, pokestop.quest.form_id)} Quest`
                     break
                 case 12:
-                    notifTitle += `${pokestop.quest.mega_energy_amount} ${getPokemonName(pokestop.quest.mega_energy_pokemon_id)} ${getItemName(7)} Quest`
+                    notifTitle += `${pokestop.quest.item_amount} ${getPokemonName(pokestop.quest.pokemon_id)} ${getItemName(7)} Quest`
             }
             notifText += `\nQuest task: ${pokestop.quest.task}`
         }
