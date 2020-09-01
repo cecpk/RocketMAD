@@ -240,7 +240,7 @@ function updateGymSidebar(id) {
         const levelStars = '★'.repeat(raid.level)
 
         if (isOngoingRaid(raid) && raid.pokemon_id) {
-            const name = getPokemonNameWithForm(raid.pokemon_id, raid.form)
+            const name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             const fastMoveName = getMoveName(raid.move_1)
             const chargeMoveName = getMoveName(raid.move_2)
             const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
@@ -711,7 +711,7 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
             var fastMoveName = getMoveName(raid.move_1)
             var chargeMoveName = getMoveName(raid.move_2)
 
-            notifTitle = `${getPokemonNameWithForm(raid.pokemon_id, raid.form)} Raid (L${raid.level})`
+            notifTitle = `${getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)} Raid (L${raid.level})`
             notifText = `Gym: ${gymName}\nEnds at ${expireTime} (${expireTimeCountdown})\nMoves: ${fastMoveName} / ${chargeMoveName}`
             iconUrl = getPokemonRawIconUrl(raid)
         }
