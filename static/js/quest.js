@@ -146,7 +146,9 @@ $(function () {
                             case 7:
                                 rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
                                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
-                                break
+                            case 12:
+                                rewardImageUrl = getItemImageUrl(7)
+                                rewardText = getItemName(7)
                         }
 
                         return `
@@ -167,6 +169,8 @@ $(function () {
                                 return getItemName(6) + ' ' + quest.stardust
                             case 7:
                                 return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
+                            case 12:
+                                return getItemName(7)
                         }
                     }
 
@@ -177,6 +181,8 @@ $(function () {
                             return quest.stardust + ' ' + getItemName(6)
                         case 7:
                             return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
+                        case 12:
+                            return getItemName(7)
                     }
                 }
             }
