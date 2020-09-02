@@ -3261,7 +3261,7 @@ function updateMap({
         if (result.allGyms && getAllGymsTimestamp <= requestTimestamp) {
             getAllGyms = false
         }
-        if (result.allPokestops && getAllPokemonTimestamp <= requestTimestamp) {
+        if (result.allPokestops && getAllPokestopsTimestamp <= requestTimestamp) {
             getAllPokestops = false
         }
         if (result.allWeather && getAllWeatherTimestamp <= requestTimestamp) {
