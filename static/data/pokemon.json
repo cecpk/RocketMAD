@@ -1,4 +1,13 @@
 {
+  "0": {
+    "name": "MissingNo.",
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#78c850"
+      }
+    ]
+  },
   "1": {
     "name": "Bulbasaur",
     "types": [

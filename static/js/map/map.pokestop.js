@@ -17,8 +17,8 @@ function isPokestopMeetsQuestFilters(pokestop) {
                 return !settings.excludedQuestPokemon.has(pokestop.quest.pokemon_id)
             }
             case 12: {
-                // TODO: mega energy filter.
-                return true
+                let id = '7_' + pokestop.quest.item_amount
+                return !settings.excludedQuestItems.includes(id)
             }
         }
     }
@@ -197,39 +197,35 @@ function pokestopLabel(pokestop) {
             case 2:
                 rewardImageUrl = getItemImageUrl(quest.item_id)
                 rewardText = quest.item_amount + ' ' + getItemName(quest.item_id)
+                excludeFunction = `excludeQuestItem(${quest.item_id},${quest.item_amount})`
+                notifFunction = `toggleQuestItemNotif(${quest.item_id},${quest.item_amount})`
                 isNotifQuest = settings.notifQuestItems.includes(quest.item_id + '_' + quest.item_amount)
                 break
             case 3:
                 rewardImageUrl = getItemImageUrl(6)
                 rewardText = quest.stardust + ' ' + getItemName(6)
-                isNotifQuest = settings.notifQuestItems.includes('6_' + quest.item_amount)
+                excludeFunction = `excludeQuestItem(6,${quest.stardust})`
+                notifFunction = `toggleQuestItemNotif(6,${quest.stardust})`
+                isNotifQuest = settings.notifQuestItems.includes('6_' + quest.stardust)
                 break
-            case 7: {
+            case 7:
                 rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} #${quest.pokemon_id}`
+                excludeFunction = `excludeQuestPokemon(${quest.pokemon_id})`
+                notifFunction = `toggleQuestPokemonNotif(${quest.pokemon_id})`
+                infoButtonDisplay = `<a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>`
                 isNotifQuest = settings.notifQuestPokemon.has(quest.pokemon_id)
                 break
-            }
-            case 12: {
+            case 12:
                 rewardImageUrl = getItemImageUrl(7)
-                // TODO: add amount and pokemon name.
-                rewardText = getItemName(7)
-                // TODO: isNotifQuest = ...
-            }
+                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
+                excludeFunction = `excludeQuestItem(7,${quest.item_amount})`
+                notifFunction = `toggleQuestItemNotif(7,${quest.item_amount})`
+                isNotifQuest = settings.notifQuestItems.includes('7_' + quest.item_amount)
         }
 
         const notifText = isNotifQuest ? 'Don\'t notify' : 'Notify'
         const notifIconClass = isNotifQuest ? 'fas fa-bell-slash' : 'fas fa-bell'
-        if (quest.reward_type === 7) {
-            excludeFunction = `excludeQuestPokemon(${quest.pokemon_id})`
-            notifFunction = `toggleQuestPokemonNotif(${quest.pokemon_id})`
-            infoButtonDisplay = `<a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>`
-        } else {
-            const itemId = quest.reward_type === 2 ? quest.item_id : 6
-            const itemAmount = quest.reward_type === 2 ? quest.item_amount : quest.stardust
-            excludeFunction = `excludeQuestItem(${itemId},${itemAmount})`
-            notifFunction = `toggleQuestItemNotif(${itemId},${itemAmount})`
-        }
 
         questDisplay = `
             <div class='section-divider'></div>
@@ -596,6 +592,13 @@ function getPokestopNotificationInfo(pokestop) {
                     if (settings.notifQuestPokemon.has(pokestop.quest.pokemon_id)) {
                         questNotif = true
                     }
+                    break
+                }
+                case 12: {
+                    let itemId = '7_' + pokestop.quest.item_amount
+                    if (settings.notifQuestItems.includes(itemId)) {
+                        questNotif = true
+                    }
                 }
             }
         }
@@ -644,10 +647,13 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
                     notifTitle += `${pokestop.quest.item_amount} ${getItemName(pokestop.quest.item_id)}(s) Quest`
                     break
                 case 3:
-                    notifTitle += `${pokestop.quest.stardust} ${i8ln('Stardust')} Quest`
+                    notifTitle += `${pokestop.quest.stardust} ${getItemName(6)} Quest`
                     break
                 case 7:
                     notifTitle += `${getPokemonNameWithForm(pokestop.quest.pokemon_id, pokestop.quest.form_id)} Quest`
+                    break
+                case 12:
+                    notifTitle += `${pokestop.quest.item_amount} ${getPokemonName(pokestop.quest.pokemon_id)} ${getItemName(7)} Quest`
             }
             notifText += `\nQuest task: ${pokestop.quest.task}`
         }

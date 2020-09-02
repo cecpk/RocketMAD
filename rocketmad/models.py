@@ -551,19 +551,17 @@ class Pokestop(db.Model):
             quest_orm = r[1] if quests else None
             pokestop = orm_to_dict(pokestop_orm)
             if quest_orm is not None:
-                quest = {}
-                quest['pokestop_id'] = quest_orm.GUID
-                quest['scanned_at'] = quest_orm.quest_timestamp * 1000
-                quest['task'] = quest_orm.quest_task
-                quest['type'] = quest_orm.quest_type
-                quest['stardust'] = quest_orm.quest_stardust
-                quest['pokemon_id'] = quest_orm.quest_pokemon_id
-                quest['form_id'] = quest_orm.quest_pokemon_form_id
-                quest['costume_id'] = quest_orm.quest_pokemon_costume_id
-                quest['reward_type'] = quest_orm.quest_reward_type
-                quest['item_id'] = quest_orm.quest_item_id
-                quest['item_amount'] = quest_orm.quest_item_amount
-                pokestop['quest'] = quest
+                pokestop['quest'] = {
+                    'scanned_at': quest_orm.quest_timestamp * 1000,
+                    'task': quest_orm.quest_task,
+                    'reward_type': quest_orm.quest_reward_type,
+                    'item_id': quest_orm.quest_item_id,
+                    'item_amount': quest_orm.quest_item_amount,
+                    'pokemon_id': quest_orm.quest_pokemon_id,
+                    'form_id': quest_orm.quest_pokemon_form_id,
+                    'costume_id': quest_orm.quest_pokemon_costume_id,
+                    'stardust': quest_orm.quest_stardust
+                }
             else:
                 pokestop['quest'] = None
             if (pokestop['incident_expiration'] is not None and

@@ -149,7 +149,7 @@ $(function () {
                                 break
                             case 12:
                                 rewardImageUrl = getItemImageUrl(7)
-                                rewardText = getItemName(7)
+                                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
                         }
 
                         return `
@@ -171,7 +171,7 @@ $(function () {
                             case 7:
                                 return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
                             case 12:
-                                return getItemName(7)
+                                return `${getItemName(7)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
                         }
                     }
 
@@ -183,7 +183,7 @@ $(function () {
                         case 7:
                             return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
                         case 12:
-                            return getItemName(7)
+                            return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
                     }
                 }
             }
