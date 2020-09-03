@@ -92,7 +92,7 @@ function updateStatsTable() {
                         eggCount++
                         eggCounts[raid.level - 1]++
                     } else if (raid.pokemon_id) {
-                        const key = raid.pokemon_id + '_' + raid.form + '_' + raid.costume
+                        const key = raid.pokemon_id + '_' + raid.form + '_' + raid.costume + '_' + raid.evolution
                         raidPokemonCount++
                         if (!raidPokemonData.hasOwnProperty(key)) {
                             raidPokemonData[key] = {
