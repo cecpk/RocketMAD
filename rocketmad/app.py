@@ -328,7 +328,8 @@ def create_app():
                         and not user_args.no_quests
                         and not user_args.no_quest_page),
             analytics_id=user_args.analytics_id,
-            settings=settings
+            settings=settings,
+            i18n=i8ln
         )
 
     @app.route('/quests')
@@ -379,7 +380,8 @@ def create_app():
             pokemon_history_page=(not user_args.no_pokemon
                                   and not user_args.no_pokemon_history_page),
             analytics_id=user_args.analytics_id,
-            settings=settings
+            settings=settings,
+            i18n=i8ln
         )
 
     @app.route('/mobile')
@@ -444,7 +446,8 @@ def create_app():
             origin_lat=lat,
             origin_lng=lon,
             analytics_id=user_args.analytics_id,
-            settings=settings
+            settings=settings,
+            i18n=i8ln
         )
 
     @app.route('/login')
@@ -486,7 +489,8 @@ def create_app():
                                   and not args.no_pokemon_history_page),
             quest_page=(not args.no_pokestops and not args.no_quests
                         and not args.no_quest_page),
-            settings=settings
+            settings=settings,
+            i18n=i8ln
         )
 
     @app.route('/login/<auth_type>')
@@ -538,7 +542,8 @@ def create_app():
             quest_page=(not args.no_pokestops and not args.no_quests
                         and not args.no_quest_page),
             analytics_id=args.analytics_id,
-            settings=settings
+            settings=settings,
+            i18n=i8ln
         )
 
     @app.route('/login/telegram')
@@ -576,7 +581,8 @@ def create_app():
             analytics_id=args.analytics_id,
             telegram_bot_username=args.telegram_bot_username,
             server_uri=args.server_uri,
-            settings=settings
+            settings=settings,
+            i18n=i8ln
         )
 
     @app.route('/auth/<auth_type>')
@@ -671,7 +677,8 @@ def create_app():
             quest_page=(not user_args.no_pokestops
                         and not user_args.no_quests
                         and not user_args.no_quest_page),
-            settings=settings
+            settings=settings,
+            i18n=i8ln
         )
 
     @app.route('/raw-data')

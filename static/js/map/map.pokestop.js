@@ -223,7 +223,7 @@ function pokestopLabel(pokestop) {
                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} #${quest.pokemon_id}`
                 excludeFunction = `excludeQuestPokemon(${quest.pokemon_id})`
                 notifFunction = `toggleQuestPokemonNotif(${quest.pokemon_id})`
-                infoButtonDisplay = `<a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>`
+                infoButtonDisplay = `<a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' class='link-button' target='_blank' title='${i8ln('View on GamePress')}'><i class="fas fa-info-circle"></i></a>`
                 isNotifQuest = settings.notifQuestPokemon.has(quest.pokemon_id)
                 break
             case 12:
@@ -234,7 +234,7 @@ function pokestopLabel(pokestop) {
                 isNotifQuest = settings.notifQuestItems.includes('7_' + quest.item_amount)
         }
 
-        const notifText = isNotifQuest ? 'Don\'t notify' : 'Notify'
+        const notifText = isNotifQuest ? i8ln('Don\'t notify') : i8ln('Notify')
         const notifIconClass = isNotifQuest ? 'fas fa-bell-slash' : 'fas fa-bell'
 
         questDisplay = `
@@ -247,22 +247,22 @@ function pokestopLabel(pokestop) {
               </div>
               <div class='pokestop-container-right'>
                 <div class='title'>
-                  Quest
+                  ${i8ln('Quest')}
                 </div>
                 <div class='info-container'>
                   <div>
-                    Task: <strong>${quest.task}</strong>
+                    ${i8ln('Task')}: <strong>${quest.task}</strong>
                   </div>
                   <div>
-                    Reward: <strong>${rewardText}</strong>
+                    ${i8ln('Reward')}: <strong>${rewardText}</strong>
                   </div>
                   <div>
-                    Scanned: <strong>${timestampToDateTime(quest.scanned_at)}</strong>
+                    ${i8ln('Scanned')}: <strong>${timestampToDateTime(quest.scanned_at)}</strong>
                   </div>
                 </div>
                 <div>
                   <a href='javascript:${notifFunction}' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                  <a href='javascript:${excludeFunction}' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                  <a href='javascript:${excludeFunction}' class='link-button' title=${i8ln('Hide')}><i class="fas fa-eye-slash"></i></a>
                   ${infoButtonDisplay}
                 </div>
               </div>
@@ -276,7 +276,7 @@ function pokestopLabel(pokestop) {
         const invasionType = getInvasionType(invasionId)
         const pokemon = getInvasionPokemon(invasionId)
         const isNotifInvasion = settings.notifInvasions.includes(invasionId)
-        const notifText = isNotifInvasion ? 'Don\'t notify' : 'Notify'
+        const notifText = isNotifInvasion ? i8ln('Don\'t notify') : i8ln('Notify')
         const notifIconClass = isNotifInvasion ? 'fas fa-bell-slash' : 'fas fa-bell'
         let typeDisplay = ''
         let pokemonDisplay = ''
@@ -291,9 +291,9 @@ function pokestopLabel(pokestop) {
         if (pokemon) {
             const ballDisplay = `<img src='${getItemImageUrl(5)}' width='18' height='18'/>`
             if (settings.showInvasionPokemon) {
-                pokemonDisplay = '<div class="invasion-pokemon-toggle" onclick="toggleInvasionPokemon()">Hide Pokémon <i class="fas fa-chevron-up"></i></div><div class="invasion-pokemon-container">'
+                pokemonDisplay = `<div class="invasion-pokemon-toggle" onclick="toggleInvasionPokemon()">${i8ln('Hide Pokémon')} <i class="fas fa-chevron-up"></i></div><div class="invasion-pokemon-container">`
             } else {
-                pokemonDisplay = '<div class="invasion-pokemon-toggle" onclick="toggleInvasionPokemon()">Show Pokémon <i class="fas fa-chevron-down"></i></div><div class="invasion-pokemon-container" style="display:none;">'
+                pokemonDisplay = `<div class="invasion-pokemon-toggle" onclick="toggleInvasionPokemon()">${i8ln('Show Pokémon')} <i class="fas fa-chevron-down"></i></div><div class="invasion-pokemon-container" style="display:none;">`
             }
 
             for (let i = 1; i < 4; i++) {
@@ -320,7 +320,7 @@ function pokestopLabel(pokestop) {
               <div class='pokestop-container-right'>
                 <div class='title invasion'>
                   <div>
-                    Team GO Rocket Invasion
+                    ${i8ln('Team GO Rocket Invasion')}
                   </div>
                 </div>
                 <div class='disappear'>
@@ -329,13 +329,13 @@ function pokestopLabel(pokestop) {
                 <div class='info-container'>
                   ${typeDisplay}
                   <div>
-                    Grunt: <strong>${grunt}</strong>
+                    ${i8ln('Grunt')}: <strong>${grunt}</strong>
                   </div>
                   ${pokemonDisplay}
                 </div>
                 <div>
                   <a href='javascript:toggleInvasionNotif(${invasionId})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                  <a href='javascript:excludeInvasion(${invasionId})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                  <a href='javascript:excludeInvasion(${invasionId})' class='link-button' title=${i8ln('Hide')}><i class="fas fa-eye-slash"></i></a>
                 </div>
               </div>
             </div>`
@@ -347,7 +347,7 @@ function pokestopLabel(pokestop) {
         lureDisplay = `
             <div class='lure-container ${lureClass}'>
               <div class='title'>
-                ${lureTypes[pokestop.active_fort_modifier]} Lure
+                ${i8ln(lureTypes[pokestop.active_fort_modifier] + ' Lure')}
               </div>
               <div class='disappear'>
                 ${timestampToTime(lureExpireTime)} (<span class='label-countdown' disappears-at='${lureExpireTime}'>00m00s</span>)
@@ -371,10 +371,10 @@ function pokestopLabel(pokestop) {
               </div>
               ${lureDisplay}
               <div>
-                Last scanned: <strong>${timestampToDateTime(pokestop.last_updated)}</strong>
+                ${i8ln('Last scanned')}: <strong>${timestampToDateTime(pokestop.last_updated)}</strong>
               </div>
               <div>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${pokestop.latitude},${pokestop.longitude},"${settings.mapServiceProvider}");' title='${i8ln('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${pokestop.latitude.toFixed(5)}, ${pokestop.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
@@ -650,22 +650,22 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
     if (settings.showBrowserPopups) {
         const pokestopName = pokestop.name !== null && pokestop.name !== '' ? pokestop.name : 'unknown'
         let notifTitle = ''
-        let notifText = 'PokéStop: ' + pokestopName
+        let notifText = i8ln('PokéStop') + ': ' + pokestopName
         if (questNotif) {
             switch (pokestop.quest.reward_type) {
                 case 2:
-                    notifTitle += `${pokestop.quest.item_amount} ${getItemName(pokestop.quest.item_id)}(s) Quest`
+                    notifTitle += `${i8ln('Quest')}: ${pokestop.quest.item_amount} ${getItemName(pokestop.quest.item_id)}(s)`
                     break
                 case 3:
-                    notifTitle += `${pokestop.quest.stardust} ${getItemName(6)} Quest`
+                    notifTitle += `${i8ln('Quest')}: ${pokestop.quest.stardust} ${getItemName(6)}`
                     break
                 case 7:
-                    notifTitle += `${getPokemonNameWithForm(pokestop.quest.pokemon_id, pokestop.quest.form_id)} Quest`
+                    notifTitle += `${i8ln('Quest')}: ${getPokemonNameWithForm(pokestop.quest.pokemon_id, pokestop.quest.form_id)}`
                     break
                 case 12:
-                    notifTitle += `${pokestop.quest.item_amount} ${getPokemonName(pokestop.quest.pokemon_id)} ${getItemName(7)} Quest`
+                    notifTitle += `${i8ln('Quest')}: ${pokestop.quest.item_amount} ${getPokemonName(pokestop.quest.pokemon_id)} ${getItemName(7)}`
             }
-            notifText += `\nQuest task: ${pokestop.quest.task}`
+            notifText += `\n${i8ln('Quest task')}: ${pokestop.quest.task}`
         }
         if (invasionNotif) {
             const expireTime = timestampToTime(pokestop.incident_expiration)
@@ -676,8 +676,8 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
             if (questNotif) {
                 notifTitle += ' & '
             }
-            notifTitle += `${getInvasionType(pokestop.incident_grunt_type)} (${getInvasionGrunt(pokestop.incident_grunt_type)}) Invasion`
-            notifText += `\nInvasion ends at ${expireTime} (${expireTimeCountdown})`
+            notifTitle += `${i8ln('Invasion')}: ${getInvasionType(pokestop.incident_grunt_type)} (${getInvasionGrunt(pokestop.incident_grunt_type)})`
+            notifText += `\n${i8ln('Invasion ends at')} ${expireTime} (${expireTimeCountdown})`
         }
         if (lureNotif) {
             const expireTime = timestampToTime(pokestop.lure_expiration)
@@ -688,8 +688,8 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
             if (questNotif || invasionNotif) {
                 notifTitle += ' & '
             }
-            notifTitle += `${lureTypes[pokestop.active_fort_modifier]} Lure`
-            notifText += `\nLure ends at ${expireTime} (${expireTimeCountdown})`
+            notifTitle += i8ln(lureTypes[pokestop.active_fort_modifier] + ' Lure')
+            notifText += `\n${i8ln('Lure ends at')} ${expireTime} (${expireTimeCountdown})`
         }
 
         sendNotification(notifTitle, notifText, getPokestopIconUrlFiltered(pokestop), pokestop.latitude, pokestop.longitude)

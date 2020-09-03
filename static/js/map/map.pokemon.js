@@ -230,19 +230,19 @@ function pokemonLabel(item) {
         statsDisplay = `
             <div class='info-container'>
               <div>
-                IV: <strong><span style='color: ${ivColor};'>${iv}%</span></strong> (A<strong>${atk}</strong> | D<strong>${def}</strong> | S<strong>${sta}</strong>)
+                ${i8ln('IV')}: <strong><span style='color: ${ivColor};'>${iv}%</span></strong> (A<strong>${atk}</strong> | D<strong>${def}</strong> | S<strong>${sta}</strong>)
               </div>
               <div>
-                CP: <strong>${cp}</strong> | Level: <strong>${level}</strong>
+                ${i8ln('CP')}: <strong>${cp}</strong> | ${i8ln('Level')}: <strong>${level}</strong>
               </div>
               <div>
-               Fast: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i8ln(move1Type)}' width='15'>
+               ${i8ln('Fast move')}: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i8ln(move1Type)}' width='15'>
               </div>
               <div>
-               Charge: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i8ln(move2Type)}' width='15'>
+               ${i8ln('Charge move')}: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i8ln(move2Type)}' width='15'>
               </div>
               <div>
-                Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
+                ${i8ln('Weight')}: <strong>${weight}kg</strong> | ${i8ln('Height')}: <strong>${height}m</strong>
               </div>
               ${catchRatesDisplay}
             </div>`
@@ -274,7 +274,7 @@ function pokemonLabel(item) {
             </div>`
     }
 
-    const notifText = settings.notifPokemon.has(id) ? 'Don\'t notify' : 'Notify'
+    const notifText = settings.notifPokemon.has(id) ? i8ln('Don\'t notify') : i8ln('Notify')
     const notifIconClass = settings.notifPokemon.has(id) ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
@@ -299,13 +299,13 @@ function pokemonLabel(item) {
               ${statsDisplay}
               ${genRarityDisplayRight}
               <div class='coordinates'>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='${i8ln('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
               </div>
               <div>
                 <a href='javascript:togglePokemonNotif(${id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                <a href='javascript:excludePokemon(${id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                <a href='javascript:excludePokemon(${id})' class='link-button' title=${i8ln('Hide')}><i class="fas fa-eye-slash"></i></a>
                 <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
-                <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
+                <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='${i8ln('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
               </div>
             </div>
           </div>
@@ -567,14 +567,14 @@ function sendPokemonNotification(pokemon) {
         let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
         expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-        notifText = `Disappears at ${expireTime} (${expireTimeCountdown})`
+        notifText = `${i8ln('Disappears at')} ${expireTime} (${expireTimeCountdown})`
 
         if (settings.showPokemonValues && pokemon.individual_attack != null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             notifTitle += ` ${ivsPercentage}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon.cp_multiplier)}`
             const move1 = getMoveName(pokemon.move_1)
             const move2 = getMoveName(pokemon.move_2)
-            notifText += `\nMoves: ${move1} / ${move2}`
+            notifText += `\n${i8ln('Moves')}: ${move1} / ${move2}`
         }
 
         sendNotification(notifTitle, notifText, getPokemonRawIconUrl(pokemon, serverSettings.generateImages), pokemon.latitude, pokemon.longitude)

@@ -77,6 +77,9 @@ $(function () {
 
     table = $('#quest-table').DataTable({
         responsive: true,
+        language: {
+            url: getDataTablesLocUrl()
+        },
         columnDefs: [
             {
                 targets: 0,
@@ -97,7 +100,7 @@ $(function () {
                                   ${pokestopName}
                                 </div>
                                 <div>
-                                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${data.latitude},${data.longitude},"${Store.get('mapServiceProvider')}");' title='Open in ${mapServiceProviderNames[Store.get('mapServiceProvider')]}'><i class="fas fa-map-marked-alt"></i> ${data.latitude.toFixed(5)}, ${data.longitude.toFixed(5)}</a>
+                                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${data.latitude},${data.longitude},"${Store.get('mapServiceProvider')}");' title='${i8ln('Open in')} ${mapServiceProviderNames[Store.get('mapServiceProvider')]}'><i class="fas fa-map-marked-alt"></i> ${data.latitude.toFixed(5)}, ${data.longitude.toFixed(5)}</a>
                                 </div>
                               </div>
                             </div>
@@ -135,7 +138,7 @@ $(function () {
                                 break
                             case 7:
                                 rewardImageUrl = getPokemonRawIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
-                                rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
+                                rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='${i8ln('View on GamePress')}'>#${quest.pokemon_id}</a>`
                                 break
                             case 12:
                                 rewardImageUrl = getItemImageUrl(7)

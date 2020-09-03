@@ -126,7 +126,7 @@ function updateHistory() {
     $('.preloader-wrapper').show()
 
     loadRawData().done(function (result) {
-        $('#pokemon-seen').html(result.seen.total.toLocaleString() + ' Pokémon seen in ' + $('#duration-select option:selected').text().toLowerCase())
+        $('#pokemon-seen').html(result.seen.total.toLocaleString() + ' ' + i8ln('Pokémon seen in') + ' ' + $('#duration-select option:selected').text().toLowerCase())
 
         table.clear()
         for (let i = 0; i < result.seen.pokemon.length; i++) {
@@ -139,7 +139,7 @@ function updateHistory() {
                 item.count,
                 (item.count / result.seen.total) * 100,
                 item.disappear_time,
-                `<a href="javascript:void(0);" onclick="javascript:showMapOverlay(${item.pokemon_id}, ${item.form});">All locations</a>`
+                `<a href="javascript:void(0);" onclick="javascript:showMapOverlay(${item.pokemon_id}, ${item.form});">${i8ln('All locations')}</a>`
             ])
         }
         table.draw()
@@ -162,7 +162,7 @@ function createOverlayCloseButton() {
 
         const closeButton = document.createElement('a')
         closeButton.innerHTML = '<i class="material-icons">close</i>'
-        closeButton.title = 'Close map'
+        closeButton.title = i8ln('Close map')
         closeButton.href = 'javascript:void(0);'
         container.appendChild(closeButton)
         closeButton.addEventListener('click', hideMapOverlay)
@@ -198,8 +198,8 @@ function initMap() {
     heatLayer = L.heatLayer([], { radius: 50 }).addTo(map)
 
     const overlayMaps = {
-        Markers: markers,
-        'Heat map': heatLayer
+        [i8ln('Markers')]: markers,
+        [i8ln('Heat map')]: heatLayer
     }
     L.control.layers(null, overlayMaps).addTo(map)
 
@@ -262,16 +262,16 @@ function appearanceTab(item) {
               <a href="javascript:closeTimes();" title="Close appearances"><i class="material-icons">close</i></a>
             </div>
             <div>
-              <strong>Lat:</strong> ${item.latitude.toFixed(7)}
+              <strong>${i8ln('Lat')}:</strong> ${item.latitude.toFixed(7)}
             </div>
             <div>
-              <strong>Lng:</strong> ${item.longitude.toFixed(7)}
+              <strong>${i8ln('Lng')}:</strong> ${item.longitude.toFixed(7)}
             </div>
             <div style="margin-bottom:1em;">
-              <strong>Times seen:</strong> ${item.count.toLocaleString()}
+              <strong>${i8ln('Times seen')}:</strong> ${item.count.toLocaleString()}
             </div>
             <div>
-              <strong>Appearances:</strong>
+              <strong>${i8ln('Appearances')}:</strong>
             </div>
             ${times}`
     })
@@ -337,6 +337,9 @@ $(function () {
         info: false,
         order: [[4, 'desc']],
         responsive: true,
+        language: {
+            url: getDataTablesLocUrl()
+        },
         columnDefs: [
             { orderable: false, targets: [0, 7] },
             { type: formNameType, targets: 3 },
@@ -352,7 +355,7 @@ $(function () {
                 targets: 1,
                 render: function (data, type, row) {
                     if (type === 'display') {
-                        return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title="View on GamePress">#${row[1]}</a>`
+                        return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title="${i8ln('View on GamePress')}">#${row[1]}</a>`
                     }
                     return row[1]
                 }

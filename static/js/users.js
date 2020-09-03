@@ -50,6 +50,9 @@ $(function () {
 
     table = $('#user-table').DataTable({
         responsive: true,
+        language: {
+            url: getDataTablesLocUrl()
+        },
         columnDefs: [
             {
                 targets: 0,

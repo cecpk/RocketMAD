@@ -1366,7 +1366,7 @@ function initSettingsSidebar() {
     if (serverSettings.gymFilters) {
         $('#gym-filters-wrapper').toggle(settings.showGyms)
         $('#gym-team-select').val(settings.includedGymTeams)
-        $('#gym-level-slider-title').text(`${i8ln('Gym levels')} (${settings.minGymLevel} - ${settings.maxGymLevel})`)
+        $('#gym-level-slider-title').text(`${$('#gym-level-slider-title').text()} (${settings.minGymLevel} - ${settings.maxGymLevel})`)
         $('#gym-open-spot-switch').prop('checked', settings.showOpenSpotGymsOnly)
         $('#gym-ex-eligible-switch').prop('checked', settings.showExGymsOnly)
         $('#gym-in-battle-switch').prop('checked', settings.showInBattleGymsOnly)

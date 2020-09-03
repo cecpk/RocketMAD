@@ -92,11 +92,11 @@ function getPokemonIds() {
 function getPokemonName(id, evolutionId = 0) {
     switch (evolutionId) {
         case 1:
-            return 'Mega ' + i8ln(pokemonData[id].name)
+            return i8ln('Mega') + ' ' + i8ln(pokemonData[id].name)
         case 2:
-            return 'Mega ' + i8ln(pokemonData[id].name) + ' X'
+            return i8ln('Mega') + ' ' + i8ln(pokemonData[id].name) + ' X'
         case 3:
-            return 'Mega ' + i8ln(pokemonData[id].name) + ' Y'
+            return i8ln('Mega') + ' ' + i8ln(pokemonData[id].name) + ' Y'
         default:
             return i8ln(pokemonData[id].name)
     }

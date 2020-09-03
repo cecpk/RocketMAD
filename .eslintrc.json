@@ -75,6 +75,7 @@
     "language": "readonly",
     "initI8lnDictionary": "readonly",
     "i8ln": "readonly",
+    "getDataTablesLocUrl": "readonly",
     "genderClasses": "readonly",
     "initPokemonData": "readonly",
     "initMoveData": "readonly",
