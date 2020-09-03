@@ -27,7 +27,7 @@ function updateStatsTable() {
                     pokemonData[key] = {
                         'count': 1,
                         'id': pokemon.pokemon_id,
-                        'name': getPokemonName(pokemon.pokemon_id),
+                        'name': getPokemonNameWithForm(pokemon.pokemon_id, pokemon.form),
                         'form': pokemon.form,
                         'costume': pokemon.costume
                     }
@@ -99,9 +99,10 @@ function updateStatsTable() {
                                 'count': 1,
                                 'level': raid.level,
                                 'id': raid.pokemon_id,
-                                'name': getPokemonName(raid.pokemon_id),
+                                'name': getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution),
                                 'form': raid.form,
-                                'costume': raid.costume
+                                'costume': raid.costume,
+                                'evolution': raid.evolution
                             }
                         } else {
                             raidPokemonData[key].count++
@@ -141,7 +142,7 @@ function updateStatsTable() {
 
         let raidPokemonRows = []
         $.each(raidPokemonData, function (key, data) {
-            const pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.id, 'form': data.form, 'costume': data.costume})
+            const pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.id, 'form': data.form, 'costume': data.costume, 'evolution': data.evolution})
             raidPokemonRows.push(
                 [
                     '<img src="' + pokemonIcon + '" width=32 />',
