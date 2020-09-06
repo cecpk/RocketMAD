@@ -26,6 +26,7 @@ module.exports = function (grunt) {
         concat: {
             dist1: {
                 src: [
+                    'static/js/vendor/long.js', 'static/js/vendor/s2geometry.js',
                     'static/js/utils/utils.gym.js', 'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.item.js',
                     'static/js/utils/utils.leaflet.js', 'static/js/utils/utils.long.js', 'static/js/utils/utils.motd.js',
                     'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.pokestop.js', 'static/js/utils/utils.s2geometry.js',
