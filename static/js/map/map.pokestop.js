@@ -279,7 +279,7 @@ function pokestopLabel(pokestop) {
         }
 
         if (pokemon) {
-            const ballDisplay = `<img src='${getItemImageUrl(5)}' width='18'/>`
+            const ballDisplay = `<img src='${getItemImageUrl(5)}' width='18' height='18'/>`
             if (settings.showInvasionPokemon) {
                 pokemonDisplay = `<div class='invasion-pokemon-toggle' onclick='toggleInvasionPokemon()'>Hide Pokémon <i class='fas fa-chevron-up'></i></div><div class='invasion-pokemon-container'>`
             } else {
