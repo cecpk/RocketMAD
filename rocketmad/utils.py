@@ -244,7 +244,7 @@ def get_args(access_config=None):
     parser.add_argument('-nap', '--no-autopan-popup',
                         action='store_true', default=False,
                         help='Enable if you don\'t want the map to do a '
-                             'panning animation to fit the opened popup on '
+                             'panning animation to fit opened popups on '
                              'mobile devices.')
     parser.add_argument('-lsm', '--lock-start-marker',
                         help='Disables dragging the start marker and hence ' +
