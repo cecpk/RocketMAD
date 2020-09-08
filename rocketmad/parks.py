@@ -3,12 +3,12 @@
 
 import json
 import logging
-import os
+import matplotlib.path
 import overpy
 import time
 
 from datetime import datetime
-from matplotlib.path import Path
+from pathlib import Path
 from timeit import default_timer
 
 from .utils import get_args, get_geofence_box, parse_geofence_file
@@ -105,8 +105,9 @@ def _query_overpass_api(sw_coord, ne_coord, nest_parks=False):
     return parks
 
 
-def _download_parks(file_path, geofences, nest_parks=False):
+def _download_parks(file_path, geofence_file, nest_parks=False):
     parks = []
+    geofences = parse_geofence_file(geofence_file)
 
     for geofence in geofences:
         log.info('Downloading parks in geofence %s...', geofence['name'])
@@ -116,7 +117,7 @@ def _download_parks(file_path, geofences, nest_parks=False):
 
         coords = geofence['polygon']
         coords.append(coords[0])
-        path = Path(coords)
+        path = matplotlib.path.Path(coords)
 
         parks_in_geofence = []
         for park in parks_in_box:
@@ -137,7 +138,7 @@ def _download_parks(file_path, geofences, nest_parks=False):
 
     if len(output['parks']) > 0:
         with open(file_path, 'w') as file:
-            json.dump(output, file)
+            json.dump(output, file, separators=(',', ':'))
 
         log.info('%d parks downloaded to %s.', len(output['parks']), file_path)
     else:
@@ -145,26 +146,24 @@ def _download_parks(file_path, geofences, nest_parks=False):
 
 
 def download_ex_parks():
-    file_path = os.path.join(
-        args.root_path,
-        'static/data/parks/' + args.ex_parks_filename + '.json')
-    if not os.path.isfile(file_path):
-        geofence_file = os.path.join(
-            args.root_path, 'geofences/' + args.ex_parks_geofence_file)
-        geofences = parse_geofence_file(geofence_file)
-        _download_parks(file_path, geofences)
+    parks_dir = Path(args.root_path + '/static/data/parks')
+    parks_dir.mkdir(exist_ok=True)
+    parks_file = parks_dir / (args.ex_parks_filename + '.json')
+    if not parks_file.exists():
+        geofence_file = Path(args.root_path + '/geofences/' +
+                             args.ex_parks_geofence_file)
+        _download_parks(parks_file, geofence_file)
     else:
         log.info('EX parks already downloaded.')
 
 
 def download_nest_parks():
-    file_path = os.path.join(
-        args.root_path,
-        'static/data/parks/' + args.nest_parks_filename + '.json')
-    if not os.path.isfile(file_path):
-        geofence_file = os.path.join(
-            args.root_path, 'geofences/' + args.nest_parks_geofence_file)
-        geofences = parse_geofence_file(geofence_file)
-        _download_parks(file_path, geofences, True)
+    parks_dir = Path(args.root_path + '/static/data/parks')
+    parks_dir.mkdir(exist_ok=True)
+    parks_file = parks_dir / (args.nest_parks_filename + '.json')
+    if not parks_file.exists():
+        geofence_file = Path(args.root_path + '/geofences/' +
+                             args.nest_parks_geofence_file)
+        _download_parks(parks_file, geofence_file, True)
     else:
         log.info('Nest parks already downloaded.')

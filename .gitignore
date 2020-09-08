@@ -43,6 +43,6 @@ static/rarity.json
 !static/data/*
 !static/icons/hsl*.png
 !static/app/settings.json
-static/data/parks/*.json
+static/data/parks/
 static/sounds/cries/*.mp3
 static/sounds/cries/*.wav
