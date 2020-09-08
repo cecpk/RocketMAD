@@ -20,7 +20,7 @@ function setupSpawnpointMarker(spawnpoint) {
         weight: 1,
         opacity: 0.7,
         fillOpacity: 0.5,
-    }).bindPopup()
+    }).bindPopup('', { autoPan: autoPanPopup() })
     updateSpawnpointMarker(spawnpoint, marker)
     markers.addLayer(marker)
     addListeners(marker, 'spawnpoint')

@@ -1,6 +1,6 @@
-let touchDevice = null
 let mobileDevice = null
-let canHover = null
+let primaryPointerAccuracy = null
+let primaryInputCanHover = null
 let locationSupport = null
 let decimalSeparator = null
 let thousandsSeparator = null
@@ -12,14 +12,6 @@ const mapServiceProviderNames = {
     'waze': 'Waze'
 }
 
-function isTouchDevice() {
-    if (touchDevice === null) {
-        // Should cover most browsers.
-        touchDevice = 'ontouchstart' in window || navigator.maxTouchPoints
-    }
-    return touchDevice
-}
-
 function isMobileDevice() {
     if (mobileDevice === null) {
         mobileDevice = /Mobi|Android/i.test(navigator.userAgent)
@@ -27,11 +19,33 @@ function isMobileDevice() {
     return mobileDevice
 }
 
-function deviceCanHover() {
-    if (canHover === null) {
-        canHover = window.matchMedia('(any-hover: hover)').matches
+function setPrimaryPointerAccuracy() {
+    if (primaryPointerAccuracy === null) {
+        if (window.matchMedia('(pointer: coarse)').matches) {
+            primaryPointerAccuracy = 'coarse'
+        } else if (window.matchMedia('(pointer: fine)').matches) {
+            primaryPointerAccuracy = 'fine'
+        } else {
+            primaryPointerAccuracy = 'none'
+        }
     }
-    return canHover
+}
+
+function hasCoarsePrimaryPointer() {
+    setPrimaryPointerAccuracy()
+    return primaryPointerAccuracy === 'coarse'
+}
+
+function hasFinePrimaryPointer() {
+    setPrimaryPointerAccuracy()
+    return primaryPointerAccuracy === 'fine'
+}
+
+function canPrimaryInputHover() {
+    if (primaryInputCanHover === null) {
+        primaryInputCanHover = window.matchMedia('(hover: hover)').matches
+    }
+    return primaryInputCanHover
 }
 
 function hasLocationSupport() {

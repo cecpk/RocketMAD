@@ -241,6 +241,11 @@ def get_args(access_config=None):
     parser.add_argument('-mov', '--markers-outside-viewport',
                         action='store_true', default=False,
                         help='Do not remove markers outside visible bounds.')
+    parser.add_argument('-nap', '--no-autopan-popup',
+                        action='store_true', default=False,
+                        help='Enable if you don\'t want the map to do a '
+                             'panning animation to fit the opened popup on '
+                             'mobile devices.')
     parser.add_argument('-lsm', '--lock-start-marker',
                         help='Disables dragging the start marker and hence ' +
                              'disables changing the start position.',
@@ -607,6 +612,7 @@ def get_args(access_config=None):
             'max_cluster_radius',
             'spiderfy_clusters',
             'markers_outside_viewport',
+            'no_autopan_popup',
             'lock_start_marker',
             'no_geocoder',
             'no_pokemon',

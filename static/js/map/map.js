@@ -368,7 +368,7 @@ function createStartLocationMarker() {
     const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
     var marker = L.marker([lat, lng], {draggable: settings.isStartLocationMarkerMovable}).addTo(markersNoCluster)
-    marker.bindPopup(`<div><b>${i8ln('Start location')}</b></div>`)
+    marker.bindPopup(`<div><b>${i8ln('Start location')}</b></div>`, { autoPan: autoPanPopup() })
     marker.setZIndexOffset(startLocationMarkerZIndex)
     updateStartLocationMarker()
     addListeners(marker)
@@ -413,7 +413,7 @@ function createUserLocationMarker() {
     const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
     var marker = L.marker([lat, lng]).addTo(markersNoCluster)
-    marker.bindPopup(`<div><b>${i8ln('My location')}</b></div>`)
+    marker.bindPopup(`<div><b>${i8ln('My location')}</b></div>`, { autoPan: autoPanPopup() })
     marker.setZIndexOffset(userLocationMarkerZIndex)
     updateUserLocationMarker()
     addListeners(marker)
@@ -2911,6 +2911,10 @@ function getTimeUntil(time) {
     }
 }
 
+function autoPanPopup() {
+    return (!hasFinePrimaryPointer() || !canPrimaryInputHover()) && serverSettings.autoPanPopup
+}
+
 function addListeners(marker, type) {
     marker.on('click', function () {
         switch (type) {
@@ -2957,7 +2961,7 @@ function addListeners(marker, type) {
         marker.options.persist = true
     })
 
-    if (deviceCanHover()) {
+    if (hasFinePrimaryPointer() && canPrimaryInputHover()) {
         marker.on('mouseover', function (e) {
             if (marker.isPopupOpen()) {
                 return true

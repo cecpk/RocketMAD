@@ -25,6 +25,7 @@
 #max-cluster-radius:            # The maximum radius that a cluster will cover from the central marker (in pixels). (default=60)
 #spiderfy-clusters              # Spiderfy clusters at the bottom zoom level. (default=False)
 #markers-outside-viewport       # Do not remove markers outside visible bounds. (default=False)
+#no-autopan-popup               # Enable if you don't want the map to do a panning animation to fit the opened popup on mobile devices. (default=False)
 #lock-start-marker              # Disables dragging the start marker and hence disables changing the start position. (default=False)
 #no-geocoder                    # Do not add the geocoder (location search bar) to the map. (default=False)
 
