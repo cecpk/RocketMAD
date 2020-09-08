@@ -43,13 +43,15 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         exc_type, exc_value, exc_traceback))
 
 
-def get_lastest_update_time(path):
+def get_lastest_update_time(path, ignored_paths=[]):
     if not os.path.exists(path):
         return 0
 
     latest_update_time = 0
     for root, _, files in os.walk(path):
         for file in files:
+            if root in ignored_paths:
+                continue
             file = os.path.join(root, file)
             update_time = os.path.getmtime(file)
             if update_time > latest_update_time:
@@ -69,8 +71,11 @@ def validate_assets(args):
         os.path.join(args.root_path, 'static/data'),
         os.path.join(args.root_path, 'static/locales')
     ]
+    ignored_paths = [
+        os.path.join(args.root_path, 'static/data/parks'),
+    ]
     for path in paths:
-        last_update_time = get_lastest_update_time(path)
+        last_update_time = get_lastest_update_time(path, ignored_paths)
         if (last_update_time > last_gen_time):
             log.critical('Missing front-end assets (static/dist) -- please '
                          'run "npm run build" before starting the server.')
