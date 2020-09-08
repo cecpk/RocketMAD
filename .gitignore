@@ -9,7 +9,6 @@ config/*
 !config/*.example
 geofences/*
 !geofences/*.example
-static/dist/
 node_modules/
 venv/
 core
@@ -17,6 +16,10 @@ src/
 _build
 _build_html
 beehive.*
+static/css/custom.css
+static/data/parks/
+static/data/rarity/
+static/dist/
 static/images/appicons/custom/
 static/images/header/*.jpeg
 static/images/header/*.png
@@ -27,9 +30,10 @@ static/images/generated/*
 static/icons-sprite.png
 static/icons-large-sprite.png
 static/icons/*.png
-static/css/custom.css
+!static/icons/hsl*.png
 static/js/custom.js
-static/rarity.json
+static/sounds/cries/*.mp3
+static/sounds/cries/*.wav
 *.csv
 *.bat
 *.sh
@@ -40,9 +44,3 @@ static/rarity.json
 !Tools/Easy-Setup/setup.bat
 !contrib/supervisord/gen-workers.sh
 !contrib/supervisord/install-reinstall.sh
-!static/data/*
-!static/icons/hsl*.png
-!static/app/settings.json
-static/data/parks/
-static/sounds/cries/*.mp3
-static/sounds/cries/*.wav

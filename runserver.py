@@ -73,6 +73,7 @@ def validate_assets(args):
     ]
     ignored_paths = [
         os.path.join(args.root_path, 'static/data/parks'),
+        os.path.join(args.root_path, 'static/data/rarity')
     ]
     for path in paths:
         last_update_time = get_lastest_update_time(path, ignored_paths)
