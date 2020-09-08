@@ -12,11 +12,11 @@ geofences/*
 static/dist/
 node_modules/
 venv/
+!.eslintrc.json
 core
 src/
 _build
 _build_html
-beehive.*
 static/images/appicons/custom/
 static/images/header/*.jpeg
 static/images/header/*.png

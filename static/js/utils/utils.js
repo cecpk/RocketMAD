@@ -1,3 +1,12 @@
+/*
+exported deviceCanHover, difference, getDecimalSeparator, getParameterByName,
+getPointDistance, getThousandsSeparator, hasLocationSupport, intersection,
+isMobileDevice, isNowBetween, isTouchDevice, lazyLoadImages,
+mapServiceProviderNames, removeLastDirsFromUrl, showImageModal,
+symmetricDifference, timestampToDate, timestampToDateTime, timestampToTime,
+toastError, toastInfo, toastSuccess, toastWarning, union
+*/
+
 let touchDevice = null
 let mobileDevice = null
 let canHover = null
@@ -5,11 +14,11 @@ let locationSupport = null
 let decimalSeparator = null
 let thousandsSeparator = null
 const mapServiceProviderNames = {
-    'googlemaps': 'Google Maps',
-    'applemaps': 'Apple Maps',
-    'bingmaps': 'Bing Maps',
-    'openstreetmap': 'OpenStreetMap',
-    'waze': 'Waze'
+    googlemaps: 'Google Maps',
+    applemaps: 'Apple Maps',
+    bingmaps: 'Bing Maps',
+    openstreetmap: 'OpenStreetMap',
+    waze: 'Waze'
 }
 
 function isTouchDevice() {
@@ -43,7 +52,7 @@ function hasLocationSupport() {
 
 function getDecimalSeparator() {
     if (decimalSeparator === null) {
-        let n = 1.1
+        const n = 1.1
         decimalSeparator = n.toLocaleString().substring(1, 2)
     }
     return decimalSeparator
@@ -51,7 +60,7 @@ function getDecimalSeparator() {
 
 function getThousandsSeparator() {
     if (thousandsSeparator === null) {
-        let n = 1000
+        const n = 1000
         thousandsSeparator = n.toLocaleString().substring(1, 2)
     }
     return thousandsSeparator
@@ -75,7 +84,7 @@ function getParameterByName(name, url) {
 
 function removeLastDirsFromUrl(url, count) {
     if (url.charAt(url.length - 1) === '/') {
-        url = url.slice(0, -1);
+        url = url.slice(0, -1)
     }
     for (let i = 0; i < count; i++) {
         url = url.substring(0, url.lastIndexOf('/'))
@@ -86,8 +95,8 @@ function removeLastDirsFromUrl(url, count) {
 function showImageModal(url, title) {
     $('#image-modal > .modal-content > h5').text(title)
     $('#image-modal > .modal-content > img').attr('src', url)
-    let elem = document.getElementById('image-modal')
-    let instance = M.Modal.getInstance(elem)
+    const elem = document.getElementById('image-modal')
+    const instance = M.Modal.getInstance(elem)
     instance.open()
 }
 
@@ -167,7 +176,7 @@ function toast(title, text, imageUrl, iconClass, classes) {
     }
     const style = imageUrl || iconClass ? 'style="margin-right:15px;"' : ''
     const toastHTML = `<div ${style}>${image}</div><div><strong>${title}</strong><br>${text}</div>`
-    M.toast({html: toastHTML, classes: classes})
+    M.toast({ html: toastHTML, classes: classes })
 }
 
 function toastInfo(title, text) {
@@ -205,23 +214,23 @@ function getPointDistance(origin, destination) {
 }
 
 function union(setA, setB) {
-    let union = new Set(setA)
-    for (let elem of setB) {
+    const union = new Set(setA)
+    for (const elem of setB) {
         union.add(elem)
     }
     return union
 }
 
 function intersection(setA, setB) {
-    let intersection = new Set()
+    const intersection = new Set()
     if (setA.size >= setB.size) {
-        for (let elem of setB) {
+        for (const elem of setB) {
             if (setA.has(elem)) {
                 intersection.add(elem)
             }
         }
     } else {
-        for (let elem of setA) {
+        for (const elem of setA) {
             if (setB.has(elem)) {
                 intersection.add(elem)
             }
@@ -231,13 +240,13 @@ function intersection(setA, setB) {
 }
 
 function difference(setA, setB) {
-    let difference = new Set(setA)
+    const difference = new Set(setA)
     if (setA.size >= setB.size) {
-        for (let elem of setB) {
+        for (const elem of setB) {
             difference.delete(elem)
         }
     } else {
-        for (let elem of setA) {
+        for (const elem of setA) {
             if (setB.has(elem)) {
                 difference.delete(elem)
             }
@@ -250,7 +259,7 @@ function symmetricDifference(setA, setB) {
     let difference
     if (setA.size >= setB.size) {
         difference = new Set(setA)
-        for (let elem of setB) {
+        for (const elem of setB) {
             if (difference.has(elem)) {
                 difference.delete(elem)
             } else {
@@ -259,7 +268,7 @@ function symmetricDifference(setA, setB) {
         }
     } else {
         difference = new Set(setB)
-        for (let elem of setA) {
+        for (const elem of setA) {
             if (difference.has(elem)) {
                 difference.delete(elem)
             } else {
@@ -271,13 +280,13 @@ function symmetricDifference(setA, setB) {
 }
 
 function lazyLoadImages() {
-    let lazyImages = [].slice.call(document.querySelectorAll('img.lazy'))
+    const lazyImages = [].slice.call(document.querySelectorAll('img.lazy'))
 
     if ('IntersectionObserver' in window) {
-        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
+        const lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    let lazyImage = entry.target
+                    const lazyImage = entry.target
                     lazyImage.src = lazyImage.dataset.src
                     lazyImage.classList.remove('lazy')
                     lazyImageObserver.unobserve(lazyImage)
@@ -285,12 +294,12 @@ function lazyLoadImages() {
             })
         })
 
-        lazyImages.forEach(function(lazyImage) {
+        lazyImages.forEach(function (lazyImage) {
             lazyImageObserver.observe(lazyImage)
         })
     } else {
         // IntersectionObserver not supported, don't use lazy loading.
-        lazyImages.forEach(function(lazyImage) {
+        lazyImages.forEach(function (lazyImage) {
             lazyImage.src = lazyImage.dataset.src
             lazyImage.classList.remove('lazy')
         })

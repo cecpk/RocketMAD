@@ -1,3 +1,5 @@
+/* exported getGymLevel, isOngoingRaid, isUpcomingRaid, isValidRaid */
+
 function getGymLevel(gym) {
     return 6 - gym.slots_available
 }

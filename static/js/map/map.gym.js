@@ -253,7 +253,7 @@ function updateGymSidebar(id) {
             $('#sidebar-ongoing-raid-title').html(`${name} <i class='fas ${genderClasses[raid.gender - 1]}'></i> #${raid.pokemon_id}`)
             $('#sidebar-ongoing-raid-level-container').html(`${i8ln('Raid')} <span class='raid-level-${raid.level}'>${levelStars}</span>`)
             $('#sidebar-ongoing-raid-end-container').html(`${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
-            $('#sidebar-raid-pokemon-image').attr('src', getPokemonRawIconUrl(raid))
+            $('#sidebar-raid-pokemon-image').attr('src', getPokemonRawIconUrl(raid, serverSettings.generateImages))
 
             let typesDisplay = ''
             const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
@@ -334,7 +334,7 @@ function gymLabel(gym) {
         const levelStars = '★'.repeat(raid.level)
 
         if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
-            const pokemonIconUrl = getPokemonRawIconUrl(raid)
+            const pokemonIconUrl = getPokemonRawIconUrl(raid, serverSettings.generateImages)
 
             let typesDisplay = ''
             const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
@@ -716,7 +716,7 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
 
             notifTitle = `${getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)} Raid (L${raid.level})`
             notifText = `Gym: ${gymName}\nEnds at ${expireTime} (${expireTimeCountdown})\nMoves: ${fastMoveName} / ${chargeMoveName}`
-            iconUrl = getPokemonRawIconUrl(raid)
+            iconUrl = getPokemonRawIconUrl(raid, serverSettings.generateImages)
         }
 
         sendNotification(notifTitle, notifText, iconUrl, gym.latitude, gym.longitude)

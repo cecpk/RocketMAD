@@ -1,11 +1,12 @@
 {
   "extends": "standard",
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": false
-    },
+    "sourceType": "script",
     "ecmaVersion": 6,
-    "sourceType": "module"
+    "ecmaFeatures": {
+      "jsx": false,
+      "globalReturn": false
+    }
   },
   "rules": {
     "indent": ["error", 4, {
@@ -25,6 +26,31 @@
     "jquery": true
   },
   "globals": {
+    "Store": "readonly",
+    "version": "readonly",
+    "i8ln": "readonly",
+    "L": "readonly",
+    "M": "readonly",
+    "S2": "readonly",
+    "toastError": "readonly",
+    "showMotd": "readonly",
+    "timestampToDateTime": "readonly",
+    "mapServiceProviderNames": "readonly",
+    "getItemImageUrl": "readonly",
+    "getItemName": "readonly",
+    "getPokemonRawIconUrl": "readonly",
+    "getPokemonNameWithForm": "readonly",
+    "getPokemonName": "readonly",
+    "initI8lnDictionary": "readonly",
+    "initPokemonData": "readonly",
+    "initItemData": "readonly",
+    "setTileLayer": "readonly",
+    "getFormName": "readonly",
+    "removeLastDirsFromUrl": "readonly",
+    "getParameterByName": "readonly",
+    "isUpcomingRaid": "readonly",
+    "kip": "readonly",
+
     "toastr": true,
     "Push": true,
     "swal": true,
@@ -34,7 +60,7 @@
     "MarkerClusterer": true,
     "isNotifyPoke": true,
     "isTouchDevice": true,
-    "isMobileDevice": true,    
+    "isMobileDevice": true,
 
     "noLabelsStyle": true,
     "darkStyle": true,
@@ -55,7 +81,7 @@
     "clusterImagePath": true,
     "showConfig": true,
     "rarityFileName": true,
-    
+
     "pageLoaded": true,
     "countMarkers": true,
     "skel": true,

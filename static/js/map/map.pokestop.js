@@ -108,7 +108,7 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
                 shadowSize = [30, 30]
                 break
             case 7:
-                shadowImage = getPokemonMapIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
+                shadowImage = getPokemonMapIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id}, serverSettings.generateImages)
                 shadowSize = [35, 35]
                 break
             case 12:
@@ -209,7 +209,7 @@ function pokestopLabel(pokestop) {
                 isNotifQuest = settings.notifQuestItems.includes('6_' + quest.stardust)
                 break
             case 7:
-                rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
+                rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id}, serverSettings.generateImages)
                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} #${quest.pokemon_id}`
                 excludeFunction = `excludeQuestPokemon(${quest.pokemon_id})`
                 notifFunction = `toggleQuestPokemonNotif(${quest.pokemon_id})`
@@ -291,7 +291,7 @@ function pokestopLabel(pokestop) {
                 pokemonDisplay += `<div class='invasion-pokemon-column'>` + header
                 for (let j = 0; j < pokemon[i.toString()]['ids'].length; j++) {
                   const id = pokemon[i.toString()]['ids'][j]
-                  pokemonDisplay += `<div><img title='${getPokemonName(id)}' src='${getPokemonRawIconUrl({pokemon_id: id})}' width='48'/></div>`
+                  pokemonDisplay += `<div><img title='${getPokemonName(id)}' src='${getPokemonRawIconUrl({pokemon_id: id}, serverSettings.generateImages)}' width='48'/></div>`
                 }
                 pokemonDisplay += '</div>'
             }

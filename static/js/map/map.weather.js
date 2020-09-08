@@ -1,5 +1,5 @@
-/* global L markersNoCluster map jsts weatherImages weatherNames */
-/* eslint no-unused-vars: "off" */
+/* globals map */
+/* exported processWeather, setupWeatherModal, updateWeathers */
 
 var mainS2CellId = null
 
@@ -104,7 +104,7 @@ function setupWeatherMarker(weather) {
 function updateWeatherMarker(weather, marker) {
     var icon = L.icon({
         iconUrl: getWeatherIconUrl(weather),
-        iconSize: [32, 32],
+        iconSize: [32, 32]
     })
     marker.setIcon(icon)
 
@@ -160,7 +160,7 @@ function processWeather(weather) {
     }
 
     const id = weather.s2_cell_id
-    if (!mapData.weather.hasOwnProperty(id)) {
+    if (!(id in mapData.weather)) {
         weather.marker = setupWeatherMarker(weather)
         if (settings.showWeatherCells) {
             weather.polygon = setupWeatherCell(weather)
@@ -181,7 +181,7 @@ function processWeather(weather) {
 }
 
 function updateWeather(id, weather = null) {
-    if (id == null || !mapData.weather.hasOwnProperty(id)) {
+    if (id == null || !(id in mapData.weather)) {
         return true
     }
 
@@ -238,7 +238,7 @@ function updateWeathers() {
 
 function removeWeather(weather) {
     const id = weather.s2_cell_id
-    if (mapData.weather.hasOwnProperty(id)) {
+    if (id in mapData.weather) {
         markersNoCluster.removeLayer(mapData.weather[id].marker)
         if (mapData.weather[id].polygon) {
             markersNoCluster.removeLayer(mapData.weather[id].polygon)
@@ -304,7 +304,7 @@ function setupWeatherModal() {
     $('#weather-modal > .modal-content > h4').html(weatherTitle)
     $('#weather-modal-image > img').attr('src', getWeatherImageUrl(weather))
     $('#boosted-types-container').empty()
-    $.each(boostedTypes[weather.gameplay_weather], function(idx, type) {
+    $.each(boostedTypes[weather.gameplay_weather], function (idx, type) {
         $('#boosted-types-container').append(`
             <div class='type'>
               <div><img src='static/images/types/${type.toLowerCase()}.png' width='48'></div>

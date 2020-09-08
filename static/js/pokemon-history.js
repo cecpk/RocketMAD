@@ -3,7 +3,7 @@ let rawDataIsLoading = false
 let detailsLoading = false
 let appearancesTimesLoading = false
 let mapLoaded = false
-let mapData = {
+const mapData = {
     appearances: {}
 }
 let map
@@ -55,8 +55,8 @@ function loadRawData() {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'seen': true,
-            'duration': Store.get('pokemonHistoryDuration')
+            seen: true,
+            duration: Store.get('pokemonHistoryDuration')
         },
         dataType: 'json',
         beforeSend: function () {
@@ -80,10 +80,10 @@ function loadDetails(pokemonId, formId) {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'appearances': true,
-            'pokemonid': pokemonId,
-            'formid': formId,
-            'duration': Store.get('pokemonHistoryDuration')
+            appearances: true,
+            pokemonid: pokemonId,
+            formid: formId,
+            duration: Store.get('pokemonHistoryDuration')
         },
         dataType: 'json',
         beforeSend: function () {
@@ -107,11 +107,11 @@ function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'appearancesDetails': true,
-            'pokemonid': pokemonId,
-            'formid': formId,
-            'spawnpoint_id': spawnpointId,
-            'duration': Store.get('pokemonHistoryDuration')
+            appearancesDetails: true,
+            pokemonid: pokemonId,
+            formid: formId,
+            spawnpoint_id: spawnpointId,
+            duration: Store.get('pokemonHistoryDuration')
         },
         dataType: 'json',
         beforeSend: function () {
@@ -142,7 +142,7 @@ function updateHistory() {
         for (let i = 0; i < result.seen.pokemon.length; i++) {
             const item = result.seen.pokemon[i]
             table.row.add([
-                `<img src='${getPokemonRawIconUrl(item)}' style='width: 32px;'>`,
+                `<img src='${getPokemonRawIconUrl(item, serverSettings.generateImages)}' style='width: 32px;'>`,
                 item.pokemon_id,
                 getPokemonName(item.pokemon_id),
                 item.form ? getFormName(item.pokemon_id, item.form) : '',
@@ -166,11 +166,11 @@ function updateHistory() {
 }
 
 function createOverlayCloseButton() {
-    let control = L.control({position: 'topright'})
+    const control = L.control({ position: 'topright' })
     control.onAdd = function (map) {
-        let container = L.DomUtil.create('div', 'leaflet-control-custom leaflet-bar')
+        const container = L.DomUtil.create('div', 'leaflet-control-custom leaflet-bar')
 
-        let closeButton = document.createElement('a')
+        const closeButton = document.createElement('a')
         closeButton.innerHTML = '<i class="material-icons">close</i>'
         closeButton.title = 'Close map'
         closeButton.href = 'javascript:void(0);'
@@ -205,11 +205,11 @@ function initMap() {
     map.on('click', closeTimes)
 
     markers = L.layerGroup().addTo(map)
-    heatLayer = L.heatLayer([], {radius: 50}).addTo(map)
+    heatLayer = L.heatLayer([], { radius: 50 }).addTo(map)
 
     const overlayMaps = {
-      "Markers": markers,
-      "Heat map": heatLayer
+        Markers: markers,
+        'Heat map': heatLayer
     }
     L.control.layers(null, overlayMaps).addTo(map)
 
@@ -243,7 +243,7 @@ function addListeners(marker) {
 
 function processAppearance(idx, item) {
     const spawnpointId = item.spawnpoint_id
-    if (!mapData.appearances.hasOwnProperty(spawnpointId)) {
+    if (!(spawnpointId in mapData.appearances)) {
         item.marker = setupPokemonMarker(item, markers)
         addListeners(item.marker)
         item.marker.spawnpointId = spawnpointId
@@ -337,7 +337,7 @@ $(function () {
         showMapOverlay(pokemonId, formId)
     }
 
-    let formNameType = $.fn.dataTable.absoluteOrder([
+    const formNameType = $.fn.dataTable.absoluteOrder([
         { value: '', position: 'bottom' }
     ])
 
@@ -347,20 +347,20 @@ $(function () {
         info: false,
         order: [[4, 'desc']],
         responsive: true,
-        'columnDefs': [
-            { 'orderable': false, 'targets': [0, 7]},
-            { type: formNameType, 'targets': 3},
-            { responsivePriority: 1, 'targets': 0 },
-            { responsivePriority: 2, 'targets': 4 },
-            { responsivePriority: 3, 'targets': 2 },
-            { responsivePriority: 4, 'targets': 1 },
-            { responsivePriority: 5, 'targets': 3 },
-            { responsivePriority: 6, 'targets': 6 },
-            { responsivePriority: 7, 'targets': 5 },
-            { responsivePriority: 8, 'targets': 7 },
+        columnDefs: [
+            { orderable: false, targets: [0, 7] },
+            { type: formNameType, targets: 3 },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 4 },
+            { responsivePriority: 3, targets: 2 },
+            { responsivePriority: 4, targets: 1 },
+            { responsivePriority: 5, targets: 3 },
+            { responsivePriority: 6, targets: 6 },
+            { responsivePriority: 7, targets: 5 },
+            { responsivePriority: 8, targets: 7 },
             {
-                'targets': 1,
-                'render': function (data, type, row) {
+                targets: 1,
+                render: function (data, type, row) {
                     if (type === 'display') {
                         return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title="View on GamePress">#${row[1]}</a>`
                     }
@@ -368,8 +368,8 @@ $(function () {
                 }
             },
             {
-                'targets': 4,
-                'render': function (data, type, row) {
+                targets: 4,
+                render: function (data, type, row) {
                     if (type === 'display') {
                         return row[4].toLocaleString()
                     }
@@ -377,17 +377,17 @@ $(function () {
                 }
             },
             {
-                'targets': 5,
-                'render': function (data, type, row) {
+                targets: 5,
+                render: function (data, type, row) {
                     if (type === 'display') {
-                        return row[5].toLocaleString(undefined, {maximumFractionDigits: 4}) + '%'
+                        return row[5].toLocaleString(undefined, { maximumFractionDigits: 4 }) + '%'
                     }
                     return row[5]
                 }
             },
             {
-                'targets': 6,
-                'render': function (data, type, row) {
+                targets: 6,
+                render: function (data, type, row) {
                     if (type === 'display') {
                         return timestampToDateTime(row[6])
                     }

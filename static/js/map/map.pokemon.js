@@ -155,7 +155,7 @@ function pokemonLabel(item) {
     var cpMultiplier = item['cp_multiplier']
     var weatherBoostedCondition = item['weather_boosted_condition']
 
-    var pokemonIcon = getPokemonRawIconUrl(item)
+    var pokemonIcon = getPokemonRawIconUrl(item, serverSettings.generateImages)
     var gen = getPokemonGen(id)
 
     var formDisplay = ''
@@ -567,7 +567,7 @@ function sendPokemonNotification(pokemon) {
             notifText += `\nMoves: ${move1} / ${move2}`
         }
 
-        sendNotification(notifTitle, notifText, getPokemonRawIconUrl(pokemon), pokemon.latitude, pokemon.longitude)
+        sendNotification(notifTitle, notifText, getPokemonRawIconUrl(pokemon, serverSettings.generateImages), pokemon.latitude, pokemon.longitude)
     }
 
     var notificationData = {}

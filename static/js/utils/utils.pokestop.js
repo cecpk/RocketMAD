@@ -1,3 +1,5 @@
+/* exported getInvasionGrunt, getInvasionImageUrl, getInvasionPokemon, getInvasionType, getPokestopIconUrl, initInvasionData */
+
 var invasionData = {}
 
 function initInvasionData() {

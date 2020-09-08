@@ -1984,7 +1984,7 @@ function initPokemonFilters() {
             <div class='filter-button' data-id='${id}'>
               <div class='filter-button-content'>
                 <div>#${id}</div>
-                <div><img class='lazy' src='static/images/placeholder.png' data-src='${getPokemonRawIconUrl({'pokemon_id': id})}' width='32'></div>
+                <div><img class='lazy' src='static/images/placeholder.png' data-src='${getPokemonRawIconUrl({'pokemon_id': id}, serverSettings.generateImages)}' width='32'></div>
                 <div>${getPokemonName(id)}</div>
               </div>
             </div>`
@@ -3509,7 +3509,7 @@ function getSidebarGymMember(pokemon) { // eslint-disable-line no-unused-vars
         absoluteTime = '<div class="gym pokemon">(' + deploymentTime.format('Do MMM HH:mm') + ')</div>'
     }
 
-    var pokemonImage = getPokemonRawIconUrl(pokemon)
+    var pokemonImage = getPokemonRawIconUrl(pokemon, serverSettings.generateImages)
     return `
                     <tr onclick=toggleGymPokemonDetails(this)>
                         <td width="30px">

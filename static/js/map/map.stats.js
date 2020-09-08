@@ -1,4 +1,6 @@
-/* global getPokemonRawIconUrl */
+/* globals map */
+/* exported updateStatsTable */
+
 let tabsInstance
 
 function updateStatsTable() {
@@ -7,7 +9,7 @@ function updateStatsTable() {
     }
 
     if (!tabsInstance) {
-        let tabsElem = document.getElementById('stats-tabs')
+        const tabsElem = document.getElementById('stats-tabs')
         tabsInstance = M.Tabs.getInstance(tabsElem)
     }
 
@@ -15,7 +17,7 @@ function updateStatsTable() {
     const mapBounds = map.getBounds()
 
     if (selectedTab === '#pokemon-stats-tab') { // Pokémon tab.
-        let pokemonData = {}
+        const pokemonData = {}
         let pokemonCount = 0
 
         $.each(mapData.pokemons, function (encounterId, pokemon) {
@@ -23,13 +25,13 @@ function updateStatsTable() {
             if (mapBounds.contains(location)) {
                 const key = pokemon.pokemon_id + '_' + pokemon.form + '_' + pokemon.costume
                 pokemonCount++
-                if (!pokemonData.hasOwnProperty(key)) {
+                if (!(key in pokemonData)) {
                     pokemonData[key] = {
-                        'count': 1,
-                        'id': pokemon.pokemon_id,
-                        'name': getPokemonNameWithForm(pokemon.pokemon_id, pokemon.form),
-                        'form': pokemon.form,
-                        'costume': pokemon.costume
+                        count: 1,
+                        id: pokemon.pokemon_id,
+                        name: getPokemonNameWithForm(pokemon.pokemon_id, pokemon.form),
+                        form: pokemon.form,
+                        costume: pokemon.costume
                     }
                 } else {
                     pokemonData[key].count++
@@ -37,9 +39,9 @@ function updateStatsTable() {
             }
         })
 
-        let pokemonRows = []
+        const pokemonRows = []
         $.each(pokemonData, function (key, data) {
-            const pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.id, 'form': data.form, 'costume': data.costume})
+            const pokemonIcon = getPokemonRawIconUrl({ pokemon_id: data.id, form: data.form, costume: data.costume }, serverSettings.generateImages)
             pokemonRows.push(
                 [
                     '<img src="' + pokemonIcon + '" width=32 />',
@@ -70,9 +72,9 @@ function updateStatsTable() {
     }
 
     if (selectedTab === '#gym-stats-tab') {
-        let teamCounts = [0, 0, 0, 0]
-        let eggCounts = [0, 0, 0, 0, 0, 0]
-        let raidPokemonData = {}
+        const teamCounts = [0, 0, 0, 0]
+        const eggCounts = [0, 0, 0, 0, 0, 0]
+        const raidPokemonData = {}
         let gymCount = 0
         let eggCount = 0
         let raidPokemonCount = 0
@@ -81,7 +83,7 @@ function updateStatsTable() {
         $.each(mapData.gyms, function (id, gym) {
             const location = { lat: gym.latitude, lng: gym.longitude }
             if (mapBounds.contains(location)) {
-                totalCount++;
+                totalCount++
                 if (isGymMeetsGymFilters(gym)) {
                     gymCount++
                     teamCounts[gym.team_id]++
@@ -94,15 +96,15 @@ function updateStatsTable() {
                     } else if (raid.pokemon_id) {
                         const key = raid.pokemon_id + '_' + raid.form + '_' + raid.costume + '_' + raid.evolution
                         raidPokemonCount++
-                        if (!raidPokemonData.hasOwnProperty(key)) {
+                        if (!(key in raidPokemonData)) {
                             raidPokemonData[key] = {
-                                'count': 1,
-                                'level': raid.level,
-                                'id': raid.pokemon_id,
-                                'name': getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution),
-                                'form': raid.form,
-                                'costume': raid.costume,
-                                'evolution': raid.evolution
+                                count: 1,
+                                level: raid.level,
+                                id: raid.pokemon_id,
+                                name: getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution),
+                                form: raid.form,
+                                costume: raid.costume,
+                                evolution: raid.evolution
                             }
                         } else {
                             raidPokemonData[key].count++
@@ -112,7 +114,7 @@ function updateStatsTable() {
             }
         })
 
-        let gymRows = []
+        const gymRows = []
         for (let i = 0; i < 4; i++) {
             if (teamCounts[i] > 0) {
                 gymRows.push(
@@ -126,7 +128,7 @@ function updateStatsTable() {
             }
         }
 
-        let eggRows = []
+        const eggRows = []
         for (let i = 0; i < eggCounts.length; i++) {
             if (eggCounts[i] > 0) {
                 eggRows.push(
@@ -140,9 +142,9 @@ function updateStatsTable() {
             }
         }
 
-        let raidPokemonRows = []
+        const raidPokemonRows = []
         $.each(raidPokemonData, function (key, data) {
-            const pokemonIcon = getPokemonRawIconUrl({'pokemon_id': data.id, 'form': data.form, 'costume': data.costume, 'evolution': data.evolution})
+            const pokemonIcon = getPokemonRawIconUrl({ pokemon_id: data.id, form: data.form, costume: data.costume, evolution: data.evolution }, serverSettings.generateImages)
             raidPokemonRows.push(
                 [
                     '<img src="' + pokemonIcon + '" width=32 />',
@@ -239,7 +241,7 @@ function updateStatsTable() {
             }
         })
 
-        let pokestopRows = []
+        const pokestopRows = []
         if (noStatusCount > 0) {
             pokestopRows.push(
                 [
