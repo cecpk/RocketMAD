@@ -1,6 +1,6 @@
 # RocketMAD
 
-![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg) ![License](https://img.shields.io/github/license/RocketMap/RocketMap.svg) [![Build Status](https://travis-ci.org/RocketMap/RocketMap.svg?branch=develop)](https://travis-ci.org/RocketMap/RocketMap)
+![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg) ![License](https://img.shields.io/github/license/RocketMap/RocketMap.svg) [![Build Status](https://travis-ci.org/cecpk/RocketMAD.svg?branch=master)](https://travis-ci.org/cecpk/RocketMAD)
 
 Live visualization of all the Pokémon (with option to show gyms, raids, PokéStops and much more) in your area. Used as [MAD](https://github.com/Map-A-Droid/MAD)'s frontend. Does not work as standalone and the code has been heavily modified to only work with MAD. This frontend is based on [RocketMap](https://github.com/RocketMap/RocketMap).
 
