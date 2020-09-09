@@ -5,7 +5,7 @@ cache:
   directories:
     - node_modules
 python:
-  - 2.7
+  - 3.6
 
 # Install steps MUST succeed or will immediately halt the build.
 install:
