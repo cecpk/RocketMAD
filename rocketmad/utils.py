@@ -387,9 +387,6 @@ def get_args(access_config=None):
     parser.add_argument('-sn', '--status-name', default=str(os.getpid()),
                         help=('Enable status page database update using '
                               'STATUS_NAME as main worker name.'))
-    parser.add_argument('--disable-blacklist',
-                        help=('Disable the global anti-scraper IP blacklist.'),
-                        action='store_true', default=False)
     parser.add_argument('-tp', '--trusted-proxies', default=[],
                         action='append',
                         help=('Enables the use of X-FORWARDED-FOR headers '

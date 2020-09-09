@@ -6,7 +6,6 @@ import logging
 import redis
 import time
 
-from bisect import bisect_left
 from datetime import datetime, timezone
 from flask import (abort, Flask, jsonify, redirect, render_template, request,
                    send_file, send_from_directory, session, url_for)
@@ -19,7 +18,7 @@ from functools import wraps
 from s2sphere import LatLng
 
 from .auth.auth_factory import AuthFactory
-from .blacklist import fingerprints, get_ip_blacklist
+from .blacklist import fingerprints
 from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
 from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
                      Weather)
@@ -31,8 +30,8 @@ from .pogoprotos.enums.pokemon_id_pb2 import PokemonId
 from .pogoprotos.enums.raid_level_pb2 import RaidLevel
 from .pogoprotos.enums.weather_condition_pb2 import WeatherCondition
 from .transform import transform_from_wgs_to_gcj
-from .utils import (dottedQuadToNum, get_args, get_pokemon_name, get_sessions,
-                    i8ln, parse_geofence_file)
+from .utils import (get_args, get_pokemon_name, get_sessions, i8ln,
+                    parse_geofence_file)
 
 log = logging.getLogger(__name__)
 args = get_args()
@@ -40,9 +39,6 @@ args = get_args()
 auth_factory = AuthFactory()
 accepted_auth_types = []
 valid_access_configs = []
-
-ip_blacklist = []
-ip_blacklist_keys = []
 
 version = int(time.time())  # Used for cache busting.
 
@@ -62,20 +58,6 @@ class CustomJSONEncoder(JSONEncoder):
         else:
             return list(iterable)
         return JSONEncoder.default(self, obj)
-
-
-def ip_is_blacklisted(ip):
-    if not ip_blacklist:
-        return False
-
-    # Get the nearest IP range
-    pos = max(bisect_left(ip_blacklist_keys, dottedQuadToNum(ip)) - 1, 0)
-    ip_range = ip_blacklist[pos]
-
-    start = dottedQuadToNum(ip_range[0])
-    end = dottedQuadToNum(ip_range[1])
-
-    return start <= dottedQuadToNum(ip) <= end
 
 
 def convert_pokemon_list(pokemon):
@@ -192,28 +174,12 @@ def create_app():
                 if name not in valid_access_configs:
                     valid_access_configs.append(name)
 
-    if not args.disable_blacklist:
-        log.info('Retrieving blacklist...')
-        ip_blacklist = get_ip_blacklist()
-        # Sort & index for binary search
-        ip_blacklist.sort(key=lambda r: r[0])
-        ip_blacklist_keys = [
-            dottedQuadToNum(r[0]) for r in ip_blacklist
-        ]
-    else:
-        log.info('Blacklist disabled for this session.')
-
     @app.before_request
     def validate_request():
         # Get real IP behind trusted reverse proxy.
         ip_addr = request.remote_addr
         if ip_addr in args.trusted_proxies:
             ip_addr = request.headers.get('X-Forwarded-For', ip_addr)
-
-        # Make sure IP isn't blacklisted.
-        if ip_is_blacklisted(ip_addr):
-            log.debug('Denied access to %s: blacklisted IP.', ip_addr)
-            abort(403)
 
         if args.client_auth:
             session['ip'] = ip_addr
@@ -718,8 +684,7 @@ def create_app():
 
         # Make sure fingerprint isn't blacklisted.
         fingerprint_blacklisted = any([
-            fingerprints['no_referrer'](request),
-            fingerprints['iPokeGo'](request)
+            fingerprints['no_referrer'](request)
         ])
 
         if fingerprint_blacklisted:
@@ -1002,16 +967,6 @@ def create_app():
     def users_data():
         if not args.client_auth:
             abort(404)
-
-        # Make sure fingerprint isn't blacklisted.
-        fingerprint_blacklisted = any([
-            fingerprints['no_referrer'](request),
-            fingerprints['iPokeGo'](request)
-        ])
-
-        if fingerprint_blacklisted:
-            log.debug('User denied access: blacklisted fingerprint.')
-            abort(403)
 
         if not is_admin():
             abort(403)

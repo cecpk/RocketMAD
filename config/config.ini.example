@@ -140,7 +140,6 @@
 #ssl-privatekey:                # Path to ssl private key
 #encrypt-lib:                   # Path to encrypt lib to be used instead of the shipped ones.
 #trusted-proxies:               # Enables the use of X-FORWARDED-FOR headers to identify the IP of clients connecting through these trusted proxies. (default=[])
-#disable-blacklist              # Disable the global anti-scraper IP blacklist.
 
 
 # Status and logs
