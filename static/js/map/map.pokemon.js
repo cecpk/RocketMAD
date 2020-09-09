@@ -70,7 +70,7 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 
     marker.encounter_id = pokemon.encounter_id
     updatePokemonMarker(pokemon, marker, isNotifPokemon)
-    marker.bindPopup()
+    marker.bindPopup('', { autoPan: autoPanPopup() })
 
     addListeners(marker, 'pokemon')
 

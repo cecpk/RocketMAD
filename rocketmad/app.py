@@ -244,6 +244,7 @@ def create_app():
             'spiderfyClusters': user_args.spiderfy_clusters,
             'removeMarkersOutsideViewport': (
                 not user_args.markers_outside_viewport),
+            'autoPanPopup': not user_args.no_autopan_popup,
             'geocoder': not user_args.no_geocoder,
             'isStartMarkerMovable': not user_args.lock_start_marker,
             'generateImages': user_args.generate_images,

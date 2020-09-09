@@ -67,7 +67,7 @@ function initMoveData() {
 }
 
 function updatePokemonRarities(rarityFileName) {
-    return $.getJSON('static/dist/data/' + rarityFileName + '.json', { _: new Date().getTime() }).done(function (data) {
+    return $.getJSON('static/data/rarity/' + rarityFileName + '.json', {_: new Date().getTime()}).done(function (data) {
         pokemonRarities = data
     }).fail(function () {
         console.log("Couldn't load dynamic rarity JSON.")

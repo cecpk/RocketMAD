@@ -27,6 +27,7 @@ from datetime import datetime, timedelta
 from functools import lru_cache
 from geopy.geocoders import Nominatim
 from multiprocessing import Process, current_process
+from pathlib import Path
 from requests import Session
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
@@ -241,6 +242,11 @@ def get_args(access_config=None):
     parser.add_argument('-mov', '--markers-outside-viewport',
                         action='store_true', default=False,
                         help='Do not remove markers outside visible bounds.')
+    parser.add_argument('-nap', '--no-autopan-popup',
+                        action='store_true', default=False,
+                        help='Enable if you don\'t want the map to do a '
+                             'panning animation to fit opened popups on '
+                             'mobile devices.')
     parser.add_argument('-lsm', '--lock-start-marker',
                         help='Disables dragging the start marker and hence ' +
                              'disables changing the start position.',
@@ -607,6 +613,7 @@ def get_args(access_config=None):
             'max_cluster_radius',
             'spiderfy_clusters',
             'markers_outside_viewport',
+            'no_autopan_popup',
             'lock_start_marker',
             'no_geocoder',
             'no_pokemon',
@@ -1206,8 +1213,9 @@ def dynamic_rarity_refresher(app):
     hours = args.rarity_hours
     root_path = args.root_path
 
-    rarities_path = os.path.join(
-        root_path, 'static/dist/data/' + args.rarity_filename + '.json')
+    rarity_dir = Path(args.root_path + '/static/data/rarity')
+    rarity_dir.mkdir(exist_ok=True)
+    rarity_file = rarity_dir / (args.rarity_filename + '.json')
 
     update_frequency_mins = args.rarity_update_frequency
     refresh_time_sec = update_frequency_mins * 60
@@ -1230,8 +1238,8 @@ def dynamic_rarity_refresher(app):
             rarities[id] = get_pokemon_rarity(total, count)
 
         # Save to file.
-        with open(rarities_path, 'w') as outfile:
-            json.dump(rarities, outfile)
+        with open(rarity_file, 'w') as outfile:
+            json.dump(rarities, outfile, separators=(',', ':'))
 
         duration = default_timer() - start
         log.info('Updated dynamic rarity. It took %.2fs for %d entries.',

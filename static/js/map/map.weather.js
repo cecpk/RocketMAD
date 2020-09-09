@@ -5,7 +5,7 @@ function setupWeatherMarker(weather) {
     var marker = L.marker([weather.latitude, weather.longitude])
     markersNoCluster.addLayer(marker)
     updateWeatherMarker(weather, marker)
-    marker.bindPopup()
+    marker.bindPopup('', { autoPan: autoPanPopup() })
     marker.s2_cell_id = weather.s2_cell_id
     addListeners(marker, 'weather')
 
