@@ -211,7 +211,6 @@ function getTimeUntil(time) {
     }
 }
 
-
 function lpad(str, len, padstr) {
     return Array(Math.max(len - String(str).length + 1, 0)).join(padstr) + str
 }
