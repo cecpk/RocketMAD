@@ -10,10 +10,10 @@ python:
 # Install steps MUST succeed or will immediately halt the build.
 install:
   - nvm install 12.18.3
-  - node -v
   - pip install flake8
   - pip install -r requirements.txt
   - npm install
+  - npm rebuild node-sass
 
 # Script steps, if erroring, will fail the build but not stop the build process.
 # This is useful because we want to know that linting is broken, but it shouldn't
