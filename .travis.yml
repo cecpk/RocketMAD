@@ -1,27 +1,19 @@
 sudo: false
-language: python
-cache:
-  pip: true
-  directories:
-    - node_modules
-python:
-  - 3.6
+jobs:
+  include:
+    - language: python
+      python: 3.6
+      install:
+        - pip install flake8
+        - pip install -r requirements.txt
+      script:
+        - flake8 --statistics --show-source --disable-noqa
+        - nosetests
 
-# Install steps MUST succeed or will immediately halt the build.
-install:
-  - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install --lts=boron
-  - pip install flake8
-  - pip install -r requirements.txt
-  - npm install
-  - npm install node-sass
-  - npm install -g grunt-cli
-  - npm rebuild node-sass
-
-# Script steps, if erroring, will fail the build but not stop the build process.
-# This is useful because we want to know that linting is broken, but it shouldn't
-# stop us from testing/linting/compiling other things as well.
-script:
-  - flake8 --statistics --show-source --disable-noqa
-  - npm run build
-  - npm run lint
-  - nosetests
+    - language: node_js
+      node_js: 12
+      install:
+        - npm install
+      script:
+        - npm run build
+        - npm run lint
