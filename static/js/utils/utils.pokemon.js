@@ -1,15 +1,17 @@
 /*
-exported getIvsPercentage, getIvsPercentageCssColor, getMoveName, getMoveType,
-getMoveTypeNoI8ln, getPokemonGen, getPokemonIds, getPokemonLevel,
-getPokemonNameWithForm, getPokemonRarity, getPokemonRarityName,
-getPokemonRawIconUrl, getPokemonTypes, initMoveData, initPokemonData,
-searchPokemon, setupPokemonMarker, updatePokemonRarities
+exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
+getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
+getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
+getPokemonRarityName, getPokemonRawIconUrl, getPokemonTypes, initMoveData,
+initPokemonData, searchPokemon, setupPokemonMarker, updatePokemonRarities
 */
 
 var pokemonData = {}
 var moveData = {}
 var pokemonRarities = {}
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
+// FontAwesome gender classes.
+const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 var pokemonSearchList = []
 const availablePokemonCount = 649
 const pokemonIds = new Set()
@@ -212,9 +214,9 @@ function getPokemonLevel(cpMultiplier) {
     return pokemonLevel
 }
 
-function setupPokemonMarker(pokemon, layerGroup) {
-    var icon = L.icon({ // eslint-disable-line new-cap
-        iconUrl: getPokemonMapIconUrl(pokemon),
+function setupPokemonMarker(pokemon, layerGroup, generateImages) {
+    var icon = L.icon({
+        iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
         iconSize: [32, 32]
     })
 

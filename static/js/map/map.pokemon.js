@@ -1,3 +1,13 @@
+/*
+globals addListeners, cryFileTypes, isShowAllZoom, mapData, markers,
+markersNoCluster, notifiedPokemonData, pokemonNewSpawnZIndex,
+pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
+pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
+removeRangeCircle, sendNotification, settings, setupRangeCircle,
+updateRangeCircle, weatherClassesDay, weatherNames,
+*/
+/* exported processPokemon, updatePokemons */
+
 function isPokemonRarityExcluded(pokemon) {
     if (serverSettings.rarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
@@ -141,19 +151,19 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
 function pokemonLabel(item) {
     var name = getPokemonName(item.pokemon_id)
     var types = getPokemonTypesNoI8ln(item.pokemon_id, item.form)
-    var encounterId = item['encounter_id']
-    var id = item['pokemon_id']
-    var latitude = item['latitude']
-    var longitude = item['longitude']
-    var disappearTime = item['disappear_time']
-    var atk = item['individual_attack']
-    var def = item['individual_defense']
-    var sta = item['individual_stamina']
-    var gender = item['gender']
-    var form = item['form']
-    var cp = item['cp']
-    var cpMultiplier = item['cp_multiplier']
-    var weatherBoostedCondition = item['weather_boosted_condition']
+    var encounterId = item.encounter_id
+    var id = item.pokemon_id
+    var latitude = item.latitude
+    var longitude = item.longitude
+    var disappearTime = item.disappear_time
+    var atk = item.individual_attack
+    var def = item.individual_defense
+    var sta = item.individual_stamina
+    var gender = item.gender
+    var form = item.form
+    var cp = item.cp
+    var cpMultiplier = item.cp_multiplier
+    var weatherBoostedCondition = item.weather_boosted_condition
 
     var pokemonIcon = getPokemonRawIconUrl(item, serverSettings.generateImages)
     var gen = getPokemonGen(id)
@@ -180,9 +190,9 @@ function pokemonLabel(item) {
     }
 
     if (item.verified_disappear_time) {
-        verifiedDisplay = `<i id='despawn-verified' class='fas fa-check-square' title='Despawn time verified'></i>`
+        verifiedDisplay = '<i id="despawn-verified" class="fas fa-check-square" title="Despawn time verified"></i>'
     } else if (item.verified_disappear_time === null) {
-        verifiedDisplay = `<i id='despawn-unverified' class='fas fa-exclamation-triangle' title='Despawn time not verified'></i>`
+        verifiedDisplay = '<i id="despawn-unverified" class="fas fa-exclamation-triangle" title="Despawn time not verified"></i>'
     }
 
     $.each(types, function (idx, type) {
@@ -239,7 +249,7 @@ function pokemonLabel(item) {
 
         let rarityDisplay = ''
         if (serverSettings.rarity) {
-            const rarityName = getPokemonRarityName(item['pokemon_id'])
+            const rarityName = getPokemonRarityName(item.pokemon_id)
             rarityDisplay = `
                 <div>
                   <strong>${rarityName}</strong>
@@ -254,7 +264,7 @@ function pokemonLabel(item) {
     } else {
         let rarityDisplay = ''
         if (serverSettings.rarity) {
-            const rarityName = getPokemonRarityName(item['pokemon_id'])
+            const rarityName = getPokemonRarityName(item.pokemon_id)
             rarityDisplay = `<strong>${rarityName}</strong> | `
         }
 
@@ -316,7 +326,7 @@ function processPokemon(pokemon) {
     }
 
     const id = pokemon.encounter_id
-    if (!mapData.pokemons.hasOwnProperty(id)) {
+    if (!(id in mapData.pokemons)) {
         const isNotifPoke = isNotifPokemon(pokemon)
         if (!isPokemonMeetsFilters(pokemon, isNotifPoke) || pokemon.disappear_time <= Date.now() + 3000) {
             return true
@@ -327,9 +337,9 @@ function processPokemon(pokemon) {
         }
 
         if (isNotifPoke) {
-            pokemon.marker = setupPokemonMarker(pokemon, markersNoCluster)
+            pokemon.marker = setupPokemonMarker(pokemon, markersNoCluster, serverSettings.generateImages)
         } else {
-            pokemon.marker = setupPokemonMarker(pokemon, markers)
+            pokemon.marker = setupPokemonMarker(pokemon, markers, serverSettings.generateImages)
         }
         customizePokemonMarker(pokemon, pokemon.marker, isNotifPoke)
         if (isPokemonRangesActive()) {
@@ -346,7 +356,7 @@ function processPokemon(pokemon) {
 }
 
 function updatePokemon(id, pokemon = null) {
-    if (id == null || !mapData.pokemons.hasOwnProperty(id)) {
+    if (id == null || !(id in mapData.pokemons)) {
         return true
     }
 
@@ -398,7 +408,7 @@ function updatePokemon(id, pokemon = null) {
         }
 
         if (pokemon.marker.isPopupOpen()) {
-            updatePokemonLabel(pokemon,  mapData.pokemons[id].marker)
+            updatePokemonLabel(pokemon, mapData.pokemons[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
             mapData.pokemons[id].updated = true
@@ -436,7 +446,7 @@ function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
 
 function removePokemon(pokemon) {
     const id = pokemon.encounter_id
-    if (mapData.pokemons.hasOwnProperty(id)) {
+    if (id in mapData.pokemons) {
         if (mapData.pokemons[id].rangeCircle) {
             removeRangeCircle(mapData.pokemons[id].rangeCircle)
         }
@@ -446,7 +456,7 @@ function removePokemon(pokemon) {
 }
 
 function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
-    if (mapData.pokemons.hasOwnProperty(id)) {
+    if (id in mapData.pokemons) {
         if (mapData.pokemons[id].rangeCircle) {
             removeRangeCircle(mapData.pokemons[id].rangeCircle)
         }
@@ -511,7 +521,7 @@ function isNotifPokemon(pokemon) {
 
 function hasSentPokemonNotification(pokemon) {
     const id = pokemon.encounter_id
-    return notifiedPokemonData.hasOwnProperty(id) && pokemon.disappear_time === notifiedPokemonData[id].disappear_time &&
+    return id in notifiedPokemonData && pokemon.disappear_time === notifiedPokemonData[id].disappear_time &&
         pokemon.cp_multiplier === notifiedPokemonData[id].cp_multiplier && pokemon.individual_attack === notifiedPokemonData[id].individual_attack &&
         pokemon.individual_defense === notifiedPokemonData[id].individual_defense && pokemon.individual_stamina === notifiedPokemonData[id].individual_stamina
 }
@@ -522,7 +532,7 @@ function playPokemonSound(pokemonId, cryFileTypes) {
     }
 
     if (!settings.playCries) {
-        audio.play()
+        ding.play()
     } else {
         // Stop if we don't have any supported filetypes left.
         if (cryFileTypes.length === 0) {
@@ -552,8 +562,8 @@ function sendPokemonNotification(pokemon) {
         var notifTitle = getPokemonNameWithForm(pokemon.pokemon_id, pokemon.form)
         var notifText = ''
 
-        let expireTime = timestampToTime(pokemon.disappear_time)
-        let timeUntil = getTimeUntil(pokemon.disappear_time)
+        const expireTime = timestampToTime(pokemon.disappear_time)
+        const timeUntil = getTimeUntil(pokemon.disappear_time)
         let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
         expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 

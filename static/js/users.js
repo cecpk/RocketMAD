@@ -1,15 +1,5 @@
 let table
 
-function enableDarkMode() {
-    $('body').addClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#212121')
-}
-
-function disableDarkMode() {
-    $('body').removeClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#ffffff')
-}
-
 function initSidebar() {
     $('#dark-mode-switch').on('change', function () {
         if (this.checked) {

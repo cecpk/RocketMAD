@@ -1,3 +1,6 @@
+/* globals exParksLayerGroup, map, mapData, nestParksLayerGroup, settings */
+/* exported getAllParks, updateAllParks */
+
 function getAllParks() {
     if (serverSettings.nestParks) {
         $.getJSON('static/data/parks/' + serverSettings.nestParksFileName + '.json?v=' + version).done(function (response) {
@@ -44,7 +47,7 @@ function updateNestParks() {
         nestParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(nestParksLayerGroup)
+            L.polygon(park, { color: 'limegreen', interactive: false }).addTo(nestParksLayerGroup)
         })
     }
 }
@@ -61,7 +64,7 @@ function updateExParks() {
         exParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'black', interactive: false}).addTo(exParksLayerGroup)
+            L.polygon(park, { color: 'black', interactive: false }).addTo(exParksLayerGroup)
         })
     }
 }

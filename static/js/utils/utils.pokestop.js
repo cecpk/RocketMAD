@@ -1,4 +1,13 @@
-/* exported getInvasionGrunt, getInvasionImageUrl, getInvasionPokemon, getInvasionType, getPokestopIconUrl, initInvasionData */
+/* exported ActiveFortModifierEnum, getInvasionGrunt, getInvasionImageUrl, getInvasionPokemon, getInvasionType, getPokestopIconUrl, initInvasionData, lureTypes */
+
+const ActiveFortModifierEnum = Object.freeze({ normal: 501, glacial: 502, mossy: 503, magnetic: 504 })
+
+const lureTypes = {
+    501: 'Normal',
+    502: 'Glacial',
+    503: 'Mossy',
+    504: 'Magnetic'
+}
 
 var invasionData = {}
 

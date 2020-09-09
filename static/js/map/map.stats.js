@@ -1,4 +1,9 @@
-/* globals map */
+/*
+globals ActiveFortModifierEnum, gymTypes, isGymMeetsGymFilters,
+isGymMeetsRaidFilters, isPokestopMeetsInvasionFilters,
+isPokestopMeetsLureFilters, isPokestopMeetsQuestFilters, map, mapData,
+raidEggImages, settings, statsSideNav
+*/
 /* exported updateStatsTable */
 
 let tabsInstance

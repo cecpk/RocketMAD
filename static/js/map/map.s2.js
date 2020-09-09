@@ -1,3 +1,6 @@
+/* globals map, s2CellsLayerGroup, settings */
+/* exported updateS2Overlay */
+
 function addPoly(cell, color, weight) {
     const vertices = cell.getCornerLatLngs()
     const poly = L.polygon(vertices, {

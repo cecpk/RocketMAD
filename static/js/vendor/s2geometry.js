@@ -492,7 +492,6 @@ S2.idToKey = S2.S2Cell.idToKey
 = S2.fromId = S2.fromCellId
 = S2.S2Cell.toHilbertQuadkey  = S2.toHilbertQuadkey
 = function (idS) {
-  var Long = exports.dcodeIO && exports.dcodeIO.Long || require('long');
   var bin = Long.fromString(idS, true, 10).toString(2);
 
   while (bin.length < (S2.FACE_BITS + S2.POS_BITS)) {
@@ -552,7 +551,6 @@ S2.S2Cell.latLngToKey = S2.latLngToKey
 };
 
 S2.stepKey = function (key, num) {
-  var Long = exports.dcodeIO && exports.dcodeIO.Long || require('long');
   var parts = key.split('/');
 
   var faceS = parts[0];

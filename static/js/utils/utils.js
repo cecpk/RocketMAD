@@ -1,10 +1,11 @@
 /*
-exported deviceCanHover, difference, getDecimalSeparator, getParameterByName,
-getPointDistance, getThousandsSeparator, hasLocationSupport, intersection,
-isMobileDevice, isNowBetween, isTouchDevice, lazyLoadImages,
-mapServiceProviderNames, removeLastDirsFromUrl, showImageModal,
-symmetricDifference, timestampToDate, timestampToDateTime, timestampToTime,
-toastError, toastInfo, toastSuccess, toastWarning, union
+exported deviceCanHover, difference, ding, disableDarkMode, enableDarkMode,
+getDecimalSeparator, getParameterByName, getPointDistance,
+getThousandsSeparator, hasLocationSupport, intersection, isMobileDevice,
+isNowBetween, isTouchDevice, lazyLoadImages, mapServiceProviderNames,
+removeLastDirsFromUrl, showImageModal, symmetricDifference, timestampToDate,
+timestampToDateTime, timestampToTime, toastError, toastInfo, toastSuccess,
+toastWarning, union, updateLabelDiffTime
 */
 
 let touchDevice = null
@@ -20,6 +21,7 @@ const mapServiceProviderNames = {
     openstreetmap: 'OpenStreetMap',
     waze: 'Waze'
 }
+const ding = new Audio('static/sounds/ding.mp3')
 
 function isTouchDevice() {
     if (touchDevice === null) {
@@ -90,6 +92,16 @@ function removeLastDirsFromUrl(url, count) {
         url = url.substring(0, url.lastIndexOf('/'))
     }
     return url
+}
+
+function enableDarkMode() {
+    $('body').addClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#212121')
+}
+
+function disableDarkMode() {
+    $('body').removeClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#ffffff')
 }
 
 function showImageModal(url, title) {
@@ -165,6 +177,50 @@ function timestampToDateTime(timestamp) {
 function isNowBetween(timestamp1, timestamp2) {
     const now = Date.now()
     return timestamp1 <= now && now <= timestamp2
+}
+
+function getTimeUntil(time) {
+    var now = Date.now()
+    var tdiff = time - now
+
+    var sec = Math.floor((tdiff / 1000) % 60)
+    var min = Math.floor((tdiff / 1000 / 60) % 60)
+    var hour = Math.floor((tdiff / (1000 * 60 * 60)) % 24)
+
+    return {
+        total: tdiff,
+        hour: hour,
+        min: min,
+        sec: sec,
+        now: now,
+        time: time
+    }
+}
+
+
+function lpad(str, len, padstr) {
+    return Array(Math.max(len - String(str).length + 1, 0)).join(padstr) + str
+}
+
+function updateLabelDiffTime() {
+    $('.label-countdown').each(function (index, element) {
+        var disappearsAt = getTimeUntil(parseInt(element.getAttribute('disappears-at')))
+
+        var hours = disappearsAt.hour
+        var minutes = disappearsAt.min
+        var seconds = disappearsAt.sec
+        var timestring = ''
+
+        if (disappearsAt.ttime < disappearsAt.now) {
+            timestring = 'expired'
+        } else if (hours > 0) {
+            timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
+        } else {
+            timestring = lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
+        }
+
+        $(element).text(timestring)
+    })
 }
 
 function toast(title, text, imageUrl, iconClass, classes) {

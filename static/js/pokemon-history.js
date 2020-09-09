@@ -11,16 +11,6 @@ let markers
 let heatLayer
 let detailsPersist = false
 
-function enableDarkMode() {
-    $('body').addClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#212121')
-}
-
-function disableDarkMode() {
-    $('body').removeClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#ffffff')
-}
-
 function initSidebar() {
     $('#duration-select').on('change', function () {
         Store.set('pokemonHistoryDuration', parseInt(this.value))
@@ -244,7 +234,7 @@ function addListeners(marker) {
 function processAppearance(idx, item) {
     const spawnpointId = item.spawnpoint_id
     if (!(spawnpointId in mapData.appearances)) {
-        item.marker = setupPokemonMarker(item, markers)
+        item.marker = setupPokemonMarker(item, markers, serverSettings.generateImages)
         addListeners(item.marker)
         item.marker.spawnpointId = spawnpointId
         mapData.appearances[spawnpointId] = item
