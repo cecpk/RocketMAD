@@ -1,4 +1,4 @@
 [flake8]
-exclude = node_modules,venv,.git,docs,Tools,rocketmad/pogoprotos
+exclude = node_modules,venv,.git,docs,Tools,pogoprotos
 max-line-length = 79
 ignore = E402
