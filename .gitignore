@@ -11,11 +11,11 @@ geofences/*
 !geofences/*.example
 node_modules/
 venv/
+!.eslintrc.json
 core
 src/
 _build
 _build_html
-beehive.*
 static/css/custom.css
 static/data/parks/
 static/data/rarity/

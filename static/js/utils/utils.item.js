@@ -1,3 +1,5 @@
+/* exported getItemImageUrl, getItemName, getQuestBundles, initItemData */
+
 var itemData = {}
 
 function initItemData() {

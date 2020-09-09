@@ -1,16 +1,6 @@
 let table
 let rawDataIsLoading = false
 
-function enableDarkMode() {
-    $('body').addClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#212121')
-}
-
-function disableDarkMode() {
-    $('body').removeClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#ffffff')
-}
-
 function initSidebar() {
     $('#dark-mode-switch').on('change', function () {
         if (this.checked) {
@@ -29,8 +19,8 @@ function loadRawData() {
         url: 'raw-data',
         type: 'GET',
         data: {
-            'pokestops': true,
-            'quests': true,
+            pokestops: true,
+            quests: true
         },
         dataType: 'json',
         beforeSend: function () {
@@ -55,7 +45,7 @@ function loadQuests() {
     $('.preloader-wrapper').show()
 
     loadRawData().done(function (result) {
-        $.each(result.pokestops, function(id, pokestop) {
+        $.each(result.pokestops, function (id, pokestop) {
             if (!pokestop.quest) {
                 return true
             }
@@ -87,12 +77,12 @@ $(function () {
 
     table = $('#quest-table').DataTable({
         responsive: true,
-        'columnDefs': [
+        columnDefs: [
             {
-                'targets': 0,
+                targets: 0,
                 responsivePriority: 1,
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     const pokestopName = data.name ? data.name : 'Unknown'
                     if (type === 'display') {
                         const imageUrl = data.image ? data.image.replace(/^http:\/\//i, '//') : ''
@@ -117,19 +107,19 @@ $(function () {
                 }
             },
             {
-                'targets': 1,
+                targets: 1,
                 responsivePriority: 3,
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     return data.quest.task
                 }
             },
             {
-                'targets': 2,
+                targets: 2,
                 responsivePriority: 2,
                 type: 'natural',
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     const quest = data.quest
                     if (type === 'display') {
                         let rewardImageUrl = ''
@@ -144,7 +134,7 @@ $(function () {
                                 rewardText = quest.stardust + ' ' + getItemName(6)
                                 break
                             case 7:
-                                rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
+                                rewardImageUrl = getPokemonRawIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
                                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
                                 break
                             case 12:

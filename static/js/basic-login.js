@@ -9,7 +9,7 @@ $(function () {
         coverTrigger: false
     })
 
-    $('#login-button').click(function() {
+    $('#login-button').click(function () {
         const username = $('#username').val().trim()
         const password = $('#password').val().trim()
         if (username.length > 0 && password.length > 0) {

@@ -1,10 +1,20 @@
+/*
+exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
+getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
+getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
+getPokemonRarityName, getPokemonRawIconUrl, getPokemonTypes, initMoveData,
+initPokemonData, searchPokemon, setupPokemonMarker, updatePokemonRarities
+*/
+
 var pokemonData = {}
 var moveData = {}
 var pokemonRarities = {}
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
+// FontAwesome gender classes.
+const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 var pokemonSearchList = []
 const availablePokemonCount = 649
-let pokemonIds = new Set()
+const pokemonIds = new Set()
 
 function initPokemonData() {
     if (!$.isEmptyObject(pokemonData)) {
@@ -13,7 +23,7 @@ function initPokemonData() {
 
     return $.getJSON('static/dist/data/pokemon.min.json?v=' + version).done(function (data) {
         pokemonData = data
-        $.each(pokemonData, function(id, value) {
+        $.each(pokemonData, function (id, value) {
             var gen
             if (id <= 151) {
                 gen = 1
@@ -80,7 +90,7 @@ function getPokemonIds() {
 }
 
 function getPokemonName(id, evolutionId = 0) {
-    switch(evolutionId) {
+    switch (evolutionId) {
         case 1:
             return 'Mega ' + i8ln(pokemonData[id].name)
         case 2:
@@ -134,7 +144,7 @@ function getMoveTypeNoI8ln(id) {
 }
 
 function getPokemonRarity(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
+    if (pokemonId in pokemonRarities) {
         return pokemonRarities[pokemonId]
     }
 
@@ -142,15 +152,11 @@ function getPokemonRarity(pokemonId) {
 }
 
 function getPokemonRarityName(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
-        return i8ln(rarityNames[pokemonRarities[pokemonId] - 1])
-    }
-
-    return i8ln('New Spawn')
+    return i8ln(rarityNames[getPokemonRarity(pokemonId) - 1])
 }
 
-function getPokemonRawIconUrl(pokemon) {
-    if (!serverSettings.generateImages) {
+function getPokemonRawIconUrl(pokemon, generateImages) {
+    if (!generateImages) {
         return `static/icons/${pokemon.pokemon_id}.png`
     }
 
@@ -164,8 +170,8 @@ function getPokemonRawIconUrl(pokemon) {
     return `pkm_img?raw=1&pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${shinyParm}${weatherParam}`
 }
 
-function getPokemonMapIconUrl(pokemon) {
-    if (!serverSettings.generateImages) {
+function getPokemonMapIconUrl(pokemon, generateImages) {
+    if (!generateImages) {
         return `static/icons/${pokemon.pokemon_id}.png`
     }
 
@@ -208,13 +214,13 @@ function getPokemonLevel(cpMultiplier) {
     return pokemonLevel
 }
 
-function setupPokemonMarker(pokemon, layerGroup) {
-    var icon = L.icon({ // eslint-disable-line new-cap
-        iconUrl: getPokemonMapIconUrl(pokemon),
+function setupPokemonMarker(pokemon, layerGroup, generateImages) {
+    var icon = L.icon({
+        iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
         iconSize: [32, 32]
     })
 
-    return L.marker([pokemon.latitude, pokemon.longitude], {icon: icon}).addTo(layerGroup)
+    return L.marker([pokemon.latitude, pokemon.longitude], { icon: icon }).addTo(layerGroup)
 }
 
 function searchPokemon(searchtext) {
@@ -245,9 +251,9 @@ function searchPokemon(searchtext) {
                         item.type2.toLowerCase().includes(searchstring.toLowerCase()) ||
                         item.gen.toString() === searchstring.toLowerCase()) {
                     if (operator === 'add') {
-                        foundPokemon.push(item['id'])
+                        foundPokemon.push(item.id)
                     } else {
-                        delete foundPokemon[foundPokemon.indexOf(item['id'])]
+                        delete foundPokemon[foundPokemon.indexOf(item.id)]
                     }
                 }
             })

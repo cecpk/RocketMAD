@@ -1,15 +1,5 @@
 let table
 
-function enableDarkMode() {
-    $('body').addClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#212121')
-}
-
-function disableDarkMode() {
-    $('body').removeClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#ffffff')
-}
-
 function initSidebar() {
     $('#dark-mode-switch').on('change', function () {
         if (this.checked) {
@@ -36,7 +26,7 @@ function loadRawData() {
 
 function loadUsers() {
     loadRawData().done(function (result) {
-        $.each(result, function(idx, value) {
+        $.each(result, function (idx, value) {
             table.row.add(value)
         })
         table.draw()
@@ -60,12 +50,12 @@ $(function () {
 
     table = $('#user-table').DataTable({
         responsive: true,
-        'columnDefs': [
+        columnDefs: [
             {
-                'targets': 0,
+                targets: 0,
                 responsivePriority: 1,
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     switch (data.auth_type) {
                         case 'basic':
                         case 'discord':
@@ -80,40 +70,40 @@ $(function () {
                 }
             },
             {
-                'targets': 1,
+                targets: 1,
                 responsivePriority: 2,
-                'data': null,
-                'render': function (data, type, row) {
-                    if (type == 'display') {
-                        return data.auth_type.charAt(0).toUpperCase() + data.auth_type.slice(1);
+                data: null,
+                render: function (data, type, row) {
+                    if (type === 'display') {
+                        return data.auth_type.charAt(0).toUpperCase() + data.auth_type.slice(1)
                     }
                     return data.auth_type
                 }
             },
             {
-                'targets': 2,
+                targets: 2,
                 responsivePriority: 3,
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     return data.id
                 }
             },
             {
-                'targets': 3,
+                targets: 3,
                 responsivePriority: 5,
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     return data.ip ? data.ip : 'Unknown'
                 }
             },
 
             {
-                'targets': 4,
+                targets: 4,
                 responsivePriority: 4,
                 type: 'natural',
-                'data': null,
-                'render': function (data, type, row) {
-                    if (type == 'display') {
+                data: null,
+                render: function (data, type, row) {
+                    if (type === 'display') {
                         return data.last_active ? timestampToDateTime(data.last_active) : 'Unknown'
                     }
                     return data.last_active ? data.last_active : 0

@@ -1,3 +1,5 @@
+/* exported i8ln, initI8lnDictionary */
+
 const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
 var i8lnDictionary = {}
 
