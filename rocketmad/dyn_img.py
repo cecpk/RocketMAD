@@ -113,7 +113,7 @@ def is_imagemagick_binary(binary):
                                    stdout=subprocess.PIPE)
         out, err = process.communicate()
         return "ImageMagick" in out.decode('utf8')
-    except Exception as e:
+    except Exception:
         return False
 
 
@@ -127,12 +127,13 @@ def determine_imagemagick_binary():
             return candidates[c] if candidates[c] else c
     return None
 
+
 if args.generate_images:
     executable = determine_imagemagick_binary()
     if executable:
         generate_images = True
         imagemagick_executable = executable
-        log.info("Generating icons using ImageMagick " +
+        log.info("Generating icons using ImageMagick "
                  "executable '{}'.".format(executable))
 
         if args.pogo_assets:
@@ -442,8 +443,8 @@ def draw_gym_subject(image, size, gravity='north', trim=False):
     lines = [
         '-gravity {} ( "{}"{} -scale {}x{} -unsharp 0x1 ( +clone '.format(
             gravity, image, trim_cmd, size, size),
-        '-background black -shadow 80x3+5+5 ) +swap -background ' +
-        'none -layers merge +repage ) -geometry +0+0 -composite'
+        '-background black -shadow 80x3+5+5 ) +swap -background '
+        + 'none -layers merge +repage ) -geometry +0+0 -composite'
     ]
     return lines
 
@@ -496,7 +497,8 @@ def run_imagemagick(source, im_lines, out_filename):
         cmd = '{} "{}" {} "{}"'.format(
             imagemagick_executable, source, " ".join(im_lines), out_filename)
         if os.name != 'nt':
-            cmd = cmd.replace(" ( ", " \( ").replace(" ) ", " \) ")
+            cmd = cmd.replace(" ( ", " \\( ").replace(" ) ", " \\) ")
+        print(cmd)
         log.info("Generating icon '{}'".format(out_filename))
         subprocess.call(cmd, shell=True)
     return out_filename

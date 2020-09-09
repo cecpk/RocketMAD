@@ -37,8 +37,8 @@ class BasicAuth(AuthBase):
             return False
         if not args.basic_auth_case_sensitive:
             username = username.lower()
-        if (username not in self.credentials or
-                password != self.credentials[username]):
+        if (username not in self.credentials
+                or password != self.credentials[username]):
             return False
 
         session['auth_type'] = 'basic'
@@ -55,11 +55,12 @@ class BasicAuth(AuthBase):
         session.clear()
 
     def get_access_data(self):
-        if (session['username'] not in self.credentials or
-                session['password'] != self.credentials[session['username']]):
+        username = session['username']
+        if (username not in self.credentials
+                or session['password'] != self.credentials[username]):
             return False, url_for('login_page'), None
 
-        return True, None, self.access_configs.get(session['username'])
+        return True, None, self.access_configs.get(username)
 
     def _update_access_data(self):
         pass

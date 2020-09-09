@@ -7,7 +7,6 @@ import time
 import uuid
 
 from base64 import b64encode
-from datetime import datetime
 from flask import request, session, url_for
 
 from .oauth2 import OAuth2Base
@@ -164,8 +163,8 @@ class DiscordAuth(OAuth2Base):
                             session['token'] = {
                                 'access_token': token['access_token'],
                                 'refresh_token': token['refresh_token'],
-                                'expires_at': (time.time() +
-                                               token['expires_in'] - 5)
+                                'expires_at': (time.time()
+                                               + token['expires_in'] - 5)
                             }
 
                             return self.get_access_data()
@@ -212,8 +211,8 @@ class DiscordAuth(OAuth2Base):
                 user_roles[guild_id] = roles
 
         # Whitelisted users/admins bypass other whitelists/blacklists.
-        if (session['id'] in args.discord_whitelisted_users or
-                session['id'] in args.discord_admins):
+        if (session['id'] in args.discord_whitelisted_users
+                or session['id'] in args.discord_admins):
             session['has_permission'] = True
             config_name = self._get_access_config_name(user_guilds, user_roles)
             session['access_config_name'] = config_name
@@ -236,8 +235,8 @@ class DiscordAuth(OAuth2Base):
                 return
 
         # Check required roles.
-        has_required_role = any(role[0] in user_guilds and
-                                role[1] in user_roles[role[0]]
+        has_required_role = any(role[0] in user_guilds
+                                and role[1] in user_roles[role[0]]
                                 for role in self.required_roles)
         if self.required_roles and not has_required_role:
             session['has_permission'] = False
@@ -329,8 +328,8 @@ class DiscordAuth(OAuth2Base):
         bytes = b64encode(data.encode("utf-8"))
         encoded_creds = str(bytes, "utf-8")
         headers = {
-          'Authorization': 'Basic ' + encoded_creds,
-          'Content-Type': 'application/x-www-form-urlencoded'
+            'Authorization': 'Basic ' + encoded_creds,
+            'Content-Type': 'application/x-www-form-urlencoded'
         }
         data = 'token=' + access_token
         r = requests.post(self.revoke_token_url, data=data, headers=headers)

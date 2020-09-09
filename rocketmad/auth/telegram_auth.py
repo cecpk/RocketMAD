@@ -8,7 +8,6 @@ import requests
 import time
 
 from flask import request, session
-from hashlib import sha256
 
 from .auth import AuthBase
 from ..utils import get_args
@@ -20,8 +19,8 @@ args = get_args()
 class TelegramAuth(AuthBase):
 
     def __init__(self):
-        self.api_base_url = ('https://api.telegram.org/bot' +
-                             args.telegram_bot_token)
+        self.api_base_url = ('https://api.telegram.org/bot'
+                             + args.telegram_bot_token)
 
         self.telegram_access_configs = []
         for elem in args.telegram_access_configs:
@@ -164,5 +163,5 @@ class TelegramAuth(AuthBase):
 
         r.raise_for_status()
 
-        return ('left' not in result['result']['status'] and
-                'kicked' not in result['result']['status'])
+        return ('left' not in result['result']['status']
+                and 'kicked' not in result['result']['status'])

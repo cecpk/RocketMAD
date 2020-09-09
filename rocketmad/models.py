@@ -1,23 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import gc
-import itertools
 import logging
-import os
 import sys
 import time
 
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
-from functools import reduce
 from sqlalchemy import func, Index, text
 from sqlalchemy.dialects.mysql import BIGINT, DOUBLE, LONGTEXT, TINYINT
 from sqlalchemy.orm import Load, load_only
 from sqlalchemy.sql.expression import and_, or_
 from timeit import default_timer
 
-from .transform import transform_from_wgs_to_gcj
 from .utils import get_args
 
 log = logging.getLogger(__name__)
@@ -503,7 +498,7 @@ class Pokestop(db.Model):
         if not eventless_stops:
             conds = []
             if quests:
-                conds.append(TrsQuest.GUID != None)
+                conds.append(TrsQuest.GUID.isnot(None))
             if invasions:
                 conds.append(Pokestop.incident_expiration > datetime.utcnow())
             if lures:
@@ -564,12 +559,13 @@ class Pokestop(db.Model):
                 }
             else:
                 pokestop['quest'] = None
-            if (pokestop['incident_expiration'] is not None and
-                    (pokestop['incident_expiration'] < now or not invasions)):
+            if (pokestop['incident_expiration'] is not None
+                    and (pokestop['incident_expiration'] < now
+                         or not invasions)):
                 pokestop['incident_grunt_type'] = None
                 pokestop['incident_expiration'] = None
-            if (pokestop['lure_expiration'] is not None and
-                    (pokestop['lure_expiration'] < now or not lures)):
+            if (pokestop['lure_expiration'] is not None
+                    and (pokestop['lure_expiration'] < now or not lures)):
                 pokestop['active_fort_modifier'] = None
                 pokestop['lure_expiration'] = None
             pokestops.append(pokestop)
@@ -781,8 +777,8 @@ class TrsSpawn(db.Model):
                 if sp['spawndef'] == 15:
                     sp['spawn_time'] = sp['despawn_time'] - timedelta(hours=1)
                 else:
-                    sp['spawn_time'] = (sp['despawn_time'] -
-                                        timedelta(minutes=30))
+                    sp['spawn_time'] = (sp['despawn_time']
+                                        - timedelta(minutes=30))
                 del sp['end_time']
             spawnpoints.append(sp)
 
@@ -929,10 +925,10 @@ def drop_rm_tables():
                       table.__tablename__)
 
 
-def add_column(table_model, column):
+def add_column(table_name, column):
     column_name = column.compile(dialect=db.engine.dialect)
     column_type = column.type.compile(db.engine.dialect)
-    db.session.execute('ALTER TABLE %s ADD COLUMN %s %s'.format(
+    db.session.execute('ALTER TABLE {} ADD COLUMN {} {}'.format(
         table_name, column_name, column_type))
 
 
@@ -1002,8 +998,8 @@ def clean_db_loop(app):
 
                 # Clean weather... only changes at full hours anyway...
                 Weather.query.filter(
-                    Weather.last_updated <
-                    datetime.utcnow() - timedelta(hours=1)
+                    Weather.last_updated
+                    < datetime.utcnow() - timedelta(hours=1)
                 ).delete()
                 db.session.commit()
 
@@ -1116,10 +1112,10 @@ def db_clean_spawnpoints(age_hours):
     spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
     rows = TrsSpawn.query.filter(
-        (TrsSpawn.last_scanned < spawnpoint_timeout) |
-        TrsSpawn.last_scanned.is_(None),
-        (TrsSpawn.last_non_scanned < spawnpoint_timeout) |
-        TrsSpawn.last_non_scanned.is_(None)
+        (TrsSpawn.last_scanned < spawnpoint_timeout)
+        | TrsSpawn.last_scanned.is_(None),
+        (TrsSpawn.last_non_scanned < spawnpoint_timeout)
+        | TrsSpawn.last_non_scanned.is_(None)
     ).delete()
     db.session.commit()
     log.debug('Deleted %d old TrsSpawn entries.', rows)

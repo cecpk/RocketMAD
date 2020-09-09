@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from threading import Thread
 
 import configargparse
 import configparser
@@ -14,7 +13,6 @@ import os
 import pickle
 import psutil
 import re
-import redis
 import requests
 import socket
 import struct
@@ -23,10 +21,7 @@ import time
 
 from collections import OrderedDict
 from s2sphere import CellId, LatLng
-from datetime import datetime, timedelta
-from functools import lru_cache
 from geopy.geocoders import Nominatim
-from multiprocessing import Process, current_process
 from pathlib import Path
 from requests import Session
 from requests.packages.urllib3.util.retry import Retry
@@ -98,16 +93,16 @@ def get_args(access_config=None):
                         help='Set web server listening port.', default=5000)
     parser.add_argument('-w', '--workers',
                         type=int, default=multiprocessing.cpu_count() * 2 + 1,
-                        help='The number of worker processes for handling ' +
-                             'requests. Generally in the 2-4 x {NUM_CORES} ' +
+                        help='The number of worker processes for handling '
+                             'requests. Generally in the 2-4 x {NUM_CORES} '
                              'range.')
     parser.add_argument('-ds', '--development-server',
                         action='store_true', default=False,
-                        help='Use Flask’s built-in development server. ' +
+                        help='Use Flask’s built-in development server. '
                              'Don\'t use this in production.')
     parser.add_argument('-L', '--locale',
-                        help=('Locale for Pokemon names (check' +
-                              ' static/dist/locales for more).'),
+                        help=('Locale for Pokemon names (check '
+                              'static/dist/locales for more).'),
                         default='en')
     parser.add_argument('-c', '--china',
                         help='Coordinates transformer for China.',
@@ -115,7 +110,7 @@ def get_args(access_config=None):
     parser.add_argument('-C', '--cors', help='Enable CORS on web server.',
                         action='store_true', default=False)
     parser.add_argument('-cd', '--clear-db',
-                        help=('Deletes the existing database before ' +
+                        help=('Deletes the existing database before '
                               'starting the Webserver.'),
                         action='store_true', default=False)
     parser.add_argument('-l', '--location', required=True,
@@ -136,7 +131,7 @@ def get_args(access_config=None):
                         type=int, default=0)
     parser.add_argument('-up', '--upscaled-pokemon',
                         default=None,
-                        help='Pokémon IDs to upscale icons for. ' +
+                        help='Pokémon IDs to upscale icons for. '
                              'Seperate IDs with commas.')
     parser.add_argument('-nphp', '--no-pokemon-history-page',
                         help='Disables pokemon history page.',
@@ -157,7 +152,7 @@ def get_args(access_config=None):
                         help=('Disables raid filters in side nav.'),
                         action='store_true', default=False)
     parser.add_argument('-bwb', '--black-white-badges',
-                        help='Use black/white background with white/black' +
+                        help='Use black/white background with white/black'
                         ' text for gym/raid level badge in gym icons.',
                         action='store_true', default=False)
     parser.add_argument('-nps', '--no-pokestops',
@@ -209,7 +204,7 @@ def get_args(access_config=None):
                         default='MOTD',
                         help='MOTD title, can be HTML.')
     parser.add_argument('-MOtxt', '--motd-text',
-                        default=('Hi there! This is an easily customizable ' +
+                        default=('Hi there! This is an easily customizable '
                                  'MOTD.'),
                         help='MOTD text, can be HTML.')
     parser.add_argument('-MOp', '--motd-pages',
@@ -217,24 +212,24 @@ def get_args(access_config=None):
                         help='Pages the MOTD should be shown on.')
     parser.add_argument('-MOa', '--show-motd-always',
                         action='store_true', default=False,
-                        help=('Show MOTD on every visit. If disabled, the ' +
-                              'MOTD will only be shown when its title or ' +
+                        help=('Show MOTD on every visit. If disabled, the '
+                              'MOTD will only be shown when its title or '
                               'text has changed.'))
     parser.add_argument('-mzl', '--max-zoom-level', type=int,
-                        help=('Maximum level a user can zoom out. ' +
-                             'Range: [0,18]. 0 means the user can zoom out ' +
-                             'completely.'), default=10)
+                        help=('Maximum level a user can zoom out. '
+                              'Range: [0,18]. 0 means the user can zoom out '
+                              'completely.'), default=10)
     parser.add_argument('-czl', '--cluster-zoom-level', type=int,
-                        help=('Zoom level from which markers should be ' +
-                              'clustered. Range: [0,18]. -1 to disable ' +
+                        help=('Zoom level from which markers should be '
+                              'clustered. Range: [0,18]. -1 to disable '
                               'clustering.'), default=14)
     parser.add_argument('-czlm', '--cluster-zoom-level-mobile', type=int,
-                        help=('Zoom level from which markers should be ' +
-                              'clustered on mobile. Range: [0,18]. -1 to ' +
+                        help=('Zoom level from which markers should be '
+                              'clustered on mobile. Range: [0,18]. -1 to '
                               'disable clustering on mobile.'), default=14)
     parser.add_argument('-mcr', '--max-cluster-radius', type=int,
-                        help=('The maximum radius that a cluster will cover ' +
-                              'from the central marker ' +
+                        help=('The maximum radius that a cluster will cover '
+                              'from the central marker '
                               '(in pixels).'), default=60)
     parser.add_argument('-sc', '--spiderfy-clusters',
                         help='Spiderfy clusters at the bottom zoom level.',
@@ -248,7 +243,7 @@ def get_args(access_config=None):
                              'panning animation to fit opened popups on '
                              'mobile devices.')
     parser.add_argument('-lsm', '--lock-start-marker',
-                        help='Disables dragging the start marker and hence ' +
+                        help='Disables dragging the start marker and hence '
                              'disables changing the start position.',
                         action='store_true', default=False)
     parser.add_argument('-ngc', '--no-geocoder',
@@ -272,21 +267,21 @@ def get_args(access_config=None):
                         help=('Hides header image.'),
                         action='store_true', default=False)
     parser.add_argument('-hi', '--header-image',
-                         help='Image in header.',
-                         default='rocket.png')
+                        help='Image in header.',
+                        default='rocket.png')
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)
-    parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.' +
+    parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.'
                         ' PayPal.', default=None)
     parser.add_argument('-pu', '--patreon-url', help='Patreon page link.',
                         default=None)
-    parser.add_argument('-du', '--discord-url', help='Discord server invite' +
+    parser.add_argument('-du', '--discord-url', help='Discord server invite'
                         ' link.', default=None)
     parser.add_argument('-mru', '--messenger-url', help='Messenger group'
                         ' invite link.', default=None)
-    parser.add_argument('-tu', '--telegram-url', help='Telegram group invite' +
+    parser.add_argument('-tu', '--telegram-url', help='Telegram group invite'
                         ' link.', default=None)
-    parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite' +
+    parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite'
                         ' link.', default=None)
     parser.add_argument('-ai', '--analytics-id',
                         default=None,
@@ -360,13 +355,13 @@ def get_args(access_config=None):
                        type=int, default=600,
                        help='Time between database cleanups in seconds.')
     group.add_argument('-DCp', '--db-cleanup-pokemon',
-                       help=('Clear pokemon from database X hours ' +
-                             'after they disappeared. ' +
+                       help=('Clear pokemon from database X hours '
+                             'after they disappeared. '
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
     group.add_argument('-DCg', '--db-cleanup-gym',
-                       help=('Clear gym details (including raids) from ' +
-                             'database X hours after last gym scan. ' +
+                       help=('Clear gym details (including raids) from '
+                             'database X hours after last gym scan. '
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
     group.add_argument('-DCps', '--db-cleanup-pokestop',
@@ -374,14 +369,14 @@ def get_args(access_config=None):
                        help='Clear lure data, invasion data, and quests when '
                             'no longer active. Default: False')
     group.add_argument('-DCf', '--db-cleanup-forts',
-                       help=('Clear gyms and pokestops from ' +
-                             'database X hours ' +
-                             'after last valid scan. ' +
+                       help=('Clear gyms and pokestops from '
+                             'database X hours '
+                             'after last valid scan. '
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
     group.add_argument('-DCs', '--db-cleanup-spawnpoint',
-                       help=('Clear spawnpoint from database X hours ' +
-                             'after last valid scan. ' +
+                       help=('Clear spawnpoint from database X hours '
+                             'after last valid scan. '
                              'Default: 0, 0 to disable.'),
                        type=int, default=0)
 
@@ -390,39 +385,39 @@ def get_args(access_config=None):
     parser.add_argument('--ssl-privatekey',
                         help='Path to SSL private key file.')
     parser.add_argument('-sn', '--status-name', default=str(os.getpid()),
-                        help=('Enable status page database update using ' +
+                        help=('Enable status page database update using '
                               'STATUS_NAME as main worker name.'))
     parser.add_argument('--disable-blacklist',
                         help=('Disable the global anti-scraper IP blacklist.'),
                         action='store_true', default=False)
     parser.add_argument('-tp', '--trusted-proxies', default=[],
                         action='append',
-                        help=('Enables the use of X-FORWARDED-FOR headers ' +
-                              'to identify the IP of clients connecting ' +
+                        help=('Enables the use of X-FORWARDED-FOR headers '
+                              'to identify the IP of clients connecting '
                               'through these trusted proxies.'))
     parser.add_argument('--no-file-logs',
-                        help=('Disable logging to files. ' +
+                        help=('Disable logging to files. '
                               'Does not disable --access-logs.'),
                         action='store_true', default=False)
     parser.add_argument('--log-path',
                         help=('Defines directory to save log files to.'),
                         default='logs/')
     parser.add_argument('--log-filename',
-                        help=('Defines the log filename to be saved. ' +
-                              'Allows date formatting, and replaces <SN> ' +
-                              'with the instance\'s status name. Read the ' +
-                              'python time module docs for details. ' +
+                        help=('Defines the log filename to be saved. '
+                              'Allows date formatting, and replaces <SN> '
+                              'with the instance\'s status name. Read the '
+                              'python time module docs for details. '
                               'Default: %%Y%%m%%d_%%H%%M_<SN>.log.'),
                         default='%Y%m%d_%H%M_<SN>.log'),
     parser.add_argument('--dump',
-                        help=('Dump censored debug info about the ' +
-                              'environment and auto-upload to ' +
+                        help=('Dump censored debug info about the '
+                              'environment and auto-upload to '
                               'hastebin.com.'),
                         action='store_true', default=False)
 
     verbose = parser.add_mutually_exclusive_group()
     verbose.add_argument('-v',
-                         help=('Show debug messages from RocketMap. ' +
+                         help=('Show debug messages from RocketMap. '
                                'Can be repeated up to 3 times.'),
                          action='count', default=0, dest='verbose')
     verbose.add_argument('--verbosity',
@@ -430,11 +425,11 @@ def get_args(access_config=None):
                          type=int, dest='verbose')
 
     parser.add_argument('-gen', '--generate-images',
-                        help=('Use ImageMagick to generate dynamic' +
+                        help=('Use ImageMagick to generate dynamic '
                               'icons on demand.'),
                         action='store_true', default=False)
     parser.add_argument('-pa', '--pogo-assets', default=None,
-                        help=('Directory pointing to optional ' +
+                        help=('Directory pointing to optional '
                               'PogoAssets root directory.'))
 
     group = parser.add_argument_group('Client Auth')
@@ -484,7 +479,7 @@ def get_args(access_config=None):
     group.add_argument('-DAci', '--discord-client-id', default=None,
                        help='OAuth2 client ID.')
     group.add_argument('-DAcs', '--discord-client-secret', default=None,
-                        help='OAuth2 client secret.')
+                       help='OAuth2 client secret.')
     group.add_argument('-DAbt', '--discord-bot-token', default=None,
                        help='Token for bot with access to your guild. '
                             'Only required for required/blacklisted roles '
@@ -704,9 +699,9 @@ def get_args(access_config=None):
     args.center_lat = position[0]
     args.center_lng = position[1]
 
-    if (args.db_cleanup_pokemon > 0 or args.db_cleanup_gym > 0 or
-            args.db_cleanup_pokestop or args.db_cleanup_forts > 0 or
-            args.db_cleanup_spawnpoint > 0):
+    if (args.db_cleanup_pokemon > 0 or args.db_cleanup_gym > 0
+            or args.db_cleanup_pokestop or args.db_cleanup_forts > 0
+            or args.db_cleanup_spawnpoint > 0):
         args.db_cleanup = True
     else:
         args.db_cleanup = False
@@ -735,9 +730,9 @@ def get_args(access_config=None):
         sys.exit(1)
 
     if args.discord_auth and not args.discord_no_permission_redirect and (
-            args.discord_blacklisted_users or args.discord_whitelisted_users or
-            args.discord_required_guilds or args.discord_blacklisted_guilds or
-            args.discord_required_roles or args.discord_blacklisted_roles):
+            args.discord_blacklisted_users or args.discord_whitelisted_users
+            or args.discord_required_guilds or args.discord_blacklisted_guilds
+            or args.discord_required_roles or args.discord_blacklisted_roles):
         parser.print_usage()
         print(sys.argv[0] + ': error: -DAr/--discord-no-permission-redirect '
               'parameter is required for Discord auth.')
@@ -766,13 +761,13 @@ def date_secs(d):
 # Checks to see if test is between start and end accounting for hour
 # wraparound.
 def clock_between(start, test, end):
-    return ((start <= test <= end and start < end) or
-            (not (end <= test <= start) and start > end))
+    return ((start <= test <= end and start < end)
+            or (not (end <= test <= start) and start > end))
 
 
 def extract_coordinates(location):
     # Use lat/lng directly if matches such a pattern.
-    prog = re.compile("^(\-?\d+\.\d+),?\s?(\-?\d+\.\d+)$")
+    prog = re.compile(r"^(\-?\d+\.\d+),?\s?(\-?\d+\.\d+)$")
     res = prog.match(location)
     if res:
         log.debug('Using coordinates from CLI directly')
@@ -902,8 +897,8 @@ def dottedQuadToNum(ip):
 
 def calc_pokemon_level(cp_multiplier):
     if cp_multiplier < 0.734:
-        pokemon_level = (58.35178527 * cp_multiplier * cp_multiplier -
-                         2.838007664 * cp_multiplier + 0.8539209906)
+        pokemon_level = (58.35178527 * cp_multiplier * cp_multiplier
+                         - 2.838007664 * cp_multiplier + 0.8539209906)
     else:
         pokemon_level = 171.0112688 * cp_multiplier - 95.20425243
     pokemon_level = int((round(pokemon_level) * 2) / 2)
@@ -916,8 +911,8 @@ def calc_pokemon_cp(pokemon, base_attack, base_defense, base_stamina):
     attack = base_attack + pokemon['individual_attack']
     defense = base_defense + pokemon['individual_defense']
     stamina = base_stamina + pokemon['individual_stamina']
-    cp = ((attack * math.sqrt(defense) * math.sqrt(stamina) *
-          pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
+    cp = ((attack * math.sqrt(defense) * math.sqrt(stamina)
+          * pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
     return int(cp) if cp > 10 else 10
 
 
@@ -1042,8 +1037,6 @@ def periodic_loop(f, loop_delay_ms):
 
 # Periodically log resource usage every 'loop_delay_ms' ms.
 def log_resource_usage_loop(loop_delay_ms=60000):
-    args = get_args()
-
     # Helper method to log to specific log level.
     def log_resource_usage_to_debug():
         log_resource_usage(log.debug)
@@ -1183,21 +1176,21 @@ def get_debug_dump_link():
 
 
 def get_pokemon_rarity(total_spawns_all, total_spawns_pokemon):
-    spawn_group = 1 # Common
+    spawn_group = 1  # Common
 
     spawn_rate_pct = total_spawns_pokemon / float(total_spawns_all)
     spawn_rate_pct = round(100 * spawn_rate_pct, 4)
 
     if spawn_rate_pct == 0:
-        spawn_group = 6 # New Spawn
+        spawn_group = 6  # New Spawn
     elif spawn_rate_pct < 0.01:
-        spawn_group = 5 # Ultra Rare
+        spawn_group = 5  # Ultra Rare
     elif spawn_rate_pct < 0.03:
-        spawn_group = 4 # Very Rare
+        spawn_group = 4  # Very Rare
     elif spawn_rate_pct < 0.5:
-        spawn_group = 3 # Rare
+        spawn_group = 3  # Rare
     elif spawn_rate_pct < 1:
-        spawn_group = 2 # Uncommon
+        spawn_group = 2  # Uncommon
 
     return spawn_group
 
@@ -1211,14 +1204,12 @@ def dynamic_rarity_refresher(app):
 
     # Refresh every x hours.
     hours = args.rarity_hours
-    root_path = args.root_path
+    update_frequency_mins = args.rarity_update_frequency
+    refresh_time_sec = update_frequency_mins * 60
 
     rarity_dir = Path(args.root_path + '/static/dist/data/rarity')
     rarity_dir.mkdir(parents=True, exist_ok=True)
     rarity_file = rarity_dir / (args.rarity_filename + '.min.json')
-
-    update_frequency_mins = args.rarity_update_frequency
-    refresh_time_sec = update_frequency_mins * 60
 
     while True:
         log.info('Updating dynamic rarity...')

@@ -150,8 +150,8 @@ def download_ex_parks():
     parks_dir.mkdir(parents=True, exist_ok=True)
     parks_file = parks_dir / (args.ex_parks_filename + '.min.json')
     if not parks_file.exists():
-        geofence_file = Path(args.root_path + '/geofences/' +
-                             args.ex_parks_geofence_file)
+        geofence_file = Path(args.root_path + '/geofences/'
+                             + args.ex_parks_geofence_file)
         _download_parks(parks_file, geofence_file)
     else:
         log.info('EX parks already downloaded.')
@@ -162,8 +162,8 @@ def download_nest_parks():
     parks_dir.mkdir(parents=True, exist_ok=True)
     parks_file = parks_dir / (args.nest_parks_filename + '.min.json')
     if not parks_file.exists():
-        geofence_file = Path(args.root_path + '/geofences/' +
-                             args.nest_parks_geofence_file)
+        geofence_file = Path(args.root_path + '/geofences/'
+                             + args.nest_parks_geofence_file)
         _download_parks(parks_file, geofence_file, True)
     else:
         log.info('Nest parks already downloaded.')

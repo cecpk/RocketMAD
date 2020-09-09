@@ -7,8 +7,7 @@ gevent.monkey.patch_all()
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
-    print("RocketMAD requires at least python 3.6! " +
-          "Your version: {}.{}"
+    print("RocketMAD requires at least python 3.6! Your version: {}.{}"
           .format(py_version.major, py_version.minor))
     sys.exit(1)
 
@@ -18,7 +17,6 @@ import re
 import redis
 import requests
 import ssl
-import time
 
 from colorlog import ColoredFormatter
 from time import strftime
@@ -197,7 +195,7 @@ if __name__ == '__main__':
     sys.excepthook = handle_exception
 
     # Abort if status name is not valid.
-    regexp = re.compile('^([\w\s\-.]+)$')
+    regexp = re.compile(r'^([\w\s\-.]+)$')
     if not regexp.match(args.status_name):
         log.critical('Status name contains illegal characters.')
         sys.exit(1)
@@ -236,9 +234,9 @@ if __name__ == '__main__':
         with app.app_context():
             db.engine.dispose()
 
-    use_ssl = (args.ssl_certificate and args.ssl_privatekey and
-               os.path.exists(args.ssl_certificate) and
-               os.path.exists(args.ssl_privatekey))
+    use_ssl = (args.ssl_certificate and args.ssl_privatekey
+               and os.path.exists(args.ssl_certificate)
+               and os.path.exists(args.ssl_privatekey))
     if use_ssl:
         log.info('Web server in SSL mode.')
 

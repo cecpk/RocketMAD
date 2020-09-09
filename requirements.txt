@@ -4,7 +4,6 @@ colorlog~=4.0.2
 configargparse~=0.15.1
 gevent~=1.4.0
 flask-cachebuster~=1.0.0
-flask-caching~=1.8.0
 flask-compress~=1.4.0
 flask-cors~=3.0.8
 flask-session~=0.3.1
