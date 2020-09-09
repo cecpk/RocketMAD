@@ -1,4 +1,4 @@
-/* globals addListeners, mainS2CellId, mapData, markersNoCluster, settings */
+/* globals addListeners, autoPanPopup, mainS2CellId, mapData, markersNoCluster, settings */
 /* exported processWeather, setupWeatherModal, updateWeathers */
 
 function setupWeatherMarker(weather) {

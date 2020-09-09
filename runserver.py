@@ -62,7 +62,11 @@ def get_lastest_update_time(path, ignored_paths=[]):
 
 def validate_assets(args):
     dist_path = os.path.join(args.root_path, 'static/dist')
-    last_gen_time = get_lastest_update_time(dist_path)
+    ignored_paths = [
+        os.path.join(args.root_path, 'static/dist/data/parks'),
+        os.path.join(args.root_path, 'static/dist/data/rarity')
+    ]
+    last_gen_time = get_lastest_update_time(dist_path, ignored_paths)
 
     paths = [
         os.path.join(args.root_path, 'static/js'),
@@ -71,12 +75,8 @@ def validate_assets(args):
         os.path.join(args.root_path, 'static/data'),
         os.path.join(args.root_path, 'static/locales')
     ]
-    ignored_paths = [
-        os.path.join(args.root_path, 'static/data/parks'),
-        os.path.join(args.root_path, 'static/data/rarity')
-    ]
     for path in paths:
-        last_update_time = get_lastest_update_time(path, ignored_paths)
+        last_update_time = get_lastest_update_time(path)
         if (last_update_time > last_gen_time):
             log.critical('Missing front-end assets (static/dist) -- please '
                          'run "npm run build" before starting the server.')

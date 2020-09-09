@@ -17,8 +17,6 @@ src/
 _build
 _build_html
 static/css/custom.css
-static/data/parks/
-static/data/rarity/
 static/dist/
 static/images/appicons/custom/
 static/images/header/*.jpeg

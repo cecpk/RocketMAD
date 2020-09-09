@@ -1,11 +1,12 @@
 /*
-exported deviceCanHover, difference, ding, disableDarkMode, enableDarkMode,
-getDecimalSeparator, getParameterByName, getPointDistance,
-getThousandsSeparator, hasLocationSupport, intersection, isMobileDevice,
-isNowBetween, isTouchDevice, lazyLoadImages, mapServiceProviderNames,
-removeLastDirsFromUrl, showImageModal, symmetricDifference, timestampToDate,
-timestampToDateTime, timestampToTime, toastError, toastInfo, toastSuccess,
-toastWarning, union, updateLabelDiffTime
+exported canPrimaryInputHover, deviceCanHover, difference, ding,
+disableDarkMode, enableDarkMode, getDecimalSeparator, getParameterByName,
+getPointDistance, getThousandsSeparator, hasCoarsePrimaryPointer,
+hasFinePrimaryPointer, hasLocationSupport, intersection, isMobileDevice,
+isNowBetween, lazyLoadImages, mapServiceProviderNames, removeLastDirsFromUrl,
+showImageModal, symmetricDifference, timestampToDate, timestampToDateTime,
+timestampToTime, toastError, toastInfo, toastSuccess, toastWarning, union,
+updateLabelDiffTime
 */
 
 let mobileDevice = null

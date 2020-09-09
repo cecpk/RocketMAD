@@ -133,7 +133,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        clean: ['static/dist'],
+        clean: ['static/dist/css/', 'static/dist/data/*.json', 'static/dist/js/', 'static/dist/locales/'],
         watch: {
             options: {
                 interval: 1000,

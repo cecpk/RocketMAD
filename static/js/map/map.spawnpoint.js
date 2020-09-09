@@ -1,4 +1,4 @@
-/* globals addListeners, mapData, markers, removeMarker, removeRangeCircle, settings, setupRangeCircle, updateLabelDiffTime, updateRangeCircle */
+/* globals addListeners, autoPanPopup, mapData, markers, removeMarker, removeRangeCircle, settings, setupRangeCircle, updateLabelDiffTime, updateRangeCircle */
 /* exported processSpawnpoint, updateSpawnpoints */
 
 function getSpawnpointColor(spawnpoint) {
@@ -22,7 +22,7 @@ function setupSpawnpointMarker(spawnpoint) {
         radius: 2,
         weight: 1,
         opacity: 0.7,
-        fillOpacity: 0.5,
+        fillOpacity: 0.5
     }).bindPopup('', { autoPan: autoPanPopup() })
     updateSpawnpointMarker(spawnpoint, marker)
     markers.addLayer(marker)

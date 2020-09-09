@@ -1,8 +1,8 @@
 /*
-globals $gymNameFilter, addListeners, gymEggZIndex, gymNotifiedZIndex,
-gymRaidBossZIndex, gymSidebar, gymZIndex, mapData, markers, markersNoCluster,
-notifiedGymData, openGymSidebarId:writable, raidIds, removeMarker,
-removeRangeCircle, settings, sendNotification, setupRangeCircle,
+globals autoPanPopup, $gymNameFilter, addListeners, gymEggZIndex,
+gymNotifiedZIndex, gymRaidBossZIndex, gymSidebar, gymZIndex, mapData, markers,
+markersNoCluster, notifiedGymData, openGymSidebarId:writable, raidIds,
+removeMarker, removeRangeCircle, settings, sendNotification, setupRangeCircle,
 upcomingRaidIds, updateRangeCircle
 */
 /* exported processGym, readdGymMarkers, updateGyms */

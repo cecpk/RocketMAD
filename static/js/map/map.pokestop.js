@@ -1,10 +1,10 @@
 /*
-globals $pokestopNameFilter, addListeners, getTimeUntil, invadedPokestopIds,
-lpad, luredPokestopIds, lureTypes, mapData, markers, markersNoCluster,
-notifiedPokestopData, pokestopInvasionZIndex, pokestopLureZIndex,
-pokestopNotifiedZIndex, pokestopQuestZIndex, pokestopZIndex, removeMarker,
-removeRangeCircle, sendNotification, settings, setupRangeCircle,
-updateLabelDiffTime, updateRangeCircle
+globals $pokestopNameFilter, addListeners, autoPanPopup, getTimeUntil,
+invadedPokestopIds, lpad, luredPokestopIds, lureTypes, mapData, markers,
+markersNoCluster, notifiedPokestopData, pokestopInvasionZIndex,
+pokestopLureZIndex, pokestopNotifiedZIndex, pokestopQuestZIndex,
+pokestopZIndex, removeMarker, removeRangeCircle, sendNotification, settings,
+setupRangeCircle, updateLabelDiffTime, updateRangeCircle
 */
 /* exported processPokestop */
 

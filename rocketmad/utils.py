@@ -1213,9 +1213,9 @@ def dynamic_rarity_refresher(app):
     hours = args.rarity_hours
     root_path = args.root_path
 
-    rarity_dir = Path(args.root_path + '/static/data/rarity')
-    rarity_dir.mkdir(exist_ok=True)
-    rarity_file = rarity_dir / (args.rarity_filename + '.json')
+    rarity_dir = Path(args.root_path + '/static/dist/data/rarity')
+    rarity_dir.mkdir(parents=True, exist_ok=True)
+    rarity_file = rarity_dir / (args.rarity_filename + '.min.json')
 
     update_frequency_mins = args.rarity_update_frequency
     refresh_time_sec = update_frequency_mins * 60

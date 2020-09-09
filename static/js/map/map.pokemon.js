@@ -1,6 +1,6 @@
 /*
-globals addListeners, cryFileTypes, isShowAllZoom, mapData, markers,
-markersNoCluster, notifiedPokemonData, pokemonNewSpawnZIndex,
+globals addListeners, autoPanPopup, cryFileTypes, isShowAllZoom, mapData,
+markers, markersNoCluster, notifiedPokemonData, pokemonNewSpawnZIndex,
 pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
 pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
 removeRangeCircle, sendNotification, settings, setupRangeCircle,
