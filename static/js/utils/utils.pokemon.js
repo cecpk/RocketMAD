@@ -90,15 +90,16 @@ function getPokemonIds() {
 }
 
 function getPokemonName(id, evolutionId = 0) {
+    const i18nKey = 'pokemon_name_' + id
     switch (evolutionId) {
         case 1:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name)
+            return i18n('Mega') + ' ' + i18n(i18nKey, pokemonData[id].name)
         case 2:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' X'
+            return i18n('Mega') + ' ' + i18n(i18nKey, pokemonData[id].name) + ' X'
         case 3:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' Y'
+            return i18n('Mega') + ' ' + i18n(i18nKey, pokemonData[id].name) + ' Y'
         default:
-            return i18n(pokemonData[id].name)
+            return i18n(i18nKey, pokemonData[id].name)
     }
 }
 
@@ -132,7 +133,7 @@ function getPokemonGen(id) {
 }
 
 function getMoveName(id) {
-    return i18n(moveData[id].name)
+    return i18n('move_name_' + id, moveData[id].name)
 }
 
 function getMoveType(id) {

@@ -1,8 +1,7 @@
-/* exported i18n, initI18nDictionary, getDataTablesLocUrl */
+/* exported getDataTablesLocUrl, i18n, initI18nDictionary */
 
 const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
 var i18nDictionary = {}
-
 const dataTablesLocFileName = {
     de: 'German.json',
     fr: 'French.json',
@@ -27,13 +26,8 @@ function initI18nDictionary() {
     })
 }
 
-function i18n(word) {
-    if (word in i18nDictionary) {
-        return i18nDictionary[word]
-    } else {
-        // Word doesn't exist in dictionary return it as is.
-        return word
-    }
+function i18n(key, fallbackValue = 'undefined') {
+    return key in i18nDictionary ? i18nDictionary[key] : fallbackValue
 }
 
 function getDataTablesLocUrl() {
