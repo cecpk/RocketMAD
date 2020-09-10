@@ -1,7 +1,7 @@
-/* exported i8ln, initI8lnDictionary, getDataTablesLocUrl */
+/* exported i18n, initI18nDictionary, getDataTablesLocUrl */
 
 const language = document.documentElement.lang === '' ? 'en' : document.documentElement.lang
-var i8lnDictionary = {}
+var i18nDictionary = {}
 
 const dataTablesLocFileName = {
     de: 'German.json',
@@ -15,21 +15,21 @@ const dataTablesLocFileName = {
     zh_tw: 'Chinese-traditional.json'
 }
 
-function initI8lnDictionary() {
-    if (language === 'en' || !$.isEmptyObject(i8lnDictionary)) {
+function initI18nDictionary() {
+    if (language === 'en' || !$.isEmptyObject(i18nDictionary)) {
         return Promise.resolve()
     }
 
     return $.getJSON('static/dist/locales/' + language + '.min.json?v=' + version).done(function (data) {
-        i8lnDictionary = data
+        i18nDictionary = data
     }).fail(function () {
-        console.log('Error loading i8ln dictionary.')
+        console.log('Error loading i18n dictionary.')
     })
 }
 
-function i8ln(word) {
-    if (word in i8lnDictionary) {
-        return i8lnDictionary[word]
+function i18n(word) {
+    if (word in i18nDictionary) {
+        return i18nDictionary[word]
     } else {
         // Word doesn't exist in dictionary return it as is.
         return word

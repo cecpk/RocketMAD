@@ -371,7 +371,7 @@ function createStartLocationMarker() {
     const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
     var marker = L.marker([lat, lng], { draggable: settings.isStartLocationMarkerMovable }).addTo(markersNoCluster)
-    marker.bindPopup(function () { return `<div><b>${i8ln('Start location')}</b></div>` }, { autoPan: autoPanPopup() })
+    marker.bindPopup(function () { return `<div><b>${i18n('Start location')}</b></div>` }, { autoPan: autoPanPopup() })
     marker.setZIndexOffset(startLocationMarkerZIndex)
     updateStartLocationMarker()
     addListeners(marker)
@@ -416,7 +416,7 @@ function createUserLocationMarker() {
     const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
     var marker = L.marker([lat, lng]).addTo(markersNoCluster)
-    marker.bindPopup(function () { return `<div><b>${i8ln('My location')}</b></div>` }, { autoPan: autoPanPopup() })
+    marker.bindPopup(function () { return `<div><b>${i18n('My location')}</b></div>` }, { autoPan: autoPanPopup() })
     marker.setZIndexOffset(userLocationMarkerZIndex)
     updateUserLocationMarker()
     addListeners(marker)
@@ -802,7 +802,7 @@ function loadRawData() {
             }
         },
         error: function () {
-            toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
+            toastError(i18n('Error getting data!'), i18n('Please check your connection.'))
         },
         complete: function () {
             rawDataIsLoading = false
@@ -982,7 +982,7 @@ function createUserLocationButton() {
 
         var locationButton = document.createElement('a')
         locationButton.innerHTML = '<i class="material-icons">my_location</i>'
-        locationButton.title = i8ln('My location')
+        locationButton.title = i18n('My location')
         locationButton.href = 'javascript:void(0);'
         locationContainer.appendChild(locationButton)
         locationButton.addEventListener('click', centerMapOnUserLocation)
@@ -1022,7 +1022,7 @@ function centerMapOnUserLocation() {
     }
 
     function error(e) {
-        toastError(i8ln('Error getting your location!'), e.message)
+        toastError(i18n('Error getting your location!'), e.message)
         clearInterval(animationInterval)
         locationIcon.innerHTML = 'my_location'
     }
@@ -1235,7 +1235,7 @@ $(function () {
     }
 
     const promiseRarity = serverSettings.rarity ? updatePokemonRarities(serverSettings.rarityFileName) : Promise.resolve()
-    initI8lnDictionary().then(function () {
+    initI18nDictionary().then(function () {
         const promisePokemon = initPokemonData()
         const promiseMove = initMoveData()
         const promiseItem = serverSettings.quests ? initItemData() : Promise.resolve()
@@ -1334,7 +1334,7 @@ $(function () {
                     targets: 1,
                     render: function (data, type, row) {
                         if (type === 'display') {
-                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title='${i8ln('View on GamePress')}'>#${row[1]}</a>`
+                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title='${i18n('View on GamePress')}'>#${row[1]}</a>`
                         }
                         return row[1]
                     }
@@ -1443,7 +1443,7 @@ $(function () {
                     targets: 2,
                     render: function (data, type, row) {
                         if (type === 'display') {
-                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[2]}" target="_blank" title='${i8ln('View on GamePress')}'>#${row[2]}</a>`
+                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[2]}" target="_blank" title='${i18n('View on GamePress')}'>#${row[2]}</a>`
                         }
                         return row[2]
                     }

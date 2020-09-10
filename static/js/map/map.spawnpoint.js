@@ -60,32 +60,32 @@ function spawnpointLabel(spawnpoint) {
 
     return `
         <div class='title'>
-          <strong>${i8ln('Spawn Point')}</strong>
+          <strong>${i18n('Spawn Point')}</strong>
         </div>
         <div class='info-container'>
           <div>
-            ${i8ln('Type')}: <strong>${type || 'Unknown'}</strong>
+            ${i18n('Type')}: <strong>${type || 'Unknown'}</strong>
           </div>
           <div>
-              ${i8ln('Spawn')}: <strong>${spawnTime || 'Unknown'}</strong>
+              ${i18n('Spawn')}: <strong>${spawnTime || 'Unknown'}</strong>
           </div>
           <div>
-              ${i8ln('Despawn')}: <strong>${despawnTime || 'Unknown'}</strong>
+              ${i18n('Despawn')}: <strong>${despawnTime || 'Unknown'}</strong>
           </div>
         </div>
         <div class='info-container'>
           <div>
-            ${i8ln('First seen')}: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
+            ${i18n('First seen')}: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
           </div>
           <div>
-            ${i8ln('Last seen')}: <strong>${timestampToDateTime(lastScanned)}</strong>
+            ${i18n('Last seen')}: <strong>${timestampToDateTime(lastScanned)}</strong>
           </div>
           <div>
-            ${i8ln('Last confirmation')}: <strong>${lastConfirmation || 'None'}</strong>
+            ${i18n('Last confirmation')}: <strong>${lastConfirmation || 'None'}</strong>
           </div>
         </div>
         <div>
-          <a href='javascript:void(0);' onclick='javascript:openMapDirections(${spawnpoint.latitude},${spawnpoint.longitude},"${settings.mapServiceProvider}");' class='link-button' title='${i8ln('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${spawnpoint.latitude.toFixed(5)}, ${spawnpoint.longitude.toFixed(5)}</a>
+          <a href='javascript:void(0);' onclick='javascript:openMapDirections(${spawnpoint.latitude},${spawnpoint.longitude},"${settings.mapServiceProvider}");' class='link-button' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${spawnpoint.latitude.toFixed(5)}, ${spawnpoint.longitude.toFixed(5)}</a>
         </div>`
 }
 

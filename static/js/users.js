@@ -19,7 +19,7 @@ function loadRawData() {
         type: 'GET',
         dataType: 'json',
         error: function () {
-            toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
+            toastError(i18n('Error getting data!'), i18n('Please check your connection.'))
         }
     })
 }

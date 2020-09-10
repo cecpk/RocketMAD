@@ -27,7 +27,7 @@ module.exports = function (grunt) {
             dist1: {
                 src: [
                     'static/js/vendor/long.js', 'static/js/vendor/s2geometry.js', 'static/js/utils/utils.gym.js',
-                    'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.item.js', 'static/js/utils/utils.leaflet.js',
+                    'static/js/utils/utils.i18n.js', 'static/js/utils/utils.item.js', 'static/js/utils/utils.leaflet.js',
                     'static/js/utils/utils.motd.js', 'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.pokestop.js',
                     'static/js/utils/utils.store.js', 'static/js/utils/utils.weather.js', 'static/js/utils/utils.js',
                     'static/js/map/map.settings.js', 'static/js/map/map.gym.js', 'static/js/map/map.park.js',
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
             },
             dist2: {
                 src: [
-                    'static/js/utils/utils.store.js', 'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.leaflet.js',
+                    'static/js/utils/utils.store.js', 'static/js/utils/utils.i18n.js', 'static/js/utils/utils.leaflet.js',
                     'static/js/utils/utils.motd.js', 'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.js',
                     'static/js/custom.js', 'static/js/pokemon-history.js'
                 ],
@@ -47,7 +47,7 @@ module.exports = function (grunt) {
             },
             dist3: {
                 src: [
-                    'static/js/utils/utils.store.js', 'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.item.js',
+                    'static/js/utils/utils.store.js', 'static/js/utils/utils.i18n.js', 'static/js/utils/utils.item.js',
                     'static/js/utils/utils.motd.js', 'static/js/utils/utils.pokemon.js',  'static/js/utils/utils.js',
                     'static/js/custom.js', 'static/js/quest.js'
                 ],
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
             },
             dist5: {
                 src: [
-                    'static/js/utils/utils.i8ln.js', 'static/js/utils/utils.motd.js', 'static/js/utils/utils.store.js',
+                    'static/js/utils/utils.i18n.js', 'static/js/utils/utils.motd.js', 'static/js/utils/utils.store.js',
                     'static/js/utils/utils.js', 'static/js/custom.js', 'static/js/users.js'
                 ],
                 dest: 'static/dist/js/users.concat.js'

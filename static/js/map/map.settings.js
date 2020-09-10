@@ -272,7 +272,7 @@ function initSettingsSidebar() {
             settings.minIvs = this.get()[0]
             settings.maxIvs = this.get()[1]
 
-            $('#pokemon-ivs-slider-title').text(`${i8ln('IVs')} (${settings.minIvs}% - ${settings.maxIvs}%)`)
+            $('#pokemon-ivs-slider-title').text(`${i18n('IVs')} (${settings.minIvs}% - ${settings.maxIvs}%)`)
             const zeroIvsWrapper = $('#zero-ivs-pokemon-switch-wrapper')
             const hundoIvsWrapper = $('#hundo-ivs-pokemon-switch-wrapper')
             if (settings.minIvs > 0) {
@@ -319,7 +319,7 @@ function initSettingsSidebar() {
             const oldMaxLevel = settings.maxLevel
             settings.minLevel = this.get()[0]
             settings.maxLevel = this.get()[1]
-            $('#pokemon-level-slider-title').text(`${i8ln('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
+            $('#pokemon-level-slider-title').text(`${i18n('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
 
             if (settings.minLevel > oldMinLevel || settings.maxLevel < oldMaxLevel) {
                 updatePokemons(new Set(), true)
@@ -430,7 +430,7 @@ function initSettingsSidebar() {
             const oldMaxLevel = settings.maxGymLevel
             settings.minGymLevel = this.get()[0]
             settings.maxGymLevel = this.get()[1]
-            $('#gym-level-slider-title').text(`${i8ln('Gym levels')} (${settings.minGymLevel} - ${settings.maxGymLevel})`)
+            $('#gym-level-slider-title').text(`${i18n('Gym levels')} (${settings.minGymLevel} - ${settings.maxGymLevel})`)
 
             if (settings.minGymLevel > oldMinLevel || settings.maxGymLevel < oldMaxLevel) {
                 updateGyms()
@@ -991,7 +991,7 @@ function initSettingsSidebar() {
             settings.minNotifIvs = this.get()[0]
             settings.maxNotifIvs = this.get()[1]
 
-            $('#pokemon-ivs-notifs-slider-title').text(`${i8ln('Notif IVs')} (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
+            $('#pokemon-ivs-notifs-slider-title').text(`${i18n('Notif IVs')} (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
             const zeroIvsWrapper = $('#zero-ivs-pokemon-notifs-switch-wrapper')
             const hundoIvsWrapper = $('#hundo-ivs-pokemon-notifs-switch-wrapper')
             if (settings.minNotifIvs > 0) {
@@ -1038,7 +1038,7 @@ function initSettingsSidebar() {
             const oldMaxLevel = settings.maxNotifLevel
             settings.minNotifLevel = this.get()[0]
             settings.maxNotifLevel = this.get()[1]
-            $('#pokemon-level-notifs-slider-title').text(`${i8ln('Notif Levels')} (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
+            $('#pokemon-level-notifs-slider-title').text(`${i18n('Notif Levels')} (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
 
             if ((settings.minNotifLevel < oldMinLevel || settings.maxNotifLevel > oldMaxLevel) &&
                     (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
@@ -1297,7 +1297,7 @@ function initSettingsSidebar() {
 
         function error(e) {
             console.error('Error while loading settings file: ' + e)
-            toastError(i8ln('Error while loading settings file!'), i8ln('Please try again.'))
+            toastError(i18n('Error while loading settings file!'), i18n('Please try again.'))
         }
 
         const elem = document.getElementById('settings-file-input')
@@ -1335,13 +1335,13 @@ function initSettingsSidebar() {
         $('#filter-values-switch').prop('checked', settings.filterPokemonByValues)
         $('a[data-target="pokemon-values-filter-modal"]').toggle(settings.filterPokemonByValues)
         $('#pokemon-values-filters-wrapper').toggle(settings.filterPokemonByValues)
-        $('#pokemon-ivs-slider-title').text(`${i8ln('IVs')} (${settings.minIvs}% - ${settings.maxIvs}%)`)
+        $('#pokemon-ivs-slider-title').text(`${i18n('IVs')} (${settings.minIvs}% - ${settings.maxIvs}%)`)
         $('#pokemon-ivs-slider-wrapper').toggle(settings.filterPokemonByValues)
         $('#zero-ivs-pokemon-switch').prop('checked', settings.showZeroIvsPokemon)
         $('#zero-ivs-pokemon-switch-wrapper').toggle(settings.minIvs > 0)
         $('#hundo-ivs-pokemon-switch').prop('checked', settings.showHundoIvsPokemon)
         $('#hundo-ivs-pokemon-switch-wrapper').toggle(settings.maxIvs < 100)
-        $('#pokemon-level-slider-title').text(`${i8ln('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
+        $('#pokemon-level-slider-title').text(`${i18n('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
         $('#pokemon-level-slider-wrapper').toggle(settings.filterPokemonByValues)
     }
     if (serverSettings.rarity) {
@@ -1471,8 +1471,8 @@ function initSettingsSidebar() {
         $('#zero-ivs-pokemon-notifs-switch').prop('checked', settings.zeroIvsPokemonNotifs)
         $('#hundo-ivs-pokemon-notifs-switch-wrapper').toggle(settings.maxNotifIvs < 100)
         $('#hundo-ivs-pokemon-notifs-switch').prop('checked', settings.hundoIvsPokemonNotifs)
-        $('#pokemon-ivs-notifs-slider-title').text(`${i8ln('Notif IVs')} (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
-        $('#pokemon-level-notifs-slider-title').text(`${i8ln('Notif Levels')} (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
+        $('#pokemon-ivs-notifs-slider-title').text(`${i18n('Notif IVs')} (${settings.minNotifIvs}% - ${settings.maxNotifIvs}%)`)
+        $('#pokemon-level-notifs-slider-title').text(`${i18n('Notif Levels')} (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
         $('#tiny-rattata-notifs-switch').prop('checked', settings.tinyRattataNotifs)
         $('#big-magikarp-notifs-switch').prop('checked', settings.bigMagikarpNotifs)
     }
@@ -1518,7 +1518,7 @@ function initSettingsSidebar() {
         updateUserLocationMarker()
         $.each(data, function (id, value) {
             const dataIconStr = value.icon ? `data-icon="${value.icon}"` : ''
-            const option = `<option value="${id}" ${dataIconStr}>${i8ln(value.name)}</option>`
+            const option = `<option value="${id}" ${dataIconStr}>${i18n(value.name)}</option>`
             $('#start-location-marker-icon-select').append(option)
             $('#user-location-marker-icon-select').append(option)
         })
@@ -1633,9 +1633,9 @@ function initPokemonFilters() {
     if (serverSettings.pokemons) {
         $('#exclude-pokemon').val(Array.from(settings.excludedPokemon))
         if (settings.excludedPokemon.size === 0) {
-            $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${i8ln('All')})`)
+            $('#filter-pokemon-title').text(`${i18n('Pokémon')} (${i18n('All')})`)
         } else {
-            $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${pokemonIds.size - settings.excludedPokemon.size})`)
+            $('#filter-pokemon-title').text(`${i18n('Pokémon')} (${pokemonIds.size - settings.excludedPokemon.size})`)
         }
 
         $('label[for="exclude-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1660,9 +1660,9 @@ function initPokemonFilters() {
             }
 
             if (settings.excludedPokemon.size === 0) {
-                $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${i8ln('All')})`)
+                $('#filter-pokemon-title').text(`${i18n('Pokémon')} (${i18n('All')})`)
             } else {
-                $('#filter-pokemon-title').text(`${i8ln('Pokémon')} (${pokemonIds.size - settings.excludedPokemon.size})`)
+                $('#filter-pokemon-title').text(`${i18n('Pokémon')} (${pokemonIds.size - settings.excludedPokemon.size})`)
             }
 
             Store.set('excludedPokemon', settings.excludedPokemon)
@@ -1672,9 +1672,9 @@ function initPokemonFilters() {
     if (serverSettings.pokemonValues) {
         $('#unfiltered-pokemon').val(Array.from(settings.noFilterValuesPokemon))
         if (settings.noFilterValuesPokemon.size === 0) {
-            $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${i8ln('All')})`)
+            $('#filter-values-pokemon-title').text(`${i18n('Pokémon filtered by values')} (${i18n('All')})`)
         } else {
-            $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
+            $('#filter-values-pokemon-title').text(`${i18n('Pokémon filtered by values')} (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
         }
 
         $('label[for="unfiltered-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1699,9 +1699,9 @@ function initPokemonFilters() {
             }
 
             if (settings.noFilterValuesPokemon.size === 0) {
-                $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${i8ln('All')})`)
+                $('#filter-values-pokemon-title').text(`${i18n('Pokémon filtered by values')} (${i18n('All')})`)
             } else {
-                $('#filter-values-pokemon-title').text(`${i8ln('Pokémon filtered by values')} (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
+                $('#filter-values-pokemon-title').text(`${i18n('Pokémon filtered by values')} (${pokemonIds.size - settings.noFilterValuesPokemon.size})`)
             }
 
             Store.set('noFilterValuesPokemon', settings.noFilterValuesPokemon)
@@ -1711,9 +1711,9 @@ function initPokemonFilters() {
     if (serverSettings.raidFilters) {
         $('#exclude-raid-pokemon').val(Array.from(settings.excludedRaidPokemon))
         if (settings.excludedRaidPokemon.size === 0) {
-            $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${i8ln('All')})`)
+            $('#filter-raid-pokemon-title').text(`${i18n('Raid Bosses')} (${i18n('All')})`)
         } else {
-            $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
+            $('#filter-raid-pokemon-title').text(`${i18n('Raid Bosses')} (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
         }
 
         $('label[for="exclude-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1737,9 +1737,9 @@ function initPokemonFilters() {
             }
 
             if (settings.excludedRaidPokemon.size === 0) {
-                $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${i8ln('All')})`)
+                $('#filter-raid-pokemon-title').text(`${i18n('Raid Bosses')} (${i18n('All')})`)
             } else {
-                $('#filter-raid-pokemon-title').text(`${i8ln('Raid Bosses')} (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
+                $('#filter-raid-pokemon-title').text(`${i18n('Raid Bosses')} (${pokemonIds.size - settings.excludedRaidPokemon.size})`)
             }
 
             Store.set('excludedRaidPokemon', settings.excludedRaidPokemon)
@@ -1749,9 +1749,9 @@ function initPokemonFilters() {
     if (serverSettings.quests) {
         $('#exclude-quest-pokemon').val(Array.from(settings.excludedQuestPokemon))
         if (settings.excludedQuestPokemon.size === 0) {
-            $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${i8ln('All')})`)
+            $('a[href="#quest-pokemon-tab"]').text(`${i18n('Quest Pokémon')} (${i18n('All')})`)
         } else {
-            $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
+            $('a[href="#quest-pokemon-tab"]').text(`${i18n('Quest Pokémon')} (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
         }
 
         $('label[for="exclude-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1775,9 +1775,9 @@ function initPokemonFilters() {
             }
 
             if (settings.excludedQuestPokemon.size === 0) {
-                $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${i8ln('All')})`)
+                $('a[href="#quest-pokemon-tab"]').text(`${i18n('Quest Pokémon')} (${i18n('All')})`)
             } else {
-                $('a[href="#quest-pokemon-tab"]').text(`${i8ln('Quest Pokémon')} (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
+                $('a[href="#quest-pokemon-tab"]').text(`${i18n('Quest Pokémon')} (${pokemonIds.size - settings.excludedQuestPokemon.size})`)
             }
             $('#quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -1789,9 +1789,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifPokemon)
         $('#no-notif-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifPokemon.size === pokemonIds.size) {
-            $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${i8ln('All')})`)
+            $('#notif-pokemon-filter-title').text(`${i18n('Notif Pokémon')} (${i18n('All')})`)
         } else {
-            $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${settings.notifPokemon.size})`)
+            $('#notif-pokemon-filter-title').text(`${i18n('Notif Pokémon')} (${settings.notifPokemon.size})`)
         }
 
         $('label[for="no-notif-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1815,9 +1815,9 @@ function initPokemonFilters() {
             }
 
             if (settings.notifPokemon.size === pokemonIds.size) {
-                $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${i8ln('All')})`)
+                $('#notif-pokemon-filter-title').text(`${i18n('Notif Pokémon')} (${i18n('All')})`)
             } else {
-                $('#notif-pokemon-filter-title').text(`${i8ln('Notif Pokémon')} (${settings.notifPokemon.size})`)
+                $('#notif-pokemon-filter-title').text(`${i18n('Notif Pokémon')} (${settings.notifPokemon.size})`)
             }
 
             Store.set('notifPokemon', settings.notifPokemon)
@@ -1828,9 +1828,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifValuesPokemon)
         $('#no-notif-values-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifValuesPokemon.size === pokemonIds.size) {
-            $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${i8ln('All')})`)
+            $('#notif-pokemon-values-filter-title').text(`${i18n('Notif Pokémon filtered by values')} (${i18n('All')})`)
         } else {
-            $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${settings.notifValuesPokemon.size})`)
+            $('#notif-pokemon-values-filter-title').text(`${i18n('Notif Pokémon filtered by values')} (${settings.notifValuesPokemon.size})`)
         }
 
         $('label[for="no-notif-values-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1854,9 +1854,9 @@ function initPokemonFilters() {
             }
 
             if (settings.notifValuesPokemon.size === pokemonIds.size) {
-                $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${i8ln('All')})`)
+                $('#notif-pokemon-values-filter-title').text(`${i18n('Notif Pokémon filtered by values')} (${i18n('All')})`)
             } else {
-                $('#notif-pokemon-values-filter-title').text(`${i8ln('Notif Pokémon filtered by values')} (${settings.notifValuesPokemon.size})`)
+                $('#notif-pokemon-values-filter-title').text(`${i18n('Notif Pokémon filtered by values')} (${settings.notifValuesPokemon.size})`)
             }
 
             Store.set('notifValuesPokemon', settings.notifValuesPokemon)
@@ -1867,9 +1867,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifRaidPokemon)
         $('#no-notif-raid-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifRaidPokemon.size === pokemonIds.size) {
-            $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${i8ln('All')})`)
+            $('#notif-raid-pokemon-filter-title').text(`${i18n('Notif Raid Bosses')} (${i18n('All')})`)
         } else {
-            $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${settings.notifRaidPokemon.size})`)
+            $('#notif-raid-pokemon-filter-title').text(`${i18n('Notif Raid Bosses')} (${settings.notifRaidPokemon.size})`)
         }
 
         $('label[for="no-notif-raid-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1885,9 +1885,9 @@ function initPokemonFilters() {
             updateGyms()
 
             if (settings.notifRaidPokemon.size === pokemonIds.size) {
-                $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${i8ln('All')})`)
+                $('#notif-raid-pokemon-filter-title').text(`${i18n('Notif Raid Bosses')} (${i18n('All')})`)
             } else {
-                $('#notif-raid-pokemon-filter-title').text(`${i8ln('Notif Raid Bosses')} (${settings.notifRaidPokemon.size})`)
+                $('#notif-raid-pokemon-filter-title').text(`${i18n('Notif Raid Bosses')} (${settings.notifRaidPokemon.size})`)
             }
 
             Store.set('notifRaidPokemon', settings.notifRaidPokemon)
@@ -1898,9 +1898,9 @@ function initPokemonFilters() {
         const noNotifPoke = difference(pokemonIds, settings.notifQuestPokemon)
         $('#no-notif-quest-pokemon').val(Array.from(noNotifPoke))
         if (settings.notifQuestPokemon.size === pokemonIds.size) {
-            $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${i8ln('All')})`)
+            $('a[href="#notif-quest-pokemon-tab"]').text(`${i18n('Notif Quest Pokémon')} (${i18n('All')})`)
         } else {
-            $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${settings.notifQuestPokemon.size})`)
+            $('a[href="#notif-quest-pokemon-tab"]').text(`${i18n('Notif Quest Pokémon')} (${settings.notifQuestPokemon.size})`)
         }
 
         $('label[for="no-notif-quest-pokemon"] .pokemon-filter-list .filter-button').each(function () {
@@ -1916,9 +1916,9 @@ function initPokemonFilters() {
             updatePokestops()
 
             if (settings.notifQuestPokemon.size === pokemonIds.size) {
-                $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${i8ln('All')})`)
+                $('a[href="#notif-quest-pokemon-tab"]').text(`${i18n('Notif Quest Pokémon')} (${i18n('All')})`)
             } else {
-                $('a[href="#notif-quest-pokemon-tab"]').text(`${i8ln('Notif Quest Pokémon')} (${settings.notifQuestPokemon.size})`)
+                $('a[href="#notif-quest-pokemon-tab"]').text(`${i18n('Notif Quest Pokémon')} (${settings.notifQuestPokemon.size})`)
             }
             $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -1992,9 +1992,9 @@ function initItemFilters() {
 
     $('#exclude-quest-items').val(settings.excludedQuestItems)
     if (settings.excludedQuestItems.length === 0) {
-        $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${i8ln('All')})`)
+        $('a[href="#quest-item-tab"]').text(`${i18n('Quest Items')} (${i18n('All')})`)
     } else {
-        $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${questItemIds.length - settings.excludedQuestItems.length})`)
+        $('a[href="#quest-item-tab"]').text(`${i18n('Quest Items')} (${questItemIds.length - settings.excludedQuestItems.length})`)
     }
 
     $('label[for="exclude-quest-items"] .quest-item-filter-list .filter-button').each(function () {
@@ -2014,9 +2014,9 @@ function initItemFilters() {
         updateMap({ loadAllPokestops: true })
 
         if (settings.excludedQuestItems.length === 0) {
-            $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${i8ln('All')})`)
+            $('a[href="#quest-item-tab"]').text(`${i18n('Quest Items')} (${i18n('All')})`)
         } else {
-            $('a[href="#quest-item-tab"]').text(`${i8ln('Quest Items')} (${questItemIds.length - settings.excludedQuestItems.length})`)
+            $('a[href="#quest-item-tab"]').text(`${i18n('Quest Items')} (${questItemIds.length - settings.excludedQuestItems.length})`)
         }
         $('#quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -2026,9 +2026,9 @@ function initItemFilters() {
     const noNotifItems = questItemIds.filter(id => !settings.notifQuestItems.includes(id))
     $('#no-notif-quest-items').val(noNotifItems)
     if (settings.notifQuestItems.length === questItemIds.length) {
-        $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${i8ln('All')})`)
+        $('a[href="#notif-quest-item-tab"]').text(`${i18n('Notif Quest Items')} (${i18n('All')})`)
     } else {
-        $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${settings.notifQuestItems.length})`)
+        $('a[href="#notif-quest-item-tab"]').text(`${i18n('Notif Quest Items')} (${settings.notifQuestItems.length})`)
     }
 
     $('label[for="no-notif-quest-items"] .quest-item-filter-list .filter-button').each(function () {
@@ -2048,9 +2048,9 @@ function initItemFilters() {
         updatePokestops()
 
         if (settings.notifQuestItems.length === questItemIds.length) {
-            $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${i8ln('All')})`)
+            $('a[href="#notif-quest-item-tab"]').text(`${i18n('Notif Quest Items')} (${i18n('All')})`)
         } else {
-            $('a[href="#notif-quest-item-tab"]').text(`${i8ln('Notif Quest Items')} (${settings.notifQuestItems.length})`)
+            $('a[href="#notif-quest-item-tab"]').text(`${i18n('Notif Quest Items')} (${settings.notifQuestItems.length})`)
         }
         $('#notif-quest-filter-tabs').tabs('updateTabIndicator')
 
@@ -2107,9 +2107,9 @@ function initInvasionFilters() {
 
     $('#exclude-invasions').val(settings.excludedInvasions)
     if (settings.excludedInvasions.length === 0) {
-        $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${i8ln('All')})`)
+        $('#filter-invasion-title').text(`${i18n('Rocket Invasions')} (${i18n('All')})`)
     } else {
-        $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${invasionIds.length - settings.excludedInvasions.length})`)
+        $('#filter-invasion-title').text(`${i18n('Rocket Invasions')} (${invasionIds.length - settings.excludedInvasions.length})`)
     }
 
     $('label[for="exclude-invasions"] .invasion-filter-list .filter-button').each(function () {
@@ -2125,9 +2125,9 @@ function initInvasionFilters() {
         updateMap({ loadAllPokestops: true })
 
         if (settings.excludedInvasions.length === 0) {
-            $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${i8ln('All')})`)
+            $('#filter-invasion-title').text(`${i18n('Rocket Invasions')} (${i18n('All')})`)
         } else {
-            $('#filter-invasion-title').text(`${i8ln('Rocket Invasions')} (${invasionIds.length - settings.excludedInvasions.length})`)
+            $('#filter-invasion-title').text(`${i18n('Rocket Invasions')} (${invasionIds.length - settings.excludedInvasions.length})`)
         }
 
         Store.set('excludedInvasions', settings.excludedInvasions)
@@ -2136,9 +2136,9 @@ function initInvasionFilters() {
     const noNotifInvasions = invasionIds.filter(id => !settings.notifInvasions.includes(id))
     $('#no-notif-invasions').val(noNotifInvasions)
     if (settings.notifInvasions.length === invasionIds.length) {
-        $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${i8ln('All')})`)
+        $('#notif-invasion-filter-title').text(`${i18n('Notif Rocket Invasions')} (${i18n('All')})`)
     } else {
-        $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${settings.notifInvasions.length})`)
+        $('#notif-invasion-filter-title').text(`${i18n('Notif Rocket Invasions')} (${settings.notifInvasions.length})`)
     }
 
     $('label[for="no-notif-invasions"] .invasion-filter-list .filter-button').each(function () {
@@ -2154,9 +2154,9 @@ function initInvasionFilters() {
         updatePokestops()
 
         if (settings.notifInvasions.length === invasionIds.length) {
-            $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${i8ln('All')})`)
+            $('#notif-invasion-filter-title').text(`${i18n('Notif Rocket Invasions')} (${i18n('All')})`)
         } else {
-            $('#notif-invasion-filter-title').text(`${i8ln('Notif Rocket Invasions')} (${settings.notifInvasions.length})`)
+            $('#notif-invasion-filter-title').text(`${i18n('Notif Rocket Invasions')} (${settings.notifInvasions.length})`)
         }
 
         Store.set('notifInvasions', settings.notifInvasions)
@@ -2229,12 +2229,12 @@ function initBackupModals() {
             console.error('Error while parsing pokemon list: ' + e)
         }
         if (pokemons === null || !Array.isArray(pokemons)) {
-            toastError(i8ln('Error while reading Pokémon list file!'), i8ln('Check your Pokémon list file.'))
+            toastError(i18n('Error while reading Pokémon list file!'), i18n('Check your Pokémon list file.'))
             return
         }
         for (var i = 0; i < pokemons.length; i++) {
             if (!Number.isInteger(pokemons[i])) {
-                toastError(i8ln('Unexpected character found in Pokémon list file!'), i8ln('Check your Pokémon list file.'))
+                toastError(i18n('Unexpected character found in Pokémon list file!'), i18n('Check your Pokémon list file.'))
                 return
             }
         }
@@ -2346,15 +2346,15 @@ function initBackupModals() {
         }
 
         if (checkBoxSelected) {
-            toastSuccess(i8ln('Pokémon list imported.'), '')
+            toastSuccess(i18n('Pokémon list imported.'), '')
         } else {
-            toastWarning(i8ln('Please select a filter to import to first.'), '')
+            toastWarning(i18n('Please select a filter to import to first.'), '')
         }
     }
 
     function error(e) {
         console.error('Error while loading Pokémon list file: ' + e)
-        toastError(i8ln('Error while loading Pokémon list file!'), i8ln('Please try again.'))
+        toastError(i18n('Error while loading Pokémon list file!'), i18n('Please try again.'))
     }
 
     $('#import-pokemon-list').on('click', function () {
@@ -2363,7 +2363,7 @@ function initBackupModals() {
             const file = elem.files[0]
             loadData(file, loaded, error)
         } else {
-            toastWarning(i8ln('Please select a Pokémon list first!'), '')
+            toastWarning(i18n('Please select a Pokémon list first!'), '')
         }
     })
 }

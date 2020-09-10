@@ -38,10 +38,10 @@ function setupWeatherCell(weather) {
 }
 
 function weatherLabel(weather) {
-    var weatherTitle = i8ln(weatherNames[weather.gameplay_weather])
+    var weatherTitle = i18n(weatherNames[weather.gameplay_weather])
     var lastUpdated
     if (!isUpToDateWeather(weather)) {
-        weatherTitle += ` <span class='weather-outdated'>(${i8ln('outdated')})</span>`
+        weatherTitle += ` <span class='weather-outdated'>(${i18n('outdated')})</span>`
         lastUpdated = `<span class='weather-outdated'>${timestampToDateTime(weather.last_updated)}</span>`
     } else {
         lastUpdated = timestampToDateTime(weather.last_updated)
@@ -51,7 +51,7 @@ function weatherLabel(weather) {
         const level = weather.severity === 1 ? 'Moderate' : 'Extreme'
         alertDisplay = `
             <div>
-              ${i8ln('Weather alert')}: <span class='weather-${level.toLowerCase()}'>${i8ln(level + ' level')}</span>
+              ${i18n('Weather alert')}: <span class='weather-${level.toLowerCase()}'>${i18n(level + ' level')}</span>
             </div>`
     }
     var time = weather.world_time === 1 ? 'Daytime' : 'Nighttime'
@@ -59,8 +59,8 @@ function weatherLabel(weather) {
     return `
         <div class='title'>${weatherTitle}</div>
         ${alertDisplay}
-        <div>${i8ln('Time of day')}: <strong>${i8ln(time)}</strong></div>
-        <div>${i8ln('Last updated')}: <strong>${lastUpdated}</strong></div>`
+        <div>${i18n('Time of day')}: <strong>${i18n(time)}</strong></div>
+        <div>${i18n('Last updated')}: <strong>${lastUpdated}</strong></div>`
 }
 
 function updateWeatherLabel(weather, marker) {
@@ -174,7 +174,7 @@ function updateWeatherButton() {
         }
         $weatherButtonIcon.removeClass()
         $weatherButtonIcon.addClass(`material-icons ${weatherClass}`)
-        $weatherButton.prop('title', i8ln(weatherNames[weather.gameplay_weather]))
+        $weatherButton.prop('title', i18n(weatherNames[weather.gameplay_weather]))
         $weatherButton.show()
     } else {
         $weatherButton.hide()
@@ -186,14 +186,14 @@ function setupWeatherModal() {
     if (!weather) {
         return
     }
-    var weatherTitle = i8ln(weatherNames[weather.gameplay_weather])
+    var weatherTitle = i18n(weatherNames[weather.gameplay_weather])
     if (weather.severity === 1) {
-        weatherTitle += ` <img id='alert-icon' src='static/images/weather/weather_moderate.png' title='${i8ln('Moderate weather alert')}' width="60">`
+        weatherTitle += ` <img id='alert-icon' src='static/images/weather/weather_moderate.png' title='${i18n('Moderate weather alert')}' width="60">`
     } else if (weather.severity === 2) {
-        weatherTitle += ` <img id='alert-icon' src='static/images/weather/weather_extreme.png' title='${i8ln('Extreme weather alert')}' width="60">`
+        weatherTitle += ` <img id='alert-icon' src='static/images/weather/weather_extreme.png' title='${i18n('Extreme weather alert')}' width="60">`
     }
     if (!isUpToDateWeather(weather)) {
-        weatherTitle += ` <span class='weather-outdated'>(${i8ln('outdated')})</span>`
+        weatherTitle += ` <span class='weather-outdated'>(${i18n('outdated')})</span>`
     }
     $('#weather-modal > .modal-content > h4').html(weatherTitle)
     $('#weather-modal-image > img').attr('src', getWeatherImageUrl(weather))
@@ -202,7 +202,7 @@ function setupWeatherModal() {
         $('#boosted-types-container').append(`
             <div class='type'>
               <div><img src='static/images/types/${type.toLowerCase()}.png' width='48'></div>
-              <div>${i8ln(type)}</div>
+              <div>${i18n(type)}</div>
             </div>`)
     })
 }

@@ -796,8 +796,8 @@ def in_radius(loc1, loc2, radius):
     return distance(loc1, loc2) < radius
 
 
-def i8ln(word):
-    if not hasattr(i8ln, 'dictionary'):
+def i18n(word):
+    if not hasattr(i18n, 'dictionary'):
         args = get_args()
         file_path = os.path.join(
             args.root_path,
@@ -805,7 +805,7 @@ def i8ln(word):
             '{}.min.json'.format(args.locale))
         if os.path.isfile(file_path):
             with open(file_path, 'r') as f:
-                i8ln.dictionary = json.loads(f.read())
+                i18n.dictionary = json.loads(f.read())
         else:
             # If locale file is not found we set an empty dict to avoid
             # checking the file every time, we skip the warning for English as
@@ -814,9 +814,9 @@ def i8ln(word):
                 log.warning(
                     'Skipping translations - unable to find locale file: %s',
                     file_path)
-            i8ln.dictionary = {}
-    if word in i8ln.dictionary:
-        return i8ln.dictionary[word]
+            i18n.dictionary = {}
+    if word in i18n.dictionary:
+        return i18n.dictionary[word]
     else:
         return word
 
@@ -849,7 +849,7 @@ def get_pokemon_id(pokemon_name):
 
 
 def get_pokemon_name(pokemon_id):
-    return i8ln(get_pokemon_data(pokemon_id)['name'])
+    return i18n(get_pokemon_data(pokemon_id)['name'])
 
 
 def get_pokemon_types(pokemon_id):
@@ -872,20 +872,20 @@ def get_moves_data(move_id):
 
 
 def get_move_name(move_id):
-    return i8ln(get_moves_data(move_id)['name'])
+    return i18n(get_moves_data(move_id)['name'])
 
 
 def get_move_damage(move_id):
-    return i8ln(get_moves_data(move_id)['damage'])
+    return i18n(get_moves_data(move_id)['damage'])
 
 
 def get_move_energy(move_id):
-    return i8ln(get_moves_data(move_id)['energy'])
+    return i18n(get_moves_data(move_id)['energy'])
 
 
 def get_move_type(move_id):
     move_type = get_moves_data(move_id)['type']
-    return {'type': i8ln(move_type), 'type_en': move_type}
+    return {'type': i18n(move_type), 'type_en': move_type}
 
 
 def dottedQuadToNum(ip):

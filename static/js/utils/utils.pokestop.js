@@ -22,11 +22,11 @@ function initInvasionData() {
 }
 
 function getInvasionType(id) {
-    return i8ln(invasionData[id].type)
+    return i18n(invasionData[id].type)
 }
 
 function getInvasionGrunt(id) {
-    return i8ln(invasionData[id].grunt)
+    return i18n(invasionData[id].grunt)
 }
 
 function getInvasionImageUrl(id) {

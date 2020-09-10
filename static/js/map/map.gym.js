@@ -205,7 +205,7 @@ function updateGymSidebar(id) {
     const title = gym.name !== null && gym.name !== '' ? gym.name : (gym.team_id === 0 ? teamName : teamName + ' Gym')
     let exIcon = ''
     if (gym.is_ex_raid_eligible) {
-        exIcon += ` <img id="sidebar-gym-ex-icon" src="static/images/gym/ex.png" title="${i8ln('EX eligible Gym')}">`
+        exIcon += ` <img id="sidebar-gym-ex-icon" src="static/images/gym/ex.png" title="${i18n('EX eligible Gym')}">`
     }
 
     $('#sidebar-gym-title').html(title + exIcon)
@@ -229,23 +229,23 @@ function updateGymSidebar(id) {
 
     const $team = $('#gym-sidebar .team')
     if (gym.slots_available < 6) {
-        $team.text(i8ln('Team ' + teamName))
+        $team.text(i18n('Team ' + teamName))
     } else {
-        $team.text(i8ln(teamName))
+        $team.text(i18n(teamName))
     }
     $team.attr('class', 'team')
     $team.addClass(teamName.toLowerCase())
 
     $('#sidebar-gym-free-slots').text(gym.slots_available)
     if (gym.slots_available < 6) {
-        $('#sidebar-gym-leader').html(`${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='${i8ln('View on GamePress')}'>#${gym.guard_pokemon_id}</a>`)
+        $('#sidebar-gym-leader').html(`${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='${i18n('View on GamePress')}'>#${gym.guard_pokemon_id}</a>`)
         $('#sidebar-gym-leader-container').show()
     } else {
         $('#sidebar-gym-leader-container').hide()
     }
     $('#sidebar-gym-last-scanned').text(timestampToDateTime(gym.last_scanned))
     $('#sidebar-gym-last-modified').text(timestampToDateTime(gym.last_modified))
-    $('#sidebar-gym-coordinates-container').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i8ln('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
+    $('#sidebar-gym-coordinates-container').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
@@ -260,7 +260,7 @@ function updateGymSidebar(id) {
 
             $('#sidebar-upcoming-raid-container').hide()
             $('#sidebar-ongoing-raid-title').html(`${name} <i class='fas ${genderClasses[raid.gender - 1]}'></i> #${raid.pokemon_id}`)
-            $('#sidebar-ongoing-raid-level-container').html(`${i8ln('Raid')} <span class='raid-level-${raid.level}'>${levelStars}</span>`)
+            $('#sidebar-ongoing-raid-level-container').html(`${i18n('Raid')} <span class='raid-level-${raid.level}'>${levelStars}</span>`)
             $('#sidebar-ongoing-raid-end-container').html(`${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
             $('#sidebar-raid-pokemon-image').attr('src', getPokemonRawIconUrl(raid, serverSettings.generateImages))
 
@@ -268,23 +268,23 @@ function updateGymSidebar(id) {
             const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
             $.each(types, function (index, type) {
                 if (index === 1) {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='24' style='margin-left:4px;'>`
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='24' style='margin-left:4px;'>`
                 } else {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='24'>`
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='24'>`
                 }
             })
             $('#sidebar-raid-types-container').html(typesDisplay)
 
             $('#sidebar-raid-cp').text(raid.cp)
-            $('#sidebar-raid-fast-move').html(`${fastMoveName} <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>`)
-            $('#sidebar-raid-charge-move').html(`${chargeMoveName} <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>`)
+            $('#sidebar-raid-fast-move').html(`${fastMoveName} <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i18n(fastMoveType)}' width='15'>`)
+            $('#sidebar-raid-charge-move').html(`${chargeMoveName} <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i18n(chargeMoveType)}' width='15'>`)
             $('#sidebar-ongoing-raid-container').show()
         } else {
             $('#sidebar-ongoing-raid-container').hide()
-            $('#sidebar-upcoming-raid-title').html(`${i8ln('Raid')} <span class='raid-level-${raid.level}'>${levelStars}</span>`)
+            $('#sidebar-upcoming-raid-title').html(`${i18n('Raid')} <span class='raid-level-${raid.level}'>${levelStars}</span>`)
             $('#sidebar-raid-egg-image').attr('src', 'static/images/gym/' + raidEggImages[raid.level])
-            $('#sidebar-upcoming-raid-start-container').html(`${i8ln('Start')}: ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)`)
-            $('#sidebar-upcoming-raid-end-container').html(`${i8ln('End')}: ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
+            $('#sidebar-upcoming-raid-start-container').html(`${i18n('Start')}: ${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)`)
+            $('#sidebar-upcoming-raid-end-container').html(`${i18n('End')}: ${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)`)
             $('#sidebar-upcoming-raid-container').show()
         }
         // Update countdown time to prevent a countdown time of 0.
@@ -334,7 +334,7 @@ function gymLabel(gym) {
 
         gymLeaderDisplay = `
             <div>
-              ${i8ln('Gym leader')}: <strong>${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='${i8ln('View on GamePress')}'>#${gym.guard_pokemon_id}</a></strong>
+              ${i18n('Gym leader')}: <strong>${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='${i18n('View on GamePress')}'>#${gym.guard_pokemon_id}</a></strong>
             </div>`
     }
 
@@ -349,9 +349,9 @@ function gymLabel(gym) {
             const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
             $.each(types, function (index, type) {
                 if (index === 1) {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16' style='margin-left:4px;'>`
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16' style='margin-left:4px;'>`
                 } else {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16'>`
+                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16'>`
                 }
             })
 
@@ -362,7 +362,7 @@ function gymLabel(gym) {
             const chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
 
             const isNotifRaid = settings.notifRaidPokemon.has(raid.pokemon_id)
-            const notifText = isNotifRaid ? i8ln('Don\'t notify') : i8ln('Notify')
+            const notifText = isNotifRaid ? i18n('Don\'t notify') : i18n('Notify')
             const notifIconClass = isNotifRaid ? 'fas fa-bell-slash' : 'fas fa-bell'
 
             raidDisplay = `
@@ -382,7 +382,7 @@ function gymLabel(gym) {
                   <div id='raid-container-right'>
                     <div class='title ongoing'>
                       <div>
-                        ${i8ln('Raid')}: ${name} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id}
+                        ${i18n('Raid')}: ${name} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id}
                       </div>
                     </div>
                     <div class='disappear'>
@@ -390,25 +390,25 @@ function gymLabel(gym) {
                     </div>
                     <div class='info-container'>
                       <div>
-                        ${i8ln('CP')}: <strong>${raid.cp}</strong>
+                        ${i18n('CP')}: <strong>${raid.cp}</strong>
                       </div>
                       <div>
-                        ${i8ln('Fast')}: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
+                        ${i18n('Fast')}: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i18n(fastMoveType)}' width='15'>
                       </div>
                       <div>
-                        ${i8ln('Charge')}: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
+                        ${i18n('Charge')}: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i18n(chargeMoveType)}' width='15'>
                       </div>
                     </div>
                     <div>
                       <a href='javascript:toggleRaidPokemonNotif(${raid.pokemon_id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                      <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title=${i8ln('Hide')}><i class="fas fa-eye-slash"></i></a>
-                      <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='${i8ln('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
+                      <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
+                      <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='${i18n('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
                     </div>
                   </div>
                 </div>`
         } else {
             const isNotifEgg = settings.notifEggs.includes(raid.level)
-            const notifText = isNotifEgg ? i8ln('Don\'t notify') : i8ln('Notify')
+            const notifText = isNotifEgg ? i18n('Don\'t notify') : i18n('Notify')
             const notifIconClass = isNotifEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
 
             raidDisplay = `
@@ -423,15 +423,15 @@ function gymLabel(gym) {
                     </div>
                     <div class='info-container'>
                       <div>
-                        ${i8ln('Start')}: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
+                        ${i18n('Start')}: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
                       </div>
                       <div>
-                        ${i8ln('End')}: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
+                        ${i18n('End')}: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
                       </div>
                     </div>
                     <div>
                       <a href='javascript:toggleEggNotif(${raid.level})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                      <a href='javascript:excludeRaidLevel(${raid.level})' class='link-button' title=${i8ln('Hide')}><i class="fas fa-eye-slash"></i></a>
+                      <a href='javascript:excludeRaidLevel(${raid.level})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
                     </div>
                   </div>
                 </div>`
@@ -444,7 +444,7 @@ function gymLabel(gym) {
             <div id='gym-container-left'>
               ${gymImageDisplay}
               <div class='team ${teamName.toLowerCase()}'>
-                <strong>${i8ln(teamName)}</strong>
+                <strong>${i18n(teamName)}</strong>
               </div>
             </div>
             <div id='gym-container-right'>
@@ -454,18 +454,18 @@ function gymLabel(gym) {
               <div class='info-container'>
                 ${strenghtDisplay}
                 <div>
-                  ${i8ln('Free slots')}: <strong>${gym.slots_available}</strong>
+                  ${i18n('Free slots')}: <strong>${gym.slots_available}</strong>
                 </div>
                 ${gymLeaderDisplay}
                 <div>
-                  ${i8ln('Last scanned')}: <strong>${timestampToDateTime(gym.last_scanned)}</strong>
+                  ${i18n('Last scanned')}: <strong>${timestampToDateTime(gym.last_scanned)}</strong>
                 </div>
                 <div>
-                  ${i8ln('Last modified')}: <strong>${timestampToDateTime(gym.last_modified)}</strong>
+                  ${i18n('Last modified')}: <strong>${timestampToDateTime(gym.last_modified)}</strong>
                 </div>
               </div>
               <div>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i8ln('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
@@ -701,7 +701,7 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
     }
 
     if (settings.showBrowserPopups) {
-        const gymName = gym.name !== null && gym.name !== '' ? gym.name : i8ln('unknown')
+        const gymName = gym.name !== null && gym.name !== '' ? gym.name : i18n('unknown')
         var notifTitle = ''
         var notifText = ''
         var iconUrl = ''
@@ -711,8 +711,8 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            notifTitle = `${i8ln('Raid')}: ${i8ln('Level')} ${raid.level}`
-            notifText = `${i8ln('Gym')}: ${gymName}\n${i8ln('Starts at')} ${expireTime} (${expireTimeCountdown})`
+            notifTitle = `${i18n('Raid')}: ${i18n('Level')} ${raid.level}`
+            notifText = `${i18n('Gym')}: ${gymName}\n${i18n('Starts at')} ${expireTime} (${expireTimeCountdown})`
             iconUrl = 'static/images/gym/' + raidEggImages[raid.level]
         } else {
             const expireTime = timestampToTime(raid.end)
@@ -723,8 +723,8 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
             var fastMoveName = getMoveName(raid.move_1)
             var chargeMoveName = getMoveName(raid.move_2)
 
-            notifTitle = `${i8ln('Raid')}: ${getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)} (L${raid.level})`
-            notifText = `${i8ln('Gym')}: ${gymName}\n${i8ln('Ends at')} ${expireTime} (${expireTimeCountdown})\n${i8ln('Moves')}: ${fastMoveName} / ${chargeMoveName}`
+            notifTitle = `${i18n('Raid')}: ${getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)} (L${raid.level})`
+            notifText = `${i18n('Gym')}: ${gymName}\n${i18n('Ends at')} ${expireTime} (${expireTimeCountdown})\n${i18n('Moves')}: ${fastMoveName} / ${chargeMoveName}`
             iconUrl = getPokemonRawIconUrl(raid, serverSettings.generateImages)
         }
 

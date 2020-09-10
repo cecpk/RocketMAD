@@ -30,7 +30,7 @@ from .pogoprotos.enums.pokemon_id_pb2 import PokemonId
 from .pogoprotos.enums.raid_level_pb2 import RaidLevel
 from .pogoprotos.enums.weather_condition_pb2 import WeatherCondition
 from .transform import transform_from_wgs_to_gcj
-from .utils import (get_args, get_pokemon_name, get_sessions, i8ln,
+from .utils import (get_args, get_pokemon_name, get_sessions, i18n,
                     parse_geofence_file)
 
 log = logging.getLogger(__name__)
@@ -275,7 +275,7 @@ def create_app():
             quest_page=settings['quests'] and not user_args.no_quest_page,
             analytics_id=user_args.analytics_id,
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/pokemon-history')
@@ -329,7 +329,7 @@ def create_app():
                         and not user_args.no_quest_page),
             analytics_id=user_args.analytics_id,
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/quests')
@@ -381,7 +381,7 @@ def create_app():
                                   and not user_args.no_pokemon_history_page),
             analytics_id=user_args.analytics_id,
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/mobile')
@@ -447,7 +447,7 @@ def create_app():
             origin_lng=lon,
             analytics_id=user_args.analytics_id,
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/login')
@@ -490,7 +490,7 @@ def create_app():
             quest_page=(not args.no_pokestops and not args.no_quests
                         and not args.no_quest_page),
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/login/<auth_type>')
@@ -543,7 +543,7 @@ def create_app():
                         and not args.no_quest_page),
             analytics_id=args.analytics_id,
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/login/telegram')
@@ -582,7 +582,7 @@ def create_app():
             telegram_bot_username=args.telegram_bot_username,
             server_uri=args.server_uri,
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/auth/<auth_type>')
@@ -678,7 +678,7 @@ def create_app():
                         and not user_args.no_quests
                         and not user_args.no_quest_page),
             settings=settings,
-            i18n=i8ln
+            i18n=i18n
         )
 
     @app.route('/raw-data')

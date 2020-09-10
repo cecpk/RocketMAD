@@ -43,9 +43,9 @@ function initPokemonData() {
             pokemonData[id].gen = gen
             pokemonSearchList.push({
                 id: parseInt(id),
-                name: i8ln(value.name),
-                type1: i8ln(value.types[0].type),
-                type2: value.types[1] ? i8ln(value.types[1].type) : '',
+                name: i18n(value.name),
+                type1: i18n(value.types[0].type),
+                type2: value.types[1] ? i18n(value.types[1].type) : '',
                 gen: 'gen' + gen
             })
         })
@@ -92,18 +92,18 @@ function getPokemonIds() {
 function getPokemonName(id, evolutionId = 0) {
     switch (evolutionId) {
         case 1:
-            return i8ln('Mega') + ' ' + i8ln(pokemonData[id].name)
+            return i18n('Mega') + ' ' + i18n(pokemonData[id].name)
         case 2:
-            return i8ln('Mega') + ' ' + i8ln(pokemonData[id].name) + ' X'
+            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' X'
         case 3:
-            return i8ln('Mega') + ' ' + i8ln(pokemonData[id].name) + ' Y'
+            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' Y'
         default:
-            return i8ln(pokemonData[id].name)
+            return i18n(pokemonData[id].name)
     }
 }
 
 function getPokemonTypes(pokemonId, formId) {
-    return i8ln(getPokemonTypesNoI8ln(pokemonId, formId))
+    return i18n(getPokemonTypesNoI8ln(pokemonId, formId))
 }
 
 function getPokemonTypesNoI8ln(pokemonId, formId) {
@@ -115,7 +115,7 @@ function getPokemonTypesNoI8ln(pokemonId, formId) {
 }
 
 function getFormName(pokemonId, formId) {
-    return 'forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms ? i8ln(pokemonData[pokemonId].forms[formId].formName) : ''
+    return 'forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms ? i18n(pokemonData[pokemonId].forms[formId].formName) : ''
 }
 
 function getPokemonNameWithForm(pokemonId, formId, evolutionId = 0) {
@@ -132,11 +132,11 @@ function getPokemonGen(id) {
 }
 
 function getMoveName(id) {
-    return i8ln(moveData[id].name)
+    return i18n(moveData[id].name)
 }
 
 function getMoveType(id) {
-    return i8ln(moveData[id].type)
+    return i18n(moveData[id].type)
 }
 
 function getMoveTypeNoI8ln(id) {
@@ -152,7 +152,7 @@ function getPokemonRarity(pokemonId) {
 }
 
 function getPokemonRarityName(pokemonId) {
-    return i8ln(rarityNames[getPokemonRarity(pokemonId) - 1])
+    return i18n(rarityNames[getPokemonRarity(pokemonId) - 1])
 }
 
 function getPokemonRawIconUrl(pokemon, generateImages) {

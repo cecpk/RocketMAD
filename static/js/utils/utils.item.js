@@ -15,7 +15,7 @@ function initItemData() {
 }
 
 function getItemName(id) {
-    return i8ln(itemData[id].name)
+    return i18n(itemData[id].name)
 }
 
 function getItemImageUrl(id) {

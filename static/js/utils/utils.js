@@ -163,9 +163,9 @@ function timestampToDate(timestamp) {
     var dateStr = 'Unknown'
     if (timestamp) {
         if (moment(timestamp).isSame(moment(), 'day')) {
-            dateStr = i8ln('Today')
+            dateStr = i18n('Today')
         } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
-            dateStr = i8ln('Yesterday')
+            dateStr = i18n('Yesterday')
         } else {
             dateStr = moment(timestamp).format('YYYY-MM-DD')
         }
@@ -179,9 +179,9 @@ function timestampToDateTime(timestamp) {
     if (timestamp) {
         var time = serverSettings.twelveHourClock ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
         if (moment(timestamp).isSame(moment(), 'day')) {
-            dateStr = i8ln('Today') + ' ' + time
+            dateStr = i18n('Today') + ' ' + time
         } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
-            dateStr = i8ln('Yesterday') + ' ' + time
+            dateStr = i18n('Yesterday') + ' ' + time
         } else {
             dateStr = moment(timestamp).format('YYYY-MM-DD') + ' ' + time
         }
