@@ -22,22 +22,26 @@ Assuming the following:
        # to return a good HTTP response.
        server 127.0.0.1:5000 fail_timeout=0;
    }
-   
+
    server {
        listen 80;
        listen [::]:80;
-       
+
        # Set the correct host(s) for your site.
        server_name my_domain.com www.my_domain.com;
-       
+
        # Path to your RocketMAD folder.
        root /path/to/RM;
-       
+
+       location ~ /(config|geofences|logs) {
+           return 403;
+       }
+
        location / {
            # Checks for static file, if not found proxy to app.
            try_files $uri @proxy_to_app;
        }
-       
+
        location @proxy_to_app {
            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
            proxy_set_header X-Forwarded-Proto $scheme;
@@ -58,22 +62,26 @@ In case you want to use a subdirectory, e.g. http://my_domain.com/map, add the f
        # to return a good HTTP response.
        server 127.0.0.1:5000 fail_timeout=0;
    }
-   
+
    server {
        listen 80;
        listen [::]:80;
-       
+
        # Set the correct host(s) for your site.
        server_name my_domain.com www.my_domain.com;
-       
+
        # Path to your RocketMAD folder.
        root /path/to/RM;
-       
+
+       location ~ /map/(config|geofences|logs) {
+           return 403;
+       }
+
        location /map {
            # Checks for static file, if not found proxy to app.
            try_files $uri @proxy_to_app;
        }
-       
+
        location @proxy_to_app {
            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
            proxy_set_header X-Forwarded-Proto $scheme;
@@ -119,7 +127,7 @@ server {
 
     # Set the correct host(s) for your site.
     server_name my_domain.com www.my_domain.com;
-    
+
     # Path to your RocketMAD folder.
     root /path/to/RM;
 
@@ -128,18 +136,18 @@ server {
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:10m;
     ssl_session_tickets off;
-    
+
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
     ssl_prefer_server_ciphers off;
-    
+
     add_header Strict-Transport-Security "max-age=63072000" always;
 
     location / {
         # Checks for static file, if not found proxy to app.
         try_files $uri @proxy_to_app;
     }
-    
+
     location @proxy_to_app {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
