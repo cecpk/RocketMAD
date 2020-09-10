@@ -371,7 +371,7 @@ function createStartLocationMarker() {
     const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
     var marker = L.marker([lat, lng], { draggable: settings.isStartLocationMarkerMovable }).addTo(markersNoCluster)
-    marker.bindPopup(`<div><b>${i8ln('Start location')}</b></div>`, { autoPan: autoPanPopup() })
+    marker.bindPopup(function () { return `<div><b>${i8ln('Start location')}</b></div>` }, { autoPan: autoPanPopup() })
     marker.setZIndexOffset(startLocationMarkerZIndex)
     updateStartLocationMarker()
     addListeners(marker)
@@ -416,7 +416,7 @@ function createUserLocationMarker() {
     const lng = useStoredPosition ? pos.lng : serverSettings.centerLng
 
     var marker = L.marker([lat, lng]).addTo(markersNoCluster)
-    marker.bindPopup(`<div><b>${i8ln('My location')}</b></div>`, { autoPan: autoPanPopup() })
+    marker.bindPopup(function () { return `<div><b>${i8ln('My location')}</b></div>` }, { autoPan: autoPanPopup() })
     marker.setZIndexOffset(userLocationMarkerZIndex)
     updateUserLocationMarker()
     addListeners(marker)
@@ -982,7 +982,7 @@ function createUserLocationButton() {
 
         var locationButton = document.createElement('a')
         locationButton.innerHTML = '<i class="material-icons">my_location</i>'
-        locationButton.title = 'My location'
+        locationButton.title = i8ln('My location')
         locationButton.href = 'javascript:void(0);'
         locationContainer.appendChild(locationButton)
         locationButton.addEventListener('click', centerMapOnUserLocation)
@@ -1325,13 +1325,16 @@ $(function () {
             searching: false,
             info: false,
             scrollX: true,
+            language: {
+                url: getDataTablesLocUrl()
+            },
             columnDefs: [
                 { orderable: false, targets: 0 },
                 {
                     targets: 1,
                     render: function (data, type, row) {
                         if (type === 'display') {
-                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title="View on GamePress">#${row[1]}</a>`
+                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title='${i8ln('View on GamePress')}'>#${row[1]}</a>`
                         }
                         return row[1]
                     }
@@ -1365,6 +1368,9 @@ $(function () {
             searching: false,
             info: false,
             scrollX: true,
+            language: {
+                url: getDataTablesLocUrl()
+            },
             columnDefs: [
                 { orderable: false, targets: 0 },
                 {
@@ -1396,6 +1402,9 @@ $(function () {
             searching: false,
             info: false,
             scrollX: true,
+            language: {
+                url: getDataTablesLocUrl()
+            },
             columnDefs: [
                 { orderable: false, targets: 0 },
                 {
@@ -1425,13 +1434,16 @@ $(function () {
             searching: false,
             info: false,
             scrollX: true,
+            language: {
+                url: getDataTablesLocUrl()
+            },
             columnDefs: [
                 { orderable: false, targets: 0 },
                 {
                     targets: 2,
                     render: function (data, type, row) {
                         if (type === 'display') {
-                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[2]}" target="_blank" title="View on GamePress">#${row[2]}</a>`
+                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[2]}" target="_blank" title='${i8ln('View on GamePress')}'>#${row[2]}</a>`
                         }
                         return row[2]
                     }
@@ -1465,6 +1477,9 @@ $(function () {
             searching: false,
             info: false,
             scrollX: true,
+            language: {
+                url: getDataTablesLocUrl()
+            },
             columnDefs: [
                 { orderable: false, targets: 0 },
                 {

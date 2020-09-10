@@ -70,16 +70,16 @@
               <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="Patreon" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
               {% endif %}
               {% if donate_url %}
-              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="Donate" target="_blank"><i class="material-icons">attach_money</i></a></li>
+              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ i18n('Donate') }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
               {% endif %}
               {% if madmin_url %}
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
               {% endif %}
               {% if pokemon_history_page %}
-              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
+              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="{{ i18n('Pokémon history') }}"><i class="material-icons">pets</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
+              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="{{ i18n('Quests') }}"><i class="material-icons">explore</i></a></li>
               {% endif %}
             </ul>
           </div>
@@ -90,10 +90,10 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if pokemon_history_page %}
-      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>Pokémon history</a></li>
+      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>{{ i18n('Pokémon history') }}</a></li>
       {% endif %}
       {% if quest_page %}
-      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>Quests</a></li>
+      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('Quests') }}</a></li>
       {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">phone_android</i>MADmin</a></li>
@@ -101,7 +101,7 @@
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
       {% if donate_url %}
-      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>Donate</a></li>
+      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ i18n('Donate') }}</a></li>
       {% endif %}
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
@@ -135,17 +135,17 @@
     {% endif %}
 
     <div class="container">
-      <h5>Log in to {{ map_title }}</h5>
+      <h5>{{ i18n('Log in to') }} {{ map_title }}</h5>
       <div class="input-field">
         <input id="username" type="text" class="validate">
-        <label for="username">Username</label>
+        <label for="username">{{ i18n('Username') }}</label>
       </div>
       <div class="input-field">
         <input id="password" type="password" class="validate">
-        <label for="password">Password</label>
+        <label for="password">{{ i18n('Password') }}</label>
       </div>
       <div>
-        <button id="login-button" class="btn waves-effect waves-light" type="submit" name="action">Log in <i class="material-icons right">send</i></button>
+        <button id="login-button" class="btn waves-effect waves-light" type="submit" name="action">{{ i18n('Log in') }} <i class="material-icons right">send</i></button>
       </div>
     </div>
 

@@ -245,7 +245,7 @@ function updateGymSidebar(id) {
     }
     $('#sidebar-gym-last-scanned').text(timestampToDateTime(gym.last_scanned))
     $('#sidebar-gym-last-modified').text(timestampToDateTime(gym.last_modified))
-    $('#sidebar-gym-coordinates-container').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i8ln('Open in ' + mapServiceProviderNames[settings.mapServiceProvider])}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
+    $('#sidebar-gym-coordinates-container').html(`<a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i8ln('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>`)
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
@@ -334,7 +334,7 @@ function gymLabel(gym) {
 
         gymLeaderDisplay = `
             <div>
-              Gym leader: <strong>${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='View on GamePress'>#${gym.guard_pokemon_id}</a></strong>
+              ${i8ln('Gym leader')}: <strong>${getPokemonName(gym.guard_pokemon_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${gym.guard_pokemon_id}' target='_blank' title='${i8ln('View on GamePress')}'>#${gym.guard_pokemon_id}</a></strong>
             </div>`
     }
 
@@ -362,7 +362,7 @@ function gymLabel(gym) {
             const chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
 
             const isNotifRaid = settings.notifRaidPokemon.has(raid.pokemon_id)
-            const notifText = isNotifRaid ? 'Don\'t notify' : 'Notify'
+            const notifText = isNotifRaid ? i8ln('Don\'t notify') : i8ln('Notify')
             const notifIconClass = isNotifRaid ? 'fas fa-bell-slash' : 'fas fa-bell'
 
             raidDisplay = `
@@ -382,7 +382,7 @@ function gymLabel(gym) {
                   <div id='raid-container-right'>
                     <div class='title ongoing'>
                       <div>
-                        ${name} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id} Raid
+                        ${i8ln('Raid')}: ${name} <i class="fas ${genderClasses[raid.gender - 1]}"></i> #${raid.pokemon_id}
                       </div>
                     </div>
                     <div class='disappear'>
@@ -390,25 +390,25 @@ function gymLabel(gym) {
                     </div>
                     <div class='info-container'>
                       <div>
-                        CP: <strong>${raid.cp}</strong>
+                        ${i8ln('CP')}: <strong>${raid.cp}</strong>
                       </div>
                       <div>
-                        Fast: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
+                        ${i8ln('Fast')}: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
                       </div>
                       <div>
-                        Charge: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
+                        ${i8ln('Charge')}: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
                       </div>
                     </div>
                     <div>
                       <a href='javascript:toggleRaidPokemonNotif(${raid.pokemon_id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                      <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
-                      <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
+                      <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title=${i8ln('Hide')}><i class="fas fa-eye-slash"></i></a>
+                      <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='${i8ln('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
                     </div>
                   </div>
                 </div>`
         } else {
             const isNotifEgg = settings.notifEggs.includes(raid.level)
-            const notifText = isNotifEgg ? 'Don\'t notify' : 'Notify'
+            const notifText = isNotifEgg ? i8ln('Don\'t notify') : i8ln('Notify')
             const notifIconClass = isNotifEgg ? 'fas fa-bell-slash' : 'fas fa-bell'
 
             raidDisplay = `
@@ -423,15 +423,15 @@ function gymLabel(gym) {
                     </div>
                     <div class='info-container'>
                       <div>
-                        Start: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
+                        ${i8ln('Start')}: <strong>${timestampToTime(raid.start)} (<span class='label-countdown' disappears-at='${raid.start}'>00m00s</span>)</strong>
                       </div>
                       <div>
-                        End: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
+                        ${i8ln('End')}: <strong>${timestampToTime(raid.end)} (<span class='label-countdown' disappears-at='${raid.end}'>00m00s</span>)</strong>
                       </div>
                     </div>
                     <div>
                       <a href='javascript:toggleEggNotif(${raid.level})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                      <a href='javascript:excludeRaidLevel(${raid.level})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                      <a href='javascript:excludeRaidLevel(${raid.level})' class='link-button' title=${i8ln('Hide')}><i class="fas fa-eye-slash"></i></a>
                     </div>
                   </div>
                 </div>`
@@ -444,7 +444,7 @@ function gymLabel(gym) {
             <div id='gym-container-left'>
               ${gymImageDisplay}
               <div class='team ${teamName.toLowerCase()}'>
-                <strong>${teamName}</strong>
+                <strong>${i8ln(teamName)}</strong>
               </div>
             </div>
             <div id='gym-container-right'>
@@ -454,18 +454,18 @@ function gymLabel(gym) {
               <div class='info-container'>
                 ${strenghtDisplay}
                 <div>
-                  Free slots: <strong>${gym.slots_available}</strong>
+                  ${i8ln('Free slots')}: <strong>${gym.slots_available}</strong>
                 </div>
                 ${gymLeaderDisplay}
                 <div>
-                  Last scanned: <strong>${timestampToDateTime(gym.last_scanned)}</strong>
+                  ${i8ln('Last scanned')}: <strong>${timestampToDateTime(gym.last_scanned)}</strong>
                 </div>
                 <div>
-                  Last modified: <strong>${timestampToDateTime(gym.last_modified)}</strong>
+                  ${i8ln('Last modified')}: <strong>${timestampToDateTime(gym.last_modified)}</strong>
                 </div>
               </div>
               <div>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${gym.latitude},${gym.longitude},"${settings.mapServiceProvider}");' title='${i8ln('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${gym.latitude.toFixed(5)}, ${gym.longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
@@ -701,7 +701,7 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
     }
 
     if (settings.showBrowserPopups) {
-        const gymName = gym.name !== null && gym.name !== '' ? gym.name : 'unknown'
+        const gymName = gym.name !== null && gym.name !== '' ? gym.name : i8ln('unknown')
         var notifTitle = ''
         var notifText = ''
         var iconUrl = ''
@@ -711,8 +711,8 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
             let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
             expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-            notifTitle = `Level ${raid.level} Raid`
-            notifText = `Gym: ${gymName}\nStarts at ${expireTime} (${expireTimeCountdown})`
+            notifTitle = `${i8ln('Raid')}: ${i8ln('Level')} ${raid.level}`
+            notifText = `${i8ln('Gym')}: ${gymName}\n${i8ln('Starts at')} ${expireTime} (${expireTimeCountdown})`
             iconUrl = 'static/images/gym/' + raidEggImages[raid.level]
         } else {
             const expireTime = timestampToTime(raid.end)
@@ -723,8 +723,8 @@ function sendGymNotification(gym, isEggNotifGym, isRaidPokemonNotifGym) {
             var fastMoveName = getMoveName(raid.move_1)
             var chargeMoveName = getMoveName(raid.move_2)
 
-            notifTitle = `${getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)} Raid (L${raid.level})`
-            notifText = `Gym: ${gymName}\nEnds at ${expireTime} (${expireTimeCountdown})\nMoves: ${fastMoveName} / ${chargeMoveName}`
+            notifTitle = `${i8ln('Raid')}: ${getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)} (L${raid.level})`
+            notifText = `${i8ln('Gym')}: ${gymName}\n${i8ln('Ends at')} ${expireTime} (${expireTimeCountdown})\n${i8ln('Moves')}: ${fastMoveName} / ${chargeMoveName}`
             iconUrl = getPokemonRawIconUrl(raid, serverSettings.generateImages)
         }
 

@@ -90,16 +90,16 @@
               <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
               {% endif %}
               {% if pokemon_history_page %}
-              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
+              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="{{ i18n('Pokémon history') }}"><i class="material-icons">pets</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
+              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="{{ i18n('Quests') }}"><i class="material-icons">explore</i></a></li>
               {% endif %}
               {% if client_auth %}
               {% if logged_in %}
-              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="{{ i18n('Log out') }}"><i class="material-icons">exit_to_app</i></a></li>
               {% else %}
-              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="Log in"><i class="material-icons">account_box</i></a></li>
+              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="{{ i18n('Log in') }}"><i class="material-icons">account_box</i></a></li>
               {% endif %}
               {% endif %}
               {% if settings.statsSidebar %}
@@ -114,10 +114,10 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if pokemon_history_page %}
-      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>Pokémon history</a></li>
+      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>{{ i18n('Pokémon history') }}</a></li>
       {% endif %}
       {% if quest_page %}
-      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>Quests</a></li>
+      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('Quests') }}</a></li>
       {% endif %}
       {% if admin %}
       <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
@@ -152,9 +152,9 @@
       {% if client_auth %}
       <li class="divider" tabindex="-1"></li>
       {% if logged_in %}
-      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Log out</a></li>
+      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>{{ i18n('Log out') }}</a></li>
       {% else %}
-      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>Log in</a></li>
+      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>{{ i18n('Log in') }}</a></li>
       {% endif %}
       {% endif %}
     </ul>
@@ -203,7 +203,7 @@
     {% if settings.pokemonValues %}
     <div id="pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="filter-values-pokemon-title">Pokémon filtered by values</h6>
+        <h6 id="filter-values-pokemon-title">{{ i18n('Pokémon filtered by values') }}</h6>
         <label for="unfiltered-pokemon">
           <input id="unfiltered-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -347,7 +347,7 @@
     {% if settings.pokemonValues %}
     <div id="notif-pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="notif-pokemon-values-filter-title">Notif Pokémon filtered by values</h6>
+        <h6 id="notif-pokemon-values-filter-title">{{ i18n('Notif Pokémon filtered by values') }}</h6>
         <label for="no-notif-values-pokemon">
           <input id="no-notif-values-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -758,7 +758,7 @@
                 </div>
               </div>
               <div class="form-control">
-                <span id="gym-level-slider-title" class="slider-title">Gym levels</span>
+                <span id="gym-level-slider-title" class="slider-title">{{ i18n('Gym levels') }}</span>
                 <div class="slider-container">
                   <div id="gym-level-slider"></div>
                 </div>
@@ -1270,13 +1270,13 @@
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="pokemon-ivs-notifs-slider-title" class="slider-title">Notif IVs</span>
+                  <span id="pokemon-ivs-notifs-slider-title" class="slider-title">{{ i18n('Notif IVs') }}</span>
                   <div class="slider-container">
                     <div id="pokemon-ivs-notifs-slider"></div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="pokemon-level-notifs-slider-title" class="slider-title">Notif Levels</span>
+                  <span id="pokemon-level-notifs-slider-title" class="slider-title">{{ i18n('Notif Levels') }}</span>
                   <div class="slider-container">
                     <div id="pokemon-level-notifs-slider"></div>
                   </div>
@@ -1603,7 +1603,7 @@
       {% if settings.gyms or settings.raids %}
       <div id="gym-stats-tab">
         {% if settings.gyms %}
-        <h6 id="gym-table-title">Gyms</h6>
+        <h6 id="gym-table-title">{{ i18n('Gyms') }}</h6>
         <table id="gym-table" class="order-column row-border top-border hover" width="100%">
           <thead>
             <tr>
@@ -1618,7 +1618,7 @@
         </table>
         {% endif %}
         {% if settings.raids %}
-        <h6 id="egg-table-title">Eggs</h6>
+        <h6 id="egg-table-title">{{ i18n('Eggs') }}</h6>
         <table id="egg-table" class="order-column row-border top-border hover" width="100%">
           <thead>
             <tr>
@@ -1631,7 +1631,7 @@
           <tbody>
           </tbody>
         </table>
-        <h6 id="raid-pokemon-table-title">Raid Bosses</h6>
+        <h6 id="raid-pokemon-table-title">{{ i18n('Raid Bosses') }}</h6>
         <table id="raid-pokemon-table" class="order-column row-border top-border hover" width="100%">
           <thead>
             <tr>

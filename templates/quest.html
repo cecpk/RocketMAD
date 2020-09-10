@@ -19,7 +19,7 @@
       gtag('config', '{{ analytics_id }}')
     </script>
     {% endif %}
-    <title>{{ map_title }} - Quests</title>
+    <title>{{ map_title }} - {{ i18n('Quests') }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
     <link rel="apple-touch-icon" sizes="180x180" href="{{ appicons_dir }}apple-touch-icon.png">
@@ -72,7 +72,7 @@
               <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="Patreon" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
               {% endif %}
               {% if donate_url %}
-              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="Donate" target="_blank"><i class="material-icons">attach_money</i></a></li>
+              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ i18n('Donate') }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
               {% endif %}
               {% if madmin_url %}
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
@@ -81,13 +81,13 @@
               <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
               {% endif %}
               {% if pokemon_history_page %}
-              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
+              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="{{ i18n('Pokémon history') }}"><i class="material-icons">pets</i></a></li>
               {% endif %}
               {% if client_auth %}
               {% if logged_in %}
-              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="{{ i18n('Log out') }}"><i class="material-icons">exit_to_app</i></a></li>
               {% else %}
-              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="Log in"><i class="material-icons">account_box</i></a></li>
+              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="{{ i18n('Log in') }}"><i class="material-icons">account_box</i></a></li>
               {% endif %}
               {% endif %}
             </ul>
@@ -99,7 +99,7 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if pokemon_history_page %}
-      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>Pokémon history</a></li>
+      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>{{ i18n('Pokémon history') }}</a></li>
       {% endif %}
       {% if admin %}
       <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
@@ -110,7 +110,7 @@
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
       {% if donate_url %}
-      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>Donate</a></li>
+      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ i18n('Donate') }}</a></li>
       {% endif %}
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
@@ -134,9 +134,9 @@
       {% if client_auth %}
       <li class="divider" tabindex="-1"></li>
       {% if logged_in %}
-      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Log out</a></li>
+      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>{{ i18n('Log out') }}</a></li>
       {% else %}
-      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>Log in</a></li>
+      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>{{ i18n('Log in') }}</a></li>
       {% endif %}
       {% endif %}
     </ul>
@@ -166,7 +166,7 @@
               <label>
                 <input type="checkbox" id="dark-mode-switch">
                 <span class="lever"></span>
-                Dark mode
+                {{ i18n('Dark mode') }}
               </label>
             </div>
           </div>
@@ -175,14 +175,14 @@
     </ul>
 
     <div id="quest-container">
-      <h5 id="quest-title" style="display:none;">Quests</h5>
+      <h5 id="quest-title" style="display:none;">{{ i18n('Quests') }}</h5>
       <div id="table-container" style="display:none;">
         <table id="quest-table" class="order-column row-border top-border hover" width="100%">
           <thead>
             <tr>
-              <th>PokéStop</th>
-              <th>Task</th>
-              <th>Reward</th>
+              <th>{{ i18n('PokéStop') }}</th>
+              <th>{{ i18n('Task') }}</th>
+              <th>{{ i18n('Reward') }}</th>
             </tr>
           </thead>
           <tbody>

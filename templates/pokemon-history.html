@@ -19,7 +19,7 @@
       gtag('config', '{{ analytics_id }}')
     </script>
     {% endif %}
-    <title>{{ map_title }} - Pokémon history</title>
+    <title>{{ map_title }} - {{ i18n('Pokémon history') }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
     <link rel="apple-touch-icon" sizes="180x180" href="{{ appicons_dir }}apple-touch-icon.png">
@@ -74,7 +74,7 @@
               <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="Patreon" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
               {% endif %}
               {% if donate_url %}
-              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="Donate" target="_blank"><i class="material-icons">attach_money</i></a></li>
+              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ i18n('Donate') }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
               {% endif %}
               {% if madmin_url %}
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
@@ -83,13 +83,13 @@
               <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
+              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="{{ i18n('Quests') }}"><i class="material-icons">explore</i></a></li>
               {% endif %}
               {% if client_auth %}
               {% if logged_in %}
-              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="{{ i18n('Log out') }}"><i class="material-icons">exit_to_app</i></a></li>
               {% else %}
-              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="Log in"><i class="material-icons">account_box</i></a></li>
+              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="{{ i18n('Log in') }}"><i class="material-icons">account_box</i></a></li>
               {% endif %}
               {% endif %}
             </ul>
@@ -101,7 +101,7 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if quest_page %}
-      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>Quests</a></li>
+      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('Quests') }}</a></li>
       {% endif %}
       {% if admin %}
       <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
@@ -112,7 +112,7 @@
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
       {% if donate_url %}
-      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>Donate</a></li>
+      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ i18n('Donate') }}</a></li>
       {% endif %}
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
@@ -136,9 +136,9 @@
       {% if client_auth %}
       <li class="divider" tabindex="-1"></li>
       {% if logged_in %}
-      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>Log out</a></li>
+      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>{{ i18n('Log out') }}</a></li>
       {% else %}
-      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>Log in</a></li>
+      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>{{ i18n('Log in') }}</a></li>
       {% endif %}
       {% endif %}
 
@@ -159,34 +159,34 @@
         <div class="settings-container">
           <div class="form-control">
             <div class="input-field">
-              <div class="select-title">Duration</div>
+              <div class="select-title">{{ i18n('Duration') }}</div>
               <select id="duration-select">
-                <option value="1">Last hour</option>
-                <option value="3">Last 3 hours</option>
-                <option value="6">Last 6 hours</option>
-                <option value="12">Last 12 hours</option>
-                <option value="24">Last day</option>
-                <option value="168">Last 7 days</option>
-                <option value="336">Last 14 days</option>
-                <option value="730">Last month</option>
-                <option value="2190">Last 3 months</option>
-                <option value="4380">Last 6 months</option>
-                <option value="8760">Last year</option>
-                <option value="876000">Map lifetime</option>
+                <option value="1">{{ i18n('Last hour') }}</option>
+                <option value="3">{{ i18n('Last 3 hours') }}</option>
+                <option value="6">{{ i18n('Last 6 hours') }}</option>
+                <option value="12">{{ i18n('Last 12 hours') }}</option>
+                <option value="24">{{ i18n('Last day') }}</option>
+                <option value="168">{{ i18n('Last 7 days') }}</option>
+                <option value="336">{{ i18n('Last 14 days') }}</option>
+                <option value="730">{{ i18n('Last month') }}</option>
+                <option value="2190">{{ i18n('Last 3 months') }}</option>
+                <option value="4380">{{ i18n('Last 6 months') }}</option>
+                <option value="8760">{{ i18n('Last year') }}</option>
+                <option value="876000">{{ i18n('Map lifetime') }}</option>
               </select>
             </div>
           </div>
           <div class="form-control">
             <div class="input-field">
-              <div class="select-title">Map style</div>
+              <div class="select-title">{{ i18n('Map style') }}</div>
               <select id="map-style-select">
                 <option value="mapnik">Mapnik</option>
                 <option value="topomap">ToPo Map</option>
                 <option value="cartodbdarkmatter">CartoDB Darkmatter</option>
-                <option value="cartodbdarkmatternolabels">CartoDB Darkmatter (no labels)</option>
+                <option value="cartodbdarkmatternolabels">CartoDB Darkmatter ({{ i18n('no labels') }})</option>
                 <option value="cartodbpositron">CartoDB Positron</option>
-                <option value="cartodbpositronnolabels">CartoDB Positron (no labels)</option>
-                <option value="satellite">Satellite</option>
+                <option value="cartodbpositronnolabels">CartoDB Positron ({{ i18n('no labels') }})</option>
+                <option value="satellite">{{ i18n('Satellite') }}</option>
               </select>
             </div>
           </div>
@@ -195,7 +195,7 @@
               <label>
                 <input type="checkbox" id="dark-mode-switch">
                 <span class="lever"></span>
-                Dark mode
+                {{ i18n('Dark mode') }}
               </label>
             </div>
           </div>
@@ -217,12 +217,12 @@
           <thead>
             <tr>
               <th></th>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Form</th>
-              <th>Seen</th>
-              <th>Seen (%)</th>
-              <th>Last seen</th>
+              <th>{{ i18n('ID') }}</th>
+              <th>{{ i18n('Name') }}</th>
+              <th>{{ i18n('Form') }}</th>
+              <th>{{ i18n('Seen') }}</th>
+              <th>{{ i18n('Seen') }} (%)</th>
+              <th>{{ i18n('Last seen') }}</th>
               <th></th>
             </tr>
           </thead>
