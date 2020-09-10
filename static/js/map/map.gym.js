@@ -393,10 +393,10 @@ function gymLabel(gym) {
                         ${i8ln('CP')}: <strong>${raid.cp}</strong>
                       </div>
                       <div>
-                        ${i8ln('Fast move')}: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
+                        ${i8ln('Fast')}: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i8ln(fastMoveType)}' width='15'>
                       </div>
                       <div>
-                        ${i8ln('Charge move')}: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
+                        ${i8ln('Charge')}: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i8ln(chargeMoveType)}' width='15'>
                       </div>
                     </div>
                     <div>

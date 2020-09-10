@@ -236,10 +236,10 @@ function pokemonLabel(item) {
                 ${i8ln('CP')}: <strong>${cp}</strong> | ${i8ln('Level')}: <strong>${level}</strong>
               </div>
               <div>
-               ${i8ln('Fast move')}: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i8ln(move1Type)}' width='15'>
+               ${i8ln('Fast')}: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i8ln(move1Type)}' width='15'>
               </div>
               <div>
-               ${i8ln('Charge move')}: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i8ln(move2Type)}' width='15'>
+               ${i8ln('Charge')}: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i8ln(move2Type)}' width='15'>
               </div>
               <div>
                 ${i8ln('Weight')}: <strong>${weight}kg</strong> | ${i8ln('Height')}: <strong>${height}m</strong>
