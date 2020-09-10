@@ -2063,6 +2063,14 @@
     "energy": 11,
     "dps": 13.33
   },
+  "321": {
+    "name": "Giga Impact",
+    "type": "Normal",
+    "damage": 20,
+    "duration": 1500,
+    "energy": 11,
+    "dps": 13.33
+  },
   "322": {
     "name": "Frustration",
     "type": "Normal",
@@ -2176,7 +2184,7 @@
     "dps": 0
   },
   "336": {
-    "name": "Techno Blast Normal",
+    "name": "Techno Blast",
     "type": "Normal",
     "damage": 0,
     "duration": 0,
@@ -2184,7 +2192,7 @@
     "dps": 0
   },
   "337": {
-    "name": "Techno Blast Burn",
+    "name": "Techno Blast",
     "type": "Fire",
     "damage": 0,
     "duration": 0,
@@ -2192,7 +2200,7 @@
     "dps": 0
   },
   "338": {
-    "name": "Techno Blast Chill",
+    "name": "Techno Blast",
     "type": "Ice",
     "damage": 0,
     "duration": 0,
@@ -2200,7 +2208,7 @@
     "dps": 0
   },
   "339": {
-    "name": "Techno Blast Water",
+    "name": "Techno Blast",
     "type": "Water",
     "damage": 0,
     "duration": 0,
