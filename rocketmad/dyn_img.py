@@ -498,7 +498,6 @@ def run_imagemagick(source, im_lines, out_filename):
             imagemagick_executable, source, " ".join(im_lines), out_filename)
         if os.name != 'nt':
             cmd = cmd.replace(" ( ", " \\( ").replace(" ) ", " \\) ")
-        print(cmd)
         log.info("Generating icon '{}'".format(out_filename))
         subprocess.call(cmd, shell=True)
     return out_filename
