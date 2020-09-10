@@ -10,7 +10,14 @@ languages = {
     '6': 'de',
     '12': 'zh_hans'
 }
-names = {}
+translations = {
+    '1': {},
+    '3': {},
+    '4': {},
+    '5': {},
+    '6': {},
+    '12': {}
+}
 
 if __name__ == "__main__":
     url = ('https://raw.githubusercontent.com/PokeAPI/pokeapi/master/'
@@ -27,13 +34,10 @@ if __name__ == "__main__":
         if language_id not in languages:
             continue
         name = row[2]
-        if language_id not in names:
-            names[language_id] = {}
-
         key = 'pokemon_name_' + pokemon_id
-        names[language_id][key] = name
+        translations[language_id][key] = name
 
     for key, value in languages.items():
-        with open(f'pokemon_names_{value}.json', 'w') as f:
-            json.dump(names[key], f, separators=(',\n  ', ': '),
+        with open(f'pokemon_names_{value}.json', 'w') as file:
+            json.dump(translations[key], file, separators=(',\n  ', ': '),
                       ensure_ascii=False)
