@@ -3,41 +3,56 @@ import json
 import urllib.request
 
 languages = {
-    '1': 'ja',
-    '3': 'ko',
-    '4': 'zh_hant',
-    '5': 'fr',
-    '6': 'de',
-    '12': 'zh_hans'
-}
-translations = {
-    '1': {},
-    '3': {},
-    '4': {},
-    '5': {},
-    '6': {},
-    '12': {}
+    'zh-Hant': 'chinesetraditional',
+    'fr': 'french',
+    'de': 'german',
+    'ja': 'japanese',
+    'ko': 'korean',
+    'th': 'thai'
 }
 
 if __name__ == "__main__":
+    for iso, language in languages.items():
+        translations = {}
+
+        url = ('https://raw.githubusercontent.com/PokeMiners/pogo_assets/'
+               f'master/Texts/Latest%20APK/i18n_{language}.json')
+        request = urllib.request.urlopen(url)
+        data = json.loads(request.read().decode())['data']
+
+        for id in range(1, 893):
+            data_key = 'pokemon_name_{:04d}'.format(id)
+            try:
+                idx = data.index(data_key)
+                key = 'pokemon_name_' + str(id)
+                translations[key] = data[idx + 1]
+            except ValueError:
+                continue
+
+        with open(f'pokemon_names_{iso}.json', 'w') as file:
+            json.dump(translations, file, separators=(',\n  ', ': '),
+                      ensure_ascii=False)
+
+    # Simplified Chinese.
+    translations = {}
+
     url = ('https://raw.githubusercontent.com/PokeAPI/pokeapi/master/'
            'data/v2/csv/pokemon_species_names.csv')
-    response = urllib.request.urlopen(url)
-    data = response.read()
-    text = data.decode('utf-8')
-    lines = text.splitlines()
+    request = urllib.request.urlopen(url)
+    data = request.read().decode()
+    lines = data.splitlines()
     reader = csv.reader(lines)
     next(reader)  # Skip header.
+
     for row in reader:
         pokemon_id = row[0]
         language_id = row[1]
-        if language_id not in languages:
+        if language_id != '12':
             continue
         name = row[2]
         key = 'pokemon_name_' + pokemon_id
-        translations[language_id][key] = name
+        translations[key] = name
 
-    for key, value in languages.items():
-        with open(f'pokemon_names_{value}.json', 'w') as file:
-            json.dump(translations[key], file, separators=(',\n  ', ': '),
-                      ensure_ascii=False)
+    with open(f'pokemon_names_zh-Hans.json', 'w') as file:
+        json.dump(translations, file, separators=(',\n  ', ': '),
+                  ensure_ascii=False)
