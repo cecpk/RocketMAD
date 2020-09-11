@@ -1064,7 +1064,7 @@
     "dps": 15.91
   },
   "134": {
-    "name": "Scald Blastoise",
+    "name": "Scald",
     "type": "Water",
     "damage": 50,
     "duration": 4700,
@@ -1072,7 +1072,7 @@
     "dps": 10.64
   },
   "135": {
-    "name": "Hydro Pump Blastoise",
+    "name": "Hydro Pump",
     "type": "Water",
     "damage": 90,
     "duration": 4500,
@@ -1080,7 +1080,7 @@
     "dps": 20
   },
   "136": {
-    "name": "Wrap Green",
+    "name": "Wrap",
     "type": "Normal",
     "damage": 25,
     "duration": 2900,
@@ -1088,7 +1088,7 @@
     "dps": 8.62
   },
   "137": {
-    "name": "Wrap Pink",
+    "name": "Wrap",
     "type": "Normal",
     "damage": 25,
     "duration": 2900,
@@ -1352,7 +1352,7 @@
     "dps": 0
   },
   "232": {
-    "name": "Water Gun Blastoise",
+    "name": "Water Gun",
     "type": "Water",
     "damage": 10,
     "duration": 1000,
@@ -1360,7 +1360,7 @@
     "dps": 10
   },
   "233": {
-    "name": "Mud Slap",
+    "name": "Mud-Slap",
     "type": "Ground",
     "damage": 15,
     "duration": 1400,
@@ -2096,7 +2096,7 @@
     "dps": 30.77
   },
   "325": {
-    "name": "Lock-on",
+    "name": "Lock-On",
     "type": "Normal",
     "damage": 0,
     "duration": 0,
@@ -2216,7 +2216,7 @@
     "dps": 0
   },
   "340": {
-    "name": "Techno Blast Shock",
+    "name": "Techno Blast",
     "type": "Electric",
     "damage": 0,
     "duration": 0,

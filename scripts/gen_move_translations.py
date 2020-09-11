@@ -1,20 +1,25 @@
 import csv
 import json
+import re
 import urllib.request
 
 from pathlib import Path
 
 languages = {
+    'pt_br': 'brazilianportuguese',
     'zh_tw': 'chinesetraditional',
     'fr': 'french',
     'de': 'german',
+    'it': 'italian',
     'ja': 'japanese',
     'ko': 'korean',
+    'es': 'spanish',
     'th': 'thai'
 }
 
 if __name__ == "__main__":
-    output_dir = Path(__file__).resolve().parent / 'output'
+    root_dir = Path(__file__).resolve().parent.parent
+    output_dir = root_dir / 'scripts/output'
     output_dir.mkdir(exist_ok=True)
 
     for code, language in languages.items():
@@ -26,15 +31,15 @@ if __name__ == "__main__":
         data = json.loads(request.read().decode())['data']
 
         for id in range(1, 1000):
-            data_key = 'pokemon_name_{:04d}'.format(id)
+            data_key = 'move_name_{:04d}'.format(id)
             try:
                 idx = data.index(data_key)
-                key = 'pokemon_name_' + str(id)
+                key = 'move_name_' + str(id)
                 translations[key] = data[idx + 1]
             except ValueError:
                 continue
 
-        with open(output_dir / f'pokemon_names_{code}.json', 'w') as file:
+        with open(output_dir / f'move_names_{code}.json', 'w') as file:
             json.dump(translations, file, separators=(',\n  ', ': '),
                       ensure_ascii=False)
 
@@ -42,22 +47,35 @@ if __name__ == "__main__":
     translations = {}
 
     url = ('https://raw.githubusercontent.com/PokeAPI/pokeapi/'
-           'master/data/v2/csv/pokemon_species_names.csv')
+           'master/data/v2/csv/move_names.csv')
     request = urllib.request.urlopen(url)
     data = request.read().decode()
     lines = data.splitlines()
     reader = csv.reader(lines)
     next(reader)  # Skip header.
 
+    temp = {}
     for row in reader:
-        pokemon_id = row[0]
+        id = row[0]
         language_id = row[1]
-        if language_id != '12':
-            continue
         name = row[2]
-        key = 'pokemon_name_' + pokemon_id
-        translations[key] = name
+        if not (language_id == '9' or language_id == '12'):
+            continue
+        if id not in temp:
+            temp[id] = {}
+        temp[id][language_id] = name
 
-    with open(output_dir / 'pokemon_names_zh_cn.json', 'w') as file:
+    english_to_chinese = {}
+    for value in temp.values():
+        if '12' in value:
+            english_to_chinese[value['9']] = value['12']
+
+    with open(root_dir / 'static/data/moves.json') as file:
+        move_data = json.load(file)
+    for id, move in move_data.items():
+        key = 'move_name_' + id
+        translations[key] = english_to_chinese[move['name']]
+
+    with open(output_dir / 'move_names_zh_cn.json', 'w') as file:
         json.dump(translations, file, separators=(',\n  ', ': '),
                   ensure_ascii=False)
