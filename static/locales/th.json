@@ -927,5 +927,21 @@
   "move_name_334": "ปืนใหญ่หิน",
   "move_name_335": "แอโรบลาสท์",
   "move_name_341": "บินขึ้น",
-  "move_name_342": "V-เจอเนอเรต"
+  "move_name_342": "V-เจอเนอเรต",
+  "pokemon_type_bug": "แมลง",
+  "pokemon_type_dark": "ความมืด",
+  "pokemon_type_dragon": "มังกร",
+  "pokemon_type_electric": "ไฟฟ้า",
+  "pokemon_type_fairy": "แฟรี่",
+  "pokemon_type_fighting": "ต่อสู้",
+  "pokemon_type_ghost": "ผี",
+  "pokemon_type_grass": "หญ้า",
+  "pokemon_type_ground": "ดิน",
+  "pokemon_type_ice": "น้ำแข็ง",
+  "pokemon_type_normal": "ปกติ",
+  "pokemon_type_poison": "พิษ",
+  "pokemon_type_psychic": "พลังจิต",
+  "pokemon_type_rock": "หิน",
+  "pokemon_type_steel": "โลหะ",
+  "pokemon_type_water": "น้ำ"
 }

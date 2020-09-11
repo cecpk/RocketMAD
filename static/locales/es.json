@@ -273,5 +273,21 @@
   "move_name_334": "Romperrocas",
   "move_name_335": "Aerochorro",
   "move_name_341": "Vuelo",
-  "move_name_342": "V de Fuego"
+  "move_name_342": "V de Fuego",
+  "pokemon_type_bug": "Bicho",
+  "pokemon_type_dark": "Siniestro",
+  "pokemon_type_dragon": "Dragón",
+  "pokemon_type_electric": "Eléctrico",
+  "pokemon_type_fairy": "Hada",
+  "pokemon_type_fighting": "Lucha",
+  "pokemon_type_ghost": "Fantasma",
+  "pokemon_type_grass": "Planta",
+  "pokemon_type_ground": "Tierra",
+  "pokemon_type_ice": "Hielo",
+  "pokemon_type_normal": "Normal",
+  "pokemon_type_poison": "Veneno",
+  "pokemon_type_psychic": "Psíquico",
+  "pokemon_type_rock": "Roca",
+  "pokemon_type_steel": "Acero",
+  "pokemon_type_water": "Agua"
 }
