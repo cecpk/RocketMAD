@@ -2,6 +2,8 @@ import csv
 import json
 import urllib.request
 
+from pathlib import Path
+
 languages = {
     'zh-Hant': 'chinesetraditional',
     'fr': 'french',
@@ -12,6 +14,9 @@ languages = {
 }
 
 if __name__ == "__main__":
+    output_dir = Path(__file__).resolve().parent / 'output'
+    output_dir.mkdir(exist_ok=True)
+
     for iso, language in languages.items():
         translations = {}
 
@@ -29,7 +34,7 @@ if __name__ == "__main__":
             except ValueError:
                 continue
 
-        with open(f'pokemon_names_{iso}.json', 'w') as file:
+        with open(str(output_dir) + f'/pokemon_names_{iso}.json', 'w') as file:
             json.dump(translations, file, separators=(',\n  ', ': '),
                       ensure_ascii=False)
 
@@ -53,6 +58,6 @@ if __name__ == "__main__":
         key = 'pokemon_name_' + pokemon_id
         translations[key] = name
 
-    with open(f'pokemon_names_zh-Hans.json', 'w') as file:
+    with open(str(output_dir) + '/pokemon_names_zh-Hans.json', 'w') as file:
         json.dump(translations, file, separators=(',\n  ', ': '),
                   ensure_ascii=False)
