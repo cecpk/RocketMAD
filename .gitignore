@@ -4,7 +4,6 @@
 *.db-*
 *.sass-cache
 *.orig
-*.json
 config/*
 !config/*.example
 geofences/*
@@ -33,6 +32,7 @@ static/js/custom.js
 !static/locales/
 static/sounds/cries/*.mp3
 static/sounds/cries/*.wav
+scripts/output/
 *.csv
 *.bat
 *.sh
