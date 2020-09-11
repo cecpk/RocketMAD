@@ -77,6 +77,7 @@ $(function () {
 
     table = $('#quest-table').DataTable({
         responsive: true,
+        deferRender: true,
         language: {
             url: getDataTablesLocUrl()
         },
