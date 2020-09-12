@@ -289,5 +289,13 @@
   "pokemon_type_psychic": "Psico",
   "pokemon_type_rock": "Roccia",
   "pokemon_type_steel": "Acciaio",
-  "pokemon_type_water": "Acqua"
+  "pokemon_type_water": "Acqua",
+  "pokemon_rarity_1": "Common",
+  "pokemon_rarity_2": "Uncommon",
+  "pokemon_rarity_3": "Rare",
+  "pokemon_rarity_4": "Very Rare",
+  "pokemon_rarity_5": "Ultra Rare",
+  "pokemon_rarity_6": "New Spawn",
+
+  "mega": "Mega"
 }

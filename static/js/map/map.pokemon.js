@@ -150,7 +150,8 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
 
 function pokemonLabel(item) {
     var name = getPokemonName(item.pokemon_id)
-    var types = getPokemonTypesNoI8ln(item.pokemon_id, item.form)
+    var types = getPokemonTypes(item.pokemon_id, item.form)
+    var typesNoI18n = getPokemonTypesNoI18n(item.pokemon_id, item.form)
     var encounterId = item.encounter_id
     var id = item.pokemon_id
     var latitude = item.latitude
@@ -195,13 +196,10 @@ function pokemonLabel(item) {
         verifiedDisplay = '<i id="despawn-unverified" class="fas fa-exclamation-triangle" title="Despawn time not verified"></i>'
     }
 
-    $.each(types, function (idx, type) {
-        if (idx === 1) {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16' style='margin-left:4px;'>`
-        } else {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16'>`
-        }
-    })
+    typesDisplay = `<img src='static/images/types/${typesNoI18n[0].toLowerCase()}.png' title='${types[0]}' width='16'>`
+    if (types.length === 2) {
+        typesDisplay += `<img src='static/images/types/${typesNoI18n[1].toLowerCase()}.png' title='${types[1]}' width='16' style='margin-left:4px;'>`
+    }
 
     if (settings.showPokemonValues && cp !== null && cpMultiplier !== null) {
         var iv = 0
@@ -212,8 +210,10 @@ function pokemonLabel(item) {
         var level = getPokemonLevel(item.cp_multiplier)
         var move1Name = getMoveName(item.move_1)
         var move2Name = getMoveName(item.move_2)
-        var move1Type = getMoveTypeNoI8ln(item.move_1)
-        var move2Type = getMoveTypeNoI8ln(item.move_2)
+        var move1Type = getMoveType(item.move_1)
+        var move2Type = getMoveType(item.move_2)
+        var move1TypeNoI18n = getMoveTypeNoI18n(item.move_1)
+        var move2TypeNoI18n = getMoveTypeNoI18n(item.move_2)
         var weight = item.weight.toFixed(2)
         var height = item.height.toFixed(2)
 
@@ -236,10 +236,10 @@ function pokemonLabel(item) {
                 ${i18n('CP')}: <strong>${cp}</strong> | ${i18n('Level')}: <strong>${level}</strong>
               </div>
               <div>
-               ${i18n('Fast')}: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i18n(move1Type)}' width='15'>
+               ${i18n('Fast')}: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1TypeNoI18n.toLowerCase()}.png' title='${move1Type}' width='15'>
               </div>
               <div>
-               ${i18n('Charge')}: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i18n(move2Type)}' width='15'>
+               ${i18n('Charge')}: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2TypeNoI18n.toLowerCase()}.png' title='${move2Type}' width='15'>
               </div>
               <div>
                 ${i18n('Weight')}: <strong>${weight}kg</strong> | ${i18n('Height')}: <strong>${height}m</strong>

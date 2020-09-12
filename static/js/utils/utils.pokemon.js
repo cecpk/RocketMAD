@@ -1,6 +1,6 @@
 /*
 exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
-getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
+getMoveName, getMoveType, getMoveTypeNoI18n, getPokemonGen, getPokemonIds,
 getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
 getPokemonRarityName, getPokemonRawIconUrl, getPokemonTypes, initMoveData,
 initPokemonData, searchPokemon, setupPokemonMarker, updatePokemonRarities
@@ -24,6 +24,7 @@ function initPokemonData() {
     return $.getJSON('static/dist/data/pokemon.min.json?v=' + version).done(function (data) {
         pokemonData = data
         $.each(pokemonData, function (id, value) {
+            id = parseInt(id)
             var gen
             if (id <= 151) {
                 gen = 1
@@ -41,11 +42,12 @@ function initPokemonData() {
                 gen = 7
             }
             pokemonData[id].gen = gen
+            const types = getPokemonTypes(id)
             pokemonSearchList.push({
-                id: parseInt(id),
-                name: i18n(value.name),
-                type1: i18n(value.types[0].type),
-                type2: value.types[1] ? i18n(value.types[1].type) : '',
+                id: id,
+                name: getPokemonName(id),
+                type1: types[0],
+                type2: types[1] ? types[1] : '',
                 gen: 'gen' + gen
             })
         })
@@ -93,26 +95,40 @@ function getPokemonName(id, evolutionId = 0) {
     const i18nKey = 'pokemon_name_' + id
     switch (evolutionId) {
         case 1:
-            return i18n('Mega') + ' ' + i18n(i18nKey, pokemonData[id].name)
+            return `${i18n('mega', 'Mega')} ${i18n(i18nKey, pokemonData[id].name)}`
         case 2:
-            return i18n('Mega') + ' ' + i18n(i18nKey, pokemonData[id].name) + ' X'
+            return `${i18n('mega', 'Mega')} ${i18n(i18nKey, pokemonData[id].name)} X`
         case 3:
-            return i18n('Mega') + ' ' + i18n(i18nKey, pokemonData[id].name) + ' Y'
+            return `${i18n('mega', 'Mega')} ${i18n(i18nKey, pokemonData[id].name)} Y`
         default:
             return i18n(i18nKey, pokemonData[id].name)
     }
 }
 
 function getPokemonTypes(pokemonId, formId) {
-    return i18n(getPokemonTypesNoI8ln(pokemonId, formId))
+    const types = getPokemonTypesNoI18n(pokemonId, formId)
+    let i18nKey = 'pokemon_type_' + types[0].toLowerCase()
+    types[0] = i18n(i18nKey, types[0])
+    if (types.length === 2) {
+        i18nKey = 'pokemon_type_' + types[1].toLowerCase()
+        types[1] = i18n(i18nKey, types[1])
+    }
+    return types
 }
 
-function getPokemonTypesNoI8ln(pokemonId, formId) {
+function getPokemonTypesNoI18n(pokemonId, formId) {
+    const types = []
+    let t
     if ('forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
-        return pokemonData[pokemonId].forms[formId].formTypes
+        t = pokemonData[pokemonId].forms[formId].formTypes
     } else {
-        return pokemonData[pokemonId].types
+        t = pokemonData[pokemonId].types
     }
+    types[0] = t[0].type
+    if (t.length === 2) {
+        types[1] = t[1].type
+    }
+    return types
 }
 
 function getFormName(pokemonId, formId) {
@@ -137,10 +153,11 @@ function getMoveName(id) {
 }
 
 function getMoveType(id) {
-    return i18n(moveData[id].type)
+    const i18nKey = 'pokemon_type_' + moveData[id].type.toLowerCase()
+    return i18n(i18nKey, moveData[id].type)
 }
 
-function getMoveTypeNoI8ln(id) {
+function getMoveTypeNoI18n(id) {
     return moveData[id].type
 }
 
@@ -153,7 +170,9 @@ function getPokemonRarity(pokemonId) {
 }
 
 function getPokemonRarityName(pokemonId) {
-    return i18n(rarityNames[getPokemonRarity(pokemonId) - 1])
+    const rarity = getPokemonRarity(pokemonId)
+    const i18nKey = 'pokemon_rarity_' + rarity
+    return i18n(i18nKey, rarityNames[rarity - 1])
 }
 
 function getPokemonRawIconUrl(pokemon, generateImages) {

@@ -255,8 +255,8 @@ function updateGymSidebar(id) {
             const name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             const fastMoveName = getMoveName(raid.move_1)
             const chargeMoveName = getMoveName(raid.move_2)
-            const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
-            const chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
+            const fastMoveType = getMoveTypeNoI18n(raid.move_1)
+            const chargeMoveType = getMoveTypeNoI18n(raid.move_2)
 
             $('#sidebar-upcoming-raid-container').hide()
             $('#sidebar-ongoing-raid-title').html(`${name} <i class='fas ${genderClasses[raid.gender - 1]}'></i> #${raid.pokemon_id}`)
@@ -265,7 +265,7 @@ function updateGymSidebar(id) {
             $('#sidebar-raid-pokemon-image').attr('src', getPokemonRawIconUrl(raid, serverSettings.generateImages))
 
             let typesDisplay = ''
-            const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
+            const types = getPokemonTypesNoI18n(raid.pokemon_id, raid.form)
             $.each(types, function (index, type) {
                 if (index === 1) {
                     typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='24' style='margin-left:4px;'>`
@@ -346,20 +346,20 @@ function gymLabel(gym) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid, serverSettings.generateImages)
 
             let typesDisplay = ''
-            const types = getPokemonTypesNoI8ln(raid.pokemon_id, raid.form)
-            $.each(types, function (index, type) {
-                if (index === 1) {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16' style='margin-left:4px;'>`
-                } else {
-                    typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16'>`
-                }
-            })
+            const types = getPokemonTypes(raid.pokemon_id, raid.form)
+            const typesNoI18n = getPokemonTypesNoI18n(raid.pokemon_id, raid.form)
+            typesDisplay += `<img src='static/images/types/${typesNoI18n[0].toLowerCase()}.png' title='${types[0]}' width='16'>`
+            if (types.length === 2) {
+                typesDisplay += `<img src='static/images/types/${typesNoI18n[1].toLowerCase()}.png' title='${types[1]}' width='16' style='margin-left:4px;'>`
+            }
 
             const name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             const fastMoveName = getMoveName(raid.move_1)
             const chargeMoveName = getMoveName(raid.move_2)
-            const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
-            const chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
+            const fastMoveType = getMoveType(raid.move_1)
+            const chargeMoveType = getMoveType(raid.move_2)
+            const fastMoveTypeNoI18n = getMoveTypeNoI18n(raid.move_1)
+            const chargeMoveTypeNoI18n = getMoveTypeNoI18n(raid.move_2)
 
             const isNotifRaid = settings.notifRaidPokemon.has(raid.pokemon_id)
             const notifText = isNotifRaid ? i18n('Don\'t notify') : i18n('Notify')
@@ -393,10 +393,10 @@ function gymLabel(gym) {
                         ${i18n('CP')}: <strong>${raid.cp}</strong>
                       </div>
                       <div>
-                        ${i18n('Fast')}: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveType.toLowerCase()}.png' title='${i18n(fastMoveType)}' width='15'>
+                        ${i18n('Fast')}: <strong>${fastMoveName}</strong> <img class='move-type-icon' src='static/images/types/${fastMoveTypeNoI18n.toLowerCase()}.png' title='${fastMoveType}' width='15'>
                       </div>
                       <div>
-                        ${i18n('Charge')}: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveType.toLowerCase()}.png' title='${i18n(chargeMoveType)}' width='15'>
+                        ${i18n('Charge')}: <strong>${chargeMoveName}</strong> <img class='move-type-icon' src='static/images/types/${chargeMoveTypeNoI18n.toLowerCase()}.png' title='${chargeMoveType}' width='15'>
                       </div>
                     </div>
                     <div>

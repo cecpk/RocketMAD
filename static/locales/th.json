@@ -943,5 +943,13 @@
   "pokemon_type_psychic": "พลังจิต",
   "pokemon_type_rock": "หิน",
   "pokemon_type_steel": "โลหะ",
-  "pokemon_type_water": "น้ำ"
+  "pokemon_type_water": "น้ำ",
+  "pokemon_rarity_1": "Common",
+  "pokemon_rarity_2": "Uncommon",
+  "pokemon_rarity_3": "Rare",
+  "pokemon_rarity_4": "Very Rare",
+  "pokemon_rarity_5": "Ultra Rare",
+  "pokemon_rarity_6": "New Spawn",
+  
+  "mega": "Mega"
 }

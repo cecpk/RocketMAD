@@ -1,4 +1,13 @@
 {
+  "pokemon_rarity_1": "Common",
+  "pokemon_rarity_2": "Uncommon",
+  "pokemon_rarity_3": "Rare",
+  "pokemon_rarity_4": "Very Rare",
+  "pokemon_rarity_5": "Ultra Rare",
+  "pokemon_rarity_6": "新出現",
+
+  "mega": "Mega",
+
   "Abomasnow": "Abomasnow",
   "Abra": "卡斯",
   "Absol": "Absol",
@@ -420,7 +429,6 @@
   "Murkrow": "Murkrow",
   "Musharna": "Musharna",
   "Natu": "Natu",
-  "New Spawn": "新出現",
   "Nidoking": "尼多王",
   "Nidoqueen": "尼美后",
   "Nidoran♀": "尼美蘭",
