@@ -60,7 +60,9 @@ class BasicAuth(AuthBase):
                 or session['password'] != self.credentials[username]):
             return False, url_for('login_page'), None
 
-        return True, None, self.access_configs.get(username)
+        session['access_config_name'] = self.access_configs.get(username)
+
+        return True, None, session['access_config_name']
 
     def _update_access_data(self):
         pass

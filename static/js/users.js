@@ -48,6 +48,13 @@ $(function () {
         showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
     }
 
+    const accessConfigType = $.fn.dataTable.absoluteOrder([
+        { value: 'None', position: 'bottom' }
+    ])
+    const ipType = $.fn.dataTable.absoluteOrder([
+        { value: 'Unknown', position: 'bottom' }
+    ])
+
     table = $('#user-table').DataTable({
         responsive: true,
         language: {
@@ -85,10 +92,15 @@ $(function () {
             },
             {
                 targets: 2,
+                type: accessConfigType,
                 responsivePriority: 3,
                 data: null,
                 render: function (data, type, row) {
-                    return data.id
+                    if (data.access_config_name) {
+                        return data.access_config_name.slice(0, -4)
+                    } else {
+                        return 'None'
+                    }
                 }
             },
             {
@@ -96,12 +108,20 @@ $(function () {
                 responsivePriority: 5,
                 data: null,
                 render: function (data, type, row) {
+                    return data.id
+                }
+            },
+            {
+                targets: 4,
+                type: ipType,
+                responsivePriority: 6,
+                data: null,
+                render: function (data, type, row) {
                     return data.ip ? data.ip : 'Unknown'
                 }
             },
-
             {
-                targets: 4,
+                targets: 5,
                 responsivePriority: 4,
                 type: 'natural',
                 data: null,
