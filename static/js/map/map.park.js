@@ -136,6 +136,7 @@ function timeConverter(UNIX_timestamp){
         var ampm = 'AM';
     }
     else {
+        hour = hour - 12;
         var ampm = 'PM';
     }
   var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ' ' + ampm;
