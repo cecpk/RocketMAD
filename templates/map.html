@@ -1479,7 +1479,9 @@
                   <option value="cartodbpositron">CartoDB Positron</option>
                   <option value="cartodbpositronnolabels">CartoDB Positron ({{ i18n('no labels') }})</option>
                   <option value="satellite">{{ i18n('Satellite') }}</option>
+                    { % if serverSettings.custom_tileserver !=null %}
                     <option value="custom">Custom</option>
+                    { % endif % }
                 </select>
               </div>
             </div>
