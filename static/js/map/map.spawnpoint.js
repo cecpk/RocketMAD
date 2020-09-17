@@ -1,3 +1,6 @@
+/* globals addListeners, autoPanPopup, mapData, markers, removeMarker, removeRangeCircle, settings, setupRangeCircle, updateLabelDiffTime, updateRangeCircle */
+/* exported processSpawnpoint, updateSpawnpoints */
+
 function getSpawnpointColor(spawnpoint) {
     if (spawnpoint.spawn_time) {
         if (isNowBetween(spawnpoint.spawn_time, spawnpoint.despawn_time)) {
@@ -19,8 +22,8 @@ function setupSpawnpointMarker(spawnpoint) {
         radius: 2,
         weight: 1,
         opacity: 0.7,
-        fillOpacity: 0.5,
-    }).bindPopup()
+        fillOpacity: 0.5
+    }).bindPopup('', { autoPan: autoPanPopup() })
     updateSpawnpointMarker(spawnpoint, marker)
     markers.addLayer(marker)
     addListeners(marker, 'spawnpoint')
@@ -31,58 +34,58 @@ function setupSpawnpointMarker(spawnpoint) {
 
 function updateSpawnpointMarker(spawnpoint, marker) {
     const color = getSpawnpointColor(spawnpoint)
-    marker.setStyle({color: color})
+    marker.setStyle({ color: color })
 
     return marker
 }
 
 function spawnpointLabel(spawnpoint) {
     if (spawnpoint.spawn_time) {
-        if (spawnpoint.spawndef == 15) {
-          var type = '1h'
+        if (spawnpoint.spawndef === 15) {
+            var type = '1h'
         } else {
-          var type = '30m'
+            type = '30m'
         }
 
         if (spawnpoint.spawn_time > Date.now()) {
             var spawnTime = `${timestampToTime(spawnpoint.spawn_time)} (<span class='label-countdown' disappears-at='${spawnpoint.spawn_time}'>00m00s</span>)`
         } else {
-            var spawnTime = timestampToTime(spawnpoint.spawn_time)
+            spawnTime = timestampToTime(spawnpoint.spawn_time)
         }
         var despawnTime = `${timestampToTime(spawnpoint.despawn_time)} (<span class='label-countdown' disappears-at='${spawnpoint.despawn_time}'>00m00s</span>)`
         var lastConfirmation = timestampToDateTime(spawnpoint.last_scanned)
     }
 
     const lastScanned = spawnpoint.last_scanned > spawnpoint.last_non_scanned ? spawnpoint.last_scanned : spawnpoint.last_non_scanned
-    
+
     return `
         <div class='title'>
-          <strong>Spawn Point</strong>
+          <strong>${i18n('Spawn Point')}</strong>
         </div>
         <div class='info-container'>
           <div>
-            Type: <strong>${type || 'Unknown'}</strong>
+            ${i18n('Type')}: <strong>${type || 'Unknown'}</strong>
           </div>
           <div>
-              Spawn: <strong>${spawnTime || 'Unknown'}</strong>
+              ${i18n('Spawn')}: <strong>${spawnTime || 'Unknown'}</strong>
           </div>
           <div>
-              Despawn: <strong>${despawnTime || 'Unknown'}</strong>
+              ${i18n('Despawn')}: <strong>${despawnTime || 'Unknown'}</strong>
           </div>
         </div>
         <div class='info-container'>
           <div>
-            First seen: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
+            ${i18n('First seen')}: <strong>${timestampToDateTime(spawnpoint.first_detection)}</strong>
           </div>
           <div>
-            Last seen: <strong>${timestampToDateTime(lastScanned)}</strong>
+            ${i18n('Last seen')}: <strong>${timestampToDateTime(lastScanned)}</strong>
           </div>
           <div>
-            Last confirmation: <strong>${lastConfirmation || 'None'}</strong>
+            ${i18n('Last confirmation')}: <strong>${lastConfirmation || 'None'}</strong>
           </div>
         </div>
         <div>
-          <a href='javascript:void(0);' onclick='javascript:openMapDirections(${spawnpoint.latitude},${spawnpoint.longitude},"${settings.mapServiceProvider}");' class='link-button' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${spawnpoint.latitude.toFixed(5)}, ${spawnpoint.longitude.toFixed(5)}</a>
+          <a href='javascript:void(0);' onclick='javascript:openMapDirections(${spawnpoint.latitude},${spawnpoint.longitude},"${settings.mapServiceProvider}");' class='link-button' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${spawnpoint.latitude.toFixed(5)}, ${spawnpoint.longitude.toFixed(5)}</a>
         </div>`
 }
 
@@ -100,7 +103,7 @@ function processSpawnpoint(spawnpoint) {
     }
 
     const id = spawnpoint.spawnpoint_id
-    if (!mapData.spawnpoints.hasOwnProperty(id)) {
+    if (!(id in mapData.spawnpoints)) {
         spawnpoint.marker = setupSpawnpointMarker(spawnpoint)
         if (isSpawnpointRangesActive()) {
             spawnpoint.rangeCircle = setupRangeCircle(spawnpoint, 'spawnpoint', true)
@@ -115,7 +118,7 @@ function processSpawnpoint(spawnpoint) {
 }
 
 function updateSpawnpoint(id, spawnpoint = null) {
-    if (id === undefined || id === null || !mapData.spawnpoints.hasOwnProperty(id)) {
+    if (id == null || !(id in mapData.spawnpoints)) {
         return true
     }
 
@@ -173,7 +176,7 @@ function updateSpawnpoints() {
 
 function removeSpawnpoint(spawnpoint) {
     const id = spawnpoint.spawnpoint_id
-    if (mapData.spawnpoints.hasOwnProperty(id)) {
+    if (id in mapData.spawnpoints) {
         if (mapData.spawnpoints[id].rangeCircle) {
             removeRangeCircle(mapData.spawnpoints[id].rangeCircle)
         }

@@ -1,19 +1,29 @@
+/*
+exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
+getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
+getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
+getPokemonRarityName, getPokemonRawIconUrl, getPokemonTypes, initMoveData,
+initPokemonData, searchPokemon, setupPokemonMarker, updatePokemonRarities
+*/
+
 var pokemonData = {}
 var moveData = {}
 var pokemonRarities = {}
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
+// FontAwesome gender classes.
+const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 var pokemonSearchList = []
 const availablePokemonCount = 649
-let pokemonIds = new Set()
+const pokemonIds = new Set()
 
 function initPokemonData() {
     if (!$.isEmptyObject(pokemonData)) {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/data/pokemon.min.json').done(function (data) {
+    return $.getJSON('static/dist/data/pokemon.min.json?v=' + version).done(function (data) {
         pokemonData = data
-        $.each(pokemonData, function(id, value) {
+        $.each(pokemonData, function (id, value) {
             var gen
             if (id <= 151) {
                 gen = 1
@@ -33,9 +43,9 @@ function initPokemonData() {
             pokemonData[id].gen = gen
             pokemonSearchList.push({
                 id: parseInt(id),
-                name: i8ln(value.name),
-                type1: i8ln(value.types[0].type),
-                type2: value.types[1] ? i8ln(value.types[1].type) : '',
+                name: i18n(value.name),
+                type1: i18n(value.types[0].type),
+                type2: value.types[1] ? i18n(value.types[1].type) : '',
                 gen: 'gen' + gen
             })
         })
@@ -49,7 +59,7 @@ function initMoveData() {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/data/moves.min.json').done(function (data) {
+    return $.getJSON('static/dist/data/moves.min.json?v=' + version).done(function (data) {
         moveData = data
     }).fail(function () {
         console.log('Error loading move data.')
@@ -57,7 +67,7 @@ function initMoveData() {
 }
 
 function updatePokemonRarities(rarityFileName) {
-    return $.getJSON('static/dist/data/' + rarityFileName + '.json', {_: new Date().getTime()}).done(function (data) {
+    return $.getJSON('static/dist/data/rarity/' + rarityFileName + '.min.json', { _: new Date().getTime() }).done(function (data) {
         pokemonRarities = data
     }).fail(function () {
         console.log("Couldn't load dynamic rarity JSON.")
@@ -69,27 +79,35 @@ function getPokemonIds() {
         for (let i = 1; i <= availablePokemonCount; i++) {
             pokemonIds.add(i)
         }
-        // Meltan and Melmetal.
+        // Meltan, Melmetal and Galarians.
         pokemonIds.add(808)
         pokemonIds.add(809)
+        pokemonIds.add(862)
+        pokemonIds.add(863)
+        pokemonIds.add(865)
     }
     return new Set(pokemonIds)
 }
 
-function getPokemonName(id) {
-    return i8ln(pokemonData[id].name)
-}
-
-function getPokemonTypes(pokemonId, formId) {
-    if (formId && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
-        return i8ln(pokemonData[pokemonId].forms[formId].formTypes)
-    } else {
-        return i8ln(pokemonData[pokemonId].types)
+function getPokemonName(id, evolutionId = 0) {
+    switch (evolutionId) {
+        case 1:
+            return i18n('Mega') + ' ' + i18n(pokemonData[id].name)
+        case 2:
+            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' X'
+        case 3:
+            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' Y'
+        default:
+            return i18n(pokemonData[id].name)
     }
 }
 
+function getPokemonTypes(pokemonId, formId) {
+    return i18n(getPokemonTypesNoI8ln(pokemonId, formId))
+}
+
 function getPokemonTypesNoI8ln(pokemonId, formId) {
-    if (formId && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
+    if ('forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms && 'formTypes' in pokemonData[pokemonId].forms[formId]) {
         return pokemonData[pokemonId].forms[formId].formTypes
     } else {
         return pokemonData[pokemonId].types
@@ -97,16 +115,14 @@ function getPokemonTypesNoI8ln(pokemonId, formId) {
 }
 
 function getFormName(pokemonId, formId) {
-    return i8ln(pokemonData[pokemonId].forms[formId].formName)
+    return 'forms' in pokemonData[pokemonId] && formId in pokemonData[pokemonId].forms ? i18n(pokemonData[pokemonId].forms[formId].formName) : ''
 }
 
-function getPokemonNameWithForm(pokemonId, formId) {
-    let name = getPokemonName(pokemonId)
-    if (formId) {
-        const formName = getFormName(pokemonId, formId)
-        if (formName !== '') {
-            name += ` (${formName})`
-        }
+function getPokemonNameWithForm(pokemonId, formId, evolutionId = 0) {
+    let name = getPokemonName(pokemonId, evolutionId)
+    const formName = getFormName(pokemonId, formId)
+    if (formName !== '') {
+        name += ` (${formName})`
     }
     return name
 }
@@ -116,11 +132,11 @@ function getPokemonGen(id) {
 }
 
 function getMoveName(id) {
-    return i8ln(moveData[id].name)
+    return i18n(moveData[id].name)
 }
 
 function getMoveType(id) {
-    return i8ln(moveData[id].type)
+    return i18n(moveData[id].type)
 }
 
 function getMoveTypeNoI8ln(id) {
@@ -128,7 +144,7 @@ function getMoveTypeNoI8ln(id) {
 }
 
 function getPokemonRarity(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
+    if (pokemonId in pokemonRarities) {
         return pokemonRarities[pokemonId]
     }
 
@@ -136,39 +152,36 @@ function getPokemonRarity(pokemonId) {
 }
 
 function getPokemonRarityName(pokemonId) {
-    if (pokemonRarities.hasOwnProperty(pokemonId)) {
-        return i8ln(rarityNames[pokemonRarities[pokemonId] - 1])
-    }
-
-    return i8ln('New Spawn')
+    return i18n(rarityNames[getPokemonRarity(pokemonId) - 1])
 }
 
-function getPokemonRawIconUrl(p) {
-    if (!serverSettings.generateImages) {
-        return `static/icons/${p.pokemon_id}.png`
-    }
-    var url = 'pkm_img?raw=1&pkm=' + p.pokemon_id
-    var props = ['gender', 'form', 'costume', 'shiny']
-    for (var i = 0; i < props.length; i++) {
-        var prop = props[i]
-        if (prop in p && p[prop] != null && p[prop]) {
-            url += '&' + prop + '=' + p[prop]
-        }
-    }
-    return url
-}
-
-function getPokemonMapIconUrl(pokemon) {
-    if (!serverSettings.generateImages) {
+function getPokemonRawIconUrl(pokemon, generateImages) {
+    if (!generateImages) {
         return `static/icons/${pokemon.pokemon_id}.png`
     }
 
-    let genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
-    let formParam = pokemon.form ? `&form=${pokemon.form}` : ''
-    let costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
-    let weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
+    const genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
+    const formParam = pokemon.form ? `&form=${pokemon.form}` : ''
+    const costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
+    const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
+    const shinyParm = pokemon.shiny ? '&shiny=1' : ''
+    const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
 
-    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${weatherParam}`
+    return `pkm_img?raw=1&pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${shinyParm}${weatherParam}`
+}
+
+function getPokemonMapIconUrl(pokemon, generateImages) {
+    if (!generateImages) {
+        return `static/icons/${pokemon.pokemon_id}.png`
+    }
+
+    const genderParam = pokemon.gender ? `&gender=${pokemon.gender}` : ''
+    const formParam = pokemon.form ? `&form=${pokemon.form}` : ''
+    const costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
+    const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
+    const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
+
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}`
 }
 
 function getIvsPercentage(atk, def, sta) {
@@ -201,13 +214,13 @@ function getPokemonLevel(cpMultiplier) {
     return pokemonLevel
 }
 
-function setupPokemonMarker(pokemon, layerGroup) {
-    var icon = L.icon({ // eslint-disable-line new-cap
-        iconUrl: getPokemonMapIconUrl(pokemon),
+function setupPokemonMarker(pokemon, layerGroup, generateImages) {
+    var icon = L.icon({
+        iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
         iconSize: [32, 32]
     })
 
-    return L.marker([pokemon.latitude, pokemon.longitude], {icon: icon}).addTo(layerGroup)
+    return L.marker([pokemon.latitude, pokemon.longitude], { icon: icon }).addTo(layerGroup)
 }
 
 function searchPokemon(searchtext) {
@@ -238,9 +251,9 @@ function searchPokemon(searchtext) {
                         item.type2.toLowerCase().includes(searchstring.toLowerCase()) ||
                         item.gen.toString() === searchstring.toLowerCase()) {
                     if (operator === 'add') {
-                        foundPokemon.push(item['id'])
+                        foundPokemon.push(item.id)
                     } else {
-                        delete foundPokemon[foundPokemon.indexOf(item['id'])]
+                        delete foundPokemon[foundPokemon.indexOf(item.id)]
                     }
                 }
             })

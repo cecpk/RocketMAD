@@ -1,3 +1,5 @@
+/* exported showMotd */
+
 function showMotd(title, text, pages, showAlways) {
     if (pages.includes(window.location.pathname)) {
         let motdIsUpdated = false

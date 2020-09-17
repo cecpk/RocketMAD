@@ -1,3 +1,13 @@
+/*
+globals addListeners, autoPanPopup, cryFileTypes, isShowAllZoom, mapData,
+markers, markersNoCluster, notifiedPokemonData, pokemonNewSpawnZIndex,
+pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
+pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
+removeRangeCircle, sendNotification, settings, setupRangeCircle,
+updateRangeCircle, weatherClassesDay, weatherNames,
+*/
+/* exported processPokemon, updatePokemons */
+
 function isPokemonRarityExcluded(pokemon) {
     if (serverSettings.rarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
@@ -24,7 +34,7 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
     }
 
     if (settings.showPokemonValues && settings.filterPokemonByValues && !settings.noFilterValuesPokemon.has(pokemon.pokemon_id)) {
-        if (pokemon.individual_attack !== null) {
+        if (pokemon.individual_attack != null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             if (ivsPercentage < settings.minIvs && !(settings.showZeroIvsPokemon && ivsPercentage === 0)) {
                 return false
@@ -60,7 +70,7 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 
     marker.encounter_id = pokemon.encounter_id
     updatePokemonMarker(pokemon, marker, isNotifPokemon)
-    marker.bindPopup()
+    marker.bindPopup('', { autoPan: autoPanPopup() })
 
     addListeners(marker, 'pokemon')
 
@@ -141,21 +151,21 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
 function pokemonLabel(item) {
     var name = getPokemonName(item.pokemon_id)
     var types = getPokemonTypesNoI8ln(item.pokemon_id, item.form)
-    var encounterId = item['encounter_id']
-    var id = item['pokemon_id']
-    var latitude = item['latitude']
-    var longitude = item['longitude']
-    var disappearTime = item['disappear_time']
-    var atk = item['individual_attack']
-    var def = item['individual_defense']
-    var sta = item['individual_stamina']
-    var gender = item['gender']
-    var form = item['form']
-    var cp = item['cp']
-    var cpMultiplier = item['cp_multiplier']
-    var weatherBoostedCondition = item['weather_boosted_condition']
+    var encounterId = item.encounter_id
+    var id = item.pokemon_id
+    var latitude = item.latitude
+    var longitude = item.longitude
+    var disappearTime = item.disappear_time
+    var atk = item.individual_attack
+    var def = item.individual_defense
+    var sta = item.individual_stamina
+    var gender = item.gender
+    var form = item.form
+    var cp = item.cp
+    var cpMultiplier = item.cp_multiplier
+    var weatherBoostedCondition = item.weather_boosted_condition
 
-    var pokemonIcon = getPokemonRawIconUrl(item)
+    var pokemonIcon = getPokemonRawIconUrl(item, serverSettings.generateImages)
     var gen = getPokemonGen(id)
 
     var formDisplay = ''
@@ -180,16 +190,16 @@ function pokemonLabel(item) {
     }
 
     if (item.verified_disappear_time) {
-        verifiedDisplay = `<i id='despawn-verified' class='fas fa-check-square' title='Despawn time verified'></i>`
+        verifiedDisplay = '<i id="despawn-verified" class="fas fa-check-square" title="Despawn time verified"></i>'
     } else if (item.verified_disappear_time === null) {
-        verifiedDisplay = `<i id='despawn-unverified' class='fas fa-exclamation-triangle' title='Despawn time not verified'></i>`
+        verifiedDisplay = '<i id="despawn-unverified" class="fas fa-exclamation-triangle" title="Despawn time not verified"></i>'
     }
 
     $.each(types, function (idx, type) {
         if (idx === 1) {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16' style='margin-left:4px;'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16' style='margin-left:4px;'>`
         } else {
-            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i8ln(type.type)}' width='16'>`
+            typesDisplay += `<img src='static/images/types/${type.type.toLowerCase()}.png' title='${i18n(type.type)}' width='16'>`
         }
     })
 
@@ -207,28 +217,39 @@ function pokemonLabel(item) {
         var weight = item.weight.toFixed(2)
         var height = item.height.toFixed(2)
 
+        var catchRatesDisplay = ''
+        if (serverSettings.catchRates && item.catch_prob_1) {
+            catchRatesDisplay = `
+                <div>
+                  <span title='Catch rate with Poké Ball' ><span class='ball-icon' ><img src='static/images/items/1.png' width='19'></span> ${(item.catch_prob_1 * 100).toFixed(1)}%</span>
+                  <span title='Catch rate with Great Ball' ><span class='ball-icon' ><img src='static/images/items/2.png' width='19'></span> ${(item.catch_prob_2 * 100).toFixed(1)}%</span>
+                  <span title='Catch rate with Ultra Ball' ><span class='ball-icon' ><img src='static/images/items/3.png' width='19'></span> ${(item.catch_prob_3 * 100).toFixed(1)}%</span>
+                </div>`
+        }
+
         statsDisplay = `
             <div class='info-container'>
               <div>
-                IV: <strong><span style='color: ${ivColor};'>${iv}%</span></strong> (A<strong>${atk}</strong> | D<strong>${def}</strong> | S<strong>${sta}</strong>)
+                ${i18n('IV')}: <strong><span style='color: ${ivColor};'>${iv}%</span></strong> (A<strong>${atk}</strong> | D<strong>${def}</strong> | S<strong>${sta}</strong>)
               </div>
               <div>
-                CP: <strong>${cp}</strong> | Level: <strong>${level}</strong>
+                ${i18n('CP')}: <strong>${cp}</strong> | ${i18n('Level')}: <strong>${level}</strong>
               </div>
               <div>
-               Fast: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i8ln(move1Type)}' width='15'>
+               ${i18n('Fast')}: <strong>${move1Name}</strong> <img class='move-type-icon' src='static/images/types/${move1Type.toLowerCase()}.png' title='${i18n(move1Type)}' width='15'>
               </div>
               <div>
-               Charge: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i8ln(move2Type)}' width='15'>
+               ${i18n('Charge')}: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i18n(move2Type)}' width='15'>
               </div>
               <div>
-                Weight: <strong>${weight}kg</strong> | Height: <strong>${height}m</strong>
+                ${i18n('Weight')}: <strong>${weight}kg</strong> | ${i18n('Height')}: <strong>${height}m</strong>
               </div>
+              ${catchRatesDisplay}
             </div>`
 
         let rarityDisplay = ''
         if (serverSettings.rarity) {
-            const rarityName = getPokemonRarityName(item['pokemon_id'])
+            const rarityName = getPokemonRarityName(item.pokemon_id)
             rarityDisplay = `
                 <div>
                   <strong>${rarityName}</strong>
@@ -243,7 +264,7 @@ function pokemonLabel(item) {
     } else {
         let rarityDisplay = ''
         if (serverSettings.rarity) {
-            const rarityName = getPokemonRarityName(item['pokemon_id'])
+            const rarityName = getPokemonRarityName(item.pokemon_id)
             rarityDisplay = `<strong>${rarityName}</strong> | `
         }
 
@@ -253,7 +274,7 @@ function pokemonLabel(item) {
             </div>`
     }
 
-    const notifText = settings.notifPokemon.has(id) ? 'Don\'t notify' : 'Notify'
+    const notifText = settings.notifPokemon.has(id) ? i18n('Don\'t notify') : i18n('Notify')
     const notifIconClass = settings.notifPokemon.has(id) ? 'fas fa-bell-slash' : 'fas fa-bell'
 
     return `
@@ -278,13 +299,13 @@ function pokemonLabel(item) {
               ${statsDisplay}
               ${genRarityDisplayRight}
               <div class='coordinates'>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='Open in ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
+                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
               </div>
               <div>
                 <a href='javascript:togglePokemonNotif(${id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
-                <a href='javascript:excludePokemon(${id})' class='link-button' title='Hide'><i class="fas fa-eye-slash"></i></a>
+                <a href='javascript:excludePokemon(${id})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
                 <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
-                <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='View on GamePress'><i class="fas fa-info-circle"></i></a>
+                <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='${i18n('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
               </div>
             </div>
           </div>
@@ -305,7 +326,7 @@ function processPokemon(pokemon) {
     }
 
     const id = pokemon.encounter_id
-    if (!mapData.pokemons.hasOwnProperty(id)) {
+    if (!(id in mapData.pokemons)) {
         const isNotifPoke = isNotifPokemon(pokemon)
         if (!isPokemonMeetsFilters(pokemon, isNotifPoke) || pokemon.disappear_time <= Date.now() + 3000) {
             return true
@@ -316,9 +337,9 @@ function processPokemon(pokemon) {
         }
 
         if (isNotifPoke) {
-            pokemon.marker = setupPokemonMarker(pokemon, markersNoCluster)
+            pokemon.marker = setupPokemonMarker(pokemon, markersNoCluster, serverSettings.generateImages)
         } else {
-            pokemon.marker = setupPokemonMarker(pokemon, markers)
+            pokemon.marker = setupPokemonMarker(pokemon, markers, serverSettings.generateImages)
         }
         customizePokemonMarker(pokemon, pokemon.marker, isNotifPoke)
         if (isPokemonRangesActive()) {
@@ -335,7 +356,7 @@ function processPokemon(pokemon) {
 }
 
 function updatePokemon(id, pokemon = null) {
-    if (id === undefined || id === null || !mapData.pokemons.hasOwnProperty(id)) {
+    if (id == null || !(id in mapData.pokemons)) {
         return true
     }
 
@@ -387,7 +408,7 @@ function updatePokemon(id, pokemon = null) {
         }
 
         if (pokemon.marker.isPopupOpen()) {
-            updatePokemonLabel(pokemon,  mapData.pokemons[id].marker)
+            updatePokemonLabel(pokemon, mapData.pokemons[id].marker)
         } else {
             // Make sure label is updated next time it's opened.
             mapData.pokemons[id].updated = true
@@ -400,7 +421,7 @@ function updatePokemon(id, pokemon = null) {
 function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
     if (pokemonIds.size > 0 && encounteredOnly) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            if (pokemonIds.has(pokemon.pokemon_id) && pokemon.individual_attack !== null) {
+            if (pokemonIds.has(pokemon.pokemon_id) && pokemon.individual_attack != null) {
                 updatePokemon(encounterId)
             }
         })
@@ -412,7 +433,7 @@ function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
         })
     } else if (encounteredOnly) {
         $.each(mapData.pokemons, function (encounterId, pokemon) {
-            if (pokemon.individual_attack !== null) {
+            if (pokemon.individual_attack != null) {
                 updatePokemon(encounterId)
             }
         })
@@ -425,7 +446,7 @@ function updatePokemons(pokemonIds = new Set(), encounteredOnly = false) {
 
 function removePokemon(pokemon) {
     const id = pokemon.encounter_id
-    if (mapData.pokemons.hasOwnProperty(id)) {
+    if (id in mapData.pokemons) {
         if (mapData.pokemons[id].rangeCircle) {
             removeRangeCircle(mapData.pokemons[id].rangeCircle)
         }
@@ -435,7 +456,7 @@ function removePokemon(pokemon) {
 }
 
 function removePokemonMarker(id) { // eslint-disable-line no-unused-vars
-    if (mapData.pokemons.hasOwnProperty(id)) {
+    if (id in mapData.pokemons) {
         if (mapData.pokemons[id].rangeCircle) {
             removeRangeCircle(mapData.pokemons[id].rangeCircle)
         }
@@ -467,7 +488,7 @@ function isNotifPokemon(pokemon) {
     }
 
     if (settings.showPokemonValues) {
-        if (pokemon.individual_attack && settings.pokemonValuesNotifs && settings.notifValuesPokemon.has(pokemon.pokemon_id)) {
+        if (pokemon.individual_attack != null && settings.pokemonValuesNotifs && settings.notifValuesPokemon.has(pokemon.pokemon_id)) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             const level = getPokemonLevel(pokemon.cp_multiplier)
             if ((ivsPercentage >= settings.minNotifIvs || (settings.zeroIvsPokemonNotifs && ivsPercentage === 0)) &&
@@ -500,7 +521,7 @@ function isNotifPokemon(pokemon) {
 
 function hasSentPokemonNotification(pokemon) {
     const id = pokemon.encounter_id
-    return notifiedPokemonData.hasOwnProperty(id) && pokemon.disappear_time === notifiedPokemonData[id].disappear_time &&
+    return id in notifiedPokemonData && pokemon.disappear_time === notifiedPokemonData[id].disappear_time &&
         pokemon.cp_multiplier === notifiedPokemonData[id].cp_multiplier && pokemon.individual_attack === notifiedPokemonData[id].individual_attack &&
         pokemon.individual_defense === notifiedPokemonData[id].individual_defense && pokemon.individual_stamina === notifiedPokemonData[id].individual_stamina
 }
@@ -511,7 +532,7 @@ function playPokemonSound(pokemonId, cryFileTypes) {
     }
 
     if (!settings.playCries) {
-        audio.play()
+        ding.play()
     } else {
         // Stop if we don't have any supported filetypes left.
         if (cryFileTypes.length === 0) {
@@ -541,22 +562,22 @@ function sendPokemonNotification(pokemon) {
         var notifTitle = getPokemonNameWithForm(pokemon.pokemon_id, pokemon.form)
         var notifText = ''
 
-        let expireTime = timestampToTime(pokemon.disappear_time)
-        let timeUntil = getTimeUntil(pokemon.disappear_time)
+        const expireTime = timestampToTime(pokemon.disappear_time)
+        const timeUntil = getTimeUntil(pokemon.disappear_time)
         let expireTimeCountdown = timeUntil.hour > 0 ? timeUntil.hour + 'h' : ''
         expireTimeCountdown += `${lpad(timeUntil.min, 2, 0)}m${lpad(timeUntil.sec, 2, 0)}s`
 
-        notifText = `Disappears at ${expireTime} (${expireTimeCountdown})`
+        notifText = `${i18n('Disappears at')} ${expireTime} (${expireTimeCountdown})`
 
-        if (settings.showPokemonValues && pokemon.individual_attack !== null) {
+        if (settings.showPokemonValues && pokemon.individual_attack != null) {
             const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
             notifTitle += ` ${ivsPercentage}% (${pokemon.individual_attack}/${pokemon.individual_defense}/${pokemon.individual_stamina}) L${getPokemonLevel(pokemon.cp_multiplier)}`
             const move1 = getMoveName(pokemon.move_1)
             const move2 = getMoveName(pokemon.move_2)
-            notifText += `\nMoves: ${move1} / ${move2}`
+            notifText += `\n${i18n('Moves')}: ${move1} / ${move2}`
         }
 
-        sendNotification(notifTitle, notifText, getPokemonRawIconUrl(pokemon), pokemon.latitude, pokemon.longitude)
+        sendNotification(notifTitle, notifText, getPokemonRawIconUrl(pokemon, serverSettings.generateImages), pokemon.latitude, pokemon.longitude)
     }
 
     var notificationData = {}

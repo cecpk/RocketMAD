@@ -1,16 +1,6 @@
 let table
 let rawDataIsLoading = false
 
-function enableDarkMode() {
-    $('body').addClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#212121')
-}
-
-function disableDarkMode() {
-    $('body').removeClass('dark')
-    $('meta[name="theme-color"]').attr('content', '#ffffff')
-}
-
 function initSidebar() {
     $('#dark-mode-switch').on('change', function () {
         if (this.checked) {
@@ -26,19 +16,11 @@ function initSidebar() {
 
 function loadRawData() {
     return $.ajax({
-        url: 'raw_data',
+        url: 'raw-data',
         type: 'GET',
         data: {
-            'pokemon': false,
-            'gyms': false,
-            'raids': false,
-            'pokestops': true,
-            'quests': true,
-            'invasions': false,
-            'lures': false,
-            'gyms': false,
-            'pokestopsNoEvent': false,
-            'scanned': false
+            pokestops: true,
+            quests: true
         },
         dataType: 'json',
         beforeSend: function () {
@@ -52,12 +34,7 @@ function loadRawData() {
             rawDataIsLoading = false
         },
         error: function () {
-            toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
-        },
-        success: function (data) {
-            if (data.auth_redirect) {
-                window.location = data.auth_redirect
-            }
+            toastError(i18n('Error getting data!'), i18n('Please check your connection.'))
         }
     })
 }
@@ -68,7 +45,7 @@ function loadQuests() {
     $('.preloader-wrapper').show()
 
     loadRawData().done(function (result) {
-        $.each(result.pokestops, function(id, pokestop) {
+        $.each(result.pokestops, function (id, pokestop) {
             if (!pokestop.quest) {
                 return true
             }
@@ -100,12 +77,16 @@ $(function () {
 
     table = $('#quest-table').DataTable({
         responsive: true,
-        'columnDefs': [
+        deferRender: true,
+        language: {
+            url: getDataTablesLocUrl()
+        },
+        columnDefs: [
             {
-                'targets': 0,
+                targets: 0,
                 responsivePriority: 1,
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     const pokestopName = data.name ? data.name : 'Unknown'
                     if (type === 'display') {
                         const imageUrl = data.image ? data.image.replace(/^http:\/\//i, '//') : ''
@@ -120,7 +101,7 @@ $(function () {
                                   ${pokestopName}
                                 </div>
                                 <div>
-                                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${data.latitude},${data.longitude},"${Store.get('mapServiceProvider')}");' title='Open in ${mapServiceProviderNames[Store.get('mapServiceProvider')]}'><i class="fas fa-map-marked-alt"></i> ${data.latitude.toFixed(5)}, ${data.longitude.toFixed(5)}</a>
+                                  <a href='javascript:void(0);' onclick='javascript:openMapDirections(${data.latitude},${data.longitude},"${Store.get('mapServiceProvider')}");' title='${i18n('Open in')} ${mapServiceProviderNames[Store.get('mapServiceProvider')]}'><i class="fas fa-map-marked-alt"></i> ${data.latitude.toFixed(5)}, ${data.longitude.toFixed(5)}</a>
                                 </div>
                               </div>
                             </div>
@@ -130,19 +111,19 @@ $(function () {
                 }
             },
             {
-                'targets': 1,
+                targets: 1,
                 responsivePriority: 3,
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     return data.quest.task
                 }
             },
             {
-                'targets': 2,
+                targets: 2,
                 responsivePriority: 2,
                 type: 'natural',
-                'data': null,
-                'render': function (data, type, row) {
+                data: null,
+                render: function (data, type, row) {
                     const quest = data.quest
                     if (type === 'display') {
                         let rewardImageUrl = ''
@@ -157,9 +138,12 @@ $(function () {
                                 rewardText = quest.stardust + ' ' + getItemName(6)
                                 break
                             case 7:
-                                rewardImageUrl = getPokemonRawIconUrl({pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id})
-                                rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='View on GamePress'>#${quest.pokemon_id}</a>`
+                                rewardImageUrl = getPokemonRawIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
+                                rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='${i18n('View on GamePress')}'>#${quest.pokemon_id}</a>`
                                 break
+                            case 12:
+                                rewardImageUrl = getItemImageUrl(7)
+                                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
                         }
 
                         return `
@@ -180,6 +164,8 @@ $(function () {
                                 return getItemName(6) + ' ' + quest.stardust
                             case 7:
                                 return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
+                            case 12:
+                                return `${getItemName(7)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
                         }
                     }
 
@@ -190,13 +176,15 @@ $(function () {
                             return quest.stardust + ' ' + getItemName(6)
                         case 7:
                             return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
+                        case 12:
+                            return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
                     }
                 }
             }
         ]
     })
 
-    initI8lnDictionary().then(function () {
+    initI18nDictionary().then(function () {
         return initPokemonData()
     }).then(function () {
         return initItemData()

@@ -1,4 +1,4 @@
-# Detailed Gym Data
+# Detailed Gym Data (Outdated)
 ![Sample Image](../_static/img/gyminfo.png)
 
 To collect all of the available information about gyms, you can enable gym info parsing.

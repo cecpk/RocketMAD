@@ -1,29 +1,63 @@
-let touchDevice = null
+/*
+exported canPrimaryInputHover, deviceCanHover, difference, ding,
+disableDarkMode, enableDarkMode, getDecimalSeparator, getParameterByName,
+getPointDistance, getThousandsSeparator, hasCoarsePrimaryPointer,
+hasFinePrimaryPointer, hasLocationSupport, intersection, isMobileDevice,
+isNowBetween, lazyLoadImages, mapServiceProviderNames, removeLastDirsFromUrl,
+showImageModal, symmetricDifference, timestampToDate, timestampToDateTime,
+timestampToTime, toastError, toastInfo, toastSuccess, toastWarning, union,
+updateLabelDiffTime
+*/
+
 let mobileDevice = null
+let primaryPointerAccuracy = null
+let primaryInputCanHover = null
 let locationSupport = null
 let decimalSeparator = null
 let thousandsSeparator = null
 const mapServiceProviderNames = {
-    'googlemaps': 'Google Maps',
-    'applemaps': 'Apple Maps',
-    'bingmaps': 'Bing Maps',
-    'openstreetmap': 'OpenStreetMap',
-    'waze': 'Waze'
+    googlemaps: 'Google Maps',
+    applemaps: 'Apple Maps',
+    bingmaps: 'Bing Maps',
+    openstreetmap: 'OpenStreetMap',
+    waze: 'Waze'
 }
-
-function isTouchDevice() {
-    if (touchDevice === null) {
-        // Should cover most browsers.
-        touchDevice = 'ontouchstart' in window || navigator.maxTouchPoints
-    }
-    return touchDevice
-}
+const ding = new Audio('static/sounds/ding.mp3')
 
 function isMobileDevice() {
     if (mobileDevice === null) {
         mobileDevice = /Mobi|Android/i.test(navigator.userAgent)
     }
     return mobileDevice
+}
+
+function setPrimaryPointerAccuracy() {
+    if (primaryPointerAccuracy === null) {
+        if (window.matchMedia('(pointer: coarse)').matches) {
+            primaryPointerAccuracy = 'coarse'
+        } else if (window.matchMedia('(pointer: fine)').matches) {
+            primaryPointerAccuracy = 'fine'
+        } else {
+            primaryPointerAccuracy = 'none'
+        }
+    }
+}
+
+function hasCoarsePrimaryPointer() {
+    setPrimaryPointerAccuracy()
+    return primaryPointerAccuracy === 'coarse'
+}
+
+function hasFinePrimaryPointer() {
+    setPrimaryPointerAccuracy()
+    return primaryPointerAccuracy === 'fine'
+}
+
+function canPrimaryInputHover() {
+    if (primaryInputCanHover === null) {
+        primaryInputCanHover = window.matchMedia('(hover: hover)').matches
+    }
+    return primaryInputCanHover
 }
 
 function hasLocationSupport() {
@@ -35,7 +69,7 @@ function hasLocationSupport() {
 
 function getDecimalSeparator() {
     if (decimalSeparator === null) {
-        let n = 1.1
+        const n = 1.1
         decimalSeparator = n.toLocaleString().substring(1, 2)
     }
     return decimalSeparator
@@ -43,7 +77,7 @@ function getDecimalSeparator() {
 
 function getThousandsSeparator() {
     if (thousandsSeparator === null) {
-        let n = 1000
+        const n = 1000
         thousandsSeparator = n.toLocaleString().substring(1, 2)
     }
     return thousandsSeparator
@@ -65,11 +99,31 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
 
+function removeLastDirsFromUrl(url, count) {
+    if (url.charAt(url.length - 1) === '/') {
+        url = url.slice(0, -1)
+    }
+    for (let i = 0; i < count; i++) {
+        url = url.substring(0, url.lastIndexOf('/'))
+    }
+    return url
+}
+
+function enableDarkMode() {
+    $('body').addClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#212121')
+}
+
+function disableDarkMode() {
+    $('body').removeClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#ffffff')
+}
+
 function showImageModal(url, title) {
     $('#image-modal > .modal-content > h5').text(title)
     $('#image-modal > .modal-content > img').attr('src', url)
-    let elem = document.getElementById('image-modal')
-    let instance = M.Modal.getInstance(elem)
+    const elem = document.getElementById('image-modal')
+    const instance = M.Modal.getInstance(elem)
     instance.open()
 }
 
@@ -109,9 +163,9 @@ function timestampToDate(timestamp) {
     var dateStr = 'Unknown'
     if (timestamp) {
         if (moment(timestamp).isSame(moment(), 'day')) {
-            dateStr = 'Today'
+            dateStr = i18n('Today')
         } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
-            dateStr = 'Yesterday'
+            dateStr = i18n('Yesterday')
         } else {
             dateStr = moment(timestamp).format('YYYY-MM-DD')
         }
@@ -125,9 +179,9 @@ function timestampToDateTime(timestamp) {
     if (timestamp) {
         var time = serverSettings.twelveHourClock ? moment(timestamp).format('hh:mm:ss A') : moment(timestamp).format('HH:mm:ss')
         if (moment(timestamp).isSame(moment(), 'day')) {
-            dateStr = 'Today ' + time
+            dateStr = i18n('Today') + ' ' + time
         } else if (moment(timestamp).isSame(moment().subtract(1, 'days'), 'day')) {
-            dateStr = 'Yesterday ' + time
+            dateStr = i18n('Yesterday') + ' ' + time
         } else {
             dateStr = moment(timestamp).format('YYYY-MM-DD') + ' ' + time
         }
@@ -140,6 +194,49 @@ function isNowBetween(timestamp1, timestamp2) {
     return timestamp1 <= now && now <= timestamp2
 }
 
+function getTimeUntil(time) {
+    var now = Date.now()
+    var tdiff = time - now
+
+    var sec = Math.floor((tdiff / 1000) % 60)
+    var min = Math.floor((tdiff / 1000 / 60) % 60)
+    var hour = Math.floor((tdiff / (1000 * 60 * 60)) % 24)
+
+    return {
+        total: tdiff,
+        hour: hour,
+        min: min,
+        sec: sec,
+        now: now,
+        time: time
+    }
+}
+
+function lpad(str, len, padstr) {
+    return Array(Math.max(len - String(str).length + 1, 0)).join(padstr) + str
+}
+
+function updateLabelDiffTime() {
+    $('.label-countdown').each(function (index, element) {
+        var disappearsAt = getTimeUntil(parseInt(element.getAttribute('disappears-at')))
+
+        var hours = disappearsAt.hour
+        var minutes = disappearsAt.min
+        var seconds = disappearsAt.sec
+        var timestring = ''
+
+        if (disappearsAt.ttime < disappearsAt.now) {
+            timestring = 'expired'
+        } else if (hours > 0) {
+            timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
+        } else {
+            timestring = lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
+        }
+
+        $(element).text(timestring)
+    })
+}
+
 function toast(title, text, imageUrl, iconClass, classes) {
     var image = ''
     if (imageUrl) {
@@ -149,7 +246,7 @@ function toast(title, text, imageUrl, iconClass, classes) {
     }
     const style = imageUrl || iconClass ? 'style="margin-right:15px;"' : ''
     const toastHTML = `<div ${style}>${image}</div><div><strong>${title}</strong><br>${text}</div>`
-    M.toast({html: toastHTML, classes: classes})
+    M.toast({ html: toastHTML, classes: classes })
 }
 
 function toastInfo(title, text) {
@@ -187,23 +284,23 @@ function getPointDistance(origin, destination) {
 }
 
 function union(setA, setB) {
-    let union = new Set(setA)
-    for (let elem of setB) {
+    const union = new Set(setA)
+    for (const elem of setB) {
         union.add(elem)
     }
     return union
 }
 
 function intersection(setA, setB) {
-    let intersection = new Set()
+    const intersection = new Set()
     if (setA.size >= setB.size) {
-        for (let elem of setB) {
+        for (const elem of setB) {
             if (setA.has(elem)) {
                 intersection.add(elem)
             }
         }
     } else {
-        for (let elem of setA) {
+        for (const elem of setA) {
             if (setB.has(elem)) {
                 intersection.add(elem)
             }
@@ -213,13 +310,13 @@ function intersection(setA, setB) {
 }
 
 function difference(setA, setB) {
-    let difference = new Set(setA)
+    const difference = new Set(setA)
     if (setA.size >= setB.size) {
-        for (let elem of setB) {
+        for (const elem of setB) {
             difference.delete(elem)
         }
     } else {
-        for (let elem of setA) {
+        for (const elem of setA) {
             if (setB.has(elem)) {
                 difference.delete(elem)
             }
@@ -232,7 +329,7 @@ function symmetricDifference(setA, setB) {
     let difference
     if (setA.size >= setB.size) {
         difference = new Set(setA)
-        for (let elem of setB) {
+        for (const elem of setB) {
             if (difference.has(elem)) {
                 difference.delete(elem)
             } else {
@@ -241,7 +338,7 @@ function symmetricDifference(setA, setB) {
         }
     } else {
         difference = new Set(setB)
-        for (let elem of setA) {
+        for (const elem of setA) {
             if (difference.has(elem)) {
                 difference.delete(elem)
             } else {
@@ -253,13 +350,13 @@ function symmetricDifference(setA, setB) {
 }
 
 function lazyLoadImages() {
-    let lazyImages = [].slice.call(document.querySelectorAll('img.lazy'))
+    const lazyImages = [].slice.call(document.querySelectorAll('img.lazy'))
 
     if ('IntersectionObserver' in window) {
-        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
+        const lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    let lazyImage = entry.target
+                    const lazyImage = entry.target
                     lazyImage.src = lazyImage.dataset.src
                     lazyImage.classList.remove('lazy')
                     lazyImageObserver.unobserve(lazyImage)
@@ -267,12 +364,12 @@ function lazyLoadImages() {
             })
         })
 
-        lazyImages.forEach(function(lazyImage) {
+        lazyImages.forEach(function (lazyImage) {
             lazyImageObserver.observe(lazyImage)
         })
     } else {
         // IntersectionObserver not supported, don't use lazy loading.
-        lazyImages.forEach(function(lazyImage) {
+        lazyImages.forEach(function (lazyImage) {
             lazyImage.src = lazyImage.dataset.src
             lazyImage.classList.remove('lazy')
         })

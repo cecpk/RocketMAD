@@ -1,3 +1,5 @@
+/* exported getItemImageUrl, getItemName, getQuestBundles, initItemData */
+
 var itemData = {}
 
 function initItemData() {
@@ -5,7 +7,7 @@ function initItemData() {
         return Promise.resolve()
     }
 
-    return $.getJSON('static/dist/data/items.min.json').done(function (data) {
+    return $.getJSON('static/dist/data/items.min.json?v=' + version).done(function (data) {
         itemData = data
     }).fail(function () {
         console.log('Error loading item data.')
@@ -13,7 +15,7 @@ function initItemData() {
 }
 
 function getItemName(id) {
-    return i8ln(itemData[id].name)
+    return i18n(itemData[id].name)
 }
 
 function getItemImageUrl(id) {

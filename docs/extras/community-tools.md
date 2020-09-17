@@ -1,4 +1,4 @@
-# Community Tools
+# Community Tools (Outdated)
 Some useful tools made by the community for the community
 
 ## [KinanCity](https://github.com/drallieiv/KinanCity)

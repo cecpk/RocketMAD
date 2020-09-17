@@ -1,6 +1,9 @@
+/* globals exParksLayerGroup, map, mapData, nestParksLayerGroup, settings */
+/* exported getAllParks, updateAllParks */
+
 function getAllParks() {
     if (serverSettings.nestParks) {
-        $.getJSON('static/data/parks/' + serverSettings.nestParksFileName + '.json').done(function (response) {
+        $.getJSON('static/dist/data/parks/' + serverSettings.nestParksFileName + '.min.json?v=' + version).done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }
@@ -16,7 +19,7 @@ function getAllParks() {
     }
 
     if (serverSettings.exParks) {
-        $.getJSON('static/data/parks/' + serverSettings.exParksFileName + '.json').done(function (response) {
+        $.getJSON('static/dist/data/parks/' + serverSettings.exParksFileName + '.min.json?v=' + version).done(function (response) {
             if (!response || !('parks' in response)) {
                 return
             }
@@ -33,7 +36,6 @@ function getAllParks() {
 }
 
 function updateNestParks() {
-    
     if (settings.showNestParks) {
         const bounds = map.getBounds()
         const inBoundParks = mapData.nestParks.filter(parkPoints => {
@@ -45,7 +47,7 @@ function updateNestParks() {
         nestParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'limegreen', interactive: false}).addTo(nestParksLayerGroup)
+            L.polygon(park, { color: 'limegreen', interactive: false }).addTo(nestParksLayerGroup)
         })
     }
 }
@@ -143,6 +145,7 @@ function timeConverter(UNIX_timestamp){
   return time;
 }
 
+
 function updateExParks() {
     if (settings.showExParks) {
         const bounds = map.getBounds()
@@ -155,7 +158,7 @@ function updateExParks() {
         exParksLayerGroup.clearLayers()
 
         inBoundParks.forEach(function (park) {
-            L.polygon(park, {color: 'black', interactive: false}).addTo(exParksLayerGroup)
+            L.polygon(park, { color: 'black', interactive: false }).addTo(exParksLayerGroup)
         })
     }
 }
@@ -163,7 +166,4 @@ function updateExParks() {
 function updateAllParks() {
     updateNestParks()
     updateExParks()
-    if (settings.showPokemonNests) {
-        updatePokemonNests()
-    }
 }
