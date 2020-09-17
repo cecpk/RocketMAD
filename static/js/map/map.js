@@ -263,12 +263,15 @@ function initMap() { // eslint-disable-line no-unused-vars
         zoomControl: false,
         preferCanvas: true
     })
+    
+    console.log('custom_tileserver = ' + serverSettings.custom_tileserver)
 
     if (serverSettings.custom_tileserver != null || serverSettings.custom_tileserver != '') {
         Store.set('mapStyle', 'custom')
         setTileLayer(Store.get('mapStyle'), map)
     }
     else {
+        Store.set('mapStyle', 'Mapnik')
         setTileLayer(Store.get('mapStyle'), map)
     }
 
