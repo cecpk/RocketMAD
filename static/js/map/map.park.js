@@ -162,5 +162,7 @@ function updateExParks() {
 function updateAllParks() {
     updateNestParks()
     updateExParks()
-    updatePokemonNests()
+    if (settings.showPokemonNests) {
+        updatePokemonNests()
+    }
 }
