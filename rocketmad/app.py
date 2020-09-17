@@ -21,7 +21,7 @@ from .auth.auth_factory import AuthFactory
 from .blacklist import fingerprints
 from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
 from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
-                     Weather)
+                     Weather, PokemonNests)
 from .pogoprotos.enums.costume_pb2 import Costume
 from .pogoprotos.enums.form_pb2 import Form
 from .pogoprotos.enums.gender_pb2 import Gender
@@ -246,10 +246,12 @@ def create_app():
             'scannedLocs': not user_args.no_scanned_locs,
             's2Cells': not user_args.no_s2_cells,
             'ranges': not user_args.no_ranges,
+            'pokemonNests': user_args.pokemon_nests,
             'nestParks': user_args.nest_parks,
             'nestParksFileName': user_args.nest_parks_filename,
             'exParks': user_args.ex_parks,
-            'exParksFileName': user_args.ex_parks_filename
+            'exParksFileName': user_args.ex_parks_filename,
+            'custom_tileserver':  user_args.custom_tileserver
         }
 
         return render_template(
@@ -967,6 +969,8 @@ def create_app():
                         geofences=geofences,
                         exclude_geofences=exclude_geofences
                     )
+
+                 d['pokemonNests'] = PokemonNests.get_nests()   
 
         return jsonify(d)
 

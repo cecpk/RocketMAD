@@ -28,6 +28,8 @@
 #telegram-url:                  # Telegram group invite link. (default=None)
 #whatsapp-url:                  # WhatsApp group invite link. (default=None)
 
+#custom-tileserver:             # link to custom tileserver - https://tileserver.com
+
 #max-zoom-level:                # Maximum level a user can zoom out. Range: [0,18]. 0 means the user can zoom out completely. (default=10)
 #cluster-zoom-level:            # Zoom level from which markers should be clustered. Range: [0,18]. -1 to disable clustering. (default=14)
 #cluster-zoom-level-mobile:     # Zoom level from which markers should be clustered on mobile. Range: [0,18]. -1 to disable clustering on mobile. (default=14)
@@ -93,6 +95,7 @@
 # Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
 # Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
 
+#pokemon-nests
 #ex-parks                       # Display ex raid eligible parks. (default=False)
 #nest-parks                     # Display nest parks. (default=False)
 #ex-parks-downloading           # Enables ex raid eligible parks downloading. (default=False)

@@ -111,6 +111,7 @@ const settings = {
     showMainWeather: null,
     showSpawnpoints: null,
     showScannedLocations: null,
+    showPokemonNests: null,
     showExParks: null,
     showNestParks: null,
     showS2Cells: null,
@@ -154,6 +155,7 @@ const mapData = {
     weather: {},
     scannedLocs: {},
     spawnpoints: {},
+    pokemonNests: {},
     exParks: [],
     nestParks: []
 }
@@ -190,6 +192,7 @@ let map
 let markers
 let markersNoCluster
 
+let pokemonNestsLayerGroup
 let nestParksLayerGroup
 let exParksLayerGroup
 let s2CellsLayerGroup
@@ -273,7 +276,14 @@ function initMap() { // eslint-disable-line no-unused-vars
         preferCanvas: true
     })
 
-    setTileLayer(Store.get('mapStyle'), map)
+    if (serverSettings.custom_tileserver != null) {
+        Store.set('mapStyle', 'custom')
+        setTileLayer(Store.get('mapStyle'), map)
+    }
+    else {
+        Store.set('mapStyle', 'mapnik')
+        setTileLayer(Store.get('mapStyle'), map)
+    }
 
     L.control.zoom({
         position: 'bottomright'
@@ -333,6 +343,10 @@ function initMap() { // eslint-disable-line no-unused-vars
         removeOutsideVisibleBounds: serverSettings.removeMarkersOutsideViewport
     }).addTo(map)
     markersNoCluster = L.layerGroup().addTo(map)
+
+    if (serverSettings.pokemonNests) {
+        pokemonNestsLayerGroup = L.layerGroup().addTo(map)
+    }
 
     if (serverSettings.nestParks) {
         nestParksLayerGroup = L.layerGroup().addTo(map)
@@ -748,6 +762,7 @@ function loadRawData() {
     const loadWeather = settings.showWeather
     const loadSpawnpoints = settings.showSpawnpoints
     const loadScannedLocs = settings.showScannedLocations
+    const loadPokemonNests = settings.showPokemonNests
 
     const bounds = map.getBounds()
     const swPoint = bounds.getSouthWest()
@@ -789,7 +804,8 @@ function loadRawData() {
             allPokestops: getAllPokestops,
             allWeather: getAllWeather,
             allSpawnpoints: getAllSpawnpoints,
-            allScannedLocs: getAllScannedLocs
+            allScannedLocs: getAllScannedLocs,
+            pokemonNests: loadPokemonNests
         },
         dataType: 'json',
         cache: false,
@@ -864,6 +880,8 @@ function updateMap({
         $.each(result.scannedlocs, function (idx, scannedLoc) {
             processScannedLocation(scannedLoc)
         })
+
+        getNestData(result.pokemonNests)
 
         updateStatsTable()
 

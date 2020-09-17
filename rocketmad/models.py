@@ -608,6 +608,41 @@ class TrsQuest(db.Model):
         Index('quest_type', 'quest_type'),
     )
 
+class PokemonNests(db.Model):
+    __tablename__ = 'nests'
+
+    nest_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'), primary_key=True
+    )
+    lat = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    lon = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    pokemon_id = db.Column(db.SmallInteger, nullable=False)
+    updated = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+    pokemon_count = db.Column(db.SmallInteger, nullable=False)
+    pokemon_avg = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    suburb = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+    street = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+    pokemonName = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+
+    @staticmethod
+    def get_nests():
+
+        columns = [
+            PokemonNests.nest_id, PokemonNests.lat, PokemonNests.lon,
+            PokemonNests.pokemon_id, PokemonNests.updated, PokemonNests.name,
+            PokemonNests.pokemon_count, PokemonNests.pokemon_avg,
+            PokemonNests.suburb, PokemonNests.street, PokemonNests.pokemonName
+        ]
+       
+        query = (
+                db.session.query(*columns)   
+            )
+        
+        result = query.all()
+        
+        return [n._asdict() for n in result]
+
 
 class Weather(db.Model):
     s2_cell_id = db.Column(

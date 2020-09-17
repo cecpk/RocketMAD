@@ -110,6 +110,7 @@ function initSettings() {
     settings.showSpawnpoints = serverSettings.spawnpoints && Store.get('showSpawnpoints')
     settings.showScannedLocations = serverSettings.scannedLocs && Store.get('showScannedLocations')
 
+    settings.showPokemonNests = serverSettings.pokemonNests && Store.get('showPokemonNests')
     settings.showNestParks = serverSettings.nestParks && Store.get('showNestParks')
     settings.showExParks = serverSettings.exParks && Store.get('showExParks')
 
@@ -724,6 +725,18 @@ function initSettingsSidebar() {
                 updateScannedLocations()
             }
             Store.set('showScannedLocations', this.checked)
+        })
+    }
+
+    if (serverSettings.pokemonNests) {
+        $('#pokemon-nests-park-switch').on('change', function () {
+            settings.showPokemonNests = this.checked
+            if (this.checked) {
+                updatePokemonNests()
+            } else {
+                pokemonNestsLayerGroup.clearLayers()
+            }
+            Store.set('showPokemonNests', this.checked)
         })
     }
 
@@ -1420,6 +1433,9 @@ function initSettingsSidebar() {
     }
     if (serverSettings.scannedLocs) {
         $('#scanned-locs-switch').prop('checked', settings.showScannedLocations)
+    }
+    if (serverSettings.pokemonNests) {
+        $('#pokemon-nests-park-switch').prop('checked', settings.showPokemonNests)
     }
     if (serverSettings.nestParks) {
         $('#nest-park-switch').prop('checked', settings.showNestParks)

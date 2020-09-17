@@ -299,7 +299,9 @@ def get_args(access_config=None):
                        help='File to exclude areas. Regard this as an '
                             'inverted geofence. Can be combined with '
                             '--geofence-file.')
-
+    pokemonNests = parser.add_argument_group('PokemonNests')
+    pokemonNests.add_argument('--pokemon-nests',
+                              action='store_true')
     group = parser.add_argument_group('Parks')
     group.add_argument('-EP', '--ex-parks',
                        action='store_true',
@@ -581,6 +583,9 @@ def get_args(access_config=None):
                        help='Filename (without .json) of rarity JSON '
                             'file. Useful when running multiple '
                             'instances. Default: rarity')
+    customTileserver = parser.add_argument_group('customTileserver')
+    customTileserver.add_argument('--custom-tileserver',
+                              action=None)
 
     args = parser.parse_args()
     dargs = vars(args)
@@ -647,7 +652,8 @@ def get_args(access_config=None):
             'motd_pages',
             'show_motd_always',
             'geofence_file',
-            'geofence_exclude_file'
+            'geofence_exclude_file',
+            'pokemon-nests'
         ]
 
         access_parser = configparser.ConfigParser(allow_no_value=True,
