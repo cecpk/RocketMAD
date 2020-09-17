@@ -1,6 +1,3 @@
-/* globals mapData, markersNoCluster, removeMarker, settings */
-/* exported processScannedLocation, updateScannedLocations */
-
 function getColorByTime(value) {
     // Changes the color from red to green over 15 mins
     var diff = (Date.now() - value) / 1000 / 60 / 15
@@ -30,7 +27,7 @@ function updateScannedLocationMarker(scannedLoc, marker) {
     const radius = serverSettings.pokemons ? 70 : 450 // Meters.
     marker.setRadius(radius)
     const color = getColorByTime(scannedLoc.last_modified)
-    marker.setStyle({ color: color })
+    marker.setStyle({color: color})
 
     return marker
 }
@@ -41,7 +38,7 @@ function processScannedLocation(scannedLoc) {
     }
 
     const id = scannedLoc.latitude + '_' + scannedLoc.longitude
-    if (!(id in mapData.scannedLocs)) {
+    if (!mapData.scannedLocs.hasOwnProperty(id)) {
         scannedLoc.scanned_loc_id = id
         scannedLoc.marker = setupScannedLocationMarker(scannedLoc)
         mapData.scannedLocs[id] = scannedLoc
@@ -53,7 +50,7 @@ function processScannedLocation(scannedLoc) {
 }
 
 function updateScannedLocation(id, scannedLoc = null) {
-    if (id == null || !(id in mapData.scannedLocs)) {
+    if (id === undefined || id === null || !mapData.scannedLocs.hasOwnProperty(id)) {
         return true
     }
 
@@ -83,7 +80,7 @@ function updateScannedLocations() {
 
 function removeScannedLocation(scannedLoc) {
     const id = scannedLoc.scanned_loc_id
-    if (id in mapData.scannedLocs) {
+    if (mapData.scannedLocs.hasOwnProperty(id)) {
         removeMarker(mapData.scannedLocs[id].marker)
         delete mapData.scannedLocs[id]
     }

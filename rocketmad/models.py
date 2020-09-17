@@ -1,22 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import gc
+import itertools
 import logging
+import os
 import sys
 import time
 
 from datetime import datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
+from functools import reduce
 from sqlalchemy import func, Index, text
 from sqlalchemy.dialects.mysql import BIGINT, DOUBLE, LONGTEXT, TINYINT
 from sqlalchemy.orm import Load, load_only
 from sqlalchemy.sql.expression import and_, or_
 from timeit import default_timer
 
-from .utils import get_args
+from .transform import transform_from_wgs_to_gcj
+from .utils import (get_pokemon_name, get_pokemon_types, get_args, cellid,
+                    get_utc_timedelta)
 
 log = logging.getLogger(__name__)
 args = get_args()
+
+logging.basicConfig(level=logging.DEBUG)
 
 db = SQLAlchemy()
 db_schema_version = 0
@@ -41,9 +49,9 @@ class Pokemon(db.Model):
     gender = db.Column(db.SmallInteger)
     form = db.Column(db.SmallInteger)
     costume = db.Column(db.SmallInteger)
-    catch_prob_1 = db.Column(DOUBLE(asdecimal=False))
-    catch_prob_2 = db.Column(DOUBLE(asdecimal=False))
-    catch_prob_3 = db.Column(DOUBLE(asdecimal=False))
+    catch_prob_1 = db.Column(DOUBLE)
+    catch_prob_2 = db.Column(DOUBLE)
+    catch_prob_3 = db.Column(DOUBLE)
     rating_attack = db.Column(
         db.String(length=2, collation='utf8mb4_unicode_ci')
     )
@@ -65,7 +73,6 @@ class Pokemon(db.Model):
     @staticmethod
     def get_active(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
                    oNeLat=None, oNeLng=None, timestamp=0, eids=None, ids=None,
-                   geofences=None, exclude_geofences=None,
                    verified_despawn_time=False):
         columns = [
             Pokemon.encounter_id, Pokemon.pokemon_id, Pokemon.latitude,
@@ -74,7 +81,6 @@ class Pokemon(db.Model):
             Pokemon.individual_stamina, Pokemon.move_1, Pokemon.move_2,
             Pokemon.cp, Pokemon.cp_multiplier, Pokemon.weight, Pokemon.height,
             Pokemon.gender, Pokemon.form, Pokemon.costume,
-            Pokemon.catch_prob_1, Pokemon.catch_prob_2, Pokemon.catch_prob_3,
             Pokemon.weather_boosted_condition, Pokemon.last_modified
         ]
 
@@ -91,24 +97,33 @@ class Pokemon(db.Model):
         else:
             query = db.session.query(*columns)
 
-        query = query.filter(Pokemon.disappear_time > datetime.utcnow())
+        if eids:
+            query = query.filter(Pokemon.pokemon_id.notin_(eids))
+        elif ids:
+            query = query.filter(Pokemon.pokemon_id.in_(ids))
 
-        if timestamp > 0:
+        if not (swLat and swLng and neLat and neLng):
+            query = query.filter(Pokemon.disappear_time > datetime.utcnow())
+        elif timestamp > 0:
             # If timestamp is known only load modified Pokémon.
-            t = datetime.utcfromtimestamp(timestamp / 1000)
-            query = query.filter(Pokemon.last_modified > t)
-
-        if swLat and swLng and neLat and neLng:
             query = query.filter(
+                Pokemon.last_modified > datetime.utcfromtimestamp(
+                    timestamp / 1000),
+                Pokemon.disappear_time > datetime.utcnow(),
                 Pokemon.latitude >= swLat,
                 Pokemon.longitude >= swLng,
                 Pokemon.latitude <= neLat,
                 Pokemon.longitude <= neLng
             )
-
-        if oSwLat and oSwLng and oNeLat and oNeLng:
-            # Exclude Pokémon within old boundaries.
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send Pokémon in view but exclude those within old boundaries.
+            # Only send newly uncovered Pokemon.
             query = query.filter(
+                Pokemon.disappear_time > datetime.utcnow(),
+                Pokemon.latitude >= swLat,
+                Pokemon.longitude >= swLng,
+                Pokemon.latitude <= neLat,
+                Pokemon.longitude <= neLng,
                 ~and_(
                     Pokemon.latitude >= oSwLat,
                     Pokemon.longitude >= oSwLng,
@@ -116,21 +131,18 @@ class Pokemon(db.Model):
                     Pokemon.longitude <= oNeLng
                 )
             )
+        else:
+            query = query.filter(
+                Pokemon.disappear_time > datetime.utcnow(),
+                Pokemon.latitude >= swLat,
+                Pokemon.longitude >= swLng,
+                Pokemon.latitude <= neLat,
+                Pokemon.longitude <= neLng
+            )
 
-        if geofences:
-            sql = geofences_to_query(geofences, 'pokemon')
-            query = query.filter(text(sql))
+        result = query.all()
 
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'pokemon')
-            query = query.filter(~text(sql))
-
-        if eids:
-            query = query.filter(Pokemon.pokemon_id.notin_(eids))
-        elif ids:
-            query = query.filter(Pokemon.pokemon_id.in_(ids))
-
-        return [pokemon._asdict() for pokemon in query.all()]
+        return [pokemon._asdict() for pokemon in result]
 
     # Get all Pokémon spawn counts based on the last x hours.
     # More efficient than get_seen(): we don't do any unnecessary mojo.
@@ -161,7 +173,7 @@ class Pokemon(db.Model):
         return {'pokemon': counts, 'total': total}
 
     @staticmethod
-    def get_seen(timediff=0, geofences=None, exclude_geofences=None):
+    def get_seen(timediff=0):
         query = (
             db.session.query(
                 Pokemon.pokemon_id, Pokemon.form,
@@ -170,18 +182,9 @@ class Pokemon(db.Model):
             )
             .group_by(Pokemon.pokemon_id, Pokemon.form)
         )
-
         if timediff > 0:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
             query = query.filter(Pokemon.disappear_time > timediff)
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'pokemon')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'pokemon')
-            query = query.filter(~text(sql))
 
         result = query.all()
 
@@ -194,8 +197,7 @@ class Pokemon(db.Model):
         return {'pokemon': pokemon, 'total': total}
 
     @staticmethod
-    def get_appearances(pokemon_id, form_id=None, timediff=0, geofences=None,
-                        exclude_geofences=None):
+    def get_appearances(pokemon_id, form_id=None, timediff=0):
         '''
         :param pokemon_id: id of Pokémon that we need appearances for
         :param form_id: id of form that we need appearances for
@@ -214,21 +216,11 @@ class Pokemon(db.Model):
                 Pokemon.form, Pokemon.spawnpoint_id
             )
         )
-
         if form_id is not None:
             query = query.filter(Pokemon.form == form_id)
-
         if timediff > 0:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
             query = query.filter(Pokemon.disappear_time > timediff)
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'pokemon')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'pokemon')
-            query = query.filter(~text(sql))
 
         result = query.all()
 
@@ -236,9 +228,7 @@ class Pokemon(db.Model):
 
     @staticmethod
     def get_appearances_times_by_spawnpoint(pokemon_id, spawnpoint_id,
-                                            form_id=None, timediff=0,
-                                            geofences=None,
-                                            exclude_geofences=None):
+                                            form_id=None, timediff=0):
         '''
         :param pokemon_id: id of Pokemon that we need appearances times for.
         :param spawnpoint_id: spawnpoint id we need appearances times for.
@@ -253,21 +243,11 @@ class Pokemon(db.Model):
             )
             .order_by(Pokemon.disappear_time)
         )
-
         if form_id is not None:
             query = query.filter_by(form=form_id)
-
         if timediff:
             timediff = datetime.utcnow() - timedelta(hours=timediff)
             query = query.filter(Pokemon.disappear_time > timediff)
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'pokemon')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'pokemon')
-            query = query.filter(~text(sql))
 
         result = query.all()
 
@@ -310,8 +290,7 @@ class Gym(db.Model):
 
     @staticmethod
     def get_gyms(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
-                 oNeLat=None, oNeLng=None, timestamp=0, raids=True,
-                 geofences=None, exclude_geofences=None):
+                 oNeLat=None, oNeLng=None, timestamp=0, raids=True):
         if raids:
             query = (
                 db.session.query(Gym, Raid)
@@ -326,22 +305,25 @@ class Gym(db.Model):
         else:
             query = Gym.query
 
-        if timestamp > 0:
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
             # If timestamp is known only send last scanned Gyms.
-            t = datetime.utcfromtimestamp(timestamp / 1000)
-            query = query.filter(Gym.last_scanned > t)
-
-        if swLat and swLng and neLat and neLng:
             query = query.filter(
+                Gym.last_scanned > datetime.utcfromtimestamp(timestamp / 1000),
                 Gym.latitude >= swLat,
                 Gym.longitude >= swLng,
                 Gym.latitude <= neLat,
                 Gym.longitude <= neLng
             )
-
-        if oSwLat and oSwLng and oNeLat and oNeLng:
-            # Exclude Gyms within old boundaries.
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send gyms in view but exclude those within old boundaries.
+            # Only send newly uncovered gyms.
             query = query.filter(
+                Gym.latitude >= swLat,
+                Gym.longitude >= swLng,
+                Gym.latitude <= neLat,
+                Gym.longitude <= neLng,
                 ~and_(
                     Gym.latitude >= oSwLat,
                     Gym.longitude >= oSwLng,
@@ -349,21 +331,24 @@ class Gym(db.Model):
                     Gym.longitude <= oNeLng
                 )
             )
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'gym')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'gym')
-            query = query.filter(~text(sql))
+        else:
+            query = query.filter(
+                Gym.latitude >= swLat,
+                Gym.longitude >= swLng,
+                Gym.latitude <= neLat,
+                Gym.longitude <= neLng
+            )
 
         result = query.all()
 
-        gyms = []
+        gyms = {}
         for r in result:
-            gym = r[0] if raids else r
-            raid = r[1] if raids else None
+            if raids:
+                gym = r[0]
+                raid = r[1]
+            else:
+                gym = r
+                raid = None
             gym_dict = orm_to_dict(gym)
             del gym_dict['gym_details']
             if gym.gym_details:
@@ -376,7 +361,7 @@ class Gym(db.Model):
                 gym_dict['raid'] = orm_to_dict(raid)
             else:
                 gym_dict['raid'] = None
-            gyms.append(gym_dict)
+            gyms[gym.gym_id] = gym_dict
 
         return gyms
 
@@ -418,7 +403,6 @@ class Raid(db.Model):
     is_exclusive = db.Column(TINYINT)
     gender = db.Column(TINYINT)
     costume = db.Column(TINYINT)
-    evolution = db.Column(db.SmallInteger)
 
     __table_args__ = (
         Index('raid_level', 'level'),
@@ -458,7 +442,7 @@ class Pokestop(db.Model):
     def get_pokestops(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
                       oNeLat=None, oNeLng=None, timestamp=0,
                       eventless_stops=True, quests=True, invasions=True,
-                      lures=True, geofences=None, exclude_geofences=None):
+                      lures=True):
         columns = [
             'pokestop_id', 'name', 'image', 'latitude', 'longitude',
             'last_updated', 'incident_grunt_type', 'incident_expiration',
@@ -496,31 +480,35 @@ class Pokestop(db.Model):
             query = Pokestop.query.options(load_only(*columns))
 
         if not eventless_stops:
-            conds = []
+            terms = []
             if quests:
-                conds.append(TrsQuest.GUID.isnot(None))
+                terms.append(TrsQuest.GUID != None)
             if invasions:
-                conds.append(Pokestop.incident_expiration > datetime.utcnow())
+                terms.append(Pokestop.incident_expiration > datetime.utcnow())
             if lures:
-                conds.append(Pokestop.lure_expiration > datetime.utcnow())
-            query = query.filter(or_(*conds))
+                terms.append(Pokestop.lure_expiration > datetime.utcnow())
+            query = query.filter(or_(*terms))
 
-        if timestamp > 0:
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
             # If timestamp is known only send last scanned PokéStops.
-            t = datetime.utcfromtimestamp(timestamp / 1000)
-            query = query.filter(Pokestop.last_updated > t)
-
-        if swLat and swLng and neLat and neLng:
             query = query.filter(
+                Pokestop.last_updated > datetime.utcfromtimestamp(
+                    timestamp / 1000),
                 Pokestop.latitude >= swLat,
                 Pokestop.longitude >= swLng,
                 Pokestop.latitude <= neLat,
                 Pokestop.longitude <= neLng
             )
-
-        if oSwLat and oSwLng and oNeLat and oNeLng:
-            # Exclude PokéStops within old boundaries.
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send gyms in view but exclude those within old boundaries.
+            # Only send newly uncovered gyms.
             query = query.filter(
+                Pokestop.latitude >= swLat,
+                Pokestop.longitude >= swLng,
+                Pokestop.latitude <= neLat,
+                Pokestop.longitude <= neLng,
                 ~and_(
                     Pokestop.latitude >= oSwLat,
                     Pokestop.longitude >= oSwLng,
@@ -528,47 +516,47 @@ class Pokestop(db.Model):
                     Pokestop.longitude <= oNeLng
                 )
             )
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'pokestop')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'pokestop')
-            query = query.filter(~text(sql))
+        else:
+            query = query.filter(
+                Pokestop.latitude >= swLat,
+                Pokestop.longitude >= swLng,
+                Pokestop.latitude <= neLat,
+                Pokestop.longitude <= neLng
+            )
 
         result = query.all()
 
         now = datetime.utcnow()
-        pokestops = []
+        pokestops = {}
         for r in result:
             pokestop_orm = r[0] if quests else r
             quest_orm = r[1] if quests else None
             pokestop = orm_to_dict(pokestop_orm)
             if quest_orm is not None:
-                pokestop['quest'] = {
-                    'scanned_at': quest_orm.quest_timestamp * 1000,
-                    'task': quest_orm.quest_task,
-                    'reward_type': quest_orm.quest_reward_type,
-                    'item_id': quest_orm.quest_item_id,
-                    'item_amount': quest_orm.quest_item_amount,
-                    'pokemon_id': quest_orm.quest_pokemon_id,
-                    'form_id': quest_orm.quest_pokemon_form_id,
-                    'costume_id': quest_orm.quest_pokemon_costume_id,
-                    'stardust': quest_orm.quest_stardust
-                }
+                quest = {}
+                quest['pokestop_id'] = quest_orm.GUID
+                quest['scanned_at'] = quest_orm.quest_timestamp * 1000
+                quest['task'] = quest_orm.quest_task
+                quest['type'] = quest_orm.quest_type
+                quest['stardust'] = quest_orm.quest_stardust
+                quest['pokemon_id'] = quest_orm.quest_pokemon_id
+                quest['form_id'] = quest_orm.quest_pokemon_form_id
+                quest['costume_id'] = quest_orm.quest_pokemon_costume_id
+                quest['reward_type'] = quest_orm.quest_reward_type
+                quest['item_id'] = quest_orm.quest_item_id
+                quest['item_amount'] = quest_orm.quest_item_amount
+                pokestop['quest'] = quest
             else:
                 pokestop['quest'] = None
-            if (pokestop['incident_expiration'] is not None
-                    and (pokestop['incident_expiration'] < now
-                         or not invasions)):
+            if (pokestop['incident_expiration'] is not None and
+                    (pokestop['incident_expiration'] < now or not invasions)):
                 pokestop['incident_grunt_type'] = None
                 pokestop['incident_expiration'] = None
-            if (pokestop['lure_expiration'] is not None
-                    and (pokestop['lure_expiration'] < now or not lures)):
+            if (pokestop['lure_expiration'] is not None and
+                    (pokestop['lure_expiration'] < now or not lures)):
                 pokestop['active_fort_modifier'] = None
                 pokestop['lure_expiration'] = None
-            pokestops.append(pokestop)
+            pokestops[pokestop['pokestop_id']] = pokestop
 
         return pokestops
 
@@ -608,6 +596,41 @@ class TrsQuest(db.Model):
         Index('quest_type', 'quest_type'),
     )
 
+class PokemonNests(db.Model):
+    __tablename__ = 'nests'
+
+    nest_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'), primary_key=True
+    )
+    lat = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    lon = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    pokemon_id = db.Column(db.SmallInteger, nullable=False)
+    updated = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+    pokemon_count = db.Column(db.SmallInteger, nullable=False)
+    pokemon_avg = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    suburb = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+    street = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+    pokemonName = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+
+    @staticmethod
+    def get_nests():
+
+        columns = [
+            PokemonNests.nest_id, PokemonNests.lat, PokemonNests.lon,
+            PokemonNests.pokemon_id, PokemonNests.updated, PokemonNests.name,
+            PokemonNests.pokemon_count, PokemonNests.pokemon_avg,
+            PokemonNests.suburb, PokemonNests.street, PokemonNests.pokemonName
+        ]
+       
+        query = (
+                db.session.query(*columns)   
+            )
+        
+        result = query.all()
+        
+        return [n._asdict() for n in result]
+    
 
 class Weather(db.Model):
     s2_cell_id = db.Column(
@@ -633,8 +656,7 @@ class Weather(db.Model):
 
     @staticmethod
     def get_weather(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
-                    oNeLat=None, oNeLng=None, timestamp=0, geofences=None,
-                    exclude_geofences=None):
+                    oNeLat=None, oNeLng=None, timestamp=0):
         # We can filter by the center of a cell,
         # this deltas can expand the viewport bounds
         # So cells with center outside the viewport,
@@ -650,22 +672,26 @@ class Weather(db.Model):
             Weather.last_updated
         )
 
-        if timestamp > 0:
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
             # If timestamp is known only send last scanned weather.
-            t = datetime.utcfromtimestamp(timestamp / 1000)
-            query = query.filter(Weather.last_updated > t)
-
-        if swLat and swLng and neLat and neLng:
             query = query.filter(
+                Weather.last_updated > datetime.utcfromtimestamp(
+                    timestamp / 1000),
                 Weather.latitude >= float(swLat) - lat_delta,
                 Weather.longitude >= float(swLng) - lng_delta,
                 Weather.latitude <= float(neLat) + lat_delta,
                 Weather.longitude <= float(neLng) + lng_delta
             )
-
-        if oSwLat and oSwLng and oNeLat and oNeLng:
-            # Exclude weather within old boundaries.
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send weather in view but exclude those within old boundaries.
+            # Only send newly uncovered weather.
             query = query.filter(
+                Weather.latitude >= float(swLat) - lat_delta,
+                Weather.longitude >= float(swLng) - lng_delta,
+                Weather.latitude <= float(neLat) + lat_delta,
+                Weather.longitude <= float(neLng) + lng_delta,
                 ~and_(
                     Weather.latitude >= float(oSwLat) - lat_delta,
                     Weather.longitude >= float(oSwLng) - lng_delta,
@@ -673,14 +699,13 @@ class Weather(db.Model):
                     Weather.longitude <= float(oNeLng) + lng_delta
                 )
             )
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'weather')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'weather')
-            query = query.filter(~text(sql))
+        else:
+            query = query.filter(
+                Weather.latitude >= float(swLat) - lat_delta,
+                Weather.longitude >= float(swLng) - lng_delta,
+                Weather.latitude <= float(neLat) + lat_delta,
+                Weather.longitude <= float(neLng) + lng_delta
+            )
 
         result = query.all()
 
@@ -709,8 +734,7 @@ class TrsSpawn(db.Model):
 
     @staticmethod
     def get_spawnpoints(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
-                        oNeLat=None, oNeLng=None, timestamp=0, geofences=None,
-                        exclude_geofences=None):
+                        oNeLat=None, oNeLng=None, timestamp=0):
         query = db.session.query(
             TrsSpawn.latitude, TrsSpawn.longitude,
             TrsSpawn.spawnpoint.label('spawnpoint_id'), TrsSpawn.spawndef,
@@ -718,24 +742,27 @@ class TrsSpawn(db.Model):
             TrsSpawn.last_scanned, TrsSpawn.calc_endminsec.label('end_time')
         )
 
-        if timestamp > 0:
+        if not (swLat and swLng and neLat and neLng):
+            pass
+        elif timestamp > 0:
             # If timestamp is known only send last scanned spawn points.
-            t = datetime.fromtimestamp(timestamp / 1000)
+            utc_time = datetime.utcfromtimestamp(timestamp / 1000)
             query = query.filter(
-                (TrsSpawn.last_scanned > t) | (TrsSpawn.last_non_scanned > t)
-            )
-
-        if swLat and swLng and neLat and neLng:
-            query = query.filter(
+                ((TrsSpawn.last_scanned > utc_time) |
+                 (TrsSpawn.last_non_scanned > utc_time)),
                 TrsSpawn.latitude >= swLat,
                 TrsSpawn.longitude >= swLng,
                 TrsSpawn.latitude <= neLat,
                 TrsSpawn.longitude <= neLng
             )
-
-        if oSwLat and oSwLng and oNeLat and oNeLng:
-            # Exclude spawn points within old boundaries.
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send spawn points in view but exclude those within old
+            # boundaries. Only send newly uncovered spawn points.
             query = query.filter(
+                TrsSpawn.latitude >= swLat,
+                TrsSpawn.longitude >= swLng,
+                TrsSpawn.latitude <= neLat,
+                TrsSpawn.longitude <= neLng,
                 ~and_(
                     TrsSpawn.latitude >= oSwLat,
                     TrsSpawn.longitude >= oSwLng,
@@ -743,14 +770,13 @@ class TrsSpawn(db.Model):
                     TrsSpawn.longitude <= oNeLng
                 )
             )
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'trs_spawn')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'trs_spawn')
-            query = query.filter(~text(sql))
+        else:
+            query = query.filter(
+                TrsSpawn.latitude >= swLat,
+                TrsSpawn.longitude >= swLng,
+                TrsSpawn.latitude <= neLat,
+                TrsSpawn.longitude <= neLng
+            )
 
         result = query.all()
 
@@ -777,8 +803,8 @@ class TrsSpawn(db.Model):
                 if sp['spawndef'] == 15:
                     sp['spawn_time'] = sp['despawn_time'] - timedelta(hours=1)
                 else:
-                    sp['spawn_time'] = (sp['despawn_time']
-                                        - timedelta(minutes=30))
+                    sp['spawn_time'] = (sp['despawn_time'] -
+                                        timedelta(minutes=30))
                 del sp['end_time']
             spawnpoints.append(sp)
 
@@ -800,33 +826,34 @@ class ScannedLocation(db.Model):
 
     @staticmethod
     def get_recent(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
-                   oNeLat=None, oNeLng=None, timestamp=0, geofences=None,
-                   exclude_geofences=None):
+                   oNeLat=None, oNeLng=None, timestamp=0):
         query = db.session.query(
             ScannedLocation.cellid, ScannedLocation.latitude,
             ScannedLocation.longitude, ScannedLocation.last_modified
         )
 
-        if timestamp > 0:
-            # If timestamp is known only send last scanned locations.
-            t = datetime.utcfromtimestamp(timestamp / 1000)
-            query = query.filter(ScannedLocation.last_modified > t)
-        else:
-            # Only send locations scanned in last 15 minutes.
-            active_time = datetime.utcnow() - timedelta(minutes=15)
-            query = query.filter(ScannedLocation.last_modified > active_time)
+        active_time = datetime.utcnow() - timedelta(minutes=15)
 
-        if swLat and swLng and neLat and neLng:
+        if not (swLat and swLng and neLat and neLng):
+            query = query.filter(ScannedLocation.last_modified >= active_time)
+        elif timestamp > 0:
             query = query.filter(
+                ScannedLocation.last_modified >= datetime.utcfromtimestamp(
+                    timestamp / 1000),
                 ScannedLocation.latitude >= swLat,
                 ScannedLocation.longitude >= swLng,
                 ScannedLocation.latitude <= neLat,
                 ScannedLocation.longitude <= neLng
             )
-
-        if oSwLat and oSwLng and oNeLat and oNeLng:
-            # Exclude scanned locations within old boundaries.
+        elif oSwLat and oSwLng and oNeLat and oNeLng:
+            # Send scanned locations in view but exclude those within old
+            # boundaries. Only send newly uncovered scanned locations.
             query = query.filter(
+                ScannedLocation.last_modified >= active_time,
+                ScannedLocation.latitude >= swLat,
+                ScannedLocation.longitude >= swLng,
+                ScannedLocation.latitude <= neLat,
+                ScannedLocation.longitude <= neLng,
                 ~and_(
                     ScannedLocation.latitude >= oSwLat,
                     ScannedLocation.longitude >= oSwLng,
@@ -834,14 +861,14 @@ class ScannedLocation(db.Model):
                     ScannedLocation.longitude <= oNeLng
                 )
             )
-
-        if geofences:
-            sql = geofences_to_query(geofences, 'scannedlocation')
-            query = query.filter(text(sql))
-
-        if exclude_geofences:
-            sql = geofences_to_query(exclude_geofences, 'scannedlocation')
-            query = query.filter(~text(sql))
+        else:
+            query = query.filter(
+                ScannedLocation.last_modified >= active_time,
+                ScannedLocation.latitude >= swLat,
+                ScannedLocation.longitude >= swLng,
+                ScannedLocation.latitude <= neLat,
+                ScannedLocation.longitude <= neLng
+            )
 
         result = query.all()
 
@@ -855,22 +882,6 @@ class RmVersion(db.Model):
         db.String(length=16, collation='utf8mb4_unicode_ci'), primary_key=True
     )
     val = db.Column(db.SmallInteger)
-
-
-def geofences_to_query(geofences, table_name):
-    query = ''
-
-    for geofence in geofences:
-        polygon = geofence['polygon']
-        coords = ','.join(f'{coord[0]} {coord[1]}' for coord in polygon)
-        # Add first coordinate to end, otherwise MySQL won't be happy.
-        coords += f',{polygon[0][0]} {polygon[0][1]}'
-        if query:
-            query += ' OR '
-        query += (f"ST_CONTAINS(ST_GeomFromText('POLYGON(({coords}))'), "
-                  f"Point({table_name}.latitude, {table_name}.longitude))")
-
-    return f'({query})'
 
 
 def orm_to_dict(orm_result):
@@ -925,10 +936,10 @@ def drop_rm_tables():
                       table.__tablename__)
 
 
-def add_column(table_name, column):
+def add_column(table_model, column):
     column_name = column.compile(dialect=db.engine.dialect)
     column_type = column.type.compile(db.engine.dialect)
-    db.session.execute('ALTER TABLE {} ADD COLUMN {} {}'.format(
+    db.session.execute('ALTER TABLE %s ADD COLUMN %s %s'.format(
         table_name, column_name, column_type))
 
 
@@ -998,8 +1009,8 @@ def clean_db_loop(app):
 
                 # Clean weather... only changes at full hours anyway...
                 Weather.query.filter(
-                    Weather.last_updated
-                    < datetime.utcnow() - timedelta(hours=1)
+                    Weather.last_updated <
+                    datetime.utcnow() - timedelta(hours=1)
                 ).delete()
                 db.session.commit()
 
@@ -1112,10 +1123,8 @@ def db_clean_spawnpoints(age_hours):
     spawnpoint_timeout = datetime.now() - timedelta(hours=age_hours)
 
     rows = TrsSpawn.query.filter(
-        (TrsSpawn.last_scanned < spawnpoint_timeout)
-        | TrsSpawn.last_scanned.is_(None),
-        (TrsSpawn.last_non_scanned < spawnpoint_timeout)
-        | TrsSpawn.last_non_scanned.is_(None)
+        TrsSpawn.last_scanned < spawnpoint_timeout,
+        TrsSpawn.last_non_scanned < spawnpoint_timeout
     ).delete()
     db.session.commit()
     log.debug('Deleted %d old TrsSpawn entries.', rows)

@@ -22,14 +22,14 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends curl \
  && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
  && apt-get install -y --no-install-recommends \
-        build-essential git imagemagick nodejs unzip \
+        build-essential imagemagick nodejs unzip \
  && pip install --no-cache-dir dumb-init \
  && pip install --no-cache-dir -r requirements.txt \
  && npm install \
  && npm run build \
  && rm -rf node_modules \
  && rm -rf /var/lib/apt/lists/* \
- && apt-get purge -y --auto-remove build-essential git nodejs unzip
+ && apt-get purge -y --auto-remove build-essential curl nodejs unzip
 
 # Copy everything to the working directory (Python files, templates, config) in one go.
 COPY . /usr/src/app/

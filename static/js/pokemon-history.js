@@ -3,13 +3,23 @@ let rawDataIsLoading = false
 let detailsLoading = false
 let appearancesTimesLoading = false
 let mapLoaded = false
-const mapData = {
+let mapData = {
     appearances: {}
 }
 let map
 let markers
 let heatLayer
 let detailsPersist = false
+
+function enableDarkMode() {
+    $('body').addClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#212121')
+}
+
+function disableDarkMode() {
+    $('body').removeClass('dark')
+    $('meta[name="theme-color"]').attr('content', '#ffffff')
+}
 
 function initSidebar() {
     $('#duration-select').on('change', function () {
@@ -42,11 +52,16 @@ function initSidebar() {
 
 function loadRawData() {
     return $.ajax({
-        url: 'raw-data',
+        url: 'raw_data',
         type: 'GET',
         data: {
-            seen: true,
-            duration: Store.get('pokemonHistoryDuration')
+            'pokemon': false,
+            'pokestops': false,
+            'gyms': false,
+            'raids': false,
+            'scanned': false,
+            'seen': true,
+            'duration': Store.get('pokemonHistoryDuration')
         },
         dataType: 'json',
         beforeSend: function () {
@@ -60,20 +75,30 @@ function loadRawData() {
             rawDataIsLoading = false
         },
         error: function () {
-            toastError(i18n('Error getting data!'), i18n('Please check your connection.'))
+            toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
         }
     })
 }
 
 function loadDetails(pokemonId, formId) {
     return $.ajax({
-        url: 'raw-data',
+        url: 'raw_data',
         type: 'GET',
         data: {
-            appearances: true,
-            pokemonid: pokemonId,
-            formid: formId,
-            duration: Store.get('pokemonHistoryDuration')
+            'pokemon': false,
+            'pokestops': false,
+            'gyms': false,
+            'raids': false,
+            'scanned': false,
+            'appearances': true,
+            'pokemonid': pokemonId,
+            'formid': formId,
+            'duration': Store.get('pokemonHistoryDuration')
         },
         dataType: 'json',
         beforeSend: function () {
@@ -87,21 +112,32 @@ function loadDetails(pokemonId, formId) {
             detailsLoading = false
         },
         error: function () {
-            toastError(i18n('Error getting data!'), i18n('Please check your connection.'))
+            toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
         }
     })
 }
 
 function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
     return $.ajax({
-        url: 'raw-data',
+        url: 'raw_data',
         type: 'GET',
         data: {
-            appearancesDetails: true,
-            pokemonid: pokemonId,
-            formid: formId,
-            spawnpoint_id: spawnpointId,
-            duration: Store.get('pokemonHistoryDuration')
+            'pokemon': false,
+            'pokestops': false,
+            'gyms': false,
+            'raids': false,
+            'scanned': false,
+            'appearances': false,
+            'appearancesDetails': true,
+            'pokemonid': pokemonId,
+            'formid': formId,
+            'spawnpoint_id': spawnpointId,
+            'duration': Store.get('pokemonHistoryDuration')
         },
         dataType: 'json',
         beforeSend: function () {
@@ -115,7 +151,12 @@ function loadAppearancesTimes(pokemonId, formId, spawnpointId) {
             appearancesTimesLoading = false
         },
         error: function () {
-            toastError(i18n('Error getting data!'), i18n('Please check your connection.'))
+            toastError(i8ln('Error getting data!'), i8ln('Please check your connection.'))
+        },
+        success: function (data) {
+            if (data.auth_redirect) {
+                window.location = data.auth_redirect
+            }
         }
     })
 }
@@ -126,20 +167,20 @@ function updateHistory() {
     $('.preloader-wrapper').show()
 
     loadRawData().done(function (result) {
-        $('#pokemon-seen').html(result.seen.total.toLocaleString() + ' ' + i18n('Pokémon seen in') + ' ' + $('#duration-select option:selected').text().toLowerCase())
+        $('#pokemon-seen').html(result.seen.total.toLocaleString() + ' Pokémon seen in ' + $('#duration-select option:selected').text().toLowerCase())
 
         table.clear()
         for (let i = 0; i < result.seen.pokemon.length; i++) {
             const item = result.seen.pokemon[i]
             table.row.add([
-                `<img src='${getPokemonRawIconUrl(item, serverSettings.generateImages)}' style='width: 32px;'>`,
+                serverSettings.generateImages ? `<img src='${getPokemonRawIconUrl(item)}' style='width: 32px;'>` : `<i class="pokemon-sprite n${item.pokemon_id}"</i>`,
                 item.pokemon_id,
                 getPokemonName(item.pokemon_id),
                 item.form ? getFormName(item.pokemon_id, item.form) : '',
                 item.count,
                 (item.count / result.seen.total) * 100,
                 item.disappear_time,
-                `<a href="javascript:void(0);" onclick="javascript:showMapOverlay(${item.pokemon_id}, ${item.form});">${i18n('All locations')}</a>`
+                `<a href="javascript:void(0);" onclick="javascript:showMapOverlay(${item.pokemon_id}, ${item.form});">All locations</a>`
             ])
         }
         table.draw()
@@ -156,13 +197,13 @@ function updateHistory() {
 }
 
 function createOverlayCloseButton() {
-    const control = L.control({ position: 'topright' })
+    let control = L.control({position: 'topright'})
     control.onAdd = function (map) {
-        const container = L.DomUtil.create('div', 'leaflet-control-custom leaflet-bar')
+        let container = L.DomUtil.create('div', 'leaflet-control-custom leaflet-bar')
 
-        const closeButton = document.createElement('a')
+        let closeButton = document.createElement('a')
         closeButton.innerHTML = '<i class="material-icons">close</i>'
-        closeButton.title = i18n('Close map')
+        closeButton.title = 'Close map'
         closeButton.href = 'javascript:void(0);'
         container.appendChild(closeButton)
         closeButton.addEventListener('click', hideMapOverlay)
@@ -195,11 +236,11 @@ function initMap() {
     map.on('click', closeTimes)
 
     markers = L.layerGroup().addTo(map)
-    heatLayer = L.heatLayer([], { radius: 50 }).addTo(map)
+    heatLayer = L.heatLayer([], {radius: 50}).addTo(map)
 
     const overlayMaps = {
-        [i18n('Markers')]: markers,
-        [i18n('Heat map')]: heatLayer
+      "Markers": markers,
+      "Heat map": heatLayer
     }
     L.control.layers(null, overlayMaps).addTo(map)
 
@@ -233,8 +274,8 @@ function addListeners(marker) {
 
 function processAppearance(idx, item) {
     const spawnpointId = item.spawnpoint_id
-    if (!(spawnpointId in mapData.appearances)) {
-        item.marker = setupPokemonMarker(item, markers, serverSettings.generateImages)
+    if (!mapData.appearances.hasOwnProperty(spawnpointId)) {
+        item.marker = setupPokemonMarker(item, markers)
         addListeners(item.marker)
         item.marker.spawnpointId = spawnpointId
         mapData.appearances[spawnpointId] = item
@@ -262,16 +303,16 @@ function appearanceTab(item) {
               <a href="javascript:closeTimes();" title="Close appearances"><i class="material-icons">close</i></a>
             </div>
             <div>
-              <strong>${i18n('Lat')}:</strong> ${item.latitude.toFixed(7)}
+              <strong>Lat:</strong> ${item.latitude.toFixed(7)}
             </div>
             <div>
-              <strong>${i18n('Lng')}:</strong> ${item.longitude.toFixed(7)}
+              <strong>Lng:</strong> ${item.longitude.toFixed(7)}
             </div>
             <div style="margin-bottom:1em;">
-              <strong>${i18n('Times seen')}:</strong> ${item.count.toLocaleString()}
+              <strong>Times seen:</strong> ${item.count.toLocaleString()}
             </div>
             <div>
-              <strong>${i18n('Appearances')}:</strong>
+              <strong>Appearances:</strong>
             </div>
             ${times}`
     })
@@ -327,7 +368,7 @@ $(function () {
         showMapOverlay(pokemonId, formId)
     }
 
-    const formNameType = $.fn.dataTable.absoluteOrder([
+    let formNameType = $.fn.dataTable.absoluteOrder([
         { value: '', position: 'bottom' }
     ])
 
@@ -337,32 +378,29 @@ $(function () {
         info: false,
         order: [[4, 'desc']],
         responsive: true,
-        language: {
-            url: getDataTablesLocUrl()
-        },
-        columnDefs: [
-            { orderable: false, targets: [0, 7] },
-            { type: formNameType, targets: 3 },
-            { responsivePriority: 1, targets: 0 },
-            { responsivePriority: 2, targets: 4 },
-            { responsivePriority: 3, targets: 2 },
-            { responsivePriority: 4, targets: 1 },
-            { responsivePriority: 5, targets: 3 },
-            { responsivePriority: 6, targets: 6 },
-            { responsivePriority: 7, targets: 5 },
-            { responsivePriority: 8, targets: 7 },
+        'columnDefs': [
+            { 'orderable': false, 'targets': [0, 7]},
+            { type: formNameType, 'targets': 3},
+            { responsivePriority: 1, 'targets': 0 },
+            { responsivePriority: 2, 'targets': 4 },
+            { responsivePriority: 3, 'targets': 2 },
+            { responsivePriority: 4, 'targets': 1 },
+            { responsivePriority: 5, 'targets': 3 },
+            { responsivePriority: 6, 'targets': 6 },
+            { responsivePriority: 7, 'targets': 5 },
+            { responsivePriority: 8, 'targets': 7 },
             {
-                targets: 1,
-                render: function (data, type, row) {
+                'targets': 1,
+                'render': function (data, type, row) {
                     if (type === 'display') {
-                        return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title="${i18n('View on GamePress')}">#${row[1]}</a>`
+                        return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title="View on GamePress">#${row[1]}</a>`
                     }
                     return row[1]
                 }
             },
             {
-                targets: 4,
-                render: function (data, type, row) {
+                'targets': 4,
+                'render': function (data, type, row) {
                     if (type === 'display') {
                         return row[4].toLocaleString()
                     }
@@ -370,17 +408,17 @@ $(function () {
                 }
             },
             {
-                targets: 5,
-                render: function (data, type, row) {
+                'targets': 5,
+                'render': function (data, type, row) {
                     if (type === 'display') {
-                        return row[5].toLocaleString(undefined, { maximumFractionDigits: 4 }) + '%'
+                        return row[5].toLocaleString(undefined, {maximumFractionDigits: 4}) + '%'
                     }
                     return row[5]
                 }
             },
             {
-                targets: 6,
-                render: function (data, type, row) {
+                'targets': 6,
+                'render': function (data, type, row) {
                     if (type === 'display') {
                         return timestampToDateTime(row[6])
                     }
@@ -390,7 +428,7 @@ $(function () {
         ]
     })
 
-    initI18nDictionary().then(function () {
+    initI8lnDictionary().then(function () {
         return initPokemonData()
     }).then(function () {
         updateHistory()

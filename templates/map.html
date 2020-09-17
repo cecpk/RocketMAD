@@ -1,10 +1,3 @@
-<!-- Set jinja variables here -->
-{% if custom_favicon %}
-  {% set appicons_dir = url_for('static', filename='images/appicons/custom/') %}
-{% else %}
-  {% set appicons_dir = url_for('static', filename='images/appicons/') %}
-{% endif %}
-
 <!DOCTYPE html>
 <html lang="{{lang}}">
   <head>
@@ -22,26 +15,24 @@
     <title>{{ map_title }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ appicons_dir }}apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ appicons_dir }}favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ appicons_dir }}favicon-16x16.png">
-    <link rel="manifest" href="{{ appicons_dir }}site.webmanifest">
-    <link rel="mask-icon" href="{{ appicons_dir }}safari-pinned-tab.svg" color="black">
-    <link rel="shortcut icon" href="{{ appicons_dir }}favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/images/appicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/images/appicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/images/appicons/favicon-16x16.png">
+    <link rel="manifest" href="static/images/appicons/site.webmanifest">
+    <link rel="mask-icon" href="static/images/appicons/safari-pinned-tab.svg" color="black">
+    <link rel="shortcut icon" href="static/images/appicons/favicon.ico">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="{{ appicons_dir }}browserconfig.xml') }}">
+    <meta name="msapplication-config" content="static/images/appicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/extras/noUiSlider/nouislider.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/MarkerCluster.min.css">
-    {% if settings.geocoder %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.min.css">
-    {% endif %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-geosearch@2.7.0/assets/css/leaflet.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
   </head>
@@ -54,16 +45,15 @@
             <ul>
               <li><a href="javascript:void(0);" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
-                <a href="{{ url_for('map_page') }}" class="brand-logo">
-                  {{ map_title }}{% if header_image %}<img src="{{ url_for('static', filename='images/header/') }}{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
+                <a href="./" class="brand-logo">
+                  {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
                 </a>
               </li>
             </ul>
             <ul class="right">
-              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or admin or pokemon_history_page or quest_page %}
-              <li><a data-target="weather-modal" id="weather-button" class="modal-trigger" title="Weather" style="display:none;"><i class="material-icons"></i></a></li>
+              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or pokemon_history_page or quest_page %}
               {% if use_dropdown %}
-              <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">more_vert</i></a></li>
+              <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>
               {% endif %}
               {% if discord_url %}
               <li><a href="{{ discord_url }}" class="hide-on-small-only" title="Discord" target="_blank"><i class="fab fa-discord material-icons"></i></a></li>
@@ -84,22 +74,20 @@
               <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ i18n('Donate') }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
               {% endif %}
               {% if madmin_url %}
-              <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
+              <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">info</i></a></li>
               {% endif %}
-              {% if admin %}
-              <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
-              {% endif %}
+              <li><a data-target="weather-modal" id="weather-button" class="modal-trigger" title="Weather" style="display:none;"><i class="material-icons"></i></a></li>
               {% if pokemon_history_page %}
-              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="{{ i18n('Pokémon history') }}"><i class="material-icons">pets</i></a></li>
+              <li><a href="pokemon-history" class="hide-on-small-only" title="Pokémon history"><i class="material-icons">pets</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="{{ i18n('Quests') }}"><i class="material-icons">explore</i></a></li>
+              <li><a href="quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
               {% endif %}
               {% if client_auth %}
               {% if logged_in %}
-              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="{{ i18n('Log out') }}"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="logout" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
               {% else %}
-              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="{{ i18n('Log in') }}"><i class="material-icons">account_box</i></a></li>
+              <li><a href="login" class="hide-on-small-only" title="Log in"><i class="material-icons">account_box</i></a></li>
               {% endif %}
               {% endif %}
               {% if settings.statsSidebar %}
@@ -114,28 +102,33 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if pokemon_history_page %}
-      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>{{ i18n('Pokémon history') }}</a></li>
+      <li><a href="pokemon-history"><i class="material-icons">pets</i>Pokémon history</a></li>
       {% endif %}
       {% if quest_page %}
-      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('Quests') }}</a></li>
-      {% endif %}
-      {% if admin %}
-      <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
+      <li><a href="quests"><i class="material-icons">explore</i>Quests</a></li>
       {% endif %}
       {% if madmin_url %}
-      <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">phone_android</i>MADmin</a></li>
+      <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
+      {% endif %}
+      {% if client_auth %}
+      {% if logged_in %}
+      <li><a href="logout"><i class="material-icons">exit_to_app</i>Log out</a></li>
+      {% else %}
+      <li><a href="login"><i class="material-icons">account_box</i>Log in</a></li>
+      {% endif %}
       {% endif %}
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
+      {% endif %}
       {% if donate_url %}
       <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ i18n('Donate') }}</a></li>
       {% endif %}
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
       {% endif %}
-      {% endif %}
       {% if discord_url or messenger_url or telegram_url or whatsapp_url %}
       <li class="divider" tabindex="-1"></li>
+      {% endif %}
       {% if discord_url %}
       <li><a href="{{ discord_url }}" target="_blank"><i class="fab fa-discord"></i>Discord</a></li>
       {% endif %}
@@ -147,15 +140,6 @@
       {% endif %}
       {% if whatsapp_url %}
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
-      {% endif %}
-      {% endif %}
-      {% if client_auth %}
-      <li class="divider" tabindex="-1"></li>
-      {% if logged_in %}
-      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>{{ i18n('Log out') }}</a></li>
-      {% else %}
-      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>{{ i18n('Log in') }}</a></li>
-      {% endif %}
       {% endif %}
     </ul>
     {% endif %}
@@ -190,9 +174,9 @@
             </div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -203,7 +187,7 @@
     {% if settings.pokemonValues %}
     <div id="pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="filter-values-pokemon-title">{{ i18n('Pokémon filtered by values') }}</h6>
+        <h6 id="filter-values-pokemon-title">Pokémon filtered by values</h6>
         <label for="unfiltered-pokemon">
           <input id="unfiltered-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -214,9 +198,9 @@
             </div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -238,9 +222,9 @@
             </div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -266,9 +250,9 @@
               </div>
               <div class="filter-footer-right">
                 <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
                 <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               </div>
             </div>
           </label>
@@ -281,7 +265,7 @@
               <div></div>
               <div class="filter-footer-right">
                 <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               </div>
             </div>
           </label>
@@ -301,7 +285,7 @@
             <div></div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -334,9 +318,9 @@
             </div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -347,7 +331,7 @@
     {% if settings.pokemonValues %}
     <div id="notif-pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="notif-pokemon-values-filter-title">{{ i18n('Notif Pokémon filtered by values') }}</h6>
+        <h6 id="notif-pokemon-values-filter-title">Notif Pokémon filtered by values</h6>
         <label for="no-notif-values-pokemon">
           <input id="no-notif-values-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -358,9 +342,9 @@
             </div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -382,9 +366,9 @@
             </div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -410,9 +394,9 @@
               </div>
               <div class="filter-footer-right">
                 <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
                 <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">clear</i></a>
               </div>
             </div>
           </label>
@@ -425,7 +409,7 @@
               <div></div>
               <div class="filter-footer-right">
                 <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
               </div>
             </div>
           </label>
@@ -445,7 +429,7 @@
             <div></div>
             <div class="filter-footer-right">
               <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">clear</i></a>
             </div>
           </div>
         </label>
@@ -758,7 +742,7 @@
                 </div>
               </div>
               <div class="form-control">
-                <span id="gym-level-slider-title" class="slider-title">{{ i18n('Gym levels') }}</span>
+                <span id="gym-level-slider-title" class="slider-title">Gym levels</span>
                 <div class="slider-container">
                   <div id="gym-level-slider"></div>
                 </div>
@@ -860,7 +844,6 @@
                     <option value="3">{{ i18n('Level 3') }}</option>
                     <option value="4">{{ i18n('Level 4') }}</option>
                     <option value="5">{{ i18n('Level 5') }}</option>
-                    <option value="6">{{ i18n('Level 6') }}</option>
                   </select>
                 </div>
               </div>
@@ -1076,7 +1059,7 @@
         </div>
       </li>
       {% endif %}
-      {% if settings.spawnpoints or settings.scannedLocs or settings.nestParks or settings.exParks or settings.ranges %}
+      {% if settings.spawnpoints or settings.scannedLocs or settings.nestParks or settings.exParks or settings.ranges or settings.pokemonNests %}
       <li>
         <div class="collapsible-header"><i class="material-icons">map</i>{{ i18n('Map misc') }}</div>
         <div class="collapsible-body">
@@ -1099,6 +1082,17 @@
                   <input type="checkbox" id="scanned-locs-switch">
                   <span class="lever"></span>
                   {{ i18n('Scanned locations') }}
+                </label>
+              </div>
+            </div>
+            {% endif %} 
+              {% if settings.pokemonNests %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="pokemon-nests-park-switch">
+                  <span class="lever"></span>
+                  {{ i18n('Pokemons nests') }}
                 </label>
               </div>
             </div>
@@ -1125,7 +1119,6 @@
               </div>
             </div>
             {% endif %}
-            {% if settings.ranges and (settings.pokemons or settings.gyms or settings.pokestops or settings.spawnpoints) %}
             <div class="form-control">
               <div class="switch">
                 <label>
@@ -1140,23 +1133,14 @@
                 <div class="input-field">
                   <div class="select-title">{{ i18n('Filter interaction ranges') }}</div>
                   <select id="range-type-select" multiple>
-                    {% if settings.pokemons %}
                     <option value="1">{{ i18n('Pokémon ranges') }}</option>
-                    {% endif %}
-                    {% if settings.gyms %}
                     <option value="2">{{ i18n('Gym ranges') }}</option>
-                    {% endif %}
-                    {% if settings.pokestops %}
                     <option value="3">{{ i18n('PokéStop ranges') }}</option>
-                    {% endif %}
-                    {% if settings.spawnpoints %}
                     <option value="4">{{ i18n('Spawn point ranges') }}</option>
-                    {% endif %}
                   </select>
                 </div>
               </div>
             </div>
-            {% endif %}
           </div>
         </div>
       </li>
@@ -1270,13 +1254,13 @@
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="pokemon-ivs-notifs-slider-title" class="slider-title">{{ i18n('Notif IVs') }}</span>
+                  <span id="pokemon-ivs-notifs-slider-title" class="slider-title">Notif IVs</span>
                   <div class="slider-container">
                     <div id="pokemon-ivs-notifs-slider"></div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="pokemon-level-notifs-slider-title" class="slider-title">{{ i18n('Notif Levels') }}</span>
+                  <span id="pokemon-level-notifs-slider-title" class="slider-title">Notif Levels</span>
                   <div class="slider-container">
                     <div id="pokemon-level-notifs-slider"></div>
                   </div>
@@ -1381,7 +1365,6 @@
                     <option value="3">{{ i18n('Level 3') }}</option>
                     <option value="4">{{ i18n('Level 4') }}</option>
                     <option value="5">{{ i18n('Level 5') }}</option>
-                    <option value="6">{{ i18n('Level 6') }}</option>
                   </select>
                 </div>
               </div>
@@ -1489,6 +1472,7 @@
                 <div class="select-title">{{ i18n('Map style') }}</div>
                 <select id="map-style-select">
                   <option value="mapnik">Mapnik</option>
+                  <option value="wikimedia">Wikimedia</option>
                   <option value="topomap">ToPo Map</option>
                   <option value="cartodbdarkmatter">CartoDB Darkmatter</option>
                   <option value="cartodbdarkmatternolabels">CartoDB Darkmatter ({{ i18n('no labels') }})</option>
@@ -1603,7 +1587,7 @@
       {% if settings.gyms or settings.raids %}
       <div id="gym-stats-tab">
         {% if settings.gyms %}
-        <h6 id="gym-table-title">{{ i18n('Gyms') }}</h6>
+        <h6 id="gym-table-title">Gyms</h6>
         <table id="gym-table" class="order-column row-border top-border hover" width="100%">
           <thead>
             <tr>
@@ -1618,7 +1602,7 @@
         </table>
         {% endif %}
         {% if settings.raids %}
-        <h6 id="egg-table-title">{{ i18n('Eggs') }}</h6>
+        <h6 id="egg-table-title">Eggs</h6>
         <table id="egg-table" class="order-column row-border top-border hover" width="100%">
           <thead>
             <tr>
@@ -1631,7 +1615,7 @@
           <tbody>
           </tbody>
         </table>
-        <h6 id="raid-pokemon-table-title">{{ i18n('Raid Bosses') }}</h6>
+        <h6 id="raid-pokemon-table-title">Raid Bosses</h6>
         <table id="raid-pokemon-table" class="order-column row-border top-border hover" width="100%">
           <thead>
             <tr>
@@ -1767,16 +1751,13 @@
     </div>
 
     <script>
-      const version = "{{ version }}";
-      const serverSettings = {{ settings|tojson|safe }};
+      const serverSettings = {{settings|tojson|safe}};
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    {% if settings.geocoder %}
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.min.js"></script>
-    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-geosearch@2.7.0/dist/bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.smooth_marker_bouncing@1.3.0/leaflet.smoothmarkerbouncing.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/js/materialize.min.js"></script>

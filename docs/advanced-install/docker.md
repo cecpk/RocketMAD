@@ -1,4 +1,4 @@
-# Docker (Outdated)
+# Docker
 
 Docker is a great way to run "containerized" applications easily and without installing tons of stuff into your computer.
 

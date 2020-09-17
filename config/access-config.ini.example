@@ -7,8 +7,6 @@
 #location:                      # Location, can be an address or coordinates.
 
 #map-title:                     # Title of the map. (default='RocketMAD')
-#custom-favicon                 # Use a custom favicon. Generate your custom favicon files here: https://realfavicongenerator.net and place them in /static/images/appicons/custom.
-                                # Set the path under Favicon Generator Options to '/static/images/appicons/custom'. (default=False)
 #no-header-image                # Hides header image. (default=False)
 #header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
 #madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
@@ -24,14 +22,10 @@
 #cluster-zoom-level-mobile:     # Zoom level from which markers should be clustered on mobile. Range: [0,18]. -1 to disable clustering on mobile. (default=14)
 #max-cluster-radius:            # The maximum radius that a cluster will cover from the central marker (in pixels). (default=60)
 #spiderfy-clusters              # Spiderfy clusters at the bottom zoom level. (default=False)
-#markers-outside-viewport       # Do not remove markers outside visible bounds. (default=False)
-#no-autopan-popup               # Enable if you don't want the map to do a panning animation to fit opened popups on mobile devices. (default=False)
-#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position. (default=False)
-#no-geocoder                    # Do not add the geocoder (location search bar) to the map. (default=False)
+#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position.
 
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
-#catch-rates                    # Show catch rates for all three balls. (default=False)
 #rarity                         # Display Pokémon rarity. (default=False)
 #upscaled-pokemon:              # Pokémon IDs to upscale icons for. Seperate IDs with commas. (default=None)
 #no-pokemon-history-page        # Disables pokemon history page. (default=False)
@@ -58,9 +52,6 @@
 #no-s2-cells                    # Disables s2 cells. (default=False)
 #no-ranges                      # Disables user to show interaction ranges. (default=False)
 
-#geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
-#geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
-
 #ex-parks                       # Enables ex raid eligible parks drawing. (default=False)
 #nest-parks                     # Enables nest parks drawing. (default=False)
 #ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
@@ -69,7 +60,7 @@
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
 #twelve-hour-clock              # Display time with the 12-hour clock format.
 #analytics-id:                  # Google Analytics Tracking-ID. (default=None)
-#map-update-interval:           # Interval between raw-data requests (map updates) in milliseconds. (default=2500)
+#map-update-interval:           # Interval between raw_data requests (map updates) in milliseconds. (default=2500)
 
 #motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
 #motd-title:                    # MOTD title, can be HTML. (default='MOTD')

@@ -1,4 +1,4 @@
-# Supervisord on Linux (Outdated)
+# Supervisord on Linux
 
 ## Assuming:
 

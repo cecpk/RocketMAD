@@ -1,4 +1,4 @@
-# Geofences (Outdated)
+# Geofences
 
 With the help of geofences you can define your search area even better. This feature let's you line out areas you are interested in without scanning overhead. Also you can exclude areas where no scan should happen due to the sake of security or respective issues. Lastly, with Geofences you can scan geometries which were not possible to define in before.
 

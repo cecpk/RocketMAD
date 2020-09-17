@@ -16,8 +16,6 @@
 #################
 
 #map-title:                     # Title of the map. (default='RocketMAD')
-#custom-favicon                 # Use a custom favicon. Generate your custom favicon files here: https://realfavicongenerator.net and place them in /static/images/appicons/custom.
-                                # Set the path under Favicon Generator Options to '/static/images/appicons/custom'. (default=False)
 #no-header-image                # Hides header image. (default=False)
 #header-image:                  # Image in header. Place image in 'static/images/header'. (default='rocket.png')
 #madmin-url:                    # MADmin URL e.g. http://127.0.0.1:5001/map (default=None)
@@ -33,14 +31,10 @@
 #cluster-zoom-level-mobile:     # Zoom level from which markers should be clustered on mobile. Range: [0,18]. -1 to disable clustering on mobile. (default=14)
 #max-cluster-radius:            # The maximum radius that a cluster will cover from the central marker (in pixels). (default=60)
 #spiderfy-clusters              # Spiderfy clusters at the bottom zoom level. (default=False)
-#markers-outside-viewport       # Do not remove markers outside visible bounds. (default=False)
-#no-autopan-popup               # Enable if you don't want the map to do a panning animation to fit opened popups on mobile devices. (default=False)
-#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position. (default=False)
-#no-geocoder                    # Do not add the geocoder (location search bar) to the map. (default=False)
+#lock-start-marker              # Disables dragging the start marker and hence disables changing the start position.
 
 #no-pokemon                     # Disables pokemon. (default=False)
 #no-pokemon-values              # Disables pokemon values. (ivs, cp, moves, etc.) (default=False)
-#catch-rates                    # Show catch rates for all three balls. (default=False)
 #upscaled-pokemon:              # Pokémon IDs to upscale icons for. Seperate IDs with commas. (default=None)
 #no-pokemon-history-page        # Disables pokemon history page. (default=False)
 #verified-despawn-time          # Show if pokemon despawn time is verified.
@@ -71,37 +65,13 @@
 #no-stats-sidebar               # Hides stats sidebar. (default=False)
 #twelve-hour-clock              # Display time with the 12-hour clock format.
 #analytics-id:                  # Google Analytics Tracking-ID. (default=None)
-#map-update-interval:           # Interval between raw-data requests (map updates) in milliseconds. (default=2500)
+#map-update-interval:           # Interval between raw_data requests (map updates) in milliseconds. (default=2500)
 
 #motd                           # Shows a MOTD (Message of the Day) on visit. (default=False)
 #motd-title:                    # MOTD title, can be HTML. (default='MOTD')
 #motd-text:                     # MOTD text, can be HTML. (default='Hi there! This is an easily customizable MOTD.')
 #motd-pages:                    # Pages the MOTD should be shown on. (default=['/', '/mobile'])
 #show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)
-
-
-# Geofence settings
-###################
-# Place your geofence files in the geofences folder.
-
-#geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
-#geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
-
-
-# Parks
-#######
-# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
-# Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
-
-#ex-parks                       # Display ex raid eligible parks. (default=False)
-#nest-parks                     # Display nest parks. (default=False)
-#ex-parks-downloading           # Enables ex raid eligible parks downloading. (default=False)
-#nest-parks-downloading         # Enables nest parks downloading. (default=False)
-#ex-parks-geofence-file:        # Geofence file to define outer borders of the ex park area to download. Place file in the geofences folder.
-#nest-parks-geofence-file:      # Geofence file to define outer borders of the nest park area to download. Place file in the geofences folder.
-#ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
-#nest-parks-filename:           # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
-#parks-query-timeout:           # The maximum allowed runtime for the parks query in seconds. (default=86400)
 
 
 # Database settings
@@ -112,7 +82,6 @@
 #db-user:                       # Required for mysql
 #db-pass:                       # Required for mysql
 #db-port:                       # Required for mysql (default=3306)
-#db-pool-recycle:               # Number of seconds after which a connection is automatically recycled. (default=7200)
 
 
 #Database cleanup
@@ -140,6 +109,7 @@
 #ssl-privatekey:                # Path to ssl private key
 #encrypt-lib:                   # Path to encrypt lib to be used instead of the shipped ones.
 #trusted-proxies:               # Enables the use of X-FORWARDED-FOR headers to identify the IP of clients connecting through these trusted proxies. (default=[])
+#disable-blacklist              # Disable the global anti-scraper IP blacklist.
 
 
 # Status and logs
@@ -163,34 +133,34 @@
 #rarity-filename:               # Name of the JSON file (without .json) for dynamic rarity. Useful when running two or more instances out of the same folder. (default='rarity')
 
 
+# Parks
+#######
+# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
+# Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
+
+#ex-parks                       # Display ex raid eligible parks. (default=False)
+#nest-parks                     # Display nest parks. (default=False)
+#ex-parks-downloading           # Enables ex raid eligible parks downloading. (default=False)
+#nest-parks-downloading         # Enables nest parks downloading. (default=False)
+#ex-parks-geofence-file:        # Geofence file to define outer borders of the ex park area to download.
+#nest-parks-geofence-file:      # Geofence file to define outer borders of the nest park area to download.
+#ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')
+#nest-parks-filename:           # Name of the JSON file (without .json) for nest parks. Useful when running two or more instances out of the same folder. (default='parks-nest')
+#parks-query-timeout:           # The maximum allowed runtime for the parks query in seconds. (default=86400)
+
+
 # User authentication
 ####################
-# You need to have redis installed for user authentication, do not setup any password on redis.
-# [sudo] apt install redis-server
-# Settings without default value (server-uri, secret-key) must be set.
 
-#server-uri:                    # Real URI of your website/server (e.g. https://myrocketmad.com). Authentication apps will use this to redirect the user to.
-#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long, just generate/type some gibberish.
+#server-uri:                    # URI of your website/server. Authentication apps will use this to redirect the user to.
+#secret-key:                    # Key used to sign sessions. Must be at least 16 characters long.
+#login-required                 # If enabled, user must be logged in with any auth system before one can access the map. (default=False)
 #redis-host:                    # Address of Redis server (Redis is used to store session data). (default='127.0.0.1')
 #redis-port:                    # Port of Redis server. (default=6379)
-#login-required                 # If enabled, user must be logged in with any auth system before one can access the map. (default=False)
-#no-multiple-logins             # Do not allow more than one login per account. (default=False)
-
-
-# Basic authentication
-####################
-# For Basic authentication submodule to work you need to enable main User authentication module few lines above
-
-#basic-auth                     # Authenticate users with a username and password. (default=False)
-#basic-auth-credentials:        # List of username and password combinations. Example: [un1:pw1, un2:pw2] (default=[])
-#basic-auth-case-sensitive      # Use case sensitive usernames. (default=False)
-#basic-auth-access-configs:     # Use different config file based on username. Example: [un1:access_config_name1, un2:access_config_name2] (default=[])
-#basic-auth-admins:             # Users that have admin rights. Accepts list of usernames. (default=[])
 
 
 # Discord authentication
 ####################
-# For Discord authentication submodule to work you need to enable main User authentication module above
 # If you want users to auth to Discord prior to accessing server, enable discord-auth, create an app here:
 # https://discordapp.com/developers/applications/me and add a redirect uri to your the application in this format: https://mysrv.com/auth/discord
 # To require a user to be in one of your guilds (servers) to gain access, specify the required guild ids and an invite url to send them to if
@@ -201,36 +171,34 @@
 #discord-auth                     # Authenticate users with Discord OAuth2. (default=False)
 #discord-client-id:               # OAuth2 client ID.
 #discord-client-secret:           # OAuth2 client secret.
-#discord-bot-token:               # Token for bot with access to your guild. Only required for required/blaclisted roles feature.
+#discord-bot-token:               # Token for bot with access to your guild. Only required for required-roles feature.
 #discord-blacklisted-users:       # List of user ID's that are always blocked from accessing the map. (default=[])
 #discord-whitelisted-users:       # List of user ID's that are always allowed to access the map. (default=[])
 #discord-required-guilds:         # If guild ID(s) are specified, user must be in at least one discord guild (server) to access map. Comma separated list if multiple. (default=[])
 #discord-blacklisted-guilds:      # If guild ID(s) are specified, user must NOT be in any of these guilds (servers) to access map. Comma separated list if multiple. (default=[])
 #discord-required-roles:          # If specified, user must have one of these discord roles (from a specific guild) to access map.
-                                  # Accepts list of role IDs, or list of guild IDs and roles IDs separated by ':'. Example: [<guild1>:<role1>, <guild2>:<role2>]. (default=[])
-#discord-blacklisted-roles:       # If specified, user must NOT have any of these discord roles (from a specific guild) to access map. (default=[])
+                                  # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
+#discord-blacklisted-roles:       # If specified, user must NOT have any of these discord roles (from a specific guild) to access map.
+                                  # Accepts comma separated list of role IDs, or comma separated list of guild IDs and roles IDs separated by ':' e.g. 12345:6789 (default=[])
 #discord-no-permission-redirect:  # Link to redirect user to if user has no permission. Typically this would be your discord guild invite link.
-#discord-access-configs:          # Use different config file based on discord role (or guild). Accepts list with elements in this format: <guild_id>:<role_id>:<access_config_name>
+#discord-access-configs:          # Use different config file based on discord role (or guild). Accepts list with elements in this format: guild_id:role_id:access_config_name
                                   # You can also only use guilds. If multiple config files correspond to one user, only the first file is used. (default=[])
-#discord-admins:                  # Discord users that have admin rights. Accepts list of Discord user IDs. (default=[])
 
 
 # Telegram authentication
 ####################
-# For Telegram auth submodule to work you need to enable main User authentication module above
 # If you want to authenticate users with Telegram, first create a bot with @Botfather.
 # Next find your bot token with @Botfather (/mybots -> API Token). With @Botfather set the Domain to your map URL (/mybots -> Bot Settings -> Domain).
 # You can retrieve chat and member IDs like this: https://api.telegram.org/bot<your_bot_token>/getUpdates
 
 #telegram-auth                    # Authenticate users with telegram. (default=False)
 #telegram-bot-token:              # Telegram bot token.
-#telegram-bot-username:           # Telegram bot username (without @).
+#telegram-bot-username:           # Telegram bot username.
 #telegram-blacklisted-users:      # List of user ID's that are always blocked from accessing the map. (default=[])
 #telegram-required-chats:         # If chat ID(s) are specified, user must be in at least one telegram group chat to access map. Comma separated list if multiple. (default=[])
 #telegram-no-permission-redirect:  # Link to redirect user to if user has no permission. Typically this would be your telegram group chat invite link.
 #telegram-access-configs:         # Use different config file based on telegram chat. Accepts list with elements in this format: <chat_id>:<access_config_name>
                                   # If multiple config files correspond to one user, only the first file is used. (default=[])
-#telegram-admins:                 # Telegram users that have admin rights. Accepts list of Telegram user IDs. (default=[])
 
 
 # Misc

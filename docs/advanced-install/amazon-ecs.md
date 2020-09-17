@@ -1,4 +1,4 @@
-# Amazon ECS (Outdated)
+# Amazon ECS
 
 > **Warning** -- Most cloud providers have been IP blocked from accessing the API
 

@@ -1,6 +1,6 @@
 {
   "0": {
-    "name": "Unknown"
+    "name": "Unkown"
   },
   "1": {
     "name": "Poké Ball",
@@ -22,11 +22,7 @@
   },
   "6": {
     "name": "Stardust",
-    "questBundles": [200, 500, 800, 1000, 1200, 1500]
-  },
-  "7": {
-    "name": "Mega Energy",
-    "questBundles": [5, 10, 20]
+    "questBundles": [200, 500, 1000, 1500]
   },
   "101": {
     "name": "Potion",
@@ -115,7 +111,7 @@
   },
   "708": {
     "name": "Silver Pinap Berry",
-    "questBundles": [2, 3, 5]
+    "questBundles": [5]
   },
   "801": {
     "name": "Camera"
@@ -164,7 +160,7 @@
   },
   "1301": {
     "name": "Rare Candy",
-    "questBundles": [1, 2, 3]
+    "questBundles": [1, 3]
   },
   "1401": {
     "name": "Free Raid Pass"

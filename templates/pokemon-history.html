@@ -1,10 +1,3 @@
-<!-- Set jinja variables here -->
-{% if custom_favicon %}
-  {% set appicons_dir = url_for('static', filename='images/appicons/custom/') %}
-{% else %}
-  {% set appicons_dir = url_for('static', filename='images/appicons/') %}
-{% endif %}
-
 <!DOCTYPE html>
 <html lang="{{lang}}">
   <head>
@@ -19,22 +12,22 @@
       gtag('config', '{{ analytics_id }}')
     </script>
     {% endif %}
-    <title>{{ map_title }} - {{ i18n('Pokémon history') }}</title>
+    <title>{{ map_title }} - Pokémon history</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ appicons_dir }}apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ appicons_dir }}favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ appicons_dir }}favicon-16x16.png">
-    <link rel="manifest" href="{{ appicons_dir }}site.webmanifest">
-    <link rel="mask-icon" href="{{ appicons_dir }}safari-pinned-tab.svg" color="black">
-    <link rel="shortcut icon" href="{{ appicons_dir }}favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/images/appicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/images/appicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/images/appicons/favicon-16x16.png">
+    <link rel="manifest" href="static/images/appicons/site.webmanifest">
+    <link rel="mask-icon" href="static/images/appicons/safari-pinned-tab.svg" color="black">
+    <link rel="shortcut icon" href="static/images/appicons/favicon.ico">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="{{ appicons_dir }}browserconfig.xml') }}">
+    <meta name="msapplication-config" content="static/images/appicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/materialize-css@1.0.0/dist/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/leaflet.fullscreen.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/r-2.2.3/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
@@ -48,15 +41,15 @@
             <ul>
               <li><a href="#" data-target="settings-sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a></li>
               <li>
-                <a href="{{ url_for('map_page') }}" class="brand-logo">
-                  {{ map_title }}{% if header_image %}<img src="{{ url_for('static', filename='images/header/') }}{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
+                <a href="./" class="brand-logo">
+                  {{ map_title }}{% if header_image %}<img src="static/images/header/{{ header_image_name }}" class="brand-logo-image" height="32">{% endif %}
                 </a>
               </li>
             </ul>
             <ul class="right">
-              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or admin or quest_page %}
+              {% set use_dropdown = discord_url or messenger_url or telegram_url or whatsapp_url or patreon_url or donate_url or madmin_url or quest_page %}
               {% if use_dropdown %}
-              <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">more_vert</i></a></li>
+              <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">apps</i></a></li>
               {% endif %}
               {% if discord_url %}
               <li><a href="{{ discord_url }}" class="hide-on-small-only" title="Discord" target="_blank"><i class="fab fa-discord material-icons"></i></a></li>
@@ -74,22 +67,19 @@
               <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="Patreon" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
               {% endif %}
               {% if donate_url %}
-              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ i18n('Donate') }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
+              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="Donate" target="_blank"><i class="material-icons">attach_money</i></a></li>
               {% endif %}
               {% if madmin_url %}
-              <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
-              {% endif %}
-              {% if admin %}
-              <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
+              <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">info</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="{{ i18n('Quests') }}"><i class="material-icons">explore</i></a></li>
+              <li><a href="quests" class="hide-on-small-only" title="Quests"><i class="material-icons">explore</i></a></li>
               {% endif %}
               {% if client_auth %}
               {% if logged_in %}
-              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="{{ i18n('Log out') }}"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="logout" class="hide-on-small-only" title="Log out"><i class="material-icons">exit_to_app</i></a></li>
               {% else %}
-              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="{{ i18n('Log in') }}"><i class="material-icons">account_box</i></a></li>
+              <li><a href="login" class="hide-on-small-only" title="Log in"><i class="material-icons">account_box</i></a></li>
               {% endif %}
               {% endif %}
             </ul>
@@ -101,25 +91,30 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if quest_page %}
-      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('Quests') }}</a></li>
-      {% endif %}
-      {% if admin %}
-      <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
+      <li><a href="quests"><i class="material-icons">explore</i>Quests</a></li>
       {% endif %}
       {% if madmin_url %}
-      <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">phone_android</i>MADmin</a></li>
+      <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">info</i>MADmin</a></li>
+      {% endif %}
+      {% if client_auth %}
+      {% if logged_in %}
+      <li><a href="logout"><i class="material-icons">exit_to_app</i>Log out</a></li>
+      {% else %}
+      <li><a href="login"><i class="material-icons">account_box</i>Log in</a></li>
+      {% endif %}
       {% endif %}
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
+      {% endif %}
       {% if donate_url %}
-      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ i18n('Donate') }}</a></li>
+      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>Donate</a></li>
       {% endif %}
       {% if patreon_url %}
       <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
       {% endif %}
-      {% endif %}
       {% if discord_url or messenger_url or telegram_url or whatsapp_url %}
       <li class="divider" tabindex="-1"></li>
+      {% endif %}
       {% if discord_url %}
       <li><a href="{{ discord_url }}" target="_blank"><i class="fab fa-discord"></i>Discord</a></li>
       {% endif %}
@@ -132,16 +127,6 @@
       {% if whatsapp_url %}
       <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
       {% endif %}
-      {% endif %}
-      {% if client_auth %}
-      <li class="divider" tabindex="-1"></li>
-      {% if logged_in %}
-      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>{{ i18n('Log out') }}</a></li>
-      {% else %}
-      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>{{ i18n('Log in') }}</a></li>
-      {% endif %}
-      {% endif %}
-
     </ul>
     {% endif %}
 
@@ -159,34 +144,35 @@
         <div class="settings-container">
           <div class="form-control">
             <div class="input-field">
-              <div class="select-title">{{ i18n('Duration') }}</div>
+              <div class="select-title">Duration</div>
               <select id="duration-select">
-                <option value="1">{{ i18n('Last hour') }}</option>
-                <option value="3">{{ i18n('Last 3 hours') }}</option>
-                <option value="6">{{ i18n('Last 6 hours') }}</option>
-                <option value="12">{{ i18n('Last 12 hours') }}</option>
-                <option value="24">{{ i18n('Last day') }}</option>
-                <option value="168">{{ i18n('Last 7 days') }}</option>
-                <option value="336">{{ i18n('Last 14 days') }}</option>
-                <option value="730">{{ i18n('Last month') }}</option>
-                <option value="2190">{{ i18n('Last 3 months') }}</option>
-                <option value="4380">{{ i18n('Last 6 months') }}</option>
-                <option value="8760">{{ i18n('Last year') }}</option>
-                <option value="876000">{{ i18n('Map lifetime') }}</option>
+                <option value="1">Last hour</option>
+                <option value="3">Last 3 hours</option>
+                <option value="6">Last 6 hours</option>
+                <option value="12">Last 12 hours</option>
+                <option value="24">Last day</option>
+                <option value="168">Last 7 days</option>
+                <option value="336">Last 14 days</option>
+                <option value="730">Last month</option>
+                <option value="2190">Last 3 months</option>
+                <option value="4380">Last 6 months</option>
+                <option value="8760">Last year</option>
+                <option value="876000">Map lifetime</option>
               </select>
             </div>
           </div>
           <div class="form-control">
             <div class="input-field">
-              <div class="select-title">{{ i18n('Map style') }}</div>
+              <div class="select-title">Map style</div>
               <select id="map-style-select">
                 <option value="mapnik">Mapnik</option>
+                <option value="wikimedia">Wikimedia</option>
                 <option value="topomap">ToPo Map</option>
                 <option value="cartodbdarkmatter">CartoDB Darkmatter</option>
-                <option value="cartodbdarkmatternolabels">CartoDB Darkmatter ({{ i18n('no labels') }})</option>
+                <option value="cartodbdarkmatternolabels">CartoDB Darkmatter (no labels)</option>
                 <option value="cartodbpositron">CartoDB Positron</option>
-                <option value="cartodbpositronnolabels">CartoDB Positron ({{ i18n('no labels') }})</option>
-                <option value="satellite">{{ i18n('Satellite') }}</option>
+                <option value="cartodbpositronnolabels">CartoDB Positron (no labels)</option>
+                <option value="satellite">Satellite</option>
               </select>
             </div>
           </div>
@@ -195,7 +181,7 @@
               <label>
                 <input type="checkbox" id="dark-mode-switch">
                 <span class="lever"></span>
-                {{ i18n('Dark mode') }}
+                Dark mode
               </label>
             </div>
           </div>
@@ -217,12 +203,12 @@
           <thead>
             <tr>
               <th></th>
-              <th>{{ i18n('ID') }}</th>
-              <th>{{ i18n('Name') }}</th>
-              <th>{{ i18n('Form') }}</th>
-              <th>{{ i18n('Seen') }}</th>
-              <th>{{ i18n('Seen') }} (%)</th>
-              <th>{{ i18n('Last seen') }}</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Form</th>
+              <th>Seen</th>
+              <th>Seen (%)</th>
+              <th>Last seen</th>
               <th></th>
             </tr>
           </thead>
@@ -246,11 +232,10 @@
     </div>
 
     <script>
-      const version = "{{ version }}";
-      const serverSettings = {{ settings|tojson|safe }};
+      const serverSettings = {{settings|tojson|safe}};
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet-fullscreen@1.0.2/dist/Leaflet.fullscreen.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>

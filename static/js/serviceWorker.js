@@ -33,7 +33,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/* global clients */
+ /* global clients */
 'use strict'
 
 function isFunction(obj) {
@@ -79,7 +79,7 @@ self.addEventListener('message', function (event) {
 self.onnotificationclick = function (event) {
     event.notification.close()
 
-    event.waitUntil(clients.matchAll({ includeUncontrolled: true, type: 'window' }).then(function (clientList) {
+    event.waitUntil(clients.matchAll({includeUncontrolled: true, type: 'window'}).then(function (clientList) {
         var client = findValidClient(clientList, event.notification.data.origin)
 
         if (client && 'focus' in client) {

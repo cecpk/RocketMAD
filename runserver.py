@@ -7,16 +7,17 @@ gevent.monkey.patch_all()
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
-    print("RocketMAD requires at least python 3.6! Your version: {}.{}"
+    print("RocketMAD requires at least python 3.6! " +
+          "Your version: {}.{}"
           .format(py_version.major, py_version.minor))
     sys.exit(1)
 
 import logging
 import os
 import re
-import redis
 import requests
 import ssl
+import time
 
 from colorlog import ColoredFormatter
 from time import strftime
@@ -41,44 +42,40 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         exc_type, exc_value, exc_traceback))
 
 
-def get_lastest_update_time(path, ignored_paths=[]):
-    if not os.path.exists(path):
-        return 0
+def validate_js_files(path, last_gen_time):
+    for file in os.listdir(path):
+        source_path = os.path.join(path, file)
+        if os.path.isdir(source_path):
+            if not validate_js_files(source_path, last_gen_time):
+                return False
+        elif file.endswith(".js"):
+            if os.path.getmtime(source_path) > last_gen_time:
+                return False
 
-    latest_update_time = 0
-    for root, _, files in os.walk(path):
-        for file in files:
-            if root in ignored_paths:
-                continue
-            file = os.path.join(root, file)
-            update_time = os.path.getmtime(file)
-            if update_time > latest_update_time:
-                latest_update_time = update_time
-
-    return latest_update_time
+    return True
 
 
 def validate_assets(args):
-    dist_path = os.path.join(args.root_path, 'static/dist')
-    ignored_paths = [
-        os.path.join(args.root_path, 'static/dist/data/parks'),
-        os.path.join(args.root_path, 'static/dist/data/rarity')
-    ]
-    last_gen_time = get_lastest_update_time(dist_path, ignored_paths)
+    assets_error_log = (
+        'Missing front-end assets (static/dist) -- please run '
+        '"npm install && npm run build" before starting the server.')
 
-    paths = [
-        os.path.join(args.root_path, 'static/js'),
-        os.path.join(args.root_path, 'static/css'),
-        os.path.join(args.root_path, 'static/sass'),
-        os.path.join(args.root_path, 'static/data'),
-        os.path.join(args.root_path, 'static/locales')
-    ]
-    for path in paths:
-        last_update_time = get_lastest_update_time(path)
-        if (last_update_time > last_gen_time):
-            log.critical('Missing front-end assets (static/dist) -- please '
-                         'run "npm run build" before starting the server.')
-            return False
+    root_path = os.path.dirname(__file__)
+    if not os.path.exists(os.path.join(root_path, 'static/dist')):
+        log.critical(assets_error_log)
+        return False
+
+    generated_js_path = os.path.join(root_path, 'static/dist/js')
+    last_js_gen_time = 0
+    for file in os.listdir(generated_js_path):
+        gen_time = os.path.getmtime(os.path.join(generated_js_path, file))
+        if gen_time > last_js_gen_time:
+            last_js_gen_time = gen_time
+
+    js_path = os.path.join(root_path, 'static/js')
+    if not validate_js_files(js_path, last_js_gen_time):
+        log.critical(assets_error_log)
+        return False
 
     return True
 
@@ -195,7 +192,7 @@ if __name__ == '__main__':
     sys.excepthook = handle_exception
 
     # Abort if status name is not valid.
-    regexp = re.compile(r'^([\w\s\-.]+)$')
+    regexp = re.compile('^([\w\s\-.]+)$')
     if not regexp.match(args.status_name):
         log.critical('Status name contains illegal characters.')
         sys.exit(1)
@@ -214,18 +211,6 @@ if __name__ == '__main__':
     if not validate_assets(args):
         sys.exit(1)
 
-    # Make sure redis server is running.
-    if args.client_auth:
-        r = redis.Redis(host=args.redis_host, port=args.redis_port)
-        try:
-            r.ping()
-        except redis.exceptions.ConnectionError:
-            uri = args.redis_host + ':' + str(args.redis_port)
-            log.critical('No Redis server found at %s. Make sure you have '
-                         'redis installed: [sudo] apt install redis-server',
-                         uri)
-            sys.exit(1)
-
     app = create_app()
     with app.app_context():
         startup_db(args.clear_db)
@@ -234,9 +219,9 @@ if __name__ == '__main__':
         with app.app_context():
             db.engine.dispose()
 
-    use_ssl = (args.ssl_certificate and args.ssl_privatekey
-               and os.path.exists(args.ssl_certificate)
-               and os.path.exists(args.ssl_privatekey))
+    use_ssl = (args.ssl_certificate and args.ssl_privatekey and
+               os.path.exists(args.ssl_certificate) and
+               os.path.exists(args.ssl_privatekey))
     if use_ssl:
         log.info('Web server in SSL mode.')
 

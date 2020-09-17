@@ -7,6 +7,7 @@ import time
 import uuid
 
 from base64 import b64encode
+from datetime import datetime
 from flask import request, session, url_for
 
 from .oauth2 import OAuth2Base
@@ -22,11 +23,11 @@ class DiscordAuth(OAuth2Base):
         self.redirect_uri = args.server_uri + '/auth/discord'
         self.client_id = args.discord_client_id
         self.client_secret = args.discord_client_secret
-        self.api_base_url = 'https://discord.com/api/v6'
-        self.access_token_url = 'https://discord.com/api/oauth2/token'
-        self.revoke_token_url = ('https://discord.com/api/oauth2/token/'
+        self.api_base_url = 'https://discordapp.com/api/v6'
+        self.access_token_url = 'https://discordapp.com/api/oauth2/token'
+        self.revoke_token_url = ('https://discordapp.com/api/oauth2/token/'
                                  'revoke')
-        self.authorize_url = 'https://discord.com/api/oauth2/authorize'
+        self.authorize_url = 'https://discordapp.com/api/oauth2/authorize'
         self.scope = 'identify guilds'
 
         self.fetch_role_guilds = []
@@ -94,14 +95,14 @@ class DiscordAuth(OAuth2Base):
         if 'state' not in session:
             log.warning('Invalid Discord authorization attempt: '
                         'no state in session.')
-            return False
+            return
 
         state = request.args.get('state')
         if state != session['state']:
             log.warning('Invalid Discord authorization attempt: '
                         'incorrect state.')
             del session['state']
-            return False
+            return
         del session['state']
 
         error = request.args.get('error')
@@ -113,30 +114,28 @@ class DiscordAuth(OAuth2Base):
                 error_description = request.args.get('error_description', '')
                 log.warning('Discord authorization attempt error: %s',
                             error_description)
-            return False
+            return
 
         code = request.args.get('code')
         if code is None:
             log.warning('Invalid Discord authorization attempt: '
                         'access code missing.')
-            return False
+            return
         try:
             token = self._exchange_code(code)
         except requests.exceptions.HTTPError as e:
             log.warning('Exception while retrieving Discord access token: %s',
                         e)
-            return False
+            return
 
         try:
             self._add_user(token)
         except requests.exceptions.HTTPError as e:
             log.warning('Exception while adding Discord user: %s', e)
-            return False
+            return
         session['auth_type'] = 'discord'
         log.debug('Discord user %s succesfully logged in.',
                   session['username'])
-
-        return True
 
     def end_session(self):
         try:
@@ -154,8 +153,6 @@ class DiscordAuth(OAuth2Base):
                 self._update_access_data()
             except requests.exceptions.HTTPError as e:
                 if e.response.status_code in [400, 401]:
-                    log.debug('Exception while retrieving Discord data: %s', e)
-
                     token = session['token']
                     if token['expires_at'] < time.time():
                         try:
@@ -163,32 +160,34 @@ class DiscordAuth(OAuth2Base):
                             session['token'] = {
                                 'access_token': token['access_token'],
                                 'refresh_token': token['refresh_token'],
-                                'expires_at': (time.time()
-                                               + token['expires_in'] - 5)
+                                'expires_at': (time.time() +
+                                               token['expires_in'] - 5)
                             }
 
                             return self.get_access_data()
-                        except requests.exceptions.HTTPError as ex:
-                            log.warning('Exception while refreshing Discord '
-                                        'token: %s', ex)
+                        except requests.exceptions.HTTPError as e:
+                            pass
 
-                    # Token has (probably) been revoked by user.
+                    # Token has (most likely) been revoked by user,
+                    # log out the user.
+                    log.debug('Exception while retrieving Discord data: %s', e)
+                    session.clear()
                     return False, url_for('login_page'), None
-
-                if e.response.status_code == 429:
-                    log.debug('Discord rate limit exceeded: %s', e)
-                else:
-                    log.warning('Exception while retrieving Discord data: %s',
-                                e)
 
                 if 'has_permission' not in session:
                     # Access data is still missing, retry.
                     if e.response.status_code == 429:
                         # We are rate limited, wait a bit.
-                        t = int(e.response.headers['x-ratelimit-reset-after'])
-                        time.sleep(t)
+                        log.debug('Discord rate limit exceeded: %s', e)
+                        s = int(e.response.headers['x-ratelimit-reset-after'])
+                        time.sleep(s)
+                    else:
+                        log.warning('Exception while retrieving Discord data: '
+                                    '%s', e)
 
                     return self.get_access_data()
+
+                log.warning('Exception while retrieving Discord data: %s', e)
 
         has_permission = session['has_permission']
         redirect_uri = (args.discord_no_permission_redirect
@@ -210,9 +209,8 @@ class DiscordAuth(OAuth2Base):
                 roles = self._get_roles(guild_id, session['id'])
                 user_roles[guild_id] = roles
 
-        # Whitelisted users/admins bypass other whitelists/blacklists.
-        if (session['id'] in args.discord_whitelisted_users
-                or session['id'] in args.discord_admins):
+        # Whitelisted users bypass other whitelists/blacklists.
+        if session['id'] in args.discord_whitelisted_users:
             session['has_permission'] = True
             config_name = self._get_access_config_name(user_guilds, user_roles)
             session['access_config_name'] = config_name
@@ -235,8 +233,8 @@ class DiscordAuth(OAuth2Base):
                 return
 
         # Check required roles.
-        has_required_role = any(role[0] in user_guilds
-                                and role[1] in user_roles[role[0]]
+        has_required_role = any(role[0] in user_guilds and
+                                role[1] in user_roles[role[0]]
                                 for role in self.required_roles)
         if self.required_roles and not has_required_role:
             session['has_permission'] = False
@@ -328,8 +326,8 @@ class DiscordAuth(OAuth2Base):
         bytes = b64encode(data.encode("utf-8"))
         encoded_creds = str(bytes, "utf-8")
         headers = {
-            'Authorization': 'Basic ' + encoded_creds,
-            'Content-Type': 'application/x-www-form-urlencoded'
+          'Authorization': 'Basic ' + encoded_creds,
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
         data = 'token=' + access_token
         r = requests.post(self.revoke_token_url, data=data, headers=headers)

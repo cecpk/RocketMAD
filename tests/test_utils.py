@@ -1,6 +1,6 @@
 import unittest
 import os
-from rocketmad import utils
+from pogom import utils
 
 
 # Mock get_args function to work with tests

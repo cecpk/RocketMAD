@@ -1,4 +1,4 @@
-# Configuration files (Outdated)
+# Configuration files
 
 Configuration files can be used to organize server/scanner deployments.  Any long-form command-line argument can be specified in a configuration file.
 

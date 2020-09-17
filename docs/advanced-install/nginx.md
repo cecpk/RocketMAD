@@ -1,168 +1,90 @@
 # Nginx
 
-If you do not want to expose RocketMAD to the web directly or you want to place it under a prefix, follow this guide:
+If you do not want to expose RocketMap to the web directly or you want to place it under a prefix, follow this guide:
 
 Assuming the following:
 
-* You are running RocketMAD on the default port 5000
-* You've already made your machine available externally (for example, [port forwarding](https://rocketmad.readthedocs.io/en/latest/extras/external.html))
+* You are running RocketMap on the default port 5000
+* You've already made your machine available externally (for example, [port forwarding](http://rocketmap.readthedocs.io/en/develop/extras/external.html)
 
 1. Install nginx (I'm not walking you through that, google will assist) - http://nginx.org/en/linux_packages.html
-2. In /etc/nginx/nginx.conf make sure the following is added:
+2. In /etc/nginx/nginx.conf add the following before the last `}`
 
    ```
-   include conf.d/*.conf;
+   include conf.d/rocketmap.conf;
    ```
 
-3. Create a file /etc/nginx/conf.d/rocketmad.conf and place the following in it:
+3. Create a file /etc/nginx/conf.d/rocketmap.conf and place the following in it:
 
    ```
-   upstream app_server {
-       # fail_timeout=0 means we always retry an upstream even if it failed
-       # to return a good HTTP response.
-       server 127.0.0.1:5000 fail_timeout=0;
-   }
-
    server {
        listen 80;
-       listen [::]:80;
-
-       # Set the correct host(s) for your site.
-       server_name my_domain.com www.my_domain.com;
-
-       # Path to your RocketMAD folder.
-       root /path/to/RM;
-
-       location ~ /(config|geofences|logs) {
-           return 403;
-       }
-
-       location / {
-           # Checks for static file, if not found proxy to app.
-           try_files $uri @proxy_to_app;
-       }
-
-       location @proxy_to_app {
-           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           proxy_set_header X-Forwarded-Proto $scheme;
-           proxy_set_header Host $http_host;
-           # We don't want nginx trying to do something clever with
-           # redirects, we set the Host: header above already.
-           proxy_redirect off;
-           proxy_pass http://app_server;
+       location /go/ {
+          proxy_pass http://127.0.0.1:5000/;
        }
    }
    ```
 
-In case you want to use a subdirectory, e.g. http://my_domain.com/map, add the following instead of the above:
+You can now access it by http://yourip/go
 
+## Add a free SSL Certificate to your site:
+
+1. https://certbot.eff.org/#debianjessie-nginx
+2. For webroot configuration, simplest for this use, do the following:
+   - Edit your `/etc/nginx/conf.d/rocketmap.conf`
+   - Add the following location block:
    ```
-   upstream app_server {
-       # fail_timeout=0 means we always retry an upstream even if it failed
-       # to return a good HTTP response.
-       server 127.0.0.1:5000 fail_timeout=0;
-   }
-
-   server {
-       listen 80;
-       listen [::]:80;
-
-       # Set the correct host(s) for your site.
-       server_name my_domain.com www.my_domain.com;
-
-       # Path to your RocketMAD folder.
-       root /path/to/RM;
-
-       location ~ /map/(config|geofences|logs) {
-           return 403;
-       }
-
-       location /map {
-           # Checks for static file, if not found proxy to app.
-           try_files $uri @proxy_to_app;
-       }
-
-       location @proxy_to_app {
-           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           proxy_set_header X-Forwarded-Proto $scheme;
-           proxy_set_header Host $http_host;
-           proxy_set_header SCRIPT_NAME /map;
-           # We don't want nginx trying to do something clever with
-           # redirects, we set the Host: header above already.
-           proxy_redirect off;
-           proxy_pass http://app_server;
-       }
+   location /.well-known/acme-challenge {
+     default_type "text/plain";
+     root /var/www/certbot;
    }
    ```
+3. Create the root folder above `mkdir /var/www/certbot`
+4. Set your permissions for the folder
+5. Run `certbot certonly -w /var/www/certbot -d yourdomain.something.com`
+6. Certificates last for 3 Months and can be renewed by running `certbot renew`
 
-## Add a free SSL certificate to your site:
-
-1. Install certbot: https://certbot.eff.org/instructions
-2. Run `certbot certonly -d my_domain.com www.my_domain.com` to generate certificates
-3. Update your rocketmap.conf file, see example below
-4. Certificates last for 3 months and can be renewed by running `certbot renew`
-
-## SSL example config
+## Example Config
 
 ```
-upstream app_server {
-    # fail_timeout=0 means we always retry an upstream even if it failed
-    # to return a good HTTP response.
-    server 127.0.0.1:5000 fail_timeout=0;
-}
-
 server {
-    listen 80;
-    listen [::]:80;
+    listen       80;
+    server_name  PokeMaps.yourdomain.com;
 
-    # Set the correct host(s) for your site.
-    server_name my_domain.com www.my_domain.com;
+    location /.well-known/acme-challenge {
+        default_type "text/plain";
+        root /var/www/certbot;
+    }
 
-    return 301 https://my_domain.com$request_uri;
+    # Forces all other requests to HTTPS
+    location / {
+        return      301 https://$host$request_uri;
+    }
 }
 
 server {
     listen 443 ssl http2;
-    listen [::]:443 ssl http2;
+    server_name PokeMaps.yourdomain.com;
 
-    # Set the correct host(s) for your site.
-    server_name my_domain.com www.my_domain.com;
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/yourdomaingoeshere/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomaingoeshere/privkey.pem;
+    ssl_protocols TLSv1.2;
+    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+    ssl_prefer_server_ciphers on;
+    keepalive_timeout 70;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
 
-    # Path to your RocketMAD folder.
-    root /path/to/RM;
-
-    ssl_certificate /etc/letsencrypt/live/my_domain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/my_domain.com/privkey.pem;
-    ssl_session_timeout 1d;
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_tickets off;
-
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
-    ssl_prefer_server_ciphers off;
-
-    add_header Strict-Transport-Security "max-age=63072000" always;
-
-    location / {
-        # Checks for static file, if not found proxy to app.
-        try_files $uri @proxy_to_app;
-    }
-
-    location @proxy_to_app {
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header Host $http_host;
-        # We don't want nginx trying to do something clever with
-        # redirects, we set the Host: header above already.
+    location /go/ {
+        proxy_pass http://127.0.0.1:5000/;
         proxy_redirect off;
-        proxy_pass http://app_server;
     }
 }
 ```
 
 Please be sure to change the ssl_certificate and ssl_certificate_key paths to point to your cert file and key.
 
-## Adding simple httpd Authentication. (Outdated)
+## Adding simple httpd Authentication.
 
 This will guide you through setting up simple HTTP Authentication using nginx and reverse proxy protocols. These instructions are written for someone using a Debian/Ubuntu VPS. Your enviroment may have slightly different requirements, however the concepts as a whole should still stand. This guide assumes you have nginx installed and running, and a `conf.d/*.conf` file created, such as `/etc/nginx/conf.d/rocketmap.conf`, as the example above provides, and that you're running your service on port 5000, and want it to be accessable at http://your_ip/go/, although it supports other ports and locations.  
 

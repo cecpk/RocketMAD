@@ -1,4 +1,4 @@
-# Bluemix (Outdated)
+# Bluemix
 
 [Bluemix](http://bluemix.net) is IBM's PaaS, built on top of
 [Cloud Foundry](https://www.cloudfoundry.org/), and it's free tier allows you

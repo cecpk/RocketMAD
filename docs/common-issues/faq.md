@@ -1,4 +1,4 @@
-# Common Questions and Answers (Outdated)
+# Common Questions and Answers
 
 ### Should I use this as a way to make money?
 

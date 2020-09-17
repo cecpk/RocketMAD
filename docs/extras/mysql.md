@@ -1,4 +1,4 @@
-# Using a MySQL Server (Outdated)
+# Using a MySQL Server
 
 **This is a guide for windows only currently.**
 **Preliminary Linux (Debian) instructions below (VII)**

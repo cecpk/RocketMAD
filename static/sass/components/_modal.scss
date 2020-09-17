@@ -33,14 +33,12 @@
 
   .tabs {
     position: sticky;
-    position: -webkit-sticky;
     top: 0;
     background-color: #fafafa;
   }
 
   h6 {
     position: sticky;
-    position: -webkit-sticky;
     top: 0;
     text-align: center;
     background-color: #fafafa;
@@ -48,7 +46,6 @@
 
   .filter-footer-container {
     position: sticky;
-    position: -webkit-sticky;
     bottom: 0;
     display: flex;
     justify-content: space-between;

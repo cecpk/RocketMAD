@@ -1,4 +1,4 @@
-# Custom.js (Outdated)
+# Custom.js
 RocketMap supports the use of a custom JavaScript file to run custom code instead of editing core files.
 
 ## Warning of using code you don't understand

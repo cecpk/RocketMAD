@@ -3,21 +3,22 @@
 
 import json
 import logging
-import matplotlib.path
+import os
 import overpy
 import time
 
 from datetime import datetime
-from pathlib import Path
+from matplotlib.path import Path
 from timeit import default_timer
 
-from .utils import get_args, get_geofence_box, parse_geofence_file
+from .utils import get_args, parse_geofence_file
 
 log = logging.getLogger(__name__)
 args = get_args()
 
 
-def _build_overpass_query(sw_coord, ne_coord, nest_parks=False):
+def _build_overpass_query(lower_left_coord, upper_right_coord,
+                          nest_parks=False):
     # Tags used for both EX and nest parks.
     tags = """
     way[leisure=park];
@@ -71,18 +72,22 @@ def _build_overpass_query(sw_coord, ne_coord, nest_parks=False):
 
     date = '2019-02-25T01:30:00Z' if nest_parks else '2016-07-16T00:00:00Z'
 
-    return ('[bbox:{},{},{},{}][timeout:{}][maxsize:2147483648][date:"{}"];'
+    return ('[bbox:{},{}][timeout:{}][maxsize:2147483648][date:"{}"];'
             '({});out;>;out skel qt;').format(
-        sw_coord[0], sw_coord[1], ne_coord[0], ne_coord[1],
-        args.parks_query_timeout, date, tags
+        lower_left_coord,
+        upper_right_coord,
+        args.parks_query_timeout,
+        date,
+        tags
     )
 
 
-def _query_overpass_api(sw_coord, ne_coord, nest_parks=False):
+def _query_overpass_api(lower_left_point, upper_right_point, nest_parks=False):
     parks = []
 
     api = overpy.Overpass()
-    request = _build_overpass_query(sw_coord, ne_coord, nest_parks)
+    request = _build_overpass_query(lower_left_point, upper_right_point,
+                                    nest_parks)
 
     while True:
         try:
@@ -105,25 +110,43 @@ def _query_overpass_api(sw_coord, ne_coord, nest_parks=False):
     return parks
 
 
-def _download_parks(file_path, geofence_file, nest_parks=False):
+def _download_parks(file_path, geofences, nest_parks=False):
     parks = []
-    geofences = parse_geofence_file(geofence_file)
 
     for geofence in geofences:
+        lower_left_lat = 100
+        lower_left_lon = 200
+        upper_right_lat = -100
+        upper_right_lon = -200
+        for coord in geofence['polygon']:
+            if coord['lat'] < lower_left_lat:
+                lower_left_lat = coord['lat']
+            elif coord['lat'] > upper_right_lat:
+                upper_right_lat = coord['lat']
+
+            if coord['lon'] < lower_left_lon:
+                lower_left_lon = coord['lon']
+            elif coord['lon'] > upper_right_lon:
+                upper_right_lon = coord['lon']
+
         log.info('Downloading parks in geofence %s...', geofence['name'])
+        lower_left_coord = '{}, {}'.format(lower_left_lat, lower_left_lon)
+        upper_right_coord = '{}, {}'.format(upper_right_lat, upper_right_lon)
+        parks_in_box = _query_overpass_api(lower_left_coord, upper_right_coord,
+                                           nest_parks)
 
-        box = get_geofence_box(geofence)
-        parks_in_box = _query_overpass_api(box['sw'], box['ne'], nest_parks)
-
-        coords = geofence['polygon']
-        coords.append(coords[0])
-        path = matplotlib.path.Path(coords)
+        polygon_tuple_list = []
+        for coord in geofence['polygon']:
+            coordinate_tuple = (coord['lat'], coord['lon'])
+            polygon_tuple_list.append(coordinate_tuple)
+        polygon_tuple_list.append(polygon_tuple_list[0])
+        path = Path(polygon_tuple_list)
 
         parks_in_geofence = []
         for park in parks_in_box:
             for coord in park:
-                coord_tuple = (coord[0], coord[1])
-                if path.contains_point(coord_tuple):
+                coordinate_tuple = (coord[0], coord[1])
+                if path.contains_point(coordinate_tuple):
                     parks_in_geofence.append(park)
                     break
         log.info('%d parks found in geofence %s.', len(parks_in_geofence),
@@ -138,7 +161,7 @@ def _download_parks(file_path, geofence_file, nest_parks=False):
 
     if len(output['parks']) > 0:
         with open(file_path, 'w') as file:
-            json.dump(output, file, separators=(',', ':'))
+            json.dump(output, file)
 
         log.info('%d parks downloaded to %s.', len(output['parks']), file_path)
     else:
@@ -146,24 +169,26 @@ def _download_parks(file_path, geofence_file, nest_parks=False):
 
 
 def download_ex_parks():
-    parks_dir = Path(args.root_path + '/static/dist/data/parks')
-    parks_dir.mkdir(parents=True, exist_ok=True)
-    parks_file = parks_dir / (args.ex_parks_filename + '.min.json')
-    if not parks_file.exists():
-        geofence_file = Path(args.root_path + '/geofences/'
-                             + args.ex_parks_geofence_file)
-        _download_parks(parks_file, geofence_file)
+    file_path = os.path.join(
+        args.root_path,
+        'static/data/parks/' + args.ex_parks_filename + '.json')
+    if not os.path.isfile(file_path):
+        geofence_file = os.path.join(
+            args.root_path, 'geofences/' + args.ex_parks_geofence_file)
+        geofences = parse_geofence_file(geofence_file)
+        _download_parks(file_path, geofences)
     else:
         log.info('EX parks already downloaded.')
 
 
 def download_nest_parks():
-    parks_dir = Path(args.root_path + '/static/dist/data/parks')
-    parks_dir.mkdir(parents=True, exist_ok=True)
-    parks_file = parks_dir / (args.nest_parks_filename + '.min.json')
-    if not parks_file.exists():
-        geofence_file = Path(args.root_path + '/geofences/'
-                             + args.nest_parks_geofence_file)
-        _download_parks(parks_file, geofence_file, True)
+    file_path = os.path.join(
+        args.root_path,
+        'static/data/parks/' + args.nest_parks_filename + '.json')
+    if not os.path.isfile(file_path):
+        geofence_file = os.path.join(
+            args.root_path, 'geofences/' + args.nest_parks_geofence_file)
+        geofences = parse_geofence_file(geofence_file)
+        _download_parks(file_path, geofences, True)
     else:
         log.info('Nest parks already downloaded.')

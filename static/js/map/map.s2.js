@@ -1,6 +1,3 @@
-/* globals map, s2CellsLayerGroup, settings */
-/* exported updateS2Overlay */
-
 function addPoly(cell, color, weight) {
     const vertices = cell.getCornerLatLngs()
     const poly = L.polygon(vertices, {
@@ -60,7 +57,7 @@ function updateS2Overlay() {
             if (zoomLevel > 14) {
                 showS2Cells(17, 'blue', 1)
             } else if (settings.warnHiddenS2Cells) {
-                toastWarning(i18n('PokéStop cells are hidden!'), i18n('Zoom in more to show them.'))
+                toastWarning(i8ln('PokéStop cells are hidden!'), i8ln('Zoom in more to show them.'))
             }
         }
 
@@ -68,7 +65,7 @@ function updateS2Overlay() {
             if (zoomLevel > 11) {
                 showS2Cells(14, 'red', 1.5)
             } else if (settings.warnHiddenS2Cells) {
-                toastWarning(i18n('Gym cells are hidden!'), i18n('Zoom in more to show them.'))
+                toastWarning(i8ln('Gym cells are hidden!'), i8ln('Zoom in more to show them.'))
             }
         }
 
@@ -76,7 +73,7 @@ function updateS2Overlay() {
             if (zoomLevel > 10) {
                 showS2Cells(13, 'black', 2)
             } else if (settings.warnHiddenS2Cells) {
-                toastWarning(i18n('EX trigger cells are hidden!'), i18n('Zoom in more to show them.'))
+                toastWarning(i8ln('EX trigger cells are hidden!'), i8ln('Zoom in more to show them.'))
             }
         }
 
@@ -84,7 +81,7 @@ function updateS2Overlay() {
             if (zoomLevel > 7) {
                 showS2Cells(10, 'white', 2.5)
             } else if (settings.warnHiddenS2Cells) {
-                toastWarning(i18n('Weather cells are hidden!'), i18n('Zoom in more to show them.'))
+                toastWarning(i8ln('Weather cells are hidden!'), i8ln('Zoom in more to show them.'))
             }
         }
     }

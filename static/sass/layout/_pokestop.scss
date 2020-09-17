@@ -45,29 +45,6 @@
       margin-bottom: 0px;
     }
 
-    .invasion-pokemon-toggle {
-      cursor: pointer;
-    }
-
-    .invasion-pokemon-container {
-      display: flex;
-
-      .invasion-pokemon-column:not(:last-child) {
-        margin-right: 16px;
-      }
-
-      .invasion-pokemon-column {
-        > div:first-child {
-          text-align: center;
-        }
-
-        .invasion-pokemon-ball-header {
-          display: flex;
-          justify-content: center;
-        }
-      }
-    }
-
     .lure-container {
       .title {
         margin-bottom: 0px;

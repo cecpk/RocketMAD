@@ -7,7 +7,7 @@ App Development
 
 .. warning::
 
-  These instructions will help you get started contributing code to the ``master`` branch. If you just want to **use the map** you should follow the :doc:`/basic-install/index` instructions.
+  These instructions will help you get started contributing code to the ``develop`` branch. If you just want to **use the map** you should follow the :doc:`/basic-install/index` instructions.
 
 Development requires several tools to get the job done. Python, obviously, needs to be installed. We also utilize NodeJS and Grunt for front-end asset compilation. The :doc:`/basic-install/index` instructions have the relevant information about getting node installed. Follow that.
 
@@ -43,4 +43,4 @@ The "/dist" directory
 
 Files in the "static/dist/" subdirectories should not be edited. These will be automatically overwritten by Grunt.
 
-To make your changes you want to edit e.g. ``static/js/map/map.js``
+To make your changes you want to edit e.g. ``static/js/map.js``

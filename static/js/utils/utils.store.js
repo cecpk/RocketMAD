@@ -1,6 +1,4 @@
-/* exported Store */
-
-const StoreTypes = {
+var StoreTypes = {
     Boolean: {
         parse: function (str) {
             switch (str.toLowerCase()) {
@@ -50,418 +48,418 @@ const StoreTypes = {
     }
 }
 
-const StoreOptions = {
-    showPokemon: {
+var StoreOptions = {
+    'showPokemon': {
         default: true,
         type: StoreTypes.Boolean
     },
-    filterPokemonById: {
+    'filterPokemonById': {
         default: false,
         type: StoreTypes.Boolean
     },
-    excludedPokemon: {
+    'excludedPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    pokemonIconSizeModifier: {
+    'pokemonIconSizeModifier': {
         default: 100,
         type: StoreTypes.Number
     },
-    showPokemonValues: {
+    'showPokemonValues': {
         default: true,
         type: StoreTypes.Boolean
     },
-    filterPokemonByValues: {
+    'filterPokemonByValues': {
         default: false,
         type: StoreTypes.Boolean
     },
-    noFilterValuesPokemon: {
+    'noFilterValuesPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    minIvs: {
+    'minIvs': {
         default: 0,
         type: StoreTypes.Number
     },
-    maxIvs: {
+    'maxIvs': {
         default: 100,
         type: StoreTypes.Number
     },
-    showZeroIvsPokemon: {
+    'showZeroIvsPokemon': {
         default: true,
         type: StoreTypes.Boolean
     },
-    showHundoIvsPokemon: {
+    'showHundoIvsPokemon': {
         default: true,
         type: StoreTypes.Boolean
     },
-    minLevel: {
+    'minLevel': {
         default: 1,
         type: StoreTypes.Number
     },
-    maxLevel: {
+    'maxLevel': {
         default: 35,
         type: StoreTypes.Number
     },
-    includedRarities: {
+    'includedRarities': {
         default: [1, 2, 3, 4, 5, 6], // Common ... New Spawn
         type: StoreTypes.JSON
     },
-    scaleByRarity: {
+    'scaleByRarity': {
         default: true,
         type: StoreTypes.Boolean
     },
-    pokemonNotifs: {
+    'pokemonNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    pokemonIdNotifs: {
+    'pokemonIdNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    notifPokemon: {
+    'notifPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    pokemonValuesNotifs: {
+    'pokemonValuesNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    notifValuesPokemon: {
+    'notifValuesPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    zeroIvsPokemonNotifs: {
+    'zeroIvsPokemonNotifs': {
         default: true,
         type: StoreTypes.Boolean
     },
-    hundoIvsPokemonNotifs: {
+    'hundoIvsPokemonNotifs': {
         default: true,
         type: StoreTypes.Boolean
     },
-    minNotifIvs: {
+    'minNotifIvs': {
         default: 0,
         type: StoreTypes.Number
     },
-    maxNotifIvs: {
+    'maxNotifIvs': {
         default: 100,
         type: StoreTypes.Number
     },
-    minNotifLevel: {
+    'minNotifLevel': {
         default: 1,
         type: StoreTypes.Number
     },
-    maxNotifLevel: {
+    'maxNotifLevel': {
         default: 35,
         type: StoreTypes.Number
     },
-    notifRarities: {
+    'notifRarities': {
         default: [],
         type: StoreTypes.JSON
     },
-    tinyRattataNotifs: {
+    'tinyRattataNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    bigMagikarpNotifs: {
+    'bigMagikarpNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showNotifPokemonOnly: {
+    'showNotifPokemonOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showNotifPokemonAlways: {
+    'showNotifPokemonAlways': {
         default: false,
         type: StoreTypes.Boolean
     },
-    playCries: {
+    'playCries': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showGyms: {
+    'showGyms': {
         default: true,
         type: StoreTypes.Boolean
     },
-    useGymSidebar: {
+    'useGymSidebar': {
         default: false,
         type: StoreTypes.Boolean
     },
-    includedGymTeams: {
+    'includedGymTeams': {
         default: [0, 1, 2, 3],
         type: StoreTypes.JSON
     },
-    minGymLevel: {
+    'minGymLevel': {
         default: 0,
         type: StoreTypes.Number
     },
-    maxGymLevel: {
+    'maxGymLevel': {
         default: 6,
         type: StoreTypes.Number
     },
-    showOpenSpotGymsOnly: {
+    'showOpenSpotGymsOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showExGymsOnly: {
+    'showExGymsOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showInBattleGymsOnly: {
+    'showInBattleGymsOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
-    gymLastScannedHours: {
+    'gymLastScannedHours': {
         default: 0,
         type: StoreTypes.Number
     },
-    showRaids: {
+    'showRaids': {
         default: true,
         type: StoreTypes.Boolean
     },
-    filterRaidPokemon: {
+    'filterRaidPokemon': {
         default: false,
         type: StoreTypes.Boolean
     },
-    excludedRaidPokemon: {
+    'excludedRaidPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    showActiveRaidsOnly: {
+    'showActiveRaidsOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showExEligibleRaidsOnly: {
+    'showExEligibleRaidsOnly': {
         default: false,
         type: StoreTypes.Boolean
     },
-    includedRaidLevels: {
-        default: [1, 2, 3, 4, 5, 6],
+    'includedRaidLevels': {
+        default: [1, 2, 3, 4, 5],
         type: StoreTypes.JSON
     },
-    raidNotifs: {
+    'raidNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    raidPokemonNotifs: {
+    'raidPokemonNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    notifRaidPokemon: {
+    'notifRaidPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    notifEggs: {
+    'notifEggs': {
         default: [],
         type: StoreTypes.JSON
     },
-    showPokestops: {
+    'showPokestops': {
         default: true,
         type: StoreTypes.Boolean
     },
-    showPokestopsNoEvent: {
+    'showPokestopsNoEvent': {
         default: true,
         type: StoreTypes.Boolean
     },
-    showQuests: {
+    'showQuests': {
         default: true,
         type: StoreTypes.Boolean
     },
-    filterQuests: {
+    'filterQuests': {
         default: false,
         type: StoreTypes.Boolean
     },
-    excludedQuestPokemon: {
+    'excludedQuestPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    excludedQuestItems: {
+    'excludedQuestItems': {
         default: [],
         type: StoreTypes.JSON
     },
-    showInvasions: {
+    'showInvasions': {
         default: true,
         type: StoreTypes.Boolean
     },
-    filterInvasions: {
+    'filterInvasions': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showInvasionPokemon: {
-        default: false,
-        type: StoreTypes.Boolean
-    },
-    excludedInvasions: {
+    'excludedInvasions': {
         default: [],
         type: StoreTypes.JSON
     },
-    includedLureTypes: {
+    'includedLureTypes': {
         default: [501, 502, 503, 504],
         type: StoreTypes.JSON
     },
-    pokestopNotifs: {
+    'pokestopNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    questNotifs: {
+    'questNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    notifQuestPokemon: {
+    'notifQuestPokemon': {
         default: new Set(),
         type: StoreTypes.Set
     },
-    notifQuestItems: {
+    'notifQuestItems': {
         default: [],
         type: StoreTypes.JSON
     },
-    invasionNotifs: {
+    'invasionNotifs': {
         default: false,
         type: StoreTypes.Boolean
     },
-    notifInvasions: {
+    'notifInvasions': {
         default: [],
         type: StoreTypes.JSON
     },
-    notifLureTypes: {
+    'notifLureTypes': {
         default: [],
         type: StoreTypes.JSON
     },
-    showWeather: {
+    'showWeather': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showWeatherCells: {
+    'showWeatherCells': {
         default: true,
         type: StoreTypes.Boolean
     },
-    showMainWeather: {
+    'showMainWeather': {
         default: true,
         type: StoreTypes.Boolean
     },
-    showSpawnpoints: {
+    'showSpawnpoints': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showScannedLocations: {
+    'showScannedLocations': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showExParks: {
+    'showPokemonNests': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showNestParks: {
+    'showExParks': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showS2Cells: {
+    'showNestParks': {
         default: false,
         type: StoreTypes.Boolean
     },
-    showS2CellsLevel10: {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    showS2CellsLevel13: {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    showS2CellsLevel14: {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    showS2CellsLevel17: {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    warnHiddenS2Cells: {
-        default: true,
-        type: StoreTypes.Boolean
-    },
-    showRanges: {
+    'showS2Cells': {
         default: false,
         type: StoreTypes.Boolean
     },
-    includedRangeTypes: {
+    'showS2CellsLevel10': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showS2CellsLevel13': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showS2CellsLevel14': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showS2CellsLevel17': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'warnHiddenS2Cells': {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    'showRanges': {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    'includedRangeTypes': {
         default: [1, 2, 3, 4], // Pokemon, Gyms, Pokestops, Spawn points
         type: StoreTypes.JSON
     },
-    startAtUserLocation: {
+    'startAtUserLocation': {
         default: false,
         type: StoreTypes.Boolean
     },
-    startAtLastLocation: {
+    'startAtLastLocation': {
         default: false,
         type: StoreTypes.Boolean
     },
-    startAtLastLocationPosition: {
+    'startAtLastLocationPosition': {
         default: [],
         type: StoreTypes.JSON
     },
-    startLocationPosition: {
+    'startLocationPosition': {
         default: [],
         type: StoreTypes.JSON
     },
-    isStartLocationMarkerMovable: {
+    'isStartLocationMarkerMovable': {
         default: true,
         type: StoreTypes.Boolean
     },
-    followUserLocation: {
+    'followUserLocation': {
         default: false,
         type: StoreTypes.Boolean
     },
-    lastUserLocation: {
+    'lastUserLocation': {
         default: [],
         type: StoreTypes.JSON
     },
-    showBrowserPopups: {
+    'showBrowserPopups': {
         default: true,
         type: StoreTypes.Boolean
     },
-    playSound: {
+    'playSound': {
         default: false,
         type: StoreTypes.Boolean
     },
-    upscaleNotifMarkers: {
+    'upscaleNotifMarkers': {
         default: true,
         type: StoreTypes.Boolean
     },
-    bounceNotifMarkers: {
+    'bounceNotifMarkers': {
         default: true,
         type: StoreTypes.Boolean
     },
-    mapStyle: {
+    'mapStyle': {
         default: 'mapnik',
         type: StoreTypes.String
     },
-    mapServiceProvider: {
+    'mapServiceProvider': {
         default: 'googlemaps',
         type: StoreTypes.String
     },
-    startLocationMarkerStyle: {
+    'startLocationMarkerStyle': {
         default: 'pokesition',
         type: StoreTypes.String
     },
-    userLocationMarkerStyle: {
+    'userLocationMarkerStyle': {
         default: 'mobile',
         type: StoreTypes.String
     },
-    darkMode: {
+    'darkMode': {
         default: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches,
         type: StoreTypes.Boolean
     },
-    pokemonHistoryDuration: {
+    'pokemonHistoryDuration': {
         default: 24,
         type: StoreTypes.Number
     },
-    zoomLevel: {
+    'zoomLevel': {
         default: 16,
         type: StoreTypes.Number
     }
 }
 
-const Store = {
+var Store = {
     getOption: function (key) {
         var option = StoreOptions[key]
         if (!option) {

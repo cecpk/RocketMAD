@@ -4,7 +4,8 @@
 import sys
 py_version = sys.version_info
 if py_version.major < 3 or (py_version.major < 3 and py_version.minor < 6):
-    print("RocketMAD requires at least python 3.6! Your version: {}.{}"
+    print("RocketMAD requires at least python 3.6! " +
+          "Your version: {}.{}"
           .format(py_version.major, py_version.minor))
     sys.exit(1)
 
