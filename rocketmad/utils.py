@@ -517,7 +517,7 @@ def get_args(access_config=None):
                             'in seconds.')
     customTileserver = parser.add_argument_group('customTileserver')
     customTileserver.add_argument('--custom-tileserver',
-                              action='store_true')
+                              action='None')
 
     args = parser.parse_args()
     dargs = vars(args)
