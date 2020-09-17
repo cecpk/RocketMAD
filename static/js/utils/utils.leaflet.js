@@ -11,7 +11,12 @@ const custom = L.tileLayer(serverSettings.custom_tileserver + '/tile/klokantech-
 function setTileLayer(layerName, map) {
     // Fallback in case layername does not exist (anymore).
     if (!window.hasOwnProperty(layerName)) {
-        layerName = 'mapnik'
+        if (serverSettings.custom_tileserver !null || serverSettings.custom_tileserver ! '') {
+            layerName = 'custom'
+        }
+        else {
+            layerName = 'mapnik'
+        }
     }
 
     if (map.hasLayer(window[map.tileLayerName])) {
