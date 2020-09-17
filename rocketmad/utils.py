@@ -515,6 +515,9 @@ def get_args(access_config=None):
                        type=int, default=86400,
                        help='The maximum allowed runtime for the parks query '
                             'in seconds.')
+    customTileserver = parser.add_argument_group('customTileserver')
+    customTileserver.add_argument('--custom_tileserver',
+                              action='store_true')
 
     args = parser.parse_args()
     dargs = vars(args)
