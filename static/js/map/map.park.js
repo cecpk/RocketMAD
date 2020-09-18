@@ -87,7 +87,7 @@ function updatePokemonNests() {
                           <div id='pokemon-container'>
                             <div id='pokemon-container-left'>
                               <div id='types'>
-                                <strong>` + data[i].pokemonName + `</strong>
+                                <strong>` + getPokemonName(data[i].pokemon_id) + `</strong>
                               </div>
                               <div id='pokemon-image'>
                                 <img src='pkm_img?pkm=` + data[i].pokemon_id + `' width='64'>
