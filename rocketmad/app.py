@@ -251,7 +251,7 @@ def create_app():
             'nestParksFileName': user_args.nest_parks_filename,
             'exParks': user_args.ex_parks,
             'exParksFileName': user_args.ex_parks_filename,
-            'custom_tileserver':  user_args.custom_tileserver
+            'custom_tileserver': user_args.custom_tileserver
         }
 
         return render_template(
@@ -970,7 +970,7 @@ def create_app():
                         exclude_geofences=exclude_geofences
                     )
 
-                 d['pokemonNests'] = PokemonNests.get_nests()   
+        d['pokemonNests'] = PokemonNests.get_nests()
 
         return jsonify(d)
 

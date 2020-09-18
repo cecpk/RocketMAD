@@ -584,8 +584,7 @@ def get_args(access_config=None):
                             'file. Useful when running multiple '
                             'instances. Default: rarity')
     customTileserver = parser.add_argument_group('customTileserver')
-    customTileserver.add_argument('--custom-tileserver',
-                              action=None)
+    customTileserver.add_argument('--custom-tileserver', action=None)
 
     args = parser.parse_args()
     dargs = vars(args)

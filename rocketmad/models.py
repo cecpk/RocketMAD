@@ -608,6 +608,7 @@ class TrsQuest(db.Model):
         Index('quest_type', 'quest_type'),
     )
 
+
 class PokemonNests(db.Model):
     __tablename__ = 'nests'
 
@@ -623,7 +624,9 @@ class PokemonNests(db.Model):
     pokemon_avg = db.Column(DOUBLE(asdecimal=False), nullable=False)
     suburb = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
     street = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
-    pokemonName = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
+    pokemonName = db.Column(
+        db.String(length=255, collation='utf8mb4_unicode_ci')
+    )
 
     @staticmethod
     def get_nests():
@@ -634,13 +637,13 @@ class PokemonNests(db.Model):
             PokemonNests.pokemon_count, PokemonNests.pokemon_avg,
             PokemonNests.suburb, PokemonNests.street, PokemonNests.pokemonName
         ]
-       
+
         query = (
-                db.session.query(*columns)   
-            )
-        
+            db.session.query(*columns)
+        )
+
         result = query.all()
-        
+
         return [n._asdict() for n in result]
 
 
