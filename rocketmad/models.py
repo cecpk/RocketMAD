@@ -624,9 +624,6 @@ class PokemonNests(db.Model):
     pokemon_avg = db.Column(DOUBLE(asdecimal=False), nullable=False)
     suburb = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
     street = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
-    pokemonName = db.Column(
-        db.String(length=255, collation='utf8mb4_unicode_ci')
-    )
 
     @staticmethod
     def get_nests():
@@ -635,7 +632,7 @@ class PokemonNests(db.Model):
             PokemonNests.nest_id, PokemonNests.lat, PokemonNests.lon,
             PokemonNests.pokemon_id, PokemonNests.updated, PokemonNests.name,
             PokemonNests.pokemon_count, PokemonNests.pokemon_avg,
-            PokemonNests.suburb, PokemonNests.street, PokemonNests.pokemonName
+            PokemonNests.suburb, PokemonNests.street
         ]
 
         query = (
