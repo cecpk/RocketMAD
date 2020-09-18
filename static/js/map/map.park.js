@@ -1,5 +1,5 @@
-/* globals exParksLayerGroup, map, mapData, nestParksLayerGroup, settings */
-/* exported getAllParks, updateAllParks */
+/* globals exParksLayerGroup, map, mapData, nestParksLayerGroup, settings, pokemonNestsLayerGroup */
+/* exported getAllParks, updateAllParks, getNestData */
 
 function getAllParks() {
     if (serverSettings.nestParks) {
@@ -130,9 +130,7 @@ function timeConverter(timestamp) {
 
     if (hour < 12 && hour >= 0) {
         ampm = 'AM'
-    }
-
-    else {
+    } else {
         hour = hour - 12
         ampm = 'PM'
     }

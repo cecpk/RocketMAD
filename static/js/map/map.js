@@ -10,7 +10,7 @@ updatePokemonLabel, updatePokestop, updatePokestopLabel, updatePokestopLabel,
 updateS2Overlay, updateS2Overlay, updateScannedLocation, updateSpawnpoint,
 updateSpawnpointLabel, updateSpawnpointLabel, updateStatsTable,
 updateStatsTable, updateStatsTable, updateStatsTable, updateWeatherButton,
-updateWeatherLabel, updateWeatherLabel
+updateWeatherLabel, updateWeatherLabel, getNestData
 */
 /*
 exported $gymNameFilter, $pokestopNameFilter, ActiveFortModifierEnum, audio,
@@ -22,7 +22,7 @@ pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex,
 pokestopInvasionZIndex, pokestopLureZIndex, pokestopNotifiedZIndex,
 pokestopQuestZIndex, pokestopZIndex, raidEggImages, removeMarker,
 s2CellsLayerGroup, sendNotification, settingsSideNav, setupRangeCircle,
-stopFollowingUser, updateRangeCircle
+stopFollowingUser, updateRangeCircle, pokemonNestsLayerGroup
 */
 
 //
@@ -279,8 +279,7 @@ function initMap() { // eslint-disable-line no-unused-vars
     if (serverSettings.custom_tileserver != null) {
         Store.set('mapStyle', 'custom')
         setTileLayer(Store.get('mapStyle'), map)
-    }
-    else {
+    } else {
         Store.set('mapStyle', 'mapnik')
         setTileLayer(Store.get('mapStyle'), map)
     }
