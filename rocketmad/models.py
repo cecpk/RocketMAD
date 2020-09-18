@@ -630,9 +630,8 @@ class Nest(db.Model):
     @staticmethod
     def get_nests():
         columns = [
-            PokemonNests.nest_id, PokemonNests.lat, PokemonNests.lon,
-            PokemonNests.pokemon_id, PokemonNests.updated, PokemonNests.name,
-            PokemonNests.pokemon_count, PokemonNests.pokemon_avg
+            Nest.nest_id, Nest.lat, Nest.lon, Nest.pokemon_id, Nest.updated,
+            Nest.name, Nest.pokemon_count, Nest.pokemon_avg
         ]
 
         query = (

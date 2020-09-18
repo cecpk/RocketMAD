@@ -351,7 +351,7 @@ const StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
-    showPokemonNests: {
+    showNests: {
         default: false,
         type: StoreTypes.Boolean
     },

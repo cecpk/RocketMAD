@@ -61,6 +61,8 @@
 #geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
 #geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
 
+#nests                          # Show nests on the map. (default=False)
+
 #ex-parks                       # Enables ex raid eligible parks drawing. (default=False)
 #nest-parks                     # Enables nest parks drawing. (default=False)
 #ex-parks-filename:             # Name of the JSON file (without .json) for ex parks. Useful when running two or more instances out of the same folder. (default='parks-ex')

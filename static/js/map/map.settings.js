@@ -3,10 +3,10 @@ globals $gymNameFilter:writable, downloadData, exParksLayerGroup, gymSidebar,
 loadData, map, nestParksLayerGroup, readdGymMarkers,
 reincludedPokemon:writable, s2CellsLayerGroup, settings,
 settingsSideNav:writable, startFollowingUser, startLocationMarker,
-stopFollowingUser, updateExParks, updateGyms, updateNestParks, updateMap,
-updatePokestops, updatePokemons, updateS2Overlay, updateScannedLocations,
-updateSpawnpoints, updateStartLocationMarker, updateUserLocationMarker,
-updateWeatherButton, updateWeathers, updatePokemonNests, pokemonNestsLayerGroup
+stopFollowingUser, updateExParks, updateGyms, updateNestParks, updateNests,
+updateMap, updatePokestops, updatePokemons, updateS2Overlay,
+updateScannedLocations, updateSpawnpoints, updateStartLocationMarker,
+updateUserLocationMarker, updateWeatherButton, updateWeathers
 */
 /* exported initBackupModals, initInvasionFilters, initItemFilters, initPokemonFilters, initSettings, initSettingsSidebar */
 
@@ -110,7 +110,7 @@ function initSettings() {
     settings.showSpawnpoints = serverSettings.spawnpoints && Store.get('showSpawnpoints')
     settings.showScannedLocations = serverSettings.scannedLocs && Store.get('showScannedLocations')
 
-    settings.showPokemonNests = serverSettings.pokemonNests && Store.get('showPokemonNests')
+    settings.showNests = serverSettings.nests && Store.get('showNests')
     settings.showNestParks = serverSettings.nestParks && Store.get('showNestParks')
     settings.showExParks = serverSettings.exParks && Store.get('showExParks')
 
@@ -728,15 +728,15 @@ function initSettingsSidebar() {
         })
     }
 
-    if (serverSettings.pokemonNests) {
-        $('#pokemon-nests-park-switch').on('change', function () {
-            settings.showPokemonNests = this.checked
+    if (serverSettings.nests) {
+        $('#nest-switch').on('change', function () {
+            settings.showNests = this.checked
             if (this.checked) {
-                updatePokemonNests()
+                updateMap({ loadAllNests: true })
             } else {
-                pokemonNestsLayerGroup.clearLayers()
+                updateNests()
             }
-            Store.set('showPokemonNests', this.checked)
+            Store.set('showNests', this.checked)
         })
     }
 
@@ -1434,8 +1434,8 @@ function initSettingsSidebar() {
     if (serverSettings.scannedLocs) {
         $('#scanned-locs-switch').prop('checked', settings.showScannedLocations)
     }
-    if (serverSettings.pokemonNests) {
-        $('#pokemon-nests-park-switch').prop('checked', settings.showPokemonNests)
+    if (serverSettings.nests) {
+        $('#nest-switch').prop('checked', settings.showNests)
     }
     if (serverSettings.nestParks) {
         $('#nest-park-switch').prop('checked', settings.showNestParks)

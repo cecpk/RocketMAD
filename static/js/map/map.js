@@ -2,15 +2,15 @@
 globals getAllParks, getExcludedPokemon, initBackupModals, initInvasionFilters,
 initInvasionFilters, initItemFilters, initPokemonFilters, initSettings,
 initSettingsSidebar, isGymRangesActive, isPokemonRangesActive,
-isPokestopRangesActive, isSpawnpointRangesActive, processGym, processPokemon,
-processPokestop, processScannedLocation, processSpawnpoint, processSpawnpoint,
-processWeather, removePokemon, removeScannedLocation, setupWeatherModal,
-updateAllParks, updateGym, updateGymLabel, updateGymLabel, updatePokemonLabel,
-updatePokemonLabel, updatePokestop, updatePokestopLabel, updatePokestopLabel,
-updateS2Overlay, updateS2Overlay, updateScannedLocation, updateSpawnpoint,
-updateSpawnpointLabel, updateSpawnpointLabel, updateStatsTable,
-updateStatsTable, updateStatsTable, updateStatsTable, updateWeatherButton,
-updateWeatherLabel, updateWeatherLabel, getNestData
+isPokestopRangesActive, isSpawnpointRangesActive, processGym, processNest,
+processPokemon, processPokestop, processScannedLocation, processSpawnpoint,
+processSpawnpoint, processWeather, removePokemon, removeScannedLocation,
+setupWeatherModal, updateAllParks, updateGym, updateGymLabel, updateGymLabel,
+updateNestLabel, updatePokemonLabel, updatePokemonLabel, updatePokestop,
+updatePokestopLabel, updatePokestopLabel, updateS2Overlay, updateS2Overlay,
+updateScannedLocation, updateSpawnpoint, updateSpawnpointLabel,
+updateSpawnpointLabel, updateStatsTable, updateStatsTable, updateStatsTable,
+updateStatsTable, updateWeatherButton, updateWeatherLabel, updateWeatherLabel
 */
 /*
 exported $gymNameFilter, $pokestopNameFilter, ActiveFortModifierEnum, audio,
@@ -22,7 +22,7 @@ pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex,
 pokestopInvasionZIndex, pokestopLureZIndex, pokestopNotifiedZIndex,
 pokestopQuestZIndex, pokestopZIndex, raidEggImages, removeMarker,
 s2CellsLayerGroup, sendNotification, settingsSideNav, setupRangeCircle,
-stopFollowingUser, updateRangeCircle, pokemonNestsLayerGroup
+stopFollowingUser, updateRangeCircle
 */
 
 //
@@ -111,7 +111,7 @@ const settings = {
     showMainWeather: null,
     showSpawnpoints: null,
     showScannedLocations: null,
-    showPokemonNests: null,
+    showNests: null,
     showExParks: null,
     showNestParks: null,
     showS2Cells: null,
@@ -155,7 +155,7 @@ const mapData = {
     weather: {},
     scannedLocs: {},
     spawnpoints: {},
-    pokemonNests: {},
+    nests: {},
     exParks: [],
     nestParks: []
 }
@@ -180,6 +180,7 @@ let getAllPokestops
 let getAllWeather
 let getAllSpawnpoints
 let getAllScannedLocs
+let getAllNests
 
 let getAllPokemonTimestamp
 let getAllGymsTimestamp
@@ -187,12 +188,12 @@ let getAllPokestopsTimestamp
 let getAllWeatherTimestamp
 let getAllSpawnpointsTimestamp
 let getAllScannedLocsTimestamp
+let getAllNestsTimestamp
 
 let map
 let markers
 let markersNoCluster
 
-let pokemonNestsLayerGroup
 let nestParksLayerGroup
 let exParksLayerGroup
 let s2CellsLayerGroup
@@ -342,10 +343,6 @@ function initMap() { // eslint-disable-line no-unused-vars
         removeOutsideVisibleBounds: serverSettings.removeMarkersOutsideViewport
     }).addTo(map)
     markersNoCluster = L.layerGroup().addTo(map)
-
-    if (serverSettings.pokemonNests) {
-        pokemonNestsLayerGroup = L.layerGroup().addTo(map)
-    }
 
     if (serverSettings.nestParks) {
         nestParksLayerGroup = L.layerGroup().addTo(map)
@@ -580,6 +577,10 @@ function addListeners(marker, type) {
                 // Always update label before opening since weather might have become outdated.
                 updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                 break
+            case 'nest':
+                if (mapData.nests[marker.nest_id].updated) {
+                    updateNestLabel(mapData.nests[marker.nest_id], marker)
+                }
         }
 
         marker.openPopup()
@@ -630,6 +631,10 @@ function addListeners(marker, type) {
                     // Always update label before opening since weather might have become outdated.
                     updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                     break
+                case 'nest':
+                    if (mapData.nests[marker.nest_id].updated) {
+                        updateNestLabel(mapData.nests[marker.nest_id], marker)
+                    }
             }
 
             marker.openPopup()
@@ -761,7 +766,7 @@ function loadRawData() {
     const loadWeather = settings.showWeather
     const loadSpawnpoints = settings.showSpawnpoints
     const loadScannedLocs = settings.showScannedLocations
-    const loadPokemonNests = settings.showPokemonNests
+    const loadNests = settings.showNests
 
     const bounds = map.getBounds()
     const swPoint = bounds.getSouthWest()
@@ -795,6 +800,7 @@ function loadRawData() {
             lures: loadLures,
             gyms: loadGyms,
             raids: loadRaids,
+            nests: loadNests,
             weather: loadWeather,
             spawnpoints: loadSpawnpoints,
             scannedLocs: loadScannedLocs,
@@ -804,7 +810,7 @@ function loadRawData() {
             allWeather: getAllWeather,
             allSpawnpoints: getAllSpawnpoints,
             allScannedLocs: getAllScannedLocs,
-            pokemonNests: loadPokemonNests
+            allNests: getAllNests
         },
         dataType: 'json',
         cache: false,
@@ -831,7 +837,8 @@ function updateMap({
     loadAllPokestops = false,
     loadAllWeather = false,
     loadAllSpawnpoints = false,
-    loadAllScannedLocs = false
+    loadAllScannedLocs = false,
+    loadAllNests = false
 } = {}) {
     if (loadAllPokemon) {
         getAllPokemonTimestamp = Date.now()
@@ -857,6 +864,10 @@ function updateMap({
         getAllScannedLocsTimestamp = Date.now()
         getAllScannedLocs = true
     }
+    if (loadAllNests) {
+        getAllNestsTimestamp = Date.now()
+        getAllNests = true
+    }
 
     const requestTimestamp = Date.now()
 
@@ -879,8 +890,9 @@ function updateMap({
         $.each(result.scannedlocs, function (idx, scannedLoc) {
             processScannedLocation(scannedLoc)
         })
-
-        getNestData(result.pokemonNests)
+        $.each(result.nests, function (idx, nest) {
+            processNest(nest)
+        })
 
         updateStatsTable()
 
@@ -906,6 +918,9 @@ function updateMap({
         }
         if (result.allScannedLocs && getAllScannedLocsTimestamp <= requestTimestamp) {
             getAllScannedLocs = false
+        }
+        if (result.nests && getAllNestsTimestamp <= requestTimestamp) {
+            getAllNests = false
         }
 
         if (result.reids) {

@@ -1076,7 +1076,7 @@
         </div>
       </li>
       {% endif %}
-      {% if settings.spawnpoints or settings.scannedLocs or settings.nestParks or settings.exParks or settings.ranges or settings.pokemonNests %}
+      {% if settings.spawnpoints or settings.scannedLocs or settings.nests or settings.nestParks or settings.exParks or settings.ranges %}
       <li>
         <div class="collapsible-header"><i class="material-icons">map</i>{{ i18n('Map misc') }}</div>
         <div class="collapsible-body">
@@ -1103,13 +1103,13 @@
               </div>
             </div>
             {% endif %}
-            {% if settings.pokemonNests %}
+            {% if settings.nests %}
             <div class="form-control">
               <div class="switch">
                 <label>
-                  <input type="checkbox" id="pokemon-nests-park-switch">
+                  <input type="checkbox" id="nest-switch">
                   <span class="lever"></span>
-                  {{ i18n('Pokemons nests') }}
+                  {{ i18n('Pokémon nests') }}
                 </label>
               </div>
             </div>

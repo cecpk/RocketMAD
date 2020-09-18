@@ -90,12 +90,18 @@
 #geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
 
 
+# Nests
+#######
+# Nests will be stored in the RM database. You can generate them with this script: https://github.com/M4d40/PMSFnestScript
+
+#nests                          # Show nests on the map. (default=False)
+
+
 # Parks
 #######
 # Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
 # Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
 
-#pokemon-nests
 #ex-parks                       # Display ex raid eligible parks. (default=False)
 #nest-parks                     # Display nest parks. (default=False)
 #ex-parks-downloading           # Enables ex raid eligible parks downloading. (default=False)

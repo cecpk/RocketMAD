@@ -246,7 +246,7 @@ def create_app():
             'scannedLocs': not user_args.no_scanned_locs,
             's2Cells': not user_args.no_s2_cells,
             'ranges': not user_args.no_ranges,
-            'pokemonNests': user_args.pokemon_nests,
+            'nests': user_args.nests,
             'nestParks': user_args.nest_parks,
             'nestParksFileName': user_args.nest_parks_filename,
             'exParks': user_args.ex_parks,
@@ -769,6 +769,7 @@ def create_app():
         all_weather = request.args.get('allWeather') == 'true'
         all_spawnpoints = request.args.get('allSpawnpoints') == 'true'
         all_scanned_locs = request.args.get('allScannedLocs') == 'true'
+        all_nests = request.args.get('allNests') == 'true'
 
         if all_pokemon:
             d['allPokemon'] = True
@@ -782,6 +783,8 @@ def create_app():
             d['allSpawnpoints'] = True
         if all_scanned_locs:
             d['allScannedLocs'] = True
+        if all_nests:
+            d['allNests'] = True
 
         geofences = (
             parse_geofence_file('geofences/' + user_args.geofence_file)
@@ -970,7 +973,7 @@ def create_app():
                         exclude_geofences=exclude_geofences
                     )
 
-        d['pokemonNests'] = PokemonNests.get_nests()
+        d['nests'] = Nest.get_nests()
 
         return jsonify(d)
 

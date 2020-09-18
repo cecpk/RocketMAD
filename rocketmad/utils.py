@@ -299,9 +299,12 @@ def get_args(access_config=None):
                        help='File to exclude areas. Regard this as an '
                             'inverted geofence. Can be combined with '
                             '--geofence-file.')
-    pokemonNests = parser.add_argument_group('PokemonNests')
-    pokemonNests.add_argument('--pokemon-nests',
-                              action='store_true')
+
+    group = parser.add_argument_group('nests')
+    group.add_argument('-n', '--nests',
+                       action='store_true',
+                       help='Show nests on the map.')
+
     group = parser.add_argument_group('Parks')
     group.add_argument('-EP', '--ex-parks',
                        action='store_true',
@@ -638,6 +641,7 @@ def get_args(access_config=None):
             'no_s2_cells',
             'no_ranges',
             'ex_parks',
+            'nests'
             'nest_parks',
             'ex_parks_filename',
             'nest_parks_filename',
@@ -651,8 +655,7 @@ def get_args(access_config=None):
             'motd_pages',
             'show_motd_always',
             'geofence_file',
-            'geofence_exclude_file',
-            'pokemon-nests'
+            'geofence_exclude_file'
         ]
 
         access_parser = configparser.ConfigParser(allow_no_value=True,
