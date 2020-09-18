@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 args = get_args()
 
 db = SQLAlchemy()
-db_schema_version = 0
+db_schema_version = 2
 
 
 class Pokemon(db.Model):
@@ -612,13 +612,13 @@ class TrsQuest(db.Model):
 class Nest(db.Model):
     __tablename__ = 'nests'
 
-    nest_id = db.Column(db.Column(BIGINT, primary_key=True))
+    nest_id = db.Column(BIGINT, primary_key=True)
     lat = db.Column(DOUBLE(asdecimal=False))
     lon = db.Column(DOUBLE(asdecimal=False))
     pokemon_id = db.Column(db.Integer, default=0)
     updated = db.Column(BIGINT)
     type = db.Column(TINYINT, nullable=False, default=0)
-    name = db.Column(db.String(length=250, collation='utf8'))
+    name = db.Column(db.String(length=250, collation='utf8mb4_unicode_ci'))
     pokemon_count = db.Column(DOUBLE(asdecimal=False), default=0)
     pokemon_avg = db.Column(DOUBLE(asdecimal=False), default=0)
 
@@ -1001,6 +1001,9 @@ def database_migrate(old_ver):
     # Perform migrations here.
     if old_ver < 1:
         drop_table(table_name='rmversions')
+
+    if old_ver < 2:
+        create_table(Nest)
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
