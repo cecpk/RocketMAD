@@ -20,8 +20,8 @@ from s2sphere import LatLng
 from .auth.auth_factory import AuthFactory
 from .blacklist import fingerprints
 from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
-from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
-                     Weather, PokemonNests)
+from .models import (db, Pokemon, Gym, Pokestop, Nest, ScannedLocation,
+                     TrsSpawn, Weather)
 from .pogoprotos.enums.costume_pb2 import Costume
 from .pogoprotos.enums.form_pb2 import Form
 from .pogoprotos.enums.gender_pb2 import Gender

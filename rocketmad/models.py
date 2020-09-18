@@ -609,30 +609,30 @@ class TrsQuest(db.Model):
     )
 
 
-class PokemonNests(db.Model):
+class Nest(db.Model):
     __tablename__ = 'nests'
 
-    nest_id = db.Column(
-        db.String(length=50, collation='utf8mb4_unicode_ci'), primary_key=True
+    nest_id = db.Column(db.Column(BIGINT, primary_key=True))
+    lat = db.Column(DOUBLE(asdecimal=False))
+    lon = db.Column(DOUBLE(asdecimal=False))
+    pokemon_id = db.Column(db.Integer, default=0)
+    updated = db.Column(BIGINT)
+    type = db.Column(TINYINT, nullable=False, default=0)
+    name = db.Column(db.String(length=250, collation='utf8'))
+    pokemon_count = db.Column(DOUBLE(asdecimal=False), default=0)
+    pokemon_avg = db.Column(DOUBLE(asdecimal=False), default=0)
+
+    __table_args__ = (
+        Index('CoordsIndex', 'lat', 'lon'),
+        Index('UpdatedIndex', 'updated'),
     )
-    lat = db.Column(DOUBLE(asdecimal=False), nullable=False)
-    lon = db.Column(DOUBLE(asdecimal=False), nullable=False)
-    pokemon_id = db.Column(db.SmallInteger, nullable=False)
-    updated = db.Column(db.Integer, nullable=False)
-    name = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
-    pokemon_count = db.Column(db.SmallInteger, nullable=False)
-    pokemon_avg = db.Column(DOUBLE(asdecimal=False), nullable=False)
-    suburb = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
-    street = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
 
     @staticmethod
     def get_nests():
-
         columns = [
             PokemonNests.nest_id, PokemonNests.lat, PokemonNests.lon,
             PokemonNests.pokemon_id, PokemonNests.updated, PokemonNests.name,
-            PokemonNests.pokemon_count, PokemonNests.pokemon_avg,
-            PokemonNests.suburb, PokemonNests.street
+            PokemonNests.pokemon_count, PokemonNests.pokemon_avg
         ]
 
         query = (
