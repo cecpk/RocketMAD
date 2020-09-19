@@ -908,10 +908,15 @@ class Nest(db.Model):
             sql = geofences_to_query(exclude_geofences, 'nests', 'lat', 'lon')
             query = query.filter(~text(sql))
 
-
         result = query.all()
 
-        return [n._asdict() for n in result]
+        nests = []
+        for n in result:
+            nest = n._asdict()
+            nest['last_updated'] *= 1000
+            nests.append(nest)
+
+        return nests
 
 
 class RmVersion(db.Model):
