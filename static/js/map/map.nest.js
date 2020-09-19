@@ -2,7 +2,7 @@
 /* exported nestLabel, processNest, updateNestLabel, updateNests */
 
 function setupNestMarker(nest) {
-    const marker = L.marker([nest.lat, nest.lon]).bindPopup('', { autoPan: autoPanPopup() })
+    const marker = L.marker([nest.latitude, nest.longitude]).bindPopup('', { autoPan: autoPanPopup() })
     updateNestMarker(nest, marker)
     markers.addLayer(marker)
     addListeners(marker, 'nest')

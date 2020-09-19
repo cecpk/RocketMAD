@@ -609,40 +609,6 @@ class TrsQuest(db.Model):
     )
 
 
-class Nest(db.Model):
-    __tablename__ = 'nests'
-
-    nest_id = db.Column(BIGINT, primary_key=True)
-    lat = db.Column(DOUBLE(asdecimal=False))
-    lon = db.Column(DOUBLE(asdecimal=False))
-    pokemon_id = db.Column(db.Integer, default=0)
-    updated = db.Column(BIGINT)
-    type = db.Column(TINYINT, nullable=False, default=0)
-    name = db.Column(db.String(length=250, collation='utf8mb4_unicode_ci'))
-    pokemon_count = db.Column(DOUBLE(asdecimal=False), default=0)
-    pokemon_avg = db.Column(DOUBLE(asdecimal=False), default=0)
-
-    __table_args__ = (
-        Index('CoordsIndex', 'lat', 'lon'),
-        Index('UpdatedIndex', 'updated'),
-    )
-
-    @staticmethod
-    def get_nests():
-        columns = [
-            Nest.nest_id, Nest.lat, Nest.lon, Nest.pokemon_id, Nest.updated,
-            Nest.name, Nest.pokemon_count, Nest.pokemon_avg
-        ]
-
-        query = (
-            db.session.query(*columns)
-        )
-
-        result = query.all()
-
-        return [n._asdict() for n in result]
-
-
 class Weather(db.Model):
     s2_cell_id = db.Column(
         db.String(length=50, collation='utf8mb4_unicode_ci'), primary_key=True
@@ -882,6 +848,72 @@ class ScannedLocation(db.Model):
         return [loc._asdict() for loc in result]
 
 
+class Nest(db.Model):
+    __tablename__ = 'nests'
+
+    nest_id = db.Column(BIGINT, primary_key=True)
+    lat = db.Column(DOUBLE(asdecimal=False))
+    lon = db.Column(DOUBLE(asdecimal=False))
+    pokemon_id = db.Column(db.Integer, default=0)
+    updated = db.Column(BIGINT)
+    type = db.Column(TINYINT, nullable=False, default=0)
+    name = db.Column(db.String(length=250, collation='utf8mb4_unicode_ci'))
+    pokemon_count = db.Column(DOUBLE(asdecimal=False), default=0)
+    pokemon_avg = db.Column(DOUBLE(asdecimal=False), default=0)
+
+    __table_args__ = (
+        Index('CoordsIndex', 'lat', 'lon'),
+        Index('UpdatedIndex', 'updated'),
+    )
+
+    @staticmethod
+    def get_nests(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                  oNeLat=None, oNeLng=None, timestamp=0, geofences=None,
+                  exclude_geofences=None):
+        query = db.session.query(
+            Nest.nest_id, Nest.lat.label('latitude'),
+            Nest.lon.label('longitude'), Nest.pokemon_id,
+            Nest.updated.label('last_updated'), Nest.name, Nest.pokemon_count,
+            Nest.pokemon_avg
+        )
+
+        if timestamp > 0:
+            # If timestamp is known only send last updated nests.
+            query = query.filter(Nest.updated > timestamp / 1000)
+
+        if swLat and swLng and neLat and neLng:
+            query = query.filter(
+                Nest.lat >= swLat,
+                Nest.lon >= swLng,
+                Nest.lat <= neLat,
+                Nest.lon <= neLng
+            )
+
+        if oSwLat and oSwLng and oNeLat and oNeLng:
+            # Exclude scanned locations within old boundaries.
+            query = query.filter(
+                ~and_(
+                    Nest.lat >= oSwLat,
+                    Nest.lon >= oSwLng,
+                    Nest.lat <= oNeLat,
+                    Nest.lon <= oNeLng
+                )
+            )
+
+        if geofences:
+            sql = geofences_to_query(geofences, 'nests', 'lat', 'lon')
+            query = query.filter(text(sql))
+
+        if exclude_geofences:
+            sql = geofences_to_query(exclude_geofences, 'nests', 'lat', 'lon')
+            query = query.filter(~text(sql))
+
+
+        result = query.all()
+
+        return [n._asdict() for n in result]
+
+
 class RmVersion(db.Model):
     __tablename__ = 'rmversion'
 
@@ -891,7 +923,8 @@ class RmVersion(db.Model):
     val = db.Column(db.SmallInteger)
 
 
-def geofences_to_query(geofences, table_name):
+def geofences_to_query(geofences, table_name, lat_column_name='latitude',
+                       lng_column_name='longitude'):
     query = ''
 
     for geofence in geofences:
@@ -902,7 +935,8 @@ def geofences_to_query(geofences, table_name):
         if query:
             query += ' OR '
         query += (f"ST_CONTAINS(ST_GeomFromText('POLYGON(({coords}))'), "
-                  f"Point({table_name}.latitude, {table_name}.longitude))")
+                  f"Point({table_name}.{lat_column_name}, "
+                  f"{table_name}.{lng_column_name}))")
 
     return f'({query})'
 

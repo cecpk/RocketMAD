@@ -762,6 +762,7 @@ def create_app():
                        and not user_args.no_spawnpoints)
         scanned_locs = (request.args.get('scannedLocs') == 'true'
                         and not user_args.no_scanned_locs)
+        nests = request.args.get('nests') == 'true' and user_args.nests
 
         all_pokemon = request.args.get('allPokemon') == 'true'
         all_gyms = request.args.get('allGyms') == 'true'
@@ -973,7 +974,25 @@ def create_app():
                         exclude_geofences=exclude_geofences
                     )
 
-        d['nests'] = Nest.get_nests()
+        if nests:
+            if timestamp == 0 or all_nests:
+                d['nests'] = Nest.get_nests(
+                    swLat, swLng, neLat, neLng, geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
+            else:
+                d['nests'] = Nest.get_nests(
+                    swLat, swLng, neLat, neLng, timestamp=timestamp,
+                    geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
+                if new_area:
+                    d['nests'] += Nest.get_nests(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        geofences=geofences,
+                        exclude_geofences=exclude_geofences
+                    )
 
         return jsonify(d)
 
