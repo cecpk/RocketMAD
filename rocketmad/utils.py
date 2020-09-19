@@ -641,7 +641,7 @@ def get_args(access_config=None):
             'no_s2_cells',
             'no_ranges',
             'ex_parks',
-            'nests'
+            'nests',
             'nest_parks',
             'ex_parks_filename',
             'nest_parks_filename',
