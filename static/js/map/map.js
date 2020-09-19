@@ -919,7 +919,7 @@ function updateMap({
         if (result.allScannedLocs && getAllScannedLocsTimestamp <= requestTimestamp) {
             getAllScannedLocs = false
         }
-        if (result.nests && getAllNestsTimestamp <= requestTimestamp) {
+        if (result.allNests && getAllNestsTimestamp <= requestTimestamp) {
             getAllNests = false
         }
 
