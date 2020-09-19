@@ -71,14 +71,14 @@ function processNest(nest) {
     return true
 }
 
-function updateNest(id, nest) {
+function updateNest(id, nest = null) {
     if (id == null || !(id in mapData.nests)) {
         return true
     }
 
     const isNestNull = nest === null
     if (isNestNull) {
-        nest = mapData.nest[id]
+        nest = mapData.nests[id]
     }
 
     if (!settings.showNests) {
