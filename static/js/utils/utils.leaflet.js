@@ -6,8 +6,6 @@ var tileLayers = {}
 var i
 var splitInput
 
-console.log(serverSettings.custom_tileserver)
-
 if (serverSettings.custom_tileserver) {
 
 	for( i = 0;i < serverSettings.custom_tileserver.length; i++) {
