@@ -1499,6 +1499,7 @@
               <div class="input-field">
                 <div class="select-title">{{ i18n('Map style') }}</div>
                 <select id="map-style-select">
+		{% if settings.custom_tileserver == 0 %}
                   <option value="mapnik">Mapnik</option>
                   <option value="topomap">ToPo Map</option>
                   <option value="cartodbdarkmatter">CartoDB Darkmatter</option>
@@ -1506,7 +1507,8 @@
                   <option value="cartodbpositron">CartoDB Positron</option>
                   <option value="cartodbpositronnolabels">CartoDB Positron ({{ i18n('no labels') }})</option>
                   <option value="satellite">{{ i18n('Satellite') }}</option>
-                                      {% if settings.custom_tileserver %}
+		{% endif %}
+                    {% if settings.custom_tileserver %}
                     <option value="custom">Custom</option>
                     {% endif %}
                 </select>
