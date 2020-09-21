@@ -28,7 +28,7 @@
 #telegram-url:                  # Telegram group invite link. (default=None)
 #whatsapp-url:                  # WhatsApp group invite link. (default=None)
 
-#custom-tileserver:             # link to custom tileserver - https://tileserver.com
+#custom-tileserver:             #  [ style-name; https://tileserver.com/tile/klokantech-basic/{z}/{x}/{y}/2/png, style-name; https://tileserver.com/tile/osm-bright/{z}/{x}/{y}/2/png ]
 
 #max-zoom-level:                # Maximum level a user can zoom out. Range: [0,18]. 0 means the user can zoom out completely. (default=10)
 #cluster-zoom-level:            # Zoom level from which markers should be clustered. Range: [0,18]. -1 to disable clustering. (default=14)

@@ -586,8 +586,9 @@ def get_args(access_config=None):
                        help='Filename (without .json) of rarity JSON '
                             'file. Useful when running multiple '
                             'instances. Default: rarity')
-    customTileserver = parser.add_argument_group('customTileserver')
-    customTileserver.add_argument('--custom-tileserver', action=None)
+    group = parser.add_argument_group('Custom Tileserver')
+    group.add_argument('--custom-tileserver', action='append',
+		       default=[])
 
     args = parser.parse_args()
     dargs = vars(args)
