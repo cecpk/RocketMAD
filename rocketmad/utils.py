@@ -300,7 +300,6 @@ def get_args(access_config=None):
                             '[tile_server_name1:tile_server_url1, '
                             'tile_server_name2:tile_server_url2]')
 
-
     group = parser.add_argument_group('Geofences')
     group.add_argument('-Gf', '--geofence-file',
                        help='Geofence file to define outer borders of the '
