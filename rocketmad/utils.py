@@ -291,6 +291,16 @@ def get_args(access_config=None):
                         help='Interval between raw-data requests (map '
                              'updates) in milliseconds.'),
 
+    group = parser.add_argument_group('Tile server')
+    group.add_argument('-TSc', '--custom-tile-servers',
+                       nargs='+', default=[],
+                       help='Use your own tile server(s). Accepts list of '
+                            'names and urls separated by \':\'. '
+                            'Names should be unique. Example: '
+                            '[tile_server_name1:tile_server_url1, '
+                            'tile_server_name2:tile_server_url2]')
+
+
     group = parser.add_argument_group('Geofences')
     group.add_argument('-Gf', '--geofence-file',
                        help='Geofence file to define outer borders of the '
@@ -300,7 +310,7 @@ def get_args(access_config=None):
                             'inverted geofence. Can be combined with '
                             '--geofence-file.')
 
-    group = parser.add_argument_group('nests')
+    group = parser.add_argument_group('Nests')
     group.add_argument('-n', '--nests',
                        action='store_true',
                        help='Show nests on the map.')
@@ -586,9 +596,6 @@ def get_args(access_config=None):
                        help='Filename (without .json) of rarity JSON '
                             'file. Useful when running multiple '
                             'instances. Default: rarity')
-    group = parser.add_argument_group('Custom Tileserver')
-    group.add_argument('--custom-tileserver', action='append',
-		       default=[])
 
     args = parser.parse_args()
     dargs = vars(args)
@@ -607,6 +614,7 @@ def get_args(access_config=None):
             'messenger_url',
             'telegram_url',
             'whatsapp_url',
+            'custom_tile_servers',
             'max_zoom_level',
             'cluster_zoom_level',
             'cluster_zoom_level_mobile',
@@ -704,6 +712,15 @@ def get_args(access_config=None):
     position = extract_coordinates(args.location)
     args.center_lat = position[0]
     args.center_lng = position[1]
+
+    if args.custom_tile_servers:
+        tile_servers = []
+        for item in args.custom_tile_servers:
+            name = item.split(':')[0]
+            url = item[len(name) + 1:]
+            key = name.replace(' ', '').lower()
+            tile_servers.append([key, name, url])
+        args.custom_tile_servers = tile_servers
 
     if (args.db_cleanup_pokemon > 0 or args.db_cleanup_gym > 0
             or args.db_cleanup_pokestop or args.db_cleanup_forts > 0

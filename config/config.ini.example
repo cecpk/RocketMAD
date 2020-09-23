@@ -28,8 +28,6 @@
 #telegram-url:                  # Telegram group invite link. (default=None)
 #whatsapp-url:                  # WhatsApp group invite link. (default=None)
 
-#custom-tileserver:             #  [ style-name; https://tileserver.com/tile/klokantech-basic/{z}/{x}/{y}/2/png, style-name; https://tileserver.com/tile/osm-bright/{z}/{x}/{y}/2/png ]
-
 #max-zoom-level:                # Maximum level a user can zoom out. Range: [0,18]. 0 means the user can zoom out completely. (default=10)
 #cluster-zoom-level:            # Zoom level from which markers should be clustered. Range: [0,18]. -1 to disable clustering. (default=14)
 #cluster-zoom-level-mobile:     # Zoom level from which markers should be clustered on mobile. Range: [0,18]. -1 to disable clustering on mobile. (default=14)
@@ -80,6 +78,14 @@
 #motd-text:                     # MOTD text, can be HTML. (default='Hi there! This is an easily customizable MOTD.')
 #motd-pages:                    # Pages the MOTD should be shown on. (default=['/', '/mobile'])
 #show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)
+
+
+# Tile server settings
+######################
+# You can setup your own tile server with this tool: https://github.com/123FLO321/SwiftTileserverCache
+
+#custom-tile-servers:           # Use your own tile server(s). Accepts list of names and urls separated by ':'. Names should be unique.
+                                # Example: [tile_server_name1:tile_server_url1, tile_server_name2:tile_server_url2] (default=[])
 
 
 # Geofence settings

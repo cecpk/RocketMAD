@@ -196,6 +196,7 @@ def create_app():
         settings = {
             'centerLat': user_args.center_lat,
             'centerLng': user_args.center_lng,
+            'customTileServers': user_args.custom_tile_servers,
             'maxZoomLevel': user_args.max_zoom_level,
             'showAllZoomLevel': user_args.show_all_zoom_level,
             'clusterZoomLevel': user_args.cluster_zoom_level,
@@ -250,8 +251,7 @@ def create_app():
             'nestParks': user_args.nest_parks,
             'nestParksFileName': user_args.nest_parks_filename,
             'exParks': user_args.ex_parks,
-            'exParksFileName': user_args.ex_parks_filename,
-            'custom_tileserver': user_args.custom_tileserver
+            'exParksFileName': user_args.ex_parks_filename
         }
 
         return render_template(

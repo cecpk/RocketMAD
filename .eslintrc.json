@@ -69,6 +69,7 @@
     "difference": "readonly",
     "symmetricDifference": "readonly",
     "lazyLoadImages": "readonly",
+    "setCustomTileServers": "readonly",
     "setTileLayer": "readonly",
     "showMotd": "readonly",
     "Store": "readonly",

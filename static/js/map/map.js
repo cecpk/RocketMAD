@@ -277,13 +277,8 @@ function initMap() { // eslint-disable-line no-unused-vars
         preferCanvas: true
     })
 
-    if (serverSettings.custom_tileserver != null) {
-        Store.set('mapStyle', 'custom')
-        setTileLayer(Store.get('mapStyle'), map)
-    } else {
-        Store.set('mapStyle', 'mapnik')
-        setTileLayer(Store.get('mapStyle'), map)
-    }
+    setCustomTileServers(serverSettings.customTileServers)
+    setTileLayer(Store.get('mapStyle'), map)
 
     L.control.zoom({
         position: 'bottomright'
