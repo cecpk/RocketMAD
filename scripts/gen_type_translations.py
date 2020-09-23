@@ -4,15 +4,16 @@ import urllib.request
 from pathlib import Path
 
 languages = {
-    'pt_br': 'brazilianportuguese',
-    'zh_tw': 'chinesetraditional',
-    'fr': 'french',
     'de': 'german',
+    'en': 'english',
+    'es': 'spanish',
+    'fr': 'french',
     'it': 'italian',
     'ja': 'japanese',
     'ko': 'korean',
-    'es': 'spanish',
-    'th': 'thai'
+    'pt_br': 'brazilianportuguese',
+    'th': 'thai',
+    'zh_tw': 'chinesetraditional'
 }
 types = [
     'bug', 'dark', 'dragon', 'electric', 'fairy', 'fighting', 'fire,' 'flying',

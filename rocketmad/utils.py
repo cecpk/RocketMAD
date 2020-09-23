@@ -101,9 +101,12 @@ def get_args(access_config=None):
                         help='Use Flask’s built-in development server. '
                              'Don\'t use this in production.')
     parser.add_argument('-L', '--locale',
-                        help=('Locale for Pokemon names (check '
+                        default='en',
+                        choices=['de', 'en', 'es', 'fr', 'it', 'ja', 'ko',
+                                 'pt_br', 'ru', 'th', 'zh_cn', 'zh_hk',
+                                 'zh_tw'],
+                        help='Locale for Pokemon names (check '
                               'static/dist/locales for more).'),
-                        default='en')
     parser.add_argument('-c', '--china',
                         help='Coordinates transformer for China.',
                         action='store_true')
@@ -796,29 +799,23 @@ def in_radius(loc1, loc2, radius):
     return distance(loc1, loc2) < radius
 
 
-def i18n(word):
+def i18n(key, **kwargs):
     if not hasattr(i18n, 'dictionary'):
         args = get_args()
         file_path = os.path.join(
             args.root_path,
             args.locales_dir,
             '{}.min.json'.format(args.locale))
-        if os.path.isfile(file_path):
-            with open(file_path, 'r') as f:
-                i18n.dictionary = json.loads(f.read())
-        else:
-            # If locale file is not found we set an empty dict to avoid
-            # checking the file every time, we skip the warning for English as
-            # it is not expected to exist.
-            if not args.locale == 'en':
-                log.warning(
-                    'Skipping translations - unable to find locale file: %s',
-                    file_path)
-            i18n.dictionary = {}
-    if word in i18n.dictionary:
-        return i18n.dictionary[word]
+        with open(file_path, 'r') as f:
+            i18n.dictionary = json.loads(f.read())
+
+    if key not in i18n.dictionary:
+        return 'undefined'
+
+    if kwargs:
+        return i18n.dictionary[key].format(**kwargs)
     else:
-        return word
+        return i18n.dictionary[key]
 
 
 def get_pokemon_data(pokemon_id):

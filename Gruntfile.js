@@ -122,6 +122,7 @@ module.exports = function (grunt) {
                     'static/dist/data/invasions.min.json': 'static/data/invasions.json',
                     'static/dist/data/markerstyles.min.json': 'static/data/markerstyles.json',
                     'static/dist/locales/de.min.json': 'static/locales/de.json',
+                    'static/dist/locales/en.min.json': 'static/locales/en.json',
                     'static/dist/locales/es.min.json': 'static/locales/es.json',
                     'static/dist/locales/fr.min.json': 'static/locales/fr.json',
                     'static/dist/locales/it.min.json': 'static/locales/it.json',

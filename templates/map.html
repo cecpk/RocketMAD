@@ -66,44 +66,44 @@
               <li><a class="dropdown-trigger hide-on-med-and-up" href="#" data-target="navbar-dropdown"><i class="material-icons">more_vert</i></a></li>
               {% endif %}
               {% if discord_url %}
-              <li><a href="{{ discord_url }}" class="hide-on-small-only" title="Discord" target="_blank"><i class="fab fa-discord material-icons"></i></a></li>
+              <li><a href="{{ discord_url }}" class="hide-on-small-only" title="{{ i18n('header_link_title_discord') }}" target="_blank"><i class="fab fa-discord material-icons"></i></a></li>
               {% endif %}
               {% if messenger_url %}
-              <li><a href="{{ messenger_url }}" class="hide-on-small-only" title="Messenger" target="_blank"><i class="fab fa-facebook-messenger material-icons"></i></a></li>
+              <li><a href="{{ messenger_url }}" class="hide-on-small-only" title="{{ i18n('header_link_title_messenger') }}" target="_blank"><i class="fab fa-facebook-messenger material-icons"></i></a></li>
               {% endif %}
               {% if telegram_url %}
-              <li><a href="{{ telegram_url }}" class="hide-on-small-only" title="Telegram" target="_blank"><i class="fab fa-telegram-plane material-icons"></i></a></li>
+              <li><a href="{{ telegram_url }}" class="hide-on-small-only" title="{{ i18n('header_link_title_telegram') }}" target="_blank"><i class="fab fa-telegram-plane material-icons"></i></a></li>
               {% endif %}
               {% if whatsapp_url %}
-              <li><a href="{{ whatsapp_url }}" class="hide-on-small-only" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp material-icons"></i></a></li>
+              <li><a href="{{ whatsapp_url }}" class="hide-on-small-only" title="{{ i18n('header_link_title_whatsapp') }}" target="_blank"><i class="fab fa-whatsapp material-icons"></i></a></li>
               {% endif %}
               {% if patreon_url %}
-              <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="Patreon" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
+              <li><a href="{{ patreon_url }}" class="hide-on-small-only" title="{{ i18n('header_link_title_patreon') }}" target="_blank"><i class="fab fa-patreon material-icons"></i></a></li>
               {% endif %}
               {% if donate_url %}
-              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ i18n('Donate') }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
+              <li><a href="{{ donate_url }}" class="hide-on-small-only" title="{{ i18n('header_link_title_donate') }}" target="_blank"><i class="material-icons">attach_money</i></a></li>
               {% endif %}
               {% if madmin_url %}
               <li><a href="{{ madmin_url }}" class="hide-on-small-only" title="MADmin" target="_blank"><i class="material-icons">phone_android</i></a></li>
               {% endif %}
               {% if admin %}
-              <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="Admin"><i class="material-icons">dashboard</i></a></li>
+              <li><a href="{{ url_for('admin_page') }}" class="hide-on-small-only" title="{{ i18n('header_link_title_admin') }}"><i class="material-icons">dashboard</i></a></li>
               {% endif %}
               {% if pokemon_history_page %}
-              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="{{ i18n('Pokémon history') }}"><i class="material-icons">pets</i></a></li>
+              <li><a href="{{ url_for('pokemon_history_page') }}" class="hide-on-small-only" title="{{ i18n('header_link_title_pokemon_history') }}"><i class="material-icons">pets</i></a></li>
               {% endif %}
               {% if quest_page %}
-              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="{{ i18n('Quests') }}"><i class="material-icons">explore</i></a></li>
+              <li><a href="{{ url_for('quest_page') }}" class="hide-on-small-only" title="{{ i18n('header_link_title_quests') }}"><i class="material-icons">explore</i></a></li>
               {% endif %}
               {% if client_auth %}
               {% if logged_in %}
-              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="{{ i18n('Log out') }}"><i class="material-icons">exit_to_app</i></a></li>
+              <li><a href="{{ url_for('logout') }}" class="hide-on-small-only" title="{{ i18n('header_link_title_logout') }}"><i class="material-icons">exit_to_app</i></a></li>
               {% else %}
-              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="{{ i18n('Log in') }}"><i class="material-icons">account_box</i></a></li>
+              <li><a href="{{ url_for('login_page') }}" class="hide-on-small-only" title="{{ i18n('header_link_title_login') }}"><i class="material-icons">account_box</i></a></li>
               {% endif %}
               {% endif %}
               {% if settings.statsSidebar %}
-              <li><a href="javascript:void(0);" data-target="stats-sidenav" class="sidenav-trigger" title="{{ i18n('Live stats') }}"><i class="material-icons">equalizer</i></a></li>
+              <li><a href="javascript:void(0);" data-target="stats-sidenav" class="sidenav-trigger" title="{{ i18n('header_link_title_live_stats') }}"><i class="material-icons">equalizer</i></a></li>
               {% endif %}
             </ul>
           </div>
@@ -114,13 +114,13 @@
     {% if use_dropdown %}
     <ul id="navbar-dropdown" class="dropdown-content">
       {% if pokemon_history_page %}
-      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>{{ i18n('Pokémon history') }}</a></li>
+      <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>{{ i18n('header_link_title_pokemon_history') }}</a></li>
       {% endif %}
       {% if quest_page %}
-      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('Quests') }}</a></li>
+      <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('header_link_title_quests') }}</a></li>
       {% endif %}
       {% if admin %}
-      <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
+      <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>{{ i18n('header_link_title_admin') }}</a></li>
       {% endif %}
       {% if madmin_url %}
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">phone_android</i>MADmin</a></li>
@@ -128,33 +128,33 @@
       {% if donate_url or patreon_url %}
       <li class="divider" tabindex="-1"></li>
       {% if donate_url %}
-      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ i18n('Donate') }}</a></li>
+      <li><a href="{{ donate_url }}" target="_blank"><i class="material-icons">attach_money</i>{{ i18n('header_link_title_donate') }}</a></li>
       {% endif %}
       {% if patreon_url %}
-      <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>Patreon</a></li>
+      <li><a href="{{ patreon_url }}" target="_blank"><i class="fab fa-patreon"></i>{{ i18n('header_link_title_patreon') }}</a></li>
       {% endif %}
       {% endif %}
       {% if discord_url or messenger_url or telegram_url or whatsapp_url %}
       <li class="divider" tabindex="-1"></li>
       {% if discord_url %}
-      <li><a href="{{ discord_url }}" target="_blank"><i class="fab fa-discord"></i>Discord</a></li>
+      <li><a href="{{ discord_url }}" target="_blank"><i class="fab fa-discord"></i>{{ i18n('header_link_title_discord') }}</a></li>
       {% endif %}
       {% if messenger_url %}
-      <li><a href="{{ messenger_url }}" target="_blank"><i class="fab fa-facebook-messenger"></i>Messenger</a></li>
+      <li><a href="{{ messenger_url }}" target="_blank"><i class="fab fa-facebook-messenger"></i>{{ i18n('header_link_title_messenger') }}</a></li>
       {% endif %}
       {% if telegram_url %}
-      <li><a href="{{ telegram_url }}" target="_blank"><i class="fab fa-telegram-plane"></i>Telegram</a></li>
+      <li><a href="{{ telegram_url }}" target="_blank"><i class="fab fa-telegram-plane"></i>{{ i18n('header_link_title_telegram') }}</a></li>
       {% endif %}
       {% if whatsapp_url %}
-      <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
+      <li><a href="{{ whatsapp_url }}" target="_blank"><i class="fab fa-whatsapp"></i>{{ i18n('header_link_title_whatsapp') }}</a></li>
       {% endif %}
       {% endif %}
       {% if client_auth %}
       <li class="divider" tabindex="-1"></li>
       {% if logged_in %}
-      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>{{ i18n('Log out') }}</a></li>
+      <li><a href="{{ url_for('logout') }}"><i class="material-icons">exit_to_app</i>{{ i18n('header_link_title_logout') }}</a></li>
       {% else %}
-      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>{{ i18n('Log in') }}</a></li>
+      <li><a href="{{ url_for('login_page') }}"><i class="material-icons">account_box</i>{{ i18n('header_link_title_login') }}</a></li>
       {% endif %}
       {% endif %}
     </ul>
@@ -176,23 +176,34 @@
       </div>
     </div>
 
+    {% if settings.weather %}
+    <div id="weather-modal" class="modal">
+      <div class="modal-content">
+        <h4>Weather</h4> <!-- Placeholder -->
+        <div id="weather-modal-image"><img src="" width="192"></div>
+        <h5>{{ i18n('weather_modal_boosted_types') }}</h5>
+        <div id="boosted-types-container"></div>
+      </div>
+    </div>
+    {% endif %}
+
     {% if settings.pokemons %}
     <div id="pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="filter-pokemon-title">Pokémon</h6>
+        <h6 id="filter-pokemon-title">Pokémon</h6> <!-- Placeholder -->
         <label for="exclude-pokemon">
           <input id="exclude-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
-              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-              <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
             </div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -203,20 +214,20 @@
     {% if settings.pokemonValues %}
     <div id="pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="filter-values-pokemon-title">{{ i18n('Pokémon filtered by values') }}</h6>
+        <h6 id="filter-values-pokemon-title">Pokémon filtered by values</h6> <!-- Placeholder -->
         <label for="unfiltered-pokemon">
           <input id="unfiltered-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
-              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-              <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
             </div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -227,20 +238,20 @@
     {% if settings.raidFilters %}
     <div id="raid-pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="filter-raid-pokemon-title">Raid Bosses</h6>
+        <h6 id="filter-raid-pokemon-title">Raid Bosses</h6> <!-- Placeholder -->
         <label for="exclude-raid-pokemon">
           <input id="exclude-raid-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
-              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-              <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
             </div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -252,8 +263,8 @@
     <div id="quest-filter-modal" class="modal filter-modal quest-filter-modal">
       <div class="modal-content">
         <ul id ="quest-filter-tabs" class="tabs quest-filter-tabs">
-          <li class="tab"><a href="#quest-pokemon-tab" class="active">Quest Pokémon</a></li>
-          <li class="tab"><a href="#quest-item-tab">Quest Items</a></li>
+          <li class="tab"><a href="#quest-pokemon-tab" class="active">Quest Pokémon</a></li> <!-- Placeholder -->
+          <li class="tab"><a href="#quest-item-tab">Quest Items</a></li> <!-- Placeholder -->
         </ul>
         <div id="quest-pokemon-tab">
           <label for="exclude-quest-pokemon">
@@ -261,14 +272,14 @@
             <div class="pokemon-filter-list"></div>
             <div class="filter-footer-container">
               <div class="filter-footer-left">
-                <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-                <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+                <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+                <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
               </div>
               <div class="filter-footer-right">
-                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
               </div>
             </div>
           </label>
@@ -280,8 +291,8 @@
             <div class="filter-footer-container">
               <div></div>
               <div class="filter-footer-right">
-                <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
               </div>
             </div>
           </label>
@@ -293,15 +304,15 @@
     {% if settings.invasions %}
     <div id="invasion-filter-modal" class="modal filter-modal invasion-filter-modal">
       <div class="modal-content">
-        <h6 id="filter-invasion-title">Rocket Invasions</h6>
+        <h6 id="filter-invasion-title">Rocket Invasions</h6> <!-- Placeholder -->
         <label for="exclude-invasions">
           <input id="exclude-invasions" type="text" readonly="true" style="display:none;">
           <div class="invasion-filter-list"></div>
           <div class="filter-footer-container">
             <div></div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -309,34 +320,23 @@
     </div>
     {% endif %}
 
-    {% if settings.weather %}
-    <div id="weather-modal" class="modal">
-      <div class="modal-content">
-        <h4>Weather</h4>
-        <div id="weather-modal-image"><img src="" width="192"></div>
-        <h5>{{ i18n('Boosted Types') }}</h5>
-        <div id="boosted-types-container"></div>
-      </div>
-    </div>
-    {% endif %}
-
     {% if settings.pokemons %}
     <div id="notif-pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="notif-pokemon-filter-title">Notif Pokémon</h6>
+        <h6 id="notif-pokemon-filter-title">Notif Pokémon</h6> <!-- Placeholder -->
         <label for="no-notif-pokemon">
           <input id="no-notif-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
-              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-              <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
             </div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -347,20 +347,20 @@
     {% if settings.pokemonValues %}
     <div id="notif-pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="notif-pokemon-values-filter-title">{{ i18n('Notif Pokémon filtered by values') }}</h6>
+        <h6 id="notif-pokemon-values-filter-title">Notif Pokémon filtered by values</h6> <!-- Placeholder -->
         <label for="no-notif-values-pokemon">
           <input id="no-notif-values-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
-              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-              <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
             </div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -371,20 +371,20 @@
     {% if settings.raids %}
     <div id="notif-raid-pokemon-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 id="notif-raid-pokemon-filter-title">Notif Raid Bosses</h6>
+        <h6 id="notif-raid-pokemon-filter-title">Notif Raid Bosses</h6> <!-- Placeholder -->
         <label for="no-notif-raid-pokemon">
           <input id="no-notif-raid-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
           <div class="filter-footer-container">
             <div class="filter-footer-left">
-              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-              <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+              <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+              <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
             </div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -396,8 +396,8 @@
     <div id="notif-quest-filter-modal" class="modal filter-modal quest-filter-modal">
       <div class="modal-content">
         <ul id ="notif-quest-filter-tabs" class="tabs quest-filter-tabs">
-          <li class="tab"><a href="#notif-quest-pokemon-tab" class="active">Notif Quest Pokémon</a></li>
-          <li class="tab"><a href="#notif-quest-item-tab">Notif Quest Items</a></li>
+          <li class="tab"><a href="#notif-quest-pokemon-tab" class="active">Notif Quest Pokémon</a></li> <!-- Placeholder -->
+          <li class="tab"><a href="#notif-quest-item-tab">Notif Quest Items</a></li> <!-- Placeholder -->
         </ul>
         <div id="notif-quest-pokemon-tab">
           <label for="no-notif-quest-pokemon">
@@ -405,14 +405,14 @@
             <div class="pokemon-filter-list"></div>
             <div class="filter-footer-container">
               <div class="filter-footer-left">
-                <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('You can search for: Name, ID, Type and Generation. Multiple search terms can be used by separating them with commas. Exclusion is possible by prepending \'-\' to a search term.') }}"><i class="material-icons">info_outline</i></a>
-                <input type="search" class="search" placeholder="{{ i18n('Search...') }}">
+                <a class="btn-flat tooltipped search-info-btn" data-html="true" data-position="top" data-tooltip="{{ i18n('pokemon_filter_search_info') }}"><i class="material-icons">info_outline</i></a>
+                <input type="search" class="search" placeholder="{{ i18n('pokemon_filter_search_placeholder') }}">
               </div>
               <div class="filter-footer-right">
-                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
-                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="Select all">select_all</i></a>
-                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="Deselect all">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-select-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-filtered" style="display:none;"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat pokemon-select-all"><i class="material-icons" title="filter_select_all_title">select_all</i></a>
+                <a class="waves-effect btn-flat pokemon-deselect-all"><i class="material-icons" title="filter_deselect_all_title">delete_forever</i></a>
               </div>
             </div>
           </label>
@@ -424,8 +424,8 @@
             <div class="filter-footer-container">
               <div></div>
               <div class="filter-footer-right">
-                <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+                <a class="waves-effect btn-flat quest-item-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+                <a class="waves-effect btn-flat quest-item-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
               </div>
             </div>
           </label>
@@ -437,15 +437,15 @@
     {% if settings.invasions %}
     <div id="notif-invasion-filter-modal" class="modal filter-modal invasion-filter-modal">
       <div class="modal-content">
-        <h6 id="notif-invasion-filter-title">Notif Rocket Invasions</h6>
+        <h6 id="notif-invasion-filter-title">Notif Rocket Invasions</h6> <!-- Placeholder -->
         <label for="no-notif-invasions">
           <input id="no-notif-invasions" type="text" readonly="true" style="display:none;">
           <div class="invasion-filter-list"></div>
           <div class="filter-footer-container">
             <div></div>
             <div class="filter-footer-right">
-              <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="{{ i18n('Select all') }}">select_all</i></a>
-              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('Deselect all') }}">delete_forever</i></a>
+              <a class="waves-effect btn-flat invasion-select-all"><i class="material-icons" title="{{ i18n('filter_select_all_title') }}">select_all</i></a>
+              <a class="waves-effect btn-flat invasion-deselect-all"><i class="material-icons" title="{{ i18n('filter_deselect_all_title') }}">delete_forever</i></a>
             </div>
           </div>
         </label>
@@ -456,12 +456,12 @@
     {% if settings.pokemons or settings.raids or settings.quests %}
     <div id="import-pokemon-list-modal" class="modal">
       <div class="modal-content">
-        <h4>{{ i18n('Import Pokémon list') }}</h4>
+        <h4>{{ i18n('import_pokemon_header') }}</h4>
         <p>
           <form action="#">
             <div class="file-field input-field">
               <div class="btn">
-                <span>{{ i18n('File') }}</span>
+                <span>{{ i18n('import_pokemon_file_button_label') }}</span>
                 <input id="pokemon-list-file" type="file" accept=".txt">
               </div>
               <div class="file-path-wrapper">
@@ -470,12 +470,12 @@
             </div>
           </form>
         </p>
-        <p>{{ i18n('Import to') }}:</p>
+        <p>{{ i18n('import_pokemon_to') }}</p>
         {% if settings.pokemons %}
         <p>
           <label>
             <input type="checkbox" id="import-pokemon-checkbox"/>
-            <span>{{ i18n('Pokémon filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
@@ -483,7 +483,7 @@
         <p>
           <label>
             <input type="checkbox" id="import-values-pokemon-checkbox"/>
-            <span>{{ i18n('Pokémon values filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_values_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
@@ -491,7 +491,7 @@
         <p>
           <label>
             <input type="checkbox" id="import-raid-pokemon-checkbox"/>
-            <span>{{ i18n('Raid Boss filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_raid_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
@@ -499,7 +499,7 @@
         <p>
           <label>
             <input type="checkbox" id="import-quest-pokemon-checkbox"/>
-            <span>{{ i18n('Quest Pokémon filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_quest_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
@@ -507,7 +507,7 @@
         <p>
           <label>
             <input type="checkbox" id="import-notif-pokemon-checkbox"/>
-            <span>{{ i18n('Pokémon notification filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_notif_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
@@ -515,7 +515,7 @@
         <p>
           <label>
             <input type="checkbox" id="import-notif-values-pokemon-checkbox"/>
-            <span>{{ i18n('Pokémon values notification filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_notif_values_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
@@ -523,7 +523,7 @@
         <p>
           <label>
             <input type="checkbox" id="import-notif-raid-pokemon-checkbox"/>
-            <span>{{ i18n('Raid Boss notification filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_notif_raid_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
@@ -531,40 +531,40 @@
         <p>
           <label>
             <input type="checkbox" id="import-notif-quest-pokemon-checkbox"/>
-            <span>{{ i18n('Quest Pokémon notification filter') }}</span>
+            <span>{{ i18n('import_pokemon_to_notif_quest_pokemon_filter_label') }}</span>
           </label>
         </p>
         {% endif %}
-        <a id="import-pokemon-list" class="waves-effect waves-light btn"><i class="material-icons left">file_download</i>{{ i18n('Import') }}</a>
+        <a id="import-pokemon-list" class="waves-effect waves-light btn"><i class="material-icons left">file_download</i>{{ i18n('import_pokemon_button_label') }}</a>
       </div>
     </div>
 
     <div id="export-pokemon-list-modal" class="modal">
       <div class="modal-content">
-        <h4>{{ i18n('Export Pokémon lists') }}</h4>
+        <h4>{{ i18n('export_pokemon_header') }}</h4>
         {% if settings.pokemons %}
-        <p><a id="export-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Pokémon list') }}</a></p>
+        <p><a id="export-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_pokemon_button_label') }}</a></p>
         {% endif %}
         {% if settings.pokemonValues %}
-        <p><a id="export-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Pokémon values list') }}</a></p>
+        <p><a id="export-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_values_pokemon_button_label') }}</a></p>
         {% endif %}
         {% if settings.raids %}
-        <p><a id="export-raid-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Raid Bosses list') }}</a></p>
+        <p><a id="export-raid-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_raid_pokemon_button_label') }}</a></p>
         {% endif %}
         {% if settings.quests %}
-        <p><a id="export-quest-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Quest Pokémon list') }}</a></p>
+        <p><a id="export-quest-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_quest_pokemon_button_label') }}</a></p>
         {% endif %}
         {% if settings.pokemons %}
-        <p><a id="export-notif-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Pokémon notifications list') }}</a></p>
+        <p><a id="export-notif-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_notif_pokemon_button_label') }}</a></p>
         {% endif %}
         {% if settings.pokemonValues %}
-        <p><a id="export-notif-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Pokémon values notifications list') }}</a></p>
+        <p><a id="export-notif-values-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_notif_values_pokemon_button_label') }}</a></p>
         {% endif %}
         {% if settings.raids %}
-        <p><a id="export-notif-raid-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Raid Boss notifications list') }}</a></p>
+        <p><a id="export-notif-raid-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_notif_raid_pokemon_button_label') }}</a></p>
         {% endif %}
         {% if settings.quests %}
-        <p><a id="export-notif-quest-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('Quest Pokémon notifications list') }}</a></p>
+        <p><a id="export-notif-quest-pokemon-button" class="waves-effect waves-teal btn-flat"><i class="material-icons left">file_upload</i>{{ i18n('export_notif_quest_pokemon_button_label') }}</a></p>
         {% endif %}
       </div>
     </div>
@@ -573,7 +573,7 @@
     <ul id="settings-sidenav" class="sidenav collapsible">
       {% if settings.pokemons %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">pets</i>{{ i18n('Pokémon') }}</div>
+        <div class="collapsible-header"><i class="material-icons">pets</i>{{ i18n('settings_sidenav_header_pokemon') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -581,7 +581,7 @@
                 <label>
                   <input type="checkbox" id="pokemon-switch">
                   <span class="lever"></span>
-                  {{ i18n('Pokémon') }}
+                  {{ i18n('pokemon_switch_label') }}
                 </label>
               </div>
             </div>
@@ -591,20 +591,20 @@
                   <label>
                     <input type="checkbox" id="filter-pokemon-switch">
                     <span class="lever"></span>
-                    {{ i18n('Filter Pokémon') }}
+                    {{ i18n('filter_pokemon_switch_label') }}
                   </label>
-                  <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select Pokémon') }}"><i class="material-icons left">filter_list</i></a>
+                  <a data-target="pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('pokemon_filter_button_title') }}"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">{{ i18n('Icon size') }}</div>
+                  <div class="select-title">{{ i18n('pokemon_icon_size_select_label') }}</div>
                   <select id="pokemon-icon-size-select">
-                    <option value="50">{{ i18n('X-Small') }}</option>
-                    <option value="75">{{ i18n('Small') }}</option>
-                    <option value="100">{{ i18n('Normal') }}</option>
-                    <option value="150">{{ i18n('Large') }}</option>
-                    <option value="200">{{ i18n('X-Large') }}</option>
+                    <option value="50">{{ i18n('icon_size_extra_small') }}</option>
+                    <option value="75">{{ i18n('icon_size_small') }}</option>
+                    <option value="100">{{ i18n('icon_size_normal') }}</option>
+                    <option value="150">{{ i18n('icon_size_large') }}</option>
+                    <option value="200">{{ i18n('icon_size_extra_large') }}</option>
                   </select>
                 </div>
               </div>
@@ -618,7 +618,7 @@
                   <label>
                     <input type="checkbox" id="pokemon-values-switch">
                     <span class="lever"></span>
-                    {{ i18n('Pokémon values') }}
+                    {{ i18n('pokemon_values_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -628,9 +628,9 @@
                     <label>
                       <input type="checkbox" id="filter-values-switch">
                       <span class="lever"></span>
-                      {{ i18n('Filter by values') }}
+                      {{ i18n('filter_values_switch_label') }}
                     </label>
-                    <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select Pokémon') }}"><i class="material-icons left">filter_list</i></a>
+                    <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('pokemon_filter_button_title') }}"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
                 <div id="pokemon-values-filters-wrapper">
@@ -640,7 +640,7 @@
                         <label>
                           <input type="checkbox" id="zero-ivs-pokemon-switch">
                           <span class="lever"></span>
-                          {{ i18n('0% IV Pokémon') }}
+                          {{ i18n('zero_ivs_pokemon_switch_label') }}
                         </label>
                       </div>
                     </div>
@@ -651,19 +651,19 @@
                         <label>
                           <input type="checkbox" id="hundo-ivs-pokemon-switch">
                           <span class="lever"></span>
-                          {{ i18n('100% IV Pokémon') }}
+                          {{ i18n('hundo_ivs_pokemon_switch_label') }}
                         </label>
                       </div>
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="pokemon-ivs-slider-title" class="slider-title">IVs</span>
+                    <span id="pokemon-ivs-slider-title" class="slider-title">IVs</span> <!-- Placeholder -->
                     <div class="slider-container">
                       <div id="pokemon-ivs-slider"></div>
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="pokemon-level-slider-title" class="slider-title">Levels</span>
+                    <span id="pokemon-level-slider-title" class="slider-title">Levels</span> <!-- Placeholder -->
                     <div class="slider-container">
                       <div id="pokemon-level-slider"></div>
                     </div>
@@ -676,14 +676,14 @@
             <div class="settings-container">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">{{ i18n('Rarity') }}</div>
+                  <div class="select-title">{{ i18n('rarity_select_label') }}</div>
                   <select id="rarity-select" multiple>
-                    <option value="1">{{ i18n('Common') }}</option>
-                    <option value="2">{{ i18n('Uncommon') }}</option>
-                    <option value="3">{{ i18n('Rare') }}</option>
-                    <option value="4">{{ i18n('Very Rare') }}</option>
-                    <option value="5">{{ i18n('Ultra Rare') }}</option>
-                    <option value="6">{{ i18n('New Spawn') }}</option>
+                    <option value="1">{{ i18n('pokemon_rarity_1') }}</option>
+                    <option value="2">{{ i18n('pokemon_rarity_2') }}</option>
+                    <option value="3">{{ i18n('pokemon_rarity_3') }}</option>
+                    <option value="4">{{ i18n('pokemon_rarity_4') }}</option>
+                    <option value="5">{{ i18n('pokemon_rarity_5') }}</option>
+                    <option value="6">{{ i18n('pokemon_rarity_6') }}</option>
                   </select>
                 </div>
               </div>
@@ -692,7 +692,7 @@
                   <label>
                     <input type="checkbox" id="scale-rarity-switch">
                     <span class="lever"></span>
-                    {{ i18n('Scale by rarity') }}
+                    {{ i18n('scale_rarity_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -705,19 +705,19 @@
       {% if settings.gyms or settings.raids %}
       <li>
         {% if settings.gyms and settings.raids %}
-        <div class="collapsible-header"><i class="material-icons">security</i>{{ i18n('Gyms & Raids') }}</div>
+        <div class="collapsible-header"><i class="material-icons">security</i>{{ i18n('settings_sidenav_header_gyms_raids') }}</div>
         {% elif settings.gyms %}
-        <div class="collapsible-header"><i class="material-icons">security</i>{{ i18n('Gyms') }}</div>
+        <div class="collapsible-header"><i class="material-icons">security</i>{{ i18n('settings_sidenav_header_gyms') }}</div>
         {% else %}
-        <div class="collapsible-header"><i class="material-icons">security</i>{{ i18n('Raids') }}</div>
+        <div class="collapsible-header"><i class="material-icons">security</i>{{ i18n('settings_sidenav_header_raids') }}</div>
         {% endif %}
         <div class="collapsible-body">
           <div id="gym-name-filter-sidebar-wrapper">
             <div class="settings-container">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="text-input-title">{{ i18n('Name includes') }}</div>
-                  <input placeholder="{{ i18n('Filter...') }}" id="gym-name-filter" type="text">
+                  <div class="text-input-title">{{ i18n('gym_name_filter_label') }}</div>
+                  <input placeholder="{{ i18n('gym_name_filter_placeholder') }}" id="gym-name-filter" type="text">
                 </div>
               </div>
               {% if settings.gymSidebar %}
@@ -726,7 +726,7 @@
                   <label>
                     <input type="checkbox" id="gym-sidebar-switch">
                     <span class="lever"></span>
-                    {{ i18n('Gym sidebar') }}
+                    {{ i18n('gym_sidebar_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -740,7 +740,7 @@
                 <label>
                   <input type="checkbox" id="gym-switch">
                   <span class="lever"></span>
-                  {{ i18n('Gyms') }}
+                  {{ i18n('gym_switch_label') }}
                 </label>
               </div>
             </div>
@@ -748,17 +748,17 @@
             <div id="gym-filters-wrapper">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">{{ i18n('Teams') }}</div>
+                  <div class="select-title">{{ i18n('gym_team_select_label') }}</div>
                   <select id="gym-team-select" multiple>
-                    <option value="0">{{ i18n('Uncontested') }}</option>
-                    <option value="1">{{ i18n('Mystic') }}</option>
-                    <option value="2">{{ i18n('Valor') }}</option>
-                    <option value="3">{{ i18n('Instinct') }}</option>
+                    <option value="0">{{ i18n('gym_team_none') }}</option>
+                    <option value="1">{{ i18n('gym_team_mystic') }}</option>
+                    <option value="2">{{ i18n('gym_team_valor') }}</option>
+                    <option value="3">{{ i18n('gym_team_instinct') }}</option>
                   </select>
                 </div>
               </div>
               <div class="form-control">
-                <span id="gym-level-slider-title" class="slider-title">{{ i18n('Gym levels') }}</span>
+                <span id="gym-level-slider-title" class="slider-title">Gym levels</span> <!-- Placeholder -->
                 <div class="slider-container">
                   <div id="gym-level-slider"></div>
                 </div>
@@ -768,7 +768,7 @@
                   <label>
                     <input type="checkbox" id="gym-open-spot-switch">
                     <span class="lever"></span>
-                    {{ i18n('Open spot only') }}
+                    {{ i18n('gym_open_spot_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -777,7 +777,7 @@
                   <label>
                     <input type="checkbox" id="gym-ex-eligible-switch">
                     <span class="lever"></span>
-                    {{ i18n('EX eligible Gyms only') }}
+                    {{ i18n('gym_ex_eligible_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -786,23 +786,23 @@
                   <label>
                     <input type="checkbox" id="gym-in-battle-switch">
                     <span class="lever"></span>
-                    {{ i18n('Gyms in battle only') }}
+                    {{ i18n('gym_in_battle_switch_label') }}
                   </label>
                 </div>
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">{{ i18n('Last scanned') }}</div>
+                  <div class="select-title">{{ i18n('gym_last_scanned_select_label') }}</div>
                   <select id="gym-last-scanned-select">
-                    <option value="0">{{ i18n('Any time') }}</option>
-                    <option value="1">{{ i18n('Within last hour') }}</option>
-                    <option value="6">{{ i18n('Within last 6 hours') }}</option>
-                    <option value="12">{{ i18n('Within last 12 hours') }}</option>
-                    <option value="24">{{ i18n('Within last day') }}</option>
-                    <option value="168">{{ i18n('Within last week') }}</option>
-                    <option value="730">{{ i18n('Within last month') }}</option>
-                    <option value="4380">{{ i18n('Within last 6 months') }}</option>
-                    <option value="8760">{{ i18n('Within last year') }}</option>
+                    <option value="0">{{ i18n('gym_scanned_any_time') }}</option>
+                    <option value="1">{{ i18n('gym_scanned_last_hour') }}</option>
+                    <option value="6">{{ i18n('gym_scanned_last_6_hours') }}</option>
+                    <option value="12">{{ i18n('gym_scanned_last_12_hours') }}</option>
+                    <option value="24">{{ i18n('gym_scanned_last_day') }}</option>
+                    <option value="168">{{ i18n('gym_scanned_last_week') }}</option>
+                    <option value="730">{{ i18n('gym_scanned_last_month') }}</option>
+                    <option value="4380">{{ i18n('gym_scanned_last_6_months') }}</option>
+                    <option value="8760">{{ i18n('gym_scanned_last_year') }}</option>
                   </select>
                 </div>
               </div>
@@ -817,7 +817,7 @@
                 <label>
                   <input type="checkbox" id="raid-switch">
                   <span class="lever"></span>
-                  {{ i18n('Raids') }}
+                  {{ i18n('raid_switch_label') }}
                 </label>
               </div>
             </div>
@@ -828,9 +828,9 @@
                   <label>
                     <input type="checkbox" id="filter-raid-pokemon-switch">
                     <span class="lever"></span>
-                    {{ i18n('Filter Raid Bosses') }}
+                    {{ i18n('filter_raid_pokemon_switch_label') }}
                   </label>
-                  <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select Pokémon') }}"><i class="material-icons left">filter_list</i></a>
+                  <a data-target="raid-pokemon-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('pokemon_filter_button_title') }}"><i class="material-icons left">filter_list</i></a>
                 </div>
               </div>
               <div class="form-control">
@@ -838,7 +838,7 @@
                   <label>
                     <input type="checkbox" id="raid-active-switch">
                     <span class="lever"></span>
-                    {{ i18n('Active Raids only') }}
+                    {{ i18n('raid_active_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -847,20 +847,20 @@
                   <label>
                     <input type="checkbox" id="raid-ex-eligible-switch">
                     <span class="lever"></span>
-                    {{ i18n('EX eligible Raids only') }}
+                    {{ i18n('raid_ex_eligible_switch_label') }}
                   </label>
                 </div>
               </div>
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">{{ i18n('Raid levels') }}</div>
+                  <div class="select-title">{{ i18n('raid_level_select_label') }}</div>
                   <select id="raid-level-select" multiple>
-                    <option value="1">{{ i18n('Level 1') }}</option>
-                    <option value="2">{{ i18n('Level 2') }}</option>
-                    <option value="3">{{ i18n('Level 3') }}</option>
-                    <option value="4">{{ i18n('Level 4') }}</option>
-                    <option value="5">{{ i18n('Level 5') }}</option>
-                    <option value="6">{{ i18n('Level 6') }}</option>
+                    <option value="1">{{ i18n('raid_level_1') }}</option>
+                    <option value="2">{{ i18n('raid_level_2') }}</option>
+                    <option value="3">{{ i18n('raid_level_3') }}</option>
+                    <option value="4">{{ i18n('raid_level_4') }}</option>
+                    <option value="5">{{ i18n('raid_level_5') }}</option>
+                    <option value="6">{{ i18n('raid_level_6') }}</option>
                   </select>
                 </div>
               </div>
@@ -873,7 +873,7 @@
       {% endif %}
       {% if settings.pokestops %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">nature</i>{{ i18n('PokéStops') }}</div>
+        <div class="collapsible-header"><i class="material-icons">nature</i>{{ i18n('settings_sidenav_header_pokestops') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -881,15 +881,15 @@
                 <label>
                   <input type="checkbox" id="pokestop-switch">
                   <span class="lever"></span>
-                  {{ i18n('PokéStops') }}
+                  {{ i18n('pokestop_switch_label') }}
                 </label>
               </div>
             </div>
             <div class="pokestop-filters-wrapper">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="text-input-title">{{ i18n('Name includes') }}</div>
-                  <input placeholder="{{ i18n('Filter...') }}" id="pokestop-name-filter" type="text">
+                  <div class="text-input-title">{{ i18n('pokestop_name_filter_label') }}</div>
+                  <input placeholder="{{ i18n('pokestop_name_filter_placeholder') }}" id="pokestop-name-filter" type="text">
                 </div>
               </div>
               <div class="form-control">
@@ -897,7 +897,7 @@
                   <label>
                     <input type="checkbox" id="pokestop-no-event-switch">
                     <span class="lever"></span>
-                    {{ i18n('PokéStops without event') }}
+                    {{ i18n('pokestop_no_event_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -911,7 +911,7 @@
                   <label>
                     <input type="checkbox" id="quest-switch">
                     <span class="lever"></span>
-                    {{ i18n('Quests') }}
+                    {{ i18n('quest_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -921,9 +921,9 @@
                     <label>
                       <input type="checkbox" id="filter-quests-switch">
                       <span class="lever"></span>
-                      {{ i18n('Filter Quests') }}
+                      {{ i18n('filter_quests_switch_label') }}
                     </label>
-                    <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select rewards') }}"><i class="material-icons left">filter_list</i></a>
+                    <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('quest_filter_button_title') }}"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
               </div>
@@ -936,7 +936,7 @@
                   <label>
                     <input type="checkbox" id="invasion-switch">
                     <span class="lever"></span>
-                    {{ i18n('Rocket Invasions') }}
+                    {{ i18n('invasion_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -946,9 +946,9 @@
                     <label>
                       <input type="checkbox" id="filter-invasions-switch">
                       <span class="lever"></span>
-                      {{ i18n('Filter Rocket Invasions') }}
+                      {{ i18n('filter_invasions_switch') }}
                     </label>
-                    <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select Rocket Invasions') }}"><i class="material-icons left">filter_list</i></a>
+                    <a data-target="invasion-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('invasion_filter_button_title') }}"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
               </div>
@@ -958,12 +958,12 @@
             <div class="settings-container">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">{{ i18n('Lures') }}</div>
+                  <div class="select-title">{{ i18n('lure_type_select_label') }}</div>
                   <select id="lure-type-select" multiple>
-                    <option value="501">{{ i18n('Normal Lures') }}</option>
-                    <option value="502">{{ i18n('Glacial Lures') }}</option>
-                    <option value="504">{{ i18n('Magnetic Lures') }}</option>
-                    <option value="503">{{ i18n('Mossy Lures') }}</option>
+                    <option value="501">{{ i18n('lure_name_501') }}</option>
+                    <option value="502">{{ i18n('lure_name_502') }}</option>
+                    <option value="504">{{ i18n('lure_name_503') }}</option>
+                    <option value="503">{{ i18n('lure_name_504') }}</option>
                   </select>
                 </div>
               </div>
@@ -975,7 +975,7 @@
       {% endif %}
       {% if settings.weather %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">cloud</i>{{ i18n('Weather') }}</div>
+        <div class="collapsible-header"><i class="material-icons">cloud</i>{{ i18n('settings_sidenav_header_weather') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -983,7 +983,7 @@
                 <label>
                   <input type="checkbox" id="weather-switch">
                   <span class="lever"></span>
-                  {{ i18n('Weather') }}
+                  {{ i18n('weather_switch_label') }}
                 </label>
               </div>
             </div>
@@ -993,7 +993,7 @@
                   <label>
                     <input type="checkbox" id="weather-cells-switch">
                     <span class="lever"></span>
-                    {{ i18n('Weather cells') }}
+                    {{ i18n('weather_cells_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1002,7 +1002,7 @@
                   <label>
                     <input type="checkbox" id="main-weather-switch">
                     <span class="lever"></span>
-                    {{ i18n('Main weather in header') }}
+                    {{ i18n('main_weather_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1013,7 +1013,7 @@
       {% endif %}
       {% if settings.s2Cells %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">grid_on</i>{{ i18n('S2 cells') }}</div>
+        <div class="collapsible-header"><i class="material-icons">grid_on</i>{{ i18n('settings_sidenav_header_s2_cells') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -1021,7 +1021,7 @@
                 <label>
                   <input type="checkbox" id="s2-cell-switch">
                   <span class="lever"></span>
-                  {{ i18n('S2 cells') }}
+                  {{ i18n('s2_cell_switch_label') }}
                 </label>
               </div>
             </div>
@@ -1031,7 +1031,7 @@
                   <label>
                     <input type="checkbox" id="s2-level10-switch">
                     <span class="lever"></span>
-                    {{ i18n('Weather cells') }} (S2 L10)
+                    {{ i18n('s2_level10_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1040,7 +1040,7 @@
                   <label>
                     <input type="checkbox" id="s2-level13-switch">
                     <span class="lever"></span>
-                    {{ i18n('Ex trigger cells') }} (S2 L13)
+                    {{ i18n('s2_level13_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1049,7 +1049,7 @@
                   <label>
                     <input type="checkbox" id="s2-level14-switch">
                     <span class="lever"></span>
-                    {{ i18n('Gym cells') }} (S2 L14)
+                    {{ i18n('s2_level14_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1058,7 +1058,7 @@
                   <label>
                     <input type="checkbox" id="s2-level17-switch">
                     <span class="lever"></span>
-                    {{ i18n('PokéStop cells') }} (S2 L17)
+                    {{ i18n('s2_level17_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1067,7 +1067,7 @@
                   <label>
                     <input type="checkbox" id="s2-cells-warning-switch">
                     <span class="lever"></span>
-                    {{ i18n('Warn about hidden cells') }}
+                    {{ i18n('s2_cells_warning_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1078,7 +1078,7 @@
       {% endif %}
       {% if settings.spawnpoints or settings.scannedLocs or settings.nestParks or settings.exParks or settings.ranges %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">map</i>{{ i18n('Map misc') }}</div>
+        <div class="collapsible-header"><i class="material-icons">map</i>{{ i18n('settings_sidenav_header_map_misc') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             {% if settings.spawnpoints %}
@@ -1087,7 +1087,7 @@
                 <label>
                   <input type="checkbox" id="spawnpoint-switch">
                   <span class="lever"></span>
-                  {{ i18n('Spawn points') }}
+                  {{ i18n('spawnpoint_switch_label') }}
                 </label>
               </div>
             </div>
@@ -1098,7 +1098,7 @@
                 <label>
                   <input type="checkbox" id="scanned-locs-switch">
                   <span class="lever"></span>
-                  {{ i18n('Scanned locations') }}
+                  {{ i18n('scanned_locs_switch_label') }}
                 </label>
               </div>
             </div>
@@ -1109,7 +1109,7 @@
                 <label>
                   <input type="checkbox" id="nest-park-switch">
                   <span class="lever"></span>
-                  {{ i18n('Nest parks') }}
+                  {{ i18n('nest_park_switch_label') }}
                 </label>
               </div>
             </div>
@@ -1120,7 +1120,7 @@
                 <label>
                   <input type="checkbox" id="ex-park-switch">
                   <span class="lever"></span>
-                  {{ i18n('EX eligible parks') }}
+                  {{ i18n('ex_park_switch_label') }}
                 </label>
               </div>
             </div>
@@ -1131,26 +1131,26 @@
                 <label>
                   <input type="checkbox" id="ranges-switch">
                   <span class="lever"></span>
-                  {{ i18n('Interaction ranges') }}
+                  {{ i18n('ranges_switch_label') }}
                 </label>
               </div>
             </div>
             <div id="range-type-select-wrapper">
               <div class="form-control">
                 <div class="input-field">
-                  <div class="select-title">{{ i18n('Filter interaction ranges') }}</div>
+                  <div class="select-title">{{ i18n('range_type_select_label') }}</div>
                   <select id="range-type-select" multiple>
                     {% if settings.pokemons %}
-                    <option value="1">{{ i18n('Pokémon ranges') }}</option>
+                    <option value="1">{{ i18n('range_option_pokemon') }}</option>
                     {% endif %}
                     {% if settings.gyms %}
-                    <option value="2">{{ i18n('Gym ranges') }}</option>
+                    <option value="2">{{ i18n('range_option_gym') }}</option>
                     {% endif %}
                     {% if settings.pokestops %}
-                    <option value="3">{{ i18n('PokéStop ranges') }}</option>
+                    <option value="3">{{ i18n('range_option_pokestop') }}</option>
                     {% endif %}
                     {% if settings.spawnpoints %}
-                    <option value="4">{{ i18n('Spawn point ranges') }}</option>
+                    <option value="4">{{ i18n('range_option_spawnpoint') }}</option>
                     {% endif %}
                   </select>
                 </div>
@@ -1162,7 +1162,7 @@
       </li>
       {% endif %}
       <li>
-        <div class="collapsible-header"><i class="material-icons">place</i>{{ i18n('Location') }}</div>
+        <div class="collapsible-header"><i class="material-icons">place</i>{{ i18n('settings_sidenav_header_location') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div id="start-at-user-location-wrapper">
@@ -1171,7 +1171,7 @@
                   <label>
                     <input type="checkbox" id="start-at-user-location-switch">
                     <span class="lever"></span>
-                    {{ i18n('Start map at my position') }}
+                    {{ i18n('start_at_user_location_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1181,7 +1181,7 @@
                 <label>
                   <input type="checkbox" id="start-at-last-location-switch">
                   <span class="lever"></span>
-                  {{ i18n('Start map at last position') }}
+                  {{ i18n('start_at_last_location_switch_label') }}
                 </label>
               </div>
             </div>
@@ -1191,7 +1191,7 @@
                 <label>
                   <input type="checkbox" id="lock-start-marker-switch">
                   <span class="lever"></span>
-                  {{ i18n('Lock start location marker') }}
+                  {{ i18n('lock_start_marker_switch_label') }}
                 </label>
               </div>
             </div>
@@ -1202,7 +1202,7 @@
                   <label>
                     <input type="checkbox" id="follow-user-location-switch">
                     <span class="lever"></span>
-                    {{ i18n('Follow me') }}
+                    {{ i18n('follow_user_location_switch_label') }}
                   </label>
                 </div>
               </div>
@@ -1211,7 +1211,7 @@
         </div>
       </li>
       <li>
-        <div class="collapsible-header"><i class="material-icons">notifications</i>{{ i18n('Notifications') }}</div>
+        <div class="collapsible-header"><i class="material-icons">notifications</i>{{ i18n('settings_sidenav_header_notifications') }}</div>
         <div class="collapsible-body">
           {% if settings.pokemons %}
           <div class="settings-container">
@@ -1481,7 +1481,7 @@
         </div>
       </li>
       <li>
-        <div class="collapsible-header"><i class="material-icons">palette</i>{{ i18n('Style') }}</div>
+        <div class="collapsible-header"><i class="material-icons">palette</i>{{ i18n('settings_sidenav_header_style') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
@@ -1539,7 +1539,7 @@
         </div>
       </li>
       <li>
-        <div class="collapsible-header"><i class="material-icons">settings_backup_restore</i>{{ i18n('Backup & reset') }}</div>
+        <div class="collapsible-header"><i class="material-icons">settings_backup_restore</i>{{ i18n('settings_sidenav_header_backup_reset') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
