@@ -8,7 +8,7 @@ Prerequisites
 
 The following prerequisites are required to run RocketMAD:
 
- * `MAD MySQL database <https://mad-docs.readthedocs.io/en/latest/server-setup/#mysql-mariadb>`_
+ * `MAD MySQL database <https://mad-docs.readthedocs.io/en/latest/installation/manual/#mariadb>`_
  * Python 3.6+
  * pip3
  * `node and npm <https://nodejs.org/en/download/package-manager/>`_
