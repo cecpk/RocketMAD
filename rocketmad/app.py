@@ -20,8 +20,8 @@ from s2sphere import LatLng
 from .auth.auth_factory import AuthFactory
 from .blacklist import fingerprints
 from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
-from .models import (db, Pokemon, Gym, Pokestop, ScannedLocation, TrsSpawn,
-                     Weather)
+from .models import (db, Pokemon, Gym, Pokestop, Nest, ScannedLocation,
+                     TrsSpawn, Weather)
 from .pogoprotos.enums.costume_pb2 import Costume
 from .pogoprotos.enums.form_pb2 import Form
 from .pogoprotos.enums.gender_pb2 import Gender
@@ -196,6 +196,7 @@ def create_app():
         settings = {
             'centerLat': user_args.center_lat,
             'centerLng': user_args.center_lng,
+            'customTileServers': user_args.custom_tile_servers,
             'maxZoomLevel': user_args.max_zoom_level,
             'showAllZoomLevel': user_args.show_all_zoom_level,
             'clusterZoomLevel': user_args.cluster_zoom_level,
@@ -246,6 +247,7 @@ def create_app():
             'scannedLocs': not user_args.no_scanned_locs,
             's2Cells': not user_args.no_s2_cells,
             'ranges': not user_args.no_ranges,
+            'nests': user_args.nests,
             'nestParks': user_args.nest_parks,
             'nestParksFileName': user_args.nest_parks_filename,
             'exParks': user_args.ex_parks,
@@ -760,6 +762,7 @@ def create_app():
                        and not user_args.no_spawnpoints)
         scanned_locs = (request.args.get('scannedLocs') == 'true'
                         and not user_args.no_scanned_locs)
+        nests = request.args.get('nests') == 'true' and user_args.nests
 
         all_pokemon = request.args.get('allPokemon') == 'true'
         all_gyms = request.args.get('allGyms') == 'true'
@@ -767,6 +770,7 @@ def create_app():
         all_weather = request.args.get('allWeather') == 'true'
         all_spawnpoints = request.args.get('allSpawnpoints') == 'true'
         all_scanned_locs = request.args.get('allScannedLocs') == 'true'
+        all_nests = request.args.get('allNests') == 'true'
 
         if all_pokemon:
             d['allPokemon'] = True
@@ -780,6 +784,8 @@ def create_app():
             d['allSpawnpoints'] = True
         if all_scanned_locs:
             d['allScannedLocs'] = True
+        if all_nests:
+            d['allNests'] = True
 
         geofences = (
             parse_geofence_file('geofences/' + user_args.geofence_file)
@@ -962,6 +968,26 @@ def create_app():
                 )
                 if new_area:
                     d['scannedlocs'] += ScannedLocation.get_recent(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        geofences=geofences,
+                        exclude_geofences=exclude_geofences
+                    )
+
+        if nests:
+            if timestamp == 0 or all_nests:
+                d['nests'] = Nest.get_nests(
+                    swLat, swLng, neLat, neLng, geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
+            else:
+                d['nests'] = Nest.get_nests(
+                    swLat, swLng, neLat, neLng, timestamp=timestamp,
+                    geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
+                if new_area:
+                    d['nests'] += Nest.get_nests(
                         swLat, swLng, neLat, neLng, oSwLat=oSwLat,
                         oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
                         geofences=geofences,

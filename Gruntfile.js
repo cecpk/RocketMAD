@@ -32,8 +32,9 @@ module.exports = function (grunt) {
                     'static/js/utils/utils.store.js', 'static/js/utils/utils.weather.js', 'static/js/utils/utils.js',
                     'static/js/map/map.settings.js', 'static/js/map/map.gym.js', 'static/js/map/map.park.js',
                     'static/js/map/map.pokemon.js', 'static/js/map/map.pokestop.js', 'static/js/map/map.s2.js',
-                    'static/js/map/map.scannedloc.js', 'static/js/map/map.spawnpoint.js', 'static/js/map/map.stats.js',
-                    'static/js/map/map.weather.js', 'static/js/custom.js', 'static/js/map/map.js'
+                    'static/js/map/map.scannedloc.js', 'static/js/map/map.spawnpoint.js', 'static/js/map/map.nest.js',
+                    'static/js/map/map.stats.js', 'static/js/map/map.weather.js', 'static/js/custom.js',
+                    'static/js/map/map.js'
                 ],
                 dest: 'static/dist/js/map.concat.js'
             },

@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 args = get_args()
 
 db = SQLAlchemy()
-db_schema_version = 0
+db_schema_version = 1
 
 
 class Pokemon(db.Model):
@@ -848,6 +848,77 @@ class ScannedLocation(db.Model):
         return [loc._asdict() for loc in result]
 
 
+class Nest(db.Model):
+    __tablename__ = 'nests'
+
+    nest_id = db.Column(BIGINT, primary_key=True)
+    lat = db.Column(DOUBLE(asdecimal=False))
+    lon = db.Column(DOUBLE(asdecimal=False))
+    pokemon_id = db.Column(db.Integer, default=0)
+    updated = db.Column(BIGINT)
+    type = db.Column(TINYINT, nullable=False, default=0)
+    name = db.Column(db.String(length=250, collation='utf8mb4_unicode_ci'))
+    pokemon_count = db.Column(DOUBLE(asdecimal=False), default=0)
+    pokemon_avg = db.Column(DOUBLE(asdecimal=False), default=0)
+
+    __table_args__ = (
+        Index('CoordsIndex', 'lat', 'lon'),
+        Index('UpdatedIndex', 'updated'),
+    )
+
+    @staticmethod
+    def get_nests(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                  oNeLat=None, oNeLng=None, timestamp=0, geofences=None,
+                  exclude_geofences=None):
+        query = db.session.query(
+            Nest.nest_id, Nest.lat.label('latitude'),
+            Nest.lon.label('longitude'), Nest.pokemon_id,
+            Nest.updated.label('last_updated'), Nest.name, Nest.pokemon_count,
+            Nest.pokemon_avg
+        )
+
+        if timestamp > 0:
+            # If timestamp is known only send last updated nests.
+            query = query.filter(Nest.updated > timestamp / 1000)
+
+        if swLat and swLng and neLat and neLng:
+            query = query.filter(
+                Nest.lat >= swLat,
+                Nest.lon >= swLng,
+                Nest.lat <= neLat,
+                Nest.lon <= neLng
+            )
+
+        if oSwLat and oSwLng and oNeLat and oNeLng:
+            # Exclude scanned locations within old boundaries.
+            query = query.filter(
+                ~and_(
+                    Nest.lat >= oSwLat,
+                    Nest.lon >= oSwLng,
+                    Nest.lat <= oNeLat,
+                    Nest.lon <= oNeLng
+                )
+            )
+
+        if geofences:
+            sql = geofences_to_query(geofences, 'nests', 'lat', 'lon')
+            query = query.filter(text(sql))
+
+        if exclude_geofences:
+            sql = geofences_to_query(exclude_geofences, 'nests', 'lat', 'lon')
+            query = query.filter(~text(sql))
+
+        result = query.all()
+
+        nests = []
+        for n in result:
+            nest = n._asdict()
+            nest['last_updated'] *= 1000
+            nests.append(nest)
+
+        return nests
+
+
 class RmVersion(db.Model):
     __tablename__ = 'rmversion'
 
@@ -857,7 +928,8 @@ class RmVersion(db.Model):
     val = db.Column(db.SmallInteger)
 
 
-def geofences_to_query(geofences, table_name):
+def geofences_to_query(geofences, table_name, lat_column_name='latitude',
+                       lng_column_name='longitude'):
     query = ''
 
     for geofence in geofences:
@@ -868,7 +940,8 @@ def geofences_to_query(geofences, table_name):
         if query:
             query += ' OR '
         query += (f"ST_CONTAINS(ST_GeomFromText('POLYGON(({coords}))'), "
-                  f"Point({table_name}.latitude, {table_name}.longitude))")
+                  f"Point({table_name}.{lat_column_name}, "
+                  f"{table_name}.{lng_column_name}))")
 
     return f'({query})'
 
@@ -896,7 +969,7 @@ def create_table(table_model):
 
 
 def create_rm_tables():
-    tables = []
+    tables = [Nest]
     for table in tables:
         if not table_exists(table):
             log.info('Creating table: %s', table.__tablename__)
@@ -915,7 +988,7 @@ def drop_table(table_model=None, table_name=None):
 
 
 def drop_rm_tables():
-    tables = [RmVersion]
+    tables = [Nest, RmVersion]
     for table in tables:
         if table_exists(table):
             log.info('Dropping table: %s', table.__tablename__)
@@ -928,17 +1001,17 @@ def drop_rm_tables():
 def add_column(table_name, column):
     column_name = column.compile(dialect=db.engine.dialect)
     column_type = column.type.compile(db.engine.dialect)
-    db.session.execute('ALTER TABLE {} ADD COLUMN {} {}'.format(
-        table_name, column_name, column_type))
+    query = f'ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type}'
+    db.session.execute(text(query))
 
 
 def verify_database_schema():
     if not table_exists(RmVersion):
-        RmVersion.__table__.create(db.session.bind)
-        db_ver = RmVersion(key='schema_version', val=-1)
+        create_table(RmVersion)
+        db_ver = RmVersion(key='schema_version', val=0)
         db.session.add(db_ver)
         db.session.commit()
-        database_migrate(-1)
+        database_migrate(0)
     else:
         db_ver = RmVersion.query.get('schema_version').val
 
@@ -949,7 +1022,7 @@ def verify_database_schema():
         elif db_ver > db_schema_version:
             log.error('Your database version (%i) appears to be newer than '
                       'the code supports (%i).', db_ver, db_schema_version)
-            log.error('Please upgrade your code base or drop all tables in '
+            log.error('Please upgrade your code base or drop all RM tables in '
                       'your database.')
             sys.exit(1)
 

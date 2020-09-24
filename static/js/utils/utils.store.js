@@ -351,6 +351,10 @@ const StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    showNests: {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     showNestParks: {
         default: false,
         type: StoreTypes.Boolean

@@ -1076,7 +1076,7 @@
         </div>
       </li>
       {% endif %}
-      {% if settings.spawnpoints or settings.scannedLocs or settings.nestParks or settings.exParks or settings.ranges %}
+      {% if settings.spawnpoints or settings.scannedLocs or settings.nests or settings.nestParks or settings.exParks or settings.ranges %}
       <li>
         <div class="collapsible-header"><i class="material-icons">map</i>{{ i18n('Map misc') }}</div>
         <div class="collapsible-body">
@@ -1099,6 +1099,17 @@
                   <input type="checkbox" id="scanned-locs-switch">
                   <span class="lever"></span>
                   {{ i18n('Scanned locations') }}
+                </label>
+              </div>
+            </div>
+            {% endif %}
+            {% if settings.nests %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="nest-switch">
+                  <span class="lever"></span>
+                  {{ i18n('Pokémon nests') }}
                 </label>
               </div>
             </div>
@@ -1488,6 +1499,9 @@
               <div class="input-field">
                 <div class="select-title">{{ i18n('Map style') }}</div>
                 <select id="map-style-select">
+                  {% for item in settings.customTileServers %}
+                  <option value="{{ item[0] }}">{{ item[1] }}</option>
+                  {% endfor %}
                   <option value="mapnik">Mapnik</option>
                   <option value="topomap">ToPo Map</option>
                   <option value="cartodbdarkmatter">CartoDB Darkmatter</option>

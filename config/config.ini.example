@@ -80,12 +80,27 @@
 #show-motd-always               # Show MOTD on every visit. If disabled, the MOTD will only be shown when its title or text has changed. (default=False)
 
 
+# Tile server settings
+######################
+# You can setup your own tile server with this tool: https://github.com/123FLO321/SwiftTileserverCache
+
+#custom-tile-servers:           # Use your own tile server(s). Accepts list of names and urls separated by ':'. Names should be unique.
+                                # Example: [tile_server_name1:tile_server_url1, tile_server_name2:tile_server_url2] (default=[])
+
+
 # Geofence settings
 ###################
 # Place your geofence files in the geofences folder.
 
 #geofence-file:                 # Geofence file to define outer borders of the area for which data is to be retrieved.
 #geofence-exclude-file:         # File to exclude areas. Regard this as an inverted geofence. Can be combined with geofence-file.
+
+
+# Nests
+#######
+# Nests will be stored in the RM database. You can generate them with this script: https://github.com/M4d40/PMSFnestScript
+
+#nests                          # Show nests on the map. (default=False)
 
 
 # Parks
