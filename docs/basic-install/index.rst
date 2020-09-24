@@ -47,7 +47,7 @@ The output should look something like:
   $ python3 --version
   Python 3.6.0
   $ pip3 --version
-  pip 19.1.1 from /usr/local/lib/python3.7/site-packages (python 3.7)
+  pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.6)
 
 Now you can install all the Python dependencies, make sure you're still in the directory of RocketMAD:
 
@@ -83,9 +83,6 @@ Once node/npm is installed, you can install the node dependencies and build the 
 .. code-block:: bash
 
   npm install
-
-  # The assets should automatically build (you'd see something about "grunt build")
-  # If that doesn't happen, you can directly run the build process:
   npm run build
 
 
