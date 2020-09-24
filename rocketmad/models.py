@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 args = get_args()
 
 db = SQLAlchemy()
-db_schema_version = 2
+db_schema_version = 1
 
 
 class Pokemon(db.Model):
@@ -969,7 +969,7 @@ def create_table(table_model):
 
 
 def create_rm_tables():
-    tables = []
+    tables = [Nest]
     for table in tables:
         if not table_exists(table):
             log.info('Creating table: %s', table.__tablename__)
@@ -988,7 +988,7 @@ def drop_table(table_model=None, table_name=None):
 
 
 def drop_rm_tables():
-    tables = [RmVersion]
+    tables = [Nest, RmVersion]
     for table in tables:
         if table_exists(table):
             log.info('Dropping table: %s', table.__tablename__)
@@ -1001,17 +1001,17 @@ def drop_rm_tables():
 def add_column(table_name, column):
     column_name = column.compile(dialect=db.engine.dialect)
     column_type = column.type.compile(db.engine.dialect)
-    db.session.execute('ALTER TABLE {} ADD COLUMN {} {}'.format(
-        table_name, column_name, column_type))
+    query = f'ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type}'
+    db.session.execute(text(query))
 
 
 def verify_database_schema():
     if not table_exists(RmVersion):
-        RmVersion.__table__.create(db.session.bind)
-        db_ver = RmVersion(key='schema_version', val=-1)
+        create_table(RmVersion)
+        db_ver = RmVersion(key='schema_version', val=0)
         db.session.add(db_ver)
         db.session.commit()
-        database_migrate(-1)
+        database_migrate(0)
     else:
         db_ver = RmVersion.query.get('schema_version').val
 
@@ -1022,7 +1022,7 @@ def verify_database_schema():
         elif db_ver > db_schema_version:
             log.error('Your database version (%i) appears to be newer than '
                       'the code supports (%i).', db_ver, db_schema_version)
-            log.error('Please upgrade your code base or drop all tables in '
+            log.error('Please upgrade your code base or drop all RM tables in '
                       'your database.')
             sys.exit(1)
 
@@ -1039,9 +1039,6 @@ def database_migrate(old_ver):
     # Perform migrations here.
     if old_ver < 1:
         drop_table(table_name='rmversions')
-
-    if old_ver < 2:
-        create_table(Nest)
 
     # Always log that we're done.
     log.info('Schema upgrade complete.')
