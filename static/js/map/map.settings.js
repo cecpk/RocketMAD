@@ -1550,21 +1550,124 @@ function initSettingsSidebar() {
     $('select').formSelect()
 }
 
+const createFilterButton = (function () {
+    let templateDiv
+    let lazyImageObserver
+
+    function createTemplateDiv() {
+        const containerDiv = document.createElement('div')
+        containerDiv.innerHTML = `
+          <div class='filter-button'>
+            <div class='filter-button-content'>
+              <div id='btnheader'></div>
+              <div><div class='filter-image'></div>
+              <div id='btnfooter'></div>
+            </div>
+          </div>`
+        return containerDiv.firstElementChild
+    }
+
+    function tryCreateLazyImageObserver() {
+        if (!('IntersectionObserver' in window)) {
+            return null
+        }
+
+        return new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    const lazyImage = entry.target
+                    lazyImage.style.content = lazyImage.dataset.lazyContent
+                    delete lazyImage.dataset.lazyContent
+                    observer.unobserve(lazyImage)
+                }
+            })
+        })
+    }
+
+    return function (id, header, footer, iconUrl, isActive) {
+        if (typeof templateDiv === 'undefined') {
+            templateDiv = createTemplateDiv()
+        }
+        if (typeof lazyImageObserver === 'undefined') {
+            lazyImageObserver = tryCreateLazyImageObserver()
+        }
+
+        // Clone a template div, which is faster than creating and parsing HTML for each filter button.
+        const buttonDiv = templateDiv.cloneNode(true)
+        buttonDiv.dataset.id = id
+        if (isActive) {
+            buttonDiv.classList.add('active')
+        }
+
+        const headerDiv = buttonDiv.querySelector('#btnheader')
+        headerDiv.removeAttribute('id')
+        headerDiv.textContent = header
+
+        const imageDiv = buttonDiv.querySelector('div.filter-image')
+        const imageContent = `url(${iconUrl})`
+        if (lazyImageObserver === null) {
+            imageDiv.style.content = imageContent
+        } else {
+            imageDiv.dataset.lazyContent = imageContent
+            lazyImageObserver.observe(imageDiv)
+        }
+
+        const footerDiv = buttonDiv.querySelector('#btnfooter')
+        footerDiv.removeAttribute('id')
+        footerDiv.textContent = footer
+
+        return buttonDiv
+    }
+})()
+
+// Sets a materialize modal function, while keeping the old one if it exists.
+function setModalFunction(modalDiv, optionName, fn) {
+    const modal = M.Modal.getInstance(modalDiv) || M.Modal.init(modalDiv)
+    const existingOption = modal.options[optionName]
+    modal.options[optionName] = typeof existingOption === 'function'
+        ? function () {
+            existingOption()
+            fn()
+        }
+        : fn
+}
+
 function initPokemonFilters() {
     const pokemonIds = getPokemonIds()
 
-    let list = ''
-    for (const id of pokemonIds) {
-        list += `
-            <div class='filter-button' data-id='${id}'>
-              <div class='filter-button-content'>
-                <div>#${id}</div>
-                <div><img class='lazy' src='static/images/placeholder.png' data-src='${getPokemonRawIconUrl({ pokemon_id: id }, serverSettings.generateImages)}' width='32'></div>
-                <div>${getPokemonName(id)}</div>
-              </div>
-            </div>`
+    function fillPokemonFilterList(filterList, settingsPokemonIds, isExclusion) {
+        if (filterList.hasChildNodes()) {
+            return
+        }
+
+        for (const id of pokemonIds) {
+            const isActive = settingsPokemonIds.has(id) !== isExclusion
+            filterList.appendChild(createFilterButton(
+                id,
+                '#' + id,
+                getPokemonName(id),
+                getPokemonRawIconUrl({ pokemon_id: id }, serverSettings.generateImages),
+                isActive
+            ))
+        }
     }
-    $('.pokemon-filter-list').html(list)
+
+    function configurePokemonModal(modalId, settingsPokemonId, isExclusion) {
+        const modalDiv = document.getElementById(modalId)
+
+        setModalFunction(modalDiv, 'onOpenStart', function () {
+            fillPokemonFilterList(modalDiv.querySelector('.pokemon-filter-list'), settingsPokemonId, isExclusion)
+        })
+    }
+
+    configurePokemonModal('pokemon-filter-modal', settings.excludedPokemon, true)
+    configurePokemonModal('pokemon-values-filter-modal', settings.noFilterValuesPokemon, true)
+    configurePokemonModal('raid-pokemon-filter-modal', settings.excludedRaidPokemon, true)
+    configurePokemonModal('quest-filter-modal', settings.excludedQuestPokemon, true)
+    configurePokemonModal('notif-pokemon-filter-modal', settings.notifPokemon, false)
+    configurePokemonModal('notif-pokemon-values-filter-modal', settings.notifValuesPokemon, false)
+    configurePokemonModal('notif-raid-pokemon-filter-modal', settings.notifRaidPokemon, false)
+    configurePokemonModal('notif-quest-filter-modal', settings.notifQuestPokemon, false)
 
     $('.pokemon-filter-list').on('click', '.filter-button', function () {
         var img = $(this)
@@ -1944,45 +2047,56 @@ function initPokemonFilters() {
 }
 
 function initItemFilters() {
-    $('.quest-filter-modal').modal({
-        onOpenEnd: function () {
-            $('.quest-filter-tabs').tabs('updateTabIndicator')
-        }
+    document.querySelectorAll('.quest-filter-modal').forEach(function (modalDiv) {
+        setModalFunction(modalDiv, 'onOpenEnd', function () {
+            M.Tabs.getInstance(modalDiv.querySelector('.quest-filter-tabs')).updateTabIndicator()
+        })
     })
 
     const questItemIds = []
     const includeInFilter = [6, 1, 2, 3, 701, 703, 705, 706, 708, 101, 102, 103, 104, 201, 202, 1301, 1201, 1202, 501, 502, 503, 504, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 7]
 
-    let list = ''
-    for (let i = 0; i < includeInFilter.length; i++) {
-        const id = includeInFilter[i]
-        const iconUrl = getItemImageUrl(id)
-        const name = getItemName(id)
-        const questBundles = getQuestBundles(id)
-        if (questBundles.length === 0) {
-            questBundles.push(1)
+    for (const id of includeInFilter) {
+        for (const bundle of getQuestBundles(id)) {
+            questItemIds.push(id + '_' + bundle)
         }
-        $.each(questBundles, function (idx, bundleAmount) {
-            questItemIds.push(id + '_' + bundleAmount)
-            list += `
-                <div class='filter-button' data-id='${id}' data-bundle='${bundleAmount}'>
-                  <div class='filter-button-content'>
-                    <div>${name}</div>
-                    <div><img class='lazy' src='static/images/placeholder.png' data-src='${iconUrl}' width='32'></div>
-                    <div>x${bundleAmount}</div>
-                  </div>
-                </div>`
+    }
+
+    function fillItemFilterList(filterList, settingsItemIds, isExclusion) {
+        if (filterList.hasChildNodes()) {
+            return
+        }
+
+        for (const id of includeInFilter) {
+            for (const bundle of getQuestBundles(id)) {
+                const questItemId = id + '_' + bundle
+                const isActive = settingsItemIds.includes(questItemId) !== isExclusion
+                filterList.appendChild(createFilterButton(
+                    questItemId,
+                    getItemName(id),
+                    '×' + bundle,
+                    getItemImageUrl(id),
+                    isActive
+                ))
+            }
+        }
+    }
+
+    function configureItemModal(modalId, settingsItemIds, isExclusion) {
+        const modalDiv = document.getElementById(modalId)
+
+        setModalFunction(modalDiv, 'onOpenStart', function () {
+            fillItemFilterList(modalDiv.querySelector('.quest-item-filter-list'), settingsItemIds, isExclusion)
         })
     }
-    $('.quest-item-filter-list').html(list)
+
+    configureItemModal('quest-filter-modal', settings.excludedQuestItems, true)
+    configureItemModal('notif-quest-filter-modal', settings.notifQuestItems, false)
 
     $('.quest-item-filter-list').on('click', '.filter-button', function () {
         const inputElement = $(this).parent().parent().find('input[id$=items]')
         const value = inputElement.val().length > 0 ? inputElement.val().split(',') : []
-        let id = $(this).data('id').toString()
-        if ($(this).data('bundle')) {
-            id += '_' + $(this).data('bundle')
-        }
+        const id = $(this).data('id').toString()
         if ($(this).hasClass('active')) {
             inputElement.val((value.concat(id).join(','))).trigger('change')
             $(this).removeClass('active')
@@ -2014,10 +2128,7 @@ function initItemFilters() {
     }
 
     $('label[for="exclude-quest-items"] .quest-item-filter-list .filter-button').each(function () {
-        let id = $(this).data('id').toString()
-        if ($(this).data('bundle')) {
-            id += '_' + $(this).data('bundle')
-        }
+        const id = $(this).data('id').toString()
         if (!settings.excludedQuestItems.includes(id)) {
             $(this).addClass('active')
         }
@@ -2048,10 +2159,7 @@ function initItemFilters() {
     }
 
     $('label[for="no-notif-quest-items"] .quest-item-filter-list .filter-button').each(function () {
-        let id = $(this).data('id').toString()
-        if ($(this).data('bundle')) {
-            id += '_' + $(this).data('bundle')
-        }
+        const id = $(this).data('id').toString()
         if (settings.notifQuestItems.includes(id)) {
             $(this).addClass('active')
         }
@@ -2077,22 +2185,33 @@ function initItemFilters() {
 function initInvasionFilters() {
     const invasionIds = [41, 42, 43, 44, 5, 4, 6, 7, 10, 11, 12, 13, 49, 50, 14, 15, 16, 17, 18, 19, 20, 21, 47, 48, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 28, 29, 38, 39]
 
-    let list = ''
-    for (var i = 0; i < invasionIds.length; i++) {
-        const id = invasionIds[i]
-        const iconUrl = getInvasionImageUrl(id)
-        const type = getInvasionType(id)
-        const grunt = getInvasionGrunt(id)
-        list += `
-            <div class='filter-button' data-id='${id}'>
-              <div class='filter-button-content'>
-                <div>${type}</div>
-                <div><img class='lazy' src='static/images/placeholder.png' data-src='${iconUrl}' width='32'></div>
-                <div>${grunt}</div>
-              </div>
-            </div>`
+    function fillInvasionFilterList(filterList, settingsInvasionIds, isExclusion) {
+        if (filterList.hasChildNodes()) {
+            return
+        }
+
+        for (const id of invasionIds) {
+            const isActive = settingsInvasionIds.includes(id) !== isExclusion
+            filterList.appendChild(createFilterButton(
+                id,
+                getInvasionType(id),
+                getInvasionGrunt(id),
+                getInvasionImageUrl(id),
+                isActive
+            ))
+        }
     }
-    $('.invasion-filter-list').html(list)
+
+    function configureInvasionModal(modalId, settingsInvasionIds, isExclusion) {
+        const modalDiv = document.getElementById(modalId)
+
+        setModalFunction(modalDiv, 'onOpenStart', function () {
+            fillInvasionFilterList(modalDiv.querySelector('.invasion-filter-list'), settingsInvasionIds, isExclusion)
+        })
+    }
+
+    configureInvasionModal('invasion-filter-modal', settings.excludedInvasions, true)
+    configureInvasionModal('notif-invasion-filter-modal', settings.notifInvasions, false)
 
     $('.invasion-filter-list').on('click', '.filter-button', function () {
         var inputElement = $(this).parent().parent().find('input[id$=invasions]')

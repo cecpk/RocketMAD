@@ -90,15 +90,18 @@ function getPokemonIds() {
 }
 
 function getPokemonName(id, evolutionId = 0) {
+    const pokemon = pokemonData[id]
+    const name = typeof pokemon === 'undefined' ? '#' + id : i18n(pokemon.name)
+
     switch (evolutionId) {
         case 1:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name)
+            return i18n('Mega') + ' ' + name
         case 2:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' X'
+            return i18n('Mega') + ' ' + name + ' X'
         case 3:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' Y'
+            return i18n('Mega') + ' ' + name + ' Y'
         default:
-            return i18n(pokemonData[id].name)
+            return name
     }
 }
 

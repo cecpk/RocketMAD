@@ -15,7 +15,8 @@ function initItemData() {
 }
 
 function getItemName(id) {
-    return i18n(itemData[id].name)
+    const item = itemData[id]
+    return typeof item === 'undefined' ? '#' + id : i18n(item.name)
 }
 
 function getItemImageUrl(id) {
@@ -23,9 +24,6 @@ function getItemImageUrl(id) {
 }
 
 function getQuestBundles(id) {
-    if (itemData[id].questBundles) {
-        return itemData[id].questBundles
-    } else {
-        return []
-    }
+    const bundles = itemData[id].questBundles || []
+    return bundles.length === 0 ? [1] : bundles
 }

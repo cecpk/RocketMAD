@@ -26,6 +26,11 @@
   .modal-content {
     padding: 0 24px;
 
+    h6 {
+      padding: 6px 0;
+      margin: 0;
+    }
+
     @media screen and (max-width: 600px) {
       padding: 0 12px;
     }
@@ -98,6 +103,13 @@
     &.active {
       background-color: #e0f2f1;
     }
+
+    .filter-image {
+      width: 32px;
+      height: 32px;
+      margin: auto;
+      content: url(../../images/placeholder.png);
+    }
   }
 
   .filter-button-content {
@@ -108,10 +120,10 @@
     margin-top: 8px;
     overflow-y: hidden;
   }
+}
 
-  .pokemon-filter-list {
-    min-height: 80vh;
-  }
+.pokemon-filter-modal, .quest-filter-modal {
+  min-height: 80vh;
 }
 
 .dark .filter-modal {

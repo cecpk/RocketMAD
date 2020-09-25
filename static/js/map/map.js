@@ -1281,7 +1281,6 @@ $(function () {
         if (serverSettings.invasions) {
             initInvasionFilters()
         }
-        lazyLoadImages()
     })
 
     getAllParks()
