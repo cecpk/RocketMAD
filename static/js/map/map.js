@@ -1,7 +1,7 @@
 /*
 globals getAllParks, getExcludedPokemon, initBackupModals, initInvasionFilters,
 initInvasionFilters, initItemFilters, initPokemonFilters, initSettings,
-initSettingsSidebar, isGymRangesActive, isPokemonRangesActive,
+initSettingsSidebar, initStatsSidebar, isGymRangesActive, isPokemonRangesActive,
 isPokestopRangesActive, isSpawnpointRangesActive, processGym, processNest,
 processPokemon, processPokestop, processScannedLocation, processSpawnpoint,
 processSpawnpoint, processWeather, removePokemon, removeScannedLocation,
@@ -32,7 +32,6 @@ stopFollowingUser, updateRangeCircle
 let $gymNameFilter
 let $pokestopNameFilter
 let settingsSideNav
-let statsSideNav
 let gymSidebar
 let openGymSidebarId
 
@@ -1288,6 +1287,7 @@ $(function () {
     updateMainS2CellId()
 
     $('.modal').modal()
+    $('.tabs').tabs()
 
     if (serverSettings.motd) {
         showMotd(serverSettings.motdTitle, serverSettings.motdText, serverSettings.motdPages, serverSettings.showMotdAlways)
@@ -1299,22 +1299,7 @@ $(function () {
     })
 
     initSettingsSidebar()
-
-    if (serverSettings.statsSidebar) {
-        $('#stats-sidenav').sidenav({
-            edge: 'right',
-            draggable: false,
-            onOpenStart: updateStatsTable
-        })
-        const statsSideNavElem = document.getElementById('stats-sidenav')
-        statsSideNav = M.Sidenav.getInstance(statsSideNavElem)
-        $('.sidenav-trigger[data-target="stats-sidenav"]').on('click', function (e) {
-            if (statsSideNav.isOpen) {
-                statsSideNav.close()
-                e.stopPropagation()
-            }
-        })
-    }
+    initStatsSidebar()
 
     if (serverSettings.gymSidebar) {
         $('#gym-sidebar').sidenav({
@@ -1331,11 +1316,6 @@ $(function () {
         gymSidebar = M.Sidenav.getInstance(gymSidebarElem)
     }
 
-    $('.tabs').tabs()
-    $('#stats-tabs').tabs({
-        onShow: updateStatsTable
-    })
-
     $('#weather-modal').modal({
         onOpenStart: setupWeatherModal
     })
@@ -1343,193 +1323,6 @@ $(function () {
     $('.tooltipped').tooltip()
 
     initBackupModals()
-
-    // Init data tables.
-    if (serverSettings.pokemons) {
-        $('#pokemon-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            scrollX: true,
-            language: {
-                url: getDataTablesLocUrl()
-            },
-            columnDefs: [
-                { orderable: false, targets: 0 },
-                {
-                    targets: 1,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title='${i18n('View on GamePress')}'>#${row[1]}</a>`
-                        }
-                        return row[1]
-                    }
-                },
-                {
-                    targets: 3,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[3].toLocaleString()
-                        }
-                        return row[3]
-                    }
-                },
-                {
-                    targets: 4,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[4].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
-                        }
-                        return row[4]
-                    }
-                }
-            ],
-            order: [[3, 'desc']]
-        })
-    }
-
-    if (serverSettings.gyms) {
-        $('#gym-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            scrollX: true,
-            language: {
-                url: getDataTablesLocUrl()
-            },
-            columnDefs: [
-                { orderable: false, targets: 0 },
-                {
-                    targets: 2,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[2].toLocaleString()
-                        }
-                        return row[2]
-                    }
-                },
-                {
-                    targets: 3,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[3].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
-                        }
-                        return row[3]
-                    }
-                }
-            ],
-            order: [[2, 'desc']]
-        })
-    }
-
-    if (serverSettings.raids) {
-        $('#egg-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            scrollX: true,
-            language: {
-                url: getDataTablesLocUrl()
-            },
-            columnDefs: [
-                { orderable: false, targets: 0 },
-                {
-                    targets: 2,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[2].toLocaleString()
-                        }
-                        return row[2]
-                    }
-                },
-                {
-                    targets: 3,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[3].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
-                        }
-                        return row[3]
-                    }
-                }
-            ],
-            order: [[2, 'desc']]
-        })
-
-        $('#raid-pokemon-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            scrollX: true,
-            language: {
-                url: getDataTablesLocUrl()
-            },
-            columnDefs: [
-                { orderable: false, targets: 0 },
-                {
-                    targets: 2,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[2]}" target="_blank" title='${i18n('View on GamePress')}'>#${row[2]}</a>`
-                        }
-                        return row[2]
-                    }
-                },
-                {
-                    targets: 4,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[4].toLocaleString()
-                        }
-                        return row[4]
-                    }
-                },
-                {
-                    targets: 5,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[5].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
-                        }
-                        return row[5]
-                    }
-                }
-            ],
-            order: [[4, 'desc']]
-        })
-    }
-
-    if (serverSettings.pokestops) {
-        $('#pokestop-table').DataTable({
-            paging: false,
-            searching: false,
-            info: false,
-            scrollX: true,
-            language: {
-                url: getDataTablesLocUrl()
-            },
-            columnDefs: [
-                { orderable: false, targets: 0 },
-                {
-                    targets: 2,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[2].toLocaleString()
-                        }
-                        return row[2]
-                    }
-                },
-                {
-                    targets: 3,
-                    render: function (data, type, row) {
-                        if (type === 'display') {
-                            return row[3].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
-                        }
-                        return row[3]
-                    }
-                }
-            ],
-            order: [[2, 'desc']]
-        })
-    }
 
     window.setInterval(updateMap, serverSettings.mapUpdateInverval)
     window.setInterval(updateLabelDiffTime, 1000)
