@@ -150,7 +150,17 @@ function initSettingsSidebar() {
     $('#settings-sidenav').sidenav({
         draggable: false
     })
-    $('.collapsible').collapsible()
+
+    $('.collapsible').collapsible({
+        onOpenStart: function (li) {
+            if ($(li).data('formInitialized')) {
+                return
+            }
+
+            $('select', li).formSelect()
+            $(li).data('formInitialized', true)
+        }
+    })
 
     const settingsSideNavElem = document.getElementById('settings-sidenav')
     settingsSideNav = M.Sidenav.getInstance(settingsSideNavElem)
@@ -1532,22 +1542,31 @@ function initSettingsSidebar() {
         markerStyles = data // eslint-disable-line
         updateStartLocationMarker()
         updateUserLocationMarker()
+
+        const startSelect = document.getElementById('start-location-marker-icon-select')
+        const userSelect = document.getElementById('user-location-marker-icon-select')
+
         $.each(data, function (id, value) {
-            const dataIconStr = value.icon ? `data-icon="${value.icon}"` : ''
-            const option = `<option value="${id}" ${dataIconStr}>${i18n(value.name)}</option>`
-            $('#start-location-marker-icon-select').append(option)
-            $('#user-location-marker-icon-select').append(option)
+            const option = document.createElement('option')
+            option.value = id
+            option.dataset.icon = value.icon ? value.icon : ''
+            option.text = i18n(value.name)
+            startSelect.options.add(option.cloneNode(true))
+            userSelect.options.add(option)
         })
-        $('#start-location-marker-icon-select').val(settings.startLocationMarkerStyle)
-        $('#user-location-marker-icon-select').val(settings.userLocationMarkerStyle)
-        $('#start-location-marker-icon-select').formSelect()
-        $('#user-location-marker-icon-select').formSelect()
+
+        function updateMarkerIconSelect(select, value) {
+            select.value = value
+            if (M.FormSelect.getInstance(select)) {
+                M.FormSelect.init(select)
+            }
+        }
+
+        updateMarkerIconSelect(startSelect, settings.startLocationMarkerStyle)
+        updateMarkerIconSelect(userSelect, settings.userLocationMarkerStyle)
     }).fail(function () {
         console.log('Error loading search marker styles JSON.')
     })
-
-    // Initialize select elements.
-    $('select').formSelect()
 }
 
 const createFilterButton = (function () {
