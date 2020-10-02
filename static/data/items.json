@@ -4,7 +4,7 @@
   },
   "1": {
     "name": "Poké Ball",
-    "questBundles": [5, 10]
+    "questBundles": [5, 8, 10]
   },
   "2": {
     "name": "Great Ball",
@@ -115,7 +115,7 @@
   },
   "708": {
     "name": "Silver Pinap Berry",
-    "questBundles": [2, 3, 5]
+    "questBundles": [1, 2, 3, 5]
   },
   "801": {
     "name": "Camera"
