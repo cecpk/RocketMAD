@@ -234,9 +234,10 @@ function addListeners(marker) {
 function processAppearance(idx, item) {
     const spawnpointId = item.spawnpoint_id
     if (!(spawnpointId in mapData.appearances)) {
-        item.marker = setupPokemonMarker(item, markers, serverSettings.generateImages)
+        item.marker = createPokemonMarker(item, serverSettings.generateImages)
         addListeners(item.marker)
         item.marker.spawnpointId = spawnpointId
+        item.marker.addTo(markers)
         mapData.appearances[spawnpointId] = item
         heatLayer.addLatLng(L.latLng(item.latitude, item.longitude))
     }

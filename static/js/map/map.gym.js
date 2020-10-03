@@ -1,9 +1,9 @@
 /*
 globals autoPanPopup, $gymNameFilter, addListeners, gymEggZIndex,
-gymNotifiedZIndex, gymRaidBossZIndex, gymSidebar, gymZIndex, mapData, markers,
-markersNoCluster, notifiedGymData, openGymSidebarId:writable, raidIds,
+gymNotifiedZIndex, gymRaidBossZIndex, gymSidebar, gymZIndex, mapData,
+notifiedGymData, openGymSidebarId:writable, raidIds,
 removeMarker, removeRangeCircle, settings, sendNotification, setupRangeCircle,
-upcomingRaidIds, updateRangeCircle
+upcomingRaidIds, updateRangeCircle, updateMarkerLayer
 */
 /* exported processGym, readdGymMarkers, updateGyms */
 
@@ -95,12 +95,7 @@ function isGymRangesActive() {
 }
 
 function setupGymMarker(gym, isNotifGym) {
-    var marker = L.marker([gym.latitude, gym.longitude])
-    if (isNotifGym) {
-        markersNoCluster.addLayer(marker)
-    } else {
-        markers.addLayer(marker)
-    }
+    const marker = L.marker([gym.latitude, gym.longitude])
 
     marker.setBouncingOptions({
         bounceHeight: 20,
@@ -180,21 +175,7 @@ function updateGymMarker(gym, marker, isNotifGym) {
         marker.setZIndexOffset(gymNotifiedZIndex)
     }
 
-    if (isNotifGym && markers.hasLayer(marker)) {
-        // Marker in wrong layer, move to other layer.
-        markers.removeLayer(marker)
-        markersNoCluster.addLayer(marker)
-    } else if (!isNotifGym && markersNoCluster.hasLayer(marker)) {
-        // Marker in wrong layer, move to other layer.
-        markersNoCluster.removeLayer(marker)
-        markers.addLayer(marker)
-    }
-
-    if (settings.bounceNotifMarkers && isNotifGym && !notifiedGymData[gym.gym_id].animationDisabled && !marker.isBouncing()) {
-        marker.bounce()
-    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifGym)) {
-        marker.stopBouncing()
-    }
+    updateMarkerLayer(marker, isNotifGym, notifiedGymData[gym.gym_id])
 
     return marker
 }

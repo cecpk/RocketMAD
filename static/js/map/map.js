@@ -22,7 +22,7 @@ pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex,
 pokestopInvasionZIndex, pokestopLureZIndex, pokestopNotifiedZIndex,
 pokestopQuestZIndex, pokestopZIndex, raidEggImages, removeMarker,
 s2CellsLayerGroup, sendNotification, settingsSideNav, setupRangeCircle,
-stopFollowingUser, updateRangeCircle
+stopFollowingUser, updateRangeCircle, updateMarkerLayer
 */
 
 //
@@ -745,6 +745,21 @@ function removeMarker(marker) {
     }
 }
 
+function updateMarkerLayer(marker, isNotif, notifiedData) {
+    // Move marker to right layer
+    const [targetMarkers, nonTargetMarkers] = isNotif ? [markersNoCluster, markers] : [markers, markersNoCluster]
+    if (!targetMarkers.hasLayer(marker)) {
+        nonTargetMarkers.removeLayer(marker)
+        targetMarkers.addLayer(marker)
+    }
+
+    if (settings.bounceNotifMarkers && isNotif && !notifiedData.animationDisabled && !marker.isBouncing()) {
+        marker.bounce()
+    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotif)) {
+        marker.stopBouncing()
+    }
+}
+
 function loadRawData() {
     const loadPokemon = settings.showPokemon
     const eids = String(Array.from(getExcludedPokemon()))
@@ -866,27 +881,41 @@ function updateMap({
     const requestTimestamp = Date.now()
 
     return loadRawData().done(function (result) {
-        $.each(result.pokemons, function (idx, pokemon) {
-            processPokemon(pokemon)
-        })
-        $.each(result.gyms, function (id, gym) {
-            processGym(gym)
-        })
-        $.each(result.pokestops, function (id, pokestop) {
-            processPokestop(pokestop)
-        })
-        $.each(result.weather, function (idx, weather) {
-            processWeather(weather)
-        })
-        $.each(result.spawnpoints, function (idx, spawnpoint) {
-            processSpawnpoint(spawnpoint)
-        })
-        $.each(result.scannedlocs, function (idx, scannedLoc) {
-            processScannedLocation(scannedLoc)
-        })
-        $.each(result.nests, function (idx, nest) {
-            processNest(nest)
-        })
+        // Leaflet.markercluster will refresh the clusters on each icon added. Let's add many and refresh only once.
+        const originalRefreshClustersIcons = markers._refreshClustersIcons
+        let mustRefreshClustersIcons = false
+        markers._refreshClustersIcons = function () {
+            mustRefreshClustersIcons = true
+        }
+
+        try {
+            $.each(result.pokemons, function (idx, pokemon) {
+                processPokemon(pokemon)
+            })
+            $.each(result.gyms, function (id, gym) {
+                processGym(gym)
+            })
+            $.each(result.pokestops, function (id, pokestop) {
+                processPokestop(pokestop)
+            })
+            $.each(result.weather, function (idx, weather) {
+                processWeather(weather)
+            })
+            $.each(result.spawnpoints, function (idx, spawnpoint) {
+                processSpawnpoint(spawnpoint)
+            })
+            $.each(result.scannedlocs, function (idx, scannedLoc) {
+                processScannedLocation(scannedLoc)
+            })
+            $.each(result.nests, function (idx, nest) {
+                processNest(nest)
+            })
+        } finally {
+            markers._refreshClustersIcons = originalRefreshClustersIcons
+            if (mustRefreshClustersIcons && typeof originalRefreshClustersIcons === 'function') {
+                originalRefreshClustersIcons.call(markers)
+            }
+        }
 
         updateStatsTable()
 

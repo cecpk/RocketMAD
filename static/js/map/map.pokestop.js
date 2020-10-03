@@ -1,10 +1,10 @@
 /*
 globals $pokestopNameFilter, addListeners, autoPanPopup, getTimeUntil,
-invadedPokestopIds, lpad, luredPokestopIds, lureTypes, mapData, markers,
-markersNoCluster, notifiedPokestopData, pokestopInvasionZIndex,
+invadedPokestopIds, lpad, luredPokestopIds, lureTypes, mapData,
+notifiedPokestopData, pokestopInvasionZIndex,
 pokestopLureZIndex, pokestopNotifiedZIndex, pokestopQuestZIndex,
 pokestopZIndex, removeMarker, removeRangeCircle, sendNotification, settings,
-setupRangeCircle, updateLabelDiffTime, updateRangeCircle
+setupRangeCircle, updateLabelDiffTime, updateRangeCircle, updateMarkerLayer
 */
 /* exported processPokestop */
 
@@ -77,12 +77,7 @@ function isPokestopRangesActive() {
 }
 
 function setupPokestopMarker(pokestop, isNotifPokestop) {
-    var marker = L.marker([pokestop.latitude, pokestop.longitude])
-    if (isNotifPokestop) {
-        markersNoCluster.addLayer(marker)
-    } else {
-        markers.addLayer(marker)
-    }
+    const marker = L.marker([pokestop.latitude, pokestop.longitude])
 
     marker.setBouncingOptions({
         bounceHeight: 20,
@@ -150,21 +145,7 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
         marker.setZIndexOffset(pokestopZIndex)
     }
 
-    if (isNotifPokestop && markers.hasLayer(marker)) {
-        // Marker in wrong layer, move to other layer.
-        markers.removeLayer(marker)
-        markersNoCluster.addLayer(marker)
-    } else if (!isNotifPokestop && markersNoCluster.hasLayer(marker)) {
-        // Marker in wrong layer, move to other layer.
-        markersNoCluster.removeLayer(marker)
-        markers.addLayer(marker)
-    }
-
-    if (settings.bounceNotifMarkers && isNotifPokestop && !notifiedPokestopData[pokestop.pokestop_id].animationDisabled && !marker.isBouncing()) {
-        marker.bounce()
-    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifPokestop)) {
-        marker.stopBouncing()
-    }
+    updateMarkerLayer(marker, isNotifPokestop, notifiedPokestopData[pokestop.pokestop_id])
 
     return marker
 }

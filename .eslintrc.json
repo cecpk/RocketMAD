@@ -97,7 +97,7 @@
     "getIvsPercentage": "readonly",
     "getIvsPercentageCssColor": "readonly",
     "getPokemonLevel": "readonly",
-    "setupPokemonMarker": "readonly",
+    "createPokemonMarker": "readonly",
     "searchPokemon": "readonly",
     "gymTypes": "readonly",
     "raidEggImages": "readonly",

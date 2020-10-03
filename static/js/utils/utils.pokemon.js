@@ -3,7 +3,7 @@ exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
 getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
 getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
 getPokemonRarityName, getPokemonRawIconUrl, getPokemonTypes, initMoveData,
-initPokemonData, searchPokemon, setupPokemonMarker, updatePokemonRarities
+initPokemonData, searchPokemon, createPokemonMarker, updatePokemonRarities
 */
 
 var pokemonData = {}
@@ -217,13 +217,13 @@ function getPokemonLevel(cpMultiplier) {
     return pokemonLevel
 }
 
-function setupPokemonMarker(pokemon, layerGroup, generateImages) {
-    var icon = L.icon({
+function createPokemonMarker(pokemon, generateImages) {
+    const icon = L.icon({
         iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
         iconSize: [32, 32]
     })
 
-    return L.marker([pokemon.latitude, pokemon.longitude], { icon: icon }).addTo(layerGroup)
+    return L.marker([pokemon.latitude, pokemon.longitude], { icon: icon })
 }
 
 function searchPokemon(searchtext) {
