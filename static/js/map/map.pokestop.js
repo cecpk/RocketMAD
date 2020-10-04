@@ -95,9 +95,9 @@ function setupPokestopMarker(pokestop, isNotifPokestop) {
 }
 
 function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
-    var shadowImage = null
-    var shadowSize = null
-    var shadowAnchor = null
+    let shadowImage = null
+    let shadowSize = null
+    let shadowAnchor = null
     const upscaleModifier = isNotifPokestop && settings.upscaleNotifMarkers ? 1.3 : 1
 
     if (isPokestopMeetsQuestFilters(pokestop)) {
@@ -122,7 +122,7 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
         }
     }
 
-    var icon = L.icon({
+    const icon = L.contentIcon({
         iconUrl: getPokestopIconUrlFiltered(pokestop),
         iconSize: [32 * upscaleModifier, 32 * upscaleModifier],
         iconAnchor: [16 * upscaleModifier, 32 * upscaleModifier],

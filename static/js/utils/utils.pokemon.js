@@ -218,7 +218,7 @@ function getPokemonLevel(cpMultiplier) {
 }
 
 function createPokemonMarker(pokemon, generateImages) {
-    const icon = L.icon({
+    const icon = L.contentIcon({
         iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
         iconSize: [32, 32]
     })

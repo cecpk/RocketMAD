@@ -130,7 +130,7 @@ function setupGymMarker(gym, isNotifGym) {
 }
 
 function updateGymMarker(gym, marker, isNotifGym) {
-    var markerImage = ''
+    let markerImage = ''
     const upscaleModifier = isNotifGym && settings.upscaleNotifMarkers ? 1.2 : 1
     const gymLevel = getGymLevel(gym)
 
@@ -165,7 +165,7 @@ function updateGymMarker(gym, marker, isNotifGym) {
         markerImage += '&ex-raid-eligible=1'
     }
 
-    var icon = L.icon({
+    const icon = L.contentIcon({
         iconUrl: markerImage,
         iconSize: [48 * upscaleModifier, 48 * upscaleModifier]
     })
