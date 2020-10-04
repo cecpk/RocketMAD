@@ -24,7 +24,7 @@
   max-height: 80% !important;
 
   .modal-content {
-    padding: 0 24px;
+    padding: 0 20px;
 
     h6 {
       padding: 6px 0;
@@ -92,8 +92,7 @@
     align-items: center;
     width: 75px;
     height: 75px;
-    margin-bottom: 8px;
-    margin-right: 8px;
+    margin: 4px;
     float: left;
     line-height: initial;
     color: $text-color;
@@ -117,7 +116,6 @@
   }
 
   .pokemon-filter-list, .quest-item-filter-list, .invasion-filter-list {
-    margin-top: 8px;
     overflow-y: hidden;
   }
 }

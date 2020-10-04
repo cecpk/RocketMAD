@@ -1747,24 +1747,38 @@ function initPokemonFilters() {
         inputElement.val(deselectedPokemons.join(',')).trigger('change')
     })
 
-    $('.search').on('input', function () {
-        var searchtext = $(this).val().toString()
-        var parent = $(this)
-        var foundPokemon = []
-        var pokeselectlist = $(this).parent().parent().prev('.pokemon-filter-list').find('.filter-button')
-        if (searchtext === '') {
-            parent.parent().parent().find('.pokemon-select-filtered, .pokemon-deselect-filtered').hide()
-            parent.parent().parent().find('.pokemon-select-all, .pokemon-deselect-all').show()
-            pokeselectlist.show()
-        } else {
-            pokeselectlist.hide()
-            parent.parent().parent().find('.pokemon-select-filtered, .pokemon-deselect-filtered').show()
-            parent.parent().parent().find('.pokemon-select-all, .pokemon-deselect-all').hide()
-            foundPokemon = searchPokemon(searchtext.replace(/\s/g, ''))
-        }
+    const searchInputs = document.querySelectorAll('.search')
+    searchInputs.forEach(function (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const searchText = searchInput.value.replace(/\s/g, '')
+            const footer = searchInput.closest('.filter-footer-container')
+            const filterList = footer.previousElementSibling
+            const filterButtons = filterList.querySelectorAll('.filter-button')
+            const filterContainer = filterList.parentElement
+            filterContainer.style.display = 'none'
 
-        $.each(foundPokemon, function (i, item) {
-            parent.parent().parent().prev('.pokemon-filter-list').find('.filter-button[data-id="' + foundPokemon[i] + '"]').show()
+            let selectAllDisplay
+            let selectFilteredDisplay
+            if (searchText === '') {
+                selectAllDisplay = ''
+                selectFilteredDisplay = 'none'
+                filterButtons.forEach(function (filterButton) {
+                    filterButton.style.display = ''
+                })
+            } else {
+                selectAllDisplay = 'none'
+                selectFilteredDisplay = ''
+                const foundPokemonIds = searchPokemon(searchText)
+                filterButtons.forEach(function (filterButton) {
+                    filterButton.style.display = foundPokemonIds.has(parseInt(filterButton.dataset.id)) ? '' : 'none'
+                })
+            }
+            footer.querySelector('.pokemon-select-all').style.display = selectAllDisplay
+            footer.querySelector('.pokemon-deselect-all').style.display = selectAllDisplay
+            footer.querySelector('.pokemon-select-filtered').style.display = selectFilteredDisplay
+            footer.querySelector('.pokemon-deselect-filtered').style.display = selectFilteredDisplay
+
+            filterContainer.style.display = ''
         })
     })
 
