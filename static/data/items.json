@@ -90,7 +90,7 @@
   },
   "701": {
     "name": "Razz Berry",
-    "questBundles": [3, 6, 9]
+    "questBundles": [3, 5, 6, 9]
   },
   "702": {
     "name": "Bluk Berry"
@@ -104,7 +104,7 @@
   },
   "705": {
     "name": "Pinap Berry",
-    "questBundles": [1, 2, 3]
+    "questBundles": [1, 2, 3, 5]
   },
   "706": {
     "name": "Golden Razz Berry",
