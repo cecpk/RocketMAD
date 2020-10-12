@@ -149,7 +149,7 @@
 #port:                          # Port to listen on (default=5000)
 #workers:                       # The number of worker processes for handling requests. Generally in the 2-4 x {NUM_CORES} range. (Default=2 x {NUM_CORES} + 1)
 #development-server             # Use Flask’s built-in development server. Don't use this in production. (default=False)
-#locale:                        # Pokemon translation
+#locale:                        # Pokemon translation language (check static/dist/locales for list)
 #cors                           # Enable CORS on web server.
 #ssl-certificate:               # Path to ssl certificate
 #ssl-privatekey:                # Path to ssl private key
