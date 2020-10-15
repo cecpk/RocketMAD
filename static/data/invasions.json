@@ -23,9 +23,9 @@
     "type": "Mixed",
     "grunt": "Female",
     "pokemon": {
-      "1": {"ids": [142, 143], "isReward": true},
+      "1": {"ids": [142], "isReward": true},
       "2": {"ids": [143, 62, 282], "isReward": false},
-      "3": {"ids": [149, 130, 143], "isReward": false}
+      "3": {"ids": [143, 130, 149], "isReward": false}
     }
   },
   "6": {
@@ -143,7 +143,7 @@
     "type": "Ground",
     "grunt": "Male",
     "pokemon": {
-      "1": {"ids": [207], "isReward": true},
+      "1": {"ids": [207, 50], "isReward": true},
       "2": {"ids": [329, 247, 105], "isReward": false},
       "3": {"ids": [472, 330], "isReward": false}
     }
@@ -177,7 +177,7 @@
     "type": "Normal",
     "grunt": "Male",
     "pokemon": {
-      "1": {"ids": [216, 41, 19], "isReward": true},
+      "1": {"ids": [216], "isReward": true},
       "2": {"ids": [20, 233], "isReward": false},
       "3": {"ids": [143, 474], "isReward": false}
     }
