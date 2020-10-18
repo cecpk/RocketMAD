@@ -118,10 +118,10 @@
   .pokemon-filter-list, .quest-item-filter-list, .invasion-filter-list {
     overflow-y: hidden;
   }
-}
 
-.pokemon-filter-modal, .quest-filter-modal {
-  min-height: 80vh;
+  .pokemon-filter-list {
+    min-height: 80vh;
+  }
 }
 
 .dark .filter-modal {

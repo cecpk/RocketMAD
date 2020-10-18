@@ -5,7 +5,7 @@ pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
 pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
 removeRangeCircle, sendNotification, settings, setupRangeCircle,
 updateRangeCircle, weatherClassesDay, weatherNames, updateMarkerLayer,
-createPokemonMarker
+createPokemonMarker, filterManagers
 */
 /* exported processPokemon, updatePokemons */
 
@@ -291,7 +291,7 @@ function pokemonLabel(item) {
               <div>
                 <a href='javascript:togglePokemonNotif(${id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
                 <a href='javascript:excludePokemon(${id})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
-                <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='Remove'><i class="fas fa-trash"></i></a>
+                <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='${i18n('Remove')}><i class="fas fa-trash"></i></a>
                 <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='${i18n('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
               </div>
             </div>
@@ -453,13 +453,15 @@ function getExcludedPokemon() {
 }
 
 function excludePokemon(id) { // eslint-disable-line no-unused-vars
-    if (!settings.excludedPokemon.has(id)) {
-        $('label[for="exclude-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+    if (filterManagers.excludedPokemon !== null) {
+        filterManagers.excludedPokemon.add([id])
     }
 }
 
 function togglePokemonNotif(id) { // eslint-disable-line no-unused-vars
-    $('label[for="no-notif-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+    if (filterManagers.notifPokemon !== null) {
+        filterManagers.notifPokemon.toggle(id)
+    }
 }
 
 function isNotifPokemon(pokemon) {

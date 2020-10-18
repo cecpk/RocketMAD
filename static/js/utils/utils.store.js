@@ -276,8 +276,8 @@ const StoreOptions = {
         type: StoreTypes.Set
     },
     excludedQuestItems: {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     showInvasions: {
         default: true,
@@ -292,8 +292,8 @@ const StoreOptions = {
         type: StoreTypes.Boolean
     },
     excludedInvasions: {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     includedLureTypes: {
         default: [501, 502, 503, 504],
@@ -312,16 +312,16 @@ const StoreOptions = {
         type: StoreTypes.Set
     },
     notifQuestItems: {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     invasionNotifs: {
         default: false,
         type: StoreTypes.Boolean
     },
     notifInvasions: {
-        default: [],
-        type: StoreTypes.JSON
+        default: new Set(),
+        type: StoreTypes.Set
     },
     notifLureTypes: {
         default: [],
