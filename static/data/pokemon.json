@@ -8065,6 +8065,10 @@
       "925": {
         "formName": "Purified",
         "assetId": "00"
+      },
+	  "2668": {
+        "formName": "",
+        "assetId": "pokemon_icon_pm0302_00_pgo_fall2020"
       }
     }
   },
