@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/rpc_response_telemetry.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n6pogoprotos/data/telemetry/rpc_response_telemetry.proto\x12\x19pogoprotos.data.telemetry\x1a\x31pogoprotos/networking/requests/request_type.proto\"\x8e\x02\n\x14RpcResponseTelemetry\x12\x17\n\x0fwindow_duration\x18\x01 \x01(\x02\x12Y\n\x10response_timings\x18\x02 \x03(\x0b\x32?.pogoprotos.data.telemetry.RpcResponseTelemetry.RpcResponseTime\x1a\x81\x01\n\x0fRpcResponseTime\x12;\n\x06rpc_id\x18\x01 \x01(\x0e\x32+.pogoprotos.networking.requests.RequestType\x12\x12\n\ncount_call\x18\x02 \x01(\x05\x12\x1d\n\x15\x61verage_response_time\x18\x03 \x01(\x02\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_networking_dot_requests_dot_request__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,28 +40,28 @@ _RPCRESPONSETELEMETRY_RPCRESPONSETIME = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='count_call', full_name='pogoprotos.data.telemetry.RpcResponseTelemetry.RpcResponseTime.count_call', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='average_response_time', full_name='pogoprotos.data.telemetry.RpcResponseTelemetry.RpcResponseTime.average_response_time', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -85,21 +84,21 @@ _RPCRESPONSETELEMETRY = _descriptor.Descriptor(
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='response_timings', full_name='pogoprotos.data.telemetry.RpcResponseTelemetry.response_timings', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_RPCRESPONSETELEMETRY_RPCRESPONSETIME, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -113,6 +112,7 @@ _RPCRESPONSETELEMETRY_RPCRESPONSETIME.fields_by_name['rpc_id'].enum_type = pogop
 _RPCRESPONSETELEMETRY_RPCRESPONSETIME.containing_type = _RPCRESPONSETELEMETRY
 _RPCRESPONSETELEMETRY.fields_by_name['response_timings'].message_type = _RPCRESPONSETELEMETRY_RPCRESPONSETIME
 DESCRIPTOR.message_types_by_name['RpcResponseTelemetry'] = _RPCRESPONSETELEMETRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 RpcResponseTelemetry = _reflection.GeneratedProtocolMessageType('RpcResponseTelemetry', (_message.Message,), dict(
 

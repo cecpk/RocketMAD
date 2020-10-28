@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -23,10 +22,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/invasion_encounter_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nApogoprotos/networking/responses/invasion_encounter_response.proto\x12\x1fpogoprotos.networking.responses\x1a)pogoprotos/map/fort/invasion_status.proto\x1a\"pogoprotos/data/pokemon_data.proto\x1a\x31pogoprotos/data/capture/capture_probability.proto\x1a\'pogoprotos/inventory/item/item_id.proto\"\xdf\x04\n\x19InvasionEncounterResponse\x12:\n\x06status\x18\x01 \x01(\x0e\x32*.pogoprotos.map.fort.InvasionStatus.Status\x12\x37\n\x11\x65ncounter_pokemon\x18\x02 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonData\x12H\n\x13\x63\x61pture_probability\x18\x03 \x01(\x0b\x32+.pogoprotos.data.capture.CaptureProbability\x12\x36\n\x0b\x61\x63tive_item\x18\x04 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x18\n\x10throws_remaining\x18\x05 \x01(\x05\x12\x14\n\x0c\x65ncounter_id\x18\x06 \x01(\x06\x12\x18\n\x10spawn_point_guid\x18\x07 \x01(\t\x12\x65\n\rballs_display\x18\x08 \x01(\x0b\x32N.pogoprotos.networking.responses.InvasionEncounterResponse.PremierBallsDisplay\x1a\x99\x01\n\x13PremierBallsDisplay\x12\x16\n\x0e\x62\x61se_num_balls\x18\x01 \x01(\x05\x12\"\n\x1apokemon_purified_num_balls\x18\x02 \x01(\x05\x12!\n\x19grunts_defeated_num_balls\x18\x03 \x01(\x05\x12#\n\x1bpokemon_remaining_num_balls\x18\x04 \x01(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_fort_dot_invasion__status__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__data__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_capture_dot_capture__probability__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -44,35 +43,35 @@ _INVASIONENCOUNTERRESPONSE_PREMIERBALLSDISPLAY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokemon_purified_num_balls', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.PremierBallsDisplay.pokemon_purified_num_balls', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='grunts_defeated_num_balls', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.PremierBallsDisplay.grunts_defeated_num_balls', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokemon_remaining_num_balls', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.PremierBallsDisplay.pokemon_remaining_num_balls', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -95,63 +94,63 @@ _INVASIONENCOUNTERRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='encounter_pokemon', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.encounter_pokemon', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='capture_probability', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.capture_probability', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active_item', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.active_item', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='throws_remaining', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.throws_remaining', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='encounter_id', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.encounter_id', index=5,
       number=6, type=6, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='spawn_point_guid', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.spawn_point_guid', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='balls_display', full_name='pogoprotos.networking.responses.InvasionEncounterResponse.balls_display', index=7,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_INVASIONENCOUNTERRESPONSE_PREMIERBALLSDISPLAY, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -168,6 +167,7 @@ _INVASIONENCOUNTERRESPONSE.fields_by_name['capture_probability'].message_type = 
 _INVASIONENCOUNTERRESPONSE.fields_by_name['active_item'].enum_type = pogoprotos_dot_inventory_dot_item_dot_item__id__pb2._ITEMID
 _INVASIONENCOUNTERRESPONSE.fields_by_name['balls_display'].message_type = _INVASIONENCOUNTERRESPONSE_PREMIERBALLSDISPLAY
 DESCRIPTOR.message_types_by_name['InvasionEncounterResponse'] = _INVASIONENCOUNTERRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InvasionEncounterResponse = _reflection.GeneratedProtocolMessageType('InvasionEncounterResponse', (_message.Message,), dict(
 

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/vasa/vasa_client_action.proto',
   package='pogoprotos.networking.requests.vasa',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n<pogoprotos/networking/requests/vasa/vasa_client_action.proto\x12#pogoprotos.networking.requests.vasa\"S\n\x10VasaClientAction\"?\n\nActionEnum\x12\x1e\n\x1aINVALID_VASA_CLIENT_ACTION\x10\x00\x12\x11\n\x0c\x43OLLECT_ADID\x10\xc0>b\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,15 +32,15 @@ _VASACLIENTACTION_ACTIONENUM = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='INVALID_VASA_CLIENT_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='COLLECT_ADID', index=1, number=8000,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=121,
   serialized_end=184,
 )
@@ -62,7 +61,7 @@ _VASACLIENTACTION = _descriptor.Descriptor(
   enum_types=[
     _VASACLIENTACTION_ACTIONENUM,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -74,6 +73,7 @@ _VASACLIENTACTION = _descriptor.Descriptor(
 
 _VASACLIENTACTION_ACTIONENUM.containing_type = _VASACLIENTACTION
 DESCRIPTOR.message_types_by_name['VasaClientAction'] = _VASACLIENTACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 VasaClientAction = _reflection.GeneratedProtocolMessageType('VasaClientAction', (_message.Message,), dict(
   DESCRIPTOR = _VASACLIENTACTION,

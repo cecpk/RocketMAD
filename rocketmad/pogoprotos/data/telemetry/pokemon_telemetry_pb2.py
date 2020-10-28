@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/pokemon_telemetry.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n1pogoprotos/data/telemetry/pokemon_telemetry.proto\x12\x19pogoprotos.data.telemetry\"n\n\x10PokemonTelemetry\x12\x12\n\npokemon_id\x18\x01 \x01(\x05\x12\n\n\x02\x63p\x18\x02 \x01(\x05\x12\x11\n\tweight_kg\x18\x03 \x01(\x02\x12\x10\n\x08height_m\x18\x04 \x01(\x02\x12\x15\n\rpokemon_level\x18\x05 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,42 +38,42 @@ _POKEMONTELEMETRY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='cp', full_name='pogoprotos.data.telemetry.PokemonTelemetry.cp', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='weight_kg', full_name='pogoprotos.data.telemetry.PokemonTelemetry.weight_kg', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='height_m', full_name='pogoprotos.data.telemetry.PokemonTelemetry.height_m', index=3,
       number=4, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokemon_level', full_name='pogoprotos.data.telemetry.PokemonTelemetry.pokemon_level', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -85,6 +84,7 @@ _POKEMONTELEMETRY = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['PokemonTelemetry'] = _POKEMONTELEMETRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PokemonTelemetry = _reflection.GeneratedProtocolMessageType('PokemonTelemetry', (_message.Message,), dict(
   DESCRIPTOR = _POKEMONTELEMETRY,

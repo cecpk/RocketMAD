@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/set_avatar_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n9pogoprotos/networking/responses/set_avatar_response.proto\x12\x1fpogoprotos.networking.responses\x1a!pogoprotos/data/player_data.proto\"\xad\x02\n\x11SetAvatarResponse\x12I\n\x06status\x18\x01 \x01(\x0e\x32\x39.pogoprotos.networking.responses.SetAvatarResponse.Status\x12\x30\n\x0bplayer_data\x18\x02 \x01(\x0b\x32\x1b.pogoprotos.data.PlayerData\"\x9a\x01\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x16\n\x12\x41VATAR_ALREADY_SET\x10\x02\x12\x0b\n\x07\x46\x41ILURE\x10\x03\x12\x14\n\x10SLOT_NOT_ALLOWED\x10\x04\x12\x12\n\x0eITEM_NOT_OWNED\x10\x05\x12\x17\n\x13INVALID_AVATAR_TYPE\x10\x06\x12\x10\n\x0c\x41VATAR_RESET\x10\x07\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_player__data__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,39 +34,39 @@ _SETAVATARRESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='AVATAR_ALREADY_SET', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAILURE', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SLOT_NOT_ALLOWED', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ITEM_NOT_OWNED', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INVALID_AVATAR_TYPE', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='AVATAR_RESET', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=277,
   serialized_end=431,
 )
@@ -87,14 +86,14 @@ _SETAVATARRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='player_data', full_name='pogoprotos.networking.responses.SetAvatarResponse.player_data', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -102,7 +101,7 @@ _SETAVATARRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _SETAVATARRESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -116,6 +115,7 @@ _SETAVATARRESPONSE.fields_by_name['status'].enum_type = _SETAVATARRESPONSE_STATU
 _SETAVATARRESPONSE.fields_by_name['player_data'].message_type = pogoprotos_dot_data_dot_player__data__pb2._PLAYERDATA
 _SETAVATARRESPONSE_STATUS.containing_type = _SETAVATARRESPONSE
 DESCRIPTOR.message_types_by_name['SetAvatarResponse'] = _SETAVATARRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SetAvatarResponse = _reflection.GeneratedProtocolMessageType('SetAvatarResponse', (_message.Message,), dict(
   DESCRIPTOR = _SETAVATARRESPONSE,

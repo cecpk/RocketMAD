@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/evolution_v2_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n/pogoprotos/settings/evolution_v2_settings.proto\x12\x13pogoprotos.settings\")\n\x13\x45volutionV2Settings\x12\x12\n\nis_enabled\x18\x01 \x01(\x08\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _EVOLUTIONV2SETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -57,6 +56,7 @@ _EVOLUTIONV2SETTINGS = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['EvolutionV2Settings'] = _EVOLUTIONV2SETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 EvolutionV2Settings = _reflection.GeneratedProtocolMessageType('EvolutionV2Settings', (_message.Message,), dict(
   DESCRIPTOR = _EVOLUTIONV2SETTINGS,

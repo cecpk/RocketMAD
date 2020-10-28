@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/battle_hub_badge_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n:pogoprotos/settings/master/battle_hub_badge_settings.proto\x12\x1apogoprotos.settings.master\x1a!pogoprotos/enums/badge_type.proto\"Z\n\x16\x42\x61ttleHubBadgeSettings\x12@\n\x1b\x63ombat_hub_displayed_badges\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.BadgeTypeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_badge__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _BATTLEHUBBADGESETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _BATTLEHUBBADGESETTINGS = _descriptor.Descriptor(
 
 _BATTLEHUBBADGESETTINGS.fields_by_name['combat_hub_displayed_badges'].enum_type = pogoprotos_dot_enums_dot_badge__type__pb2._BADGETYPE
 DESCRIPTOR.message_types_by_name['BattleHubBadgeSettings'] = _BATTLEHUBBADGESETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BattleHubBadgeSettings = _reflection.GeneratedProtocolMessageType('BattleHubBadgeSettings', (_message.Message,), dict(
   DESCRIPTOR = _BATTLEHUBBADGESETTINGS,

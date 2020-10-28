@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/social/social.proto',
   package='pogoprotos.data.social',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n#pogoprotos/data/social/social.proto\x12\x16pogoprotos.data.social\"_\n\x06Social\"U\n\x06\x41ppKey\x12\x0b\n\x07INVALID\x10\x00\x12\x13\n\x0fINGRESS_DELETED\x10\x01\x12\x14\n\x10HOLOHOLO_DELETED\x10\x02\x12\x13\n\x0fLEXICON_DELETED\x10\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,23 +32,23 @@ _SOCIAL_APPKEY = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='INVALID', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INGRESS_DELETED', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='HOLOHOLO_DELETED', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='LEXICON_DELETED', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=73,
   serialized_end=158,
 )
@@ -70,7 +69,7 @@ _SOCIAL = _descriptor.Descriptor(
   enum_types=[
     _SOCIAL_APPKEY,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -82,6 +81,7 @@ _SOCIAL = _descriptor.Descriptor(
 
 _SOCIAL_APPKEY.containing_type = _SOCIAL
 DESCRIPTOR.message_types_by_name['Social'] = _SOCIAL
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Social = _reflection.GeneratedProtocolMessageType('Social', (_message.Message,), dict(
   DESCRIPTOR = _SOCIAL,

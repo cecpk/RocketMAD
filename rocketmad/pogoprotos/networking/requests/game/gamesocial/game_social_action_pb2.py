@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamesocial/game_social_action.proto',
   package='pogoprotos.networking.requests.game.gamesocial',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nGpogoprotos/networking/requests/game/gamesocial/game_social_action.proto\x12.pogoprotos.networking.requests.game.gamesocial*u\n\x10GameSocialAction\x12\x1e\n\x1aUNKNOWN_GAME_SOCIAL_ACTION\x10\x00\x12\x19\n\x13PROXY_SOCIAL_ACTION\x10\xf0\xb9&\x12&\n PROXY_SOCIAL_SIDE_CHANNEL_ACTION\x10\xf1\xb9&b\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMESOCIALACTION = _descriptor.EnumDescriptor(
   name='GameSocialAction',
@@ -32,19 +31,19 @@ _GAMESOCIALACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_SOCIAL_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PROXY_SOCIAL_ACTION', index=1, number=630000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PROXY_SOCIAL_SIDE_CHANNEL_ACTION', index=2, number=630001,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=123,
   serialized_end=240,
 )
@@ -57,6 +56,7 @@ PROXY_SOCIAL_SIDE_CHANNEL_ACTION = 630001
 
 
 DESCRIPTOR.enum_types_by_name['GameSocialAction'] = _GAMESOCIALACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

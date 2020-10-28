@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/platform/requests/get_gmap_settings_message.proto',
   package='pogoprotos.networking.requests.platform.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nPpogoprotos/networking/requests/platform/requests/get_gmap_settings_message.proto\x12\x30pogoprotos.networking.requests.platform.requests\"\x18\n\x16GetGmapSettingsMessageb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,7 +38,7 @@ _GETGMAPSETTINGSMESSAGE = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -50,6 +49,7 @@ _GETGMAPSETTINGSMESSAGE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['GetGmapSettingsMessage'] = _GETGMAPSETTINGSMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetGmapSettingsMessage = _reflection.GeneratedProtocolMessageType('GetGmapSettingsMessage', (_message.Message,), dict(
   DESCRIPTOR = _GETGMAPSETTINGSMESSAGE,

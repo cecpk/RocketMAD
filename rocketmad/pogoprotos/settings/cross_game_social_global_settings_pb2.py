@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/cross_game_social_global_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n;pogoprotos/settings/cross_game_social_global_settings.proto\x12\x13pogoprotos.settings\"\xa8\x01\n\x1d\x43rossGameSocialGlobalSettings\x12\x1f\n\x17online_status_min_level\x18\x01 \x01(\x05\x12!\n\x19niantic_profile_min_level\x18\x02 \x01(\x05\x12\x1e\n\x16\x66riends_list_min_level\x18\x03 \x01(\x05\x12#\n\x1bmax_friends_per_detail_page\x18\x04 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,35 +38,35 @@ _CROSSGAMESOCIALGLOBALSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='niantic_profile_min_level', full_name='pogoprotos.settings.CrossGameSocialGlobalSettings.niantic_profile_min_level', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='friends_list_min_level', full_name='pogoprotos.settings.CrossGameSocialGlobalSettings.friends_list_min_level', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='max_friends_per_detail_page', full_name='pogoprotos.settings.CrossGameSocialGlobalSettings.max_friends_per_detail_page', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -78,6 +77,7 @@ _CROSSGAMESOCIALGLOBALSETTINGS = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['CrossGameSocialGlobalSettings'] = _CROSSGAMESOCIALGLOBALSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CrossGameSocialGlobalSettings = _reflection.GeneratedProtocolMessageType('CrossGameSocialGlobalSettings', (_message.Message,), dict(
   DESCRIPTOR = _CROSSGAMESOCIALGLOBALSETTINGS,

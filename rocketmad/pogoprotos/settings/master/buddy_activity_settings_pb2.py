@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -21,10 +20,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/buddy_activity_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n8pogoprotos/settings/master/buddy_activity_settings.proto\x12\x1apogoprotos.settings.master\x1a%pogoprotos/enums/buddy_activity.proto\x1a.pogoprotos/enums/buddy_activity_category.proto\"\x95\x02\n\x15\x42uddyActivitySettings\x12\x31\n\x08\x61\x63tivity\x18\x01 \x01(\x0e\x32\x1f.pogoprotos.enums.BuddyActivity\x12\x42\n\x11\x61\x63tivity_category\x18\x02 \x01(\x0e\x32\'.pogoprotos.enums.BuddyActivityCategory\x12\x19\n\x11max_times_per_day\x18\x03 \x01(\x05\x12\x1d\n\x15num_points_per_action\x18\x04 \x01(\x05\x12%\n\x1dnum_emotion_points_per_action\x18\x05 \x01(\x05\x12$\n\x1c\x65motion_cooldown_duration_ms\x18\x06 \x01(\x03\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_buddy__activity__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_buddy__activity__category__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -42,49 +41,49 @@ _BUDDYACTIVITYSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='activity_category', full_name='pogoprotos.settings.master.BuddyActivitySettings.activity_category', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='max_times_per_day', full_name='pogoprotos.settings.master.BuddyActivitySettings.max_times_per_day', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='num_points_per_action', full_name='pogoprotos.settings.master.BuddyActivitySettings.num_points_per_action', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='num_emotion_points_per_action', full_name='pogoprotos.settings.master.BuddyActivitySettings.num_emotion_points_per_action', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='emotion_cooldown_duration_ms', full_name='pogoprotos.settings.master.BuddyActivitySettings.emotion_cooldown_duration_ms', index=5,
       number=6, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -97,6 +96,7 @@ _BUDDYACTIVITYSETTINGS = _descriptor.Descriptor(
 _BUDDYACTIVITYSETTINGS.fields_by_name['activity'].enum_type = pogoprotos_dot_enums_dot_buddy__activity__pb2._BUDDYACTIVITY
 _BUDDYACTIVITYSETTINGS.fields_by_name['activity_category'].enum_type = pogoprotos_dot_enums_dot_buddy__activity__category__pb2._BUDDYACTIVITYCATEGORY
 DESCRIPTOR.message_types_by_name['BuddyActivitySettings'] = _BUDDYACTIVITYSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BuddyActivitySettings = _reflection.GeneratedProtocolMessageType('BuddyActivitySettings', (_message.Message,), dict(
   DESCRIPTOR = _BUDDYACTIVITYSETTINGS,

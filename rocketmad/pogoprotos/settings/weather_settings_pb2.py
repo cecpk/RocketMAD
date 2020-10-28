@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -22,10 +21,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/weather_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n*pogoprotos/settings/weather_settings.proto\x12\x13pogoprotos.settings\x1a\x30pogoprotos/settings/weather_alert_settings.proto\x1a,pogoprotos/map/weather/display_weather.proto\x1a-pogoprotos/map/weather/gameplay_weather.proto\"\xa9\x11\n\x0fWeatherSettings\x12W\n\x11gameplay_settings\x18\x01 \x01(\x0b\x32<.pogoprotos.settings.WeatherSettings.GameplayWeatherSettings\x12U\n\x10\x64isplay_settings\x18\x02 \x01(\x0b\x32;.pogoprotos.settings.WeatherSettings.DisplayWeatherSettings\x12\x41\n\x0e\x61lert_settings\x18\x03 \x01(\x0b\x32).pogoprotos.settings.WeatherAlertSettings\x12Q\n\x0estale_settings\x18\x04 \x01(\x0b\x32\x39.pogoprotos.settings.WeatherSettings.StaleWeatherSettings\x1a\x84\x01\n\x14\x43onditionMapSettings\x12T\n\x12gameplay_condition\x18\x01 \x01(\x0e\x32\x38.pogoprotos.map.weather.GameplayWeather.WeatherCondition\x12\x16\n\x0eprovider_enums\x18\x02 \x03(\t\x1a\xa6\x03\n\x14\x44isplayLevelSettings\x12\x17\n\x0f\x63ondition_enums\x18\x01 \x03(\t\x12H\n\x0b\x63loud_level\x18\x02 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12G\n\nrain_level\x18\x03 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12G\n\nsnow_level\x18\x04 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12\x46\n\tfog_level\x18\x05 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12Q\n\x14special_effect_level\x18\x06 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x1a\x85\x06\n\x16\x44isplayWeatherSettings\x12p\n\x16\x64isplay_level_settings\x18\x01 \x03(\x0b\x32P.pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.DisplayLevelSettings\x12j\n\x13wind_level_settings\x18\x02 \x01(\x0b\x32M.pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.WindLevelSettings\x1a\xa6\x03\n\x14\x44isplayLevelSettings\x12\x17\n\x0f\x63ondition_enums\x18\x01 \x03(\t\x12H\n\x0b\x63loud_level\x18\x02 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12G\n\nrain_level\x18\x03 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12G\n\nsnow_level\x18\x04 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12\x46\n\tfog_level\x18\x05 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x12Q\n\x14special_effect_level\x18\x06 \x01(\x0e\x32\x33.pogoprotos.map.weather.DisplayWeather.DisplayLevel\x1a\x64\n\x11WindLevelSettings\x12\x19\n\x11wind_level1_speed\x18\x01 \x01(\x05\x12\x19\n\x11wind_level2_speed\x18\x02 \x01(\x05\x12\x19\n\x11wind_level3_speed\x18\x03 \x01(\x05\x1a\xc5\x02\n\x17GameplayWeatherSettings\x12h\n\rcondition_map\x18\x01 \x03(\x0b\x32Q.pogoprotos.settings.WeatherSettings.GameplayWeatherSettings.ConditionMapSettings\x12\x1b\n\x13min_speed_for_windy\x18\x02 \x01(\x05\x12\x1c\n\x14\x63onditions_for_windy\x18\x03 \x03(\t\x1a\x84\x01\n\x14\x43onditionMapSettings\x12T\n\x12gameplay_condition\x18\x01 \x01(\x0e\x32\x38.pogoprotos.map.weather.GameplayWeather.WeatherCondition\x12\x16\n\x0eprovider_enums\x18\x02 \x03(\t\x1aj\n\x14StaleWeatherSettings\x12*\n\"max_stale_weather_threshold_in_hrs\x18\x01 \x01(\x05\x12&\n\x1e\x64\x65\x66\x61ult_weather_condition_code\x18\x02 \x01(\x05\x1a\x64\n\x11WindLevelSettings\x12\x19\n\x11wind_level1_speed\x18\x01 \x01(\x05\x12\x19\n\x11wind_level2_speed\x18\x02 \x01(\x05\x12\x19\n\x11wind_level3_speed\x18\x03 \x01(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_settings_dot_weather__alert__settings__pb2.DESCRIPTOR,pogoprotos_dot_map_dot_weather_dot_display__weather__pb2.DESCRIPTOR,pogoprotos_dot_map_dot_weather_dot_gameplay__weather__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -43,21 +42,21 @@ _WEATHERSETTINGS_CONDITIONMAPSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='provider_enums', full_name='pogoprotos.settings.WeatherSettings.ConditionMapSettings.provider_enums', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -80,49 +79,49 @@ _WEATHERSETTINGS_DISPLAYLEVELSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='cloud_level', full_name='pogoprotos.settings.WeatherSettings.DisplayLevelSettings.cloud_level', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='rain_level', full_name='pogoprotos.settings.WeatherSettings.DisplayLevelSettings.rain_level', index=2,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='snow_level', full_name='pogoprotos.settings.WeatherSettings.DisplayLevelSettings.snow_level', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='fog_level', full_name='pogoprotos.settings.WeatherSettings.DisplayLevelSettings.fog_level', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='special_effect_level', full_name='pogoprotos.settings.WeatherSettings.DisplayLevelSettings.special_effect_level', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -145,49 +144,49 @@ _WEATHERSETTINGS_DISPLAYWEATHERSETTINGS_DISPLAYLEVELSETTINGS = _descriptor.Descr
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='cloud_level', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.DisplayLevelSettings.cloud_level', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='rain_level', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.DisplayLevelSettings.rain_level', index=2,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='snow_level', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.DisplayLevelSettings.snow_level', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='fog_level', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.DisplayLevelSettings.fog_level', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='special_effect_level', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.DisplayLevelSettings.special_effect_level', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -210,28 +209,28 @@ _WEATHERSETTINGS_DISPLAYWEATHERSETTINGS_WINDLEVELSETTINGS = _descriptor.Descript
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='wind_level2_speed', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.WindLevelSettings.wind_level2_speed', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='wind_level3_speed', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.WindLevelSettings.wind_level3_speed', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -254,21 +253,21 @@ _WEATHERSETTINGS_DISPLAYWEATHERSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='wind_level_settings', full_name='pogoprotos.settings.WeatherSettings.DisplayWeatherSettings.wind_level_settings', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_WEATHERSETTINGS_DISPLAYWEATHERSETTINGS_DISPLAYLEVELSETTINGS, _WEATHERSETTINGS_DISPLAYWEATHERSETTINGS_WINDLEVELSETTINGS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -291,21 +290,21 @@ _WEATHERSETTINGS_GAMEPLAYWEATHERSETTINGS_CONDITIONMAPSETTINGS = _descriptor.Desc
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='provider_enums', full_name='pogoprotos.settings.WeatherSettings.GameplayWeatherSettings.ConditionMapSettings.provider_enums', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -328,28 +327,28 @@ _WEATHERSETTINGS_GAMEPLAYWEATHERSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='min_speed_for_windy', full_name='pogoprotos.settings.WeatherSettings.GameplayWeatherSettings.min_speed_for_windy', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='conditions_for_windy', full_name='pogoprotos.settings.WeatherSettings.GameplayWeatherSettings.conditions_for_windy', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_WEATHERSETTINGS_GAMEPLAYWEATHERSETTINGS_CONDITIONMAPSETTINGS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -372,21 +371,21 @@ _WEATHERSETTINGS_STALEWEATHERSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='default_weather_condition_code', full_name='pogoprotos.settings.WeatherSettings.StaleWeatherSettings.default_weather_condition_code', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -409,28 +408,28 @@ _WEATHERSETTINGS_WINDLEVELSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='wind_level2_speed', full_name='pogoprotos.settings.WeatherSettings.WindLevelSettings.wind_level2_speed', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='wind_level3_speed', full_name='pogoprotos.settings.WeatherSettings.WindLevelSettings.wind_level3_speed', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -453,35 +452,35 @@ _WEATHERSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='display_settings', full_name='pogoprotos.settings.WeatherSettings.display_settings', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='alert_settings', full_name='pogoprotos.settings.WeatherSettings.alert_settings', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='stale_settings', full_name='pogoprotos.settings.WeatherSettings.stale_settings', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_WEATHERSETTINGS_CONDITIONMAPSETTINGS, _WEATHERSETTINGS_DISPLAYLEVELSETTINGS, _WEATHERSETTINGS_DISPLAYWEATHERSETTINGS, _WEATHERSETTINGS_GAMEPLAYWEATHERSETTINGS, _WEATHERSETTINGS_STALEWEATHERSETTINGS, _WEATHERSETTINGS_WINDLEVELSETTINGS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -520,6 +519,7 @@ _WEATHERSETTINGS.fields_by_name['display_settings'].message_type = _WEATHERSETTI
 _WEATHERSETTINGS.fields_by_name['alert_settings'].message_type = pogoprotos_dot_settings_dot_weather__alert__settings__pb2._WEATHERALERTSETTINGS
 _WEATHERSETTINGS.fields_by_name['stale_settings'].message_type = _WEATHERSETTINGS_STALEWEATHERSETTINGS
 DESCRIPTOR.message_types_by_name['WeatherSettings'] = _WEATHERSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 WeatherSettings = _reflection.GeneratedProtocolMessageType('WeatherSettings', (_message.Message,), dict(
 

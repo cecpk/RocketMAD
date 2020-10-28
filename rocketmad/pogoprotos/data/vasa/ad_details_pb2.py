@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/vasa/ad_details.proto',
   package='pogoprotos.data.vasa',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n%pogoprotos/data/vasa/ad_details.proto\x12\x14pogoprotos.data.vasa\x1a+pogoprotos/map/fort/sponsored_details.proto\"}\n\tAdDetails\x12T\n\x13image_text_creative\x18\x01 \x01(\x0b\x32\x37.pogoprotos.map.fort.SponsoredDetails.ImageTextCreative\x12\x1a\n\x12\x65ncrypted_ad_token\x18\x02 \x01(\x0c\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_fort_dot_sponsored__details__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,21 +40,21 @@ _ADDETAILS = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='encrypted_ad_token', full_name='pogoprotos.data.vasa.AdDetails.encrypted_ad_token', index=1,
       number=2, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -67,6 +66,7 @@ _ADDETAILS = _descriptor.Descriptor(
 
 _ADDETAILS.fields_by_name['image_text_creative'].message_type = pogoprotos_dot_map_dot_fort_dot_sponsored__details__pb2._SPONSOREDDETAILS_IMAGETEXTCREATIVE
 DESCRIPTOR.message_types_by_name['AdDetails'] = _ADDETAILS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AdDetails = _reflection.GeneratedProtocolMessageType('AdDetails', (_message.Message,), dict(
   DESCRIPTOR = _ADDETAILS,

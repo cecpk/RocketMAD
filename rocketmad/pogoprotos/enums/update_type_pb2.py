@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/update_type.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n\"pogoprotos/enums/update_type.proto\x12\x10pogoprotos.enums*\xa1\x01\n\nUpdateType\x12\x13\n\x0f\x41\x44\x44_UPDATE_TYPE\x10\x00\x12\n\n\x06MODIFY\x10\x01\x12\x16\n\x12REMOVE_UPDATE_TYPE\x10\x02\x12\x14\n\x10PREDICTED_MODIFY\x10\x03\x12\x14\n\x10PREDICTED_REMOVE\x10\x04\x12\x16\n\x12ROLLED_BACK_MODIFY\x10\x05\x12\x16\n\x12ROLLED_BACK_REMOVE\x10\x06\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _UPDATETYPE = _descriptor.EnumDescriptor(
   name='UpdateType',
@@ -32,35 +31,35 @@ _UPDATETYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='ADD_UPDATE_TYPE', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='MODIFY', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REMOVE_UPDATE_TYPE', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PREDICTED_MODIFY', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PREDICTED_REMOVE', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ROLLED_BACK_MODIFY', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ROLLED_BACK_REMOVE', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=57,
   serialized_end=218,
 )
@@ -77,6 +76,7 @@ ROLLED_BACK_REMOVE = 6
 
 
 DESCRIPTOR.enum_types_by_name['UpdateType'] = _UPDATETYPE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/friends/friendship_milestone_reward_notification.proto',
   package='pogoprotos.data.friends',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nFpogoprotos/data/friends/friendship_milestone_reward_notification.proto\x12\x17pogoprotos.data.friends\"\x8a\x01\n%FriendshipMilestoneRewardNotification\x12\x11\n\tfriend_id\x18\x01 \x01(\t\x12\x17\n\x0f\x66riend_codename\x18\x02 \x01(\t\x12\"\n\x1a\x66riendship_milestone_level\x18\x03 \x01(\x05\x12\x11\n\txp_reward\x18\x04 \x01(\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,35 +38,35 @@ _FRIENDSHIPMILESTONEREWARDNOTIFICATION = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='friend_codename', full_name='pogoprotos.data.friends.FriendshipMilestoneRewardNotification.friend_codename', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='friendship_milestone_level', full_name='pogoprotos.data.friends.FriendshipMilestoneRewardNotification.friendship_milestone_level', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='xp_reward', full_name='pogoprotos.data.friends.FriendshipMilestoneRewardNotification.xp_reward', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -78,6 +77,7 @@ _FRIENDSHIPMILESTONEREWARDNOTIFICATION = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['FriendshipMilestoneRewardNotification'] = _FRIENDSHIPMILESTONEREWARDNOTIFICATION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 FriendshipMilestoneRewardNotification = _reflection.GeneratedProtocolMessageType('FriendshipMilestoneRewardNotification', (_message.Message,), dict(
   DESCRIPTOR = _FRIENDSHIPMILESTONEREWARDNOTIFICATION,

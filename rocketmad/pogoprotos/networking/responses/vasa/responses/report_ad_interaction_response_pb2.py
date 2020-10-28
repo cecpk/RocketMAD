@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/vasa/responses/report_ad_interaction_response.proto',
   package='pogoprotos.networking.responses.vasa.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nSpogoprotos/networking/responses/vasa/responses/report_ad_interaction_response.proto\x12.pogoprotos.networking.responses.vasa.responses\"\xb4\x01\n\x1bReportAdInteractionResponse\x12\x62\n\x06status\x18\x01 \x01(\x0e\x32R.pogoprotos.networking.responses.vasa.responses.ReportAdInteractionResponse.Status\"1\n\x06Status\x12\x0b\n\x07SUCCESS\x10\x00\x12\r\n\tMALFORMED\x10\x01\x12\x0b\n\x07\x45XPIRED\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,19 +32,19 @@ _REPORTADINTERACTIONRESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='MALFORMED', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='EXPIRED', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=267,
   serialized_end=316,
 )
@@ -65,7 +64,7 @@ _REPORTADINTERACTIONRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -73,7 +72,7 @@ _REPORTADINTERACTIONRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _REPORTADINTERACTIONRESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -86,6 +85,7 @@ _REPORTADINTERACTIONRESPONSE = _descriptor.Descriptor(
 _REPORTADINTERACTIONRESPONSE.fields_by_name['status'].enum_type = _REPORTADINTERACTIONRESPONSE_STATUS
 _REPORTADINTERACTIONRESPONSE_STATUS.containing_type = _REPORTADINTERACTIONRESPONSE
 DESCRIPTOR.message_types_by_name['ReportAdInteractionResponse'] = _REPORTADINTERACTIONRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ReportAdInteractionResponse = _reflection.GeneratedProtocolMessageType('ReportAdInteractionResponse', (_message.Message,), dict(
   DESCRIPTOR = _REPORTADINTERACTIONRESPONSE,

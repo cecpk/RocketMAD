@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/platform/responses/get_outstanding_warnings_response.proto',
   package='pogoprotos.networking.responses.platform.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nZpogoprotos/networking/responses/platform/responses/get_outstanding_warnings_response.proto\x12\x32pogoprotos.networking.responses.platform.responses\x1a,pogoprotos/enums/platform_warning_type.proto\"\xe1\x01\n\x1eGetOutstandingWarningsResponse\x12{\n\x13outstanding_warning\x18\x01 \x03(\x0b\x32^.pogoprotos.networking.responses.platform.responses.GetOutstandingWarningsResponse.WarningInfo\x1a\x42\n\x0bWarningInfo\x12\x33\n\x04type\x18\x01 \x01(\x0e\x32%.pogoprotos.enums.PlatformWarningTypeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_platform__warning__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _GETOUTSTANDINGWARNINGSRESPONSE_WARNINGINFO = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -71,14 +70,14 @@ _GETOUTSTANDINGWARNINGSRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_GETOUTSTANDINGWARNINGSRESPONSE_WARNINGINFO, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -92,6 +91,7 @@ _GETOUTSTANDINGWARNINGSRESPONSE_WARNINGINFO.fields_by_name['type'].enum_type = p
 _GETOUTSTANDINGWARNINGSRESPONSE_WARNINGINFO.containing_type = _GETOUTSTANDINGWARNINGSRESPONSE
 _GETOUTSTANDINGWARNINGSRESPONSE.fields_by_name['outstanding_warning'].message_type = _GETOUTSTANDINGWARNINGSRESPONSE_WARNINGINFO
 DESCRIPTOR.message_types_by_name['GetOutstandingWarningsResponse'] = _GETOUTSTANDINGWARNINGSRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetOutstandingWarningsResponse = _reflection.GeneratedProtocolMessageType('GetOutstandingWarningsResponse', (_message.Message,), dict(
 

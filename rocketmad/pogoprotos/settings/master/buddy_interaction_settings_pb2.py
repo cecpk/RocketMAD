@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/buddy_interaction_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n;pogoprotos/settings/master/buddy_interaction_settings.proto\x12\x1apogoprotos.settings.master\x1a\'pogoprotos/inventory/item/item_id.proto\"\x9a\x01\n\x18\x42uddyInteractionSettings\x12>\n\x13\x66\x65\x65\x64_item_whitelist\x18\x01 \x03(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12>\n\x13\x63\x61re_item_whitelist\x18\x02 \x03(\x0e\x32!.pogoprotos.inventory.item.ItemIdb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,21 +40,21 @@ _BUDDYINTERACTIONSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='care_item_whitelist', full_name='pogoprotos.settings.master.BuddyInteractionSettings.care_item_whitelist', index=1,
       number=2, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -68,6 +67,7 @@ _BUDDYINTERACTIONSETTINGS = _descriptor.Descriptor(
 _BUDDYINTERACTIONSETTINGS.fields_by_name['feed_item_whitelist'].enum_type = pogoprotos_dot_inventory_dot_item_dot_item__id__pb2._ITEMID
 _BUDDYINTERACTIONSETTINGS.fields_by_name['care_item_whitelist'].enum_type = pogoprotos_dot_inventory_dot_item_dot_item__id__pb2._ITEMID
 DESCRIPTOR.message_types_by_name['BuddyInteractionSettings'] = _BUDDYINTERACTIONSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BuddyInteractionSettings = _reflection.GeneratedProtocolMessageType('BuddyInteractionSettings', (_message.Message,), dict(
   DESCRIPTOR = _BUDDYINTERACTIONSETTINGS,

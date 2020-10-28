@@ -19135,5 +19135,32 @@
         "assetId": "00"
       }
     }
+  },
+  "867": {
+    "name": "Runerigus",
+    "types": [
+      {
+        "type": "Ground",
+        "color": "#b8b8d0"
+      },
+      {
+        "type": "Ghost",
+        "color": "#b8b8d0"
+      }
+    ],
+    "forms": {
+      "2516": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2517": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "2518": {
+        "formName": "Purified",
+        "assetId": "00"
+      }
+    }
   }
 }

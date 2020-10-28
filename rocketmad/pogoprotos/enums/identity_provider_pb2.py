@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/identity_provider.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n(pogoprotos/enums/identity_provider.proto\x12\x10pogoprotos.enums*\xd7\x01\n\x10IdentityProvider\x12\x1b\n\x17UNSET_IDENTITY_PROVIDER\x10\x00\x12\n\n\x06GOOGLE\x10\x01\x12\x07\n\x03PTC\x10\x02\x12\x0c\n\x08\x46\x41\x43\x45\x42OOK\x10\x03\x12\x0e\n\nBACKGROUND\x10\x04\x12\x0c\n\x08INTERNAL\x10\x05\x12\t\n\x05SFIDA\x10\x06\x12\x11\n\rSUPER_AWESOME\x10\x07\x12\r\n\tDEVELOPER\x10\x08\x12\x11\n\rSHARED_SECRET\x10\t\x12\x0c\n\x08POSEIDON\x10\n\x12\x0c\n\x08NINTENDO\x10\x0b\x12\t\n\x05\x41PPLE\x10\x0c\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _IDENTITYPROVIDER = _descriptor.EnumDescriptor(
   name='IdentityProvider',
@@ -32,59 +31,59 @@ _IDENTITYPROVIDER = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET_IDENTITY_PROVIDER', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GOOGLE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PTC', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FACEBOOK', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='BACKGROUND', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INTERNAL', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SFIDA', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUPER_AWESOME', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='DEVELOPER', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SHARED_SECRET', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='POSEIDON', index=10, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='NINTENDO', index=11, number=11,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='APPLE', index=12, number=12,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=63,
   serialized_end=278,
 )
@@ -107,6 +106,7 @@ APPLE = 12
 
 
 DESCRIPTOR.enum_types_by_name['IdentityProvider'] = _IDENTITYPROVIDER
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/generic_click_telemetry.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n7pogoprotos/data/telemetry/generic_click_telemetry.proto\x12\x19pogoprotos.data.telemetry\x1a$pogoprotos/enums/telemetry_ids.proto\"]\n\x15GenericClickTelemetry\x12\x44\n\x10generic_click_id\x18\x01 \x01(\x0e\x32*.pogoprotos.enums.GenericClickTelemetryIdsb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_telemetry__ids__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _GENERICCLICKTELEMETRY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _GENERICCLICKTELEMETRY = _descriptor.Descriptor(
 
 _GENERICCLICKTELEMETRY.fields_by_name['generic_click_id'].enum_type = pogoprotos_dot_enums_dot_telemetry__ids__pb2._GENERICCLICKTELEMETRYIDS
 DESCRIPTOR.message_types_by_name['GenericClickTelemetry'] = _GENERICCLICKTELEMETRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GenericClickTelemetry = _reflection.GeneratedProtocolMessageType('GenericClickTelemetry', (_message.Message,), dict(
   DESCRIPTOR = _GENERICCLICKTELEMETRY,

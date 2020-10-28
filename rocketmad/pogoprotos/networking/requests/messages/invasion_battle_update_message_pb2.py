@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/messages/invasion_battle_update_message.proto',
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nLpogoprotos/networking/requests/messages/invasion_battle_update_message.proto\x12\'pogoprotos.networking.requests.messages\x1a)pogoprotos/map/fort/incident_lookup.proto\"\xe2\x03\n\x1bInvasionBattleUpdateMessage\x12<\n\x0fincident_lookup\x18\x01 \x01(\x0b\x32#.pogoprotos.map.fort.IncidentLookup\x12\x0c\n\x04step\x18\x02 \x01(\x05\x12p\n\rhealth_update\x18\x03 \x03(\x0b\x32Y.pogoprotos.networking.requests.messages.InvasionBattleUpdateMessage.PokemonStaminaUpdate\x12\x17\n\x0f\x63omplete_battle\x18\x04 \x01(\x08\x12\x64\n\x0bupdate_type\x18\x05 \x01(\x0e\x32O.pogoprotos.networking.requests.messages.InvasionBattleUpdateMessage.UpdateType\x1a\x43\n\x14PokemonStaminaUpdate\x12\x12\n\npokemon_id\x18\x01 \x01(\x06\x12\x17\n\x0fupdated_stamina\x18\x02 \x01(\x05\"A\n\nUpdateType\x12\x12\n\x0ePOKEMON_HEALTH\x10\x00\x12\x0e\n\nWIN_BATTLE\x10\x01\x12\x0f\n\x0bLOSE_BATTLE\x10\x02\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_fort_dot_incident__lookup__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,19 +34,19 @@ _INVASIONBATTLEUPDATEMESSAGE_UPDATETYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='POKEMON_HEALTH', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WIN_BATTLE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='LOSE_BATTLE', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=582,
   serialized_end=647,
 )
@@ -67,21 +66,21 @@ _INVASIONBATTLEUPDATEMESSAGE_POKEMONSTAMINAUPDATE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='updated_stamina', full_name='pogoprotos.networking.requests.messages.InvasionBattleUpdateMessage.PokemonStaminaUpdate.updated_stamina', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -104,35 +103,35 @@ _INVASIONBATTLEUPDATEMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='step', full_name='pogoprotos.networking.requests.messages.InvasionBattleUpdateMessage.step', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='health_update', full_name='pogoprotos.networking.requests.messages.InvasionBattleUpdateMessage.health_update', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='complete_battle', full_name='pogoprotos.networking.requests.messages.InvasionBattleUpdateMessage.complete_battle', index=3,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='update_type', full_name='pogoprotos.networking.requests.messages.InvasionBattleUpdateMessage.update_type', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -140,7 +139,7 @@ _INVASIONBATTLEUPDATEMESSAGE = _descriptor.Descriptor(
   enum_types=[
     _INVASIONBATTLEUPDATEMESSAGE_UPDATETYPE,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -156,6 +155,7 @@ _INVASIONBATTLEUPDATEMESSAGE.fields_by_name['health_update'].message_type = _INV
 _INVASIONBATTLEUPDATEMESSAGE.fields_by_name['update_type'].enum_type = _INVASIONBATTLEUPDATEMESSAGE_UPDATETYPE
 _INVASIONBATTLEUPDATEMESSAGE_UPDATETYPE.containing_type = _INVASIONBATTLEUPDATEMESSAGE
 DESCRIPTOR.message_types_by_name['InvasionBattleUpdateMessage'] = _INVASIONBATTLEUPDATEMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InvasionBattleUpdateMessage = _reflection.GeneratedProtocolMessageType('InvasionBattleUpdateMessage', (_message.Message,), dict(
 

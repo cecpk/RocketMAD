@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/platform/responses/request_geofence_updates_response.proto',
   package='pogoprotos.networking.responses.platform.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nZpogoprotos/networking/responses/platform/responses/request_geofence_updates_response.proto\x12\x32pogoprotos.networking.responses.platform.responses\x1a\x30pogoprotos/data/geofence/geofence_metadata.proto\"^\n\x1eRequestGeofenceUpdatesResponse\x12<\n\x08geofence\x18\x01 \x03(\x0b\x32*.pogoprotos.data.geofence.GeofenceMetadatab\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_geofence_dot_geofence__metadata__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _REQUESTGEOFENCEUPDATESRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _REQUESTGEOFENCEUPDATESRESPONSE = _descriptor.Descriptor(
 
 _REQUESTGEOFENCEUPDATESRESPONSE.fields_by_name['geofence'].message_type = pogoprotos_dot_data_dot_geofence_dot_geofence__metadata__pb2._GEOFENCEMETADATA
 DESCRIPTOR.message_types_by_name['RequestGeofenceUpdatesResponse'] = _REQUESTGEOFENCEUPDATESRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 RequestGeofenceUpdatesResponse = _reflection.GeneratedProtocolMessageType('RequestGeofenceUpdatesResponse', (_message.Message,), dict(
   DESCRIPTOR = _REQUESTGEOFENCEUPDATESRESPONSE,

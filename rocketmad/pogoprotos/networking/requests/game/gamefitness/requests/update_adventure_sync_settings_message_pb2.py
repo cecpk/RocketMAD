@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamefitness/requests/update_adventure_sync_settings_message.proto',
   package='pogoprotos.networking.requests.game.gamefitness.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nepogoprotos/networking/requests/game/gamefitness/requests/update_adventure_sync_settings_message.proto\x12\x38pogoprotos.networking.requests.game.gamefitness.requests\x1a\x31pogoprotos/settings/adventure_sync_settings.proto\"q\n\"UpdateAdventureSyncSettingsMessage\x12K\n\x17\x61\x64venture_sync_settings\x18\x01 \x01(\x0b\x32*.pogoprotos.settings.AdventureSyncSettingsb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_settings_dot_adventure__sync__settings__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _UPDATEADVENTURESYNCSETTINGSMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _UPDATEADVENTURESYNCSETTINGSMESSAGE = _descriptor.Descriptor(
 
 _UPDATEADVENTURESYNCSETTINGSMESSAGE.fields_by_name['adventure_sync_settings'].message_type = pogoprotos_dot_settings_dot_adventure__sync__settings__pb2._ADVENTURESYNCSETTINGS
 DESCRIPTOR.message_types_by_name['UpdateAdventureSyncSettingsMessage'] = _UPDATEADVENTURESYNCSETTINGSMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 UpdateAdventureSyncSettingsMessage = _reflection.GeneratedProtocolMessageType('UpdateAdventureSyncSettingsMessage', (_message.Message,), dict(
   DESCRIPTOR = _UPDATEADVENTURESYNCSETTINGSMESSAGE,

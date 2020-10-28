@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -24,10 +23,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/pokemon_display.proto',
   package='pogoprotos.data',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n%pogoprotos/data/pokemon_display.proto\x12\x0fpogoprotos.data\x1a\x1epogoprotos/enums/costume.proto\x1a\x1bpogoprotos/enums/form.proto\x1a\x1dpogoprotos/enums/gender.proto\x1a(pogoprotos/enums/weather_condition.proto\x1a(pogoprotos/enums/pokemon_evolution.proto\"\xa7\x04\n\x0ePokemonDisplay\x12*\n\x07\x63ostume\x18\x01 \x01(\x0e\x32\x19.pogoprotos.enums.Costume\x12(\n\x06gender\x18\x02 \x01(\x0e\x32\x18.pogoprotos.enums.Gender\x12\r\n\x05shiny\x18\x03 \x01(\x08\x12$\n\x04\x66orm\x18\x04 \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x45\n\x19weather_boosted_condition\x18\x05 \x01(\x0e\x32\".pogoprotos.enums.WeatherCondition\x12<\n\talignment\x18\x06 \x01(\x0e\x32).pogoprotos.data.PokemonDisplay.Alignment\x12\x43\n\rpokemon_badge\x18\x07 \x01(\x0e\x32,.pogoprotos.data.PokemonDisplay.PokemonBadge\x12=\n\x11pokemon_evolution\x18\x08 \x01(\x0e\x32\".pogoprotos.enums.PokemonEvolution\":\n\tAlignment\x12\x13\n\x0f\x41LIGNMENT_UNSET\x10\x00\x12\n\n\x06SHADOW\x10\x01\x12\x0c\n\x08PURIFIED\x10\x02\"E\n\x0cPokemonBadge\x12\x17\n\x13POKEMON_BADGE_UNSET\x10\x00\x12\x1c\n\x18POKEMON_BADGE_BEST_BUDDY\x10\x01\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_costume__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_gender__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_weather__condition__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__evolution__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,19 +38,19 @@ _POKEMONDISPLAY_ALIGNMENT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='ALIGNMENT_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SHADOW', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PURIFIED', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=657,
   serialized_end=715,
 )
@@ -65,15 +64,15 @@ _POKEMONDISPLAY_POKEMONBADGE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='POKEMON_BADGE_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='POKEMON_BADGE_BEST_BUDDY', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=717,
   serialized_end=786,
 )
@@ -93,56 +92,56 @@ _POKEMONDISPLAY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='gender', full_name='pogoprotos.data.PokemonDisplay.gender', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='shiny', full_name='pogoprotos.data.PokemonDisplay.shiny', index=2,
       number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='form', full_name='pogoprotos.data.PokemonDisplay.form', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='weather_boosted_condition', full_name='pogoprotos.data.PokemonDisplay.weather_boosted_condition', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='alignment', full_name='pogoprotos.data.PokemonDisplay.alignment', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokemon_badge', full_name='pogoprotos.data.PokemonDisplay.pokemon_badge', index=6,
       number=7, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokemon_evolution', full_name='pogoprotos.data.PokemonDisplay.pokemon_evolution', index=7,
       number=8, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -151,7 +150,7 @@ _POKEMONDISPLAY = _descriptor.Descriptor(
     _POKEMONDISPLAY_ALIGNMENT,
     _POKEMONDISPLAY_POKEMONBADGE,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -171,6 +170,7 @@ _POKEMONDISPLAY.fields_by_name['pokemon_evolution'].enum_type = pogoprotos_dot_e
 _POKEMONDISPLAY_ALIGNMENT.containing_type = _POKEMONDISPLAY
 _POKEMONDISPLAY_POKEMONBADGE.containing_type = _POKEMONDISPLAY
 DESCRIPTOR.message_types_by_name['PokemonDisplay'] = _POKEMONDISPLAY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PokemonDisplay = _reflection.GeneratedProtocolMessageType('PokemonDisplay', (_message.Message,), dict(
   DESCRIPTOR = _POKEMONDISPLAY,

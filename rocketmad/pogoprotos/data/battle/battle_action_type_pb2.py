@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/battle/battle_action_type.proto',
   package='pogoprotos.data.battle',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n/pogoprotos/data/battle/battle_action_type.proto\x12\x16pogoprotos.data.battle*\x99\x02\n\x10\x42\x61ttleActionType\x12\x10\n\x0c\x41\x43TION_UNSET\x10\x00\x12\x11\n\rACTION_ATTACK\x10\x01\x12\x10\n\x0c\x41\x43TION_DODGE\x10\x02\x12\x19\n\x15\x41\x43TION_SPECIAL_ATTACK\x10\x03\x12\x17\n\x13\x41\x43TION_SWAP_POKEMON\x10\x04\x12\x10\n\x0c\x41\x43TION_FAINT\x10\x05\x12\x16\n\x12\x41\x43TION_PLAYER_JOIN\x10\x06\x12\x16\n\x12\x41\x43TION_PLAYER_QUIT\x10\x07\x12\x12\n\x0e\x41\x43TION_VICTORY\x10\x08\x12\x11\n\rACTION_DEFEAT\x10\t\x12\x14\n\x10\x41\x43TION_TIMED_OUT\x10\n\x12\x1b\n\x17\x41\x43TION_SPECIAL_ATTACK_2\x10\x0b\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _BATTLEACTIONTYPE = _descriptor.EnumDescriptor(
   name='BattleActionType',
@@ -32,55 +31,55 @@ _BATTLEACTIONTYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='ACTION_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_ATTACK', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_DODGE', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_SPECIAL_ATTACK', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_SWAP_POKEMON', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_FAINT', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_PLAYER_JOIN', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_PLAYER_QUIT', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_VICTORY', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_DEFEAT', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_TIMED_OUT', index=10, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTION_SPECIAL_ATTACK_2', index=11, number=11,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=76,
   serialized_end=357,
 )
@@ -102,6 +101,7 @@ ACTION_SPECIAL_ATTACK_2 = 11
 
 
 DESCRIPTOR.enum_types_by_name['BattleActionType'] = _BATTLEACTIONTYPE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

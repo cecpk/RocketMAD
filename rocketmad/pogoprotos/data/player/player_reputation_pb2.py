@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/player/player_reputation.proto',
   package='pogoprotos.data.player',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n.pogoprotos/data/player/player_reputation.proto\x12\x16pogoprotos.data.player\"\xda\x01\n\x10PlayerReputation\x12\x16\n\x0e\x61\x63\x63ount_age_ms\x18\x01 \x01(\x03\x12\x14\n\x0cplayer_level\x18\x02 \x01(\x03\x12R\n\x10\x63heat_reputation\x18\x03 \x03(\x0e\x32\x38.pogoprotos.data.player.PlayerReputation.CheatReputation\x12\x10\n\x08is_minor\x18\x04 \x01(\x08\"2\n\x0f\x43heatReputation\x12\t\n\x05UNSET\x10\x00\x12\x07\n\x03\x42OT\x10\x01\x12\x0b\n\x07SPOOFER\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,19 +32,19 @@ _PLAYERREPUTATION_CHEATREPUTATION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='BOT', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SPOOFER', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=243,
   serialized_end=293,
 )
@@ -65,28 +64,28 @@ _PLAYERREPUTATION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='player_level', full_name='pogoprotos.data.player.PlayerReputation.player_level', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='cheat_reputation', full_name='pogoprotos.data.player.PlayerReputation.cheat_reputation', index=2,
       number=3, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='is_minor', full_name='pogoprotos.data.player.PlayerReputation.is_minor', index=3,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -94,7 +93,7 @@ _PLAYERREPUTATION = _descriptor.Descriptor(
   enum_types=[
     _PLAYERREPUTATION_CHEATREPUTATION,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -107,6 +106,7 @@ _PLAYERREPUTATION = _descriptor.Descriptor(
 _PLAYERREPUTATION.fields_by_name['cheat_reputation'].enum_type = _PLAYERREPUTATION_CHEATREPUTATION
 _PLAYERREPUTATION_CHEATREPUTATION.containing_type = _PLAYERREPUTATION
 DESCRIPTOR.message_types_by_name['PlayerReputation'] = _PLAYERREPUTATION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PlayerReputation = _reflection.GeneratedProtocolMessageType('PlayerReputation', (_message.Message,), dict(
   DESCRIPTOR = _PLAYERREPUTATION,

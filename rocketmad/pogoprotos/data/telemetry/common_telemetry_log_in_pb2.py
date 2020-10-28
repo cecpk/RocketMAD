@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/common_telemetry_log_in.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n7pogoprotos/data/telemetry/common_telemetry_log_in.proto\x12\x19pogoprotos.data.telemetry\",\n\x14\x43ommonTelemetryLogIn\x12\x14\n\x0ctimestamp_ms\x18\x01 \x01(\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _COMMONTELEMETRYLOGIN = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -57,6 +56,7 @@ _COMMONTELEMETRYLOGIN = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['CommonTelemetryLogIn'] = _COMMONTELEMETRYLOGIN
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CommonTelemetryLogIn = _reflection.GeneratedProtocolMessageType('CommonTelemetryLogIn', (_message.Message,), dict(
   DESCRIPTOR = _COMMONTELEMETRYLOGIN,

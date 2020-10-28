@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/item/inventory_upgrade_attributes.proto',
   package='pogoprotos.settings.master.item',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nBpogoprotos/settings/master/item/inventory_upgrade_attributes.proto\x12\x1fpogoprotos.settings.master.item\x1a\x31pogoprotos/inventory/inventory_upgrade_type.proto\"z\n\x1aInventoryUpgradeAttributes\x12\x1a\n\x12\x61\x64\x64itional_storage\x18\x01 \x01(\x05\x12@\n\x0cupgrade_type\x18\x02 \x01(\x0e\x32*.pogoprotos.inventory.InventoryUpgradeTypeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_inventory__upgrade__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,21 +40,21 @@ _INVENTORYUPGRADEATTRIBUTES = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='upgrade_type', full_name='pogoprotos.settings.master.item.InventoryUpgradeAttributes.upgrade_type', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -67,6 +66,7 @@ _INVENTORYUPGRADEATTRIBUTES = _descriptor.Descriptor(
 
 _INVENTORYUPGRADEATTRIBUTES.fields_by_name['upgrade_type'].enum_type = pogoprotos_dot_inventory_dot_inventory__upgrade__type__pb2._INVENTORYUPGRADETYPE
 DESCRIPTOR.message_types_by_name['InventoryUpgradeAttributes'] = _INVENTORYUPGRADEATTRIBUTES
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InventoryUpgradeAttributes = _reflection.GeneratedProtocolMessageType('InventoryUpgradeAttributes', (_message.Message,), dict(
   DESCRIPTOR = _INVENTORYUPGRADEATTRIBUTES,

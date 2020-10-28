@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamepoi/requests/async_file_upload_complete_message.proto',
   package='pogoprotos.networking.requests.game.gamepoi.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n]pogoprotos/networking/requests/game/gamepoi/requests/async_file_upload_complete_message.proto\x12\x34pogoprotos.networking.requests.game.gamepoi.requests\"\xe4\x01\n\x1e\x41syncFileUploadCompleteMessage\x12\x15\n\rsubmission_id\x18\x01 \x01(\t\x12r\n\rupload_status\x18\x03 \x01(\x0e\x32[.pogoprotos.networking.requests.game.gamepoi.requests.AsyncFileUploadCompleteMessage.Status\"7\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0f\n\x0bUPLOAD_DONE\x10\x01\x12\x11\n\rUPLOAD_FAILED\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,19 +32,19 @@ _ASYNCFILEUPLOADCOMPLETEMESSAGE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UPLOAD_DONE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UPLOAD_FAILED', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=325,
   serialized_end=380,
 )
@@ -65,14 +64,14 @@ _ASYNCFILEUPLOADCOMPLETEMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='upload_status', full_name='pogoprotos.networking.requests.game.gamepoi.requests.AsyncFileUploadCompleteMessage.upload_status', index=1,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -80,7 +79,7 @@ _ASYNCFILEUPLOADCOMPLETEMESSAGE = _descriptor.Descriptor(
   enum_types=[
     _ASYNCFILEUPLOADCOMPLETEMESSAGE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -93,6 +92,7 @@ _ASYNCFILEUPLOADCOMPLETEMESSAGE = _descriptor.Descriptor(
 _ASYNCFILEUPLOADCOMPLETEMESSAGE.fields_by_name['upload_status'].enum_type = _ASYNCFILEUPLOADCOMPLETEMESSAGE_STATUS
 _ASYNCFILEUPLOADCOMPLETEMESSAGE_STATUS.containing_type = _ASYNCFILEUPLOADCOMPLETEMESSAGE
 DESCRIPTOR.message_types_by_name['AsyncFileUploadCompleteMessage'] = _ASYNCFILEUPLOADCOMPLETEMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AsyncFileUploadCompleteMessage = _reflection.GeneratedProtocolMessageType('AsyncFileUploadCompleteMessage', (_message.Message,), dict(
   DESCRIPTOR = _ASYNCFILEUPLOADCOMPLETEMESSAGE,

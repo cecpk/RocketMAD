@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamepoi/game_poi_action.proto',
   package='pogoprotos.networking.requests.game.gamepoi',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nApogoprotos/networking/requests/game/gamepoi/game_poi_action.proto\x12+pogoprotos.networking.requests.game.gamepoi*\xc0\x04\n\rGamePoiAction\x12\x1b\n\x17UNKNOWN_GAME_POI_ACTION\x10\x00\x12\x11\n\x0b\x41\x44\x44_NEW_POI\x10\xe0\xeb%\x12\x1f\n\x19GET_AVAILABLE_SUBMISSIONS\x10\xe1\xeb%\x12%\n\x1fGET_SIGNED_URL_FOR_PHOTO_UPLOAD\x10\xe2\xeb%\x12/\n)GET_PLAYER_SUBMISSION_VALIDATION_SETTINGS\x10\xe3\xeb%\x12\x16\n\x10SUBMIT_POI_IMAGE\x10\xc4\xec%\x12%\n\x1fSUBMIT_POI_TEXT_METADATA_UPDATE\x10\xc5\xec%\x12 \n\x1aSUBMIT_POI_LOCATION_UPDATE\x10\xc6\xec%\x12!\n\x1bSUBMIT_POI_TAKEDOWN_REQUEST\x10\xc7\xec%\x12\x1f\n\x19SUBMIT_SPONSOR_POI_REPORT\x10\xc8\xec%\x12(\n\"SUBMIT_SPONSOR_POI_LOCATION_UPDATE\x10\xc9\xec%\x12\x13\n\rADD_NEW_ROUTE\x10\xa8\xed%\x12\x1e\n\x18GENERATE_GMAP_SIGNED_URL\x10\x8c\xee%\x12\x17\n\x11GET_GMAP_SETTINGS\x10\x8d\xee%\x12\"\n\x1cSUBMIT_POI_AR_VIDEO_METADATA\x10\xf0\xee%\x12#\n\x1dGET_GRAPESHOT_FILE_UPLOAD_URL\x10\xf1\xee%\x12 \n\x1a\x41SYNC_FILE_UPLOAD_COMPLETE\x10\xf2\xee%b\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMEPOIACTION = _descriptor.EnumDescriptor(
   name='GamePoiAction',
@@ -32,75 +31,75 @@ _GAMEPOIACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_POI_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ADD_NEW_POI', index=1, number=620000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_AVAILABLE_SUBMISSIONS', index=2, number=620001,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_SIGNED_URL_FOR_PHOTO_UPLOAD', index=3, number=620002,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_PLAYER_SUBMISSION_VALIDATION_SETTINGS', index=4, number=620003,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_IMAGE', index=5, number=620100,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_TEXT_METADATA_UPDATE', index=6, number=620101,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_LOCATION_UPDATE', index=7, number=620102,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_TAKEDOWN_REQUEST', index=8, number=620103,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_SPONSOR_POI_REPORT', index=9, number=620104,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_SPONSOR_POI_LOCATION_UPDATE', index=10, number=620105,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ADD_NEW_ROUTE', index=11, number=620200,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GENERATE_GMAP_SIGNED_URL', index=12, number=620300,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_GMAP_SETTINGS', index=13, number=620301,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_AR_VIDEO_METADATA', index=14, number=620400,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_GRAPESHOT_FILE_UPLOAD_URL', index=15, number=620401,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ASYNC_FILE_UPLOAD_COMPLETE', index=16, number=620402,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=115,
   serialized_end=691,
 )
@@ -127,6 +126,7 @@ ASYNC_FILE_UPLOAD_COMPLETE = 620402
 
 
 DESCRIPTOR.enum_types_by_name['GamePoiAction'] = _GAMEPOIACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/player/player_badge.proto',
   package='pogoprotos.data.player',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n)pogoprotos/data/player/player_badge.proto\x12\x16pogoprotos.data.player\x1a!pogoprotos/enums/badge_type.proto\"\x8b\x01\n\x0bPlayerBadge\x12/\n\nbadge_type\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12\x0c\n\x04rank\x18\x02 \x01(\x05\x12\x13\n\x0bstart_value\x18\x03 \x01(\x05\x12\x11\n\tend_value\x18\x04 \x01(\x05\x12\x15\n\rcurrent_value\x18\x05 \x01(\x01\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_badge__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,42 +40,42 @@ _PLAYERBADGE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='rank', full_name='pogoprotos.data.player.PlayerBadge.rank', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='start_value', full_name='pogoprotos.data.player.PlayerBadge.start_value', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='end_value', full_name='pogoprotos.data.player.PlayerBadge.end_value', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='current_value', full_name='pogoprotos.data.player.PlayerBadge.current_value', index=4,
       number=5, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -88,6 +87,7 @@ _PLAYERBADGE = _descriptor.Descriptor(
 
 _PLAYERBADGE.fields_by_name['badge_type'].enum_type = pogoprotos_dot_enums_dot_badge__type__pb2._BADGETYPE
 DESCRIPTOR.message_types_by_name['PlayerBadge'] = _PLAYERBADGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PlayerBadge = _reflection.GeneratedProtocolMessageType('PlayerBadge', (_message.Message,), dict(
   DESCRIPTOR = _PLAYERBADGE,

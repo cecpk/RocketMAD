@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -22,16 +21,17 @@ from pogoprotos.enums import buddy_level_pb2 as pogoprotos_dot_enums_dot_buddy__
 from pogoprotos.inventory.item import item_id_pb2 as pogoprotos_dot_inventory_dot_item_dot_item__id__pb2
 from pogoprotos.data import pokemon_display_pb2 as pogoprotos_dot_data_dot_pokemon__display__pb2
 from pogoprotos.enums import enum_wrapper_pb2 as pogoprotos_dot_enums_dot_enum__wrapper__pb2
+from pogoprotos.enums import pokemon_evolution_pb2 as pogoprotos_dot_enums_dot_pokemon__evolution__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/quests/quest_condition.proto',
   package='pogoprotos.data.quests',
   syntax='proto3',
-  serialized_pb=_b('\n,pogoprotos/data/quests/quest_condition.proto\x12\x16pogoprotos.data.quests\x1a$pogoprotos/enums/activity_type.proto\x1a!pogoprotos/enums/badge_type.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a#pogoprotos/enums/pokemon_type.proto\x1a!pogoprotos/enums/raid_level.proto\x1a\"pogoprotos/enums/buddy_level.proto\x1a\'pogoprotos/inventory/item/item_id.proto\x1a%pogoprotos/data/pokemon_display.proto\x1a#pogoprotos/enums/enum_wrapper.proto\"\xbd#\n\x0eQuestCondition\x12\x42\n\x04type\x18\x01 \x01(\x0e\x32\x34.pogoprotos.data.quests.QuestCondition.ConditionType\x12S\n\x11with_pokemon_type\x18\x02 \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestCondition.WithPokemonTypeH\x00\x12[\n\x15with_pokemon_category\x18\x03 \x01(\x0b\x32:.pogoprotos.data.quests.QuestCondition.WithPokemonCategoryH\x00\x12U\n\x12with_weather_boost\x18\x04 \x01(\x0b\x32\x37.pogoprotos.data.quests.QuestCondition.WithWeatherBoostH\x00\x12`\n\x18with_daily_capture_bonus\x18\x05 \x01(\x0b\x32<.pogoprotos.data.quests.QuestCondition.WithDailyCaptureBonusH\x00\x12Z\n\x15with_daily_spin_bonus\x18\x06 \x01(\x0b\x32\x39.pogoprotos.data.quests.QuestCondition.WithDailySpinBonusH\x00\x12X\n\x14with_win_raid_status\x18\x07 \x01(\x0b\x32\x38.pogoprotos.data.quests.QuestCondition.WithWinRaidStatusH\x00\x12O\n\x0fwith_raid_level\x18\x08 \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithRaidLevelH\x00\x12O\n\x0fwith_throw_type\x18\t \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithThrowTypeH\x00\x12\x63\n\x1awith_win_gym_battle_status\x18\n \x01(\x0b\x32=.pogoprotos.data.quests.QuestCondition.WithWinGymBattleStatusH\x00\x12o\n with_super_effective_charge_move\x18\x0b \x01(\x0b\x32\x43.pogoprotos.data.quests.QuestCondition.WithSuperEffectiveChargeMoveH\x00\x12\x44\n\twith_item\x18\x0c \x01(\x0b\x32/.pogoprotos.data.quests.QuestCondition.WithItemH\x00\x12Y\n\x14with_unique_pokestop\x18\r \x01(\x0b\x32\x39.pogoprotos.data.quests.QuestCondition.WithUniquePokestopH\x00\x12U\n\x12with_quest_context\x18\x0e \x01(\x0b\x32\x37.pogoprotos.data.quests.QuestCondition.WithQuestContextH\x00\x12O\n\x0fwith_badge_type\x18\x0f \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithBadgeTypeH\x00\x12S\n\x11with_player_level\x18\x10 \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestCondition.WithPlayerLevelH\x00\x12\\\n\x16with_win_battle_status\x18\x11 \x01(\x0b\x32:.pogoprotos.data.quests.QuestCondition.WithWinBattleStatusH\x00\x12W\n\x13with_unique_pokemon\x18\x12 \x01(\x0b\x32\x38.pogoprotos.data.quests.QuestCondition.WithUniquePokemonH\x00\x12O\n\x0fwith_npc_combat\x18\x13 \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithNpcCombatH\x00\x12O\n\x0fwith_pvp_combat\x18\x14 \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithPvpCombatH\x00\x12L\n\rwith_location\x18\x15 \x01(\x0b\x32\x33.pogoprotos.data.quests.QuestCondition.WithLocationH\x00\x12L\n\rwith_distance\x18\x16 \x01(\x0b\x32\x33.pogoprotos.data.quests.QuestCondition.WithDistanceH\x00\x12_\n\x17with_invasion_character\x18\x17 \x01(\x0b\x32<.pogoprotos.data.quests.QuestCondition.WithInvasionCharacterH\x00\x12]\n\x16with_pokemon_alignment\x18\x18 \x01(\x0b\x32;.pogoprotos.data.quests.QuestCondition.WithPokemonAlignmentH\x00\x12\x46\n\nwith_buddy\x18\x19 \x01(\x0b\x32\x30.pogoprotos.data.quests.QuestCondition.WithBuddyH\x00\x12\x64\n\x1awith_daily_buddy_affection\x18\x1a \x01(\x0b\x32>.pogoprotos.data.quests.QuestCondition.WithDailyBuddyAffectionH\x00\x1a\x43\n\x17WithDailyBuddyAffection\x12(\n min_buddy_affection_earned_today\x18\x01 \x01(\x05\x1aZ\n\tWithBuddy\x12\x35\n\x0fmin_buddy_level\x18\x01 \x01(\x0e\x32\x1c.pogoprotos.enums.BuddyLevel\x12\x16\n\x0emust_be_on_map\x18\x02 \x01(\x08\x1aT\n\x14WithPokemonAlignment\x12<\n\talignment\x18\x01 \x03(\x0e\x32).pogoprotos.data.PokemonDisplay.Alignment\x1aZ\n\x15WithInvasionCharacter\x12\x41\n\x08\x63\x61tegory\x18\x01 \x03(\x0e\x32/.pogoprotos.enums.EnumWrapper.CharacterCategory\x1a\x13\n\x11WithUniquePokemon\x1aH\n\rWithPvpCombat\x12\x14\n\x0crequires_win\x18\x01 \x01(\x08\x12!\n\x19\x63ombat_league_template_id\x18\x02 \x03(\t\x1a\x44\n\rWithNpcCombat\x12\x14\n\x0crequires_win\x18\x01 \x01(\x08\x12\x1d\n\x15\x63ombat_npc_trainer_id\x18\x02 \x03(\t\x1a\"\n\x0cWithLocation\x12\x12\n\ns2_cell_id\x18\x01 \x03(\x03\x1a#\n\x0cWithDistance\x12\x13\n\x0b\x64istance_km\x18\x01 \x01(\x01\x1a\x46\n\x0fWithPokemonType\x12\x33\n\x0cpokemon_type\x18\x01 \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x1a\x12\n\x10WithWeatherBoost\x1a^\n\x13WithPokemonCategory\x12\x15\n\rcategory_name\x18\x01 \x01(\t\x12\x30\n\x0bpokemon_ids\x18\x02 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x1a\x17\n\x15WithDailyCaptureBonus\x1a\x14\n\x12WithDailySpinBonus\x1a\x13\n\x11WithWinRaidStatus\x1a@\n\rWithRaidLevel\x12/\n\nraid_level\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.RaidLevel\x1a]\n\rWithThrowType\x12\x34\n\nthrow_type\x18\x01 \x01(\x0e\x32\x1e.pogoprotos.enums.ActivityTypeH\x00\x12\r\n\x03hit\x18\x02 \x01(\x08H\x00\x42\x07\n\x05Throw\x1a\x0f\n\rWithCurveBall\x1a\x18\n\x16WithWinGymBattleStatus\x1a\x1e\n\x1cWithSuperEffectiveChargeMove\x1a;\n\x08WithItem\x12/\n\x04item\x18\x01 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x1a\x14\n\x12WithUniquePokestop\x1a\xa0\x01\n\x10WithQuestContext\x12P\n\x07\x63ontext\x18\x01 \x01(\x0e\x32?.pogoprotos.data.quests.QuestCondition.WithQuestContext.Context\":\n\x07\x43ontext\x12\t\n\x05UNSET\x10\x00\x12\x0f\n\x0bSTORY_QUEST\x10\x01\x12\x13\n\x0f\x43HALLENGE_QUEST\x10\x02\x1a\x64\n\rWithBadgeType\x12/\n\nbadge_type\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12\x12\n\nbadge_rank\x18\x02 \x01(\x05\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x05\x1a \n\x0fWithPlayerLevel\x12\r\n\x05level\x18\x01 \x01(\x05\x1a\x15\n\x13WithWinBattleStatus\"\xfd\x05\n\rConditionType\x12\t\n\x05UNSET\x10\x00\x12\x15\n\x11WITH_POKEMON_TYPE\x10\x01\x12\x19\n\x15WITH_POKEMON_CATEGORY\x10\x02\x12\x16\n\x12WITH_WEATHER_BOOST\x10\x03\x12\x1c\n\x18WITH_DAILY_CAPTURE_BONUS\x10\x04\x12\x19\n\x15WITH_DAILY_SPIN_BONUS\x10\x05\x12\x18\n\x14WITH_WIN_RAID_STATUS\x10\x06\x12\x13\n\x0fWITH_RAID_LEVEL\x10\x07\x12\x13\n\x0fWITH_THROW_TYPE\x10\x08\x12\x1e\n\x1aWITH_WIN_GYM_BATTLE_STATUS\x10\t\x12\x1f\n\x1bWITH_SUPER_EFFECTIVE_CHARGE\x10\n\x12\r\n\tWITH_ITEM\x10\x0b\x12\x18\n\x14WITH_UNIQUE_POKESTOP\x10\x0c\x12\x16\n\x12WITH_QUEST_CONTEXT\x10\r\x12\x1c\n\x18WITH_THROW_TYPE_IN_A_ROW\x10\x0e\x12\x13\n\x0fWITH_CURVE_BALL\x10\x0f\x12\x13\n\x0fWITH_BADGE_TYPE\x10\x10\x12\x15\n\x11WITH_PLAYER_LEVEL\x10\x11\x12\x1a\n\x16WITH_WIN_BATTLE_STATUS\x10\x12\x12\x13\n\x0fWITH_NEW_FRIEND\x10\x13\x12\x16\n\x12WITH_DAYS_IN_A_ROW\x10\x14\x12\x17\n\x13WITH_UNIQUE_POKEMON\x10\x15\x12\x13\n\x0fWITH_NPC_COMBAT\x10\x16\x12\x13\n\x0fWITH_PVP_COMBAT\x10\x17\x12\x11\n\rWITH_LOCATION\x10\x18\x12\x11\n\rWITH_DISTANCE\x10\x19\x12\x1a\n\x16WITH_POKEMON_ALIGNMENT\x10\x1a\x12\x1b\n\x17WITH_INVASION_CHARACTER\x10\x1b\x12\x0e\n\nWITH_BUDDY\x10\x1c\x12\x1e\n\x1aWITH_BUDDY_INTERESTING_POI\x10\x1d\x12\x1e\n\x1aWITH_DAILY_BUDDY_AFFECTION\x10\x1e\x42\x0b\n\tConditionb\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n,pogoprotos/data/quests/quest_condition.proto\x12\x16pogoprotos.data.quests\x1a$pogoprotos/enums/activity_type.proto\x1a!pogoprotos/enums/badge_type.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a#pogoprotos/enums/pokemon_type.proto\x1a!pogoprotos/enums/raid_level.proto\x1a\"pogoprotos/enums/buddy_level.proto\x1a\'pogoprotos/inventory/item/item_id.proto\x1a%pogoprotos/data/pokemon_display.proto\x1a#pogoprotos/enums/enum_wrapper.proto\x1a(pogoprotos/enums/pokemon_evolution.proto\"\x89%\n\x0eQuestCondition\x12\x42\n\x04type\x18\x01 \x01(\x0e\x32\x34.pogoprotos.data.quests.QuestCondition.ConditionType\x12S\n\x11with_pokemon_type\x18\x02 \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestCondition.WithPokemonTypeH\x00\x12[\n\x15with_pokemon_category\x18\x03 \x01(\x0b\x32:.pogoprotos.data.quests.QuestCondition.WithPokemonCategoryH\x00\x12U\n\x12with_weather_boost\x18\x04 \x01(\x0b\x32\x37.pogoprotos.data.quests.QuestCondition.WithWeatherBoostH\x00\x12`\n\x18with_daily_capture_bonus\x18\x05 \x01(\x0b\x32<.pogoprotos.data.quests.QuestCondition.WithDailyCaptureBonusH\x00\x12Z\n\x15with_daily_spin_bonus\x18\x06 \x01(\x0b\x32\x39.pogoprotos.data.quests.QuestCondition.WithDailySpinBonusH\x00\x12X\n\x14with_win_raid_status\x18\x07 \x01(\x0b\x32\x38.pogoprotos.data.quests.QuestCondition.WithWinRaidStatusH\x00\x12O\n\x0fwith_raid_level\x18\x08 \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithRaidLevelH\x00\x12O\n\x0fwith_throw_type\x18\t \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithThrowTypeH\x00\x12\x63\n\x1awith_win_gym_battle_status\x18\n \x01(\x0b\x32=.pogoprotos.data.quests.QuestCondition.WithWinGymBattleStatusH\x00\x12o\n with_super_effective_charge_move\x18\x0b \x01(\x0b\x32\x43.pogoprotos.data.quests.QuestCondition.WithSuperEffectiveChargeMoveH\x00\x12\x44\n\twith_item\x18\x0c \x01(\x0b\x32/.pogoprotos.data.quests.QuestCondition.WithItemH\x00\x12Y\n\x14with_unique_pokestop\x18\r \x01(\x0b\x32\x39.pogoprotos.data.quests.QuestCondition.WithUniquePokestopH\x00\x12U\n\x12with_quest_context\x18\x0e \x01(\x0b\x32\x37.pogoprotos.data.quests.QuestCondition.WithQuestContextH\x00\x12O\n\x0fwith_badge_type\x18\x0f \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithBadgeTypeH\x00\x12S\n\x11with_player_level\x18\x10 \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestCondition.WithPlayerLevelH\x00\x12\\\n\x16with_win_battle_status\x18\x11 \x01(\x0b\x32:.pogoprotos.data.quests.QuestCondition.WithWinBattleStatusH\x00\x12W\n\x13with_unique_pokemon\x18\x12 \x01(\x0b\x32\x38.pogoprotos.data.quests.QuestCondition.WithUniquePokemonH\x00\x12O\n\x0fwith_npc_combat\x18\x13 \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithNpcCombatH\x00\x12O\n\x0fwith_pvp_combat\x18\x14 \x01(\x0b\x32\x34.pogoprotos.data.quests.QuestCondition.WithPvpCombatH\x00\x12L\n\rwith_location\x18\x15 \x01(\x0b\x32\x33.pogoprotos.data.quests.QuestCondition.WithLocationH\x00\x12L\n\rwith_distance\x18\x16 \x01(\x0b\x32\x33.pogoprotos.data.quests.QuestCondition.WithDistanceH\x00\x12_\n\x17with_invasion_character\x18\x17 \x01(\x0b\x32<.pogoprotos.data.quests.QuestCondition.WithInvasionCharacterH\x00\x12]\n\x16with_pokemon_alignment\x18\x18 \x01(\x0b\x32;.pogoprotos.data.quests.QuestCondition.WithPokemonAlignmentH\x00\x12\x46\n\nwith_buddy\x18\x19 \x01(\x0b\x32\x30.pogoprotos.data.quests.QuestCondition.WithBuddyH\x00\x12\x64\n\x1awith_daily_buddy_affection\x18\x1a \x01(\x0b\x32>.pogoprotos.data.quests.QuestCondition.WithDailyBuddyAffectionH\x00\x12Z\n\x15with_mega_evo_pokemon\x18\x1d \x01(\x0b\x32\x39.pogoprotos.data.quests.QuestCondition.WithMegaEvoPokemonH\x00\x1a\x43\n\x17WithDailyBuddyAffection\x12(\n min_buddy_affection_earned_today\x18\x01 \x01(\x05\x1aZ\n\tWithBuddy\x12\x35\n\x0fmin_buddy_level\x18\x01 \x01(\x0e\x32\x1c.pogoprotos.enums.BuddyLevel\x12\x16\n\x0emust_be_on_map\x18\x02 \x01(\x08\x1aT\n\x14WithPokemonAlignment\x12<\n\talignment\x18\x01 \x03(\x0e\x32).pogoprotos.data.PokemonDisplay.Alignment\x1aZ\n\x15WithInvasionCharacter\x12\x41\n\x08\x63\x61tegory\x18\x01 \x03(\x0e\x32/.pogoprotos.enums.EnumWrapper.CharacterCategory\x1a\x13\n\x11WithUniquePokemon\x1aH\n\rWithPvpCombat\x12\x14\n\x0crequires_win\x18\x01 \x01(\x08\x12!\n\x19\x63ombat_league_template_id\x18\x02 \x03(\t\x1a\x44\n\rWithNpcCombat\x12\x14\n\x0crequires_win\x18\x01 \x01(\x08\x12\x1d\n\x15\x63ombat_npc_trainer_id\x18\x02 \x03(\t\x1a\"\n\x0cWithLocation\x12\x12\n\ns2_cell_id\x18\x01 \x03(\x03\x1a#\n\x0cWithDistance\x12\x13\n\x0b\x64istance_km\x18\x01 \x01(\x01\x1a\x46\n\x0fWithPokemonType\x12\x33\n\x0cpokemon_type\x18\x01 \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x1a\x12\n\x10WithWeatherBoost\x1a^\n\x13WithPokemonCategory\x12\x15\n\rcategory_name\x18\x01 \x01(\t\x12\x30\n\x0bpokemon_ids\x18\x02 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x1a\x17\n\x15WithDailyCaptureBonus\x1a\x14\n\x12WithDailySpinBonus\x1a\x13\n\x11WithWinRaidStatus\x1a@\n\rWithRaidLevel\x12/\n\nraid_level\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.RaidLevel\x1a]\n\rWithThrowType\x12\x34\n\nthrow_type\x18\x01 \x01(\x0e\x32\x1e.pogoprotos.enums.ActivityTypeH\x00\x12\r\n\x03hit\x18\x02 \x01(\x08H\x00\x42\x07\n\x05Throw\x1a\x0f\n\rWithCurveBall\x1a\x18\n\x16WithWinGymBattleStatus\x1a\x1e\n\x1cWithSuperEffectiveChargeMove\x1a;\n\x08WithItem\x12/\n\x04item\x18\x01 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x1a\x14\n\x12WithUniquePokestop\x1a\xa0\x01\n\x10WithQuestContext\x12P\n\x07\x63ontext\x18\x01 \x01(\x0e\x32?.pogoprotos.data.quests.QuestCondition.WithQuestContext.Context\":\n\x07\x43ontext\x12\t\n\x05UNSET\x10\x00\x12\x0f\n\x0bSTORY_QUEST\x10\x01\x12\x13\n\x0f\x43HALLENGE_QUEST\x10\x02\x1a\x64\n\rWithBadgeType\x12/\n\nbadge_type\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12\x12\n\nbadge_rank\x18\x02 \x01(\x05\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x05\x1a \n\x0fWithPlayerLevel\x12\r\n\x05level\x18\x01 \x01(\x05\x1a\x15\n\x13WithWinBattleStatus\x1aS\n\x12WithMegaEvoPokemon\x12=\n\x11pokemon_evolution\x18\x01 \x03(\x0e\x32\".pogoprotos.enums.PokemonEvolution\"\x98\x06\n\rConditionType\x12\t\n\x05UNSET\x10\x00\x12\x15\n\x11WITH_POKEMON_TYPE\x10\x01\x12\x19\n\x15WITH_POKEMON_CATEGORY\x10\x02\x12\x16\n\x12WITH_WEATHER_BOOST\x10\x03\x12\x1c\n\x18WITH_DAILY_CAPTURE_BONUS\x10\x04\x12\x19\n\x15WITH_DAILY_SPIN_BONUS\x10\x05\x12\x18\n\x14WITH_WIN_RAID_STATUS\x10\x06\x12\x13\n\x0fWITH_RAID_LEVEL\x10\x07\x12\x13\n\x0fWITH_THROW_TYPE\x10\x08\x12\x1e\n\x1aWITH_WIN_GYM_BATTLE_STATUS\x10\t\x12\x1f\n\x1bWITH_SUPER_EFFECTIVE_CHARGE\x10\n\x12\r\n\tWITH_ITEM\x10\x0b\x12\x18\n\x14WITH_UNIQUE_POKESTOP\x10\x0c\x12\x16\n\x12WITH_QUEST_CONTEXT\x10\r\x12\x1c\n\x18WITH_THROW_TYPE_IN_A_ROW\x10\x0e\x12\x13\n\x0fWITH_CURVE_BALL\x10\x0f\x12\x13\n\x0fWITH_BADGE_TYPE\x10\x10\x12\x15\n\x11WITH_PLAYER_LEVEL\x10\x11\x12\x1a\n\x16WITH_WIN_BATTLE_STATUS\x10\x12\x12\x13\n\x0fWITH_NEW_FRIEND\x10\x13\x12\x16\n\x12WITH_DAYS_IN_A_ROW\x10\x14\x12\x17\n\x13WITH_UNIQUE_POKEMON\x10\x15\x12\x13\n\x0fWITH_NPC_COMBAT\x10\x16\x12\x13\n\x0fWITH_PVP_COMBAT\x10\x17\x12\x11\n\rWITH_LOCATION\x10\x18\x12\x11\n\rWITH_DISTANCE\x10\x19\x12\x1a\n\x16WITH_POKEMON_ALIGNMENT\x10\x1a\x12\x1b\n\x17WITH_INVASION_CHARACTER\x10\x1b\x12\x0e\n\nWITH_BUDDY\x10\x1c\x12\x1e\n\x1aWITH_BUDDY_INTERESTING_POI\x10\x1d\x12\x1e\n\x1aWITH_DAILY_BUDDY_AFFECTION\x10\x1e\x12\x19\n\x15WITH_MEGA_EVO_POKEMON\x10%B\x0b\n\tConditionb\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_enums_dot_activity__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_badge__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_raid__level__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_buddy__level__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__display__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_enum__wrapper__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
+  dependencies=[pogoprotos_dot_enums_dot_activity__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_badge__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_raid__level__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_buddy__level__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__display__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_enum__wrapper__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__evolution__pb2.DESCRIPTOR,])
 
 
 
@@ -43,21 +43,21 @@ _QUESTCONDITION_WITHQUESTCONTEXT_CONTEXT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='STORY_QUEST', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='CHALLENGE_QUEST', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
-  serialized_start=3949,
-  serialized_end=4007,
+  serialized_options=None,
+  serialized_start=4083,
+  serialized_end=4141,
 )
 _sym_db.RegisterEnumDescriptor(_QUESTCONDITION_WITHQUESTCONTEXT_CONTEXT)
 
@@ -69,133 +69,137 @@ _QUESTCONDITION_CONDITIONTYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_POKEMON_TYPE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_POKEMON_CATEGORY', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_WEATHER_BOOST', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_DAILY_CAPTURE_BONUS', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_DAILY_SPIN_BONUS', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_WIN_RAID_STATUS', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_RAID_LEVEL', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_THROW_TYPE', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_WIN_GYM_BATTLE_STATUS', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_SUPER_EFFECTIVE_CHARGE', index=10, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_ITEM', index=11, number=11,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_UNIQUE_POKESTOP', index=12, number=12,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_QUEST_CONTEXT', index=13, number=13,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_THROW_TYPE_IN_A_ROW', index=14, number=14,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_CURVE_BALL', index=15, number=15,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_BADGE_TYPE', index=16, number=16,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_PLAYER_LEVEL', index=17, number=17,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_WIN_BATTLE_STATUS', index=18, number=18,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_NEW_FRIEND', index=19, number=19,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_DAYS_IN_A_ROW', index=20, number=20,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_UNIQUE_POKEMON', index=21, number=21,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_NPC_COMBAT', index=22, number=22,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_PVP_COMBAT', index=23, number=23,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_LOCATION', index=24, number=24,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_DISTANCE', index=25, number=25,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_POKEMON_ALIGNMENT', index=26, number=26,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_INVASION_CHARACTER', index=27, number=27,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_BUDDY', index=28, number=28,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_BUDDY_INTERESTING_POI', index=29, number=29,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WITH_DAILY_BUDDY_AFFECTION', index=30, number=30,
-      options=None,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='WITH_MEGA_EVO_POKEMON', index=31, number=37,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
-  serialized_start=4169,
-  serialized_end=4934,
+  serialized_options=None,
+  serialized_start=4388,
+  serialized_end=5180,
 )
 _sym_db.RegisterEnumDescriptor(_QUESTCONDITION_CONDITIONTYPE)
 
@@ -213,21 +217,21 @@ _QUESTCONDITION_WITHDAILYBUDDYAFFECTION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2694,
-  serialized_end=2761,
+  serialized_start=2828,
+  serialized_end=2895,
 )
 
 _QUESTCONDITION_WITHBUDDY = _descriptor.Descriptor(
@@ -243,28 +247,28 @@ _QUESTCONDITION_WITHBUDDY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='must_be_on_map', full_name='pogoprotos.data.quests.QuestCondition.WithBuddy.must_be_on_map', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2763,
-  serialized_end=2853,
+  serialized_start=2897,
+  serialized_end=2987,
 )
 
 _QUESTCONDITION_WITHPOKEMONALIGNMENT = _descriptor.Descriptor(
@@ -280,21 +284,21 @@ _QUESTCONDITION_WITHPOKEMONALIGNMENT = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2855,
-  serialized_end=2939,
+  serialized_start=2989,
+  serialized_end=3073,
 )
 
 _QUESTCONDITION_WITHINVASIONCHARACTER = _descriptor.Descriptor(
@@ -310,21 +314,21 @@ _QUESTCONDITION_WITHINVASIONCHARACTER = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2941,
-  serialized_end=3031,
+  serialized_start=3075,
+  serialized_end=3165,
 )
 
 _QUESTCONDITION_WITHUNIQUEPOKEMON = _descriptor.Descriptor(
@@ -340,14 +344,14 @@ _QUESTCONDITION_WITHUNIQUEPOKEMON = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3033,
-  serialized_end=3052,
+  serialized_start=3167,
+  serialized_end=3186,
 )
 
 _QUESTCONDITION_WITHPVPCOMBAT = _descriptor.Descriptor(
@@ -363,28 +367,28 @@ _QUESTCONDITION_WITHPVPCOMBAT = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='combat_league_template_id', full_name='pogoprotos.data.quests.QuestCondition.WithPvpCombat.combat_league_template_id', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3054,
-  serialized_end=3126,
+  serialized_start=3188,
+  serialized_end=3260,
 )
 
 _QUESTCONDITION_WITHNPCCOMBAT = _descriptor.Descriptor(
@@ -400,28 +404,28 @@ _QUESTCONDITION_WITHNPCCOMBAT = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='combat_npc_trainer_id', full_name='pogoprotos.data.quests.QuestCondition.WithNpcCombat.combat_npc_trainer_id', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3128,
-  serialized_end=3196,
+  serialized_start=3262,
+  serialized_end=3330,
 )
 
 _QUESTCONDITION_WITHLOCATION = _descriptor.Descriptor(
@@ -437,21 +441,21 @@ _QUESTCONDITION_WITHLOCATION = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3198,
-  serialized_end=3232,
+  serialized_start=3332,
+  serialized_end=3366,
 )
 
 _QUESTCONDITION_WITHDISTANCE = _descriptor.Descriptor(
@@ -467,21 +471,21 @@ _QUESTCONDITION_WITHDISTANCE = _descriptor.Descriptor(
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3234,
-  serialized_end=3269,
+  serialized_start=3368,
+  serialized_end=3403,
 )
 
 _QUESTCONDITION_WITHPOKEMONTYPE = _descriptor.Descriptor(
@@ -497,21 +501,21 @@ _QUESTCONDITION_WITHPOKEMONTYPE = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3271,
-  serialized_end=3341,
+  serialized_start=3405,
+  serialized_end=3475,
 )
 
 _QUESTCONDITION_WITHWEATHERBOOST = _descriptor.Descriptor(
@@ -527,14 +531,14 @@ _QUESTCONDITION_WITHWEATHERBOOST = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3343,
-  serialized_end=3361,
+  serialized_start=3477,
+  serialized_end=3495,
 )
 
 _QUESTCONDITION_WITHPOKEMONCATEGORY = _descriptor.Descriptor(
@@ -550,28 +554,28 @@ _QUESTCONDITION_WITHPOKEMONCATEGORY = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokemon_ids', full_name='pogoprotos.data.quests.QuestCondition.WithPokemonCategory.pokemon_ids', index=1,
       number=2, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3363,
-  serialized_end=3457,
+  serialized_start=3497,
+  serialized_end=3591,
 )
 
 _QUESTCONDITION_WITHDAILYCAPTUREBONUS = _descriptor.Descriptor(
@@ -587,14 +591,14 @@ _QUESTCONDITION_WITHDAILYCAPTUREBONUS = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3459,
-  serialized_end=3482,
+  serialized_start=3593,
+  serialized_end=3616,
 )
 
 _QUESTCONDITION_WITHDAILYSPINBONUS = _descriptor.Descriptor(
@@ -610,14 +614,14 @@ _QUESTCONDITION_WITHDAILYSPINBONUS = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3484,
-  serialized_end=3504,
+  serialized_start=3618,
+  serialized_end=3638,
 )
 
 _QUESTCONDITION_WITHWINRAIDSTATUS = _descriptor.Descriptor(
@@ -633,14 +637,14 @@ _QUESTCONDITION_WITHWINRAIDSTATUS = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3506,
-  serialized_end=3525,
+  serialized_start=3640,
+  serialized_end=3659,
 )
 
 _QUESTCONDITION_WITHRAIDLEVEL = _descriptor.Descriptor(
@@ -656,21 +660,21 @@ _QUESTCONDITION_WITHRAIDLEVEL = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3527,
-  serialized_end=3591,
+  serialized_start=3661,
+  serialized_end=3725,
 )
 
 _QUESTCONDITION_WITHTHROWTYPE = _descriptor.Descriptor(
@@ -686,21 +690,21 @@ _QUESTCONDITION_WITHTHROWTYPE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='hit', full_name='pogoprotos.data.quests.QuestCondition.WithThrowType.hit', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -709,8 +713,8 @@ _QUESTCONDITION_WITHTHROWTYPE = _descriptor.Descriptor(
       name='Throw', full_name='pogoprotos.data.quests.QuestCondition.WithThrowType.Throw',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=3593,
-  serialized_end=3686,
+  serialized_start=3727,
+  serialized_end=3820,
 )
 
 _QUESTCONDITION_WITHCURVEBALL = _descriptor.Descriptor(
@@ -726,14 +730,14 @@ _QUESTCONDITION_WITHCURVEBALL = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3688,
-  serialized_end=3703,
+  serialized_start=3822,
+  serialized_end=3837,
 )
 
 _QUESTCONDITION_WITHWINGYMBATTLESTATUS = _descriptor.Descriptor(
@@ -749,14 +753,14 @@ _QUESTCONDITION_WITHWINGYMBATTLESTATUS = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3705,
-  serialized_end=3729,
+  serialized_start=3839,
+  serialized_end=3863,
 )
 
 _QUESTCONDITION_WITHSUPEREFFECTIVECHARGEMOVE = _descriptor.Descriptor(
@@ -772,14 +776,14 @@ _QUESTCONDITION_WITHSUPEREFFECTIVECHARGEMOVE = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3731,
-  serialized_end=3761,
+  serialized_start=3865,
+  serialized_end=3895,
 )
 
 _QUESTCONDITION_WITHITEM = _descriptor.Descriptor(
@@ -795,21 +799,21 @@ _QUESTCONDITION_WITHITEM = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3763,
-  serialized_end=3822,
+  serialized_start=3897,
+  serialized_end=3956,
 )
 
 _QUESTCONDITION_WITHUNIQUEPOKESTOP = _descriptor.Descriptor(
@@ -825,14 +829,14 @@ _QUESTCONDITION_WITHUNIQUEPOKESTOP = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3824,
-  serialized_end=3844,
+  serialized_start=3958,
+  serialized_end=3978,
 )
 
 _QUESTCONDITION_WITHQUESTCONTEXT = _descriptor.Descriptor(
@@ -848,7 +852,7 @@ _QUESTCONDITION_WITHQUESTCONTEXT = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -856,14 +860,14 @@ _QUESTCONDITION_WITHQUESTCONTEXT = _descriptor.Descriptor(
   enum_types=[
     _QUESTCONDITION_WITHQUESTCONTEXT_CONTEXT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3847,
-  serialized_end=4007,
+  serialized_start=3981,
+  serialized_end=4141,
 )
 
 _QUESTCONDITION_WITHBADGETYPE = _descriptor.Descriptor(
@@ -879,35 +883,35 @@ _QUESTCONDITION_WITHBADGETYPE = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='badge_rank', full_name='pogoprotos.data.quests.QuestCondition.WithBadgeType.badge_rank', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='amount', full_name='pogoprotos.data.quests.QuestCondition.WithBadgeType.amount', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4009,
-  serialized_end=4109,
+  serialized_start=4143,
+  serialized_end=4243,
 )
 
 _QUESTCONDITION_WITHPLAYERLEVEL = _descriptor.Descriptor(
@@ -923,21 +927,21 @@ _QUESTCONDITION_WITHPLAYERLEVEL = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4111,
-  serialized_end=4143,
+  serialized_start=4245,
+  serialized_end=4277,
 )
 
 _QUESTCONDITION_WITHWINBATTLESTATUS = _descriptor.Descriptor(
@@ -953,14 +957,44 @@ _QUESTCONDITION_WITHWINBATTLESTATUS = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=4145,
-  serialized_end=4166,
+  serialized_start=4279,
+  serialized_end=4300,
+)
+
+_QUESTCONDITION_WITHMEGAEVOPOKEMON = _descriptor.Descriptor(
+  name='WithMegaEvoPokemon',
+  full_name='pogoprotos.data.quests.QuestCondition.WithMegaEvoPokemon',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='pokemon_evolution', full_name='pogoprotos.data.quests.QuestCondition.WithMegaEvoPokemon.pokemon_evolution', index=0,
+      number=1, type=14, cpp_type=8, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4302,
+  serialized_end=4385,
 )
 
 _QUESTCONDITION = _descriptor.Descriptor(
@@ -976,190 +1010,197 @@ _QUESTCONDITION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_pokemon_type', full_name='pogoprotos.data.quests.QuestCondition.with_pokemon_type', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_pokemon_category', full_name='pogoprotos.data.quests.QuestCondition.with_pokemon_category', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_weather_boost', full_name='pogoprotos.data.quests.QuestCondition.with_weather_boost', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_daily_capture_bonus', full_name='pogoprotos.data.quests.QuestCondition.with_daily_capture_bonus', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_daily_spin_bonus', full_name='pogoprotos.data.quests.QuestCondition.with_daily_spin_bonus', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_win_raid_status', full_name='pogoprotos.data.quests.QuestCondition.with_win_raid_status', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_raid_level', full_name='pogoprotos.data.quests.QuestCondition.with_raid_level', index=7,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_throw_type', full_name='pogoprotos.data.quests.QuestCondition.with_throw_type', index=8,
       number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_win_gym_battle_status', full_name='pogoprotos.data.quests.QuestCondition.with_win_gym_battle_status', index=9,
       number=10, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_super_effective_charge_move', full_name='pogoprotos.data.quests.QuestCondition.with_super_effective_charge_move', index=10,
       number=11, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_item', full_name='pogoprotos.data.quests.QuestCondition.with_item', index=11,
       number=12, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_unique_pokestop', full_name='pogoprotos.data.quests.QuestCondition.with_unique_pokestop', index=12,
       number=13, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_quest_context', full_name='pogoprotos.data.quests.QuestCondition.with_quest_context', index=13,
       number=14, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_badge_type', full_name='pogoprotos.data.quests.QuestCondition.with_badge_type', index=14,
       number=15, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_player_level', full_name='pogoprotos.data.quests.QuestCondition.with_player_level', index=15,
       number=16, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_win_battle_status', full_name='pogoprotos.data.quests.QuestCondition.with_win_battle_status', index=16,
       number=17, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_unique_pokemon', full_name='pogoprotos.data.quests.QuestCondition.with_unique_pokemon', index=17,
       number=18, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_npc_combat', full_name='pogoprotos.data.quests.QuestCondition.with_npc_combat', index=18,
       number=19, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_pvp_combat', full_name='pogoprotos.data.quests.QuestCondition.with_pvp_combat', index=19,
       number=20, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_location', full_name='pogoprotos.data.quests.QuestCondition.with_location', index=20,
       number=21, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_distance', full_name='pogoprotos.data.quests.QuestCondition.with_distance', index=21,
       number=22, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_invasion_character', full_name='pogoprotos.data.quests.QuestCondition.with_invasion_character', index=22,
       number=23, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_pokemon_alignment', full_name='pogoprotos.data.quests.QuestCondition.with_pokemon_alignment', index=23,
       number=24, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_buddy', full_name='pogoprotos.data.quests.QuestCondition.with_buddy', index=24,
       number=25, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='with_daily_buddy_affection', full_name='pogoprotos.data.quests.QuestCondition.with_daily_buddy_affection', index=25,
       number=26, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='with_mega_evo_pokemon', full_name='pogoprotos.data.quests.QuestCondition.with_mega_evo_pokemon', index=26,
+      number=29, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
-  nested_types=[_QUESTCONDITION_WITHDAILYBUDDYAFFECTION, _QUESTCONDITION_WITHBUDDY, _QUESTCONDITION_WITHPOKEMONALIGNMENT, _QUESTCONDITION_WITHINVASIONCHARACTER, _QUESTCONDITION_WITHUNIQUEPOKEMON, _QUESTCONDITION_WITHPVPCOMBAT, _QUESTCONDITION_WITHNPCCOMBAT, _QUESTCONDITION_WITHLOCATION, _QUESTCONDITION_WITHDISTANCE, _QUESTCONDITION_WITHPOKEMONTYPE, _QUESTCONDITION_WITHWEATHERBOOST, _QUESTCONDITION_WITHPOKEMONCATEGORY, _QUESTCONDITION_WITHDAILYCAPTUREBONUS, _QUESTCONDITION_WITHDAILYSPINBONUS, _QUESTCONDITION_WITHWINRAIDSTATUS, _QUESTCONDITION_WITHRAIDLEVEL, _QUESTCONDITION_WITHTHROWTYPE, _QUESTCONDITION_WITHCURVEBALL, _QUESTCONDITION_WITHWINGYMBATTLESTATUS, _QUESTCONDITION_WITHSUPEREFFECTIVECHARGEMOVE, _QUESTCONDITION_WITHITEM, _QUESTCONDITION_WITHUNIQUEPOKESTOP, _QUESTCONDITION_WITHQUESTCONTEXT, _QUESTCONDITION_WITHBADGETYPE, _QUESTCONDITION_WITHPLAYERLEVEL, _QUESTCONDITION_WITHWINBATTLESTATUS, ],
+  nested_types=[_QUESTCONDITION_WITHDAILYBUDDYAFFECTION, _QUESTCONDITION_WITHBUDDY, _QUESTCONDITION_WITHPOKEMONALIGNMENT, _QUESTCONDITION_WITHINVASIONCHARACTER, _QUESTCONDITION_WITHUNIQUEPOKEMON, _QUESTCONDITION_WITHPVPCOMBAT, _QUESTCONDITION_WITHNPCCOMBAT, _QUESTCONDITION_WITHLOCATION, _QUESTCONDITION_WITHDISTANCE, _QUESTCONDITION_WITHPOKEMONTYPE, _QUESTCONDITION_WITHWEATHERBOOST, _QUESTCONDITION_WITHPOKEMONCATEGORY, _QUESTCONDITION_WITHDAILYCAPTUREBONUS, _QUESTCONDITION_WITHDAILYSPINBONUS, _QUESTCONDITION_WITHWINRAIDSTATUS, _QUESTCONDITION_WITHRAIDLEVEL, _QUESTCONDITION_WITHTHROWTYPE, _QUESTCONDITION_WITHCURVEBALL, _QUESTCONDITION_WITHWINGYMBATTLESTATUS, _QUESTCONDITION_WITHSUPEREFFECTIVECHARGEMOVE, _QUESTCONDITION_WITHITEM, _QUESTCONDITION_WITHUNIQUEPOKESTOP, _QUESTCONDITION_WITHQUESTCONTEXT, _QUESTCONDITION_WITHBADGETYPE, _QUESTCONDITION_WITHPLAYERLEVEL, _QUESTCONDITION_WITHWINBATTLESTATUS, _QUESTCONDITION_WITHMEGAEVOPOKEMON, ],
   enum_types=[
     _QUESTCONDITION_CONDITIONTYPE,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -1168,8 +1209,8 @@ _QUESTCONDITION = _descriptor.Descriptor(
       name='Condition', full_name='pogoprotos.data.quests.QuestCondition.Condition',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=406,
-  serialized_end=4947,
+  serialized_start=448,
+  serialized_end=5193,
 )
 
 _QUESTCONDITION_WITHDAILYBUDDYAFFECTION.containing_type = _QUESTCONDITION
@@ -1215,6 +1256,8 @@ _QUESTCONDITION_WITHBADGETYPE.fields_by_name['badge_type'].enum_type = pogoproto
 _QUESTCONDITION_WITHBADGETYPE.containing_type = _QUESTCONDITION
 _QUESTCONDITION_WITHPLAYERLEVEL.containing_type = _QUESTCONDITION
 _QUESTCONDITION_WITHWINBATTLESTATUS.containing_type = _QUESTCONDITION
+_QUESTCONDITION_WITHMEGAEVOPOKEMON.fields_by_name['pokemon_evolution'].enum_type = pogoprotos_dot_enums_dot_pokemon__evolution__pb2._POKEMONEVOLUTION
+_QUESTCONDITION_WITHMEGAEVOPOKEMON.containing_type = _QUESTCONDITION
 _QUESTCONDITION.fields_by_name['type'].enum_type = _QUESTCONDITION_CONDITIONTYPE
 _QUESTCONDITION.fields_by_name['with_pokemon_type'].message_type = _QUESTCONDITION_WITHPOKEMONTYPE
 _QUESTCONDITION.fields_by_name['with_pokemon_category'].message_type = _QUESTCONDITION_WITHPOKEMONCATEGORY
@@ -1241,6 +1284,7 @@ _QUESTCONDITION.fields_by_name['with_invasion_character'].message_type = _QUESTC
 _QUESTCONDITION.fields_by_name['with_pokemon_alignment'].message_type = _QUESTCONDITION_WITHPOKEMONALIGNMENT
 _QUESTCONDITION.fields_by_name['with_buddy'].message_type = _QUESTCONDITION_WITHBUDDY
 _QUESTCONDITION.fields_by_name['with_daily_buddy_affection'].message_type = _QUESTCONDITION_WITHDAILYBUDDYAFFECTION
+_QUESTCONDITION.fields_by_name['with_mega_evo_pokemon'].message_type = _QUESTCONDITION_WITHMEGAEVOPOKEMON
 _QUESTCONDITION_CONDITIONTYPE.containing_type = _QUESTCONDITION
 _QUESTCONDITION.oneofs_by_name['Condition'].fields.append(
   _QUESTCONDITION.fields_by_name['with_pokemon_type'])
@@ -1317,7 +1361,11 @@ _QUESTCONDITION.fields_by_name['with_buddy'].containing_oneof = _QUESTCONDITION.
 _QUESTCONDITION.oneofs_by_name['Condition'].fields.append(
   _QUESTCONDITION.fields_by_name['with_daily_buddy_affection'])
 _QUESTCONDITION.fields_by_name['with_daily_buddy_affection'].containing_oneof = _QUESTCONDITION.oneofs_by_name['Condition']
+_QUESTCONDITION.oneofs_by_name['Condition'].fields.append(
+  _QUESTCONDITION.fields_by_name['with_mega_evo_pokemon'])
+_QUESTCONDITION.fields_by_name['with_mega_evo_pokemon'].containing_oneof = _QUESTCONDITION.oneofs_by_name['Condition']
 DESCRIPTOR.message_types_by_name['QuestCondition'] = _QUESTCONDITION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 QuestCondition = _reflection.GeneratedProtocolMessageType('QuestCondition', (_message.Message,), dict(
 
@@ -1502,6 +1550,13 @@ QuestCondition = _reflection.GeneratedProtocolMessageType('QuestCondition', (_me
     # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.QuestCondition.WithWinBattleStatus)
     ))
   ,
+
+  WithMegaEvoPokemon = _reflection.GeneratedProtocolMessageType('WithMegaEvoPokemon', (_message.Message,), dict(
+    DESCRIPTOR = _QUESTCONDITION_WITHMEGAEVOPOKEMON,
+    __module__ = 'pogoprotos.data.quests.quest_condition_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.QuestCondition.WithMegaEvoPokemon)
+    ))
+  ,
   DESCRIPTOR = _QUESTCONDITION,
   __module__ = 'pogoprotos.data.quests.quest_condition_pb2'
   # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.QuestCondition)
@@ -1533,6 +1588,7 @@ _sym_db.RegisterMessage(QuestCondition.WithQuestContext)
 _sym_db.RegisterMessage(QuestCondition.WithBadgeType)
 _sym_db.RegisterMessage(QuestCondition.WithPlayerLevel)
 _sym_db.RegisterMessage(QuestCondition.WithWinBattleStatus)
+_sym_db.RegisterMessage(QuestCondition.WithMegaEvoPokemon)
 
 
 # @@protoc_insertion_point(module_scope)

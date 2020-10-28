@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/social/requests/create_invite_code_message.proto',
   package='pogoprotos.networking.requests.social.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nOpogoprotos/networking/requests/social/requests/create_invite_code_message.proto\x12.pogoprotos.networking.requests.social.requests\"6\n\x17\x43reateInviteCodeMessage\x12\x1b\n\x13\x66orce_generate_code\x18\x01 \x01(\x08\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _CREATEINVITECODEMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -57,6 +56,7 @@ _CREATEINVITECODEMESSAGE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['CreateInviteCodeMessage'] = _CREATEINVITECODEMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CreateInviteCodeMessage = _reflection.GeneratedProtocolMessageType('CreateInviteCodeMessage', (_message.Message,), dict(
   DESCRIPTOR = _CREATEINVITECODEMESSAGE,

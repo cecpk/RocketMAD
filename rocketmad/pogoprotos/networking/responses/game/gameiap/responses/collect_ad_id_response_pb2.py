@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/game/gameiap/responses/collect_ad_id_response.proto',
   package='pogoprotos.networking.responses.game.gameiap.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nSpogoprotos/networking/responses/game/gameiap/responses/collect_ad_id_response.proto\x12\x36pogoprotos.networking.responses.game.gameiap.responses\"D\n\x13\x43ollectAdIdResponse\"-\n\x06Status\x12\x0b\n\x07INVALID\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\t\n\x05\x45RROR\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,19 +32,19 @@ _COLLECTADIDRESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='INVALID', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=166,
   serialized_end=211,
 )
@@ -66,7 +65,7 @@ _COLLECTADIDRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _COLLECTADIDRESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -78,6 +77,7 @@ _COLLECTADIDRESPONSE = _descriptor.Descriptor(
 
 _COLLECTADIDRESPONSE_STATUS.containing_type = _COLLECTADIDRESPONSE
 DESCRIPTOR.message_types_by_name['CollectAdIdResponse'] = _COLLECTADIDRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CollectAdIdResponse = _reflection.GeneratedProtocolMessageType('CollectAdIdResponse', (_message.Message,), dict(
   DESCRIPTOR = _COLLECTADIDRESPONSE,

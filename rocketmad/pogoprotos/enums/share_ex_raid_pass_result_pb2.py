@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/share_ex_raid_pass_result.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n0pogoprotos/enums/share_ex_raid_pass_result.proto\x12\x10pogoprotos.enums*\xb7\x03\n\x15ShareExRaidPassResult\x12\x1c\n\x18SHARE_EX_RAID_PASS_UNSET\x10\x00\x12\x1e\n\x1aSHARE_EX_RAID_PASS_SUCCESS\x10\x01\x12-\n)ERROR_FRIEND_ALREADY_INVITED_TO_SAME_RAID\x10\x02\x12%\n!ERROR_EX_RAID_PASS_ALREADY_SHARED\x10\x03\x12\x38\n4ERROR_FRIEND_ALREADY_HAS_SHARED_EX_PASS_IN_INVENTORY\x10\x04\x12\"\n\x1e\x45RROR_TOO_LOW_FRIENDSHIP_LEVEL\x10\x05\x12\x1a\n\x16\x45RROR_FRIEND_NOT_FOUND\x10\x06\x12!\n\x1d\x45RROR_EX_RAID_ALREADY_STARTED\x10\x07\x12\x19\n\x15\x45RROR_EX_RAID_INVALID\x10\x08\x12 \n\x1c\x45RROR_EX_RAID_PASS_NOT_FOUND\x10\t\x12\x11\n\rERROR_UNKNOWN\x10\n\x12\x1d\n\x19\x45RROR_FRIEND_NOT_ELIGIBLE\x10\x0b\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _SHAREEXRAIDPASSRESULT = _descriptor.EnumDescriptor(
   name='ShareExRaidPassResult',
@@ -32,55 +31,55 @@ _SHAREEXRAIDPASSRESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='SHARE_EX_RAID_PASS_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SHARE_EX_RAID_PASS_SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_FRIEND_ALREADY_INVITED_TO_SAME_RAID', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_EX_RAID_PASS_ALREADY_SHARED', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_FRIEND_ALREADY_HAS_SHARED_EX_PASS_IN_INVENTORY', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_TOO_LOW_FRIENDSHIP_LEVEL', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_FRIEND_NOT_FOUND', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_EX_RAID_ALREADY_STARTED', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_EX_RAID_INVALID', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_EX_RAID_PASS_NOT_FOUND', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_UNKNOWN', index=10, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_FRIEND_NOT_ELIGIBLE', index=11, number=11,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=71,
   serialized_end=510,
 )
@@ -102,6 +101,7 @@ ERROR_FRIEND_NOT_ELIGIBLE = 11
 
 
 DESCRIPTOR.enum_types_by_name['ShareExRaidPassResult'] = _SHAREEXRAIDPASSRESULT
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

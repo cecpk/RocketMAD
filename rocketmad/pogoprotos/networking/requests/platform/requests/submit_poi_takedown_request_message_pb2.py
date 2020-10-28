@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/platform/requests/submit_poi_takedown_request_message.proto',
   package='pogoprotos.networking.requests.platform.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nZpogoprotos/networking/requests/platform/requests/submit_poi_takedown_request_message.proto\x12\x30pogoprotos.networking.requests.platform.requests\"\xf4\x02\n\x1fSubmitPoiTakedownRequestMessage\x12\x0e\n\x06poi_id\x18\x01 \x01(\t\x12z\n\x0einvalid_reason\x18\x02 \x01(\x0e\x32\x62.pogoprotos.networking.requests.platform.requests.SubmitPoiTakedownRequestMessage.PoiInvalidReason\"\xc4\x01\n\x10PoiInvalidReason\x12\x1e\n\x1aINVALID_REASON_UNSPECIFIED\x10\x00\x12\x18\n\x14NO_PEDESTRIAN_ACCESS\x10\x01\x12 \n\x1cOBSTRUCTS_EMERGENCY_SERVICES\x10\x02\x12 \n\x1cPRIVATE_RESIDENTIAL_PROPERTY\x10\x03\x12\n\n\x06SCHOOL\x10\x04\x12\x17\n\x13PERMANENTLY_REMOVED\x10\x05\x12\r\n\tDUPLICATE\x10\x06\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,35 +32,35 @@ _SUBMITPOITAKEDOWNREQUESTMESSAGE_POIINVALIDREASON = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='INVALID_REASON_UNSPECIFIED', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='NO_PEDESTRIAN_ACCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='OBSTRUCTS_EMERGENCY_SERVICES', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PRIVATE_RESIDENTIAL_PROPERTY', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SCHOOL', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PERMANENTLY_REMOVED', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='DUPLICATE', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=321,
   serialized_end=517,
 )
@@ -81,14 +80,14 @@ _SUBMITPOITAKEDOWNREQUESTMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='invalid_reason', full_name='pogoprotos.networking.requests.platform.requests.SubmitPoiTakedownRequestMessage.invalid_reason', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -96,7 +95,7 @@ _SUBMITPOITAKEDOWNREQUESTMESSAGE = _descriptor.Descriptor(
   enum_types=[
     _SUBMITPOITAKEDOWNREQUESTMESSAGE_POIINVALIDREASON,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -109,6 +108,7 @@ _SUBMITPOITAKEDOWNREQUESTMESSAGE = _descriptor.Descriptor(
 _SUBMITPOITAKEDOWNREQUESTMESSAGE.fields_by_name['invalid_reason'].enum_type = _SUBMITPOITAKEDOWNREQUESTMESSAGE_POIINVALIDREASON
 _SUBMITPOITAKEDOWNREQUESTMESSAGE_POIINVALIDREASON.containing_type = _SUBMITPOITAKEDOWNREQUESTMESSAGE
 DESCRIPTOR.message_types_by_name['SubmitPoiTakedownRequestMessage'] = _SUBMITPOITAKEDOWNREQUESTMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SubmitPoiTakedownRequestMessage = _reflection.GeneratedProtocolMessageType('SubmitPoiTakedownRequestMessage', (_message.Message,), dict(
   DESCRIPTOR = _SUBMITPOITAKEDOWNREQUESTMESSAGE,

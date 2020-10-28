@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/unclassed/update_profile_message.proto',
   package='pogoprotos.data.unclassed',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n6pogoprotos/data/unclassed/update_profile_message.proto\x12\x19pogoprotos.data.unclassed\"\x89\x01\n\x14UpdateProfileMessage\x12H\n\x07profile\x18\x01 \x01(\x0b\x32\x37.pogoprotos.data.unclassed.UpdateProfileMessage.Profile\x1a\'\n\x07Profile\x12\x1c\n\x14profile_name_app_key\x18\x01 \x01(\tb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _UPDATEPROFILEMESSAGE_PROFILE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -69,14 +68,14 @@ _UPDATEPROFILEMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_UPDATEPROFILEMESSAGE_PROFILE, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -89,6 +88,7 @@ _UPDATEPROFILEMESSAGE = _descriptor.Descriptor(
 _UPDATEPROFILEMESSAGE_PROFILE.containing_type = _UPDATEPROFILEMESSAGE
 _UPDATEPROFILEMESSAGE.fields_by_name['profile'].message_type = _UPDATEPROFILEMESSAGE_PROFILE
 DESCRIPTOR.message_types_by_name['UpdateProfileMessage'] = _UPDATEPROFILEMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 UpdateProfileMessage = _reflection.GeneratedProtocolMessageType('UpdateProfileMessage', (_message.Message,), dict(
 

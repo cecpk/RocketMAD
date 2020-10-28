@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/store/currency_update.proto',
   package='pogoprotos.data.store',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n+pogoprotos/data/store/currency_update.proto\x12\x15pogoprotos.data.store\"y\n\x0e\x43urrencyUpdate\x12\x15\n\rcurrency_name\x18\x01 \x01(\t\x12\x16\n\x0e\x63urrency_delta\x18\x02 \x01(\x05\x12\x18\n\x10\x63urrency_balance\x18\x03 \x01(\x05\x12\x1e\n\x16\x66iat_purchased_balance\x18\x04 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,35 +38,35 @@ _CURRENCYUPDATE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='currency_delta', full_name='pogoprotos.data.store.CurrencyUpdate.currency_delta', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='currency_balance', full_name='pogoprotos.data.store.CurrencyUpdate.currency_balance', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='fiat_purchased_balance', full_name='pogoprotos.data.store.CurrencyUpdate.fiat_purchased_balance', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -78,6 +77,7 @@ _CURRENCYUPDATE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['CurrencyUpdate'] = _CURRENCYUPDATE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CurrencyUpdate = _reflection.GeneratedProtocolMessageType('CurrencyUpdate', (_message.Message,), dict(
   DESCRIPTOR = _CURRENCYUPDATE,

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/friends/one_way_shared_friendship_data.proto',
   package='pogoprotos.data.friends',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n<pogoprotos/data/friends/one_way_shared_friendship_data.proto\x12\x17pogoprotos.data.friends\x1a+pogoprotos/data/gift/gift_box_details.proto\"y\n\x1aOneWaySharedFriendshipData\x12=\n\x0fgiftbox_details\x18\x01 \x03(\x0b\x32$.pogoprotos.data.gift.GiftBoxDetails\x12\x1c\n\x14open_trade_expire_ms\x18\x02 \x01(\x03\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_gift_dot_gift__box__details__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,21 +40,21 @@ _ONEWAYSHAREDFRIENDSHIPDATA = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='open_trade_expire_ms', full_name='pogoprotos.data.friends.OneWaySharedFriendshipData.open_trade_expire_ms', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -67,6 +66,7 @@ _ONEWAYSHAREDFRIENDSHIPDATA = _descriptor.Descriptor(
 
 _ONEWAYSHAREDFRIENDSHIPDATA.fields_by_name['giftbox_details'].message_type = pogoprotos_dot_data_dot_gift_dot_gift__box__details__pb2._GIFTBOXDETAILS
 DESCRIPTOR.message_types_by_name['OneWaySharedFriendshipData'] = _ONEWAYSHAREDFRIENDSHIPDATA
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 OneWaySharedFriendshipData = _reflection.GeneratedProtocolMessageType('OneWaySharedFriendshipData', (_message.Message,), dict(
   DESCRIPTOR = _ONEWAYSHAREDFRIENDSHIPDATA,

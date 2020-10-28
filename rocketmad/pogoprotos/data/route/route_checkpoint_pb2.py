@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/route/route_checkpoint.proto',
   package='pogoprotos.data.route',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n,pogoprotos/data/route/route_checkpoint.proto\x12\x15pogoprotos.data.route\"\x96\x03\n\x0fRouteCheckpoint\x12>\n\x03poi\x18\x01 \x01(\x0b\x32/.pogoprotos.data.route.RouteCheckpoint.RoutePoiH\x00\x12J\n\tguidepost\x18\x02 \x01(\x0b\x32\x35.pogoprotos.data.route.RouteCheckpoint.RouteGuidepostH\x00\x1a\x1a\n\x08RoutePoi\x12\x0e\n\x06poi_id\x18\x01 \x01(\t\x1aU\n\x0eRouteGuidepost\x12\x43\n\x08location\x18\x01 \x01(\x0b\x32\x31.pogoprotos.data.route.RouteCheckpoint.LocationE6\x1a\x43\n\nRouteImage\x12\x12\n\x08image_id\x18\x01 \x01(\tH\x00\x12\x17\n\rimage_context\x18\x02 \x01(\tH\x00\x42\x08\n\x06Source\x1a\x37\n\nLocationE6\x12\x13\n\x0blatitude_e6\x18\x01 \x01(\x05\x12\x14\n\x0clongitude_e6\x18\x02 \x01(\x05\x42\x06\n\x04Typeb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _ROUTECHECKPOINT_ROUTEPOI = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -69,14 +68,14 @@ _ROUTECHECKPOINT_ROUTEGUIDEPOST = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -99,21 +98,21 @@ _ROUTECHECKPOINT_ROUTEIMAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='image_context', full_name='pogoprotos.data.route.RouteCheckpoint.RouteImage.image_context', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -139,21 +138,21 @@ _ROUTECHECKPOINT_LOCATIONE6 = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='longitude_e6', full_name='pogoprotos.data.route.RouteCheckpoint.LocationE6.longitude_e6', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -176,21 +175,21 @@ _ROUTECHECKPOINT = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='guidepost', full_name='pogoprotos.data.route.RouteCheckpoint.guidepost', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_ROUTECHECKPOINT_ROUTEPOI, _ROUTECHECKPOINT_ROUTEGUIDEPOST, _ROUTECHECKPOINT_ROUTEIMAGE, _ROUTECHECKPOINT_LOCATIONE6, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -223,6 +222,7 @@ _ROUTECHECKPOINT.oneofs_by_name['Type'].fields.append(
   _ROUTECHECKPOINT.fields_by_name['guidepost'])
 _ROUTECHECKPOINT.fields_by_name['guidepost'].containing_oneof = _ROUTECHECKPOINT.oneofs_by_name['Type']
 DESCRIPTOR.message_types_by_name['RouteCheckpoint'] = _ROUTECHECKPOINT
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 RouteCheckpoint = _reflection.GeneratedProtocolMessageType('RouteCheckpoint', (_message.Message,), dict(
 

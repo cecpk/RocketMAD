@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/confirm_trading_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n>pogoprotos/networking/responses/confirm_trading_response.proto\x12\x1fpogoprotos.networking.responses\x1a%pogoprotos/data/trading/trading.proto\"\xcb\x04\n\x16\x43onfirmTradingResponse\x12N\n\x06result\x18\x01 \x01(\x0e\x32>.pogoprotos.networking.responses.ConfirmTradingResponse.Result\x12\x31\n\x07trading\x18\x02 \x01(\x0b\x32 .pogoprotos.data.trading.Trading\"\xad\x03\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x12\x1a\n\x16\x45RROR_FRIEND_NOT_FOUND\x10\x03\x12\x1b\n\x17\x45RROR_INVALID_PLAYER_ID\x10\x04\x12\x17\n\x13\x45RROR_INVALID_STATE\x10\x05\x12\x17\n\x13\x45RROR_STATE_HANDLER\x10\x06\x12\x19\n\x15\x45RROR_INVALID_POKEMON\x10\x07\x12\x1e\n\x1a\x45RROR_INSUFFICIENT_PAYMENT\x10\x08\x12\x1b\n\x17\x45RROR_NO_PLAYER_POKEMON\x10\t\x12\x1b\n\x17\x45RROR_NO_FRIEND_POKEMON\x10\n\x12\"\n\x1e\x45RROR_PLAYER_ALREADY_CONFIRMED\x10\x0b\x12#\n\x1f\x45RROR_TRANSACTION_LOG_NOT_MATCH\x10\x0c\x12\x19\n\x15\x45RROR_TRADING_EXPIRED\x10\r\x12\x15\n\x11\x45RROR_TRANSACTION\x10\x0e\x12\x1d\n\x19\x45RROR_DAILY_LIMIT_REACHED\x10\x0f\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_trading_dot_trading__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,71 +34,71 @@ _CONFIRMTRADINGRESPONSE_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_UNKNOWN', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_FRIEND_NOT_FOUND', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INVALID_PLAYER_ID', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INVALID_STATE', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_STATE_HANDLER', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INVALID_POKEMON', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INSUFFICIENT_PAYMENT', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_NO_PLAYER_POKEMON', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_NO_FRIEND_POKEMON', index=10, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_ALREADY_CONFIRMED', index=11, number=11,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_TRANSACTION_LOG_NOT_MATCH', index=12, number=12,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_TRADING_EXPIRED', index=13, number=13,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_TRANSACTION', index=14, number=14,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_DAILY_LIMIT_REACHED', index=15, number=15,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=297,
   serialized_end=726,
 )
@@ -119,14 +118,14 @@ _CONFIRMTRADINGRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='trading', full_name='pogoprotos.networking.responses.ConfirmTradingResponse.trading', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -134,7 +133,7 @@ _CONFIRMTRADINGRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _CONFIRMTRADINGRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -148,6 +147,7 @@ _CONFIRMTRADINGRESPONSE.fields_by_name['result'].enum_type = _CONFIRMTRADINGRESP
 _CONFIRMTRADINGRESPONSE.fields_by_name['trading'].message_type = pogoprotos_dot_data_dot_trading_dot_trading__pb2._TRADING
 _CONFIRMTRADINGRESPONSE_RESULT.containing_type = _CONFIRMTRADINGRESPONSE
 DESCRIPTOR.message_types_by_name['ConfirmTradingResponse'] = _CONFIRMTRADINGRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ConfirmTradingResponse = _reflection.GeneratedProtocolMessageType('ConfirmTradingResponse', (_message.Message,), dict(
   DESCRIPTOR = _CONFIRMTRADINGRESPONSE,

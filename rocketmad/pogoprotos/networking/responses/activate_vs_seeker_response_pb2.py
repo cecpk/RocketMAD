@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/activate_vs_seeker_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nApogoprotos/networking/responses/activate_vs_seeker_response.proto\x12\x1fpogoprotos.networking.responses\x1a:pogoprotos/settings/master/item/vs_seeker_attributes.proto\"\x88\x03\n\x18\x41\x63tivateVsSeekerResponse\x12P\n\x06result\x18\x01 \x01(\x0e\x32@.pogoprotos.networking.responses.ActivateVsSeekerResponse.Result\x12\x46\n\tvs_seeker\x18\x02 \x01(\x0b\x32\x33.pogoprotos.settings.master.item.VsSeekerAttributes\"\xd1\x01\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x15\n\x11SUCCESS_ACTIVATED\x10\x01\x12 \n\x1c\x45RROR_NO_PREMIUM_BATTLE_PASS\x10\x02\x12\x1f\n\x1b\x45RROR_VS_SEEKER_NOT_CHARGED\x10\x03\x12%\n!ERROR_VS_SEEKER_ALREADY_ACTIVATED\x10\x04\x12\x18\n\x14\x45RROR_EXCEEDED_LIMIT\x10\x05\x12!\n\x1d\x45RROR_TEMPORARILY_UNAVAILABLE\x10\x06\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_settings_dot_master_dot_item_dot_vs__seeker__attributes__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,35 +34,35 @@ _ACTIVATEVSSEEKERRESPONSE_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS_ACTIVATED', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_NO_PREMIUM_BATTLE_PASS', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_VS_SEEKER_NOT_CHARGED', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_VS_SEEKER_ALREADY_ACTIVATED', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_EXCEEDED_LIMIT', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_TEMPORARILY_UNAVAILABLE', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=346,
   serialized_end=555,
 )
@@ -83,14 +82,14 @@ _ACTIVATEVSSEEKERRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='vs_seeker', full_name='pogoprotos.networking.responses.ActivateVsSeekerResponse.vs_seeker', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -98,7 +97,7 @@ _ACTIVATEVSSEEKERRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _ACTIVATEVSSEEKERRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -112,6 +111,7 @@ _ACTIVATEVSSEEKERRESPONSE.fields_by_name['result'].enum_type = _ACTIVATEVSSEEKER
 _ACTIVATEVSSEEKERRESPONSE.fields_by_name['vs_seeker'].message_type = pogoprotos_dot_settings_dot_master_dot_item_dot_vs__seeker__attributes__pb2._VSSEEKERATTRIBUTES
 _ACTIVATEVSSEEKERRESPONSE_RESULT.containing_type = _ACTIVATEVSSEEKERRESPONSE
 DESCRIPTOR.message_types_by_name['ActivateVsSeekerResponse'] = _ACTIVATEVSSEEKERRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ActivateVsSeekerResponse = _reflection.GeneratedProtocolMessageType('ActivateVsSeekerResponse', (_message.Message,), dict(
   DESCRIPTOR = _ACTIVATEVSSEEKERRESPONSE,

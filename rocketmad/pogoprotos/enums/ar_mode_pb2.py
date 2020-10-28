@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/ar_mode.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n\x1epogoprotos/enums/ar_mode.proto\x12\x10pogoprotos.enums*5\n\x06\x41rMode\x12\x0f\n\x0b\x41RMODE_NONE\x10\x00\x12\x0e\n\nARSTANDARD\x10\x01\x12\n\n\x06\x41RPLUS\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _ARMODE = _descriptor.EnumDescriptor(
   name='ArMode',
@@ -32,19 +31,19 @@ _ARMODE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='ARMODE_NONE', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ARSTANDARD', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ARPLUS', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=52,
   serialized_end=105,
 )
@@ -57,6 +56,7 @@ ARPLUS = 2
 
 
 DESCRIPTOR.enum_types_by_name['ArMode'] = _ARMODE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

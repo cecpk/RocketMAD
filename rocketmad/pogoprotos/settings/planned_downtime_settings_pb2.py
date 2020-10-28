@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/planned_downtime_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n3pogoprotos/settings/planned_downtime_settings.proto\x12\x13pogoprotos.settings\"e\n\x17PlannedDowntimeSettings\x12\x1d\n\x15\x64owntime_timestamp_ms\x18\x01 \x01(\x03\x12+\n#no_actions_window_sec_from_downtime\x18\x02 \x01(\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _PLANNEDDOWNTIMESETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='no_actions_window_sec_from_downtime', full_name='pogoprotos.settings.PlannedDowntimeSettings.no_actions_window_sec_from_downtime', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -64,6 +63,7 @@ _PLANNEDDOWNTIMESETTINGS = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['PlannedDowntimeSettings'] = _PLANNEDDOWNTIMESETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PlannedDowntimeSettings = _reflection.GeneratedProtocolMessageType('PlannedDowntimeSettings', (_message.Message,), dict(
   DESCRIPTOR = _PLANNEDDOWNTIMESETTINGS,

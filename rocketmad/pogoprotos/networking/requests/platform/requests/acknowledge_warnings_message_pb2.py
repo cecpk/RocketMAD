@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/platform/requests/acknowledge_warnings_message.proto',
   package='pogoprotos.networking.requests.platform.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nSpogoprotos/networking/requests/platform/requests/acknowledge_warnings_message.proto\x12\x30pogoprotos.networking.requests.platform.requests\x1a,pogoprotos/enums/platform_warning_type.proto\"T\n\x1a\x41\x63knowledgeWarningsMessage\x12\x36\n\x07warning\x18\x01 \x03(\x0e\x32%.pogoprotos.enums.PlatformWarningTypeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_platform__warning__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _ACKNOWLEDGEWARNINGSMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _ACKNOWLEDGEWARNINGSMESSAGE = _descriptor.Descriptor(
 
 _ACKNOWLEDGEWARNINGSMESSAGE.fields_by_name['warning'].enum_type = pogoprotos_dot_enums_dot_platform__warning__type__pb2._PLATFORMWARNINGTYPE
 DESCRIPTOR.message_types_by_name['AcknowledgeWarningsMessage'] = _ACKNOWLEDGEWARNINGSMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AcknowledgeWarningsMessage = _reflection.GeneratedProtocolMessageType('AcknowledgeWarningsMessage', (_message.Message,), dict(
   DESCRIPTOR = _ACKNOWLEDGEWARNINGSMESSAGE,

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/platform_metric_data.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n4pogoprotos/data/telemetry/platform_metric_data.proto\x12\x19pogoprotos.data.telemetry\"\x9b\x0b\n\x12PlatformMetricData\x12W\n\x10\x63ommon_telemetry\x18\x01 \x01(\x0b\x32=.pogoprotos.data.telemetry.PlatformMetricData.TelemetryCommon\x12\x14\n\nlong_value\x18\x02 \x01(\x03H\x00\x12\x16\n\x0c\x64ouble_value\x18\x03 \x01(\x01H\x00\x12\x17\n\rboolean_value\x18\x04 \x01(\x08H\x00\x12R\n\x0c\x64istribution\x18\x05 \x01(\x0b\x32:.pogoprotos.data.telemetry.PlatformMetricData.DistributionH\x00\x12G\n\x0bmetric_kind\x18\x06 \x01(\x0e\x32\x32.pogoprotos.data.telemetry.PlatformMetricData.Kind\x1ao\n\x0fTelemetryCommon\x12\x11\n\ttimestamp\x18\x01 \x01(\x03\x12\x1a\n\x12\x63orrelation_vector\x18\x02 \x01(\t\x12\x10\n\x08\x65vent_id\x18\x03 \x01(\t\x12\x1b\n\x13\x63lient_timestamp_ms\x18\x04 \x01(\x03\x1a\x85\x07\n\x0c\x44istribution\x12\r\n\x05\x63ount\x18\x01 \x01(\x03\x12\x0c\n\x04mean\x18\x02 \x01(\x02\x12 \n\x18sum_of_squared_deviation\x18\x03 \x01(\x01\x12O\n\x05range\x18\x04 \x01(\x0b\x32@.pogoprotos.data.telemetry.PlatformMetricData.Distribution.Range\x12`\n\x0e\x62ucket_options\x18\x05 \x01(\x0b\x32H.pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions\x12\x15\n\rbucket_counts\x18\x06 \x03(\x03\x1a\xc8\x04\n\rBucketOptions\x12p\n\x0elinear_buckets\x18\x01 \x01(\x0b\x32V.pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.LinearBucketsH\x00\x12z\n\x13\x65xponential_buckets\x18\x02 \x01(\x0b\x32[.pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.ExponentialBucketsH\x00\x12t\n\x10\x65xplicit_buckets\x18\x03 \x01(\x0b\x32X.pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.ExplicitBucketsH\x00\x1a!\n\x0f\x45xplicitBuckets\x12\x0e\n\x06\x62ounds\x18\x01 \x03(\x03\x1aV\n\x12\x45xponentialBuckets\x12\x1a\n\x12num_finite_buckets\x18\x01 \x01(\x03\x12\x15\n\rgrowth_factor\x18\x02 \x01(\x02\x12\r\n\x05scale\x18\x03 \x01(\x02\x1aJ\n\rLinearBuckets\x12\x1a\n\x12num_finite_buckets\x18\x01 \x01(\x03\x12\r\n\x05width\x18\x02 \x01(\x03\x12\x0e\n\x06offset\x18\x03 \x01(\x03\x42\x0c\n\nBucketType\x1a!\n\x05Range\x12\x0b\n\x03min\x18\x01 \x01(\x03\x12\x0b\n\x03max\x18\x02 \x01(\x03\"=\n\x04Kind\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\t\n\x05GAUGE\x10\x01\x12\t\n\x05\x44\x45LTA\x10\x02\x12\x0e\n\nCUMULATIVE\x10\x03\x42\x10\n\x0e\x44\x61tapointValueb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,23 +32,23 @@ _PLATFORMMETRICDATA_KIND = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSPECIFIED', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GAUGE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='DELTA', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='CUMULATIVE', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=1440,
   serialized_end=1501,
 )
@@ -69,35 +68,35 @@ _PLATFORMMETRICDATA_TELEMETRYCOMMON = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='correlation_vector', full_name='pogoprotos.data.telemetry.PlatformMetricData.TelemetryCommon.correlation_vector', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='event_id', full_name='pogoprotos.data.telemetry.PlatformMetricData.TelemetryCommon.event_id', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='client_timestamp_ms', full_name='pogoprotos.data.telemetry.PlatformMetricData.TelemetryCommon.client_timestamp_ms', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -120,14 +119,14 @@ _PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS_EXPLICITBUCKETS = _descriptor.Des
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -150,28 +149,28 @@ _PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS_EXPONENTIALBUCKETS = _descriptor.
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='growth_factor', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.ExponentialBuckets.growth_factor', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='scale', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.ExponentialBuckets.scale', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -194,28 +193,28 @@ _PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS_LINEARBUCKETS = _descriptor.Descr
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='width', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.LinearBuckets.width', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='offset', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.LinearBuckets.offset', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -238,28 +237,28 @@ _PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='exponential_buckets', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.exponential_buckets', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='explicit_buckets', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.BucketOptions.explicit_buckets', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS_EXPLICITBUCKETS, _PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS_EXPONENTIALBUCKETS, _PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS_LINEARBUCKETS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -285,21 +284,21 @@ _PLATFORMMETRICDATA_DISTRIBUTION_RANGE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='max', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.Range.max', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -322,49 +321,49 @@ _PLATFORMMETRICDATA_DISTRIBUTION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='mean', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.mean', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='sum_of_squared_deviation', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.sum_of_squared_deviation', index=2,
       number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='range', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.range', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='bucket_options', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.bucket_options', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='bucket_counts', full_name='pogoprotos.data.telemetry.PlatformMetricData.Distribution.bucket_counts', index=5,
       number=6, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_PLATFORMMETRICDATA_DISTRIBUTION_BUCKETOPTIONS, _PLATFORMMETRICDATA_DISTRIBUTION_RANGE, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -387,42 +386,42 @@ _PLATFORMMETRICDATA = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='long_value', full_name='pogoprotos.data.telemetry.PlatformMetricData.long_value', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='double_value', full_name='pogoprotos.data.telemetry.PlatformMetricData.double_value', index=2,
       number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='boolean_value', full_name='pogoprotos.data.telemetry.PlatformMetricData.boolean_value', index=3,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='distribution', full_name='pogoprotos.data.telemetry.PlatformMetricData.distribution', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='metric_kind', full_name='pogoprotos.data.telemetry.PlatformMetricData.metric_kind', index=5,
       number=6, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -430,7 +429,7 @@ _PLATFORMMETRICDATA = _descriptor.Descriptor(
   enum_types=[
     _PLATFORMMETRICDATA_KIND,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -481,6 +480,7 @@ _PLATFORMMETRICDATA.oneofs_by_name['DatapointValue'].fields.append(
   _PLATFORMMETRICDATA.fields_by_name['distribution'])
 _PLATFORMMETRICDATA.fields_by_name['distribution'].containing_oneof = _PLATFORMMETRICDATA.oneofs_by_name['DatapointValue']
 DESCRIPTOR.message_types_by_name['PlatformMetricData'] = _PLATFORMMETRICDATA
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PlatformMetricData = _reflection.GeneratedProtocolMessageType('PlatformMetricData', (_message.Message,), dict(
 

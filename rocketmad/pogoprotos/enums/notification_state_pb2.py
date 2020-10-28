@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/notification_state.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n)pogoprotos/enums/notification_state.proto\x12\x10pogoprotos.enums*0\n\x11NotificationState\x12\x0f\n\x0bUNSET_STATE\x10\x00\x12\n\n\x06VIEWED\x10\x01\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _NOTIFICATIONSTATE = _descriptor.EnumDescriptor(
   name='NotificationState',
@@ -32,15 +31,15 @@ _NOTIFICATIONSTATE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET_STATE', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='VIEWED', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=63,
   serialized_end=111,
 )
@@ -52,6 +51,7 @@ VIEWED = 1
 
 
 DESCRIPTOR.enum_types_by_name['NotificationState'] = _NOTIFICATIONSTATE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

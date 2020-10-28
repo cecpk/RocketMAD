@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/quests/catch_pokemon_quest.proto',
   package='pogoprotos.data.quests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n0pogoprotos/data/quests/catch_pokemon_quest.proto\x12\x16pogoprotos.data.quests\x1a!pogoprotos/enums/pokemon_id.proto\"K\n\x11\x43\x61tchPokemonQuest\x12\x36\n\x11unique_pokemon_id\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonIdb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _CATCHPOKEMONQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _CATCHPOKEMONQUEST = _descriptor.Descriptor(
 
 _CATCHPOKEMONQUEST.fields_by_name['unique_pokemon_id'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
 DESCRIPTOR.message_types_by_name['CatchPokemonQuest'] = _CATCHPOKEMONQUEST
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CatchPokemonQuest = _reflection.GeneratedProtocolMessageType('CatchPokemonQuest', (_message.Message,), dict(
   DESCRIPTOR = _CATCHPOKEMONQUEST,

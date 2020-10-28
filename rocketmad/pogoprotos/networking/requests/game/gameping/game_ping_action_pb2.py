@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gameping/game_ping_action.proto',
   package='pogoprotos.networking.requests.game.gameping',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nCpogoprotos/networking/requests/game/gameping/game_ping_action.proto\x12,pogoprotos.networking.requests.game.gameping*c\n\x0eGamePingAction\x12\x1c\n\x18UNKNOWN_GAME_PING_ACTION\x10\x00\x12\n\n\x04PING\x10\xe0\xb6\r\x12\x10\n\nPING_ASYNC\x10\xe1\xb6\r\x12\x15\n\x0fPING_DOWNSTREAM\x10\xe2\xb6\rb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMEPINGACTION = _descriptor.EnumDescriptor(
   name='GamePingAction',
@@ -32,23 +31,23 @@ _GAMEPINGACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_PING_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PING', index=1, number=220000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PING_ASYNC', index=2, number=220001,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PING_DOWNSTREAM', index=3, number=220002,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=117,
   serialized_end=216,
 )
@@ -62,6 +61,7 @@ PING_DOWNSTREAM = 220002
 
 
 DESCRIPTOR.enum_types_by_name['GamePingAction'] = _GAMEPINGACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

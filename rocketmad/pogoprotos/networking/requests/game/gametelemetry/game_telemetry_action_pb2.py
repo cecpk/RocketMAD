@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gametelemetry/game_telemetry_action.proto',
   package='pogoprotos.networking.requests.game.gametelemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nMpogoprotos/networking/requests/game/gametelemetry/game_telemetry_action.proto\x12\x31pogoprotos.networking.requests.game.gametelemetry*}\n\x13GameTelemetryAction\x12!\n\x1dUNKNOWN_GAME_TELEMETRY_ACTION\x10\x00\x12\x1e\n\x18\x43OLLECT_CLIENT_TELEMETRY\x10\xd0\x9d%\x12#\n\x1dGET_CLIENT_TELEMETRY_SETTINGS\x10\xd1\x9d%b\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMETELEMETRYACTION = _descriptor.EnumDescriptor(
   name='GameTelemetryAction',
@@ -32,19 +31,19 @@ _GAMETELEMETRYACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_TELEMETRY_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='COLLECT_CLIENT_TELEMETRY', index=1, number=610000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_CLIENT_TELEMETRY_SETTINGS', index=2, number=610001,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=132,
   serialized_end=257,
 )
@@ -57,6 +56,7 @@ GET_CLIENT_TELEMETRY_SETTINGS = 610001
 
 
 DESCRIPTOR.enum_types_by_name['GameTelemetryAction'] = _GAMETELEMETRYACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

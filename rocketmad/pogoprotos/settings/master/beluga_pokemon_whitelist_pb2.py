@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -22,10 +21,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/beluga_pokemon_whitelist.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n9pogoprotos/settings/master/beluga_pokemon_whitelist.proto\x12\x1apogoprotos.settings.master\x1a\x1epogoprotos/enums/costume.proto\x1a\x1bpogoprotos/enums/form.proto\x1a!pogoprotos/enums/pokemon_id.proto\"\xe9\x01\n\x16\x42\x65lugaPokemonWhitelist\x12*\n\"max_allowed_pokemon_pokedex_number\x18\x01 \x01(\x05\x12?\n\x1a\x61\x64\x64itional_pokemon_allowed\x18\x02 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12-\n\rforms_allowed\x18\x03 \x03(\x0e\x32\x16.pogoprotos.enums.Form\x12\x33\n\x10\x63ostumes_allowed\x18\x04 \x03(\x0e\x32\x19.pogoprotos.enums.Costumeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_costume__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -43,35 +42,35 @@ _BELUGAPOKEMONWHITELIST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='additional_pokemon_allowed', full_name='pogoprotos.settings.master.BelugaPokemonWhitelist.additional_pokemon_allowed', index=1,
       number=2, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='forms_allowed', full_name='pogoprotos.settings.master.BelugaPokemonWhitelist.forms_allowed', index=2,
       number=3, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='costumes_allowed', full_name='pogoprotos.settings.master.BelugaPokemonWhitelist.costumes_allowed', index=3,
       number=4, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -85,6 +84,7 @@ _BELUGAPOKEMONWHITELIST.fields_by_name['additional_pokemon_allowed'].enum_type =
 _BELUGAPOKEMONWHITELIST.fields_by_name['forms_allowed'].enum_type = pogoprotos_dot_enums_dot_form__pb2._FORM
 _BELUGAPOKEMONWHITELIST.fields_by_name['costumes_allowed'].enum_type = pogoprotos_dot_enums_dot_costume__pb2._COSTUME
 DESCRIPTOR.message_types_by_name['BelugaPokemonWhitelist'] = _BELUGAPOKEMONWHITELIST
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BelugaPokemonWhitelist = _reflection.GeneratedProtocolMessageType('BelugaPokemonWhitelist', (_message.Message,), dict(
   DESCRIPTOR = _BELUGAPOKEMONWHITELIST,

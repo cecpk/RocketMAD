@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/logs/buddy_consumables_log_entry.proto',
   package='pogoprotos.data.logs',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n6pogoprotos/data/logs/buddy_consumables_log_entry.proto\x12\x14pogoprotos.data.logs\x1a\x1fpogoprotos/inventory/loot.proto\"G\n\x18\x42uddyConsumablesLogEntry\x12+\n\x07rewards\x18\x01 \x01(\x0b\x32\x1a.pogoprotos.inventory.Lootb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_loot__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _BUDDYCONSUMABLESLOGENTRY = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _BUDDYCONSUMABLESLOGENTRY = _descriptor.Descriptor(
 
 _BUDDYCONSUMABLESLOGENTRY.fields_by_name['rewards'].message_type = pogoprotos_dot_inventory_dot_loot__pb2._LOOT
 DESCRIPTOR.message_types_by_name['BuddyConsumablesLogEntry'] = _BUDDYCONSUMABLESLOGENTRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BuddyConsumablesLogEntry = _reflection.GeneratedProtocolMessageType('BuddyConsumablesLogEntry', (_message.Message,), dict(
   DESCRIPTOR = _BUDDYCONSUMABLESLOGENTRY,

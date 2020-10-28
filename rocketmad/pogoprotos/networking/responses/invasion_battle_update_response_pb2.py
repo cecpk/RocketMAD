@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -21,10 +20,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/invasion_battle_update_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nEpogoprotos/networking/responses/invasion_battle_update_response.proto\x12\x1fpogoprotos.networking.responses\x1a)pogoprotos/map/fort/invasion_status.proto\x1a\x1fpogoprotos/inventory/loot.proto\"\xa6\x01\n\x1cInvasionBattleUpdateResponse\x12:\n\x06status\x18\x01 \x01(\x0e\x32*.pogoprotos.map.fort.InvasionStatus.Status\x12+\n\x07rewards\x18\x02 \x01(\x0b\x32\x1a.pogoprotos.inventory.Loot\x12\x1d\n\x15map_fragment_upgraded\x18\x03 \x01(\x08\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_fort_dot_invasion__status__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_loot__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -42,28 +41,28 @@ _INVASIONBATTLEUPDATERESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='rewards', full_name='pogoprotos.networking.responses.InvasionBattleUpdateResponse.rewards', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='map_fragment_upgraded', full_name='pogoprotos.networking.responses.InvasionBattleUpdateResponse.map_fragment_upgraded', index=2,
       number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -76,6 +75,7 @@ _INVASIONBATTLEUPDATERESPONSE = _descriptor.Descriptor(
 _INVASIONBATTLEUPDATERESPONSE.fields_by_name['status'].enum_type = pogoprotos_dot_map_dot_fort_dot_invasion__status__pb2._INVASIONSTATUS_STATUS
 _INVASIONBATTLEUPDATERESPONSE.fields_by_name['rewards'].message_type = pogoprotos_dot_inventory_dot_loot__pb2._LOOT
 DESCRIPTOR.message_types_by_name['InvasionBattleUpdateResponse'] = _INVASIONBATTLEUPDATERESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InvasionBattleUpdateResponse = _reflection.GeneratedProtocolMessageType('InvasionBattleUpdateResponse', (_message.Message,), dict(
   DESCRIPTOR = _INVASIONBATTLEUPDATERESPONSE,

@@ -85,6 +85,7 @@ function getPokemonIds() {
         pokemonIds.add(862)
         pokemonIds.add(863)
         pokemonIds.add(865)
+        pokemonIds.add(867)
     }
     return new Set(pokemonIds)
 }

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/award_free_raid_ticket_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nEpogoprotos/networking/responses/award_free_raid_ticket_response.proto\x12\x1fpogoprotos.networking.responses\"\x8e\x02\n\x1b\x41wardFreeRaidTicketResponse\x12S\n\x06result\x18\x01 \x01(\x0e\x32\x43.pogoprotos.networking.responses.AwardFreeRaidTicketResponse.Result\"\x99\x01\n\x06Result\x12\x11\n\rNO_RESULT_SET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12(\n$ERROR_PLAYER_DOES_NOT_MEET_MIN_LEVEL\x10\x02\x12&\n\"ERROR_DAILY_TICKET_ALREADY_AWARDED\x10\x03\x12\x1d\n\x19\x45RROR_PLAYER_OUT_OF_RANGE\x10\x04\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,27 +32,27 @@ _AWARDFREERAIDTICKETRESPONSE_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='NO_RESULT_SET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_DOES_NOT_MEET_MIN_LEVEL', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_DAILY_TICKET_ALREADY_AWARDED', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_OUT_OF_RANGE', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=224,
   serialized_end=377,
 )
@@ -73,7 +72,7 @@ _AWARDFREERAIDTICKETRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -81,7 +80,7 @@ _AWARDFREERAIDTICKETRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _AWARDFREERAIDTICKETRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -94,6 +93,7 @@ _AWARDFREERAIDTICKETRESPONSE = _descriptor.Descriptor(
 _AWARDFREERAIDTICKETRESPONSE.fields_by_name['result'].enum_type = _AWARDFREERAIDTICKETRESPONSE_RESULT
 _AWARDFREERAIDTICKETRESPONSE_RESULT.containing_type = _AWARDFREERAIDTICKETRESPONSE
 DESCRIPTOR.message_types_by_name['AwardFreeRaidTicketResponse'] = _AWARDFREERAIDTICKETRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AwardFreeRaidTicketResponse = _reflection.GeneratedProtocolMessageType('AwardFreeRaidTicketResponse', (_message.Message,), dict(
   DESCRIPTOR = _AWARDFREERAIDTICKETRESPONSE,

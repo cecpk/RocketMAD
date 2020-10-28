@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/check_encounter_tray_info_telemetry.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nCpogoprotos/data/telemetry/check_encounter_tray_info_telemetry.proto\x12\x19pogoprotos.data.telemetry\"R\n\x1f\x43heckEncounterTrayInfoTelemetry\x12\x17\n\x0f\x62\x65rry_tray_info\x18\x01 \x01(\x08\x12\x16\n\x0e\x62\x61ll_tray_info\x18\x02 \x01(\x08\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _CHECKENCOUNTERTRAYINFOTELEMETRY = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ball_tray_info', full_name='pogoprotos.data.telemetry.CheckEncounterTrayInfoTelemetry.ball_tray_info', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -64,6 +63,7 @@ _CHECKENCOUNTERTRAYINFOTELEMETRY = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['CheckEncounterTrayInfoTelemetry'] = _CHECKENCOUNTERTRAYINFOTELEMETRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CheckEncounterTrayInfoTelemetry = _reflection.GeneratedProtocolMessageType('CheckEncounterTrayInfoTelemetry', (_message.Message,), dict(
   DESCRIPTOR = _CHECKENCOUNTERTRAYINFOTELEMETRY,

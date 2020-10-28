@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/ex_raid_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n1pogoprotos/settings/master/ex_raid_settings.proto\x12\x1apogoprotos.settings.master\x1a\x31pogoprotos/enums/friendship_level_milestone.proto\"a\n\x0e\x45xRaidSettings\x12O\n\x1bminimum_ex_raid_share_level\x18\x01 \x01(\x0e\x32*.pogoprotos.enums.FriendshipLevelMilestoneb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_friendship__level__milestone__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _EXRAIDSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _EXRAIDSETTINGS = _descriptor.Descriptor(
 
 _EXRAIDSETTINGS.fields_by_name['minimum_ex_raid_share_level'].enum_type = pogoprotos_dot_enums_dot_friendship__level__milestone__pb2._FRIENDSHIPLEVELMILESTONE
 DESCRIPTOR.message_types_by_name['ExRaidSettings'] = _EXRAIDSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 ExRaidSettings = _reflection.GeneratedProtocolMessageType('ExRaidSettings', (_message.Message,), dict(
   DESCRIPTOR = _EXRAIDSETTINGS,

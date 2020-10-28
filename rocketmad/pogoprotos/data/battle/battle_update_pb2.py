@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -22,10 +21,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/battle/battle_update.proto',
   package='pogoprotos.data.battle',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n*pogoprotos/data/battle/battle_update.proto\x12\x16pogoprotos.data.battle\x1a\'pogoprotos/data/battle/battle_log.proto\x1a\x30pogoprotos/data/battle/battle_pokemon_info.proto\x1a\x31pogoprotos/enums/friendship_level_milestone.proto\"\xb2\x02\n\x0c\x42\x61ttleUpdate\x12\x35\n\nbattle_log\x18\x01 \x01(\x0b\x32!.pogoprotos.data.battle.BattleLog\x12\x11\n\tbattle_id\x18\x02 \x01(\t\x12\x42\n\x0f\x61\x63tive_defender\x18\x03 \x01(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12\x42\n\x0f\x61\x63tive_attacker\x18\x04 \x01(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12P\n\x1chighest_friendship_milestone\x18\x05 \x01(\x0e\x32*.pogoprotos.enums.FriendshipLevelMilestoneb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_battle_dot_battle__log__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_battle_dot_battle__pokemon__info__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_friendship__level__milestone__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -43,42 +42,42 @@ _BATTLEUPDATE = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='battle_id', full_name='pogoprotos.data.battle.BattleUpdate.battle_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active_defender', full_name='pogoprotos.data.battle.BattleUpdate.active_defender', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active_attacker', full_name='pogoprotos.data.battle.BattleUpdate.active_attacker', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='highest_friendship_milestone', full_name='pogoprotos.data.battle.BattleUpdate.highest_friendship_milestone', index=4,
       number=5, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -93,6 +92,7 @@ _BATTLEUPDATE.fields_by_name['active_defender'].message_type = pogoprotos_dot_da
 _BATTLEUPDATE.fields_by_name['active_attacker'].message_type = pogoprotos_dot_data_dot_battle_dot_battle__pokemon__info__pb2._BATTLEPOKEMONINFO
 _BATTLEUPDATE.fields_by_name['highest_friendship_milestone'].enum_type = pogoprotos_dot_enums_dot_friendship__level__milestone__pb2._FRIENDSHIPLEVELMILESTONE
 DESCRIPTOR.message_types_by_name['BattleUpdate'] = _BATTLEUPDATE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BattleUpdate = _reflection.GeneratedProtocolMessageType('BattleUpdate', (_message.Message,), dict(
   DESCRIPTOR = _BATTLEUPDATE,

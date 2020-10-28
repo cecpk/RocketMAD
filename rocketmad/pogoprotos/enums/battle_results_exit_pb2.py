@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/battle_results_exit.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n*pogoprotos/enums/battle_results_exit.proto\x12\x10pogoprotos.enums*I\n\x11\x42\x61ttleResultsExit\x12\r\n\tLEAVE_GYM\x10\x00\x12\x10\n\x0cLEAVE_BATTLE\x10\x01\x12\x13\n\x0f\x43ONTINUE_BATTLE\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _BATTLERESULTSEXIT = _descriptor.EnumDescriptor(
   name='BattleResultsExit',
@@ -32,19 +31,19 @@ _BATTLERESULTSEXIT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='LEAVE_GYM', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='LEAVE_BATTLE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='CONTINUE_BATTLE', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=64,
   serialized_end=137,
 )
@@ -57,6 +56,7 @@ CONTINUE_BATTLE = 2
 
 
 DESCRIPTOR.enum_types_by_name['BattleResultsExit'] = _BATTLERESULTSEXIT
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

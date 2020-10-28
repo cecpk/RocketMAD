@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamepushnotification/game_push_notification_action.proto',
   package='pogoprotos.networking.requests.game.gamepushnotification',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n\\pogoprotos/networking/requests/game/gamepushnotification/game_push_notification_action.proto\x12\x38pogoprotos.networking.requests.game.gamepushnotification*\xb7\x01\n\x1aGamePushNotificationAction\x12)\n%UNKNOWN_GAME_PUSH_NOTIFICATION_ACTION\x10\x00\x12 \n\x1aREGISTER_PUSH_NOTIFICATION\x10\x80\xc4\x13\x12\"\n\x1cUNREGISTER_PUSH_NOTIFICATION\x10\x81\xc4\x13\x12(\n\"OPT_OUT_PUSH_NOTIFICATION_CATEGORY\x10\x82\xc4\x13\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMEPUSHNOTIFICATIONACTION = _descriptor.EnumDescriptor(
   name='GamePushNotificationAction',
@@ -32,23 +31,23 @@ _GAMEPUSHNOTIFICATIONACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_PUSH_NOTIFICATION_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REGISTER_PUSH_NOTIFICATION', index=1, number=320000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UNREGISTER_PUSH_NOTIFICATION', index=2, number=320001,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='OPT_OUT_PUSH_NOTIFICATION_CATEGORY', index=3, number=320002,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=155,
   serialized_end=338,
 )
@@ -62,6 +61,7 @@ OPT_OUT_PUSH_NOTIFICATION_CATEGORY = 320002
 
 
 DESCRIPTOR.enum_types_by_name['GamePushNotificationAction'] = _GAMEPUSHNOTIFICATIONACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/combat/player_combat_stats.proto',
   package='pogoprotos.data.combat',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n0pogoprotos/data/combat/player_combat_stats.proto\x12\x16pogoprotos.data.combat\"\x86\x02\n\x11PlayerCombatStats\x12\x43\n\x05\x62\x61\x64ge\x18\x01 \x03(\x0b\x32\x34.pogoprotos.data.combat.PlayerCombatStats.BadgeEntry\x1an\n\nBadgeEntry\x12\x0b\n\x03key\x18\x01 \x01(\x05\x12O\n\x05value\x18\x02 \x01(\x0b\x32@.pogoprotos.data.combat.PlayerCombatStats.PlayerCombatBadgeStats:\x02\x38\x01\x1a<\n\x16PlayerCombatBadgeStats\x12\x0f\n\x07num_won\x18\x01 \x01(\x05\x12\x11\n\tnum_total\x18\x02 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _PLAYERCOMBATSTATS_BADGEENTRY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='value', full_name='pogoprotos.data.combat.PlayerCombatStats.BadgeEntry.value', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  serialized_options=_b('8\001'),
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -76,21 +75,21 @@ _PLAYERCOMBATSTATS_PLAYERCOMBATBADGESTATS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='num_total', full_name='pogoprotos.data.combat.PlayerCombatStats.PlayerCombatBadgeStats.num_total', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -113,14 +112,14 @@ _PLAYERCOMBATSTATS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_PLAYERCOMBATSTATS_BADGEENTRY, _PLAYERCOMBATSTATS_PLAYERCOMBATBADGESTATS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -135,6 +134,7 @@ _PLAYERCOMBATSTATS_BADGEENTRY.containing_type = _PLAYERCOMBATSTATS
 _PLAYERCOMBATSTATS_PLAYERCOMBATBADGESTATS.containing_type = _PLAYERCOMBATSTATS
 _PLAYERCOMBATSTATS.fields_by_name['badge'].message_type = _PLAYERCOMBATSTATS_BADGEENTRY
 DESCRIPTOR.message_types_by_name['PlayerCombatStats'] = _PLAYERCOMBATSTATS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PlayerCombatStats = _reflection.GeneratedProtocolMessageType('PlayerCombatStats', (_message.Message,), dict(
 
@@ -160,6 +160,5 @@ _sym_db.RegisterMessage(PlayerCombatStats.BadgeEntry)
 _sym_db.RegisterMessage(PlayerCombatStats.PlayerCombatBadgeStats)
 
 
-_PLAYERCOMBATSTATS_BADGEENTRY.has_options = True
-_PLAYERCOMBATSTATS_BADGEENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_PLAYERCOMBATSTATS_BADGEENTRY._options = None
 # @@protoc_insertion_point(module_scope)

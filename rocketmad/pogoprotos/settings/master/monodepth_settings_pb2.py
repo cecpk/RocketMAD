@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/monodepth_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n3pogoprotos/settings/master/monodepth_settings.proto\x12\x1apogoprotos.settings.master\"p\n\x11MonodepthSettings\x12\x19\n\x11\x65nable_occlusions\x18\x01 \x01(\x08\x12\x1d\n\x15occlusions_default_on\x18\x02 \x01(\x08\x12!\n\x19occlusions_toggle_visible\x18\x03 \x01(\x08\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,28 +38,28 @@ _MONODEPTHSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='occlusions_default_on', full_name='pogoprotos.settings.master.MonodepthSettings.occlusions_default_on', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='occlusions_toggle_visible', full_name='pogoprotos.settings.master.MonodepthSettings.occlusions_toggle_visible', index=2,
       number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -71,6 +70,7 @@ _MONODEPTHSETTINGS = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['MonodepthSettings'] = _MONODEPTHSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 MonodepthSettings = _reflection.GeneratedProtocolMessageType('MonodepthSettings', (_message.Message,), dict(
   DESCRIPTOR = _MONODEPTHSETTINGS,

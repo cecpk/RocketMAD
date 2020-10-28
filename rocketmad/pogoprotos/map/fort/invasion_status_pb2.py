@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/map/fort/invasion_status.proto',
   package='pogoprotos.map.fort',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n)pogoprotos/map/fort/invasion_status.proto\x12\x13pogoprotos.map.fort\"\xa7\x03\n\x0eInvasionStatus\"\x94\x03\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\t\n\x05\x45RROR\x10\x02\x12\x18\n\x14\x45RROR_FORT_NOT_FOUND\x10\x03\x12\x1c\n\x18\x45RROR_INCIDENT_NOT_FOUND\x10\x04\x12 \n\x1c\x45RROR_STEP_ALREADY_COMPLETED\x10\x05\x12\x14\n\x10\x45RROR_WRONG_STEP\x10\x06\x12 \n\x1c\x45RROR_PLAYER_BELOW_MIN_LEVEL\x10\x07\x12\x1a\n\x16\x45RROR_INCIDENT_EXPIRED\x10\x08\x12!\n\x1d\x45RROR_MISSING_INCIDENT_TICKET\x10\t\x12*\n&ERROR_ENCOUNTER_POKEMON_INVENTORY_FULL\x10\n\x12#\n\x1f\x45RROR_PLAYER_BELOW_V2_MIN_LEVEL\x10\x0b\x12 \n\x1c\x45RROR_INVALID_HEALTH_UPDATES\x10\x14\x12#\n\x1f\x45RROR_ATTACKING_POKEMON_INVALID\x10\x1e\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,63 +32,63 @@ _INVASIONSTATUS_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_FORT_NOT_FOUND', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INCIDENT_NOT_FOUND', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_STEP_ALREADY_COMPLETED', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_WRONG_STEP', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_BELOW_MIN_LEVEL', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INCIDENT_EXPIRED', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_MISSING_INCIDENT_TICKET', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_ENCOUNTER_POKEMON_INVENTORY_FULL', index=10, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_BELOW_V2_MIN_LEVEL', index=11, number=11,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INVALID_HEALTH_UPDATES', index=12, number=20,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_ATTACKING_POKEMON_INVALID', index=13, number=30,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=86,
   serialized_end=490,
 )
@@ -110,7 +109,7 @@ _INVASIONSTATUS = _descriptor.Descriptor(
   enum_types=[
     _INVASIONSTATUS_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -122,6 +121,7 @@ _INVASIONSTATUS = _descriptor.Descriptor(
 
 _INVASIONSTATUS_STATUS.containing_type = _INVASIONSTATUS
 DESCRIPTOR.message_types_by_name['InvasionStatus'] = _INVASIONSTATUS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InvasionStatus = _reflection.GeneratedProtocolMessageType('InvasionStatus', (_message.Message,), dict(
   DESCRIPTOR = _INVASIONSTATUS,

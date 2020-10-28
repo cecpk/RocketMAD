@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/beluga/beluga_incense_box.proto',
   package='pogoprotos.data.beluga',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n/pogoprotos/data/beluga/beluga_incense_box.proto\x12\x16pogoprotos.data.beluga\"N\n\x10\x42\x65lugaIncenseBox\x12\x11\n\tis_usable\x18\x01 \x01(\x08\x12\'\n\x1f\x63ool_down_finished_timestamp_ms\x18\x02 \x01(\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _BELUGAINCENSEBOX = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='cool_down_finished_timestamp_ms', full_name='pogoprotos.data.beluga.BelugaIncenseBox.cool_down_finished_timestamp_ms', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -64,6 +63,7 @@ _BELUGAINCENSEBOX = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['BelugaIncenseBox'] = _BELUGAINCENSEBOX
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BelugaIncenseBox = _reflection.GeneratedProtocolMessageType('BelugaIncenseBox', (_message.Message,), dict(
   DESCRIPTOR = _BELUGAINCENSEBOX,

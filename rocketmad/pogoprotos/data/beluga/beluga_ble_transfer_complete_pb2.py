@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/beluga/beluga_ble_transfer_complete.proto',
   package='pogoprotos.data.beluga',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n9pogoprotos/data/beluga/beluga_ble_transfer_complete.proto\x12\x16pogoprotos.data.beluga\"=\n\x19\x42\x65lugaBleTransferComplete\x12\r\n\x05nonce\x18\x01 \x01(\t\x12\x11\n\tbeluga_id\x18\x02 \x01(\tb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _BELUGABLETRANSFERCOMPLETE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='beluga_id', full_name='pogoprotos.data.beluga.BelugaBleTransferComplete.beluga_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -64,6 +63,7 @@ _BELUGABLETRANSFERCOMPLETE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['BelugaBleTransferComplete'] = _BELUGABLETRANSFERCOMPLETE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BelugaBleTransferComplete = _reflection.GeneratedProtocolMessageType('BelugaBleTransferComplete', (_message.Message,), dict(
   DESCRIPTOR = _BELUGABLETRANSFERCOMPLETE,

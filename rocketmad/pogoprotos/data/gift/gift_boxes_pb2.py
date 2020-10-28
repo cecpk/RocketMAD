@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/gift/gift_boxes.proto',
   package='pogoprotos.data.gift',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n%pogoprotos/data/gift/gift_boxes.proto\x12\x14pogoprotos.data.gift\x1a#pogoprotos/data/gift/gift_box.proto\"9\n\tGiftBoxes\x12,\n\x05gifts\x18\x01 \x03(\x0b\x32\x1d.pogoprotos.data.gift.GiftBoxb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_gift_dot_gift__box__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _GIFTBOXES = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _GIFTBOXES = _descriptor.Descriptor(
 
 _GIFTBOXES.fields_by_name['gifts'].message_type = pogoprotos_dot_data_dot_gift_dot_gift__box__pb2._GIFTBOX
 DESCRIPTOR.message_types_by_name['GiftBoxes'] = _GIFTBOXES
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GiftBoxes = _reflection.GeneratedProtocolMessageType('GiftBoxes', (_message.Message,), dict(
   DESCRIPTOR = _GIFTBOXES,

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -21,10 +20,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/invasion_open_combat_session_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nKpogoprotos/networking/responses/invasion_open_combat_session_response.proto\x12\x1fpogoprotos.networking.responses\x1a)pogoprotos/map/fort/invasion_status.proto\x1a#pogoprotos/data/combat/combat.proto\"\x8f\x01\n!InvasionOpenCombatSessionResponse\x12:\n\x06status\x18\x01 \x01(\x0e\x32*.pogoprotos.map.fort.InvasionStatus.Status\x12.\n\x06\x63ombat\x18\x02 \x01(\x0b\x32\x1e.pogoprotos.data.combat.Combatb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_fort_dot_invasion__status__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_combat__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -42,21 +41,21 @@ _INVASIONOPENCOMBATSESSIONRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='combat', full_name='pogoprotos.networking.responses.InvasionOpenCombatSessionResponse.combat', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -69,6 +68,7 @@ _INVASIONOPENCOMBATSESSIONRESPONSE = _descriptor.Descriptor(
 _INVASIONOPENCOMBATSESSIONRESPONSE.fields_by_name['status'].enum_type = pogoprotos_dot_map_dot_fort_dot_invasion__status__pb2._INVASIONSTATUS_STATUS
 _INVASIONOPENCOMBATSESSIONRESPONSE.fields_by_name['combat'].message_type = pogoprotos_dot_data_dot_combat_dot_combat__pb2._COMBAT
 DESCRIPTOR.message_types_by_name['InvasionOpenCombatSessionResponse'] = _INVASIONOPENCOMBATSESSIONRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InvasionOpenCombatSessionResponse = _reflection.GeneratedProtocolMessageType('InvasionOpenCombatSessionResponse', (_message.Message,), dict(
   DESCRIPTOR = _INVASIONOPENCOMBATSESSIONRESPONSE,

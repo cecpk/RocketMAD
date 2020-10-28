@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/get_fitness_report_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nApogoprotos/networking/responses/get_fitness_report_response.proto\x12\x1fpogoprotos.networking.responses\"\xa3\x01\n\x18GetFitnessReportResponse\"\x86\x01\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x1a\n\x16\x45RROR_PLAYER_NOT_FOUND\x10\x02\x12\x1b\n\x17\x45RROR_RECORDS_NOT_FOUND\x10\x03\x12\x18\n\x14\x45RROR_INVALID_WINDOW\x10\x04\x12\x11\n\rERROR_UNKNOWN\x10\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,31 +32,31 @@ _GETFITNESSREPORTRESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_NOT_FOUND', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_RECORDS_NOT_FOUND', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INVALID_WINDOW', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_UNKNOWN', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=132,
   serialized_end=266,
 )
@@ -78,7 +77,7 @@ _GETFITNESSREPORTRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _GETFITNESSREPORTRESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -90,6 +89,7 @@ _GETFITNESSREPORTRESPONSE = _descriptor.Descriptor(
 
 _GETFITNESSREPORTRESPONSE_STATUS.containing_type = _GETFITNESSREPORTRESPONSE
 DESCRIPTOR.message_types_by_name['GetFitnessReportResponse'] = _GETFITNESSREPORTRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetFitnessReportResponse = _reflection.GeneratedProtocolMessageType('GetFitnessReportResponse', (_message.Message,), dict(
   DESCRIPTOR = _GETFITNESSREPORTRESPONSE,

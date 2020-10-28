@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -22,10 +21,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/get_timed_group_challenge_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nHpogoprotos/networking/responses/get_timed_group_challenge_response.proto\x12\x1fpogoprotos.networking.responses\x1a!pogoprotos/enums/quest_type.proto\x1a\'pogoprotos/data/quests/quest_goal.proto\x1a=pogoprotos/networking/responses/get_today_view_response.proto\"\xc5\x08\n\x1eGetTimedGroupChallengeResponse\x12V\n\x06status\x18\x01 \x01(\x0e\x32\x46.pogoprotos.networking.responses.GetTimedGroupChallengeResponse.Status\x12{\n\x14\x63hallenge_definition\x18\x02 \x01(\x0b\x32].pogoprotos.networking.responses.GetTimedGroupChallengeResponse.TimedGroupChallengeDefinition\x12\x15\n\rcurrent_score\x18\x03 \x01(\x05\x12\x14\n\x0cplayer_score\x18\x04 \x01(\x05\x12\x18\n\x10\x61\x63tive_city_hash\x18\x05 \x01(\t\x12,\n$active_city_localization_key_changes\x18\x06 \x03(\t\x1a\xd1\x02\n\x1dTimedGroupChallengeDefinition\x12\x14\n\x0c\x63hallenge_id\x18\x01 \x01(\t\x12\x66\n\x07\x64isplay\x18\x02 \x01(\x0b\x32U.pogoprotos.networking.responses.GetTimedGroupChallengeResponse.GroupChallengeDisplay\x12\x1f\n\x17start_time_ms_inclusive\x18\x03 \x01(\x03\x12\x1d\n\x15\x65nd_time_ms_exclusive\x18\x04 \x01(\x03\x12r\n\x12\x63hallenge_criteria\x18\x05 \x01(\x0b\x32V.pogoprotos.networking.responses.GetTimedGroupChallengeResponse.GroupChallengeCriteria\x1a\x88\x01\n\x16GroupChallengeCriteria\x12\x33\n\x0e\x63hallenge_type\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.QuestType\x12\x39\n\x0e\x63hallenge_goal\x18\x02 \x01(\x0b\x32!.pogoprotos.data.quests.QuestGoal\x1a\xa5\x01\n\x15GroupChallengeDisplay\x12\r\n\x05title\x18\x01 \x01(\t\x12}\n\rboost_rewards\x18\x02 \x03(\x0b\x32\x66.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventSection.BonusBox\"R\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x12\x1d\n\x19\x45RROR_CHALLENGE_NOT_FOUND\x10\x03\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_quest__type__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__goal__pb2.DESCRIPTOR,pogoprotos_dot_networking_dot_responses_dot_get__today__view__response__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -37,23 +36,23 @@ _GETTIMEDGROUPCHALLENGERESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_UNKNOWN', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_CHALLENGE_NOT_FOUND', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=1260,
   serialized_end=1342,
 )
@@ -73,42 +72,42 @@ _GETTIMEDGROUPCHALLENGERESPONSE_TIMEDGROUPCHALLENGEDEFINITION = _descriptor.Desc
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='display', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.TimedGroupChallengeDefinition.display', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='start_time_ms_inclusive', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.TimedGroupChallengeDefinition.start_time_ms_inclusive', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='end_time_ms_exclusive', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.TimedGroupChallengeDefinition.end_time_ms_exclusive', index=3,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='challenge_criteria', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.TimedGroupChallengeDefinition.challenge_criteria', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -131,21 +130,21 @@ _GETTIMEDGROUPCHALLENGERESPONSE_GROUPCHALLENGECRITERIA = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='challenge_goal', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.GroupChallengeCriteria.challenge_goal', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -168,21 +167,21 @@ _GETTIMEDGROUPCHALLENGERESPONSE_GROUPCHALLENGEDISPLAY = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='boost_rewards', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.GroupChallengeDisplay.boost_rewards', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -205,42 +204,42 @@ _GETTIMEDGROUPCHALLENGERESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='challenge_definition', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.challenge_definition', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='current_score', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.current_score', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='player_score', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.player_score', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active_city_hash', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.active_city_hash', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active_city_localization_key_changes', full_name='pogoprotos.networking.responses.GetTimedGroupChallengeResponse.active_city_localization_key_changes', index=5,
       number=6, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -248,7 +247,7 @@ _GETTIMEDGROUPCHALLENGERESPONSE = _descriptor.Descriptor(
   enum_types=[
     _GETTIMEDGROUPCHALLENGERESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -270,6 +269,7 @@ _GETTIMEDGROUPCHALLENGERESPONSE.fields_by_name['status'].enum_type = _GETTIMEDGR
 _GETTIMEDGROUPCHALLENGERESPONSE.fields_by_name['challenge_definition'].message_type = _GETTIMEDGROUPCHALLENGERESPONSE_TIMEDGROUPCHALLENGEDEFINITION
 _GETTIMEDGROUPCHALLENGERESPONSE_STATUS.containing_type = _GETTIMEDGROUPCHALLENGERESPONSE
 DESCRIPTOR.message_types_by_name['GetTimedGroupChallengeResponse'] = _GETTIMEDGROUPCHALLENGERESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetTimedGroupChallengeResponse = _reflection.GeneratedProtocolMessageType('GetTimedGroupChallengeResponse', (_message.Message,), dict(
 

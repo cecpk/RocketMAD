@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -21,10 +20,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/complete_combat_competitive_season_action_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nXpogoprotos/networking/responses/complete_combat_competitive_season_action_response.proto\x12\x1fpogoprotos.networking.responses\x1a\x1fpogoprotos/inventory/loot.proto\x1a\x31pogoprotos/data/combat/combat_season_result.proto\"\xb9\x03\n-CompleteCombatCompetitiveSeasonActionResponse\x12\x65\n\x06result\x18\x01 \x01(\x0e\x32U.pogoprotos.networking.responses.CompleteCombatCompetitiveSeasonActionResponse.Result\x12.\n\nloot_proto\x18\x02 \x01(\x0b\x32\x1a.pogoprotos.inventory.Loot\x12\x10\n\x08new_rank\x18\x03 \x01(\x05\x12\x12\n\nnew_rating\x18\x04 \x01(\x02\x12\x46\n\x12last_season_result\x18\x05 \x01(\x0b\x32*.pogoprotos.data.combat.CombatSeasonResult\x12\x19\n\x11was_player_active\x18\x06 \x01(\x08\"h\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12!\n\x1d\x45RROR_PLAYER_HAS_NO_VS_SEEKER\x10\x02\x12#\n\x1f\x45RROR_REWARDS_ALREADY_COLLECTED\x10\x03\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_loot__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_combat__season__result__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -36,23 +35,23 @@ _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE_RESULT = _descriptor.EnumDescript
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_HAS_NO_VS_SEEKER', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_REWARDS_ALREADY_COLLECTED', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=547,
   serialized_end=651,
 )
@@ -72,42 +71,42 @@ _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='loot_proto', full_name='pogoprotos.networking.responses.CompleteCombatCompetitiveSeasonActionResponse.loot_proto', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='new_rank', full_name='pogoprotos.networking.responses.CompleteCombatCompetitiveSeasonActionResponse.new_rank', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='new_rating', full_name='pogoprotos.networking.responses.CompleteCombatCompetitiveSeasonActionResponse.new_rating', index=3,
       number=4, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='last_season_result', full_name='pogoprotos.networking.responses.CompleteCombatCompetitiveSeasonActionResponse.last_season_result', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='was_player_active', full_name='pogoprotos.networking.responses.CompleteCombatCompetitiveSeasonActionResponse.was_player_active', index=5,
       number=6, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -115,7 +114,7 @@ _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -130,6 +129,7 @@ _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE.fields_by_name['loot_proto'].mess
 _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE.fields_by_name['last_season_result'].message_type = pogoprotos_dot_data_dot_combat_dot_combat__season__result__pb2._COMBATSEASONRESULT
 _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE_RESULT.containing_type = _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE
 DESCRIPTOR.message_types_by_name['CompleteCombatCompetitiveSeasonActionResponse'] = _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CompleteCombatCompetitiveSeasonActionResponse = _reflection.GeneratedProtocolMessageType('CompleteCombatCompetitiveSeasonActionResponse', (_message.Message,), dict(
   DESCRIPTOR = _COMPLETECOMBATCOMPETITIVESEASONACTIONRESPONSE,

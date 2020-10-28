@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/platypus_rollout_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n:pogoprotos/settings/master/platypus_rollout_settings.proto\x12\x1apogoprotos.settings.master\x1a\x31pogoprotos/settings/master/wallaby_settings.proto\"\xc9\x01\n\x17PlatypusRolloutSettings\x12!\n\x19\x62uddy_v2_min_player_level\x18\x01 \x01(\x05\x12*\n\"buddy_multiplayer_min_player_level\x18\x02 \x01(\x05\x12\x18\n\x10\x65nable_monodepth\x18\x03 \x01(\x08\x12\x45\n\x10wallaby_settings\x18\x04 \x01(\x0b\x32+.pogoprotos.settings.master.WallabySettingsb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_settings_dot_master_dot_wallaby__settings__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,35 +40,35 @@ _PLATYPUSROLLOUTSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='buddy_multiplayer_min_player_level', full_name='pogoprotos.settings.master.PlatypusRolloutSettings.buddy_multiplayer_min_player_level', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='enable_monodepth', full_name='pogoprotos.settings.master.PlatypusRolloutSettings.enable_monodepth', index=2,
       number=3, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='wallaby_settings', full_name='pogoprotos.settings.master.PlatypusRolloutSettings.wallaby_settings', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -81,6 +80,7 @@ _PLATYPUSROLLOUTSETTINGS = _descriptor.Descriptor(
 
 _PLATYPUSROLLOUTSETTINGS.fields_by_name['wallaby_settings'].message_type = pogoprotos_dot_settings_dot_master_dot_wallaby__settings__pb2._WALLABYSETTINGS
 DESCRIPTOR.message_types_by_name['PlatypusRolloutSettings'] = _PLATYPUSROLLOUTSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PlatypusRolloutSettings = _reflection.GeneratedProtocolMessageType('PlatypusRolloutSettings', (_message.Message,), dict(
   DESCRIPTOR = _PLATYPUSROLLOUTSETTINGS,

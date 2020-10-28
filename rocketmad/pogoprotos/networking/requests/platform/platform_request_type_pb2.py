@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/platform/platform_request_type.proto',
   package='pogoprotos.networking.requests.platform',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nCpogoprotos/networking/requests/platform/platform_request_type.proto\x12\'pogoprotos.networking.requests.platform*\x99\x0b\n\x13PlatformRequestType\x12\"\n\x1eUNKNOWN_PLATFORM_CLIENT_ACTION\x10\x00\x12\x1f\n\x1aREGISTER_PUSH_NOTIFICATION\x10\x88\'\x12!\n\x1cUNREGISTER_PUSH_NOTIFICATION\x10\x89\'\x12\x1f\n\x1aUPDATE_NOTIFICATION_STATUS\x10\x8a\'\x12\'\n\"OPT_OUT_PUSH_NOTIFICATION_CATEGORY\x10\x8b\'\x12#\n\x1e\x44OWNLOAD_GAME_MASTER_TEMPLATES\x10\x8c\'\x12\x12\n\rGET_INVENTORY\x10\x8d\'\x12\x14\n\x0fREDEEM_PASSCODE\x10\x8e\'\x12\t\n\x04PING\x10\x8f\'\x12\x15\n\x10\x41\x44\x44_LOGIN_ACTION\x10\x90\'\x12\x18\n\x13REMOVE_LOGIN_ACTION\x10\x91\'\x12\x16\n\x11LIST_LOGIN_ACTION\x10\x92\'\x12\x10\n\x0b\x41\x44\x44_NEW_POI\x10\x93\'\x12\x18\n\x13PROXY_SOCIAL_ACTION\x10\x94\'\x12 \n\x1b\x44\x45PRECATED_CLIENT_TELEMETRY\x10\x95\'\x12\x1e\n\x19GET_AVAILABLE_SUBMISSIONS\x10\x96\'\x12$\n\x1fGET_SIGNED_URL_FOR_PHOTO_UPLOAD\x10\x97\'\x12\x19\n\x14REPLACE_LOGIN_ACTION\x10\x98\'\x12%\n PROXY_SOCIAL_SIDE_CHANNEL_ACTION\x10\x99\'\x12\x1d\n\x18\x43OLLECT_CLIENT_TELEMETRY\x10\x9a\'\x12\x11\n\x0cPURCHASE_SKU\x10\x9b\'\x12$\n\x1fGET_AVAILABLE_SKUS_AND_BALANCES\x10\x9c\'\x12\x1a\n\x15REDEEM_GOOGLE_RECEIPT\x10\x9d\'\x12\x19\n\x14REDEEM_APPLE_RECEIPT\x10\x9e\'\x12\x1b\n\x16REDEEM_DESKTOP_RECEIPT\x10\x9f\'\x12\x1b\n\x16UPDATE_FITNESS_METRICS\x10\xa0\'\x12\x17\n\x12GET_FITNESS_REPORT\x10\xa1\'\x12\"\n\x1dGET_CLIENT_TELEMETRY_SETTINGS\x10\xa2\'\x12\x0f\n\nPING_ASYNC\x10\xa3\'\x12 \n\x1bREGISTER_BACKGROUND_SERVICE\x10\xa4\'\x12\x1f\n\x1aGET_CLIENT_BGMODE_SETTINGS\x10\xa5\'\x12\x14\n\x0fPING_DOWNSTREAM\x10\xa6\'\x12\'\n\"SET_IN_GAME_CURRENCY_EXCHANGE_RATE\x10\xa8\'\x12\x1d\n\x18REQUEST_GEOFENCE_UPDATES\x10\xa9\'\x12\x1b\n\x16UPDATE_PLAYER_LOCATION\x10\xaa\'\x12\x1d\n\x18GENERATE_GMAP_SIGNED_URL\x10\xab\'\x12\x16\n\x11GET_GMAP_SETTINGS\x10\xac\'\x12\x1b\n\x16REDEEM_SAMSUNG_RECEIPT\x10\xad\'\x12\x12\n\rADD_NEW_ROUTE\x10\xae\'\x12\x1d\n\x18GET_OUTSTANDING_WARNINGS\x10\xaf\'\x12\x19\n\x14\x41\x43KNOWLEDGE_WARNINGS\x10\xb0\'\x12\x15\n\x10SUBMIT_POI_IMAGE\x10\xb1\'\x12$\n\x1fSUBMIT_POI_TEXT_METADATA_UPDATE\x10\xb2\'\x12\x1f\n\x1aSUBMIT_POI_LOCATION_UPDATE\x10\xb3\'\x12 \n\x1bSUBMIT_POI_TAKEDOWN_REQUEST\x10\xb4\'\x12\x19\n\x14GET_WEB_TOKEN_ACTION\x10\xb5\'\x12 \n\x1bGET_ADVENTURE_SYNC_SETTINGS\x10\xb6\'\x12#\n\x1eUPDATE_ADVENTURE_SYNC_SETTINGS\x10\xb7\'b\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _PLATFORMREQUESTTYPE = _descriptor.EnumDescriptor(
   name='PlatformRequestType',
@@ -32,199 +31,199 @@ _PLATFORMREQUESTTYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_PLATFORM_CLIENT_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REGISTER_PUSH_NOTIFICATION', index=1, number=5000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UNREGISTER_PUSH_NOTIFICATION', index=2, number=5001,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UPDATE_NOTIFICATION_STATUS', index=3, number=5002,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='OPT_OUT_PUSH_NOTIFICATION_CATEGORY', index=4, number=5003,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='DOWNLOAD_GAME_MASTER_TEMPLATES', index=5, number=5004,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_INVENTORY', index=6, number=5005,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REDEEM_PASSCODE', index=7, number=5006,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PING', index=8, number=5007,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ADD_LOGIN_ACTION', index=9, number=5008,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REMOVE_LOGIN_ACTION', index=10, number=5009,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='LIST_LOGIN_ACTION', index=11, number=5010,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ADD_NEW_POI', index=12, number=5011,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PROXY_SOCIAL_ACTION', index=13, number=5012,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='DEPRECATED_CLIENT_TELEMETRY', index=14, number=5013,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_AVAILABLE_SUBMISSIONS', index=15, number=5014,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_SIGNED_URL_FOR_PHOTO_UPLOAD', index=16, number=5015,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REPLACE_LOGIN_ACTION', index=17, number=5016,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PROXY_SOCIAL_SIDE_CHANNEL_ACTION', index=18, number=5017,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='COLLECT_CLIENT_TELEMETRY', index=19, number=5018,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PURCHASE_SKU', index=20, number=5019,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_AVAILABLE_SKUS_AND_BALANCES', index=21, number=5020,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REDEEM_GOOGLE_RECEIPT', index=22, number=5021,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REDEEM_APPLE_RECEIPT', index=23, number=5022,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REDEEM_DESKTOP_RECEIPT', index=24, number=5023,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UPDATE_FITNESS_METRICS', index=25, number=5024,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_FITNESS_REPORT', index=26, number=5025,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_CLIENT_TELEMETRY_SETTINGS', index=27, number=5026,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PING_ASYNC', index=28, number=5027,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REGISTER_BACKGROUND_SERVICE', index=29, number=5028,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_CLIENT_BGMODE_SETTINGS', index=30, number=5029,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PING_DOWNSTREAM', index=31, number=5030,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SET_IN_GAME_CURRENCY_EXCHANGE_RATE', index=32, number=5032,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REQUEST_GEOFENCE_UPDATES', index=33, number=5033,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UPDATE_PLAYER_LOCATION', index=34, number=5034,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GENERATE_GMAP_SIGNED_URL', index=35, number=5035,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_GMAP_SETTINGS', index=36, number=5036,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REDEEM_SAMSUNG_RECEIPT', index=37, number=5037,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ADD_NEW_ROUTE', index=38, number=5038,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_OUTSTANDING_WARNINGS', index=39, number=5039,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACKNOWLEDGE_WARNINGS', index=40, number=5040,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_IMAGE', index=41, number=5041,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_TEXT_METADATA_UPDATE', index=42, number=5042,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_LOCATION_UPDATE', index=43, number=5043,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBMIT_POI_TAKEDOWN_REQUEST', index=44, number=5044,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_WEB_TOKEN_ACTION', index=45, number=5045,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_ADVENTURE_SYNC_SETTINGS', index=46, number=5046,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UPDATE_ADVENTURE_SYNC_SETTINGS', index=47, number=5047,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=113,
   serialized_end=1546,
 )
@@ -282,6 +281,7 @@ UPDATE_ADVENTURE_SYNC_SETTINGS = 5047
 
 
 DESCRIPTOR.enum_types_by_name['PlatformRequestType'] = _PLATFORMREQUESTTYPE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

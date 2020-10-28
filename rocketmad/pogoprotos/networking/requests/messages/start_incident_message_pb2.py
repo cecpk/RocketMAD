@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/messages/start_incident_message.proto',
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nDpogoprotos/networking/requests/messages/start_incident_message.proto\x12\'pogoprotos.networking.requests.messages\x1a)pogoprotos/map/fort/incident_lookup.proto\"T\n\x14StartIncidentMessage\x12<\n\x0fincident_lookup\x18\x01 \x01(\x0b\x32#.pogoprotos.map.fort.IncidentLookupb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_fort_dot_incident__lookup__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _STARTINCIDENTMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -60,6 +59,7 @@ _STARTINCIDENTMESSAGE = _descriptor.Descriptor(
 
 _STARTINCIDENTMESSAGE.fields_by_name['incident_lookup'].message_type = pogoprotos_dot_map_dot_fort_dot_incident__lookup__pb2._INCIDENTLOOKUP
 DESCRIPTOR.message_types_by_name['StartIncidentMessage'] = _STARTINCIDENTMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 StartIncidentMessage = _reflection.GeneratedProtocolMessageType('StartIncidentMessage', (_message.Message,), dict(
   DESCRIPTOR = _STARTINCIDENTMESSAGE,

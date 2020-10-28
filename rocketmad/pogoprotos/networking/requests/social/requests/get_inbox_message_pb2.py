@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/social/requests/get_inbox_message.proto',
   package='pogoprotos.networking.requests.social.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nFpogoprotos/networking/requests/social/requests/get_inbox_message.proto\x12.pogoprotos.networking.requests.social.requests\"P\n\x0fGetInboxMessage\x12\x12\n\nis_history\x18\x01 \x01(\x08\x12\x12\n\nis_reverse\x18\x02 \x01(\x08\x12\x15\n\rnot_before_ms\x18\x03 \x01(\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,28 +38,28 @@ _GETINBOXMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='is_reverse', full_name='pogoprotos.networking.requests.social.requests.GetInboxMessage.is_reverse', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='not_before_ms', full_name='pogoprotos.networking.requests.social.requests.GetInboxMessage.not_before_ms', index=2,
       number=3, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -71,6 +70,7 @@ _GETINBOXMESSAGE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['GetInboxMessage'] = _GETINBOXMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetInboxMessage = _reflection.GeneratedProtocolMessageType('GetInboxMessage', (_message.Message,), dict(
   DESCRIPTOR = _GETINBOXMESSAGE,

@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamenotification/game_notification_action.proto',
   package='pogoprotos.networking.requests.game.gamenotification',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nSpogoprotos/networking/requests/game/gamenotification/game_notification_action.proto\x12\x34pogoprotos.networking.requests.game.gamenotification*`\n\x16GameNotificationAction\x12$\n UNKNOWN_GAME_NOTIFICATION_ACTION\x10\x00\x12 \n\x1aUPDATE_NOTIFICATION_STATUS\x10\xb0\xae\x15\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMENOTIFICATIONACTION = _descriptor.EnumDescriptor(
   name='GameNotificationAction',
@@ -32,15 +31,15 @@ _GAMENOTIFICATIONACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_NOTIFICATION_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='UPDATE_NOTIFICATION_STATUS', index=1, number=350000,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=141,
   serialized_end=237,
 )
@@ -52,6 +51,7 @@ UPDATE_NOTIFICATION_STATUS = 350000
 
 
 DESCRIPTOR.enum_types_by_name['GameNotificationAction'] = _GAMENOTIFICATIONACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/game/gamepasscode/responses/redeem_passcode_response.proto',
   package='pogoprotos.networking.responses.game.gamepasscode.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nZpogoprotos/networking/responses/game/gamepasscode/responses/redeem_passcode_response.proto\x12;pogoprotos.networking.responses.game.gamepasscode.responses\"\xc7\x01\n\x16RedeemPasscodeResponse\x12j\n\x06status\x18\x01 \x01(\x0e\x32Z.pogoprotos.networking.responses.game.gamepasscode.responses.RedeemPasscodeResponse.Status\x12\x0e\n\x06qrcode\x18\x04 \x01(\t\"1\n\x06Status\x12\r\n\tUNDEFINED\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x0b\n\x07INVALID\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,19 +32,19 @@ _REDEEMPASSCODERESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNDEFINED', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INVALID', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=306,
   serialized_end=355,
 )
@@ -65,14 +64,14 @@ _REDEEMPASSCODERESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='qrcode', full_name='pogoprotos.networking.responses.game.gamepasscode.responses.RedeemPasscodeResponse.qrcode', index=1,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -80,7 +79,7 @@ _REDEEMPASSCODERESPONSE = _descriptor.Descriptor(
   enum_types=[
     _REDEEMPASSCODERESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -93,6 +92,7 @@ _REDEEMPASSCODERESPONSE = _descriptor.Descriptor(
 _REDEEMPASSCODERESPONSE.fields_by_name['status'].enum_type = _REDEEMPASSCODERESPONSE_STATUS
 _REDEEMPASSCODERESPONSE_STATUS.containing_type = _REDEEMPASSCODERESPONSE
 DESCRIPTOR.message_types_by_name['RedeemPasscodeResponse'] = _REDEEMPASSCODERESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 RedeemPasscodeResponse = _reflection.GeneratedProtocolMessageType('RedeemPasscodeResponse', (_message.Message,), dict(
   DESCRIPTOR = _REDEEMPASSCODERESPONSE,

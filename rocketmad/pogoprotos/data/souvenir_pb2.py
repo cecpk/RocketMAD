@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/souvenir.proto',
   package='pogoprotos.data',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n\x1epogoprotos/data/souvenir.proto\x12\x0fpogoprotos.data\x1a\'pogoprotos/enums/souvenir_type_id.proto\"\xdc\x01\n\x08Souvenir\x12:\n\x10souvenir_type_id\x18\x01 \x01(\x0e\x32 .pogoprotos.enums.SouvenirTypeId\x12\x44\n\x11souvenirs_details\x18\x02 \x03(\x0b\x32).pogoprotos.data.Souvenir.SouvenirDetails\x1aN\n\x0fSouvenirDetails\x12\x16\n\x0etime_picked_up\x18\x01 \x01(\x03\x12\x10\n\x08latitude\x18\x03 \x01(\x01\x12\x11\n\tlongitude\x18\x04 \x01(\x01\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_souvenir__type__id__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,28 +40,28 @@ _SOUVENIR_SOUVENIRDETAILS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='latitude', full_name='pogoprotos.data.Souvenir.SouvenirDetails.latitude', index=1,
       number=3, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='longitude', full_name='pogoprotos.data.Souvenir.SouvenirDetails.longitude', index=2,
       number=4, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -85,21 +84,21 @@ _SOUVENIR = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='souvenirs_details', full_name='pogoprotos.data.Souvenir.souvenirs_details', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_SOUVENIR_SOUVENIRDETAILS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -113,6 +112,7 @@ _SOUVENIR_SOUVENIRDETAILS.containing_type = _SOUVENIR
 _SOUVENIR.fields_by_name['souvenir_type_id'].enum_type = pogoprotos_dot_enums_dot_souvenir__type__id__pb2._SOUVENIRTYPEID
 _SOUVENIR.fields_by_name['souvenirs_details'].message_type = _SOUVENIR_SOUVENIRDETAILS
 DESCRIPTOR.message_types_by_name['Souvenir'] = _SOUVENIR
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Souvenir = _reflection.GeneratedProtocolMessageType('Souvenir', (_message.Message,), dict(
 

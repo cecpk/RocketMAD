@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/activity_type.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n$pogoprotos/enums/activity_type.proto\x12\x10pogoprotos.enums*\xd5\x0e\n\x0c\x41\x63tivityType\x12\x14\n\x10\x41\x43TIVITY_UNKNOWN\x10\x00\x12\x1a\n\x16\x41\x43TIVITY_CATCH_POKEMON\x10\x01\x12!\n\x1d\x41\x43TIVITY_CATCH_LEGEND_POKEMON\x10\x02\x12\x19\n\x15\x41\x43TIVITY_FLEE_POKEMON\x10\x03\x12\x18\n\x14\x41\x43TIVITY_DEFEAT_FORT\x10\x04\x12\x1b\n\x17\x41\x43TIVITY_EVOLVE_POKEMON\x10\x05\x12\x16\n\x12\x41\x43TIVITY_HATCH_EGG\x10\x06\x12\x14\n\x10\x41\x43TIVITY_WALK_KM\x10\x07\x12\x1e\n\x1a\x41\x43TIVITY_POKEDEX_ENTRY_NEW\x10\x08\x12\x1e\n\x1a\x41\x43TIVITY_CATCH_FIRST_THROW\x10\t\x12\x1d\n\x19\x41\x43TIVITY_CATCH_NICE_THROW\x10\n\x12\x1e\n\x1a\x41\x43TIVITY_CATCH_GREAT_THROW\x10\x0b\x12\"\n\x1e\x41\x43TIVITY_CATCH_EXCELLENT_THROW\x10\x0c\x12\x1c\n\x18\x41\x43TIVITY_CATCH_CURVEBALL\x10\r\x12%\n!ACTIVITY_CATCH_FIRST_CATCH_OF_DAY\x10\x0e\x12\x1c\n\x18\x41\x43TIVITY_CATCH_MILESTONE\x10\x0f\x12\x1a\n\x16\x41\x43TIVITY_TRAIN_POKEMON\x10\x10\x12\x18\n\x14\x41\x43TIVITY_SEARCH_FORT\x10\x11\x12\x1c\n\x18\x41\x43TIVITY_RELEASE_POKEMON\x10\x12\x12\"\n\x1e\x41\x43TIVITY_HATCH_EGG_SMALL_BONUS\x10\x13\x12#\n\x1f\x41\x43TIVITY_HATCH_EGG_MEDIUM_BONUS\x10\x14\x12\"\n\x1e\x41\x43TIVITY_HATCH_EGG_LARGE_BONUS\x10\x15\x12 \n\x1c\x41\x43TIVITY_DEFEAT_GYM_DEFENDER\x10\x16\x12\x1e\n\x1a\x41\x43TIVITY_DEFEAT_GYM_LEADER\x10\x17\x12+\n\'ACTIVITY_CATCH_FIRST_CATCH_STREAK_BONUS\x10\x18\x12)\n%ACTIVITY_SEARCH_FORT_FIRST_OF_THE_DAY\x10\x19\x12%\n!ACTIVITY_SEARCH_FORT_STREAK_BONUS\x10\x1a\x12 \n\x1c\x41\x43TIVITY_DEFEAT_RAID_POKEMON\x10\x1b\x12\x17\n\x13\x41\x43TIVITY_FEED_BERRY\x10\x1c\x12\x17\n\x13\x41\x43TIVITY_SEARCH_GYM\x10\x1d\x12\x19\n\x15\x41\x43TIVITY_NEW_POKESTOP\x10\x1e\x12\x1c\n\x18\x41\x43TIVITY_GYM_BATTLE_LOSS\x10\x1f\x12 \n\x1c\x41\x43TIVITY_CATCH_AR_PLUS_BONUS\x10 \x12*\n&ACTIVITY_CATCH_QUEST_POKEMON_ENCOUNTER\x10!\x12\"\n\x1e\x41\x43TIVITY_FRIENDSHIP_LEVEL_UP_0\x10#\x12\"\n\x1e\x41\x43TIVITY_FRIENDSHIP_LEVEL_UP_1\x10$\x12\"\n\x1e\x41\x43TIVITY_FRIENDSHIP_LEVEL_UP_2\x10%\x12\"\n\x1e\x41\x43TIVITY_FRIENDSHIP_LEVEL_UP_3\x10&\x12\"\n\x1e\x41\x43TIVITY_FRIENDSHIP_LEVEL_UP_4\x10\'\x12\x16\n\x12\x41\x43TIVITY_SEND_GIFT\x10(\x12\x1f\n\x1b\x41\x43TIVITY_SHARE_EX_RAID_PASS\x10)\x12\'\n#ACTIVITY_RAID_LEVEL_1_ADDITIONAL_XP\x10*\x12\'\n#ACTIVITY_RAID_LEVEL_2_ADDITIONAL_XP\x10+\x12\'\n#ACTIVITY_RAID_LEVEL_3_ADDITIONAL_XP\x10,\x12\'\n#ACTIVITY_RAID_LEVEL_4_ADDITIONAL_XP\x10-\x12\'\n#ACTIVITY_RAID_LEVEL_5_ADDITIONAL_XP\x10.\x12\x1d\n\x19\x41\x43TIVITY_HATCH_EGG_SHADOW\x10/\x12\x1b\n\x17\x41\x43TIVITY_HATCH_EGG_GIFT\x10\x30\x12\'\n#ACTIVITY_REMOTE_DEFEAT_RAID_POKEMON\x10\x31\x12.\n*ACTIVITY_REMOTE_RAID_LEVEL_1_ADDITIONAL_XP\x10\x32\x12.\n*ACTIVITY_REMOTE_RAID_LEVEL_2_ADDITIONAL_XP\x10\x33\x12.\n*ACTIVITY_REMOTE_RAID_LEVEL_3_ADDITIONAL_XP\x10\x34\x12.\n*ACTIVITY_REMOTE_RAID_LEVEL_4_ADDITIONAL_XP\x10\x35\x12.\n*ACTIVITY_REMOTE_RAID_LEVEL_5_ADDITIONAL_XP\x10\x36\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _ACTIVITYTYPE = _descriptor.EnumDescriptor(
   name='ActivityType',
@@ -32,223 +31,223 @@ _ACTIVITYTYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_UNKNOWN', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_POKEMON', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_LEGEND_POKEMON', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_FLEE_POKEMON', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_DEFEAT_FORT', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_EVOLVE_POKEMON', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_HATCH_EGG', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_WALK_KM', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_POKEDEX_ENTRY_NEW', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_FIRST_THROW', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_NICE_THROW', index=10, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_GREAT_THROW', index=11, number=11,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_EXCELLENT_THROW', index=12, number=12,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_CURVEBALL', index=13, number=13,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_FIRST_CATCH_OF_DAY', index=14, number=14,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_MILESTONE', index=15, number=15,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_TRAIN_POKEMON', index=16, number=16,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_SEARCH_FORT', index=17, number=17,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_RELEASE_POKEMON', index=18, number=18,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_HATCH_EGG_SMALL_BONUS', index=19, number=19,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_HATCH_EGG_MEDIUM_BONUS', index=20, number=20,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_HATCH_EGG_LARGE_BONUS', index=21, number=21,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_DEFEAT_GYM_DEFENDER', index=22, number=22,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_DEFEAT_GYM_LEADER', index=23, number=23,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_FIRST_CATCH_STREAK_BONUS', index=24, number=24,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_SEARCH_FORT_FIRST_OF_THE_DAY', index=25, number=25,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_SEARCH_FORT_STREAK_BONUS', index=26, number=26,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_DEFEAT_RAID_POKEMON', index=27, number=27,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_FEED_BERRY', index=28, number=28,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_SEARCH_GYM', index=29, number=29,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_NEW_POKESTOP', index=30, number=30,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_GYM_BATTLE_LOSS', index=31, number=31,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_AR_PLUS_BONUS', index=32, number=32,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_CATCH_QUEST_POKEMON_ENCOUNTER', index=33, number=33,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_FRIENDSHIP_LEVEL_UP_0', index=34, number=35,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_FRIENDSHIP_LEVEL_UP_1', index=35, number=36,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_FRIENDSHIP_LEVEL_UP_2', index=36, number=37,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_FRIENDSHIP_LEVEL_UP_3', index=37, number=38,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_FRIENDSHIP_LEVEL_UP_4', index=38, number=39,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_SEND_GIFT', index=39, number=40,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_SHARE_EX_RAID_PASS', index=40, number=41,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_RAID_LEVEL_1_ADDITIONAL_XP', index=41, number=42,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_RAID_LEVEL_2_ADDITIONAL_XP', index=42, number=43,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_RAID_LEVEL_3_ADDITIONAL_XP', index=43, number=44,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_RAID_LEVEL_4_ADDITIONAL_XP', index=44, number=45,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_RAID_LEVEL_5_ADDITIONAL_XP', index=45, number=46,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_HATCH_EGG_SHADOW', index=46, number=47,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_HATCH_EGG_GIFT', index=47, number=48,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_REMOTE_DEFEAT_RAID_POKEMON', index=48, number=49,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_REMOTE_RAID_LEVEL_1_ADDITIONAL_XP', index=49, number=50,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_REMOTE_RAID_LEVEL_2_ADDITIONAL_XP', index=50, number=51,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_REMOTE_RAID_LEVEL_3_ADDITIONAL_XP', index=51, number=52,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_REMOTE_RAID_LEVEL_4_ADDITIONAL_XP', index=52, number=53,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACTIVITY_REMOTE_RAID_LEVEL_5_ADDITIONAL_XP', index=53, number=54,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=59,
   serialized_end=1936,
 )
@@ -312,6 +311,7 @@ ACTIVITY_REMOTE_RAID_LEVEL_5_ADDITIONAL_XP = 54
 
 
 DESCRIPTOR.enum_types_by_name['ActivityType'] = _ACTIVITYTYPE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

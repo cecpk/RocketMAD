@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/weather_detail_click_telemetry.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n>pogoprotos/data/telemetry/weather_detail_click_telemetry.proto\x12\x19pogoprotos.data.telemetry\"d\n\x1bWeatherDetailClickTelemetry\x12\x1d\n\x15gameplay_weather_type\x18\x01 \x01(\t\x12\x14\n\x0c\x61lert_active\x18\x02 \x01(\x08\x12\x10\n\x08severity\x18\x03 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,28 +38,28 @@ _WEATHERDETAILCLICKTELEMETRY = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='alert_active', full_name='pogoprotos.data.telemetry.WeatherDetailClickTelemetry.alert_active', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='severity', full_name='pogoprotos.data.telemetry.WeatherDetailClickTelemetry.severity', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -71,6 +70,7 @@ _WEATHERDETAILCLICKTELEMETRY = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['WeatherDetailClickTelemetry'] = _WEATHERDETAILCLICKTELEMETRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 WeatherDetailClickTelemetry = _reflection.GeneratedProtocolMessageType('WeatherDetailClickTelemetry', (_message.Message,), dict(
   DESCRIPTOR = _WEATHERDETAILCLICKTELEMETRY,

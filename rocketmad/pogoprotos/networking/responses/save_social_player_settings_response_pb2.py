@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/save_social_player_settings_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nJpogoprotos/networking/responses/save_social_player_settings_response.proto\x12\x1fpogoprotos.networking.responses\"\xb1\x01\n SaveSocialPlayerSettingsResponse\x12X\n\x06result\x18\x01 \x01(\x0e\x32H.pogoprotos.networking.responses.SaveSocialPlayerSettingsResponse.Result\"3\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,19 +32,19 @@ _SAVESOCIALPLAYERSETTINGSRESPONSE_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_UNKNOWN', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=238,
   serialized_end=289,
 )
@@ -65,7 +64,7 @@ _SAVESOCIALPLAYERSETTINGSRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -73,7 +72,7 @@ _SAVESOCIALPLAYERSETTINGSRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _SAVESOCIALPLAYERSETTINGSRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -86,6 +85,7 @@ _SAVESOCIALPLAYERSETTINGSRESPONSE = _descriptor.Descriptor(
 _SAVESOCIALPLAYERSETTINGSRESPONSE.fields_by_name['result'].enum_type = _SAVESOCIALPLAYERSETTINGSRESPONSE_RESULT
 _SAVESOCIALPLAYERSETTINGSRESPONSE_RESULT.containing_type = _SAVESOCIALPLAYERSETTINGSRESPONSE
 DESCRIPTOR.message_types_by_name['SaveSocialPlayerSettingsResponse'] = _SAVESOCIALPLAYERSETTINGSRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SaveSocialPlayerSettingsResponse = _reflection.GeneratedProtocolMessageType('SaveSocialPlayerSettingsResponse', (_message.Message,), dict(
   DESCRIPTOR = _SAVESOCIALPLAYERSETTINGSRESPONSE,

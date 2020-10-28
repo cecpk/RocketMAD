@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/loading_screen.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n/pogoprotos/settings/master/loading_screen.proto\x12\x1apogoprotos.settings.master\"\xcc\x01\n\rLoadingScreen\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\"\n\x1a\x64isplay_after_timestamp_ms\x18\x02 \x01(\x03\x12T\n\x0e\x63olor_settings\x18\x03 \x03(\x0b\x32<.pogoprotos.settings.master.LoadingScreen.ColorSettingsEntry\x1a\x34\n\x12\x43olorSettingsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _LOADINGSCREEN_COLORSETTINGSENTRY = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='value', full_name='pogoprotos.settings.master.LoadingScreen.ColorSettingsEntry.value', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  serialized_options=_b('8\001'),
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -76,28 +75,28 @@ _LOADINGSCREEN = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='display_after_timestamp_ms', full_name='pogoprotos.settings.master.LoadingScreen.display_after_timestamp_ms', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='color_settings', full_name='pogoprotos.settings.master.LoadingScreen.color_settings', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_LOADINGSCREEN_COLORSETTINGSENTRY, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -110,6 +109,7 @@ _LOADINGSCREEN = _descriptor.Descriptor(
 _LOADINGSCREEN_COLORSETTINGSENTRY.containing_type = _LOADINGSCREEN
 _LOADINGSCREEN.fields_by_name['color_settings'].message_type = _LOADINGSCREEN_COLORSETTINGSENTRY
 DESCRIPTOR.message_types_by_name['LoadingScreen'] = _LOADINGSCREEN
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 LoadingScreen = _reflection.GeneratedProtocolMessageType('LoadingScreen', (_message.Message,), dict(
 
@@ -127,6 +127,5 @@ _sym_db.RegisterMessage(LoadingScreen)
 _sym_db.RegisterMessage(LoadingScreen.ColorSettingsEntry)
 
 
-_LOADINGSCREEN_COLORSETTINGSENTRY.has_options = True
-_LOADINGSCREEN_COLORSETTINGSENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_LOADINGSCREEN_COLORSETTINGSENTRY._options = None
 # @@protoc_insertion_point(module_scope)

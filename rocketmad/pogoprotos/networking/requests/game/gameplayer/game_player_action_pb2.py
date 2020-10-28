@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gameplayer/game_player_action.proto',
   package='pogoprotos.networking.requests.game.gameplayer',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nGpogoprotos/networking/requests/game/gameplayer/game_player_action.proto\x12.pogoprotos.networking.requests.game.gameplayer*G\n\x10GamePlayerAction\x12\x1e\n\x1aUNKNOWN_GAME_PLAYER_ACTION\x10\x00\x12\x13\n\rGET_INVENTORY\x10\xe0\x98\x17\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMEPLAYERACTION = _descriptor.EnumDescriptor(
   name='GamePlayerAction',
@@ -32,15 +31,15 @@ _GAMEPLAYERACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_PLAYER_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_INVENTORY', index=1, number=380000,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=123,
   serialized_end=194,
 )
@@ -52,6 +51,7 @@ GET_INVENTORY = 380000
 
 
 DESCRIPTOR.enum_types_by_name['GamePlayerAction'] = _GAMEPLAYERACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

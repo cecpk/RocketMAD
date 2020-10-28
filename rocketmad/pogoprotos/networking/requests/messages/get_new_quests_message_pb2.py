@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/messages/get_new_quests_message.proto',
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nDpogoprotos/networking/requests/messages/get_new_quests_message.proto\x12\'pogoprotos.networking.requests.messages\"\x15\n\x13GetNewQuestsMessageb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,7 +38,7 @@ _GETNEWQUESTSMESSAGE = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -50,6 +49,7 @@ _GETNEWQUESTSMESSAGE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['GetNewQuestsMessage'] = _GETNEWQUESTSMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetNewQuestsMessage = _reflection.GeneratedProtocolMessageType('GetNewQuestsMessage', (_message.Message,), dict(
   DESCRIPTOR = _GETNEWQUESTSMESSAGE,

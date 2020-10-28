@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/ar_toggle_context.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n(pogoprotos/enums/ar_toggle_context.proto\x12\x10pogoprotos.enums* \n\x0f\x41rToggleContext\x12\r\n\tENCOUNTER\x10\x00\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _ARTOGGLECONTEXT = _descriptor.EnumDescriptor(
   name='ArToggleContext',
@@ -32,11 +31,11 @@ _ARTOGGLECONTEXT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='ENCOUNTER', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=62,
   serialized_end=94,
 )
@@ -47,6 +46,7 @@ ENCOUNTER = 0
 
 
 DESCRIPTOR.enum_types_by_name['ArToggleContext'] = _ARTOGGLECONTEXT
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

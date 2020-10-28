@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/send_gift_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n8pogoprotos/networking/responses/send_gift_response.proto\x12\x1fpogoprotos.networking.responses\"\xe8\x02\n\x10SendGiftResponse\x12H\n\x06result\x18\x01 \x01(\x0e\x32\x38.pogoprotos.networking.responses.SendGiftResponse.Result\x12\x12\n\nawarded_xp\x18\x02 \x01(\x05\"\xf5\x01\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x12\x1f\n\x1b\x45RROR_PLAYER_DOES_NOT_EXIST\x10\x03\x12\x1d\n\x19\x45RROR_GIFT_DOES_NOT_EXIST\x10\x04\x12!\n\x1d\x45RROR_GIFT_ALREADY_SENT_TODAY\x10\x05\x12\"\n\x1e\x45RROR_PLAYER_HAS_UNOPENED_GIFT\x10\x06\x12\x17\n\x13\x45RROR_FRIEND_UPDATE\x10\x07\x12 \n\x1c\x45RROR_PLAYER_HAS_NO_STICKERS\x10\x08\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,43 +32,43 @@ _SENDGIFTRESPONSE_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_UNKNOWN', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_DOES_NOT_EXIST', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_GIFT_DOES_NOT_EXIST', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_GIFT_ALREADY_SENT_TODAY', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_HAS_UNOPENED_GIFT', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_FRIEND_UPDATE', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_HAS_NO_STICKERS', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=209,
   serialized_end=454,
 )
@@ -89,14 +88,14 @@ _SENDGIFTRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='awarded_xp', full_name='pogoprotos.networking.responses.SendGiftResponse.awarded_xp', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -104,7 +103,7 @@ _SENDGIFTRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _SENDGIFTRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -117,6 +116,7 @@ _SENDGIFTRESPONSE = _descriptor.Descriptor(
 _SENDGIFTRESPONSE.fields_by_name['result'].enum_type = _SENDGIFTRESPONSE_RESULT
 _SENDGIFTRESPONSE_RESULT.containing_type = _SENDGIFTRESPONSE
 DESCRIPTOR.message_types_by_name['SendGiftResponse'] = _SENDGIFTRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SendGiftResponse = _reflection.GeneratedProtocolMessageType('SendGiftResponse', (_message.Message,), dict(
   DESCRIPTOR = _SENDGIFTRESPONSE,

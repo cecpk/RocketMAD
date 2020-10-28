@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/friends/two_way_shared_friendship_data.proto',
   package='pogoprotos.data.friends',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n<pogoprotos/data/friends/two_way_shared_friendship_data.proto\x12\x17pogoprotos.data.friends\"\xd5\x01\n\x1aTwoWaySharedFriendshipData\x12\x10\n\x08is_lucky\x18\x01 \x01(\x08\x12\x13\n\x0blucky_count\x18\x02 \x01(\x05\x12_\n\x11shared_migrations\x18\x03 \x01(\x0b\x32\x44.pogoprotos.data.friends.TwoWaySharedFriendshipData.SharedMigrations\x1a/\n\x10SharedMigrations\x12\x1b\n\x13is_gifting_migrated\x18\x01 \x01(\x08\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _TWOWAYSHAREDFRIENDSHIPDATA_SHAREDMIGRATIONS = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -69,28 +68,28 @@ _TWOWAYSHAREDFRIENDSHIPDATA = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='lucky_count', full_name='pogoprotos.data.friends.TwoWaySharedFriendshipData.lucky_count', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='shared_migrations', full_name='pogoprotos.data.friends.TwoWaySharedFriendshipData.shared_migrations', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_TWOWAYSHAREDFRIENDSHIPDATA_SHAREDMIGRATIONS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -103,6 +102,7 @@ _TWOWAYSHAREDFRIENDSHIPDATA = _descriptor.Descriptor(
 _TWOWAYSHAREDFRIENDSHIPDATA_SHAREDMIGRATIONS.containing_type = _TWOWAYSHAREDFRIENDSHIPDATA
 _TWOWAYSHAREDFRIENDSHIPDATA.fields_by_name['shared_migrations'].message_type = _TWOWAYSHAREDFRIENDSHIPDATA_SHAREDMIGRATIONS
 DESCRIPTOR.message_types_by_name['TwoWaySharedFriendshipData'] = _TWOWAYSHAREDFRIENDSHIPDATA
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 TwoWaySharedFriendshipData = _reflection.GeneratedProtocolMessageType('TwoWaySharedFriendshipData', (_message.Message,), dict(
 

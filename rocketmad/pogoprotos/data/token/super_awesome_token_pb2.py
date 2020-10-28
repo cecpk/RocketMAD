@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/token/super_awesome_token.proto',
   package='pogoprotos.data.token',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n/pogoprotos/data/token/super_awesome_token.proto\x12\x15pogoprotos.data.token\"\"\n\x11SuperAwesomeToken\x12\r\n\x05token\x18\x01 \x01(\tb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _SUPERAWESOMETOKEN = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -57,6 +56,7 @@ _SUPERAWESOMETOKEN = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['SuperAwesomeToken'] = _SUPERAWESOMETOKEN
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SuperAwesomeToken = _reflection.GeneratedProtocolMessageType('SuperAwesomeToken', (_message.Message,), dict(
   DESCRIPTOR = _SUPERAWESOMETOKEN,

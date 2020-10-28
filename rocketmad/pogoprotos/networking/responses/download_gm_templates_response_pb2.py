@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/download_gm_templates_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nDpogoprotos/networking/responses/download_gm_templates_response.proto\x12\x1fpogoprotos.networking.responses\x1a\x46pogoprotos/networking/responses/download_item_templates_response.proto\"\xcb\x04\n\x1b\x44ownloadGmTemplatesResponse\x12S\n\x06result\x18\x01 \x01(\x0e\x32\x43.pogoprotos.networking.responses.DownloadGmTemplatesResponse.Result\x12g\n\x08template\x18\x02 \x03(\x0b\x32U.pogoprotos.networking.responses.DownloadGmTemplatesResponse.ClientGameMasterTemplate\x12\x18\n\x10\x64\x65leted_template\x18\x03 \x03(\t\x12\x10\n\x08\x62\x61tch_id\x18\x04 \x01(\x04\x12\x13\n\x0bpage_offset\x18\x05 \x01(\x05\x12\x15\n\rexperiment_id\x18\x06 \x03(\x05\x1a\x96\x01\n\x18\x43lientGameMasterTemplate\x12\x13\n\x0btemplate_id\x18\x01 \x01(\t\x12\x65\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32W.pogoprotos.networking.responses.DownloadItemTemplatesResponse.GameMasterClientTemplate\"}\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0c\n\x08\x43OMPLETE\x10\x01\x12\x10\n\x0cMORE_RESULTS\x10\x02\x12\x15\n\x11\x42\x41TCH_ID_NOT_LIVE\x10\x03\x12\x1a\n\x16INVALID_BASIS_BATCH_ID\x10\x04\x12\x15\n\x11WRONG_EXPERIMENTS\x10\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_networking_dot_responses_dot_download__item__templates__response__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,31 +34,31 @@ _DOWNLOADGMTEMPLATESRESPONSE_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='COMPLETE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='MORE_RESULTS', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='BATCH_ID_NOT_LIVE', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INVALID_BASIS_BATCH_ID', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WRONG_EXPERIMENTS', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=640,
   serialized_end=765,
 )
@@ -79,21 +78,21 @@ _DOWNLOADGMTEMPLATESRESPONSE_CLIENTGAMEMASTERTEMPLATE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='data', full_name='pogoprotos.networking.responses.DownloadGmTemplatesResponse.ClientGameMasterTemplate.data', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -116,42 +115,42 @@ _DOWNLOADGMTEMPLATESRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='template', full_name='pogoprotos.networking.responses.DownloadGmTemplatesResponse.template', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='deleted_template', full_name='pogoprotos.networking.responses.DownloadGmTemplatesResponse.deleted_template', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='batch_id', full_name='pogoprotos.networking.responses.DownloadGmTemplatesResponse.batch_id', index=3,
       number=4, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='page_offset', full_name='pogoprotos.networking.responses.DownloadGmTemplatesResponse.page_offset', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='experiment_id', full_name='pogoprotos.networking.responses.DownloadGmTemplatesResponse.experiment_id', index=5,
       number=6, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -159,7 +158,7 @@ _DOWNLOADGMTEMPLATESRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _DOWNLOADGMTEMPLATESRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -175,6 +174,7 @@ _DOWNLOADGMTEMPLATESRESPONSE.fields_by_name['result'].enum_type = _DOWNLOADGMTEM
 _DOWNLOADGMTEMPLATESRESPONSE.fields_by_name['template'].message_type = _DOWNLOADGMTEMPLATESRESPONSE_CLIENTGAMEMASTERTEMPLATE
 _DOWNLOADGMTEMPLATESRESPONSE_RESULT.containing_type = _DOWNLOADGMTEMPLATESRESPONSE
 DESCRIPTOR.message_types_by_name['DownloadGmTemplatesResponse'] = _DOWNLOADGMTEMPLATESRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 DownloadGmTemplatesResponse = _reflection.GeneratedProtocolMessageType('DownloadGmTemplatesResponse', (_message.Message,), dict(
 

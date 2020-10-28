@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/combat/with_pokemon_cp_limit.proto',
   package='pogoprotos.data.combat',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n2pogoprotos/data/combat/with_pokemon_cp_limit.proto\x12\x16pogoprotos.data.combat\"4\n\x12WithPokemonCpLimit\x12\x0e\n\x06min_cp\x18\x01 \x01(\x05\x12\x0e\n\x06max_cp\x18\x02 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _WITHPOKEMONCPLIMIT = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='max_cp', full_name='pogoprotos.data.combat.WithPokemonCpLimit.max_cp', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -64,6 +63,7 @@ _WITHPOKEMONCPLIMIT = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['WithPokemonCpLimit'] = _WITHPOKEMONCPLIMIT
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 WithPokemonCpLimit = _reflection.GeneratedProtocolMessageType('WithPokemonCpLimit', (_message.Message,), dict(
   DESCRIPTOR = _WITHPOKEMONCPLIMIT,

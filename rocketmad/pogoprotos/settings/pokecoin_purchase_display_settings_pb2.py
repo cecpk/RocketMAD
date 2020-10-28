@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/pokecoin_purchase_display_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n<pogoprotos/settings/pokecoin_purchase_display_settings.proto\x12\x13pogoprotos.settings\"\x9c\x01\n\x1fPokecoinPurchaseDisplaySettings\x12\x17\n\x0f\x66\x65\x61ture_enabled\x18\x01 \x01(\x08\x12\x19\n\x11\x65nabled_countries\x18\x02 \x03(\t\x12\x1a\n\x12\x65nabled_currencies\x18\x03 \x03(\t\x12)\n!use_pokecoin_purchase_display_gmt\x18\x04 \x01(\x08\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,35 +38,35 @@ _POKECOINPURCHASEDISPLAYSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='enabled_countries', full_name='pogoprotos.settings.PokecoinPurchaseDisplaySettings.enabled_countries', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='enabled_currencies', full_name='pogoprotos.settings.PokecoinPurchaseDisplaySettings.enabled_currencies', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='use_pokecoin_purchase_display_gmt', full_name='pogoprotos.settings.PokecoinPurchaseDisplaySettings.use_pokecoin_purchase_display_gmt', index=3,
       number=4, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -78,6 +77,7 @@ _POKECOINPURCHASEDISPLAYSETTINGS = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['PokecoinPurchaseDisplaySettings'] = _POKECOINPURCHASEDISPLAYSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PokecoinPurchaseDisplaySettings = _reflection.GeneratedProtocolMessageType('PokecoinPurchaseDisplaySettings', (_message.Message,), dict(
   DESCRIPTOR = _POKECOINPURCHASEDISPLAYSETTINGS,

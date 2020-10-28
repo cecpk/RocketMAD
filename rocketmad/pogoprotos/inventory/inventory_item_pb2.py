@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/inventory/inventory_item.proto',
   package='pogoprotos.inventory',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n)pogoprotos/inventory/inventory_item.proto\x12\x14pogoprotos.inventory\x1a.pogoprotos/inventory/inventory_item_data.proto\"\xf3\x01\n\rInventoryItem\x12\x1d\n\x15modified_timestamp_ms\x18\x01 \x01(\x03\x12G\n\x0c\x64\x65leted_item\x18\x02 \x01(\x0b\x32/.pogoprotos.inventory.InventoryItem.DeletedItemH\x00\x12\x46\n\x13inventory_item_data\x18\x03 \x01(\x0b\x32\'.pogoprotos.inventory.InventoryItemDataH\x00\x1a!\n\x0b\x44\x65letedItem\x12\x12\n\npokemon_id\x18\x01 \x01(\x06\x42\x0f\n\rInventoryItemb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_inventory__item__data__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,14 +40,14 @@ _INVENTORYITEM_DELETEDITEM = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -71,28 +70,28 @@ _INVENTORYITEM = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='deleted_item', full_name='pogoprotos.inventory.InventoryItem.deleted_item', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='inventory_item_data', full_name='pogoprotos.inventory.InventoryItem.inventory_item_data', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_INVENTORYITEM_DELETEDITEM, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -115,6 +114,7 @@ _INVENTORYITEM.oneofs_by_name['InventoryItem'].fields.append(
   _INVENTORYITEM.fields_by_name['inventory_item_data'])
 _INVENTORYITEM.fields_by_name['inventory_item_data'].containing_oneof = _INVENTORYITEM.oneofs_by_name['InventoryItem']
 DESCRIPTOR.message_types_by_name['InventoryItem'] = _INVENTORYITEM
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InventoryItem = _reflection.GeneratedProtocolMessageType('InventoryItem', (_message.Message,), dict(
 

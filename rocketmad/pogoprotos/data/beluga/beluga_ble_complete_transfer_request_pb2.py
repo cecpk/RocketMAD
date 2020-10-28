@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/beluga/beluga_ble_complete_transfer_request.proto',
   package='pogoprotos.data.beluga',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nApogoprotos/data/beluga/beluga_ble_complete_transfer_request.proto\x12\x16pogoprotos.data.beluga\"k\n BelugaBleCompleteTransferRequest\x12\x16\n\x0etransaction_id\x18\x01 \x01(\x03\x12 \n\x18\x62\x65luga_requested_item_id\x18\x02 \x01(\x05\x12\r\n\x05nonce\x18\x03 \x01(\tb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,28 +38,28 @@ _BELUGABLECOMPLETETRANSFERREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='beluga_requested_item_id', full_name='pogoprotos.data.beluga.BelugaBleCompleteTransferRequest.beluga_requested_item_id', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='nonce', full_name='pogoprotos.data.beluga.BelugaBleCompleteTransferRequest.nonce', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -71,6 +70,7 @@ _BELUGABLECOMPLETETRANSFERREQUEST = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['BelugaBleCompleteTransferRequest'] = _BELUGABLECOMPLETETRANSFERREQUEST
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BelugaBleCompleteTransferRequest = _reflection.GeneratedProtocolMessageType('BelugaBleCompleteTransferRequest', (_message.Message,), dict(
   DESCRIPTOR = _BELUGABLECOMPLETETRANSFERREQUEST,

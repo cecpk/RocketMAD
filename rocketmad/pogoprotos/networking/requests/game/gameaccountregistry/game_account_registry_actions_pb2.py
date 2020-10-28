@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gameaccountregistry/game_account_registry_actions.proto',
   package='pogoprotos.networking.requests.game.gameaccountregistry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n[pogoprotos/networking/requests/game/gameaccountregistry/game_account_registry_actions.proto\x12\x37pogoprotos.networking.requests.game.gameaccountregistry*\xae\x01\n\x1aGameAccountRegistryActions\x12(\n$UNKNOWN_GAME_ACCOUNT_REGISTRY_ACTION\x10\x00\x12\x16\n\x10\x41\x44\x44_LOGIN_ACTION\x10\xc0\xcf$\x12\x19\n\x13REMOVE_LOGIN_ACTION\x10\xc1\xcf$\x12\x17\n\x11LIST_LOGIN_ACTION\x10\xc2\xcf$\x12\x1a\n\x14REPLACE_LOGIN_ACTION\x10\xc3\xcf$b\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMEACCOUNTREGISTRYACTIONS = _descriptor.EnumDescriptor(
   name='GameAccountRegistryActions',
@@ -32,27 +31,27 @@ _GAMEACCOUNTREGISTRYACTIONS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_ACCOUNT_REGISTRY_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ADD_LOGIN_ACTION', index=1, number=600000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REMOVE_LOGIN_ACTION', index=2, number=600001,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='LIST_LOGIN_ACTION', index=3, number=600002,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REPLACE_LOGIN_ACTION', index=4, number=600003,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=153,
   serialized_end=327,
 )
@@ -67,6 +66,7 @@ REPLACE_LOGIN_ACTION = 600003
 
 
 DESCRIPTOR.enum_types_by_name['GameAccountRegistryActions'] = _GAMEACCOUNTREGISTRYACTIONS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

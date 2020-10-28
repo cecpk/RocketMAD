@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamepasscode/game_passcode_action.proto',
   package='pogoprotos.networking.requests.game.gamepasscode',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nKpogoprotos/networking/requests/game/gamepasscode/game_passcode_action.proto\x12\x30pogoprotos.networking.requests.game.gamepasscode*M\n\x12GamePasscodeAction\x12 \n\x1cUNKNOWN_GAME_PASSCODE_ACTION\x10\x00\x12\x15\n\x0fREDEEM_PASSCODE\x10\x90\x92\x14\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMEPASSCODEACTION = _descriptor.EnumDescriptor(
   name='GamePasscodeAction',
@@ -32,15 +31,15 @@ _GAMEPASSCODEACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_PASSCODE_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='REDEEM_PASSCODE', index=1, number=330000,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=129,
   serialized_end=206,
 )
@@ -52,6 +51,7 @@ REDEEM_PASSCODE = 330000
 
 
 DESCRIPTOR.enum_types_by_name['GamePasscodeAction'] = _GAMEPASSCODEACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

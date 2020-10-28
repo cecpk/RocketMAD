@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/store/currency_quantity.proto',
   package='pogoprotos.data.store',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n-pogoprotos/data/store/currency_quantity.proto\x12\x15pogoprotos.data.store\";\n\x10\x43urrencyQuantity\x12\x15\n\rcurrency_type\x18\x01 \x01(\t\x12\x10\n\x08quantity\x18\x02 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _CURRENCYQUANTITY = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='quantity', full_name='pogoprotos.data.store.CurrencyQuantity.quantity', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -64,6 +63,7 @@ _CURRENCYQUANTITY = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['CurrencyQuantity'] = _CURRENCYQUANTITY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CurrencyQuantity = _reflection.GeneratedProtocolMessageType('CurrencyQuantity', (_message.Message,), dict(
   DESCRIPTOR = _CURRENCYQUANTITY,

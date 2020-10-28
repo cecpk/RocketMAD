@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/sfida/sfida_metrics_update.proto',
   package='pogoprotos.data.sfida',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n0pogoprotos/data/sfida/sfida_metrics_update.proto\x12\x15pogoprotos.data.sfida\x1a)pogoprotos/data/sfida/sfida_metrics.proto\"\xea\x01\n\x12SfidaMetricsUpdate\x12I\n\x0bupdate_type\x18\x01 \x01(\x0e\x32\x34.pogoprotos.data.sfida.SfidaMetricsUpdate.UpdateType\x12\x14\n\x0ctimestamp_ms\x18\x02 \x01(\x03\x12\x34\n\x07metrics\x18\x03 \x01(\x0b\x32#.pogoprotos.data.sfida.SfidaMetrics\"=\n\nUpdateType\x12\t\n\x05UNSET\x10\x00\x12\x12\n\x0eINITIALIZATION\x10\x01\x12\x10\n\x0c\x41\x43\x43UMULATION\x10\x02\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_sfida_dot_sfida__metrics__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,19 +34,19 @@ _SFIDAMETRICSUPDATE_UPDATETYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INITIALIZATION', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACCUMULATION', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=292,
   serialized_end=353,
 )
@@ -67,21 +66,21 @@ _SFIDAMETRICSUPDATE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='timestamp_ms', full_name='pogoprotos.data.sfida.SfidaMetricsUpdate.timestamp_ms', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='metrics', full_name='pogoprotos.data.sfida.SfidaMetricsUpdate.metrics', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -89,7 +88,7 @@ _SFIDAMETRICSUPDATE = _descriptor.Descriptor(
   enum_types=[
     _SFIDAMETRICSUPDATE_UPDATETYPE,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -103,6 +102,7 @@ _SFIDAMETRICSUPDATE.fields_by_name['update_type'].enum_type = _SFIDAMETRICSUPDAT
 _SFIDAMETRICSUPDATE.fields_by_name['metrics'].message_type = pogoprotos_dot_data_dot_sfida_dot_sfida__metrics__pb2._SFIDAMETRICS
 _SFIDAMETRICSUPDATE_UPDATETYPE.containing_type = _SFIDAMETRICSUPDATE
 DESCRIPTOR.message_types_by_name['SfidaMetricsUpdate'] = _SFIDAMETRICSUPDATE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SfidaMetricsUpdate = _reflection.GeneratedProtocolMessageType('SfidaMetricsUpdate', (_message.Message,), dict(
   DESCRIPTOR = _SFIDAMETRICSUPDATE,

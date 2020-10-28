@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/camera_type.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n\"pogoprotos/enums/camera_type.proto\x12\x10pogoprotos.enums*]\n\nCameraType\x12\x12\n\x0e\x44\x45\x46\x41ULT_CAMERA\x10\x00\x12\x0c\n\x08SHOULDER\x10\x01\x12\x17\n\x13\x45NEMY_POKEMON_FOCUS\x10\x02\x12\x14\n\x10MY_POKEMON_FOCUS\x10\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _CAMERATYPE = _descriptor.EnumDescriptor(
   name='CameraType',
@@ -32,23 +31,23 @@ _CAMERATYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='DEFAULT_CAMERA', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SHOULDER', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ENEMY_POKEMON_FOCUS', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='MY_POKEMON_FOCUS', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=56,
   serialized_end=149,
 )
@@ -62,6 +61,7 @@ MY_POKEMON_FOCUS = 3
 
 
 DESCRIPTOR.enum_types_by_name['CameraType'] = _CAMERATYPE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

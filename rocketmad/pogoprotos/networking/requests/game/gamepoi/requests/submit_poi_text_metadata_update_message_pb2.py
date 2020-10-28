@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gamepoi/requests/submit_poi_text_metadata_update_message.proto',
   package='pogoprotos.networking.requests.game.gamepoi.requests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nbpogoprotos/networking/requests/game/gamepoi/requests/submit_poi_text_metadata_update_message.proto\x12\x34pogoprotos.networking.requests.game.gamepoi.requests\"X\n\"SubmitPoiTextMetadataUpdateMessage\x12\x0e\n\x06poi_id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\tb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,28 +38,28 @@ _SUBMITPOITEXTMETADATAUPDATEMESSAGE = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='title', full_name='pogoprotos.networking.requests.game.gamepoi.requests.SubmitPoiTextMetadataUpdateMessage.title', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='description', full_name='pogoprotos.networking.requests.game.gamepoi.requests.SubmitPoiTextMetadataUpdateMessage.description', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -71,6 +70,7 @@ _SUBMITPOITEXTMETADATAUPDATEMESSAGE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['SubmitPoiTextMetadataUpdateMessage'] = _SUBMITPOITEXTMETADATAUPDATEMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SubmitPoiTextMetadataUpdateMessage = _reflection.GeneratedProtocolMessageType('SubmitPoiTextMetadataUpdateMessage', (_message.Message,), dict(
   DESCRIPTOR = _SUBMITPOITEXTMETADATAUPDATEMESSAGE,

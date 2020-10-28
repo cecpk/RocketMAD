@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/battle_hub_order_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n:pogoprotos/settings/master/battle_hub_order_settings.proto\x12\x1apogoprotos.settings.master\"\x9a\x07\n\x16\x42\x61ttleHubOrderSettings\x12S\n\x07section\x18\x01 \x03(\x0b\x32\x42.pogoprotos.settings.master.BattleHubOrderSettings.SectionSettings\x12V\n\rsection_group\x18\x02 \x03(\x0b\x32?.pogoprotos.settings.master.BattleHubOrderSettings.SectionGroup\x1at\n\x0cSectionGroup\x12\x64\n\x07section\x18\x01 \x03(\x0e\x32S.pogoprotos.settings.master.BattleHubOrderSettings.SectionSettings.BattleHubSection\x1a\xdc\x04\n\x0fSectionSettings\x12i\n\x0cmain_section\x18\x01 \x01(\x0e\x32S.pogoprotos.settings.master.BattleHubOrderSettings.SectionSettings.BattleHubSection\x12j\n\nsubsection\x18\x02 \x03(\x0e\x32V.pogoprotos.settings.master.BattleHubOrderSettings.SectionSettings.BattleHubSubsection\"\xb1\x01\n\x10\x42\x61ttleHubSection\x12\x11\n\rSECTION_UNSET\x10\x00\x12\x15\n\x11SECTION_VS_SEEKER\x10\x01\x12\x17\n\x13SECTION_CURR_SEASON\x10\x02\x12\x17\n\x13SECTION_LAST_SEASON\x10\x03\x12\x12\n\x0eSECTION_NEARBY\x10\x04\x12\x18\n\x14SECTION_TEAM_LEADERS\x10\x05\x12\x13\n\x0fSECTION_QR_CODE\x10\x06\"\xbd\x01\n\x13\x42\x61ttleHubSubsection\x12\x14\n\x10SUBSECTION_UNSET\x10\x00\x12\x1a\n\x16SUBSECTION_VS_CHARGING\x10\x01\x12\x16\n\x12SUBSECTION_VS_FREE\x10\x02\x12\x19\n\x15SUBSECTION_VS_PREMIUM\x10\x03\x12\"\n\x1eSUBSECTION_NEARBY_TEAM_LEADERS\x10\x04\x12\x1d\n\x19SUBSECTION_NEARBY_QR_CODE\x10\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,35 +32,35 @@ _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS_BATTLEHUBSECTION = _descriptor.EnumDescr
   values=[
     _descriptor.EnumValueDescriptor(
       name='SECTION_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SECTION_VS_SEEKER', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SECTION_CURR_SEASON', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SECTION_LAST_SEASON', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SECTION_NEARBY', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SECTION_TEAM_LEADERS', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SECTION_QR_CODE', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=644,
   serialized_end=821,
 )
@@ -75,31 +74,31 @@ _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS_BATTLEHUBSUBSECTION = _descriptor.EnumDe
   values=[
     _descriptor.EnumValueDescriptor(
       name='SUBSECTION_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBSECTION_VS_CHARGING', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBSECTION_VS_FREE', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBSECTION_VS_PREMIUM', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBSECTION_NEARBY_TEAM_LEADERS', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUBSECTION_NEARBY_QR_CODE', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=824,
   serialized_end=1013,
 )
@@ -119,14 +118,14 @@ _BATTLEHUBORDERSETTINGS_SECTIONGROUP = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -149,14 +148,14 @@ _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='subsection', full_name='pogoprotos.settings.master.BattleHubOrderSettings.SectionSettings.subsection', index=1,
       number=2, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -165,7 +164,7 @@ _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS = _descriptor.Descriptor(
     _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS_BATTLEHUBSECTION,
     _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS_BATTLEHUBSUBSECTION,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -188,21 +187,21 @@ _BATTLEHUBORDERSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='section_group', full_name='pogoprotos.settings.master.BattleHubOrderSettings.section_group', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_BATTLEHUBORDERSETTINGS_SECTIONGROUP, _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -222,6 +221,7 @@ _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS_BATTLEHUBSUBSECTION.containing_type = _B
 _BATTLEHUBORDERSETTINGS.fields_by_name['section'].message_type = _BATTLEHUBORDERSETTINGS_SECTIONSETTINGS
 _BATTLEHUBORDERSETTINGS.fields_by_name['section_group'].message_type = _BATTLEHUBORDERSETTINGS_SECTIONGROUP
 DESCRIPTOR.message_types_by_name['BattleHubOrderSettings'] = _BATTLEHUBORDERSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 BattleHubOrderSettings = _reflection.GeneratedProtocolMessageType('BattleHubOrderSettings', (_message.Message,), dict(
 

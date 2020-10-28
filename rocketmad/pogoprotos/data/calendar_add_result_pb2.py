@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/calendar_add_result.proto',
   package='pogoprotos.data',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n)pogoprotos/data/calendar_add_result.proto\x12\x0fpogoprotos.data*c\n\x11\x43\x61lendarAddResult\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x1e\n\x11PERMISSION_DENIED\x10\xfe\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x16\n\tNOT_ADDED\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\t\n\x05\x41\x44\x44\x45\x44\x10\x01\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _CALENDARADDRESULT = _descriptor.EnumDescriptor(
   name='CalendarAddResult',
@@ -32,23 +31,23 @@ _CALENDARADDRESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PERMISSION_DENIED', index=1, number=-2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='NOT_ADDED', index=2, number=-1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ADDED', index=3, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=62,
   serialized_end=161,
 )
@@ -62,6 +61,7 @@ ADDED = 1
 
 
 DESCRIPTOR.enum_types_by_name['CalendarAddResult'] = _CALENDARADDRESULT
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/capture/capture_score.proto',
   package='pogoprotos.data.capture',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n+pogoprotos/data/capture/capture_score.proto\x12\x17pogoprotos.data.capture\x1a$pogoprotos/enums/activity_type.proto\"s\n\x0c\x43\x61ptureScore\x12\x35\n\ractivity_type\x18\x01 \x03(\x0e\x32\x1e.pogoprotos.enums.ActivityType\x12\x0b\n\x03\x65xp\x18\x02 \x03(\x05\x12\r\n\x05\x63\x61ndy\x18\x03 \x03(\x05\x12\x10\n\x08stardust\x18\x04 \x03(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_activity__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,35 +40,35 @@ _CAPTURESCORE = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='exp', full_name='pogoprotos.data.capture.CaptureScore.exp', index=1,
       number=2, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='candy', full_name='pogoprotos.data.capture.CaptureScore.candy', index=2,
       number=3, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='stardust', full_name='pogoprotos.data.capture.CaptureScore.stardust', index=3,
       number=4, type=5, cpp_type=1, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -81,6 +80,7 @@ _CAPTURESCORE = _descriptor.Descriptor(
 
 _CAPTURESCORE.fields_by_name['activity_type'].enum_type = pogoprotos_dot_enums_dot_activity__type__pb2._ACTIVITYTYPE
 DESCRIPTOR.message_types_by_name['CaptureScore'] = _CAPTURESCORE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 CaptureScore = _reflection.GeneratedProtocolMessageType('CaptureScore', (_message.Message,), dict(
   DESCRIPTOR = _CAPTURESCORE,

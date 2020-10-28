@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/enabled_pokemon_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n2pogoprotos/settings/enabled_pokemon_settings.proto\x12\x13pogoprotos.settings\"\x8f\x01\n\x16\x45nabledPokemonSettings\x12P\n\x15\x65nabled_pokemon_range\x18\x03 \x03(\x0b\x32\x31.pogoprotos.settings.EnabledPokemonSettings.Range\x1a#\n\x05Range\x12\r\n\x05start\x18\x01 \x01(\x05\x12\x0b\n\x03\x65nd\x18\x02 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _ENABLEDPOKEMONSETTINGS_RANGE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='end', full_name='pogoprotos.settings.EnabledPokemonSettings.Range.end', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -76,14 +75,14 @@ _ENABLEDPOKEMONSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_ENABLEDPOKEMONSETTINGS_RANGE, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -96,6 +95,7 @@ _ENABLEDPOKEMONSETTINGS = _descriptor.Descriptor(
 _ENABLEDPOKEMONSETTINGS_RANGE.containing_type = _ENABLEDPOKEMONSETTINGS
 _ENABLEDPOKEMONSETTINGS.fields_by_name['enabled_pokemon_range'].message_type = _ENABLEDPOKEMONSETTINGS_RANGE
 DESCRIPTOR.message_types_by_name['EnabledPokemonSettings'] = _ENABLEDPOKEMONSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 EnabledPokemonSettings = _reflection.GeneratedProtocolMessageType('EnabledPokemonSettings', (_message.Message,), dict(
 

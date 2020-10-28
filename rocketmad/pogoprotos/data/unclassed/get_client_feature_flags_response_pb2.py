@@ -7,21 +7,22 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
 
 
+from pogoprotos.settings import social_client_global_settings_pb2 as pogoprotos_dot_settings_dot_social__client__global__settings__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/unclassed/get_client_feature_flags_response.proto',
   package='pogoprotos.data.unclassed',
   syntax='proto3',
-  serialized_pb=_b('\nApogoprotos/data/unclassed/get_client_feature_flags_response.proto\x12\x19pogoprotos.data.unclassed\"\x84\x06\n\x1dGetClientFeatureFlagsResponse\x12\x64\n\rfeature_flags\x18\x01 \x01(\x0b\x32M.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures\x1a\xfc\x04\n\x14SocialClientFeatures\x12\x8f\x01\n\x1a\x63ross_game_social_settings\x18\x01 \x01(\x0b\x32k.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures.CrossGameSocialClientSettings\x1a\xd1\x03\n\x1d\x43rossGameSocialClientSettings\x12\x92\x01\n\x11\x64isabled_features\x18\x01 \x03(\x0e\x32w.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures.CrossGameSocialClientSettings.FeatureType\x12\x89\x01\n\x08\x61pp_link\x18\x02 \x01(\x0e\x32w.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures.CrossGameSocialClientSettings.AppLinkType\"<\n\x0b\x41ppLinkType\x12\x0b\n\x07NO_LINK\x10\x00\x12\x0c\n\x08WEB_LINK\x10\x01\x12\x12\n\x0e\x41PP_STORE_LINK\x10\x02\"Q\n\x0b\x46\x65\x61tureType\x12\t\n\x05UNSET\x10\x00\x12\x13\n\x0fNIANTIC_PROFILE\x10\x01\x12\x11\n\rONLINE_STATUS\x10\x02\x12\x0f\n\x0b\x46RIEND_LIST\x10\x03\x62\x06proto3')
-)
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
+  serialized_options=None,
+  serialized_pb=_b('\nApogoprotos/data/unclassed/get_client_feature_flags_response.proto\x12\x19pogoprotos.data.unclassed\x1a\x37pogoprotos/settings/social_client_global_settings.proto\"\xce\x06\n\x1dGetClientFeatureFlagsResponse\x12\x64\n\rfeature_flags\x18\x01 \x01(\x0b\x32M.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures\x12H\n\x0fglobal_settings\x18\x02 \x01(\x0b\x32/.pogoprotos.settings.SocialClientGlobalSettings\x1a\xfc\x04\n\x14SocialClientFeatures\x12\x8f\x01\n\x1a\x63ross_game_social_settings\x18\x01 \x01(\x0b\x32k.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures.CrossGameSocialClientSettings\x1a\xd1\x03\n\x1d\x43rossGameSocialClientSettings\x12\x92\x01\n\x11\x64isabled_features\x18\x01 \x03(\x0e\x32w.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures.CrossGameSocialClientSettings.FeatureType\x12\x89\x01\n\x08\x61pp_link\x18\x02 \x01(\x0e\x32w.pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures.CrossGameSocialClientSettings.AppLinkType\"<\n\x0b\x41ppLinkType\x12\x0b\n\x07NO_LINK\x10\x00\x12\x0c\n\x08WEB_LINK\x10\x01\x12\x12\n\x0e\x41PP_STORE_LINK\x10\x02\"Q\n\x0b\x46\x65\x61tureType\x12\t\n\x05UNSET\x10\x00\x12\x13\n\x0fNIANTIC_PROFILE\x10\x01\x12\x11\n\rONLINE_STATUS\x10\x02\x12\x0f\n\x0b\x46RIEND_LIST\x10\x03\x62\x06proto3')
+  ,
+  dependencies=[pogoprotos_dot_settings_dot_social__client__global__settings__pb2.DESCRIPTOR,])
 
 
 
@@ -33,21 +34,21 @@ _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTING
   values=[
     _descriptor.EnumValueDescriptor(
       name='NO_LINK', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='WEB_LINK', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='APP_STORE_LINK', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
-  serialized_start=726,
-  serialized_end=786,
+  serialized_options=None,
+  serialized_start=857,
+  serialized_end=917,
 )
 _sym_db.RegisterEnumDescriptor(_GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS_APPLINKTYPE)
 
@@ -59,25 +60,25 @@ _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTING
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='NIANTIC_PROFILE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ONLINE_STATUS', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FRIEND_LIST', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
-  serialized_start=788,
-  serialized_end=869,
+  serialized_options=None,
+  serialized_start=919,
+  serialized_end=1000,
 )
 _sym_db.RegisterEnumDescriptor(_GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS_FEATURETYPE)
 
@@ -95,14 +96,14 @@ _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTING
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='app_link', full_name='pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.SocialClientFeatures.CrossGameSocialClientSettings.app_link', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -111,14 +112,14 @@ _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTING
     _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS_APPLINKTYPE,
     _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS_FEATURETYPE,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=404,
-  serialized_end=869,
+  serialized_start=535,
+  serialized_end=1000,
 )
 
 _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES = _descriptor.Descriptor(
@@ -134,21 +135,21 @@ _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=233,
-  serialized_end=869,
+  serialized_start=364,
+  serialized_end=1000,
 )
 
 _GETCLIENTFEATUREFLAGSRESPONSE = _descriptor.Descriptor(
@@ -164,21 +165,28 @@ _GETCLIENTFEATUREFLAGSRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='global_settings', full_name='pogoprotos.data.unclassed.GetClientFeatureFlagsResponse.global_settings', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=97,
-  serialized_end=869,
+  serialized_start=154,
+  serialized_end=1000,
 )
 
 _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS.fields_by_name['disabled_features'].enum_type = _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS_FEATURETYPE
@@ -189,7 +197,9 @@ _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTING
 _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES.fields_by_name['cross_game_social_settings'].message_type = _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES_CROSSGAMESOCIALCLIENTSETTINGS
 _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES.containing_type = _GETCLIENTFEATUREFLAGSRESPONSE
 _GETCLIENTFEATUREFLAGSRESPONSE.fields_by_name['feature_flags'].message_type = _GETCLIENTFEATUREFLAGSRESPONSE_SOCIALCLIENTFEATURES
+_GETCLIENTFEATUREFLAGSRESPONSE.fields_by_name['global_settings'].message_type = pogoprotos_dot_settings_dot_social__client__global__settings__pb2._SOCIALCLIENTGLOBALSETTINGS
 DESCRIPTOR.message_types_by_name['GetClientFeatureFlagsResponse'] = _GETCLIENTFEATUREFLAGSRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetClientFeatureFlagsResponse = _reflection.GeneratedProtocolMessageType('GetClientFeatureFlagsResponse', (_message.Message,), dict(
 

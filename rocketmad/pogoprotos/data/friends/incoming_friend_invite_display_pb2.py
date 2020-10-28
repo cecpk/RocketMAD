@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -21,10 +20,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/friends/incoming_friend_invite_display.proto',
   package='pogoprotos.data.friends',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n<pogoprotos/data/friends/incoming_friend_invite_display.proto\x12\x17pogoprotos.data.friends\x1a+pogoprotos/data/player/player_summary.proto\x1a\x34pogoprotos/data/friends/incoming_friend_invite.proto\"\x93\x01\n\x1bIncomingFriendInviteDisplay\x12=\n\x06invite\x18\x01 \x01(\x0b\x32-.pogoprotos.data.friends.IncomingFriendInvite\x12\x35\n\x06player\x18\x02 \x01(\x0b\x32%.pogoprotos.data.player.PlayerSummaryb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_player_dot_player__summary__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_friends_dot_incoming__friend__invite__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -42,21 +41,21 @@ _INCOMINGFRIENDINVITEDISPLAY = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='player', full_name='pogoprotos.data.friends.IncomingFriendInviteDisplay.player', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -69,6 +68,7 @@ _INCOMINGFRIENDINVITEDISPLAY = _descriptor.Descriptor(
 _INCOMINGFRIENDINVITEDISPLAY.fields_by_name['invite'].message_type = pogoprotos_dot_data_dot_friends_dot_incoming__friend__invite__pb2._INCOMINGFRIENDINVITE
 _INCOMINGFRIENDINVITEDISPLAY.fields_by_name['player'].message_type = pogoprotos_dot_data_dot_player_dot_player__summary__pb2._PLAYERSUMMARY
 DESCRIPTOR.message_types_by_name['IncomingFriendInviteDisplay'] = _INCOMINGFRIENDINVITEDISPLAY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 IncomingFriendInviteDisplay = _reflection.GeneratedProtocolMessageType('IncomingFriendInviteDisplay', (_message.Message,), dict(
   DESCRIPTOR = _INCOMINGFRIENDINVITEDISPLAY,

@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/game/gameanticheat/game_anticheat_action.proto',
   package='pogoprotos.networking.requests.game.gameanticheat',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nMpogoprotos/networking/requests/game/gameanticheat/game_anticheat_action.proto\x12\x31pogoprotos.networking.requests.game.gameanticheat*t\n\x13GameAnticheatAction\x12!\n\x1dUNKNOWN_GAME_ANTICHEAT_ACTION\x10\x00\x12\x1e\n\x18GET_OUTSTANDING_WARNINGS\x10\xc0\x9a\x0c\x12\x1a\n\x14\x41\x43KNOWLEDGE_WARNINGS\x10\xc1\x9a\x0c\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _GAMEANTICHEATACTION = _descriptor.EnumDescriptor(
   name='GameAnticheatAction',
@@ -32,19 +31,19 @@ _GAMEANTICHEATACTION = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN_GAME_ANTICHEAT_ACTION', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GET_OUTSTANDING_WARNINGS', index=1, number=200000,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ACKNOWLEDGE_WARNINGS', index=2, number=200001,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=132,
   serialized_end=248,
 )
@@ -57,6 +56,7 @@ ACKNOWLEDGE_WARNINGS = 200001
 
 
 DESCRIPTOR.enum_types_by_name['GameAnticheatAction'] = _GAMEANTICHEATACTION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

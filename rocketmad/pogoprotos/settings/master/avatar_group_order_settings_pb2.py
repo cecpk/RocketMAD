@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/avatar_group_order_settings.proto',
   package='pogoprotos.settings.master',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n<pogoprotos/settings/master/avatar_group_order_settings.proto\x12\x1apogoprotos.settings.master\"\xa1\x01\n\x18\x41vatarGroupOrderSettings\x12T\n\x05group\x18\x01 \x03(\x0b\x32\x45.pogoprotos.settings.master.AvatarGroupOrderSettings.AvatarGroupOrder\x1a/\n\x10\x41vatarGroupOrder\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05order\x18\x02 \x01(\x05\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _AVATARGROUPORDERSETTINGS_AVATARGROUPORDER = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='order', full_name='pogoprotos.settings.master.AvatarGroupOrderSettings.AvatarGroupOrder.order', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -76,14 +75,14 @@ _AVATARGROUPORDERSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_AVATARGROUPORDERSETTINGS_AVATARGROUPORDER, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -96,6 +95,7 @@ _AVATARGROUPORDERSETTINGS = _descriptor.Descriptor(
 _AVATARGROUPORDERSETTINGS_AVATARGROUPORDER.containing_type = _AVATARGROUPORDERSETTINGS
 _AVATARGROUPORDERSETTINGS.fields_by_name['group'].message_type = _AVATARGROUPORDERSETTINGS_AVATARGROUPORDER
 DESCRIPTOR.message_types_by_name['AvatarGroupOrderSettings'] = _AVATARGROUPORDERSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AvatarGroupOrderSettings = _reflection.GeneratedProtocolMessageType('AvatarGroupOrderSettings', (_message.Message,), dict(
 

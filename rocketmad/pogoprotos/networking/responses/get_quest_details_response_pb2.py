@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/get_quest_details_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n@pogoprotos/networking/responses/get_quest_details_response.proto\x12\x1fpogoprotos.networking.responses\x1a)pogoprotos/data/quests/client_quest.proto\"\xf7\x01\n\x17GetQuestDetailsResponse\x12O\n\x06status\x18\x01 \x01(\x0e\x32?.pogoprotos.networking.responses.GetQuestDetailsResponse.Status\x12\x33\n\x06quests\x18\x02 \x03(\x0b\x32#.pogoprotos.data.quests.ClientQuest\"V\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x19\n\x15\x45RROR_QUEST_NOT_FOUND\x10\x02\x12\x19\n\x15\x45RROR_INVALID_DISPLAY\x10\x03\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_quests_dot_client__quest__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,23 +34,23 @@ _GETQUESTDETAILSRESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_QUEST_NOT_FOUND', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INVALID_DISPLAY', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=306,
   serialized_end=392,
 )
@@ -71,14 +70,14 @@ _GETQUESTDETAILSRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='quests', full_name='pogoprotos.networking.responses.GetQuestDetailsResponse.quests', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -86,7 +85,7 @@ _GETQUESTDETAILSRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _GETQUESTDETAILSRESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -100,6 +99,7 @@ _GETQUESTDETAILSRESPONSE.fields_by_name['status'].enum_type = _GETQUESTDETAILSRE
 _GETQUESTDETAILSRESPONSE.fields_by_name['quests'].message_type = pogoprotos_dot_data_dot_quests_dot_client__quest__pb2._CLIENTQUEST
 _GETQUESTDETAILSRESPONSE_STATUS.containing_type = _GETQUESTDETAILSRESPONSE
 DESCRIPTOR.message_types_by_name['GetQuestDetailsResponse'] = _GETQUESTDETAILSRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetQuestDetailsResponse = _reflection.GeneratedProtocolMessageType('GetQuestDetailsResponse', (_message.Message,), dict(
   DESCRIPTOR = _GETQUESTDETAILSRESPONSE,

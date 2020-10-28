@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/news_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n\'pogoprotos/settings/news_settings.proto\x12\x13pogoprotos.settings\"\x81\x01\n\x0cNewsSettings\x12\x34\n\x04news\x18\x01 \x03(\x0b\x32&.pogoprotos.settings.NewsSettings.News\x1a;\n\x04News\x12\x16\n\x0enews_bundle_id\x18\x01 \x01(\t\x12\x1b\n\x13\x65xclusive_countries\x18\x02 \x03(\tb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,21 +38,21 @@ _NEWSSETTINGS_NEWS = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='exclusive_countries', full_name='pogoprotos.settings.NewsSettings.News.exclusive_countries', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -76,14 +75,14 @@ _NEWSSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_NEWSSETTINGS_NEWS, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -96,6 +95,7 @@ _NEWSSETTINGS = _descriptor.Descriptor(
 _NEWSSETTINGS_NEWS.containing_type = _NEWSSETTINGS
 _NEWSSETTINGS.fields_by_name['news'].message_type = _NEWSSETTINGS_NEWS
 DESCRIPTOR.message_types_by_name['NewsSettings'] = _NEWSSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 NewsSettings = _reflection.GeneratedProtocolMessageType('NewsSettings', (_message.Message,), dict(
 

@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/telemetry/link_login_telemetry.proto',
   package='pogoprotos.data.telemetry',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n4pogoprotos/data/telemetry/link_login_telemetry.proto\x12\x19pogoprotos.data.telemetry\"w\n\x12LinkLoginTelemetry\x12\x0e\n\x06linked\x18\x01 \x01(\x08\x12\x0f\n\x07success\x18\x02 \x01(\t\x12\r\n\x05\x65rror\x18\x03 \x01(\t\x12\x1f\n\x17\x61\x63tive_auth_provider_id\x18\x04 \x01(\t\x12\x10\n\x08provider\x18\x05 \x01(\tb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,42 +38,42 @@ _LINKLOGINTELEMETRY = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='success', full_name='pogoprotos.data.telemetry.LinkLoginTelemetry.success', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='error', full_name='pogoprotos.data.telemetry.LinkLoginTelemetry.error', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='active_auth_provider_id', full_name='pogoprotos.data.telemetry.LinkLoginTelemetry.active_auth_provider_id', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='provider', full_name='pogoprotos.data.telemetry.LinkLoginTelemetry.provider', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -85,6 +84,7 @@ _LINKLOGINTELEMETRY = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['LinkLoginTelemetry'] = _LINKLOGINTELEMETRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 LinkLoginTelemetry = _reflection.GeneratedProtocolMessageType('LinkLoginTelemetry', (_message.Message,), dict(
   DESCRIPTOR = _LINKLOGINTELEMETRY,

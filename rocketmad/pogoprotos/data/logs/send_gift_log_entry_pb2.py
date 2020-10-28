@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/logs/send_gift_log_entry.proto',
   package='pogoprotos.data.logs',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n.pogoprotos/data/logs/send_gift_log_entry.proto\x12\x14pogoprotos.data.logs\"\x8c\x01\n\x10SendGiftLogEntry\x12=\n\x06result\x18\x01 \x01(\x0e\x32-.pogoprotos.data.logs.SendGiftLogEntry.Result\x12\x17\n\x0f\x66riend_codename\x18\x02 \x01(\t\" \n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,15 +32,15 @@ _SENDGIFTLOGENTRY_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=181,
   serialized_end=213,
 )
@@ -61,14 +60,14 @@ _SENDGIFTLOGENTRY = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='friend_codename', full_name='pogoprotos.data.logs.SendGiftLogEntry.friend_codename', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -76,7 +75,7 @@ _SENDGIFTLOGENTRY = _descriptor.Descriptor(
   enum_types=[
     _SENDGIFTLOGENTRY_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -89,6 +88,7 @@ _SENDGIFTLOGENTRY = _descriptor.Descriptor(
 _SENDGIFTLOGENTRY.fields_by_name['result'].enum_type = _SENDGIFTLOGENTRY_RESULT
 _SENDGIFTLOGENTRY_RESULT.containing_type = _SENDGIFTLOGENTRY
 DESCRIPTOR.message_types_by_name['SendGiftLogEntry'] = _SENDGIFTLOGENTRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SendGiftLogEntry = _reflection.GeneratedProtocolMessageType('SendGiftLogEntry', (_message.Message,), dict(
   DESCRIPTOR = _SENDGIFTLOGENTRY,

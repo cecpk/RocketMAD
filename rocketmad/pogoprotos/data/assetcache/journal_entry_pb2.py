@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -22,10 +21,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/assetcache/journal_entry.proto',
   package='pogoprotos.data.assetcache',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n.pogoprotos/data/assetcache/journal_entry.proto\x12\x1apogoprotos.data.assetcache\x1a\x32pogoprotos/data/assetcache/journal_add_entry.proto\x1a\x33pogoprotos/data/assetcache/journal_read_entry.proto\x1a\x35pogoprotos/data/assetcache/journal_remove_entry.proto\"\xe8\x01\n\x0cJournalEntry\x12@\n\tadd_entry\x18\x01 \x01(\x0b\x32+.pogoprotos.data.assetcache.JournalAddEntryH\x00\x12\x42\n\nread_entry\x18\x02 \x01(\x0b\x32,.pogoprotos.data.assetcache.JournalReadEntryH\x00\x12\x46\n\x0cremove_entry\x18\x03 \x01(\x0b\x32..pogoprotos.data.assetcache.JournalRemoveEntryH\x00\x42\n\n\x08Subentryb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_assetcache_dot_journal__add__entry__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_assetcache_dot_journal__read__entry__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_assetcache_dot_journal__remove__entry__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -43,28 +42,28 @@ _JOURNALENTRY = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='read_entry', full_name='pogoprotos.data.assetcache.JournalEntry.read_entry', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='remove_entry', full_name='pogoprotos.data.assetcache.JournalEntry.remove_entry', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -90,6 +89,7 @@ _JOURNALENTRY.oneofs_by_name['Subentry'].fields.append(
   _JOURNALENTRY.fields_by_name['remove_entry'])
 _JOURNALENTRY.fields_by_name['remove_entry'].containing_oneof = _JOURNALENTRY.oneofs_by_name['Subentry']
 DESCRIPTOR.message_types_by_name['JournalEntry'] = _JOURNALENTRY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 JournalEntry = _reflection.GeneratedProtocolMessageType('JournalEntry', (_message.Message,), dict(
   DESCRIPTOR = _JOURNALENTRY,

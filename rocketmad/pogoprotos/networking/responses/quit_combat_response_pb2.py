@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/quit_combat_response.proto',
   package='pogoprotos.networking.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n:pogoprotos/networking/responses/quit_combat_response.proto\x12\x1fpogoprotos.networking.responses\x1a#pogoprotos/data/combat/combat.proto\"\x8e\x02\n\x12QuitCombatResponse\x12J\n\x06result\x18\x01 \x01(\x0e\x32:.pogoprotos.networking.responses.QuitCombatResponse.Result\x12.\n\x06\x63ombat\x18\x02 \x01(\x0b\x32\x1e.pogoprotos.data.combat.Combat\"|\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x1a\n\x16\x45RROR_COMBAT_NOT_FOUND\x10\x02\x12\x1e\n\x1a\x45RROR_INVALID_COMBAT_STATE\x10\x03\x12\x1e\n\x1a\x45RROR_PLAYER_NOT_IN_COMBAT\x10\x04\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_combat_dot_combat__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,27 +34,27 @@ _QUITCOMBATRESPONSE_RESULT = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_COMBAT_NOT_FOUND', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_INVALID_COMBAT_STATE', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ERROR_PLAYER_NOT_IN_COMBAT', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=279,
   serialized_end=403,
 )
@@ -75,14 +74,14 @@ _QUITCOMBATRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='combat', full_name='pogoprotos.networking.responses.QuitCombatResponse.combat', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -90,7 +89,7 @@ _QUITCOMBATRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _QUITCOMBATRESPONSE_RESULT,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -104,6 +103,7 @@ _QUITCOMBATRESPONSE.fields_by_name['result'].enum_type = _QUITCOMBATRESPONSE_RES
 _QUITCOMBATRESPONSE.fields_by_name['combat'].message_type = pogoprotos_dot_data_dot_combat_dot_combat__pb2._COMBAT
 _QUITCOMBATRESPONSE_RESULT.containing_type = _QUITCOMBATRESPONSE
 DESCRIPTOR.message_types_by_name['QuitCombatResponse'] = _QUITCOMBATRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 QuitCombatResponse = _reflection.GeneratedProtocolMessageType('QuitCombatResponse', (_message.Message,), dict(
   DESCRIPTOR = _QUITCOMBATRESPONSE,

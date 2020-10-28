@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/weather_alert_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n0pogoprotos/settings/weather_alert_settings.proto\x12\x13pogoprotos.settings\x1a*pogoprotos/map/weather/weather_alert.proto\"\x9c\x06\n\x14WeatherAlertSettings\x12\x14\n\x0cwarn_weather\x18\x01 \x01(\x08\x12G\n\x10\x64\x65\x66\x61ult_severity\x18\x02 \x01(\x0e\x32-.pogoprotos.map.weather.WeatherAlert.Severity\x12N\n\x07ignores\x18\x03 \x03(\x0b\x32=.pogoprotos.settings.WeatherAlertSettings.AlertIgnoreSettings\x12P\n\x08\x65nforces\x18\x04 \x03(\x0b\x32>.pogoprotos.settings.WeatherAlertSettings.AlertEnforceSettings\x1a\xce\x01\n\x14\x41lertEnforceSettings\x12\x14\n\x0c\x63ountry_code\x18\x01 \x01(\t\x12]\n\x04when\x18\x02 \x01(\x0b\x32O.pogoprotos.settings.WeatherAlertSettings.AlertEnforceSettings.EnforceCondition\x1a\x41\n\x10\x45nforceCondition\x12\r\n\x05\x63olor\x18\x01 \x03(\t\x12\x0c\n\x04type\x18\x02 \x03(\t\x12\x10\n\x08\x63\x61tegory\x18\x03 \x03(\t\x1a\xbc\x01\n\x13\x41lertIgnoreSettings\x12\x14\n\x0c\x63ountry_code\x18\x01 \x01(\t\x12]\n\x04when\x18\x02 \x01(\x0b\x32O.pogoprotos.settings.WeatherAlertSettings.AlertIgnoreSettings.OverrideCondition\x1a\x30\n\x11OverrideCondition\x12\r\n\x05\x63olor\x18\x01 \x03(\t\x12\x0c\n\x04type\x18\x02 \x03(\t\x1a\x41\n\x10\x45nforceCondition\x12\r\n\x05\x63olor\x18\x01 \x03(\t\x12\x0c\n\x04type\x18\x02 \x03(\t\x12\x10\n\x08\x63\x61tegory\x18\x03 \x03(\t\x1a\x30\n\x11OverrideCondition\x12\r\n\x05\x63olor\x18\x01 \x03(\t\x12\x0c\n\x04type\x18\x02 \x03(\tb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_weather_dot_weather__alert__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,28 +40,28 @@ _WEATHERALERTSETTINGS_ALERTENFORCESETTINGS_ENFORCECONDITION = _descriptor.Descri
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='type', full_name='pogoprotos.settings.WeatherAlertSettings.AlertEnforceSettings.EnforceCondition.type', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='category', full_name='pogoprotos.settings.WeatherAlertSettings.AlertEnforceSettings.EnforceCondition.category', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -85,21 +84,21 @@ _WEATHERALERTSETTINGS_ALERTENFORCESETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='when', full_name='pogoprotos.settings.WeatherAlertSettings.AlertEnforceSettings.when', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_WEATHERALERTSETTINGS_ALERTENFORCESETTINGS_ENFORCECONDITION, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -122,21 +121,21 @@ _WEATHERALERTSETTINGS_ALERTIGNORESETTINGS_OVERRIDECONDITION = _descriptor.Descri
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='type', full_name='pogoprotos.settings.WeatherAlertSettings.AlertIgnoreSettings.OverrideCondition.type', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -159,21 +158,21 @@ _WEATHERALERTSETTINGS_ALERTIGNORESETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='when', full_name='pogoprotos.settings.WeatherAlertSettings.AlertIgnoreSettings.when', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_WEATHERALERTSETTINGS_ALERTIGNORESETTINGS_OVERRIDECONDITION, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -196,28 +195,28 @@ _WEATHERALERTSETTINGS_ENFORCECONDITION = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='type', full_name='pogoprotos.settings.WeatherAlertSettings.EnforceCondition.type', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='category', full_name='pogoprotos.settings.WeatherAlertSettings.EnforceCondition.category', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -240,21 +239,21 @@ _WEATHERALERTSETTINGS_OVERRIDECONDITION = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='type', full_name='pogoprotos.settings.WeatherAlertSettings.OverrideCondition.type', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -277,35 +276,35 @@ _WEATHERALERTSETTINGS = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='default_severity', full_name='pogoprotos.settings.WeatherAlertSettings.default_severity', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='ignores', full_name='pogoprotos.settings.WeatherAlertSettings.ignores', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='enforces', full_name='pogoprotos.settings.WeatherAlertSettings.enforces', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_WEATHERALERTSETTINGS_ALERTENFORCESETTINGS, _WEATHERALERTSETTINGS_ALERTIGNORESETTINGS, _WEATHERALERTSETTINGS_ENFORCECONDITION, _WEATHERALERTSETTINGS_OVERRIDECONDITION, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -327,6 +326,7 @@ _WEATHERALERTSETTINGS.fields_by_name['default_severity'].enum_type = pogoprotos_
 _WEATHERALERTSETTINGS.fields_by_name['ignores'].message_type = _WEATHERALERTSETTINGS_ALERTIGNORESETTINGS
 _WEATHERALERTSETTINGS.fields_by_name['enforces'].message_type = _WEATHERALERTSETTINGS_ALERTENFORCESETTINGS
 DESCRIPTOR.message_types_by_name['WeatherAlertSettings'] = _WEATHERALERTSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 WeatherAlertSettings = _reflection.GeneratedProtocolMessageType('WeatherAlertSettings', (_message.Message,), dict(
 

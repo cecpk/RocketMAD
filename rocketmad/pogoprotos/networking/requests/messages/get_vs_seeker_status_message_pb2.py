@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/requests/messages/get_vs_seeker_status_message.proto',
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nJpogoprotos/networking/requests/messages/get_vs_seeker_status_message.proto\x12\'pogoprotos.networking.requests.messages\"\x1a\n\x18GetVsSeekerStatusMessageb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,7 +38,7 @@ _GETVSSEEKERSTATUSMESSAGE = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -50,6 +49,7 @@ _GETVSSEEKERSTATUSMESSAGE = _descriptor.Descriptor(
 )
 
 DESCRIPTOR.message_types_by_name['GetVsSeekerStatusMessage'] = _GETVSSEEKERSTATUSMESSAGE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 GetVsSeekerStatusMessage = _reflection.GeneratedProtocolMessageType('GetVsSeekerStatusMessage', (_message.Message,), dict(
   DESCRIPTOR = _GETVSSEEKERSTATUSMESSAGE,

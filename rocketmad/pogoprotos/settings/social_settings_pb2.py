@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/social_settings.proto',
   package='pogoprotos.settings',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n)pogoprotos/settings/social_settings.proto\x12\x13pogoprotos.settings\"\xb9\x01\n\x0eSocialSettings\"5\n\rConsentStatus\x12\x0b\n\x07UNKNOWN\x10\x00\x12\n\n\x06OPT_IN\x10\x01\x12\x0b\n\x07OPT_OUT\x10\x02\"p\n\x0cTutorialType\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07PROFILE\x10\x01\x12\x12\n\x0e\x46RIEND_LIST_V2\x10\x02\x12\x1a\n\x16ONLINE_STATUS_OVERVIEW\x10\x03\x12\x18\n\x14ONLINE_STATUS_TOGGLE\x10\x04\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,19 +32,19 @@ _SOCIALSETTINGS_CONSENTSTATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNKNOWN', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='OPT_IN', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='OPT_OUT', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=85,
   serialized_end=138,
 )
@@ -59,27 +58,27 @@ _SOCIALSETTINGS_TUTORIALTYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PROFILE', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FRIEND_LIST_V2', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ONLINE_STATUS_OVERVIEW', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='ONLINE_STATUS_TOGGLE', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=140,
   serialized_end=252,
 )
@@ -101,7 +100,7 @@ _SOCIALSETTINGS = _descriptor.Descriptor(
     _SOCIALSETTINGS_CONSENTSTATUS,
     _SOCIALSETTINGS_TUTORIALTYPE,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -114,6 +113,7 @@ _SOCIALSETTINGS = _descriptor.Descriptor(
 _SOCIALSETTINGS_CONSENTSTATUS.containing_type = _SOCIALSETTINGS
 _SOCIALSETTINGS_TUTORIALTYPE.containing_type = _SOCIALSETTINGS
 DESCRIPTOR.message_types_by_name['SocialSettings'] = _SOCIALSETTINGS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SocialSettings = _reflection.GeneratedProtocolMessageType('SocialSettings', (_message.Message,), dict(
   DESCRIPTOR = _SOCIALSETTINGS,

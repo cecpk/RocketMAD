@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -36,10 +35,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/inventory/inventory_item_data.proto',
   package='pogoprotos.inventory',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n.pogoprotos/inventory/inventory_item_data.proto\x12\x14pogoprotos.inventory\x1a)pogoprotos/inventory/item/item_data.proto\x1a(pogoprotos/inventory/applied_items.proto\x1a)pogoprotos/inventory/egg_incubators.proto\x1a pogoprotos/inventory/candy.proto\x1a-pogoprotos/inventory/inventory_upgrades.proto\x1a\'pogoprotos/inventory/raid_tickets.proto\x1a(pogoprotos/data/avatar/avatar_item.proto\x1a\"pogoprotos/data/pokemon_data.proto\x1a#pogoprotos/data/pokedex_entry.proto\x1a)pogoprotos/data/player/player_stats.proto\x1a,pogoprotos/data/player/player_currency.proto\x1a*pogoprotos/data/player/player_camera.proto\x1a\"pogoprotos/data/quests/quest.proto\x1a#pogoprotos/data/quests/quests.proto\x1a%pogoprotos/data/gift/gift_boxes.proto\x1a/pogoprotos/data/beluga/beluga_incense_box.proto\x1a%pogoprotos/data/sticker/sticker.proto\"\xc8\x0b\n\x11InventoryItemData\x12\x34\n\x0cpokemon_data\x18\x01 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonDataH\x00\x12\x33\n\x04item\x18\x02 \x01(\x0b\x32#.pogoprotos.inventory.item.ItemDataH\x00\x12\x36\n\rpokedex_entry\x18\x03 \x01(\x0b\x32\x1d.pogoprotos.data.PokedexEntryH\x00\x12;\n\x0cplayer_stats\x18\x04 \x01(\x0b\x32#.pogoprotos.data.player.PlayerStatsH\x00\x12\x41\n\x0fplayer_currency\x18\x05 \x01(\x0b\x32&.pogoprotos.data.player.PlayerCurrencyH\x00\x12=\n\rplayer_camera\x18\x06 \x01(\x0b\x32$.pogoprotos.data.player.PlayerCameraH\x00\x12\x45\n\x12inventory_upgrades\x18\x07 \x01(\x0b\x32\'.pogoprotos.inventory.InventoryUpgradesH\x00\x12;\n\rapplied_items\x18\x08 \x01(\x0b\x32\".pogoprotos.inventory.AppliedItemsH\x00\x12=\n\x0e\x65gg_incubators\x18\t \x01(\x0b\x32#.pogoprotos.inventory.EggIncubatorsH\x00\x12,\n\x05\x63\x61ndy\x18\n \x01(\x0b\x32\x1b.pogoprotos.inventory.CandyH\x00\x12.\n\x05quest\x18\x0b \x01(\x0b\x32\x1d.pogoprotos.data.quests.QuestH\x00\x12\x39\n\x0b\x61vatar_item\x18\x0c \x01(\x0b\x32\".pogoprotos.data.avatar.AvatarItemH\x00\x12\x39\n\x0craid_tickets\x18\r \x01(\x0b\x32!.pogoprotos.inventory.RaidTicketsH\x00\x12\x30\n\x06quests\x18\x0e \x01(\x0b\x32\x1e.pogoprotos.data.quests.QuestsH\x00\x12\x35\n\ngift_boxes\x18\x0f \x01(\x0b\x32\x1f.pogoprotos.data.gift.GiftBoxesH\x00\x12\x42\n\x0e\x62\x65luga_incense\x18\x10 \x01(\x0b\x32(.pogoprotos.data.beluga.BelugaIncenseBoxH\x00\x12g\n\x1blimited_purchase_sku_record\x18\x13 \x01(\x0b\x32@.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecordH\x00\x12\x33\n\x07sticker\x18\x16 \x01(\x0b\x32 .pogoprotos.data.sticker.StickerH\x00\x1a\xe6\x02\n\x18LimitedPurchaseSkuRecord\x12\x62\n\tpurchases\x18\x01 \x03(\x0b\x32O.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.PurchasesEntry\x1a{\n\x0ePurchasesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12X\n\x05value\x18\x02 \x01(\x0b\x32I.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.Purchase:\x02\x38\x01\x1ai\n\x08Purchase\x12\x0f\n\x07version\x18\x01 \x01(\x05\x12\x15\n\rnum_purchases\x18\x02 \x01(\x05\x12\x18\n\x10last_purchase_ms\x18\x04 \x01(\x03\x12\x1b\n\x13total_num_purchases\x18\x05 \x01(\x05\x42\x06\n\x04Typeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_item_dot_item__data__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_applied__items__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_egg__incubators__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_candy__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_inventory__upgrades__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_raid__tickets__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_avatar_dot_avatar__item__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__data__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokedex__entry__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__stats__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__currency__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__camera__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quests__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_gift_dot_gift__boxes__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_beluga_dot_beluga__incense__box__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_sticker_dot_sticker__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -57,21 +56,21 @@ _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY = _descriptor.Descrip
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='value', full_name='pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.PurchasesEntry.value', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  serialized_options=_b('8\001'),
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -94,35 +93,35 @@ _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='num_purchases', full_name='pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.Purchase.num_purchases', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='last_purchase_ms', full_name='pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.Purchase.last_purchase_ms', index=2,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='total_num_purchases', full_name='pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.Purchase.total_num_purchases', index=3,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -145,14 +144,14 @@ _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY, _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASE, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -175,133 +174,133 @@ _INVENTORYITEMDATA = _descriptor.Descriptor(
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='item', full_name='pogoprotos.inventory.InventoryItemData.item', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokedex_entry', full_name='pogoprotos.inventory.InventoryItemData.pokedex_entry', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='player_stats', full_name='pogoprotos.inventory.InventoryItemData.player_stats', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='player_currency', full_name='pogoprotos.inventory.InventoryItemData.player_currency', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='player_camera', full_name='pogoprotos.inventory.InventoryItemData.player_camera', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='inventory_upgrades', full_name='pogoprotos.inventory.InventoryItemData.inventory_upgrades', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='applied_items', full_name='pogoprotos.inventory.InventoryItemData.applied_items', index=7,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='egg_incubators', full_name='pogoprotos.inventory.InventoryItemData.egg_incubators', index=8,
       number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='candy', full_name='pogoprotos.inventory.InventoryItemData.candy', index=9,
       number=10, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='quest', full_name='pogoprotos.inventory.InventoryItemData.quest', index=10,
       number=11, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='avatar_item', full_name='pogoprotos.inventory.InventoryItemData.avatar_item', index=11,
       number=12, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='raid_tickets', full_name='pogoprotos.inventory.InventoryItemData.raid_tickets', index=12,
       number=13, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='quests', full_name='pogoprotos.inventory.InventoryItemData.quests', index=13,
       number=14, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='gift_boxes', full_name='pogoprotos.inventory.InventoryItemData.gift_boxes', index=14,
       number=15, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='beluga_incense', full_name='pogoprotos.inventory.InventoryItemData.beluga_incense', index=15,
       number=16, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='limited_purchase_sku_record', full_name='pogoprotos.inventory.InventoryItemData.limited_purchase_sku_record', index=16,
       number=19, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='sticker', full_name='pogoprotos.inventory.InventoryItemData.sticker', index=17,
       number=22, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[_INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD, ],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -392,6 +391,7 @@ _INVENTORYITEMDATA.oneofs_by_name['Type'].fields.append(
   _INVENTORYITEMDATA.fields_by_name['sticker'])
 _INVENTORYITEMDATA.fields_by_name['sticker'].containing_oneof = _INVENTORYITEMDATA.oneofs_by_name['Type']
 DESCRIPTOR.message_types_by_name['InventoryItemData'] = _INVENTORYITEMDATA
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 InventoryItemData = _reflection.GeneratedProtocolMessageType('InventoryItemData', (_message.Message,), dict(
 
@@ -425,6 +425,5 @@ _sym_db.RegisterMessage(InventoryItemData.LimitedPurchaseSkuRecord.PurchasesEntr
 _sym_db.RegisterMessage(InventoryItemData.LimitedPurchaseSkuRecord.Purchase)
 
 
-_INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY.has_options = True
-_INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
+_INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY._options = None
 # @@protoc_insertion_point(module_scope)

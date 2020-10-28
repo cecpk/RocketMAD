@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/onboarding_ar_status.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n+pogoprotos/enums/onboarding_ar_status.proto\x12\x10pogoprotos.enums*[\n\x12OnboardingArStatus\x12\x1e\n\x1aUNSET_ONBOARDING_AR_STATUS\x10\x00\x12\x07\n\x03OFF\x10\x01\x12\x0f\n\x0b\x41R_STANDARD\x10\x02\x12\x0b\n\x07\x41R_PLUS\x10\x03\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _ONBOARDINGARSTATUS = _descriptor.EnumDescriptor(
   name='OnboardingArStatus',
@@ -32,23 +31,23 @@ _ONBOARDINGARSTATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET_ONBOARDING_AR_STATUS', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='OFF', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='AR_STANDARD', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='AR_PLUS', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=65,
   serialized_end=156,
 )
@@ -62,6 +61,7 @@ AR_PLUS = 3
 
 
 DESCRIPTOR.enum_types_by_name['OnboardingArStatus'] = _ONBOARDINGARSTATUS
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

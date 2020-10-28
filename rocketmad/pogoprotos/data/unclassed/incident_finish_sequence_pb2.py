@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/unclassed/incident_finish_sequence.proto',
   package='pogoprotos.data.unclassed',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n8pogoprotos/data/unclassed/incident_finish_sequence.proto\x12\x19pogoprotos.data.unclassed*/\n\x16IncidentFinishSequence\x12\x08\n\x04NONE\x10\x00\x12\x0b\n\x07VICTORY\x10\x01\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _INCIDENTFINISHSEQUENCE = _descriptor.EnumDescriptor(
   name='IncidentFinishSequence',
@@ -32,15 +31,15 @@ _INCIDENTFINISHSEQUENCE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='NONE', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='VICTORY', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=87,
   serialized_end=134,
 )
@@ -52,6 +51,7 @@ VICTORY = 1
 
 
 DESCRIPTOR.enum_types_by_name['IncidentFinishSequence'] = _INCIDENTFINISHSEQUENCE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

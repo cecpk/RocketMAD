@@ -8,7 +8,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,9 +19,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/enums/pokemon_family_id.proto',
   package='pogoprotos.enums',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n(pogoprotos/enums/pokemon_family_id.proto\x12\x10pogoprotos.enums*\xc0\x36\n\x0fPokemonFamilyId\x12\x10\n\x0c\x46\x41MILY_UNSET\x10\x00\x12\x14\n\x10\x46\x41MILY_BULBASAUR\x10\x01\x12\x15\n\x11\x46\x41MILY_CHARMANDER\x10\x04\x12\x13\n\x0f\x46\x41MILY_SQUIRTLE\x10\x07\x12\x13\n\x0f\x46\x41MILY_CATERPIE\x10\n\x12\x11\n\rFAMILY_WEEDLE\x10\r\x12\x11\n\rFAMILY_PIDGEY\x10\x10\x12\x12\n\x0e\x46\x41MILY_RATTATA\x10\x13\x12\x12\n\x0e\x46\x41MILY_SPEAROW\x10\x15\x12\x10\n\x0c\x46\x41MILY_EKANS\x10\x17\x12\x12\n\x0e\x46\x41MILY_PIKACHU\x10\x19\x12\x14\n\x10\x46\x41MILY_SANDSHREW\x10\x1b\x12\x19\n\x15\x46\x41MILY_NIDORAN_FEMALE\x10\x1d\x12\x17\n\x13\x46\x41MILY_NIDORAN_MALE\x10 \x12\x13\n\x0f\x46\x41MILY_CLEFAIRY\x10#\x12\x11\n\rFAMILY_VULPIX\x10%\x12\x15\n\x11\x46\x41MILY_JIGGLYPUFF\x10\'\x12\x10\n\x0c\x46\x41MILY_ZUBAT\x10)\x12\x11\n\rFAMILY_ODDISH\x10+\x12\x10\n\x0c\x46\x41MILY_PARAS\x10.\x12\x12\n\x0e\x46\x41MILY_VENONAT\x10\x30\x12\x12\n\x0e\x46\x41MILY_DIGLETT\x10\x32\x12\x11\n\rFAMILY_MEOWTH\x10\x34\x12\x12\n\x0e\x46\x41MILY_PSYDUCK\x10\x36\x12\x11\n\rFAMILY_MANKEY\x10\x38\x12\x14\n\x10\x46\x41MILY_GROWLITHE\x10:\x12\x12\n\x0e\x46\x41MILY_POLIWAG\x10<\x12\x0f\n\x0b\x46\x41MILY_ABRA\x10?\x12\x11\n\rFAMILY_MACHOP\x10\x42\x12\x15\n\x11\x46\x41MILY_BELLSPROUT\x10\x45\x12\x14\n\x10\x46\x41MILY_TENTACOOL\x10H\x12\x12\n\x0e\x46\x41MILY_GEODUDE\x10J\x12\x11\n\rFAMILY_PONYTA\x10M\x12\x13\n\x0f\x46\x41MILY_SLOWPOKE\x10O\x12\x14\n\x10\x46\x41MILY_MAGNEMITE\x10Q\x12\x14\n\x10\x46\x41MILY_FARFETCHD\x10S\x12\x10\n\x0c\x46\x41MILY_DODUO\x10T\x12\x0f\n\x0b\x46\x41MILY_SEEL\x10V\x12\x11\n\rFAMILY_GRIMER\x10X\x12\x13\n\x0f\x46\x41MILY_SHELLDER\x10Z\x12\x11\n\rFAMILY_GASTLY\x10\\\x12\x0f\n\x0b\x46\x41MILY_ONIX\x10_\x12\x12\n\x0e\x46\x41MILY_DROWZEE\x10`\x12\x10\n\x0c\x46\x41MILY_HYPNO\x10\x61\x12\x11\n\rFAMILY_KRABBY\x10\x62\x12\x12\n\x0e\x46\x41MILY_VOLTORB\x10\x64\x12\x14\n\x10\x46\x41MILY_EXEGGCUTE\x10\x66\x12\x11\n\rFAMILY_CUBONE\x10h\x12\x14\n\x10\x46\x41MILY_HITMONLEE\x10j\x12\x15\n\x11\x46\x41MILY_HITMONCHAN\x10k\x12\x14\n\x10\x46\x41MILY_LICKITUNG\x10l\x12\x12\n\x0e\x46\x41MILY_KOFFING\x10m\x12\x12\n\x0e\x46\x41MILY_RHYHORN\x10o\x12\x12\n\x0e\x46\x41MILY_CHANSEY\x10q\x12\x12\n\x0e\x46\x41MILY_TANGELA\x10r\x12\x15\n\x11\x46\x41MILY_KANGASKHAN\x10s\x12\x11\n\rFAMILY_HORSEA\x10t\x12\x12\n\x0e\x46\x41MILY_GOLDEEN\x10v\x12\x11\n\rFAMILY_STARYU\x10x\x12\x12\n\x0e\x46\x41MILY_MR_MIME\x10z\x12\x12\n\x0e\x46\x41MILY_SCYTHER\x10{\x12\x0f\n\x0b\x46\x41MILY_JYNX\x10|\x12\x15\n\x11\x46\x41MILY_ELECTABUZZ\x10}\x12\x11\n\rFAMILY_MAGMAR\x10~\x12\x11\n\rFAMILY_PINSIR\x10\x7f\x12\x12\n\rFAMILY_TAUROS\x10\x80\x01\x12\x14\n\x0f\x46\x41MILY_MAGIKARP\x10\x81\x01\x12\x12\n\rFAMILY_LAPRAS\x10\x83\x01\x12\x11\n\x0c\x46\x41MILY_DITTO\x10\x84\x01\x12\x11\n\x0c\x46\x41MILY_EEVEE\x10\x85\x01\x12\x13\n\x0e\x46\x41MILY_PORYGON\x10\x89\x01\x12\x13\n\x0e\x46\x41MILY_OMANYTE\x10\x8a\x01\x12\x12\n\rFAMILY_KABUTO\x10\x8c\x01\x12\x16\n\x11\x46\x41MILY_AERODACTYL\x10\x8e\x01\x12\x13\n\x0e\x46\x41MILY_SNORLAX\x10\x8f\x01\x12\x14\n\x0f\x46\x41MILY_ARTICUNO\x10\x90\x01\x12\x12\n\rFAMILY_ZAPDOS\x10\x91\x01\x12\x13\n\x0e\x46\x41MILY_MOLTRES\x10\x92\x01\x12\x13\n\x0e\x46\x41MILY_DRATINI\x10\x93\x01\x12\x12\n\rFAMILY_MEWTWO\x10\x96\x01\x12\x0f\n\nFAMILY_MEW\x10\x97\x01\x12\x15\n\x10\x46\x41MILY_CHIKORITA\x10\x98\x01\x12\x15\n\x10\x46\x41MILY_CYNDAQUIL\x10\x9b\x01\x12\x14\n\x0f\x46\x41MILY_TOTODILE\x10\x9e\x01\x12\x13\n\x0e\x46\x41MILY_SENTRET\x10\xa1\x01\x12\x14\n\x0f\x46\x41MILY_HOOTHOOT\x10\xa3\x01\x12\x12\n\rFAMILY_LEDYBA\x10\xa5\x01\x12\x14\n\x0f\x46\x41MILY_SPINARAK\x10\xa7\x01\x12\x14\n\x0f\x46\x41MILY_CHINCHOU\x10\xaa\x01\x12\x12\n\rFAMILY_TOGEPI\x10\xaf\x01\x12\x10\n\x0b\x46\x41MILY_NATU\x10\xb1\x01\x12\x12\n\rFAMILY_MAREEP\x10\xb3\x01\x12\x12\n\rFAMILY_MARILL\x10\xb7\x01\x12\x15\n\x10\x46\x41MILY_SUDOWOODO\x10\xb9\x01\x12\x12\n\rFAMILY_HOPPIP\x10\xbb\x01\x12\x11\n\x0c\x46\x41MILY_AIPOM\x10\xbe\x01\x12\x13\n\x0e\x46\x41MILY_SUNKERN\x10\xbf\x01\x12\x11\n\x0c\x46\x41MILY_YANMA\x10\xc1\x01\x12\x12\n\rFAMILY_WOOPER\x10\xc2\x01\x12\x13\n\x0e\x46\x41MILY_MURKROW\x10\xc6\x01\x12\x16\n\x11\x46\x41MILY_MISDREAVUS\x10\xc8\x01\x12\x11\n\x0c\x46\x41MILY_UNOWN\x10\xc9\x01\x12\x15\n\x10\x46\x41MILY_WOBBUFFET\x10\xca\x01\x12\x15\n\x10\x46\x41MILY_GIRAFARIG\x10\xcb\x01\x12\x12\n\rFAMILY_PINECO\x10\xcc\x01\x12\x15\n\x10\x46\x41MILY_DUNSPARCE\x10\xce\x01\x12\x12\n\rFAMILY_GLIGAR\x10\xcf\x01\x12\x14\n\x0f\x46\x41MILY_SNUBBULL\x10\xd1\x01\x12\x14\n\x0f\x46\x41MILY_QWILFISH\x10\xd3\x01\x12\x13\n\x0e\x46\x41MILY_SHUCKLE\x10\xd5\x01\x12\x15\n\x10\x46\x41MILY_HERACROSS\x10\xd6\x01\x12\x13\n\x0e\x46\x41MILY_SNEASEL\x10\xd7\x01\x12\x15\n\x10\x46\x41MILY_TEDDIURSA\x10\xd8\x01\x12\x12\n\rFAMILY_SLUGMA\x10\xda\x01\x12\x12\n\rFAMILY_SWINUB\x10\xdc\x01\x12\x13\n\x0e\x46\x41MILY_CORSOLA\x10\xde\x01\x12\x14\n\x0f\x46\x41MILY_REMORAID\x10\xdf\x01\x12\x14\n\x0f\x46\x41MILY_DELIBIRD\x10\xe1\x01\x12\x13\n\x0e\x46\x41MILY_MANTINE\x10\xe2\x01\x12\x14\n\x0f\x46\x41MILY_SKARMORY\x10\xe3\x01\x12\x14\n\x0f\x46\x41MILY_HOUNDOUR\x10\xe4\x01\x12\x12\n\rFAMILY_PHANPY\x10\xe7\x01\x12\x14\n\x0f\x46\x41MILY_STANTLER\x10\xea\x01\x12\x14\n\x0f\x46\x41MILY_SMEARGLE\x10\xeb\x01\x12\x13\n\x0e\x46\x41MILY_TYROGUE\x10\xec\x01\x12\x13\n\x0e\x46\x41MILY_MILTANK\x10\xf1\x01\x12\x12\n\rFAMILY_RAIKOU\x10\xf3\x01\x12\x11\n\x0c\x46\x41MILY_ENTEI\x10\xf4\x01\x12\x13\n\x0e\x46\x41MILY_SUICUNE\x10\xf5\x01\x12\x14\n\x0f\x46\x41MILY_LARVITAR\x10\xf6\x01\x12\x11\n\x0c\x46\x41MILY_LUGIA\x10\xf9\x01\x12\x11\n\x0c\x46\x41MILY_HO_OH\x10\xfa\x01\x12\x12\n\rFAMILY_CELEBI\x10\xfb\x01\x12\x13\n\x0e\x46\x41MILY_TREECKO\x10\xfc\x01\x12\x13\n\x0e\x46\x41MILY_TORCHIC\x10\xff\x01\x12\x12\n\rFAMILY_MUDKIP\x10\x82\x02\x12\x15\n\x10\x46\x41MILY_POOCHYENA\x10\x85\x02\x12\x15\n\x10\x46\x41MILY_ZIGZAGOON\x10\x87\x02\x12\x13\n\x0e\x46\x41MILY_WURMPLE\x10\x89\x02\x12\x11\n\x0c\x46\x41MILY_LOTAD\x10\x8e\x02\x12\x12\n\rFAMILY_SEEDOT\x10\x91\x02\x12\x13\n\x0e\x46\x41MILY_TAILLOW\x10\x94\x02\x12\x13\n\x0e\x46\x41MILY_WINGULL\x10\x96\x02\x12\x11\n\x0c\x46\x41MILY_RALTS\x10\x98\x02\x12\x13\n\x0e\x46\x41MILY_SURSKIT\x10\x9b\x02\x12\x15\n\x10\x46\x41MILY_SHROOMISH\x10\x9d\x02\x12\x13\n\x0e\x46\x41MILY_SLAKOTH\x10\x9f\x02\x12\x13\n\x0e\x46\x41MILY_NINCADA\x10\xa2\x02\x12\x13\n\x0e\x46\x41MILY_WHISMUR\x10\xa5\x02\x12\x14\n\x0f\x46\x41MILY_MAKUHITA\x10\xa8\x02\x12\x14\n\x0f\x46\x41MILY_NOSEPASS\x10\xab\x02\x12\x12\n\rFAMILY_SKITTY\x10\xac\x02\x12\x13\n\x0e\x46\x41MILY_SABLEYE\x10\xae\x02\x12\x12\n\rFAMILY_MAWILE\x10\xaf\x02\x12\x10\n\x0b\x46\x41MILY_ARON\x10\xb0\x02\x12\x14\n\x0f\x46\x41MILY_MEDITITE\x10\xb3\x02\x12\x15\n\x10\x46\x41MILY_ELECTRIKE\x10\xb5\x02\x12\x12\n\rFAMILY_PLUSLE\x10\xb7\x02\x12\x11\n\x0c\x46\x41MILY_MINUN\x10\xb8\x02\x12\x13\n\x0e\x46\x41MILY_VOLBEAT\x10\xb9\x02\x12\x14\n\x0f\x46\x41MILY_ILLUMISE\x10\xba\x02\x12\x13\n\x0e\x46\x41MILY_ROSELIA\x10\xbb\x02\x12\x12\n\rFAMILY_GULPIN\x10\xbc\x02\x12\x14\n\x0f\x46\x41MILY_CARVANHA\x10\xbe\x02\x12\x13\n\x0e\x46\x41MILY_WAILMER\x10\xc0\x02\x12\x11\n\x0c\x46\x41MILY_NUMEL\x10\xc2\x02\x12\x13\n\x0e\x46\x41MILY_TORKOAL\x10\xc4\x02\x12\x12\n\rFAMILY_SPOINK\x10\xc5\x02\x12\x12\n\rFAMILY_SPINDA\x10\xc7\x02\x12\x14\n\x0f\x46\x41MILY_TRAPINCH\x10\xc8\x02\x12\x12\n\rFAMILY_CACNEA\x10\xcb\x02\x12\x12\n\rFAMILY_SWABLU\x10\xcd\x02\x12\x14\n\x0f\x46\x41MILY_ZANGOOSE\x10\xcf\x02\x12\x13\n\x0e\x46\x41MILY_SEVIPER\x10\xd0\x02\x12\x14\n\x0f\x46\x41MILY_LUNATONE\x10\xd1\x02\x12\x13\n\x0e\x46\x41MILY_SOLROCK\x10\xd2\x02\x12\x14\n\x0f\x46\x41MILY_BARBOACH\x10\xd3\x02\x12\x14\n\x0f\x46\x41MILY_CORPHISH\x10\xd5\x02\x12\x12\n\rFAMILY_BALTOY\x10\xd7\x02\x12\x12\n\rFAMILY_LILEEP\x10\xd9\x02\x12\x13\n\x0e\x46\x41MILY_ANORITH\x10\xdb\x02\x12\x12\n\rFAMILY_FEEBAS\x10\xdd\x02\x12\x14\n\x0f\x46\x41MILY_CASTFORM\x10\xdf\x02\x12\x13\n\x0e\x46\x41MILY_KECLEON\x10\xe0\x02\x12\x13\n\x0e\x46\x41MILY_SHUPPET\x10\xe1\x02\x12\x13\n\x0e\x46\x41MILY_DUSKULL\x10\xe3\x02\x12\x13\n\x0e\x46\x41MILY_TROPIUS\x10\xe5\x02\x12\x14\n\x0f\x46\x41MILY_CHIMECHO\x10\xe6\x02\x12\x11\n\x0c\x46\x41MILY_ABSOL\x10\xe7\x02\x12\x13\n\x0e\x46\x41MILY_SNORUNT\x10\xe9\x02\x12\x12\n\rFAMILY_SPHEAL\x10\xeb\x02\x12\x14\n\x0f\x46\x41MILY_CLAMPERL\x10\xee\x02\x12\x15\n\x10\x46\x41MILY_RELICANTH\x10\xf1\x02\x12\x13\n\x0e\x46\x41MILY_LUVDISC\x10\xf2\x02\x12\x11\n\x0c\x46\x41MILY_BAGON\x10\xf3\x02\x12\x12\n\rFAMILY_BELDUM\x10\xf6\x02\x12\x14\n\x0f\x46\x41MILY_REGIROCK\x10\xf9\x02\x12\x12\n\rFAMILY_REGICE\x10\xfa\x02\x12\x15\n\x10\x46\x41MILY_REGISTEEL\x10\xfb\x02\x12\x12\n\rFAMILY_LATIAS\x10\xfc\x02\x12\x12\n\rFAMILY_LATIOS\x10\xfd\x02\x12\x12\n\rFAMILY_KYOGRE\x10\xfe\x02\x12\x13\n\x0e\x46\x41MILY_GROUDON\x10\xff\x02\x12\x14\n\x0f\x46\x41MILY_RAYQUAZA\x10\x80\x03\x12\x13\n\x0e\x46\x41MILY_JIRACHI\x10\x81\x03\x12\x12\n\rFAMILY_DEOXYS\x10\x82\x03\x12\x13\n\x0e\x46\x41MILY_TURTWIG\x10\x83\x03\x12\x14\n\x0f\x46\x41MILY_CHIMCHAR\x10\x86\x03\x12\x12\n\rFAMILY_PIPLUP\x10\x89\x03\x12\x12\n\rFAMILY_STARLY\x10\x8c\x03\x12\x12\n\rFAMILY_BIDOOF\x10\x8f\x03\x12\x15\n\x10\x46\x41MILY_KRICKETOT\x10\x91\x03\x12\x11\n\x0c\x46\x41MILY_SHINX\x10\x93\x03\x12\x14\n\x0f\x46\x41MILY_CRANIDOS\x10\x98\x03\x12\x14\n\x0f\x46\x41MILY_SHIELDON\x10\x9a\x03\x12\x11\n\x0c\x46\x41MILY_BURMY\x10\x9c\x03\x12\x12\n\rFAMILY_COMBEE\x10\x9f\x03\x12\x15\n\x10\x46\x41MILY_PACHIRISU\x10\xa1\x03\x12\x12\n\rFAMILY_BUIZEL\x10\xa2\x03\x12\x13\n\x0e\x46\x41MILY_CHERUBI\x10\xa4\x03\x12\x13\n\x0e\x46\x41MILY_SHELLOS\x10\xa6\x03\x12\x14\n\x0f\x46\x41MILY_DRIFLOON\x10\xa9\x03\x12\x13\n\x0e\x46\x41MILY_BUNEARY\x10\xab\x03\x12\x13\n\x0e\x46\x41MILY_GLAMEOW\x10\xaf\x03\x12\x12\n\rFAMILY_STUNKY\x10\xb2\x03\x12\x13\n\x0e\x46\x41MILY_BRONZOR\x10\xb4\x03\x12\x12\n\rFAMILY_CHATOT\x10\xb9\x03\x12\x15\n\x10\x46\x41MILY_SPIRITOMB\x10\xba\x03\x12\x11\n\x0c\x46\x41MILY_GIBLE\x10\xbb\x03\x12\x13\n\x0e\x46\x41MILY_LUCARIO\x10\xc0\x03\x12\x16\n\x11\x46\x41MILY_HIPPOPOTAS\x10\xc1\x03\x12\x13\n\x0e\x46\x41MILY_SKORUPI\x10\xc3\x03\x12\x14\n\x0f\x46\x41MILY_CROAGUNK\x10\xc5\x03\x12\x15\n\x10\x46\x41MILY_CARNIVINE\x10\xc7\x03\x12\x13\n\x0e\x46\x41MILY_FINNEON\x10\xc8\x03\x12\x12\n\rFAMILY_SNOVER\x10\xcb\x03\x12\x11\n\x0c\x46\x41MILY_ROTOM\x10\xdf\x03\x12\x10\n\x0b\x46\x41MILY_UXIE\x10\xe0\x03\x12\x13\n\x0e\x46\x41MILY_MESPRIT\x10\xe1\x03\x12\x11\n\x0c\x46\x41MILY_AZELF\x10\xe2\x03\x12\x12\n\rFAMILY_DIALGA\x10\xe3\x03\x12\x12\n\rFAMILY_PALKIA\x10\xe4\x03\x12\x13\n\x0e\x46\x41MILY_HEATRAN\x10\xe5\x03\x12\x15\n\x10\x46\x41MILY_REGIGIGAS\x10\xe6\x03\x12\x14\n\x0f\x46\x41MILY_GIRATINA\x10\xe7\x03\x12\x15\n\x10\x46\x41MILY_CRESSELIA\x10\xe8\x03\x12\x12\n\rFAMILY_PHIONE\x10\xe9\x03\x12\x13\n\x0e\x46\x41MILY_MANAPHY\x10\xea\x03\x12\x13\n\x0e\x46\x41MILY_DARKRAI\x10\xeb\x03\x12\x13\n\x0e\x46\x41MILY_SHAYMIN\x10\xec\x03\x12\x12\n\rFAMILY_ARCEUS\x10\xed\x03\x12\x13\n\x0e\x46\x41MILY_VICTINI\x10\xee\x03\x12\x11\n\x0c\x46\x41MILY_SNIVY\x10\xef\x03\x12\x11\n\x0c\x46\x41MILY_TEPIG\x10\xf2\x03\x12\x14\n\x0f\x46\x41MILY_OSHAWOTT\x10\xf5\x03\x12\x12\n\rFAMILY_PATRAT\x10\xf8\x03\x12\x14\n\x0f\x46\x41MILY_LILLIPUP\x10\xfa\x03\x12\x14\n\x0f\x46\x41MILY_PURRLOIN\x10\xfd\x03\x12\x13\n\x0e\x46\x41MILY_PANSAGE\x10\xff\x03\x12\x13\n\x0e\x46\x41MILY_PANSEAR\x10\x81\x04\x12\x13\n\x0e\x46\x41MILY_PANPOUR\x10\x83\x04\x12\x11\n\x0c\x46\x41MILY_MUNNA\x10\x85\x04\x12\x12\n\rFAMILY_PIDOVE\x10\x87\x04\x12\x13\n\x0e\x46\x41MILY_BLITZLE\x10\x8a\x04\x12\x16\n\x11\x46\x41MILY_ROGGENROLA\x10\x8c\x04\x12\x12\n\rFAMILY_WOOBAT\x10\x8f\x04\x12\x13\n\x0e\x46\x41MILY_DRILBUR\x10\x91\x04\x12\x12\n\rFAMILY_AUDINO\x10\x93\x04\x12\x13\n\x0e\x46\x41MILY_TIMBURR\x10\x94\x04\x12\x13\n\x0e\x46\x41MILY_TYMPOLE\x10\x97\x04\x12\x11\n\x0c\x46\x41MILY_THROH\x10\x9a\x04\x12\x10\n\x0b\x46\x41MILY_SAWK\x10\x9b\x04\x12\x14\n\x0f\x46\x41MILY_SEWADDLE\x10\x9c\x04\x12\x14\n\x0f\x46\x41MILY_VENIPEDE\x10\x9f\x04\x12\x14\n\x0f\x46\x41MILY_COTTONEE\x10\xa2\x04\x12\x13\n\x0e\x46\x41MILY_PETILIL\x10\xa4\x04\x12\x14\n\x0f\x46\x41MILY_BASCULIN\x10\xa6\x04\x12\x13\n\x0e\x46\x41MILY_SANDILE\x10\xa7\x04\x12\x14\n\x0f\x46\x41MILY_DARUMAKA\x10\xaa\x04\x12\x14\n\x0f\x46\x41MILY_MARACTUS\x10\xac\x04\x12\x13\n\x0e\x46\x41MILY_DWEBBLE\x10\xad\x04\x12\x13\n\x0e\x46\x41MILY_SCRAGGY\x10\xaf\x04\x12\x14\n\x0f\x46\x41MILY_SIGILYPH\x10\xb1\x04\x12\x12\n\rFAMILY_YAMASK\x10\xb2\x04\x12\x14\n\x0f\x46\x41MILY_TIRTOUGA\x10\xb4\x04\x12\x12\n\rFAMILY_ARCHEN\x10\xb6\x04\x12\x14\n\x0f\x46\x41MILY_TRUBBISH\x10\xb8\x04\x12\x11\n\x0c\x46\x41MILY_ZORUA\x10\xba\x04\x12\x14\n\x0f\x46\x41MILY_MINCCINO\x10\xbc\x04\x12\x13\n\x0e\x46\x41MILY_GOTHITA\x10\xbe\x04\x12\x13\n\x0e\x46\x41MILY_SOLOSIS\x10\xc1\x04\x12\x14\n\x0f\x46\x41MILY_DUCKLETT\x10\xc4\x04\x12\x15\n\x10\x46\x41MILY_VANILLITE\x10\xc6\x04\x12\x14\n\x0f\x46\x41MILY_DEERLING\x10\xc9\x04\x12\x12\n\rFAMILY_EMOLGA\x10\xcb\x04\x12\x16\n\x11\x46\x41MILY_KARRABLAST\x10\xcc\x04\x12\x13\n\x0e\x46\x41MILY_FOONGUS\x10\xce\x04\x12\x14\n\x0f\x46\x41MILY_FRILLISH\x10\xd0\x04\x12\x15\n\x10\x46\x41MILY_ALOMOMOLA\x10\xd2\x04\x12\x12\n\rFAMILY_JOLTIK\x10\xd3\x04\x12\x15\n\x10\x46\x41MILY_FERROSEED\x10\xd5\x04\x12\x11\n\x0c\x46\x41MILY_KLINK\x10\xd7\x04\x12\x12\n\rFAMILY_TYNAMO\x10\xda\x04\x12\x12\n\rFAMILY_ELGYEM\x10\xdd\x04\x12\x13\n\x0e\x46\x41MILY_LITWICK\x10\xdf\x04\x12\x10\n\x0b\x46\x41MILY_AXEW\x10\xe2\x04\x12\x13\n\x0e\x46\x41MILY_CUBCHOO\x10\xe5\x04\x12\x15\n\x10\x46\x41MILY_CRYOGONAL\x10\xe7\x04\x12\x13\n\x0e\x46\x41MILY_SHELMET\x10\xe8\x04\x12\x14\n\x0f\x46\x41MILY_STUNFISK\x10\xea\x04\x12\x13\n\x0e\x46\x41MILY_MIENFOO\x10\xeb\x04\x12\x15\n\x10\x46\x41MILY_DRUDDIGON\x10\xed\x04\x12\x12\n\rFAMILY_GOLETT\x10\xee\x04\x12\x14\n\x0f\x46\x41MILY_PAWNIARD\x10\xf0\x04\x12\x16\n\x11\x46\x41MILY_BOUFFALANT\x10\xf2\x04\x12\x13\n\x0e\x46\x41MILY_RUFFLET\x10\xf3\x04\x12\x13\n\x0e\x46\x41MILY_VULLABY\x10\xf5\x04\x12\x13\n\x0e\x46\x41MILY_HEATMOR\x10\xf7\x04\x12\x12\n\rFAMILY_DURANT\x10\xf8\x04\x12\x11\n\x0c\x46\x41MILY_DEINO\x10\xf9\x04\x12\x14\n\x0f\x46\x41MILY_LARVESTA\x10\xfc\x04\x12\x14\n\x0f\x46\x41MILY_COBALION\x10\xfe\x04\x12\x15\n\x10\x46\x41MILY_TERRAKION\x10\xff\x04\x12\x14\n\x0f\x46\x41MILY_VIRIZION\x10\x80\x05\x12\x14\n\x0f\x46\x41MILY_TORNADUS\x10\x81\x05\x12\x15\n\x10\x46\x41MILY_THUNDURUS\x10\x82\x05\x12\x14\n\x0f\x46\x41MILY_RESHIRAM\x10\x83\x05\x12\x12\n\rFAMILY_ZEKROM\x10\x84\x05\x12\x14\n\x0f\x46\x41MILY_LANDORUS\x10\x85\x05\x12\x12\n\rFAMILY_KYUREM\x10\x86\x05\x12\x12\n\rFAMILY_KELDEO\x10\x87\x05\x12\x14\n\x0f\x46\x41MILY_MELOETTA\x10\x88\x05\x12\x14\n\x0f\x46\x41MILY_GENESECT\x10\x89\x05\x12\x12\n\rFAMILY_MELTAN\x10\xa8\x06\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _POKEMONFAMILYID = _descriptor.EnumDescriptor(
   name='PokemonFamilyId',
@@ -32,1343 +31,1343 @@ _POKEMONFAMILYID = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='FAMILY_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BULBASAUR', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHARMANDER', index=2, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SQUIRTLE', index=3, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CATERPIE', index=4, number=10,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WEEDLE', index=5, number=13,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PIDGEY', index=6, number=16,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RATTATA', index=7, number=19,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SPEAROW', index=8, number=21,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_EKANS', index=9, number=23,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PIKACHU', index=10, number=25,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SANDSHREW', index=11, number=27,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_NIDORAN_FEMALE', index=12, number=29,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_NIDORAN_MALE', index=13, number=32,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CLEFAIRY', index=14, number=35,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VULPIX', index=15, number=37,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_JIGGLYPUFF', index=16, number=39,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ZUBAT', index=17, number=41,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ODDISH', index=18, number=43,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PARAS', index=19, number=46,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VENONAT', index=20, number=48,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DIGLETT', index=21, number=50,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MEOWTH', index=22, number=52,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PSYDUCK', index=23, number=54,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MANKEY', index=24, number=56,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GROWLITHE', index=25, number=58,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_POLIWAG', index=26, number=60,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ABRA', index=27, number=63,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MACHOP', index=28, number=66,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BELLSPROUT', index=29, number=69,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TENTACOOL', index=30, number=72,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GEODUDE', index=31, number=74,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PONYTA', index=32, number=77,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SLOWPOKE', index=33, number=79,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MAGNEMITE', index=34, number=81,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_FARFETCHD', index=35, number=83,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DODUO', index=36, number=84,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SEEL', index=37, number=86,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GRIMER', index=38, number=88,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHELLDER', index=39, number=90,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GASTLY', index=40, number=92,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ONIX', index=41, number=95,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DROWZEE', index=42, number=96,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HYPNO', index=43, number=97,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KRABBY', index=44, number=98,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VOLTORB', index=45, number=100,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_EXEGGCUTE', index=46, number=102,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CUBONE', index=47, number=104,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HITMONLEE', index=48, number=106,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HITMONCHAN', index=49, number=107,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LICKITUNG', index=50, number=108,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KOFFING', index=51, number=109,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RHYHORN', index=52, number=111,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHANSEY', index=53, number=113,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TANGELA', index=54, number=114,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KANGASKHAN', index=55, number=115,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HORSEA', index=56, number=116,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GOLDEEN', index=57, number=118,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_STARYU', index=58, number=120,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MR_MIME', index=59, number=122,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SCYTHER', index=60, number=123,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_JYNX', index=61, number=124,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ELECTABUZZ', index=62, number=125,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MAGMAR', index=63, number=126,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PINSIR', index=64, number=127,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TAUROS', index=65, number=128,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MAGIKARP', index=66, number=129,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LAPRAS', index=67, number=131,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DITTO', index=68, number=132,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_EEVEE', index=69, number=133,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PORYGON', index=70, number=137,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_OMANYTE', index=71, number=138,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KABUTO', index=72, number=140,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_AERODACTYL', index=73, number=142,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SNORLAX', index=74, number=143,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ARTICUNO', index=75, number=144,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ZAPDOS', index=76, number=145,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MOLTRES', index=77, number=146,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DRATINI', index=78, number=147,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MEWTWO', index=79, number=150,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MEW', index=80, number=151,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHIKORITA', index=81, number=152,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CYNDAQUIL', index=82, number=155,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TOTODILE', index=83, number=158,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SENTRET', index=84, number=161,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HOOTHOOT', index=85, number=163,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LEDYBA', index=86, number=165,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SPINARAK', index=87, number=167,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHINCHOU', index=88, number=170,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TOGEPI', index=89, number=175,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_NATU', index=90, number=177,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MAREEP', index=91, number=179,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MARILL', index=92, number=183,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SUDOWOODO', index=93, number=185,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HOPPIP', index=94, number=187,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_AIPOM', index=95, number=190,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SUNKERN', index=96, number=191,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_YANMA', index=97, number=193,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WOOPER', index=98, number=194,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MURKROW', index=99, number=198,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MISDREAVUS', index=100, number=200,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_UNOWN', index=101, number=201,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WOBBUFFET', index=102, number=202,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GIRAFARIG', index=103, number=203,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PINECO', index=104, number=204,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DUNSPARCE', index=105, number=206,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GLIGAR', index=106, number=207,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SNUBBULL', index=107, number=209,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_QWILFISH', index=108, number=211,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHUCKLE', index=109, number=213,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HERACROSS', index=110, number=214,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SNEASEL', index=111, number=215,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TEDDIURSA', index=112, number=216,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SLUGMA', index=113, number=218,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SWINUB', index=114, number=220,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CORSOLA', index=115, number=222,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_REMORAID', index=116, number=223,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DELIBIRD', index=117, number=225,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MANTINE', index=118, number=226,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SKARMORY', index=119, number=227,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HOUNDOUR', index=120, number=228,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PHANPY', index=121, number=231,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_STANTLER', index=122, number=234,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SMEARGLE', index=123, number=235,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TYROGUE', index=124, number=236,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MILTANK', index=125, number=241,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RAIKOU', index=126, number=243,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ENTEI', index=127, number=244,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SUICUNE', index=128, number=245,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LARVITAR', index=129, number=246,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LUGIA', index=130, number=249,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HO_OH', index=131, number=250,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CELEBI', index=132, number=251,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TREECKO', index=133, number=252,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TORCHIC', index=134, number=255,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MUDKIP', index=135, number=258,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_POOCHYENA', index=136, number=261,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ZIGZAGOON', index=137, number=263,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WURMPLE', index=138, number=265,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LOTAD', index=139, number=270,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SEEDOT', index=140, number=273,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TAILLOW', index=141, number=276,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WINGULL', index=142, number=278,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RALTS', index=143, number=280,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SURSKIT', index=144, number=283,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHROOMISH', index=145, number=285,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SLAKOTH', index=146, number=287,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_NINCADA', index=147, number=290,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WHISMUR', index=148, number=293,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MAKUHITA', index=149, number=296,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_NOSEPASS', index=150, number=299,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SKITTY', index=151, number=300,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SABLEYE', index=152, number=302,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MAWILE', index=153, number=303,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ARON', index=154, number=304,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MEDITITE', index=155, number=307,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ELECTRIKE', index=156, number=309,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PLUSLE', index=157, number=311,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MINUN', index=158, number=312,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VOLBEAT', index=159, number=313,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ILLUMISE', index=160, number=314,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ROSELIA', index=161, number=315,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GULPIN', index=162, number=316,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CARVANHA', index=163, number=318,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WAILMER', index=164, number=320,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_NUMEL', index=165, number=322,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TORKOAL', index=166, number=324,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SPOINK', index=167, number=325,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SPINDA', index=168, number=327,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TRAPINCH', index=169, number=328,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CACNEA', index=170, number=331,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SWABLU', index=171, number=333,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ZANGOOSE', index=172, number=335,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SEVIPER', index=173, number=336,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LUNATONE', index=174, number=337,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SOLROCK', index=175, number=338,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BARBOACH', index=176, number=339,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CORPHISH', index=177, number=341,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BALTOY', index=178, number=343,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LILEEP', index=179, number=345,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ANORITH', index=180, number=347,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_FEEBAS', index=181, number=349,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CASTFORM', index=182, number=351,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KECLEON', index=183, number=352,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHUPPET', index=184, number=353,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DUSKULL', index=185, number=355,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TROPIUS', index=186, number=357,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHIMECHO', index=187, number=358,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ABSOL', index=188, number=359,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SNORUNT', index=189, number=361,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SPHEAL', index=190, number=363,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CLAMPERL', index=191, number=366,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RELICANTH', index=192, number=369,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LUVDISC', index=193, number=370,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BAGON', index=194, number=371,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BELDUM', index=195, number=374,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_REGIROCK', index=196, number=377,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_REGICE', index=197, number=378,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_REGISTEEL', index=198, number=379,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LATIAS', index=199, number=380,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LATIOS', index=200, number=381,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KYOGRE', index=201, number=382,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GROUDON', index=202, number=383,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RAYQUAZA', index=203, number=384,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_JIRACHI', index=204, number=385,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DEOXYS', index=205, number=386,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TURTWIG', index=206, number=387,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHIMCHAR', index=207, number=390,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PIPLUP', index=208, number=393,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_STARLY', index=209, number=396,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BIDOOF', index=210, number=399,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KRICKETOT', index=211, number=401,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHINX', index=212, number=403,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CRANIDOS', index=213, number=408,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHIELDON', index=214, number=410,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BURMY', index=215, number=412,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_COMBEE', index=216, number=415,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PACHIRISU', index=217, number=417,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BUIZEL', index=218, number=418,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHERUBI', index=219, number=420,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHELLOS', index=220, number=422,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DRIFLOON', index=221, number=425,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BUNEARY', index=222, number=427,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GLAMEOW', index=223, number=431,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_STUNKY', index=224, number=434,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BRONZOR', index=225, number=436,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CHATOT', index=226, number=441,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SPIRITOMB', index=227, number=442,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GIBLE', index=228, number=443,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LUCARIO', index=229, number=448,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HIPPOPOTAS', index=230, number=449,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SKORUPI', index=231, number=451,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CROAGUNK', index=232, number=453,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CARNIVINE', index=233, number=455,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_FINNEON', index=234, number=456,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SNOVER', index=235, number=459,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ROTOM', index=236, number=479,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_UXIE', index=237, number=480,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MESPRIT', index=238, number=481,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_AZELF', index=239, number=482,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DIALGA', index=240, number=483,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PALKIA', index=241, number=484,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HEATRAN', index=242, number=485,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_REGIGIGAS', index=243, number=486,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GIRATINA', index=244, number=487,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CRESSELIA', index=245, number=488,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PHIONE', index=246, number=489,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MANAPHY', index=247, number=490,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DARKRAI', index=248, number=491,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHAYMIN', index=249, number=492,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ARCEUS', index=250, number=493,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VICTINI', index=251, number=494,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SNIVY', index=252, number=495,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TEPIG', index=253, number=498,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_OSHAWOTT', index=254, number=501,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PATRAT', index=255, number=504,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LILLIPUP', index=256, number=506,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PURRLOIN', index=257, number=509,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PANSAGE', index=258, number=511,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PANSEAR', index=259, number=513,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PANPOUR', index=260, number=515,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MUNNA', index=261, number=517,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PIDOVE', index=262, number=519,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BLITZLE', index=263, number=522,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ROGGENROLA', index=264, number=524,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_WOOBAT', index=265, number=527,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DRILBUR', index=266, number=529,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_AUDINO', index=267, number=531,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TIMBURR', index=268, number=532,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TYMPOLE', index=269, number=535,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_THROH', index=270, number=538,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SAWK', index=271, number=539,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SEWADDLE', index=272, number=540,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VENIPEDE', index=273, number=543,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_COTTONEE', index=274, number=546,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PETILIL', index=275, number=548,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BASCULIN', index=276, number=550,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SANDILE', index=277, number=551,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DARUMAKA', index=278, number=554,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MARACTUS', index=279, number=556,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DWEBBLE', index=280, number=557,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SCRAGGY', index=281, number=559,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SIGILYPH', index=282, number=561,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_YAMASK', index=283, number=562,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TIRTOUGA', index=284, number=564,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ARCHEN', index=285, number=566,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TRUBBISH', index=286, number=568,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ZORUA', index=287, number=570,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MINCCINO', index=288, number=572,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GOTHITA', index=289, number=574,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SOLOSIS', index=290, number=577,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DUCKLETT', index=291, number=580,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VANILLITE', index=292, number=582,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DEERLING', index=293, number=585,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_EMOLGA', index=294, number=587,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KARRABLAST', index=295, number=588,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_FOONGUS', index=296, number=590,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_FRILLISH', index=297, number=592,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ALOMOMOLA', index=298, number=594,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_JOLTIK', index=299, number=595,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_FERROSEED', index=300, number=597,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KLINK', index=301, number=599,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TYNAMO', index=302, number=602,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ELGYEM', index=303, number=605,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LITWICK', index=304, number=607,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_AXEW', index=305, number=610,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CUBCHOO', index=306, number=613,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_CRYOGONAL', index=307, number=615,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_SHELMET', index=308, number=616,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_STUNFISK', index=309, number=618,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MIENFOO', index=310, number=619,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DRUDDIGON', index=311, number=621,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GOLETT', index=312, number=622,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_PAWNIARD', index=313, number=624,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_BOUFFALANT', index=314, number=626,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RUFFLET', index=315, number=627,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VULLABY', index=316, number=629,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_HEATMOR', index=317, number=631,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DURANT', index=318, number=632,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_DEINO', index=319, number=633,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LARVESTA', index=320, number=636,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_COBALION', index=321, number=638,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TERRAKION', index=322, number=639,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_VIRIZION', index=323, number=640,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_TORNADUS', index=324, number=641,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_THUNDURUS', index=325, number=642,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_RESHIRAM', index=326, number=643,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_ZEKROM', index=327, number=644,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_LANDORUS', index=328, number=645,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KYUREM', index=329, number=646,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_KELDEO', index=330, number=647,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MELOETTA', index=331, number=648,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_GENESECT', index=332, number=649,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAMILY_MELTAN', index=333, number=808,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=63,
   serialized_end=7039,
 )
@@ -1712,6 +1711,7 @@ FAMILY_MELTAN = 808
 
 
 DESCRIPTOR.enum_types_by_name['PokemonFamilyId'] = _POKEMONFAMILYID
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 # @@protoc_insertion_point(module_scope)

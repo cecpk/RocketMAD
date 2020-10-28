@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/networking/responses/titan/responses/submit_new_poi_response.proto',
   package='pogoprotos.networking.responses.titan.responses',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\nMpogoprotos/networking/responses/titan/responses/submit_new_poi_response.proto\x12/pogoprotos.networking.responses.titan.responses\"\xb3\x02\n\x14SubmitNewPoiResponse\x12\\\n\x06status\x18\x01 \x01(\x0e\x32L.pogoprotos.networking.responses.titan.responses.SubmitNewPoiResponse.Status\x12\x15\n\rsubmission_id\x18\x02 \x01(\t\x12\x10\n\x08messages\x18\x03 \x03(\t\"\x93\x01\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x0b\n\x07\x46\x41ILURE\x10\x02\x12\x12\n\x0eINTERNAL_ERROR\x10\x03\x12\x1f\n\x1bTOO_MANY_RECENT_SUBMISSIONS\x10\x04\x12\x11\n\rINVALID_INPUT\x10\x05\x12\t\n\x05MINOR\x10\x06\x12\x11\n\rNOT_AVAILABLE\x10\x07\x62\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -33,39 +32,39 @@ _SUBMITNEWPOIRESPONSE_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='SUCCESS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAILURE', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INTERNAL_ERROR', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='TOO_MANY_RECENT_SUBMISSIONS', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='INVALID_INPUT', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='MINOR', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='NOT_AVAILABLE', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=291,
   serialized_end=438,
 )
@@ -85,21 +84,21 @@ _SUBMITNEWPOIRESPONSE = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='submission_id', full_name='pogoprotos.networking.responses.titan.responses.SubmitNewPoiResponse.submission_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='messages', full_name='pogoprotos.networking.responses.titan.responses.SubmitNewPoiResponse.messages', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -107,7 +106,7 @@ _SUBMITNEWPOIRESPONSE = _descriptor.Descriptor(
   enum_types=[
     _SUBMITNEWPOIRESPONSE_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -120,6 +119,7 @@ _SUBMITNEWPOIRESPONSE = _descriptor.Descriptor(
 _SUBMITNEWPOIRESPONSE.fields_by_name['status'].enum_type = _SUBMITNEWPOIRESPONSE_STATUS
 _SUBMITNEWPOIRESPONSE_STATUS.containing_type = _SUBMITNEWPOIRESPONSE
 DESCRIPTOR.message_types_by_name['SubmitNewPoiResponse'] = _SUBMITNEWPOIRESPONSE
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 SubmitNewPoiResponse = _reflection.GeneratedProtocolMessageType('SubmitNewPoiResponse', (_message.Message,), dict(
   DESCRIPTOR = _SUBMITNEWPOIRESPONSE,

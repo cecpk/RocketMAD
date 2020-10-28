@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/settings/master/item/incident_ticket_attributes.proto',
   package='pogoprotos.settings.master.item',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n@pogoprotos/settings/master/item/incident_ticket_attributes.proto\x12\x1fpogoprotos.settings.master.item\x1a\'pogoprotos/inventory/item/item_id.proto\"\x96\x01\n\x18IncidentTicketAttributes\x12\x1d\n\x15ignore_full_inventory\x18\x01 \x01(\x08\x12!\n\x19upgrade_requirement_count\x18\x02 \x01(\x05\x12\x38\n\rupgraded_item\x18\x03 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemIdb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,28 +40,28 @@ _INCIDENTTICKETATTRIBUTES = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='upgrade_requirement_count', full_name='pogoprotos.settings.master.item.IncidentTicketAttributes.upgrade_requirement_count', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='upgraded_item', full_name='pogoprotos.settings.master.item.IncidentTicketAttributes.upgraded_item', index=2,
       number=3, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -74,6 +73,7 @@ _INCIDENTTICKETATTRIBUTES = _descriptor.Descriptor(
 
 _INCIDENTTICKETATTRIBUTES.fields_by_name['upgraded_item'].enum_type = pogoprotos_dot_inventory_dot_item_dot_item__id__pb2._ITEMID
 DESCRIPTOR.message_types_by_name['IncidentTicketAttributes'] = _INCIDENTTICKETATTRIBUTES
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 IncidentTicketAttributes = _reflection.GeneratedProtocolMessageType('IncidentTicketAttributes', (_message.Message,), dict(
   DESCRIPTOR = _INCIDENTTICKETATTRIBUTES,

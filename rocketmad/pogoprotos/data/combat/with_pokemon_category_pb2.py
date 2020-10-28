@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/combat/with_pokemon_category.proto',
   package='pogoprotos.data.combat',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n2pogoprotos/data/combat/with_pokemon_category.proto\x12\x16pogoprotos.data.combat\x1a#pogoprotos/enums/pokemon_type.proto\"`\n\x13WithPokemonCategory\x12\x15\n\rcategory_name\x18\x01 \x01(\t\x12\x32\n\x0bpokemon_ids\x18\x02 \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonTypeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_pokemon__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -41,21 +40,21 @@ _WITHPOKEMONCATEGORY = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='pokemon_ids', full_name='pogoprotos.data.combat.WithPokemonCategory.pokemon_ids', index=1,
       number=2, type=14, cpp_type=8, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -67,6 +66,7 @@ _WITHPOKEMONCATEGORY = _descriptor.Descriptor(
 
 _WITHPOKEMONCATEGORY.fields_by_name['pokemon_ids'].enum_type = pogoprotos_dot_enums_dot_pokemon__type__pb2._POKEMONTYPE
 DESCRIPTOR.message_types_by_name['WithPokemonCategory'] = _WITHPOKEMONCATEGORY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 WithPokemonCategory = _reflection.GeneratedProtocolMessageType('WithPokemonCategory', (_message.Message,), dict(
   DESCRIPTOR = _WITHPOKEMONCATEGORY,

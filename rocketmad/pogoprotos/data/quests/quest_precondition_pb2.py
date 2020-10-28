@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -20,10 +19,10 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='pogoprotos/data/quests/quest_precondition.proto',
   package='pogoprotos.data.quests',
   syntax='proto3',
+  serialized_options=None,
   serialized_pb=_b('\n/pogoprotos/data/quests/quest_precondition.proto\x12\x16pogoprotos.data.quests\x1a!pogoprotos/enums/badge_type.proto\"\xed\n\n\x11QuestPrecondition\x12M\n\x04type\x18\x01 \x01(\x0e\x32?.pogoprotos.data.quests.QuestPrecondition.QuestPreconditionType\x12\x1b\n\x11quest_template_id\x18\x02 \x01(\tH\x00\x12@\n\x05level\x18\x03 \x01(\x0b\x32/.pogoprotos.data.quests.QuestPrecondition.LevelH\x00\x12@\n\x05medal\x18\x04 \x01(\x0b\x32/.pogoprotos.data.quests.QuestPrecondition.MedalH\x00\x12\x42\n\x06quests\x18\x05 \x01(\x0b\x32\x30.pogoprotos.data.quests.QuestPrecondition.QuestsH\x00\x12V\n\x11month_year_bucket\x18\x06 \x01(\x0b\x32\x39.pogoprotos.data.quests.QuestPrecondition.MonthYearBucketH\x00\x12@\n\x05group\x18\x07 \x01(\x0b\x32/.pogoprotos.data.quests.QuestPrecondition.GroupH\x00\x1al\n\x05Group\x12\x42\n\x04name\x18\x01 \x01(\x0e\x32\x34.pogoprotos.data.quests.QuestPrecondition.Group.Name\"\x1f\n\x04Name\x12\t\n\x05UNSET\x10\x00\x12\x0c\n\x08GIOVANNI\x10\x01\x1a.\n\x0fMonthYearBucket\x12\x0c\n\x04year\x18\x01 \x01(\x05\x12\r\n\x05month\x18\x02 \x01(\x05\x1a$\n\x06Quests\x12\x1a\n\x12quest_template_ids\x18\x01 \x03(\t\x1a\\\n\x05Level\x12\x44\n\x08operator\x18\x01 \x01(\x0e\x32\x32.pogoprotos.data.quests.QuestPrecondition.Operator\x12\r\n\x05level\x18\x02 \x01(\x05\x1a\x8c\x01\n\x05Medal\x12)\n\x04type\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12\x44\n\x08operator\x18\x02 \x01(\x0e\x32\x32.pogoprotos.data.quests.QuestPrecondition.Operator\x12\x12\n\nbadge_rank\x18\x03 \x01(\x05\"B\n\x08Operator\x12\t\n\x05UNSET\x10\x00\x12\n\n\x06\x45QUALS\x10\x01\x12\x10\n\x0cGREATER_THAN\x10\x02\x12\r\n\tLESS_THAN\x10\x03\"\x87\x03\n\x15QuestPreconditionType\x12\x1c\n\x18QUEST_PRECONDITION_UNSET\x10\x00\x12\x1c\n\x18QUEST_PRECONDITION_QUEST\x10\x01\x12\x1c\n\x18QUEST_PRECONDITION_LEVEL\x10\x02\x12\x1c\n\x18QUEST_PRECONDITION_MEDAL\x10\x03\x12\x1f\n\x1bQUEST_PRECONDITION_IS_MINOR\x10\x04\x12\'\n#QUEST_PRECONDITION_EXCLUSIVE_QUESTS\x10\x05\x12\x1c\n\x18QUEST_PRECONDITION_NEVER\x10\x06\x12\x30\n,QUEST_PRECONDITION_RECEIVED_ANY_LISTED_QUEST\x10\x07\x12(\n$QUEST_PRECONDITION_MONTH_YEAR_BUCKET\x10\x08\x12\x32\n.QUEST_PRECONDITION_EXCLUSIVE_IN_PROGRESS_GROUP\x10\tB\x0b\n\tConditionb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_badge__type__pb2.DESCRIPTOR,])
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -35,15 +34,15 @@ _QUESTPRECONDITION_GROUP_NAME = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GIOVANNI', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=671,
   serialized_end=702,
 )
@@ -57,23 +56,23 @@ _QUESTPRECONDITION_OPERATOR = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='EQUALS', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='GREATER_THAN', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='LESS_THAN', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=1027,
   serialized_end=1093,
 )
@@ -87,47 +86,47 @@ _QUESTPRECONDITION_QUESTPRECONDITIONTYPE = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_UNSET', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_QUEST', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_LEVEL', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_MEDAL', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_IS_MINOR', index=4, number=4,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_EXCLUSIVE_QUESTS', index=5, number=5,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_NEVER', index=6, number=6,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_RECEIVED_ANY_LISTED_QUEST', index=7, number=7,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_MONTH_YEAR_BUCKET', index=8, number=8,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='QUEST_PRECONDITION_EXCLUSIVE_IN_PROGRESS_GROUP', index=9, number=9,
-      options=None,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=1096,
   serialized_end=1487,
 )
@@ -147,7 +146,7 @@ _QUESTPRECONDITION_GROUP = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -155,7 +154,7 @@ _QUESTPRECONDITION_GROUP = _descriptor.Descriptor(
   enum_types=[
     _QUESTPRECONDITION_GROUP_NAME,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -178,21 +177,21 @@ _QUESTPRECONDITION_MONTHYEARBUCKET = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='month', full_name='pogoprotos.data.quests.QuestPrecondition.MonthYearBucket.month', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -215,14 +214,14 @@ _QUESTPRECONDITION_QUESTS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -245,21 +244,21 @@ _QUESTPRECONDITION_LEVEL = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='level', full_name='pogoprotos.data.quests.QuestPrecondition.Level.level', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -282,28 +281,28 @@ _QUESTPRECONDITION_MEDAL = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='operator', full_name='pogoprotos.data.quests.QuestPrecondition.Medal.operator', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='badge_rank', full_name='pogoprotos.data.quests.QuestPrecondition.Medal.badge_rank', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -326,49 +325,49 @@ _QUESTPRECONDITION = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='quest_template_id', full_name='pogoprotos.data.quests.QuestPrecondition.quest_template_id', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='level', full_name='pogoprotos.data.quests.QuestPrecondition.level', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='medal', full_name='pogoprotos.data.quests.QuestPrecondition.medal', index=3,
       number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='quests', full_name='pogoprotos.data.quests.QuestPrecondition.quests', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='month_year_bucket', full_name='pogoprotos.data.quests.QuestPrecondition.month_year_bucket', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='group', full_name='pogoprotos.data.quests.QuestPrecondition.group', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -377,7 +376,7 @@ _QUESTPRECONDITION = _descriptor.Descriptor(
     _QUESTPRECONDITION_OPERATOR,
     _QUESTPRECONDITION_QUESTPRECONDITIONTYPE,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
@@ -427,6 +426,7 @@ _QUESTPRECONDITION.oneofs_by_name['Condition'].fields.append(
   _QUESTPRECONDITION.fields_by_name['group'])
 _QUESTPRECONDITION.fields_by_name['group'].containing_oneof = _QUESTPRECONDITION.oneofs_by_name['Condition']
 DESCRIPTOR.message_types_by_name['QuestPrecondition'] = _QUESTPRECONDITION
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 QuestPrecondition = _reflection.GeneratedProtocolMessageType('QuestPrecondition', (_message.Message,), dict(
 
