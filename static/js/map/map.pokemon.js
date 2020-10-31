@@ -1,10 +1,11 @@
 /*
 globals addListeners, autoPanPopup, cryFileTypes, isShowAllZoom, mapData,
-markers, markersNoCluster, notifiedPokemonData, pokemonNewSpawnZIndex,
+notifiedPokemonData, pokemonNewSpawnZIndex,
 pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
 pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
 removeRangeCircle, sendNotification, settings, setupRangeCircle,
-updateRangeCircle, weatherClassesDay, weatherNames,
+updateRangeCircle, weatherClassesDay, weatherNames, updateMarkerLayer,
+createPokemonMarker
 */
 /* exported processPokemon, updatePokemons */
 
@@ -129,21 +130,7 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
         marker.setZIndexOffset(pokemonZIndex)
     }
 
-    if (isNotifPokemon && markers.hasLayer(marker)) {
-        // Marker in wrong layer, move to other layer.
-        markers.removeLayer(marker)
-        markersNoCluster.addLayer(marker)
-    } else if (!isNotifPokemon && markersNoCluster.hasLayer(marker)) {
-        // Marker in wrong layer, move to other layer.
-        markersNoCluster.removeLayer(marker)
-        markers.addLayer(marker)
-    }
-
-    if (settings.bounceNotifMarkers && isNotifPokemon && !notifiedPokemonData[pokemon.encounter_id].animationDisabled && !marker.isBouncing()) {
-        marker.bounce()
-    } else if (marker.isBouncing() && (!settings.bounceNotifMarkers || !isNotifPokemon)) {
-        marker.stopBouncing()
-    }
+    updateMarkerLayer(marker, isNotifPokemon, notifiedPokemonData[pokemon.encounter_id])
 
     return marker
 }
@@ -336,12 +323,9 @@ function processPokemon(pokemon) {
             sendPokemonNotification(pokemon)
         }
 
-        if (isNotifPoke) {
-            pokemon.marker = setupPokemonMarker(pokemon, markersNoCluster, serverSettings.generateImages)
-        } else {
-            pokemon.marker = setupPokemonMarker(pokemon, markers, serverSettings.generateImages)
-        }
+        pokemon.marker = createPokemonMarker(pokemon, serverSettings.generateImages)
         customizePokemonMarker(pokemon, pokemon.marker, isNotifPoke)
+
         if (isPokemonRangesActive()) {
             pokemon.rangeCircle = setupRangeCircle(pokemon, 'pokemon', !isNotifPoke)
         }

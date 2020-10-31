@@ -2,11 +2,239 @@
 globals ActiveFortModifierEnum, gymTypes, isGymMeetsGymFilters,
 isGymMeetsRaidFilters, isPokestopMeetsInvasionFilters,
 isPokestopMeetsLureFilters, isPokestopMeetsQuestFilters, map, mapData,
-raidEggImages, settings, statsSideNav
+raidEggImages, settings
 */
-/* exported updateStatsTable */
+/* exported initStatsSidebar, updateStatsTable */
 
+let statsSideNav
 let tabsInstance
+
+function initStatsSidebar() {
+    if (!serverSettings.statsSidebar) {
+        return
+    }
+
+    let tablesInitialized = false
+    const statsSideNavElem = document.getElementById('stats-sidenav')
+    statsSideNav = M.Sidenav.init(statsSideNavElem, {
+        edge: 'right',
+        draggable: false,
+        onOpenStart: function () {
+            if (!tablesInitialized) {
+                initStatsTables()
+                tablesInitialized = true
+            }
+
+            updateStatsTable()
+        }
+    })
+    $('.sidenav-trigger[data-target="stats-sidenav"]').on('click', function (e) {
+        if (statsSideNav.isOpen) {
+            statsSideNav.close()
+            e.stopPropagation()
+        }
+    })
+
+    function initStatsTables() {
+        console.log('initStatsTables')
+
+        $('#stats-tabs').tabs({
+            onShow: updateStatsTable
+        })
+
+        if (serverSettings.pokemons) {
+            $('#pokemon-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                scrollX: true,
+                language: {
+                    url: getDataTablesLocUrl()
+                },
+                columnDefs: [
+                    {
+                        targets: 0,
+                        orderable: false
+                    },
+                    {
+                        targets: 1,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[1]}" target="_blank" title='${i18n('View on GamePress')}'>#${row[1]}</a>`
+                            }
+                            return row[1]
+                        }
+                    },
+                    {
+                        targets: 3,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[3].toLocaleString()
+                            }
+                            return row[3]
+                        }
+                    },
+                    {
+                        targets: 4,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[4].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
+                            }
+                            return row[4]
+                        }
+                    }
+                ],
+                order: [[3, 'desc']]
+            })
+        }
+
+        if (serverSettings.gyms) {
+            $('#gym-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                scrollX: true,
+                language: {
+                    url: getDataTablesLocUrl()
+                },
+                columnDefs: [
+                    {
+                        targets: 0,
+                        orderable: false
+                    },
+                    {
+                        targets: 2,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[2].toLocaleString()
+                            }
+                            return row[2]
+                        }
+                    },
+                    {
+                        targets: 3,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[3].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
+                            }
+                            return row[3]
+                        }
+                    }
+                ],
+                order: [[2, 'desc']]
+            })
+        }
+
+        if (serverSettings.raids) {
+            $('#egg-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                scrollX: true,
+                language: {
+                    url: getDataTablesLocUrl()
+                },
+                columnDefs: [
+                    { orderable: false, targets: 0 },
+                    {
+                        targets: 2,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[2].toLocaleString()
+                            }
+                            return row[2]
+                        }
+                    },
+                    {
+                        targets: 3,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[3].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
+                            }
+                            return row[3]
+                        }
+                    }
+                ],
+                order: [[2, 'desc']]
+            })
+
+            $('#raid-pokemon-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                scrollX: true,
+                language: {
+                    url: getDataTablesLocUrl()
+                },
+                columnDefs: [
+                    { orderable: false, targets: 0 },
+                    {
+                        targets: 2,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return `<a href="http://pokemon.gameinfo.io/en/pokemon/${row[2]}" target="_blank" title='${i18n('View on GamePress')}'>#${row[2]}</a>`
+                            }
+                            return row[2]
+                        }
+                    },
+                    {
+                        targets: 4,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[4].toLocaleString()
+                            }
+                            return row[4]
+                        }
+                    },
+                    {
+                        targets: 5,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[5].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
+                            }
+                            return row[5]
+                        }
+                    }
+                ],
+                order: [[4, 'desc']]
+            })
+        }
+
+        if (serverSettings.pokestops) {
+            $('#pokestop-table').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                scrollX: true,
+                language: {
+                    url: getDataTablesLocUrl()
+                },
+                columnDefs: [
+                    { orderable: false, targets: 0 },
+                    {
+                        targets: 2,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[2].toLocaleString()
+                            }
+                            return row[2]
+                        }
+                    },
+                    {
+                        targets: 3,
+                        render: function (data, type, row) {
+                            if (type === 'display') {
+                                return row[3].toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%'
+                            }
+                            return row[3]
+                        }
+                    }
+                ],
+                order: [[2, 'desc']]
+            })
+        }
+    }
+}
 
 function updateStatsTable() {
     if (!serverSettings.statsSidebar || !statsSideNav.isOpen) {
