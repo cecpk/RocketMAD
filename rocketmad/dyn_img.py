@@ -6,6 +6,8 @@ import os
 import subprocess
 import sys
 
+from pathlib import Path
+
 from .utils import get_args, get_pokemon_data
 
 log = logging.getLogger(__name__)
@@ -106,8 +108,8 @@ class ImageGenerator:
     # Will be set during config parsing
     generate_images = False
     imagemagick_executable = None
-    pogo_assets = None
-    pogo_assets_pokemon_icons = None
+    use_pogo_assets = False
+    pokemon_icon_path = None
 
     def __init__(self):
         if args.generate_images:
@@ -119,17 +121,22 @@ class ImageGenerator:
                          executable)
 
                 if args.pogo_assets:
-                    decr_assets_dir = os.path.join(args.pogo_assets,
-                                                   'pokemon_icons')
-                    if os.path.isdir(decr_assets_dir):
-                        log.info("Using PogoAssets repository at '%s'",
-                                 args.pogo_assets)
-                        self.pogo_assets = args.pogo_assets
-                    else:
-                        log.error("Could not find PogoAssets repository at "
-                                  "'%s'. Clone via 'git clone --depth 1 "
-                                  "https://github.com/ZeChrales/"
-                                  "PogoAssets.git'", args.pogo_assets)
+                    pokemon_dirs = [
+                        Path(args.pogo_assets) / 'pokemon_icons',
+                        Path(args.pogo_assets) / 'Images/Pokemon - 256x256'
+                    ]
+                    for pokemon_dir in pokemon_dirs:
+                        if pokemon_dir.exists():
+                            log.info("Using PogoAssets repository at '%s'",
+                                     args.pogo_assets)
+                            self.use_pogo_assets = True
+                            self.pokemon_icon_path = pokemon_dir
+                            return
+
+                    log.error("Could not find PogoAssets repository at '%s'. "
+                              "Clone via 'git clone --depth 1 "
+                              "https://github.com/PokeMiners/pogo_assets.git'",
+                              args.pogo_assets)
             else:
                 log.error("Could not find ImageMagick executable. Make sure "
                           "you can execute either 'magick' (ImageMagick 7) "
@@ -162,7 +169,7 @@ class ImageGenerator:
                              evolution=EVOLUTION_UNSET, shiny=False,
                              weather=None):
 
-        if self.generate_images and self.pogo_assets:
+        if self.generate_images and self.use_pogo_assets:
             source, target = self._pokemon_asset_path(
                 pkm, classifier='icon', gender=gender, form=form,
                 costume=costume, evolution=evolution, shiny=shiny,
@@ -180,7 +187,7 @@ class ImageGenerator:
         im_lines = []
 
         # Add Pokemon icon
-        if self.pogo_assets:
+        if self.use_pogo_assets:
             source, target = self._pokemon_asset_path(
                 pkm, classifier='marker', gender=gender, form=form,
                 costume=costume, evolution=evolution, weather=weather)
@@ -282,7 +289,7 @@ class ImageGenerator:
         return self._run_imagemagick(gym_image, im_lines, out_filename)
 
     def _draw_raid_pokemon(self, pkm, form, costume, evolution):
-        if self.pogo_assets:
+        if self.use_pogo_assets:
             pkm_path, dummy = self._pokemon_asset_path(
                 pkm, form=form, costume=costume, evolution=evolution)
             trim = True
@@ -396,16 +403,15 @@ class ImageGenerator:
                 if asset_id != '00':
                     gender_form_asset_suffix = '_' + asset_id
 
-        assets_basedir = os.path.join(self.pogo_assets, 'pokemon_icons')
         if should_use_asset_bundle_suffix:
-            assets_fullname = os.path.join(
-                assets_basedir, 'pokemon_icon{}{}.png'.format(
+            assets_fullname = (
+                self.pokemon_icon_path / 'pokemon_icon{}{}.png'.format(
                     gender_form_asset_suffix, shiny_suffix))
         else:
-            assets_fullname = os.path.join(
-                assets_basedir, 'pokemon_icon_{:03d}{}{}{}.png'.format(
-                    pkm, gender_form_asset_suffix, costume_asset_suffix,
-                    shiny_suffix))
+            assets_fullname = (
+                self.pokemon_icon_path / 'pokemon_icon_{:03d}{}{}{}.png'
+                    .format(pkm, gender_form_asset_suffix,
+                            costume_asset_suffix, shiny_suffix))
 
         target_path = os.path.join(
             path_generated, 'pokemon_{}'.format(
@@ -424,7 +430,8 @@ class ImageGenerator:
                 log.warning("Cannot find PogoAssets file {}".format(
                     assets_fullname))
                 # Dummy Pokemon icon
-                return (os.path.join(assets_basedir, 'pokemon_icon_000.png'),
+                return (os.path.join(self.pokemon_icon_path,
+                                     'pokemon_icon_000.png'),
                         os.path.join(target_path, 'pkm_000.png'))
             return self._pokemon_asset_path(pkm, classifier=classifier,
                                             gender=MALE, form=form,
