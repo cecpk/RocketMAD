@@ -19,7 +19,7 @@ from s2sphere import LatLng
 
 from .auth.auth_factory import AuthFactory
 from .blacklist import fingerprints
-from .dyn_img import get_gym_icon, get_pokemon_map_icon, get_pokemon_raw_icon
+from .dyn_img import ImageGenerator
 from .models import (db, Pokemon, Gym, Pokestop, Nest, ScannedLocation,
                      TrsSpawn, Weather)
 from .pogoprotos.enums.costume_pb2 import Costume
@@ -173,6 +173,8 @@ def create_app():
                 name = config.split(':')[1]
                 if name not in valid_access_configs:
                     valid_access_configs.append(name)
+
+    image_generator = ImageGenerator()
 
     @app.before_request
     def validate_request():
@@ -1036,11 +1038,11 @@ def create_app():
             abort(400)
 
         if raw:
-            filename = get_pokemon_raw_icon(
+            filename = image_generator.get_pokemon_raw_icon(
                 pkm, gender=gender, form=form, costume=costume,
                 evolution=evolution, shiny=shiny, weather=weather)
         else:
-            filename = get_pokemon_map_icon(
+            filename = image_generator.get_pokemon_map_icon(
                 pkm, gender=gender, form=form, costume=costume,
                 evolution=evolution, weather=weather)
         return send_file(filename, mimetype='image/png')
@@ -1070,8 +1072,9 @@ def create_app():
             abort(400)
 
         return send_file(
-            get_gym_icon(team, level, raid_level, pkm, form, costume,
-                         evolution, ex_raid_eligible, in_battle),
+            image_generator.get_gym_icon(
+                team, level, raid_level, pkm, form, costume, evolution,
+                ex_raid_eligible, in_battle),
             mimetype='image/png'
         )
 
