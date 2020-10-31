@@ -3,7 +3,7 @@ exported canPrimaryInputHover, deviceCanHover, difference, ding,
 disableDarkMode, enableDarkMode, getDecimalSeparator, getParameterByName,
 getPointDistance, getThousandsSeparator, hasCoarsePrimaryPointer,
 hasFinePrimaryPointer, hasLocationSupport, intersection, isMobileDevice,
-isNowBetween, lazyLoadImages, mapServiceProviderNames, removeLastDirsFromUrl,
+isNowBetween, mapServiceProviderNames, removeLastDirsFromUrl,
 showImageModal, symmetricDifference, timestampToDate, timestampToDateTime,
 timestampToTime, toastError, toastInfo, toastSuccess, toastWarning, union,
 updateLabelDiffTime
@@ -347,31 +347,4 @@ function symmetricDifference(setA, setB) {
         }
     }
     return difference
-}
-
-function lazyLoadImages() {
-    const lazyImages = [].slice.call(document.querySelectorAll('img.lazy'))
-
-    if ('IntersectionObserver' in window) {
-        const lazyImageObserver = new IntersectionObserver(function (entries, observer) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    const lazyImage = entry.target
-                    lazyImage.src = lazyImage.dataset.src
-                    lazyImage.classList.remove('lazy')
-                    lazyImageObserver.unobserve(lazyImage)
-                }
-            })
-        })
-
-        lazyImages.forEach(function (lazyImage) {
-            lazyImageObserver.observe(lazyImage)
-        })
-    } else {
-        // IntersectionObserver not supported, don't use lazy loading.
-        lazyImages.forEach(function (lazyImage) {
-            lazyImage.src = lazyImage.dataset.src
-            lazyImage.classList.remove('lazy')
-        })
-    }
 }

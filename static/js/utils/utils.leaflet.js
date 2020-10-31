@@ -30,3 +30,32 @@ function setTileLayer(layerName, map) {
     map.addLayer(tileLayers[layerName])
     map.tileLayerName = layerName
 }
+
+// An icon that uses <div> instead of <img>, which is measured to has way less performance overhead
+L.ContentIcon = L.Icon.extend({
+
+    createIcon: function (oldIcon) {
+        return this._createDiv('icon', oldIcon)
+    },
+
+    createShadow: function (oldIcon) {
+        return this._createDiv('shadow', oldIcon)
+    },
+
+    _createDiv: function (name, oldIcon) {
+        const src = this._getIconUrl(name)
+        if (!src) {
+            return null
+        }
+
+        const div = (oldIcon && oldIcon.tagName === 'DIV') ? oldIcon : document.createElement('div')
+        div.style.content = `url('${src}')`
+        this._setIconStyles(div, name)
+        return div
+    }
+
+})
+
+L.contentIcon = function (options) {
+    return new L.ContentIcon(options)
+}

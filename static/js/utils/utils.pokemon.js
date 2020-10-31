@@ -3,7 +3,7 @@ exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
 getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
 getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
 getPokemonRarityName, getPokemonRawIconUrl, getPokemonTypes, initMoveData,
-initPokemonData, searchPokemon, setupPokemonMarker, updatePokemonRarities
+initPokemonData, searchPokemon, createPokemonMarker, updatePokemonRarities
 */
 
 var pokemonData = {}
@@ -91,15 +91,18 @@ function getPokemonIds() {
 }
 
 function getPokemonName(id, evolutionId = 0) {
+    const pokemon = pokemonData[id]
+    const name = typeof pokemon === 'undefined' ? '#' + id : i18n(pokemon.name)
+
     switch (evolutionId) {
         case 1:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name)
+            return i18n('Mega') + ' ' + name
         case 2:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' X'
+            return i18n('Mega') + ' ' + name + ' X'
         case 3:
-            return i18n('Mega') + ' ' + i18n(pokemonData[id].name) + ' Y'
+            return i18n('Mega') + ' ' + name + ' Y'
         default:
-            return i18n(pokemonData[id].name)
+            return name
     }
 }
 
@@ -215,50 +218,55 @@ function getPokemonLevel(cpMultiplier) {
     return pokemonLevel
 }
 
-function setupPokemonMarker(pokemon, layerGroup, generateImages) {
-    var icon = L.icon({
+function createPokemonMarker(pokemon, generateImages) {
+    const icon = L.contentIcon({
         iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
         iconSize: [32, 32]
     })
 
-    return L.marker([pokemon.latitude, pokemon.longitude], { icon: icon }).addTo(layerGroup)
+    return L.marker([pokemon.latitude, pokemon.longitude], { icon: icon })
 }
 
-function searchPokemon(searchtext) {
-    var searchsplit = searchtext.split(',')
-    var foundPokemon = []
-    var operator = 'add'
-    $.each(searchsplit, function (k, searchstring) {
-        if (searchstring.substring(0, 1) === '+') {
-            searchstring = searchstring.substring(1)
-            operator = 'add'
-        } else if (searchstring.substring(0, 1) === '-') {
-            searchstring = searchstring.substring(1)
-            operator = 'remove'
-        } else {
-            operator = 'add'
+function searchPokemon(searchText) {
+    const searchSplit = searchText.split(',')
+    const foundPokemon = new Set()
+
+    searchSplit.forEach(function (searchString) {
+        let isAdd = true
+        if (searchString.charAt(0) === '+') {
+            searchString = searchString.substring(1)
+        } else if (searchString.charAt(0) === '-') {
+            searchString = searchString.substring(1)
+            isAdd = false
         }
-        if (!isNaN(parseFloat(searchstring)) && !isNaN(searchstring - 0)) {
-            if (operator === 'add') {
-                foundPokemon.push(searchstring)
+
+        if (searchString.length === 0) {
+            return
+        }
+
+        function addDeletePokemon(pokemonId) {
+            if (isAdd) {
+                foundPokemon.add(pokemonId)
             } else {
-                delete foundPokemon[foundPokemon.indexOf(searchstring)]
+                foundPokemon.delete(pokemonId)
             }
-        } else if (searchstring.length > 0 && searchstring !== '-' && searchstring !== '+') {
-            $.each(pokemonSearchList, function (idx, item) {
-                if (item.name.toLowerCase().includes(searchstring.toLowerCase()) ||
-                        item.id.toString() === searchstring.toString() ||
-                        item.type1.toLowerCase().includes(searchstring.toLowerCase()) ||
-                        item.type2.toLowerCase().includes(searchstring.toLowerCase()) ||
-                        item.gen.toString() === searchstring.toLowerCase()) {
-                    if (operator === 'add') {
-                        foundPokemon.push(item.id)
-                    } else {
-                        delete foundPokemon[foundPokemon.indexOf(item.id)]
-                    }
+        }
+
+        const pokemonId = parseInt(searchString)
+        if (!isNaN(pokemonId)) {
+            addDeletePokemon(pokemonId)
+        } else {
+            searchString = searchString.toLowerCase()
+            pokemonSearchList.forEach(function (item) {
+                if (item.name.toLowerCase().includes(searchString) ||
+                        item.type1.toLowerCase().includes(searchString) ||
+                        item.type2.toLowerCase().includes(searchString) ||
+                        item.gen.toString() === searchString) {
+                    addDeletePokemon(item.id)
                 }
             })
         }
     })
+
     return foundPokemon
 }
