@@ -107,6 +107,7 @@ class ImageGenerator:
     generate_images = False
     imagemagick_executable = None
     pogo_assets = None
+    pogo_assets_pokemon_icons = None
 
     def __init__(self):
         if args.generate_images:
@@ -228,7 +229,7 @@ class ImageGenerator:
                      evolution=EVOLUTION_UNSET, ex_raid_eligible=False,
                      in_battle=False):
         if not self.generate_images:
-            return _default_gym_image(team, level, raid_level, pkm)
+            return self._default_gym_image(team, level, raid_level, pkm)
 
         im_lines = ['-font "{}" -pointsize {}'.format(font, font_pointsize)]
         if pkm > 0:
@@ -270,7 +271,7 @@ class ImageGenerator:
         # Battle Indicator.
         if in_battle:
             out_filename = out_filename.replace('.png', '_B.png')
-            im_lines.extend(_draw_battle_indicator())
+            im_lines.extend(self._draw_battle_indicator())
 
         # EX raid eligble indicator.
         if ex_raid_eligible:
@@ -304,7 +305,7 @@ class ImageGenerator:
         return self._draw_badge(badge_upper_right, fill_col, text_col, level)
 
     def _draw_battle_indicator(self):
-        return _battle_indicator_swords()
+        return self._battle_indicator_swords()
 
     def _draw_ex_raid_eligible_indicator(self):
         return [
@@ -436,8 +437,8 @@ class ImageGenerator:
         lines = [
             '-gravity {} ( "{}"{} -scale {}x{} -unsharp 0x1 ( +clone '.format(
                 gravity, image, trim_cmd, size, size),
-            '-background black -shadow 80x3+5+5 ) +swap -background ' +
-            'none -layers merge +repage ) -geometry +0+0 -composite'
+            '-background black -shadow 80x3+5+5 ) +swap -background '
+            + 'none -layers merge +repage ) -geometry +0+0 -composite'
         ]
         return lines
 
