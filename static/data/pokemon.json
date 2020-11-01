@@ -8066,6 +8066,10 @@
         "formName": "Purified",
         "assetId": "00"
       },
+      "2666": {
+        "formName": "",
+        "assetId": "00"
+      },
       "2668": {
         "formName": "",
         "assetSuffix": "pm0302_00_pgo_fall2020"
@@ -17394,7 +17398,89 @@
         "type": "Flying",
         "color": "#a890f0"
       }
-    ]
+    ],
+    "forms": {
+      "2594": {
+        "formName": "Archipelago",
+        "assetId": "00"
+      },
+      "2595": {
+        "formName": "Continental",
+        "assetId": "00"
+      },
+      "2596": {
+        "formName": "Elegant",
+        "assetId": "00"
+      },
+      "2597": {
+        "formName": "Fancy",
+        "assetId": "00"
+      },
+      "2598": {
+        "formName": "Garden",
+        "assetId": "00"
+      },
+      "2599": {
+        "formName": "High Plains",
+        "assetId": "00"
+      },
+      "2600": {
+        "formName": "Icy Snow",
+        "assetId": "00"
+      },
+      "2601": {
+        "formName": "Jungle",
+        "assetId": "00"
+      },
+      "2602": {
+        "formName": "Marine",
+        "assetId": "00"
+      },
+      "2603": {
+        "formName": "Meadow",
+        "assetId": "00"
+      },
+      "2604": {
+        "formName": "Modern",
+        "assetId": "00"
+      },
+      "2605": {
+        "formName": "Monsoon",
+        "assetId": "00"
+      },
+      "2606": {
+        "formName": "Ocean",
+        "assetId": "00"
+      },
+      "2607": {
+        "formName": "Poké Ball",
+        "assetId": "00"
+      },
+      "2608": {
+        "formName": "Polar",
+        "assetId": "00"
+      },
+      "2609": {
+        "formName": "River",
+        "assetId": "00"
+      },
+      "2610": {
+        "formName": "Sandstorm",
+        "assetId": "00"
+      },
+      "2611": {
+        "formName": "Savanna",
+        "assetId": "00"
+      },
+      "2612": {
+        "formName": "Sun",
+        "assetId": "00"
+      },
+      "2613": {
+        "formName": "Tundra",
+        "assetId": "00"
+      }
+    }
   },
   "667": {
     "name": "Litleo",
@@ -17420,7 +17506,17 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "2587": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2588": {
+        "formName": "Female",
+        "assetId": "00"
+      }
+    }
   },
   "669": {
     "name": "Flabébé",
@@ -17429,7 +17525,29 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "2614": {
+        "formName": "Red Flower",
+        "assetId": "00"
+      },
+      "2615": {
+        "formName": "Yellow Flower",
+        "assetId": "00"
+      },
+      "2616": {
+        "formName": "Orange Flower",
+        "assetId": "00"
+      },
+      "2617": {
+        "formName": "Blue Flower",
+        "assetId": "00"
+      },
+      "2618": {
+        "formName": "White Flower",
+        "assetId": "00"
+      }
+    }
   },
   "670": {
     "name": "Floette",
@@ -17438,7 +17556,29 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "2619": {
+        "formName": "Red Flower",
+        "assetId": "00"
+      },
+      "2620": {
+        "formName": "Yellow Flower",
+        "assetId": "00"
+      },
+      "2621": {
+        "formName": "Orange Flower",
+        "assetId": "00"
+      },
+      "2622": {
+        "formName": "Blue Flower",
+        "assetId": "00"
+      },
+      "2623": {
+        "formName": "White Flower",
+        "assetId": "00"
+      }
+    }
   },
   "671": {
     "name": "Florges",
@@ -17447,7 +17587,29 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "2624": {
+        "formName": "Red Flower",
+        "assetId": "00"
+      },
+      "2625": {
+        "formName": "Yellow Flower",
+        "assetId": "00"
+      },
+      "2626": {
+        "formName": "Orange Flower",
+        "assetId": "00"
+      },
+      "2627": {
+        "formName": "Blue Flower",
+        "assetId": "00"
+      },
+      "2628": {
+        "formName": "White Flower",
+        "assetId": "00"
+      }
+    }
   },
   "672": {
     "name": "Skiddo",
@@ -17496,7 +17658,49 @@
         "type": "Normal",
         "color": "#8a8a59"
       }
-    ]
+    ],
+    "forms": {
+      "2629": {
+        "formName": "Natural Form",
+        "assetId": "00"
+      },
+      "2630": {
+        "formName": "Heart Trim",
+        "assetId": "00"
+      },
+      "2631": {
+        "formName": "Star Trim",
+        "assetId": "00"
+      },
+      "2632": {
+        "formName": "Diamond Trim",
+        "assetId": "00"
+      },
+      "2633": {
+        "formName": "Debutante Trim",
+        "assetId": "00"
+      },
+      "2634": {
+        "formName": "Matron Trim",
+        "assetId": "00"
+      },
+      "2635": {
+        "formName": "Dandy Trim",
+        "assetId": "00"
+      },
+      "2636": {
+        "formName": "La Reine Trim",
+        "assetId": "00"
+      },
+      "2637": {
+        "formName": "Kabuki Trim",
+        "assetId": "00"
+      },
+      "2638": {
+        "formName": "Pharaoh Trim",
+        "assetId": "00"
+      }
+    }
   },
   "677": {
     "name": "Espurr",
@@ -17514,7 +17718,17 @@
         "type": "Psychic",
         "color": "#f85888"
       }
-    ]
+    ],
+    "forms": {
+      "2589": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2590": {
+        "formName": "Female",
+        "assetId": "00"
+      }
+    }
   },
   "679": {
     "name": "Honedge",
@@ -17553,7 +17767,17 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ]
+    ],
+    "forms": {
+      "2639": {
+        "formName": "Shield",
+        "assetId": "00"
+      },
+      "2640": {
+        "formName": "Blade",
+        "assetId": "00"
+      }
+    }
   },
   "682": {
     "name": "Spritzee",
@@ -17890,7 +18114,25 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "2641": {
+        "formName": "Small",
+        "assetId": "00"
+      },
+      "2642": {
+        "formName": "Average",
+        "assetId": "00"
+      },
+      "2643": {
+        "formName": "Large",
+        "assetId": "00"
+      },
+      "2644": {
+        "formName": "Super",
+        "assetId": "00"
+      }
+    }
   },
   "711": {
     "name": "Gourgeist",
@@ -17903,7 +18145,25 @@
         "type": "Grass",
         "color": "#78c850"
       }
-    ]
+    ],
+    "forms": {
+      "2645": {
+        "formName": "Small",
+        "assetId": "00"
+      },
+      "2646": {
+        "formName": "Average",
+        "assetId": "00"
+      },
+      "2647": {
+        "formName": "Large",
+        "assetId": "00"
+      },
+      "2648": {
+        "formName": "Super",
+        "assetId": "00"
+      }
+    }
   },
   "712": {
     "name": "Bergmite",
@@ -17956,7 +18216,17 @@
         "type": "Fairy",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "2649": {
+        "formName": "Neutral Mode",
+        "assetId": "00"
+      },
+      "2650": {
+        "formName": "Active Mode",
+        "assetId": "00"
+      }
+    }
   },
   "717": {
     "name": "Yveltal",
@@ -17982,7 +18252,21 @@
         "type": "Ground",
         "color": "#e0c068"
       }
-    ]
+    ],
+    "forms": {
+      "2591": {
+        "formName": "10%",
+        "assetId": "00"
+      },
+      "2592": {
+        "formName": "50%",
+        "assetId": "00"
+      },
+      "2593": {
+        "formName": "Complete",
+        "assetId": "00"
+      }
+    }
   },
   "719": {
     "name": "Diancie",
@@ -18008,7 +18292,37 @@
         "type": "Ghost",
         "color": "#e898e8"
       }
-    ]
+    ],
+    "forms": {
+      "2651": {
+        "formName": "Confined",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Ghost",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "00"
+      },
+      "2652": {
+        "formName": "Unbound",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Dark",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "00"
+      }
+    }
   },
   "721": {
     "name": "Volcanion",
