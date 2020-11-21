@@ -36,8 +36,6 @@ function initStatsSidebar() {
     })
 
     function initStatsTables() {
-        console.log('initStatsTables')
-
         $('#stats-tabs').tabs({
             onShow: updateStatsTable
         })
