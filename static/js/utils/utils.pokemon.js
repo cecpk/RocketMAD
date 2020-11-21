@@ -24,7 +24,7 @@ function initPokemonData() {
     return $.getJSON('static/dist/data/pokemon.min.json?v=' + version).done(function (data) {
         pokemonData = data
         $.each(pokemonData, function (id, value) {
-            var gen
+            let gen
             if (id <= 151) {
                 gen = 1
             } else if (id <= 251) {
@@ -39,6 +39,8 @@ function initPokemonData() {
                 gen = 6
             } else if (id <= 809) {
                 gen = 7
+            } else if (id <= 898) {
+                gen = 8
             }
             pokemonData[id].gen = gen
             pokemonSearchList.push({
