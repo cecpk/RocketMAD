@@ -13,7 +13,7 @@ const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'N
 // FontAwesome gender classes.
 const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 var pokemonSearchList = []
-const availablePokemonCount = 649
+const availablePokemonCount = 721
 const pokemonIds = new Set()
 
 function initPokemonData() {
