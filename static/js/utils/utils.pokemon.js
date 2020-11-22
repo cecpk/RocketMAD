@@ -81,12 +81,13 @@ function getPokemonIds() {
         for (let i = 1; i <= availablePokemonCount; i++) {
             pokemonIds.add(i)
         }
-        // Meltan, Melmetal and Galarians.
+        // Gen 7 and 8.
         pokemonIds.add(808)
         pokemonIds.add(809)
         pokemonIds.add(862)
         pokemonIds.add(863)
         pokemonIds.add(865)
+        pokemonIds.add(866)
         pokemonIds.add(867)
     }
     return new Set(pokemonIds)

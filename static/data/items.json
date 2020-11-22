@@ -218,6 +218,9 @@
     "name": "Global Event Ticket"
   },
   "1601": {
-    "name": "Event Ticket"
+    "name": "Pink Event Ticket"
+  },
+  "1602": {
+    "name": "Gray Event Ticket"
   }
 }

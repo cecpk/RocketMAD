@@ -704,6 +704,14 @@
       "2332": {
         "formName": "Flying",
         "assetSuffix": "pm0025_00_pgo_4thanniversary"
+      },
+      "2669": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2670": {
+        "formName": "",
+        "assetId": "00"
       }
     }
   },
@@ -6109,6 +6117,10 @@
       },
       "940": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2671": {
+        "formName": "",
         "assetId": "00"
       }
     }
@@ -16267,6 +16279,10 @@
       },
       "2233": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2672": {
+        "formName": "",
         "assetId": "00"
       }
     }
