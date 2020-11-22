@@ -291,7 +291,7 @@ function pokemonLabel(item) {
               <div>
                 <a href='javascript:togglePokemonNotif(${id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
                 <a href='javascript:excludePokemon(${id})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
-                <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title=${i18n('Remove')}><i class="fas fa-trash"></i></a>
+                <a href='javascript:removePokemonMarker("${encounterId}")' class='link-button' title='${i18n('Remove')}'><i class="fas fa-trash"></i></a>
                 <a href='https://pokemongo.gamepress.gg/pokemon/${id}' class='link-button' target='_blank' title='${i18n('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
               </div>
             </div>
