@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 from pogoprotos.data.capture import capture_probability_pb2 as pogoprotos_dot_data_dot_capture_dot_capture__probability__pb2
 from pogoprotos.inventory.item import item_id_pb2 as pogoprotos_dot_inventory_dot_item_dot_item__id__pb2
-from pogoprotos.map.pokemon import wild_pokemon_pb2 as pogoprotos_dot_map_dot_pokemon_dot_wild__pokemon__pb2
+from pogoprotos.data import pokemon_data_pb2 as pogoprotos_dot_data_dot_pokemon__data__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -22,9 +22,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.responses',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n>pogoprotos/networking/responses/quest_encounter_response.proto\x12\x1fpogoprotos.networking.responses\x1a\x31pogoprotos/data/capture/capture_probability.proto\x1a\'pogoprotos/inventory/item/item_id.proto\x1a)pogoprotos/map/pokemon/wild_pokemon.proto\"\xca\x03\n\x16QuestEncounterResponse\x12N\n\x06result\x18\x01 \x01(\x0e\x32>.pogoprotos.networking.responses.QuestEncounterResponse.Result\x12\x34\n\x07pokemon\x18\x02 \x01(\x0b\x32#.pogoprotos.map.pokemon.WildPokemon\x12H\n\x13\x63\x61pture_probability\x18\x03 \x01(\x0b\x32+.pogoprotos.data.capture.CaptureProbability\x12\x36\n\x0b\x61\x63tive_item\x18\x04 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\"\xa7\x01\n\x06Result\x12\x1b\n\x17QUEST_ENCOUNTER_UNKNOWN\x10\x00\x12\x1b\n\x17QUEST_ENCOUNTER_SUCCESS\x10\x01\x12!\n\x1dQUEST_ENCOUNTER_NOT_AVAILABLE\x10\x02\x12$\n QUEST_ENCOUNTER_ALREADY_FINISHED\x10\x03\x12\x1a\n\x16POKEMON_INVENTORY_FULL\x10\x04\x62\x06proto3')
+  serialized_pb=_b('\n>pogoprotos/networking/responses/quest_encounter_response.proto\x12\x1fpogoprotos.networking.responses\x1a\x31pogoprotos/data/capture/capture_probability.proto\x1a\'pogoprotos/inventory/item/item_id.proto\x1a\"pogoprotos/data/pokemon_data.proto\"\xc3\x03\n\x16QuestEncounterResponse\x12N\n\x06result\x18\x01 \x01(\x0e\x32>.pogoprotos.networking.responses.QuestEncounterResponse.Result\x12-\n\x07pokemon\x18\x02 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonData\x12H\n\x13\x63\x61pture_probability\x18\x03 \x01(\x0b\x32+.pogoprotos.data.capture.CaptureProbability\x12\x36\n\x0b\x61\x63tive_item\x18\x04 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\"\xa7\x01\n\x06Result\x12\x1b\n\x17QUEST_ENCOUNTER_UNKNOWN\x10\x00\x12\x1b\n\x17QUEST_ENCOUNTER_SUCCESS\x10\x01\x12!\n\x1dQUEST_ENCOUNTER_NOT_AVAILABLE\x10\x02\x12$\n QUEST_ENCOUNTER_ALREADY_FINISHED\x10\x03\x12\x1a\n\x16POKEMON_INVENTORY_FULL\x10\x04\x62\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_data_dot_capture_dot_capture__probability__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_map_dot_pokemon_dot_wild__pokemon__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_data_dot_capture_dot_capture__probability__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__data__pb2.DESCRIPTOR,])
 
 
 
@@ -57,8 +57,8 @@ _QUESTENCOUNTERRESPONSE_RESULT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=526,
-  serialized_end=693,
+  serialized_start=512,
+  serialized_end=679,
 )
 _sym_db.RegisterEnumDescriptor(_QUESTENCOUNTERRESPONSE_RESULT)
 
@@ -111,12 +111,12 @@ _QUESTENCOUNTERRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=235,
-  serialized_end=693,
+  serialized_start=228,
+  serialized_end=679,
 )
 
 _QUESTENCOUNTERRESPONSE.fields_by_name['result'].enum_type = _QUESTENCOUNTERRESPONSE_RESULT
-_QUESTENCOUNTERRESPONSE.fields_by_name['pokemon'].message_type = pogoprotos_dot_map_dot_pokemon_dot_wild__pokemon__pb2._WILDPOKEMON
+_QUESTENCOUNTERRESPONSE.fields_by_name['pokemon'].message_type = pogoprotos_dot_data_dot_pokemon__data__pb2._POKEMONDATA
 _QUESTENCOUNTERRESPONSE.fields_by_name['capture_probability'].message_type = pogoprotos_dot_data_dot_capture_dot_capture__probability__pb2._CAPTUREPROBABILITY
 _QUESTENCOUNTERRESPONSE.fields_by_name['active_item'].enum_type = pogoprotos_dot_inventory_dot_item_dot_item__id__pb2._ITEMID
 _QUESTENCOUNTERRESPONSE_RESULT.containing_type = _QUESTENCOUNTERRESPONSE

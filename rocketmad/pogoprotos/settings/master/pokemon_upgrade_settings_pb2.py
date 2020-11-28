@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n9pogoprotos/settings/master/pokemon_upgrade_settings.proto\x12\x1apogoprotos.settings.master\"\xdf\x02\n\x16PokemonUpgradeSettings\x12\x1a\n\x12upgrades_per_level\x18\x01 \x01(\x05\x12#\n\x1b\x61llowed_levels_above_player\x18\x02 \x01(\x05\x12\x12\n\ncandy_cost\x18\x03 \x03(\x05\x12\x15\n\rstardust_cost\x18\x04 \x03(\x05\x12\"\n\x1ashadow_stardust_multiplier\x18\x05 \x01(\x02\x12\x1f\n\x17shadow_candy_multiplier\x18\x06 \x01(\x02\x12$\n\x1cpurified_stardust_multiplier\x18\x07 \x01(\x02\x12!\n\x19purified_candy_multiplier\x18\x08 \x01(\x02\x12 \n\x18max_normal_upgrade_level\x18\t \x01(\x05\x12)\n!default_cp_boost_additional_level\x18\n \x01(\x05\x62\x06proto3')
+  serialized_pb=_b('\n9pogoprotos/settings/master/pokemon_upgrade_settings.proto\x12\x1apogoprotos.settings.master\"\x99\x03\n\x16PokemonUpgradeSettings\x12\x1a\n\x12upgrades_per_level\x18\x01 \x01(\x05\x12#\n\x1b\x61llowed_levels_above_player\x18\x02 \x01(\x05\x12\x12\n\ncandy_cost\x18\x03 \x03(\x05\x12\x15\n\rstardust_cost\x18\x04 \x03(\x05\x12\"\n\x1ashadow_stardust_multiplier\x18\x05 \x01(\x02\x12\x1f\n\x17shadow_candy_multiplier\x18\x06 \x01(\x02\x12$\n\x1cpurified_stardust_multiplier\x18\x07 \x01(\x02\x12!\n\x19purified_candy_multiplier\x18\x08 \x01(\x02\x12 \n\x18max_normal_upgrade_level\x18\t \x01(\x05\x12)\n!default_cp_boost_additional_level\x18\n \x01(\x05\x12!\n\x19xl_candy_min_player_level\x18\x0b \x01(\x05\x12\x15\n\rxl_candy_cost\x18\x0c \x03(\x05\x62\x06proto3')
 )
 
 
@@ -102,6 +102,20 @@ _POKEMONUPGRADESETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='xl_candy_min_player_level', full_name='pogoprotos.settings.master.PokemonUpgradeSettings.xl_candy_min_player_level', index=10,
+      number=11, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='xl_candy_cost', full_name='pogoprotos.settings.master.PokemonUpgradeSettings.xl_candy_cost', index=11,
+      number=12, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -115,7 +129,7 @@ _POKEMONUPGRADESETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=90,
-  serialized_end=441,
+  serialized_end=499,
 )
 
 DESCRIPTOR.message_types_by_name['PokemonUpgradeSettings'] = _POKEMONUPGRADESETTINGS

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.telemetry',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n=pogoprotos/data/telemetry/shopping_page_click_telemetry.proto\x12\x19pogoprotos.data.telemetry\x1a$pogoprotos/enums/telemetry_ids.proto\"\xa4\x07\n\x1aShoppingPageClickTelemetry\x12J\n\x16shopping_page_click_id\x18\x01 \x01(\x0e\x32*.pogoprotos.enums.ShoppingPageTelemetryIds\x12u\n\x1ashopping_page_click_source\x18\x02 \x01(\x0e\x32Q.pogoprotos.data.telemetry.ShoppingPageClickTelemetry.ShoppingPageTelemetrySource\x12\x10\n\x08item_sku\x18\x03 \x01(\t\x12\x10\n\x08has_item\x18\x04 \x01(\x08\x12\x1d\n\x15ml_bundle_tracking_id\x18\x05 \x01(\t\"\xff\x04\n\x1bShoppingPageTelemetrySource\x12\"\n\x1eUNDEFINED_SHOPPING_PAGE_SOURCE\x10\x00\x12\x14\n\x10SOURCE_MAIN_MENU\x10\x01\x12\x1b\n\x17SOURCE_POKEMON_BAG_FULL\x10\x02\x12\x1d\n\x19SOURCE_INCUBATOR_SELECTOR\x10\x03\x12$\n SOURCE_POKESTOP_DISK_INTERACTION\x10\x04\x12\x1d\n\x19SOURCE_OPEN_GIFT_BAG_FULL\x10\x05\x12(\n$SOURCE_QUICK_SHOP_BAG_FULL_ENCOUNTER\x10\x06\x12#\n\x1fSOURCE_QUICK_SHOP_BAG_FULL_RAID\x10\x07\x12\x1a\n\x16SOURCE_QUICK_SHOP_MORE\x10\x08\x12\x16\n\x12SOURCE_AVATAR_ITEM\x10\t\x12\x1c\n\x18SOURCE_POKEMON_ENCOUNTER\x10\n\x12\x1e\n\x1aSOURCE_PLAYER_PROFILE_PAGE\x10\x0b\x12\x16\n\x12SOURCE_STORE_FRONT\x10\x0c\x12%\n!SOURCE_AVATAR_CUSTOMIZATION_AWARD\x10\r\x12\x1f\n\x1bSOURCE_FIRST_TIME_USER_FLOW\x10\x0e\x12%\n!SOURCE_BADGE_DETAIL_AVATAR_REWARD\x10\x0f\x12.\n*SOURCE_QUICK_SHOP_BUDDY_INTERACTION_POFFIN\x10\x64\x12-\n)SOURCE_QUICK_SHOP_BUDDY_QUICK_FEED_POFFIN\x10\x65\x62\x06proto3')
+  serialized_pb=_b('\n=pogoprotos/data/telemetry/shopping_page_click_telemetry.proto\x12\x19pogoprotos.data.telemetry\x1a$pogoprotos/enums/telemetry_ids.proto\"\xba\x07\n\x1aShoppingPageClickTelemetry\x12J\n\x16shopping_page_click_id\x18\x01 \x01(\x0e\x32*.pogoprotos.enums.ShoppingPageTelemetryIds\x12u\n\x1ashopping_page_click_source\x18\x02 \x01(\x0e\x32Q.pogoprotos.data.telemetry.ShoppingPageClickTelemetry.ShoppingPageTelemetrySource\x12\x10\n\x08item_sku\x18\x03 \x01(\t\x12\x10\n\x08has_item\x18\x04 \x01(\x08\x12\x1d\n\x15ml_bundle_tracking_id\x18\x05 \x01(\t\"\x95\x05\n\x1bShoppingPageTelemetrySource\x12\"\n\x1eUNDEFINED_SHOPPING_PAGE_SOURCE\x10\x00\x12\x14\n\x10SOURCE_MAIN_MENU\x10\x01\x12\x1b\n\x17SOURCE_POKEMON_BAG_FULL\x10\x02\x12\x1d\n\x19SOURCE_INCUBATOR_SELECTOR\x10\x03\x12$\n SOURCE_POKESTOP_DISK_INTERACTION\x10\x04\x12\x1d\n\x19SOURCE_OPEN_GIFT_BAG_FULL\x10\x05\x12(\n$SOURCE_QUICK_SHOP_BAG_FULL_ENCOUNTER\x10\x06\x12#\n\x1fSOURCE_QUICK_SHOP_BAG_FULL_RAID\x10\x07\x12\x1a\n\x16SOURCE_QUICK_SHOP_MORE\x10\x08\x12\x16\n\x12SOURCE_AVATAR_ITEM\x10\t\x12\x1c\n\x18SOURCE_POKEMON_ENCOUNTER\x10\n\x12\x1e\n\x1aSOURCE_PLAYER_PROFILE_PAGE\x10\x0b\x12\x16\n\x12SOURCE_STORE_FRONT\x10\x0c\x12%\n!SOURCE_AVATAR_CUSTOMIZATION_AWARD\x10\r\x12\x1f\n\x1bSOURCE_FIRST_TIME_USER_FLOW\x10\x0e\x12%\n!SOURCE_BADGE_DETAIL_AVATAR_REWARD\x10\x0f\x12\x14\n\x10SOURCE_DEEP_LINK\x10\x10\x12.\n*SOURCE_QUICK_SHOP_BUDDY_INTERACTION_POFFIN\x10\x64\x12-\n)SOURCE_QUICK_SHOP_BUDDY_QUICK_FEED_POFFIN\x10\x65\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_telemetry__ids__pb2.DESCRIPTOR,])
 
@@ -97,18 +97,22 @@ _SHOPPINGPAGECLICKTELEMETRY_SHOPPINGPAGETELEMETRYSOURCE = _descriptor.EnumDescri
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='SOURCE_QUICK_SHOP_BUDDY_INTERACTION_POFFIN', index=16, number=100,
+      name='SOURCE_DEEP_LINK', index=16, number=16,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='SOURCE_QUICK_SHOP_BUDDY_QUICK_FEED_POFFIN', index=17, number=101,
+      name='SOURCE_QUICK_SHOP_BUDDY_INTERACTION_POFFIN', index=17, number=100,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='SOURCE_QUICK_SHOP_BUDDY_QUICK_FEED_POFFIN', index=18, number=101,
       serialized_options=None,
       type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=424,
-  serialized_end=1063,
+  serialized_end=1085,
 )
 _sym_db.RegisterEnumDescriptor(_SHOPPINGPAGECLICKTELEMETRY_SHOPPINGPAGETELEMETRYSOURCE)
 
@@ -169,7 +173,7 @@ _SHOPPINGPAGECLICKTELEMETRY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=131,
-  serialized_end=1063,
+  serialized_end=1085,
 )
 
 _SHOPPINGPAGECLICKTELEMETRY.fields_by_name['shopping_page_click_id'].enum_type = pogoprotos_dot_enums_dot_telemetry__ids__pb2._SHOPPINGPAGETELEMETRYIDS

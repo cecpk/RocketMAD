@@ -13,6 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 from pogoprotos.enums import combat_player_finish_state_pb2 as pogoprotos_dot_enums_dot_combat__player__finish__state__pb2
+from pogoprotos.data.combat import combat_quest_update_pb2 as pogoprotos_dot_data_dot_combat_dot_combat__quest__update__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,9 +21,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\nLpogoprotos/networking/requests/messages/get_npc_combat_rewards_message.proto\x12\'pogoprotos.networking.requests.messages\x1a\x31pogoprotos/enums/combat_player_finish_state.proto\"\xb6\x01\n\x1aGetNpcCombatRewardsMessage\x12&\n\x1e\x63ombat_npc_trainer_template_id\x18\x01 \x01(\t\x12?\n\x0c\x66inish_state\x18\x02 \x01(\x0e\x32).pogoprotos.enums.CombatPlayerFinishState\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x03 \x03(\x06\x12\x11\n\tcombat_id\x18\x04 \x01(\tb\x06proto3')
+  serialized_pb=_b('\nLpogoprotos/networking/requests/messages/get_npc_combat_rewards_message.proto\x12\'pogoprotos.networking.requests.messages\x1a\x31pogoprotos/enums/combat_player_finish_state.proto\x1a\x30pogoprotos/data/combat/combat_quest_update.proto\"\xfe\x01\n\x1aGetNpcCombatRewardsMessage\x12&\n\x1e\x63ombat_npc_trainer_template_id\x18\x01 \x01(\t\x12?\n\x0c\x66inish_state\x18\x02 \x01(\x0e\x32).pogoprotos.enums.CombatPlayerFinishState\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x03 \x03(\x06\x12\x11\n\tcombat_id\x18\x04 \x01(\t\x12\x46\n\x13\x63ombat_quest_update\x18\x05 \x01(\x0b\x32).pogoprotos.data.combat.CombatQuestUpdateb\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_enums_dot_combat__player__finish__state__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_enums_dot_combat__player__finish__state__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_combat__quest__update__pb2.DESCRIPTOR,])
 
 
 
@@ -62,6 +63,13 @@ _GETNPCCOMBATREWARDSMESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='combat_quest_update', full_name='pogoprotos.networking.requests.messages.GetNpcCombatRewardsMessage.combat_quest_update', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -74,11 +82,12 @@ _GETNPCCOMBATREWARDSMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=173,
-  serialized_end=355,
+  serialized_start=223,
+  serialized_end=477,
 )
 
 _GETNPCCOMBATREWARDSMESSAGE.fields_by_name['finish_state'].enum_type = pogoprotos_dot_enums_dot_combat__player__finish__state__pb2._COMBATPLAYERFINISHSTATE
+_GETNPCCOMBATREWARDSMESSAGE.fields_by_name['combat_quest_update'].message_type = pogoprotos_dot_data_dot_combat_dot_combat__quest__update__pb2._COMBATQUESTUPDATE
 DESCRIPTOR.message_types_by_name['GetNpcCombatRewardsMessage'] = _GETNPCCOMBATREWARDSMESSAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

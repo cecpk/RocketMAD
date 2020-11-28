@@ -19,10 +19,40 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n5pogoprotos/settings/master/map_display_settings.proto\x12\x1apogoprotos.settings.master\"\x80\x03\n\x12MapDisplaySettings\x12L\n\nmap_effect\x18\x01 \x01(\x0e\x32\x38.pogoprotos.settings.master.MapDisplaySettings.MapEffect\x12\x19\n\x11research_icon_url\x18\x02 \x01(\t\"\x80\x02\n\tMapEffect\x12\x0f\n\x0b\x45\x46\x46\x45\x43T_NONE\x10\x00\x12\x19\n\x15\x45\x46\x46\x45\x43T_CONFETTI_BASIC\x10\x01\x12\x18\n\x14\x45\x46\x46\x45\x43T_CONFETTI_FIRE\x10\x02\x12\x19\n\x15\x45\x46\x46\x45\x43T_CONFETTI_WATER\x10\x03\x12\x19\n\x15\x45\x46\x46\x45\x43T_CONFETTI_GRASS\x10\x04\x12\x1f\n\x1b\x45\x46\x46\x45\x43T_CONFETTI_RAID_BATTLE\x10\x05\x12\x1e\n\x1a\x45\x46\x46\x45\x43T_CONFETTI_FRIENDSHIP\x10\x06\x12\x1a\n\x16\x45\x46\x46\x45\x43T_CONFETTI_ROCKET\x10\x07\x12\x1a\n\x16\x45\x46\x46\x45\x43T_FIREWORKS_PLAIN\x10\x08\x62\x06proto3')
+  serialized_pb=_b('\n5pogoprotos/settings/master/map_display_settings.proto\x12\x1apogoprotos.settings.master\"\xa4\x04\n\x12MapDisplaySettings\x12L\n\nmap_effect\x18\x01 \x01(\x0e\x32\x38.pogoprotos.settings.master.MapDisplaySettings.MapEffect\x12\x19\n\x11research_icon_url\x18\x02 \x01(\t\x12?\n\x03\x62gm\x18\x03 \x01(\x0e\x32\x32.pogoprotos.settings.master.MapDisplaySettings.BGM\"E\n\x03\x42GM\x12\t\n\x05UNSET\x10\x00\x12\t\n\x05\x45VENT\x10\x65\x12\x0e\n\tHALLOWEEN\x10\xc8\x01\x12\x18\n\x13TEAM_ROCKET_DEFAULT\x10\xac\x02\"\x9c\x02\n\tMapEffect\x12\x0f\n\x0b\x45\x46\x46\x45\x43T_NONE\x10\x00\x12\x19\n\x15\x45\x46\x46\x45\x43T_CONFETTI_BASIC\x10\x01\x12\x18\n\x14\x45\x46\x46\x45\x43T_CONFETTI_FIRE\x10\x02\x12\x19\n\x15\x45\x46\x46\x45\x43T_CONFETTI_WATER\x10\x03\x12\x19\n\x15\x45\x46\x46\x45\x43T_CONFETTI_GRASS\x10\x04\x12\x1f\n\x1b\x45\x46\x46\x45\x43T_CONFETTI_RAID_BATTLE\x10\x05\x12\x1e\n\x1a\x45\x46\x46\x45\x43T_CONFETTI_FRIENDSHIP\x10\x06\x12\x1a\n\x16\x45\x46\x46\x45\x43T_CONFETTI_ROCKET\x10\x07\x12\x1a\n\x16\x45\x46\x46\x45\x43T_FIREWORKS_PLAIN\x10\x08\x12\x1a\n\x16\x45\x46\x46\x45\x43T_CONFETTI_FLOWER\x10\tb\x06proto3')
 )
 
 
+
+_MAPDISPLAYSETTINGS_BGM = _descriptor.EnumDescriptor(
+  name='BGM',
+  full_name='pogoprotos.settings.master.MapDisplaySettings.BGM',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='UNSET', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='EVENT', index=1, number=101,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='HALLOWEEN', index=2, number=200,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='TEAM_ROCKET_DEFAULT', index=3, number=300,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=278,
+  serialized_end=347,
+)
+_sym_db.RegisterEnumDescriptor(_MAPDISPLAYSETTINGS_BGM)
 
 _MAPDISPLAYSETTINGS_MAPEFFECT = _descriptor.EnumDescriptor(
   name='MapEffect',
@@ -66,11 +96,15 @@ _MAPDISPLAYSETTINGS_MAPEFFECT = _descriptor.EnumDescriptor(
       name='EFFECT_FIREWORKS_PLAIN', index=8, number=8,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='EFFECT_CONFETTI_FLOWER', index=9, number=9,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=214,
-  serialized_end=470,
+  serialized_start=350,
+  serialized_end=634,
 )
 _sym_db.RegisterEnumDescriptor(_MAPDISPLAYSETTINGS_MAPEFFECT)
 
@@ -96,11 +130,19 @@ _MAPDISPLAYSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bgm', full_name='pogoprotos.settings.master.MapDisplaySettings.bgm', index=2,
+      number=3, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
+    _MAPDISPLAYSETTINGS_BGM,
     _MAPDISPLAYSETTINGS_MAPEFFECT,
   ],
   serialized_options=None,
@@ -110,10 +152,12 @@ _MAPDISPLAYSETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=86,
-  serialized_end=470,
+  serialized_end=634,
 )
 
 _MAPDISPLAYSETTINGS.fields_by_name['map_effect'].enum_type = _MAPDISPLAYSETTINGS_MAPEFFECT
+_MAPDISPLAYSETTINGS.fields_by_name['bgm'].enum_type = _MAPDISPLAYSETTINGS_BGM
+_MAPDISPLAYSETTINGS_BGM.containing_type = _MAPDISPLAYSETTINGS
 _MAPDISPLAYSETTINGS_MAPEFFECT.containing_type = _MAPDISPLAYSETTINGS
 DESCRIPTOR.message_types_by_name['MapDisplaySettings'] = _MAPDISPLAYSETTINGS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)

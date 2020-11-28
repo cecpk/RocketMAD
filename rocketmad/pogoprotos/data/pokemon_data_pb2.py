@@ -18,7 +18,11 @@ from pogoprotos.enums import pokemon_move_pb2 as pogoprotos_dot_enums_dot_pokemo
 from pogoprotos.enums import holo_pokemon_egg_type_pb2 as pogoprotos_dot_enums_dot_holo__pokemon__egg__type__pb2
 from pogoprotos.inventory.item import item_id_pb2 as pogoprotos_dot_inventory_dot_item_dot_item__id__pb2
 from pogoprotos.data.combat import pokemon_combat_stats_pb2 as pogoprotos_dot_data_dot_combat_dot_pokemon__combat__stats__pb2
-from pogoprotos.data.quests import client_quest_pb2 as pogoprotos_dot_data_dot_quests_dot_client__quest__pb2
+from pogoprotos.data.quests import quest_pb2 as pogoprotos_dot_data_dot_quests_dot_quest__pb2
+from pogoprotos.enums import temporary_evolution_id_pb2 as pogoprotos_dot_enums_dot_temporary__evolution__id__pb2
+from pogoprotos.enums import form_pb2 as pogoprotos_dot_enums_dot_form__pb2
+from pogoprotos.enums import encounter_type_pb2 as pogoprotos_dot_enums_dot_encounter__type__pb2
+from pogoprotos.enums import enum_wrapper_pb2 as pogoprotos_dot_enums_dot_enum__wrapper__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -26,12 +30,464 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\"pogoprotos/data/pokemon_data.proto\x12\x0fpogoprotos.data\x1a%pogoprotos/data/pokemon_display.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a#pogoprotos/enums/pokemon_move.proto\x1a,pogoprotos/enums/holo_pokemon_egg_type.proto\x1a\'pogoprotos/inventory/item/item_id.proto\x1a\x31pogoprotos/data/combat/pokemon_combat_stats.proto\x1a)pogoprotos/data/quests/client_quest.proto\"\xf0\r\n\x0bPokemonData\x12\n\n\x02id\x18\x01 \x01(\x06\x12/\n\npokemon_id\x18\x02 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\n\n\x02\x63p\x18\x03 \x01(\x05\x12\x0f\n\x07stamina\x18\x04 \x01(\x05\x12\x13\n\x0bstamina_max\x18\x05 \x01(\x05\x12-\n\x06move_1\x18\x06 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12-\n\x06move_2\x18\x07 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x18\n\x10\x64\x65ployed_fort_id\x18\x08 \x01(\t\x12\x12\n\nowner_name\x18\t \x01(\t\x12\x0e\n\x06is_egg\x18\n \x01(\x08\x12\x1c\n\x14\x65gg_km_walked_target\x18\x0b \x01(\x01\x12\x1b\n\x13\x65gg_km_walked_start\x18\x0c \x01(\x01\x12\x0e\n\x06origin\x18\x0e \x01(\x05\x12\x10\n\x08height_m\x18\x0f \x01(\x02\x12\x11\n\tweight_kg\x18\x10 \x01(\x02\x12\x19\n\x11individual_attack\x18\x11 \x01(\x05\x12\x1a\n\x12individual_defense\x18\x12 \x01(\x05\x12\x1a\n\x12individual_stamina\x18\x13 \x01(\x05\x12\x15\n\rcp_multiplier\x18\x14 \x01(\x02\x12\x33\n\x08pokeball\x18\x15 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x18\n\x10\x63\x61ptured_cell_id\x18\x16 \x01(\x04\x12\x18\n\x10\x62\x61ttles_attacked\x18\x17 \x01(\x05\x12\x18\n\x10\x62\x61ttles_defended\x18\x18 \x01(\x05\x12\x18\n\x10\x65gg_incubator_id\x18\x19 \x01(\t\x12\x18\n\x10\x63reation_time_ms\x18\x1a \x01(\x04\x12\x14\n\x0cnum_upgrades\x18\x1b \x01(\x05\x12 \n\x18\x61\x64\x64itional_cp_multiplier\x18\x1c \x01(\x02\x12\x10\n\x08\x66\x61vorite\x18\x1d \x01(\x05\x12\x10\n\x08nickname\x18\x1e \x01(\t\x12\x11\n\tfrom_fort\x18\x1f \x01(\x05\x12\x1b\n\x13\x62uddy_candy_awarded\x18  \x01(\x05\x12\x1d\n\x15\x62uddy_total_km_walked\x18! \x01(\x02\x12\x1a\n\x12\x64isplay_pokemon_id\x18\" \x01(\x05\x12\x12\n\ndisplay_cp\x18# \x01(\x05\x12\x38\n\x0fpokemon_display\x18$ \x01(\x0b\x32\x1f.pogoprotos.data.PokemonDisplay\x12\x0e\n\x06is_bad\x18% \x01(\x08\x12\x18\n\x10hatched_from_egg\x18& \x01(\x08\x12\x16\n\x0e\x63oins_returned\x18\' \x01(\x05\x12\x1c\n\x14\x64\x65ployed_duration_ms\x18( \x01(\x03\x12&\n\x1e\x64\x65ployed_returned_timestamp_ms\x18) \x01(\x03\x12$\n\x1c\x63p_multiplier_before_trading\x18* \x01(\x02\x12#\n\x1btrading_original_owner_hash\x18+ \x01(\x05\x12\x1f\n\x17original_owner_nickname\x18, \x01(\t\x12\x16\n\x0etraded_time_ms\x18- \x01(\x03\x12\x10\n\x08is_lucky\x18. \x01(\x08\x12-\n\x06move_3\x18/ \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x44\n\x10pvp_combat_stats\x18\x30 \x01(\x0b\x32*.pogoprotos.data.combat.PokemonCombatStats\x12\x44\n\x10npc_combat_stats\x18\x31 \x01(\x0b\x32*.pogoprotos.data.combat.PokemonCombatStats\x12#\n\x1bmove2_is_purified_exclusive\x18\x32 \x01(\x08\x12\"\n\x1alimited_pokemon_identifier\x18\x33 \x01(\t\x12\x16\n\x0epre_boosted_cp\x18\x34 \x01(\x05\x12,\n$pre_boosted_additional_cp_multiplier\x18\x35 \x01(\x02\x12\x1f\n\x17\x64\x65ployed_gym_lat_degree\x18\x37 \x01(\x01\x12\x1f\n\x17\x64\x65ployed_gym_lng_degree\x18\x38 \x01(\x01\x12\x36\n\x08\x65gg_type\x18: \x01(\x0e\x32$.pogoprotos.enums.HoloPokemonEggType\x12N\n!quest_buddy_evolution_requirement\x18> \x03(\x0b\x32#.pogoprotos.data.quests.ClientQuestb\x06proto3')
+  serialized_pb=_b('\n\"pogoprotos/data/pokemon_data.proto\x12\x0fpogoprotos.data\x1a%pogoprotos/data/pokemon_display.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a#pogoprotos/enums/pokemon_move.proto\x1a,pogoprotos/enums/holo_pokemon_egg_type.proto\x1a\'pogoprotos/inventory/item/item_id.proto\x1a\x31pogoprotos/data/combat/pokemon_combat_stats.proto\x1a\"pogoprotos/data/quests/quest.proto\x1a-pogoprotos/enums/temporary_evolution_id.proto\x1a\x1bpogoprotos/enums/form.proto\x1a%pogoprotos/enums/encounter_type.proto\x1a#pogoprotos/enums/enum_wrapper.proto\"\xce\x1d\n\x0bPokemonData\x12\n\n\x02id\x18\x01 \x01(\x06\x12/\n\npokemon_id\x18\x02 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\n\n\x02\x63p\x18\x03 \x01(\x05\x12\x0f\n\x07stamina\x18\x04 \x01(\x05\x12\x13\n\x0bstamina_max\x18\x05 \x01(\x05\x12-\n\x06move_1\x18\x06 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12-\n\x06move_2\x18\x07 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x18\n\x10\x64\x65ployed_fort_id\x18\x08 \x01(\t\x12\x12\n\nowner_name\x18\t \x01(\t\x12\x0e\n\x06is_egg\x18\n \x01(\x08\x12\x1c\n\x14\x65gg_km_walked_target\x18\x0b \x01(\x01\x12\x1b\n\x13\x65gg_km_walked_start\x18\x0c \x01(\x01\x12\x0e\n\x06origin\x18\x0e \x01(\x05\x12\x10\n\x08height_m\x18\x0f \x01(\x02\x12\x11\n\tweight_kg\x18\x10 \x01(\x02\x12\x19\n\x11individual_attack\x18\x11 \x01(\x05\x12\x1a\n\x12individual_defense\x18\x12 \x01(\x05\x12\x1a\n\x12individual_stamina\x18\x13 \x01(\x05\x12\x15\n\rcp_multiplier\x18\x14 \x01(\x02\x12\x33\n\x08pokeball\x18\x15 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x18\n\x10\x63\x61ptured_cell_id\x18\x16 \x01(\x04\x12\x18\n\x10\x62\x61ttles_attacked\x18\x17 \x01(\x05\x12\x18\n\x10\x62\x61ttles_defended\x18\x18 \x01(\x05\x12\x18\n\x10\x65gg_incubator_id\x18\x19 \x01(\t\x12\x18\n\x10\x63reation_time_ms\x18\x1a \x01(\x04\x12\x14\n\x0cnum_upgrades\x18\x1b \x01(\x05\x12 \n\x18\x61\x64\x64itional_cp_multiplier\x18\x1c \x01(\x02\x12\x10\n\x08\x66\x61vorite\x18\x1d \x01(\x05\x12\x10\n\x08nickname\x18\x1e \x01(\t\x12\x11\n\tfrom_fort\x18\x1f \x01(\x05\x12\x1b\n\x13\x62uddy_candy_awarded\x18  \x01(\x05\x12\x1d\n\x15\x62uddy_total_km_walked\x18! \x01(\x02\x12\x1a\n\x12\x64isplay_pokemon_id\x18\" \x01(\x05\x12\x12\n\ndisplay_cp\x18# \x01(\x05\x12\x38\n\x0fpokemon_display\x18$ \x01(\x0b\x32\x1f.pogoprotos.data.PokemonDisplay\x12\x0e\n\x06is_bad\x18% \x01(\x08\x12\x18\n\x10hatched_from_egg\x18& \x01(\x08\x12\x16\n\x0e\x63oins_returned\x18\' \x01(\x05\x12\x1c\n\x14\x64\x65ployed_duration_ms\x18( \x01(\x03\x12&\n\x1e\x64\x65ployed_returned_timestamp_ms\x18) \x01(\x03\x12$\n\x1c\x63p_multiplier_before_trading\x18* \x01(\x02\x12#\n\x1btrading_original_owner_hash\x18+ \x01(\x05\x12\x1f\n\x17original_owner_nickname\x18, \x01(\t\x12\x16\n\x0etraded_time_ms\x18- \x01(\x03\x12\x10\n\x08is_lucky\x18. \x01(\x08\x12-\n\x06move_3\x18/ \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x44\n\x10pvp_combat_stats\x18\x30 \x01(\x0b\x32*.pogoprotos.data.combat.PokemonCombatStats\x12\x44\n\x10npc_combat_stats\x18\x31 \x01(\x0b\x32*.pogoprotos.data.combat.PokemonCombatStats\x12#\n\x1bmove2_is_purified_exclusive\x18\x32 \x01(\x08\x12\"\n\x1alimited_pokemon_identifier\x18\x33 \x01(\t\x12\x16\n\x0epre_boosted_cp\x18\x34 \x01(\x05\x12,\n$pre_boosted_additional_cp_multiplier\x18\x35 \x01(\x02\x12\x1f\n\x17\x64\x65ployed_gym_lat_degree\x18\x37 \x01(\x01\x12\x1f\n\x17\x64\x65ployed_gym_lng_degree\x18\x38 \x01(\x01\x12\x18\n\x10has_mega_evolved\x18\x39 \x01(\x08\x12\x36\n\x08\x65gg_type\x18: \x01(\x0e\x32$.pogoprotos.enums.HoloPokemonEggType\x12\x13\n\x0btemp_evo_cp\x18; \x01(\x05\x12!\n\x19temp_evo_stamina_modifier\x18< \x01(\x02\x12\x1e\n\x16temp_evo_cp_multiplier\x18= \x01(\x02\x12\x42\n\x12mega_evolved_forms\x18? \x03(\x0e\x32&.pogoprotos.enums.TemporaryEvolutionId\x12P\n\x14\x65volution_quest_info\x18@ \x03(\x0b\x32\x32.pogoprotos.data.PokemonData.PokemonEvolutionQuest\x12G\n\rorigin_detail\x18\x42 \x01(\x0b\x32\x30.pogoprotos.data.PokemonData.PokemonCreateDetail\x12\x17\n\x0fpokemon_tag_ids\x18\x43 \x03(\x04\x12\x15\n\rorigin_events\x18\x44 \x03(\t\x1a\xe4\x02\n\x15PokemonEvolutionQuest\x12\x38\n\x11quest_requirement\x18\x01 \x01(\x0b\x32\x1d.pogoprotos.data.quests.Quest\x12Y\n\nquest_info\x18\x02 \x01(\x0b\x32\x45.pogoprotos.data.PokemonData.PokemonEvolutionQuest.EvolutionQuestInfo\x12.\n\tevolution\x18\x03 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12$\n\x04\x66orm\x18\x04 \x01(\x0e\x32\x16.pogoprotos.enums.Form\x1a`\n\x12\x45volutionQuestInfo\x12%\n\x1dquest_requirement_template_id\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x0e\n\x06target\x18\x03 \x01(\x05\x1a\xc3\n\n\x13PokemonCreateDetail\x12X\n\x0bwild_detail\x18\x01 \x01(\x0b\x32\x41.pogoprotos.data.PokemonData.PokemonCreateDetail.WildCreateDetailH\x00\x12V\n\negg_detail\x18\x02 \x01(\x0b\x32@.pogoprotos.data.PokemonData.PokemonCreateDetail.EggCreateDetailH\x00\x12X\n\x0braid_detail\x18\x03 \x01(\x0b\x32\x41.pogoprotos.data.PokemonData.PokemonCreateDetail.RaidCreateDetailH\x00\x12Z\n\x0cquest_detail\x18\x04 \x01(\x0b\x32\x42.pogoprotos.data.PokemonData.PokemonCreateDetail.QuestCreateDetailH\x00\x12\x61\n\x10vs_seeker_detail\x18\x05 \x01(\x0b\x32\x45.pogoprotos.data.PokemonData.PokemonCreateDetail.VsSeekerCreateDetailH\x00\x12`\n\x0finvasion_detail\x18\x06 \x01(\x0b\x32\x45.pogoprotos.data.PokemonData.PokemonCreateDetail.InvasionCreateDetailH\x00\x12\x62\n\x10photobomb_detail\x18\x07 \x01(\x0b\x32\x46.pogoprotos.data.PokemonData.PokemonCreateDetail.PhotobombCreateDetailH\x00\x12`\n\x0ftutorial_detail\x18\x08 \x01(\x0b\x32\x45.pogoprotos.data.PokemonData.PokemonCreateDetail.TutorialCreateDetailH\x00\x1a*\n\x10WildCreateDetail\x12\x16\n\x0e\x63\x61ught_in_wild\x18\x01 \x01(\x08\x1ag\n\x0f\x45ggCreateDetail\x12\x17\n\x0fhatched_time_ms\x18\x01 \x01(\x03\x12!\n\x19player_hatched_s2_cell_id\x18\x02 \x01(\x03\x12\x18\n\x10received_time_ms\x18\x03 \x01(\x03\x1a]\n\x10RaidCreateDetail\x12\x14\n\x0cis_exclusive\x18\x01 \x01(\x08\x12\x0f\n\x07is_mega\x18\x02 \x01(\x08\x12\"\n\x1aplayer_captured_s2_cell_id\x18\x03 \x01(\x03\x1a\x44\n\x11QuestCreateDetail\x12/\n\x06origin\x18\x01 \x01(\x0e\x32\x1f.pogoprotos.enums.EncounterType\x1a\x36\n\x14VsSeekerCreateDetail\x12\x0e\n\x06season\x18\x01 \x01(\x05\x12\x0e\n\x06league\x18\x02 \x01(\t\x1aW\n\x14InvasionCreateDetail\x12?\n\x06origin\x18\x01 \x01(\x0e\x32/.pogoprotos.enums.EnumWrapper.InvasionCharacter\x1a\x34\n\x15PhotobombCreateDetail\x12\x1b\n\x13\x63\x61ught_in_photobomb\x18\x01 \x01(\x08\x1a.\n\x14TutorialCreateDetail\x12\x16\n\x0e\x63\x61ught_in_wild\x18\x01 \x01(\x08\x42\x08\n\x06\x44\x65tailb\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_data_dot_pokemon__display__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__move__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_holo__pokemon__egg__type__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_pokemon__combat__stats__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_client__quest__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_data_dot_pokemon__display__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__move__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_holo__pokemon__egg__type__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_pokemon__combat__stats__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_temporary__evolution__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_encounter__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_enum__wrapper__pb2.DESCRIPTOR,])
 
 
 
+
+_POKEMONDATA_POKEMONEVOLUTIONQUEST_EVOLUTIONQUESTINFO = _descriptor.Descriptor(
+  name='EvolutionQuestInfo',
+  full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.EvolutionQuestInfo',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='quest_requirement_template_id', full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.EvolutionQuestInfo.quest_requirement_template_id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.EvolutionQuestInfo.description', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='target', full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.EvolutionQuestInfo.target', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2837,
+  serialized_end=2933,
+)
+
+_POKEMONDATA_POKEMONEVOLUTIONQUEST = _descriptor.Descriptor(
+  name='PokemonEvolutionQuest',
+  full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='quest_requirement', full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.quest_requirement', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='quest_info', full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.quest_info', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='evolution', full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.evolution', index=2,
+      number=3, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='form', full_name='pogoprotos.data.PokemonData.PokemonEvolutionQuest.form', index=3,
+      number=4, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_POKEMONDATA_POKEMONEVOLUTIONQUEST_EVOLUTIONQUESTINFO, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2577,
+  serialized_end=2933,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_WILDCREATEDETAIL = _descriptor.Descriptor(
+  name='WildCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.WildCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='caught_in_wild', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.WildCreateDetail.caught_in_wild', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3714,
+  serialized_end=3756,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_EGGCREATEDETAIL = _descriptor.Descriptor(
+  name='EggCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.EggCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='hatched_time_ms', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.EggCreateDetail.hatched_time_ms', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='player_hatched_s2_cell_id', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.EggCreateDetail.player_hatched_s2_cell_id', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='received_time_ms', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.EggCreateDetail.received_time_ms', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3758,
+  serialized_end=3861,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_RAIDCREATEDETAIL = _descriptor.Descriptor(
+  name='RaidCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.RaidCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='is_exclusive', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.RaidCreateDetail.is_exclusive', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='is_mega', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.RaidCreateDetail.is_mega', index=1,
+      number=2, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='player_captured_s2_cell_id', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.RaidCreateDetail.player_captured_s2_cell_id', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3863,
+  serialized_end=3956,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_QUESTCREATEDETAIL = _descriptor.Descriptor(
+  name='QuestCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.QuestCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='origin', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.QuestCreateDetail.origin', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3958,
+  serialized_end=4026,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_VSSEEKERCREATEDETAIL = _descriptor.Descriptor(
+  name='VsSeekerCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.VsSeekerCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='season', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.VsSeekerCreateDetail.season', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='league', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.VsSeekerCreateDetail.league', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4028,
+  serialized_end=4082,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_INVASIONCREATEDETAIL = _descriptor.Descriptor(
+  name='InvasionCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.InvasionCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='origin', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.InvasionCreateDetail.origin', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4084,
+  serialized_end=4171,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_PHOTOBOMBCREATEDETAIL = _descriptor.Descriptor(
+  name='PhotobombCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.PhotobombCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='caught_in_photobomb', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.PhotobombCreateDetail.caught_in_photobomb', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4173,
+  serialized_end=4225,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL_TUTORIALCREATEDETAIL = _descriptor.Descriptor(
+  name='TutorialCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.TutorialCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='caught_in_wild', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.TutorialCreateDetail.caught_in_wild', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=4227,
+  serialized_end=4273,
+)
+
+_POKEMONDATA_POKEMONCREATEDETAIL = _descriptor.Descriptor(
+  name='PokemonCreateDetail',
+  full_name='pogoprotos.data.PokemonData.PokemonCreateDetail',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='wild_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.wild_detail', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='egg_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.egg_detail', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='raid_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.raid_detail', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='quest_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.quest_detail', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='vs_seeker_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.vs_seeker_detail', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='invasion_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.invasion_detail', index=5,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='photobomb_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.photobomb_detail', index=6,
+      number=7, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='tutorial_detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.tutorial_detail', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_POKEMONDATA_POKEMONCREATEDETAIL_WILDCREATEDETAIL, _POKEMONDATA_POKEMONCREATEDETAIL_EGGCREATEDETAIL, _POKEMONDATA_POKEMONCREATEDETAIL_RAIDCREATEDETAIL, _POKEMONDATA_POKEMONCREATEDETAIL_QUESTCREATEDETAIL, _POKEMONDATA_POKEMONCREATEDETAIL_VSSEEKERCREATEDETAIL, _POKEMONDATA_POKEMONCREATEDETAIL_INVASIONCREATEDETAIL, _POKEMONDATA_POKEMONCREATEDETAIL_PHOTOBOMBCREATEDETAIL, _POKEMONDATA_POKEMONCREATEDETAIL_TUTORIALCREATEDETAIL, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='Detail', full_name='pogoprotos.data.PokemonData.PokemonCreateDetail.Detail',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=2936,
+  serialized_end=4283,
+)
 
 _POKEMONDATA = _descriptor.Descriptor(
   name='PokemonData',
@@ -419,15 +875,71 @@ _POKEMONDATA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='egg_type', full_name='pogoprotos.data.PokemonData.egg_type', index=54,
+      name='has_mega_evolved', full_name='pogoprotos.data.PokemonData.has_mega_evolved', index=54,
+      number=57, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='egg_type', full_name='pogoprotos.data.PokemonData.egg_type', index=55,
       number=58, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quest_buddy_evolution_requirement', full_name='pogoprotos.data.PokemonData.quest_buddy_evolution_requirement', index=55,
-      number=62, type=11, cpp_type=10, label=3,
+      name='temp_evo_cp', full_name='pogoprotos.data.PokemonData.temp_evo_cp', index=56,
+      number=59, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='temp_evo_stamina_modifier', full_name='pogoprotos.data.PokemonData.temp_evo_stamina_modifier', index=57,
+      number=60, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='temp_evo_cp_multiplier', full_name='pogoprotos.data.PokemonData.temp_evo_cp_multiplier', index=58,
+      number=61, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mega_evolved_forms', full_name='pogoprotos.data.PokemonData.mega_evolved_forms', index=59,
+      number=63, type=14, cpp_type=8, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='evolution_quest_info', full_name='pogoprotos.data.PokemonData.evolution_quest_info', index=60,
+      number=64, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='origin_detail', full_name='pogoprotos.data.PokemonData.origin_detail', index=61,
+      number=66, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pokemon_tag_ids', full_name='pogoprotos.data.PokemonData.pokemon_tag_ids', index=62,
+      number=67, type=4, cpp_type=4, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='origin_events', full_name='pogoprotos.data.PokemonData.origin_events', index=63,
+      number=68, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -435,7 +947,7 @@ _POKEMONDATA = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_POKEMONDATA_POKEMONEVOLUTIONQUEST, _POKEMONDATA_POKEMONCREATEDETAIL, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -444,10 +956,59 @@ _POKEMONDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=348,
-  serialized_end=2124,
+  serialized_start=493,
+  serialized_end=4283,
 )
 
+_POKEMONDATA_POKEMONEVOLUTIONQUEST_EVOLUTIONQUESTINFO.containing_type = _POKEMONDATA_POKEMONEVOLUTIONQUEST
+_POKEMONDATA_POKEMONEVOLUTIONQUEST.fields_by_name['quest_requirement'].message_type = pogoprotos_dot_data_dot_quests_dot_quest__pb2._QUEST
+_POKEMONDATA_POKEMONEVOLUTIONQUEST.fields_by_name['quest_info'].message_type = _POKEMONDATA_POKEMONEVOLUTIONQUEST_EVOLUTIONQUESTINFO
+_POKEMONDATA_POKEMONEVOLUTIONQUEST.fields_by_name['evolution'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
+_POKEMONDATA_POKEMONEVOLUTIONQUEST.fields_by_name['form'].enum_type = pogoprotos_dot_enums_dot_form__pb2._FORM
+_POKEMONDATA_POKEMONEVOLUTIONQUEST.containing_type = _POKEMONDATA
+_POKEMONDATA_POKEMONCREATEDETAIL_WILDCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL_EGGCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL_RAIDCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL_QUESTCREATEDETAIL.fields_by_name['origin'].enum_type = pogoprotos_dot_enums_dot_encounter__type__pb2._ENCOUNTERTYPE
+_POKEMONDATA_POKEMONCREATEDETAIL_QUESTCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL_VSSEEKERCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL_INVASIONCREATEDETAIL.fields_by_name['origin'].enum_type = pogoprotos_dot_enums_dot_enum__wrapper__pb2._ENUMWRAPPER_INVASIONCHARACTER
+_POKEMONDATA_POKEMONCREATEDETAIL_INVASIONCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL_PHOTOBOMBCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL_TUTORIALCREATEDETAIL.containing_type = _POKEMONDATA_POKEMONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['wild_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_WILDCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['egg_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_EGGCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['raid_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_RAIDCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['quest_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_QUESTCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['vs_seeker_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_VSSEEKERCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['invasion_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_INVASIONCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['photobomb_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_PHOTOBOMBCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['tutorial_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL_TUTORIALCREATEDETAIL
+_POKEMONDATA_POKEMONCREATEDETAIL.containing_type = _POKEMONDATA
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['wild_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['wild_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['egg_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['egg_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['raid_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['raid_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['quest_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['quest_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['vs_seeker_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['vs_seeker_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['invasion_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['invasion_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['photobomb_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['photobomb_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
+_POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail'].fields.append(
+  _POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['tutorial_detail'])
+_POKEMONDATA_POKEMONCREATEDETAIL.fields_by_name['tutorial_detail'].containing_oneof = _POKEMONDATA_POKEMONCREATEDETAIL.oneofs_by_name['Detail']
 _POKEMONDATA.fields_by_name['pokemon_id'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
 _POKEMONDATA.fields_by_name['move_1'].enum_type = pogoprotos_dot_enums_dot_pokemon__move__pb2._POKEMONMOVE
 _POKEMONDATA.fields_by_name['move_2'].enum_type = pogoprotos_dot_enums_dot_pokemon__move__pb2._POKEMONMOVE
@@ -457,16 +1018,106 @@ _POKEMONDATA.fields_by_name['move_3'].enum_type = pogoprotos_dot_enums_dot_pokem
 _POKEMONDATA.fields_by_name['pvp_combat_stats'].message_type = pogoprotos_dot_data_dot_combat_dot_pokemon__combat__stats__pb2._POKEMONCOMBATSTATS
 _POKEMONDATA.fields_by_name['npc_combat_stats'].message_type = pogoprotos_dot_data_dot_combat_dot_pokemon__combat__stats__pb2._POKEMONCOMBATSTATS
 _POKEMONDATA.fields_by_name['egg_type'].enum_type = pogoprotos_dot_enums_dot_holo__pokemon__egg__type__pb2._HOLOPOKEMONEGGTYPE
-_POKEMONDATA.fields_by_name['quest_buddy_evolution_requirement'].message_type = pogoprotos_dot_data_dot_quests_dot_client__quest__pb2._CLIENTQUEST
+_POKEMONDATA.fields_by_name['mega_evolved_forms'].enum_type = pogoprotos_dot_enums_dot_temporary__evolution__id__pb2._TEMPORARYEVOLUTIONID
+_POKEMONDATA.fields_by_name['evolution_quest_info'].message_type = _POKEMONDATA_POKEMONEVOLUTIONQUEST
+_POKEMONDATA.fields_by_name['origin_detail'].message_type = _POKEMONDATA_POKEMONCREATEDETAIL
 DESCRIPTOR.message_types_by_name['PokemonData'] = _POKEMONDATA
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PokemonData = _reflection.GeneratedProtocolMessageType('PokemonData', (_message.Message,), dict(
+
+  PokemonEvolutionQuest = _reflection.GeneratedProtocolMessageType('PokemonEvolutionQuest', (_message.Message,), dict(
+
+    EvolutionQuestInfo = _reflection.GeneratedProtocolMessageType('EvolutionQuestInfo', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONEVOLUTIONQUEST_EVOLUTIONQUESTINFO,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonEvolutionQuest.EvolutionQuestInfo)
+      ))
+    ,
+    DESCRIPTOR = _POKEMONDATA_POKEMONEVOLUTIONQUEST,
+    __module__ = 'pogoprotos.data.pokemon_data_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonEvolutionQuest)
+    ))
+  ,
+
+  PokemonCreateDetail = _reflection.GeneratedProtocolMessageType('PokemonCreateDetail', (_message.Message,), dict(
+
+    WildCreateDetail = _reflection.GeneratedProtocolMessageType('WildCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_WILDCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.WildCreateDetail)
+      ))
+    ,
+
+    EggCreateDetail = _reflection.GeneratedProtocolMessageType('EggCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_EGGCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.EggCreateDetail)
+      ))
+    ,
+
+    RaidCreateDetail = _reflection.GeneratedProtocolMessageType('RaidCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_RAIDCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.RaidCreateDetail)
+      ))
+    ,
+
+    QuestCreateDetail = _reflection.GeneratedProtocolMessageType('QuestCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_QUESTCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.QuestCreateDetail)
+      ))
+    ,
+
+    VsSeekerCreateDetail = _reflection.GeneratedProtocolMessageType('VsSeekerCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_VSSEEKERCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.VsSeekerCreateDetail)
+      ))
+    ,
+
+    InvasionCreateDetail = _reflection.GeneratedProtocolMessageType('InvasionCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_INVASIONCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.InvasionCreateDetail)
+      ))
+    ,
+
+    PhotobombCreateDetail = _reflection.GeneratedProtocolMessageType('PhotobombCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_PHOTOBOMBCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.PhotobombCreateDetail)
+      ))
+    ,
+
+    TutorialCreateDetail = _reflection.GeneratedProtocolMessageType('TutorialCreateDetail', (_message.Message,), dict(
+      DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL_TUTORIALCREATEDETAIL,
+      __module__ = 'pogoprotos.data.pokemon_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail.TutorialCreateDetail)
+      ))
+    ,
+    DESCRIPTOR = _POKEMONDATA_POKEMONCREATEDETAIL,
+    __module__ = 'pogoprotos.data.pokemon_data_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData.PokemonCreateDetail)
+    ))
+  ,
   DESCRIPTOR = _POKEMONDATA,
   __module__ = 'pogoprotos.data.pokemon_data_pb2'
   # @@protoc_insertion_point(class_scope:pogoprotos.data.PokemonData)
   ))
 _sym_db.RegisterMessage(PokemonData)
+_sym_db.RegisterMessage(PokemonData.PokemonEvolutionQuest)
+_sym_db.RegisterMessage(PokemonData.PokemonEvolutionQuest.EvolutionQuestInfo)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.WildCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.EggCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.RaidCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.QuestCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.VsSeekerCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.InvasionCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.PhotobombCreateDetail)
+_sym_db.RegisterMessage(PokemonData.PokemonCreateDetail.TutorialCreateDetail)
 
 
 # @@protoc_insertion_point(module_scope)

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\nApogoprotos/settings/master/sponsored_geofence_gift_settings.proto\x12\x1apogoprotos.settings.master\"\x9a\x02\n\x1dSponsoredGeofenceGiftSettings\x12 \n\x18gift_persistence_enabled\x18\x01 \x01(\x08\x12 \n\x18gift_persistence_time_ms\x18\x02 \x01(\x05\x12 \n\x18map_presentation_time_ms\x18\x03 \x01(\x05\x12&\n\x1e\x65nable_sponsored_geofence_gift\x18\x04 \x01(\x08\x12\x1a\n\x12\x65nable_dark_launch\x18\x05 \x01(\x08\x12\x17\n\x0f\x65nable_poi_gift\x18\x06 \x01(\x08\x12\x18\n\x10\x65nable_raid_gift\x18\x07 \x01(\x08\x12\x1c\n\x14\x65nable_incident_gift\x18\x08 \x01(\x08\x62\x06proto3')
+  serialized_pb=_b('\nApogoprotos/settings/master/sponsored_geofence_gift_settings.proto\x12\x1apogoprotos.settings.master\"\xca\x02\n\x1dSponsoredGeofenceGiftSettings\x12 \n\x18gift_persistence_enabled\x18\x01 \x01(\x08\x12 \n\x18gift_persistence_time_ms\x18\x02 \x01(\x05\x12 \n\x18map_presentation_time_ms\x18\x03 \x01(\x05\x12&\n\x1e\x65nable_sponsored_geofence_gift\x18\x04 \x01(\x08\x12\x1a\n\x12\x65nable_dark_launch\x18\x05 \x01(\x08\x12\x17\n\x0f\x65nable_poi_gift\x18\x06 \x01(\x08\x12\x18\n\x10\x65nable_raid_gift\x18\x07 \x01(\x08\x12\x1c\n\x14\x65nable_incident_gift\x18\x08 \x01(\x08\x12.\n&fullscreen_disable_exit_button_time_ms\x18\t \x01(\x05\x62\x06proto3')
 )
 
 
@@ -88,6 +88,13 @@ _SPONSOREDGEOFENCEGIFTSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fullscreen_disable_exit_button_time_ms', full_name='pogoprotos.settings.master.SponsoredGeofenceGiftSettings.fullscreen_disable_exit_button_time_ms', index=8,
+      number=9, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -101,7 +108,7 @@ _SPONSOREDGEOFENCEGIFTSETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=98,
-  serialized_end=380,
+  serialized_end=428,
 )
 
 DESCRIPTOR.message_types_by_name['SponsoredGeofenceGiftSettings'] = _SPONSOREDGEOFENCEGIFTSETTINGS

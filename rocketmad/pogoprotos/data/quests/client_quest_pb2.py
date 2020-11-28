@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.quests',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n)pogoprotos/data/quests/client_quest.proto\x12\x16pogoprotos.data.quests\x1a\"pogoprotos/data/quests/quest.proto\x1a)pogoprotos/data/quests/quest_dialog.proto\"\xe5\x03\n\x0b\x43lientQuest\x12,\n\x05quest\x18\x01 \x01(\x0b\x32\x1d.pogoprotos.data.quests.Quest\x12G\n\rquest_display\x18\x02 \x01(\x0b\x32\x30.pogoprotos.data.quests.ClientQuest.QuestDisplay\x1a\xde\x02\n\x0cQuestDisplay\x12\x10\n\x08quest_id\x18\x01 \x01(\t\x12\x33\n\x06\x64ialog\x18\x02 \x03(\x0b\x32#.pogoprotos.data.quests.QuestDialog\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\r\n\x05title\x18\x04 \x01(\t\x12\x0c\n\x04slot\x18\x05 \x01(\x05\x12\x44\n\nsubdisplay\x18\x06 \x03(\x0b\x32\x30.pogoprotos.data.quests.ClientQuest.QuestDisplay\x12\x1a\n\x12story_ending_quest\x18\x07 \x01(\x08\x12 \n\x18story_ending_description\x18\x08 \x01(\t\x12\x11\n\ttag_color\x18\t \x01(\t\x12\x12\n\ntag_string\x18\n \x01(\t\x12\x16\n\x0esponsor_string\x18\x0b \x01(\t\x12\x12\n\npartner_id\x18\x0c \x01(\tb\x06proto3')
+  serialized_pb=_b('\n)pogoprotos/data/quests/client_quest.proto\x12\x16pogoprotos.data.quests\x1a\"pogoprotos/data/quests/quest.proto\x1a)pogoprotos/data/quests/quest_dialog.proto\"\xc5\x04\n\x0b\x43lientQuest\x12,\n\x05quest\x18\x01 \x01(\x0b\x32\x1d.pogoprotos.data.quests.Quest\x12G\n\rquest_display\x18\x02 \x01(\x0b\x32\x30.pogoprotos.data.quests.ClientQuest.QuestDisplay\x1a\xbe\x03\n\x0cQuestDisplay\x12\x10\n\x08quest_id\x18\x01 \x01(\t\x12\x33\n\x06\x64ialog\x18\x02 \x03(\x0b\x32#.pogoprotos.data.quests.QuestDialog\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\r\n\x05title\x18\x04 \x01(\t\x12\x0c\n\x04slot\x18\x05 \x01(\x05\x12\x44\n\nsubdisplay\x18\x06 \x03(\x0b\x32\x30.pogoprotos.data.quests.ClientQuest.QuestDisplay\x12\x1a\n\x12story_ending_quest\x18\x07 \x01(\x08\x12 \n\x18story_ending_description\x18\x08 \x01(\t\x12\x11\n\ttag_color\x18\t \x01(\t\x12\x12\n\ntag_string\x18\n \x01(\t\x12\x16\n\x0esponsor_string\x18\x0b \x01(\t\x12\x12\n\npartner_id\x18\x0c \x01(\t\x12\x11\n\ticon_name\x18\r \x01(\t\x12\x17\n\x0f\x62\x61\x63kground_name\x18\x0e \x01(\t\x12\x17\n\x0f\x66oreground_name\x18\x0f \x01(\t\x12\x19\n\x11progress_interval\x18\x10 \x01(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_quests_dot_quest__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__dialog__pb2.DESCRIPTOR,])
 
@@ -119,6 +119,34 @@ _CLIENTQUEST_QUESTDISPLAY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='icon_name', full_name='pogoprotos.data.quests.ClientQuest.QuestDisplay.icon_name', index=12,
+      number=13, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='background_name', full_name='pogoprotos.data.quests.ClientQuest.QuestDisplay.background_name', index=13,
+      number=14, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='foreground_name', full_name='pogoprotos.data.quests.ClientQuest.QuestDisplay.foreground_name', index=14,
+      number=15, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='progress_interval', full_name='pogoprotos.data.quests.ClientQuest.QuestDisplay.progress_interval', index=15,
+      number=16, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -132,7 +160,7 @@ _CLIENTQUEST_QUESTDISPLAY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=284,
-  serialized_end=634,
+  serialized_end=730,
 )
 
 _CLIENTQUEST = _descriptor.Descriptor(
@@ -169,7 +197,7 @@ _CLIENTQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=149,
-  serialized_end=634,
+  serialized_end=730,
 )
 
 _CLIENTQUEST_QUESTDISPLAY.fields_by_name['dialog'].message_type = pogoprotos_dot_data_dot_quests_dot_quest__dialog__pb2._QUESTDIALOG

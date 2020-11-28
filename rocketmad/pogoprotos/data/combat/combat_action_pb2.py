@@ -12,6 +12,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+from pogoprotos.enums import pokemon_move_pb2 as pogoprotos_dot_enums_dot_pokemon__move__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,8 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.combat',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n*pogoprotos/data/combat/combat_action.proto\x12\x16pogoprotos.data.combat\"\xed\x03\n\x0c\x43ombatAction\x12=\n\x04type\x18\x01 \x01(\x0e\x32/.pogoprotos.data.combat.CombatAction.ActionType\x12\x19\n\x11\x61\x63tion_start_turn\x18\x03 \x01(\x05\x12\x16\n\x0e\x64uration_turns\x18\x05 \x01(\x05\x12\x16\n\x0e\x61ttacker_index\x18\x06 \x01(\x05\x12\x14\n\x0ctarget_index\x18\x07 \x01(\x05\x12\x19\n\x11\x61\x63tive_pokemon_id\x18\x08 \x01(\x06\x12\x19\n\x11target_pokemon_id\x18\x0e \x01(\x06\x12\x16\n\x0eminigame_score\x18\x0f \x01(\x02\x12\x0c\n\x04move\x18\x10 \x01(\x05\"\xe0\x01\n\nActionType\x12\t\n\x05UNSET\x10\x00\x12\n\n\x06\x41TTACK\x10\x01\x12\x12\n\x0eSPECIAL_ATTACK\x10\x02\x12\x14\n\x10SPECIAL_ATTACK_2\x10\x03\x12\x1d\n\x19MINIGAME_OFFENSIVE_FINISH\x10\x04\x12\x1c\n\x18MINIGAME_DEFENSIVE_START\x10\x05\x12\x1d\n\x19MINIGAME_DEFENSIVE_FINISH\x10\x06\x12\t\n\x05\x46\x41INT\x10\x07\x12\x12\n\x0e\x43HANGE_POKEMON\x10\x08\x12\x16\n\x12QUICK_SWAP_POKEMON\x10\tb\x06proto3')
-)
+  serialized_pb=_b('\n*pogoprotos/data/combat/combat_action.proto\x12\x16pogoprotos.data.combat\x1a#pogoprotos/enums/pokemon_move.proto\"\x8c\x04\n\x0c\x43ombatAction\x12=\n\x04type\x18\x01 \x01(\x0e\x32/.pogoprotos.data.combat.CombatAction.ActionType\x12\x19\n\x11\x61\x63tion_start_turn\x18\x03 \x01(\x05\x12\x16\n\x0e\x64uration_turns\x18\x05 \x01(\x05\x12\x16\n\x0e\x61ttacker_index\x18\x06 \x01(\x05\x12\x14\n\x0ctarget_index\x18\x07 \x01(\x05\x12\x19\n\x11\x61\x63tive_pokemon_id\x18\x08 \x01(\x06\x12\x19\n\x11target_pokemon_id\x18\x0e \x01(\x06\x12\x16\n\x0eminigame_score\x18\x0f \x01(\x02\x12+\n\x04move\x18\x10 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\"\xe0\x01\n\nActionType\x12\t\n\x05UNSET\x10\x00\x12\n\n\x06\x41TTACK\x10\x01\x12\x12\n\x0eSPECIAL_ATTACK\x10\x02\x12\x14\n\x10SPECIAL_ATTACK_2\x10\x03\x12\x1d\n\x19MINIGAME_OFFENSIVE_FINISH\x10\x04\x12\x1c\n\x18MINIGAME_DEFENSIVE_START\x10\x05\x12\x1d\n\x19MINIGAME_DEFENSIVE_FINISH\x10\x06\x12\t\n\x05\x46\x41INT\x10\x07\x12\x12\n\x0e\x43HANGE_POKEMON\x10\x08\x12\x16\n\x12QUICK_SWAP_POKEMON\x10\tb\x06proto3')
+  ,
+  dependencies=[pogoprotos_dot_enums_dot_pokemon__move__pb2.DESCRIPTOR,])
 
 
 
@@ -73,8 +75,8 @@ _COMBATACTION_ACTIONTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=340,
-  serialized_end=564,
+  serialized_start=408,
+  serialized_end=632,
 )
 _sym_db.RegisterEnumDescriptor(_COMBATACTION_ACTIONTYPE)
 
@@ -144,7 +146,7 @@ _COMBATACTION = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='move', full_name='pogoprotos.data.combat.CombatAction.move', index=8,
-      number=16, type=5, cpp_type=1, label=1,
+      number=16, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -162,11 +164,12 @@ _COMBATACTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=71,
-  serialized_end=564,
+  serialized_start=108,
+  serialized_end=632,
 )
 
 _COMBATACTION.fields_by_name['type'].enum_type = _COMBATACTION_ACTIONTYPE
+_COMBATACTION.fields_by_name['move'].enum_type = pogoprotos_dot_enums_dot_pokemon__move__pb2._POKEMONMOVE
 _COMBATACTION_ACTIONTYPE.containing_type = _COMBATACTION
 DESCRIPTOR.message_types_by_name['CombatAction'] = _COMBATACTION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)

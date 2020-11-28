@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.battle',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n/pogoprotos/data/battle/battle_participant.proto\x12\x16pogoprotos.data.battle\x1a\x30pogoprotos/data/battle/battle_pokemon_info.proto\x1a\x32pogoprotos/data/player/player_public_profile.proto\x1a*pogoprotos/map/pokemon/lobby_pokemon.proto\x1a\x31pogoprotos/enums/friendship_level_milestone.proto\"\xd5\x04\n\x11\x42\x61ttleParticipant\x12\x41\n\x0e\x61\x63tive_pokemon\x18\x01 \x01(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12K\n\x16trainer_public_profile\x18\x02 \x01(\x0b\x32+.pogoprotos.data.player.PlayerPublicProfile\x12\x42\n\x0freverse_pokemon\x18\x03 \x03(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12\x43\n\x10\x64\x65\x66\x65\x61ted_pokemon\x18\x04 \x03(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12;\n\rlobby_pokemon\x18\x05 \x03(\x0b\x32$.pogoprotos.map.pokemon.LobbyPokemon\x12\x14\n\x0c\x64\x61mage_dealt\x18\x06 \x01(\x05\x12#\n\x1bsuper_effective_charge_move\x18\x07 \x01(\x08\x12\x17\n\x0fweather_boosted\x18\x08 \x01(\x08\x12P\n\x1chighest_friendship_milestone\x18\t \x01(\x0e\x32*.pogoprotos.enums.FriendshipLevelMilestone\x12\x17\n\x0f\x66riend_codename\x18\n \x03(\t\x12\x11\n\tis_remote\x18\x0b \x01(\x08\x12\x18\n\x10is_social_invite\x18\x0c \x01(\x08\x62\x06proto3')
+  serialized_pb=_b('\n/pogoprotos/data/battle/battle_participant.proto\x12\x16pogoprotos.data.battle\x1a\x30pogoprotos/data/battle/battle_pokemon_info.proto\x1a\x32pogoprotos/data/player/player_public_profile.proto\x1a*pogoprotos/map/pokemon/lobby_pokemon.proto\x1a\x31pogoprotos/enums/friendship_level_milestone.proto\"\xc7\x05\n\x11\x42\x61ttleParticipant\x12\x41\n\x0e\x61\x63tive_pokemon\x18\x01 \x01(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12K\n\x16trainer_public_profile\x18\x02 \x01(\x0b\x32+.pogoprotos.data.player.PlayerPublicProfile\x12\x42\n\x0freverse_pokemon\x18\x03 \x03(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12\x43\n\x10\x64\x65\x66\x65\x61ted_pokemon\x18\x04 \x03(\x0b\x32).pogoprotos.data.battle.BattlePokemonInfo\x12;\n\rlobby_pokemon\x18\x05 \x03(\x0b\x32$.pogoprotos.map.pokemon.LobbyPokemon\x12\x14\n\x0c\x64\x61mage_dealt\x18\x06 \x01(\x05\x12#\n\x1bsuper_effective_charge_move\x18\x07 \x01(\x08\x12\x17\n\x0fweather_boosted\x18\x08 \x01(\x08\x12P\n\x1chighest_friendship_milestone\x18\t \x01(\x0e\x32*.pogoprotos.enums.FriendshipLevelMilestone\x12\x17\n\x0f\x66riend_codename\x18\n \x03(\t\x12\x11\n\tis_remote\x18\x0b \x01(\x08\x12\x18\n\x10is_social_invite\x18\x0c \x01(\x08\x12\'\n\x1fhas_active_mega_evolved_pokemon\x18\r \x01(\x08\x12\x1a\n\x12lobby_join_time_ms\x18\x0e \x01(\x03\x12+\n#super_effective_charge_attacks_used\x18\x0f \x01(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_battle_dot_battle__pokemon__info__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__public__profile__pb2.DESCRIPTOR,pogoprotos_dot_map_dot_pokemon_dot_lobby__pokemon__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_friendship__level__milestone__pb2.DESCRIPTOR,])
 
@@ -121,6 +121,27 @@ _BATTLEPARTICIPANT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='has_active_mega_evolved_pokemon', full_name='pogoprotos.data.battle.BattleParticipant.has_active_mega_evolved_pokemon', index=12,
+      number=13, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lobby_join_time_ms', full_name='pogoprotos.data.battle.BattleParticipant.lobby_join_time_ms', index=13,
+      number=14, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='super_effective_charge_attacks_used', full_name='pogoprotos.data.battle.BattleParticipant.super_effective_charge_attacks_used', index=14,
+      number=15, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -134,7 +155,7 @@ _BATTLEPARTICIPANT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=273,
-  serialized_end=870,
+  serialized_end=984,
 )
 
 _BATTLEPARTICIPANT.fields_by_name['active_pokemon'].message_type = pogoprotos_dot_data_dot_battle_dot_battle__pokemon__info__pb2._BATTLEPOKEMONINFO

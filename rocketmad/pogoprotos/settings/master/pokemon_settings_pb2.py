@@ -19,6 +19,7 @@ from pogoprotos.enums import pokemon_class_pb2 as pogoprotos_dot_enums_dot_pokem
 from pogoprotos.enums import pokemon_type_pb2 as pogoprotos_dot_enums_dot_pokemon__type__pb2
 from pogoprotos.enums import pokemon_move_pb2 as pogoprotos_dot_enums_dot_pokemon__move__pb2
 from pogoprotos.enums import pokemon_family_id_pb2 as pogoprotos_dot_enums_dot_pokemon__family__id__pb2
+from pogoprotos.enums import temporary_evolution_id_pb2 as pogoprotos_dot_enums_dot_temporary__evolution__id__pb2
 from pogoprotos.settings.master.pokemon import stats_attributes_pb2 as pogoprotos_dot_settings_dot_master_dot_pokemon_dot_stats__attributes__pb2
 from pogoprotos.settings.master.pokemon import camera_attributes_pb2 as pogoprotos_dot_settings_dot_master_dot_pokemon_dot_camera__attributes__pb2
 from pogoprotos.settings.master.pokemon import encounter_attributes_pb2 as pogoprotos_dot_settings_dot_master_dot_pokemon_dot_encounter__attributes__pb2
@@ -31,12 +32,140 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n1pogoprotos/settings/master/pokemon_settings.proto\x12\x1apogoprotos.settings.master\x1a!pogoprotos/enums/buddy_size.proto\x1a\x1bpogoprotos/enums/form.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a$pogoprotos/enums/pokemon_class.proto\x1a#pogoprotos/enums/pokemon_type.proto\x1a#pogoprotos/enums/pokemon_move.proto\x1a(pogoprotos/enums/pokemon_family_id.proto\x1a\x39pogoprotos/settings/master/pokemon/stats_attributes.proto\x1a:pogoprotos/settings/master/pokemon/camera_attributes.proto\x1a=pogoprotos/settings/master/pokemon/encounter_attributes.proto\x1a\x39pogoprotos/settings/master/pokemon/evolution_branch.proto\x1a;pogoprotos/settings/master/pokemon/animation_override.proto\"\x81\x13\n\x0fPokemonSettings\x12.\n\tunique_id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x13\n\x0bmodel_scale\x18\x03 \x01(\x02\x12,\n\x05type1\x18\x04 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x12,\n\x05type2\x18\x05 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x12\x44\n\x06\x63\x61mera\x18\x06 \x01(\x0b\x32\x34.pogoprotos.settings.master.pokemon.CameraAttributes\x12J\n\tencounter\x18\x07 \x01(\x0b\x32\x37.pogoprotos.settings.master.pokemon.EncounterAttributes\x12\x42\n\x05stats\x18\x08 \x01(\x0b\x32\x33.pogoprotos.settings.master.pokemon.StatsAttributes\x12\x32\n\x0bquick_moves\x18\t \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x36\n\x0f\x63inematic_moves\x18\n \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x11\n\tanim_time\x18\x0b \x03(\x02\x12.\n\tevolution\x18\x0c \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x16\n\x0e\x65volution_pips\x18\r \x01(\x05\x12\x35\n\rpokemon_class\x18\x0e \x01(\x0e\x32\x1e.pogoprotos.enums.PokemonClass\x12\x18\n\x10pokedex_height_m\x18\x0f \x01(\x02\x12\x19\n\x11pokedex_weight_kg\x18\x10 \x01(\x02\x12.\n\tparent_id\x18\x11 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x16\n\x0eheight_std_dev\x18\x12 \x01(\x02\x12\x16\n\x0eweight_std_dev\x18\x13 \x01(\x02\x12\x1c\n\x14km_distance_to_hatch\x18\x14 \x01(\x02\x12\x34\n\tfamily_id\x18\x15 \x01(\x0e\x32!.pogoprotos.enums.PokemonFamilyId\x12\x17\n\x0f\x63\x61ndy_to_evolve\x18\x16 \x01(\x05\x12\x19\n\x11km_buddy_distance\x18\x17 \x01(\x02\x12/\n\nbuddy_size\x18\x18 \x01(\x0e\x32\x1b.pogoprotos.enums.BuddySize\x12\x14\n\x0cmodel_height\x18\x19 \x01(\x02\x12M\n\x10\x65volution_branch\x18\x1a \x03(\x0b\x32\x33.pogoprotos.settings.master.pokemon.EvolutionBranch\x12\x16\n\x0emodel_scale_v2\x18\x1b \x01(\x02\x12$\n\x04\x66orm\x18\x1c \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x37\n\x10\x65vent_quick_move\x18\x1d \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12;\n\x14\x65vent_cinematic_move\x18\x1e \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x19\n\x11\x62uddy_offset_male\x18\x1f \x03(\x02\x12\x1b\n\x13\x62uddy_offset_female\x18  \x03(\x02\x12\x13\n\x0b\x62uddy_scale\x18! \x01(\x02\x12\x1d\n\x15\x62uddy_portrait_offset\x18\" \x03(\x02\x12+\n\x0bparent_form\x18# \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12Z\n\nthird_move\x18$ \x01(\x0b\x32\x46.pogoprotos.settings.master.PokemonSettings.PokemonThirdMoveAttributes\x12\x17\n\x0fis_transferable\x18% \x01(\x08\x12\x15\n\ris_deployable\x18& \x01(\x08\x12$\n\x1c\x63ombat_shoulder_camera_angle\x18\' \x03(\x02\x12\x13\n\x0bis_tradable\x18( \x01(\x08\x12#\n\x1b\x63ombat_default_camera_angle\x18) \x03(\x02\x12*\n\"combat_opponent_focus_camera_angle\x18* \x03(\x02\x12(\n combat_player_focus_camera_angle\x18+ \x03(\x02\x12-\n%combat_player_pokemon_position_offset\x18, \x03(\x02\x12\\\n\x1dphotobomb_animation_overrides\x18- \x03(\x0b\x32\x35.pogoprotos.settings.master.pokemon.AnimationOverride\x12L\n\x06shadow\x18. \x01(\x0b\x32<.pogoprotos.settings.master.PokemonSettings.ShadowAttributes\x12\x1a\n\x12\x62uddy_group_number\x18/ \x01(\x05\x12!\n\x19\x61\x64\x64itional_cp_boost_level\x18\x30 \x01(\x05\x12\x37\n\x10\x65lite_quick_move\x18\x31 \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12;\n\x14\x65lite_cinematic_move\x18\x32 \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x1aQ\n\x1aPokemonThirdMoveAttributes\x12\x1a\n\x12stardust_to_unlock\x18\x01 \x01(\x05\x12\x17\n\x0f\x63\x61ndy_to_unlock\x18\x02 \x01(\x05\x1a\xd3\x01\n\x10ShadowAttributes\x12$\n\x1cpurification_stardust_needed\x18\x01 \x01(\r\x12!\n\x19purification_candy_needed\x18\x02 \x01(\r\x12;\n\x14purified_charge_move\x18\x03 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x39\n\x12shadow_charge_move\x18\x04 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMoveb\x06proto3')
+  serialized_pb=_b('\n1pogoprotos/settings/master/pokemon_settings.proto\x12\x1apogoprotos.settings.master\x1a!pogoprotos/enums/buddy_size.proto\x1a\x1bpogoprotos/enums/form.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a$pogoprotos/enums/pokemon_class.proto\x1a#pogoprotos/enums/pokemon_type.proto\x1a#pogoprotos/enums/pokemon_move.proto\x1a(pogoprotos/enums/pokemon_family_id.proto\x1a-pogoprotos/enums/temporary_evolution_id.proto\x1a\x39pogoprotos/settings/master/pokemon/stats_attributes.proto\x1a:pogoprotos/settings/master/pokemon/camera_attributes.proto\x1a=pogoprotos/settings/master/pokemon/encounter_attributes.proto\x1a\x39pogoprotos/settings/master/pokemon/evolution_branch.proto\x1a;pogoprotos/settings/master/pokemon/animation_override.proto\"\xe1\x19\n\x0fPokemonSettings\x12.\n\tunique_id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x13\n\x0bmodel_scale\x18\x03 \x01(\x02\x12,\n\x05type1\x18\x04 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x12,\n\x05type2\x18\x05 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x12\x44\n\x06\x63\x61mera\x18\x06 \x01(\x0b\x32\x34.pogoprotos.settings.master.pokemon.CameraAttributes\x12J\n\tencounter\x18\x07 \x01(\x0b\x32\x37.pogoprotos.settings.master.pokemon.EncounterAttributes\x12\x42\n\x05stats\x18\x08 \x01(\x0b\x32\x33.pogoprotos.settings.master.pokemon.StatsAttributes\x12\x32\n\x0bquick_moves\x18\t \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x36\n\x0f\x63inematic_moves\x18\n \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x11\n\tanim_time\x18\x0b \x03(\x02\x12.\n\tevolution\x18\x0c \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x16\n\x0e\x65volution_pips\x18\r \x01(\x05\x12\x35\n\rpokemon_class\x18\x0e \x01(\x0e\x32\x1e.pogoprotos.enums.PokemonClass\x12\x18\n\x10pokedex_height_m\x18\x0f \x01(\x02\x12\x19\n\x11pokedex_weight_kg\x18\x10 \x01(\x02\x12.\n\tparent_id\x18\x11 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x16\n\x0eheight_std_dev\x18\x12 \x01(\x02\x12\x16\n\x0eweight_std_dev\x18\x13 \x01(\x02\x12\x1c\n\x14km_distance_to_hatch\x18\x14 \x01(\x02\x12\x34\n\tfamily_id\x18\x15 \x01(\x0e\x32!.pogoprotos.enums.PokemonFamilyId\x12\x17\n\x0f\x63\x61ndy_to_evolve\x18\x16 \x01(\x05\x12\x19\n\x11km_buddy_distance\x18\x17 \x01(\x02\x12/\n\nbuddy_size\x18\x18 \x01(\x0e\x32\x1b.pogoprotos.enums.BuddySize\x12\x14\n\x0cmodel_height\x18\x19 \x01(\x02\x12M\n\x10\x65volution_branch\x18\x1a \x03(\x0b\x32\x33.pogoprotos.settings.master.pokemon.EvolutionBranch\x12\x16\n\x0emodel_scale_v2\x18\x1b \x01(\x02\x12$\n\x04\x66orm\x18\x1c \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x37\n\x10\x65vent_quick_move\x18\x1d \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12;\n\x14\x65vent_cinematic_move\x18\x1e \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x19\n\x11\x62uddy_offset_male\x18\x1f \x03(\x02\x12\x1b\n\x13\x62uddy_offset_female\x18  \x03(\x02\x12\x13\n\x0b\x62uddy_scale\x18! \x01(\x02\x12\x1d\n\x15\x62uddy_portrait_offset\x18\" \x03(\x02\x12+\n\x0bparent_form\x18# \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12Z\n\nthird_move\x18$ \x01(\x0b\x32\x46.pogoprotos.settings.master.PokemonSettings.PokemonThirdMoveAttributes\x12\x17\n\x0fis_transferable\x18% \x01(\x08\x12\x15\n\ris_deployable\x18& \x01(\x08\x12$\n\x1c\x63ombat_shoulder_camera_angle\x18\' \x03(\x02\x12\x13\n\x0bis_tradable\x18( \x01(\x08\x12#\n\x1b\x63ombat_default_camera_angle\x18) \x03(\x02\x12*\n\"combat_opponent_focus_camera_angle\x18* \x03(\x02\x12(\n combat_player_focus_camera_angle\x18+ \x03(\x02\x12-\n%combat_player_pokemon_position_offset\x18, \x03(\x02\x12\\\n\x1dphotobomb_animation_overrides\x18- \x03(\x0b\x32\x35.pogoprotos.settings.master.pokemon.AnimationOverride\x12L\n\x06shadow\x18. \x01(\x0b\x32<.pogoprotos.settings.master.PokemonSettings.ShadowAttributes\x12\x1a\n\x12\x62uddy_group_number\x18/ \x01(\x05\x12!\n\x19\x61\x64\x64itional_cp_boost_level\x18\x30 \x01(\x05\x12\x37\n\x10\x65lite_quick_move\x18\x31 \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12;\n\x14\x65lite_cinematic_move\x18\x32 \x03(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12W\n\x12temp_evo_overrides\x18\x33 \x03(\x0b\x32;.pogoprotos.settings.master.PokemonSettings.TempEvoOverride\x12&\n\x1e\x62uddy_walked_mega_energy_award\x18\x34 \x01(\x05\x12(\n disable_transfer_to_pokemon_home\x18= \x01(\x08\x12!\n\x19raid_boss_distance_offset\x18> \x01(\x02\x1a\x8f\x05\n\x0fTempEvoOverride\x12;\n\x0btemp_evo_id\x18\x01 \x01(\x0e\x32&.pogoprotos.enums.TemporaryEvolutionId\x12\x42\n\x05stats\x18\x02 \x01(\x0b\x32\x33.pogoprotos.settings.master.pokemon.StatsAttributes\x12\x18\n\x10\x61verage_height_m\x18\x03 \x01(\x02\x12\x19\n\x11\x61verage_weight_kg\x18\x04 \x01(\x02\x12\x35\n\x0etype_override1\x18\x05 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x12\x35\n\x0etype_override2\x18\x06 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonType\x12\x1e\n\x16\x63p_multiplier_override\x18\x07 \x01(\x02\x12\x44\n\x06\x63\x61mera\x18\x08 \x01(\x0b\x32\x34.pogoprotos.settings.master.pokemon.CameraAttributes\x12J\n\tencounter\x18\t \x01(\x0b\x32\x37.pogoprotos.settings.master.pokemon.EncounterAttributes\x12\x16\n\x0emodel_scale_v2\x18\n \x01(\x02\x12\x14\n\x0cmodel_height\x18\x0b \x01(\x02\x12\x19\n\x11\x62uddy_offset_male\x18\x0c \x03(\x02\x12\x1b\n\x13\x62uddy_offset_female\x18\r \x03(\x02\x12\x1d\n\x15\x62uddy_portrait_offset\x18\x0e \x03(\x02\x12!\n\x19raid_boss_distance_offset\x18\x0f \x01(\x02\x1aQ\n\x1aPokemonThirdMoveAttributes\x12\x1a\n\x12stardust_to_unlock\x18\x01 \x01(\x05\x12\x17\n\x0f\x63\x61ndy_to_unlock\x18\x02 \x01(\x05\x1a\xd3\x01\n\x10ShadowAttributes\x12$\n\x1cpurification_stardust_needed\x18\x01 \x01(\r\x12!\n\x19purification_candy_needed\x18\x02 \x01(\r\x12;\n\x14purified_charge_move\x18\x03 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMove\x12\x39\n\x12shadow_charge_move\x18\x04 \x01(\x0e\x32\x1d.pogoprotos.enums.PokemonMoveb\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_enums_dot_buddy__size__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__class__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__move__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__family__id__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_stats__attributes__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_camera__attributes__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_encounter__attributes__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_evolution__branch__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_animation__override__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_enums_dot_buddy__size__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__class__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__move__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__family__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_temporary__evolution__id__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_stats__attributes__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_camera__attributes__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_encounter__attributes__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_evolution__branch__pb2.DESCRIPTOR,pogoprotos_dot_settings_dot_master_dot_pokemon_dot_animation__override__pb2.DESCRIPTOR,])
 
 
 
+
+_POKEMONSETTINGS_TEMPEVOOVERRIDE = _descriptor.Descriptor(
+  name='TempEvoOverride',
+  full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='temp_evo_id', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.temp_evo_id', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='stats', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.stats', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='average_height_m', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.average_height_m', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='average_weight_kg', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.average_weight_kg', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='type_override1', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.type_override1', index=4,
+      number=5, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='type_override2', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.type_override2', index=5,
+      number=6, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='cp_multiplier_override', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.cp_multiplier_override', index=6,
+      number=7, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='camera', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.camera', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='encounter', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.encounter', index=8,
+      number=9, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='model_scale_v2', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.model_scale_v2', index=9,
+      number=10, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='model_height', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.model_height', index=10,
+      number=11, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='buddy_offset_male', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.buddy_offset_male', index=11,
+      number=12, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='buddy_offset_female', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.buddy_offset_female', index=12,
+      number=13, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='buddy_portrait_offset', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.buddy_portrait_offset', index=13,
+      number=14, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='raid_boss_distance_offset', full_name='pogoprotos.settings.master.PokemonSettings.TempEvoOverride.raid_boss_distance_offset', index=14,
+      number=15, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3029,
+  serialized_end=3684,
+)
 
 _POKEMONSETTINGS_POKEMONTHIRDMOVEATTRIBUTES = _descriptor.Descriptor(
   name='PokemonThirdMoveAttributes',
@@ -71,8 +200,8 @@ _POKEMONSETTINGS_POKEMONTHIRDMOVEATTRIBUTES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2775,
-  serialized_end=2856,
+  serialized_start=3686,
+  serialized_end=3767,
 )
 
 _POKEMONSETTINGS_SHADOWATTRIBUTES = _descriptor.Descriptor(
@@ -122,8 +251,8 @@ _POKEMONSETTINGS_SHADOWATTRIBUTES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2859,
-  serialized_end=3070,
+  serialized_start=3770,
+  serialized_end=3981,
 )
 
 _POKEMONSETTINGS = _descriptor.Descriptor(
@@ -476,10 +605,38 @@ _POKEMONSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='temp_evo_overrides', full_name='pogoprotos.settings.master.PokemonSettings.temp_evo_overrides', index=49,
+      number=51, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='buddy_walked_mega_energy_award', full_name='pogoprotos.settings.master.PokemonSettings.buddy_walked_mega_energy_award', index=50,
+      number=52, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='disable_transfer_to_pokemon_home', full_name='pogoprotos.settings.master.PokemonSettings.disable_transfer_to_pokemon_home', index=51,
+      number=61, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='raid_boss_distance_offset', full_name='pogoprotos.settings.master.PokemonSettings.raid_boss_distance_offset', index=52,
+      number=62, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
-  nested_types=[_POKEMONSETTINGS_POKEMONTHIRDMOVEATTRIBUTES, _POKEMONSETTINGS_SHADOWATTRIBUTES, ],
+  nested_types=[_POKEMONSETTINGS_TEMPEVOOVERRIDE, _POKEMONSETTINGS_POKEMONTHIRDMOVEATTRIBUTES, _POKEMONSETTINGS_SHADOWATTRIBUTES, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -488,10 +645,17 @@ _POKEMONSETTINGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=637,
-  serialized_end=3070,
+  serialized_start=684,
+  serialized_end=3981,
 )
 
+_POKEMONSETTINGS_TEMPEVOOVERRIDE.fields_by_name['temp_evo_id'].enum_type = pogoprotos_dot_enums_dot_temporary__evolution__id__pb2._TEMPORARYEVOLUTIONID
+_POKEMONSETTINGS_TEMPEVOOVERRIDE.fields_by_name['stats'].message_type = pogoprotos_dot_settings_dot_master_dot_pokemon_dot_stats__attributes__pb2._STATSATTRIBUTES
+_POKEMONSETTINGS_TEMPEVOOVERRIDE.fields_by_name['type_override1'].enum_type = pogoprotos_dot_enums_dot_pokemon__type__pb2._POKEMONTYPE
+_POKEMONSETTINGS_TEMPEVOOVERRIDE.fields_by_name['type_override2'].enum_type = pogoprotos_dot_enums_dot_pokemon__type__pb2._POKEMONTYPE
+_POKEMONSETTINGS_TEMPEVOOVERRIDE.fields_by_name['camera'].message_type = pogoprotos_dot_settings_dot_master_dot_pokemon_dot_camera__attributes__pb2._CAMERAATTRIBUTES
+_POKEMONSETTINGS_TEMPEVOOVERRIDE.fields_by_name['encounter'].message_type = pogoprotos_dot_settings_dot_master_dot_pokemon_dot_encounter__attributes__pb2._ENCOUNTERATTRIBUTES
+_POKEMONSETTINGS_TEMPEVOOVERRIDE.containing_type = _POKEMONSETTINGS
 _POKEMONSETTINGS_POKEMONTHIRDMOVEATTRIBUTES.containing_type = _POKEMONSETTINGS
 _POKEMONSETTINGS_SHADOWATTRIBUTES.fields_by_name['purified_charge_move'].enum_type = pogoprotos_dot_enums_dot_pokemon__move__pb2._POKEMONMOVE
 _POKEMONSETTINGS_SHADOWATTRIBUTES.fields_by_name['shadow_charge_move'].enum_type = pogoprotos_dot_enums_dot_pokemon__move__pb2._POKEMONMOVE
@@ -519,10 +683,18 @@ _POKEMONSETTINGS.fields_by_name['photobomb_animation_overrides'].message_type = 
 _POKEMONSETTINGS.fields_by_name['shadow'].message_type = _POKEMONSETTINGS_SHADOWATTRIBUTES
 _POKEMONSETTINGS.fields_by_name['elite_quick_move'].enum_type = pogoprotos_dot_enums_dot_pokemon__move__pb2._POKEMONMOVE
 _POKEMONSETTINGS.fields_by_name['elite_cinematic_move'].enum_type = pogoprotos_dot_enums_dot_pokemon__move__pb2._POKEMONMOVE
+_POKEMONSETTINGS.fields_by_name['temp_evo_overrides'].message_type = _POKEMONSETTINGS_TEMPEVOOVERRIDE
 DESCRIPTOR.message_types_by_name['PokemonSettings'] = _POKEMONSETTINGS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PokemonSettings = _reflection.GeneratedProtocolMessageType('PokemonSettings', (_message.Message,), dict(
+
+  TempEvoOverride = _reflection.GeneratedProtocolMessageType('TempEvoOverride', (_message.Message,), dict(
+    DESCRIPTOR = _POKEMONSETTINGS_TEMPEVOOVERRIDE,
+    __module__ = 'pogoprotos.settings.master.pokemon_settings_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.settings.master.PokemonSettings.TempEvoOverride)
+    ))
+  ,
 
   PokemonThirdMoveAttributes = _reflection.GeneratedProtocolMessageType('PokemonThirdMoveAttributes', (_message.Message,), dict(
     DESCRIPTOR = _POKEMONSETTINGS_POKEMONTHIRDMOVEATTRIBUTES,
@@ -542,6 +714,7 @@ PokemonSettings = _reflection.GeneratedProtocolMessageType('PokemonSettings', (_
   # @@protoc_insertion_point(class_scope:pogoprotos.settings.master.PokemonSettings)
   ))
 _sym_db.RegisterMessage(PokemonSettings)
+_sym_db.RegisterMessage(PokemonSettings.TempEvoOverride)
 _sym_db.RegisterMessage(PokemonSettings.PokemonThirdMoveAttributes)
 _sym_db.RegisterMessage(PokemonSettings.ShadowAttributes)
 

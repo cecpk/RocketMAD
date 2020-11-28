@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.inventory.item',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n)pogoprotos/inventory/item/item_type.proto\x12\x19pogoprotos.inventory.item*\xe0\x04\n\x08ItemType\x12\x12\n\x0eITEM_TYPE_NONE\x10\x00\x12\x16\n\x12ITEM_TYPE_POKEBALL\x10\x01\x12\x14\n\x10ITEM_TYPE_POTION\x10\x02\x12\x14\n\x10ITEM_TYPE_REVIVE\x10\x03\x12\x11\n\rITEM_TYPE_MAP\x10\x04\x12\x14\n\x10ITEM_TYPE_BATTLE\x10\x05\x12\x12\n\x0eITEM_TYPE_FOOD\x10\x06\x12\x14\n\x10ITEM_TYPE_CAMERA\x10\x07\x12\x12\n\x0eITEM_TYPE_DISK\x10\x08\x12\x17\n\x13ITEM_TYPE_INCUBATOR\x10\t\x12\x15\n\x11ITEM_TYPE_INCENSE\x10\n\x12\x16\n\x12ITEM_TYPE_XP_BOOST\x10\x0b\x12\x1f\n\x1bITEM_TYPE_INVENTORY_UPGRADE\x10\x0c\x12#\n\x1fITEM_TYPE_EVOLUTION_REQUIREMENT\x10\r\x12\x19\n\x15ITEM_TYPE_MOVE_REROLL\x10\x0e\x12\x13\n\x0fITEM_TYPE_CANDY\x10\x0f\x12\x19\n\x15ITEM_TYPE_RAID_TICKET\x10\x10\x12\x1c\n\x18ITEM_TYPE_STARDUST_BOOST\x10\x11\x12\x1d\n\x19ITEM_TYPE_FRIEND_GIFT_BOX\x10\x12\x12\x19\n\x15ITEM_TYPE_TEAM_CHANGE\x10\x13\x12\"\n\x1eITEM_TYPE_VS_SEEKER_BATTLE_NOW\x10\x15\x12\x1d\n\x19ITEM_TYPE_INCIDENT_TICKET\x10\x16\x12!\n\x1dITEM_TYPE_GLOBAL_EVENT_TICKET\x10\x17\x62\x06proto3')
+  serialized_pb=_b('\n)pogoprotos/inventory/item/item_type.proto\x12\x19pogoprotos.inventory.item*\x81\x05\n\x08ItemType\x12\x12\n\x0eITEM_TYPE_NONE\x10\x00\x12\x16\n\x12ITEM_TYPE_POKEBALL\x10\x01\x12\x14\n\x10ITEM_TYPE_POTION\x10\x02\x12\x14\n\x10ITEM_TYPE_REVIVE\x10\x03\x12\x11\n\rITEM_TYPE_MAP\x10\x04\x12\x14\n\x10ITEM_TYPE_BATTLE\x10\x05\x12\x12\n\x0eITEM_TYPE_FOOD\x10\x06\x12\x14\n\x10ITEM_TYPE_CAMERA\x10\x07\x12\x12\n\x0eITEM_TYPE_DISK\x10\x08\x12\x17\n\x13ITEM_TYPE_INCUBATOR\x10\t\x12\x15\n\x11ITEM_TYPE_INCENSE\x10\n\x12\x16\n\x12ITEM_TYPE_XP_BOOST\x10\x0b\x12\x1f\n\x1bITEM_TYPE_INVENTORY_UPGRADE\x10\x0c\x12#\n\x1fITEM_TYPE_EVOLUTION_REQUIREMENT\x10\r\x12\x19\n\x15ITEM_TYPE_MOVE_REROLL\x10\x0e\x12\x13\n\x0fITEM_TYPE_CANDY\x10\x0f\x12\x19\n\x15ITEM_TYPE_RAID_TICKET\x10\x10\x12\x1c\n\x18ITEM_TYPE_STARDUST_BOOST\x10\x11\x12\x1d\n\x19ITEM_TYPE_FRIEND_GIFT_BOX\x10\x12\x12\x19\n\x15ITEM_TYPE_TEAM_CHANGE\x10\x13\x12\"\n\x1eITEM_TYPE_VS_SEEKER_BATTLE_NOW\x10\x15\x12\x1d\n\x19ITEM_TYPE_INCIDENT_TICKET\x10\x16\x12!\n\x1dITEM_TYPE_GLOBAL_EVENT_TICKET\x10\x17\x12\x1f\n\x1bITEM_TYPE_STICKER_INVENTORY\x10\x18\x62\x06proto3')
 )
 
 _ITEMTYPE = _descriptor.EnumDescriptor(
@@ -121,11 +121,15 @@ _ITEMTYPE = _descriptor.EnumDescriptor(
       name='ITEM_TYPE_GLOBAL_EVENT_TICKET', index=22, number=23,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='ITEM_TYPE_STICKER_INVENTORY', index=23, number=24,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=73,
-  serialized_end=681,
+  serialized_end=714,
 )
 _sym_db.RegisterEnumDescriptor(_ITEMTYPE)
 
@@ -153,6 +157,7 @@ ITEM_TYPE_TEAM_CHANGE = 19
 ITEM_TYPE_VS_SEEKER_BATTLE_NOW = 21
 ITEM_TYPE_INCIDENT_TICKET = 22
 ITEM_TYPE_GLOBAL_EVENT_TICKET = 23
+ITEM_TYPE_STICKER_INVENTORY = 24
 
 
 DESCRIPTOR.enum_types_by_name['ItemType'] = _ITEMTYPE

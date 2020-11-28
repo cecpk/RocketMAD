@@ -16,7 +16,7 @@ from pogoprotos.enums import costume_pb2 as pogoprotos_dot_enums_dot_costume__pb
 from pogoprotos.enums import form_pb2 as pogoprotos_dot_enums_dot_form__pb2
 from pogoprotos.enums import gender_pb2 as pogoprotos_dot_enums_dot_gender__pb2
 from pogoprotos.enums import weather_condition_pb2 as pogoprotos_dot_enums_dot_weather__condition__pb2
-from pogoprotos.enums import pokemon_evolution_pb2 as pogoprotos_dot_enums_dot_pokemon__evolution__pb2
+from pogoprotos.enums import temporary_evolution_id_pb2 as pogoprotos_dot_enums_dot_temporary__evolution__id__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -24,9 +24,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n%pogoprotos/data/pokemon_display.proto\x12\x0fpogoprotos.data\x1a\x1epogoprotos/enums/costume.proto\x1a\x1bpogoprotos/enums/form.proto\x1a\x1dpogoprotos/enums/gender.proto\x1a(pogoprotos/enums/weather_condition.proto\x1a(pogoprotos/enums/pokemon_evolution.proto\"\xa7\x04\n\x0ePokemonDisplay\x12*\n\x07\x63ostume\x18\x01 \x01(\x0e\x32\x19.pogoprotos.enums.Costume\x12(\n\x06gender\x18\x02 \x01(\x0e\x32\x18.pogoprotos.enums.Gender\x12\r\n\x05shiny\x18\x03 \x01(\x08\x12$\n\x04\x66orm\x18\x04 \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x45\n\x19weather_boosted_condition\x18\x05 \x01(\x0e\x32\".pogoprotos.enums.WeatherCondition\x12<\n\talignment\x18\x06 \x01(\x0e\x32).pogoprotos.data.PokemonDisplay.Alignment\x12\x43\n\rpokemon_badge\x18\x07 \x01(\x0e\x32,.pogoprotos.data.PokemonDisplay.PokemonBadge\x12=\n\x11pokemon_evolution\x18\x08 \x01(\x0e\x32\".pogoprotos.enums.PokemonEvolution\":\n\tAlignment\x12\x13\n\x0f\x41LIGNMENT_UNSET\x10\x00\x12\n\n\x06SHADOW\x10\x01\x12\x0c\n\x08PURIFIED\x10\x02\"E\n\x0cPokemonBadge\x12\x17\n\x13POKEMON_BADGE_UNSET\x10\x00\x12\x1c\n\x18POKEMON_BADGE_BEST_BUDDY\x10\x01\x62\x06proto3')
+  serialized_pb=_b('\n%pogoprotos/data/pokemon_display.proto\x12\x0fpogoprotos.data\x1a\x1epogoprotos/enums/costume.proto\x1a\x1bpogoprotos/enums/form.proto\x1a\x1dpogoprotos/enums/gender.proto\x1a(pogoprotos/enums/weather_condition.proto\x1a-pogoprotos/enums/temporary_evolution_id.proto\"\x89\x06\n\x0ePokemonDisplay\x12*\n\x07\x63ostume\x18\x01 \x01(\x0e\x32\x19.pogoprotos.enums.Costume\x12(\n\x06gender\x18\x02 \x01(\x0e\x32\x18.pogoprotos.enums.Gender\x12\r\n\x05shiny\x18\x03 \x01(\x08\x12$\n\x04\x66orm\x18\x04 \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x45\n\x19weather_boosted_condition\x18\x05 \x01(\x0e\x32\".pogoprotos.enums.WeatherCondition\x12<\n\talignment\x18\x06 \x01(\x0e\x32).pogoprotos.data.PokemonDisplay.Alignment\x12\x43\n\rpokemon_badge\x18\x07 \x01(\x0e\x32,.pogoprotos.data.PokemonDisplay.PokemonBadge\x12\x46\n\x16\x63urrent_temp_evolution\x18\x08 \x01(\x0e\x32&.pogoprotos.enums.TemporaryEvolutionId\x12%\n\x1dtemporary_evolution_finish_ms\x18\t \x01(\x03\x12 \n\x18temp_evolution_is_locked\x18\n \x01(\x08\x12\x45\n\x15locked_temp_evolution\x18\x0b \x01(\x0e\x32&.pogoprotos.enums.TemporaryEvolutionId\x12\x33\n\x10original_costume\x18\x0c \x01(\x0e\x32\x19.pogoprotos.enums.Costume\x12\x12\n\ndisplay_id\x18\r \x01(\x03\":\n\tAlignment\x12\x13\n\x0f\x41LIGNMENT_UNSET\x10\x00\x12\n\n\x06SHADOW\x10\x01\x12\x0c\n\x08PURIFIED\x10\x02\"E\n\x0cPokemonBadge\x12\x17\n\x13POKEMON_BADGE_UNSET\x10\x00\x12\x1c\n\x18POKEMON_BADGE_BEST_BUDDY\x10\x01\x62\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_enums_dot_costume__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_gender__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_weather__condition__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__evolution__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_enums_dot_costume__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_gender__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_weather__condition__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_temporary__evolution__id__pb2.DESCRIPTOR,])
 
 
 
@@ -51,8 +51,8 @@ _POKEMONDISPLAY_ALIGNMENT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=657,
-  serialized_end=715,
+  serialized_start=888,
+  serialized_end=946,
 )
 _sym_db.RegisterEnumDescriptor(_POKEMONDISPLAY_ALIGNMENT)
 
@@ -73,8 +73,8 @@ _POKEMONDISPLAY_POKEMONBADGE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=717,
-  serialized_end=786,
+  serialized_start=948,
+  serialized_end=1017,
 )
 _sym_db.RegisterEnumDescriptor(_POKEMONDISPLAY_POKEMONBADGE)
 
@@ -136,8 +136,43 @@ _POKEMONDISPLAY = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='pokemon_evolution', full_name='pogoprotos.data.PokemonDisplay.pokemon_evolution', index=7,
+      name='current_temp_evolution', full_name='pogoprotos.data.PokemonDisplay.current_temp_evolution', index=7,
       number=8, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='temporary_evolution_finish_ms', full_name='pogoprotos.data.PokemonDisplay.temporary_evolution_finish_ms', index=8,
+      number=9, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='temp_evolution_is_locked', full_name='pogoprotos.data.PokemonDisplay.temp_evolution_is_locked', index=9,
+      number=10, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='locked_temp_evolution', full_name='pogoprotos.data.PokemonDisplay.locked_temp_evolution', index=10,
+      number=11, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='original_costume', full_name='pogoprotos.data.PokemonDisplay.original_costume', index=11,
+      number=12, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='display_id', full_name='pogoprotos.data.PokemonDisplay.display_id', index=12,
+      number=13, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -156,8 +191,8 @@ _POKEMONDISPLAY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=235,
-  serialized_end=786,
+  serialized_start=240,
+  serialized_end=1017,
 )
 
 _POKEMONDISPLAY.fields_by_name['costume'].enum_type = pogoprotos_dot_enums_dot_costume__pb2._COSTUME
@@ -166,7 +201,9 @@ _POKEMONDISPLAY.fields_by_name['form'].enum_type = pogoprotos_dot_enums_dot_form
 _POKEMONDISPLAY.fields_by_name['weather_boosted_condition'].enum_type = pogoprotos_dot_enums_dot_weather__condition__pb2._WEATHERCONDITION
 _POKEMONDISPLAY.fields_by_name['alignment'].enum_type = _POKEMONDISPLAY_ALIGNMENT
 _POKEMONDISPLAY.fields_by_name['pokemon_badge'].enum_type = _POKEMONDISPLAY_POKEMONBADGE
-_POKEMONDISPLAY.fields_by_name['pokemon_evolution'].enum_type = pogoprotos_dot_enums_dot_pokemon__evolution__pb2._POKEMONEVOLUTION
+_POKEMONDISPLAY.fields_by_name['current_temp_evolution'].enum_type = pogoprotos_dot_enums_dot_temporary__evolution__id__pb2._TEMPORARYEVOLUTIONID
+_POKEMONDISPLAY.fields_by_name['locked_temp_evolution'].enum_type = pogoprotos_dot_enums_dot_temporary__evolution__id__pb2._TEMPORARYEVOLUTIONID
+_POKEMONDISPLAY.fields_by_name['original_costume'].enum_type = pogoprotos_dot_enums_dot_costume__pb2._COSTUME
 _POKEMONDISPLAY_ALIGNMENT.containing_type = _POKEMONDISPLAY
 _POKEMONDISPLAY_POKEMONBADGE.containing_type = _POKEMONDISPLAY
 DESCRIPTOR.message_types_by_name['PokemonDisplay'] = _POKEMONDISPLAY

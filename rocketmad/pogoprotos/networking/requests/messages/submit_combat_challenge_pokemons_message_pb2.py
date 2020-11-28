@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\nVpogoprotos/networking/requests/messages/submit_combat_challenge_pokemons_message.proto\x12\'pogoprotos.networking.requests.messages\"Z\n$SubmitCombatChallengePokemonsMessage\x12\x14\n\x0c\x63hallenge_id\x18\x01 \x01(\t\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x02 \x03(\x06\x62\x06proto3')
+  serialized_pb=_b('\nVpogoprotos/networking/requests/messages/submit_combat_challenge_pokemons_message.proto\x12\'pogoprotos.networking.requests.messages\"v\n$SubmitCombatChallengePokemonsMessage\x12\x14\n\x0c\x63hallenge_id\x18\x01 \x01(\t\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x02 \x03(\x06\x12\x1a\n\x12lobby_join_time_ms\x18\x03 \x01(\x03\x62\x06proto3')
 )
 
 
@@ -46,6 +46,13 @@ _SUBMITCOMBATCHALLENGEPOKEMONSMESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lobby_join_time_ms', full_name='pogoprotos.networking.requests.messages.SubmitCombatChallengePokemonsMessage.lobby_join_time_ms', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -59,7 +66,7 @@ _SUBMITCOMBATCHALLENGEPOKEMONSMESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=131,
-  serialized_end=221,
+  serialized_end=249,
 )
 
 DESCRIPTOR.message_types_by_name['SubmitCombatChallengePokemonsMessage'] = _SUBMITCOMBATCHALLENGEPOKEMONSMESSAGE

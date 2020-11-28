@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.raid',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n(pogoprotos/data/raid/participation.proto\x12\x14pogoprotos.data.raid\x1a\x31pogoprotos/enums/friendship_level_milestone.proto\"\xef\x02\n\rParticipation\x12#\n\x1bindividual_damage_pokeballs\x18\x01 \x01(\x05\x12\x1d\n\x15team_damage_pokeballs\x18\x02 \x01(\x05\x12\x1f\n\x17gym_ownership_pokeballs\x18\x03 \x01(\x05\x12\x16\n\x0e\x62\x61se_pokeballs\x18\x04 \x01(\x05\x12\x17\n\x0f\x62lue_percentage\x18\x05 \x01(\x01\x12\x16\n\x0ered_percentage\x18\x06 \x01(\x01\x12\x19\n\x11yellow_percentage\x18\x07 \x01(\x01\x12\x1d\n\x15\x62onus_item_multiplier\x18\x08 \x01(\x02\x12P\n\x1chighest_friendship_milestone\x18\t \x01(\x0e\x32*.pogoprotos.enums.FriendshipLevelMilestone\x12$\n\x1chighest_friendship_pokeballs\x18\n \x01(\x05\x62\x06proto3')
+  serialized_pb=_b('\n(pogoprotos/data/raid/participation.proto\x12\x14pogoprotos.data.raid\x1a\x31pogoprotos/enums/friendship_level_milestone.proto\"\xd9\x03\n\rParticipation\x12#\n\x1bindividual_damage_pokeballs\x18\x01 \x01(\x05\x12\x1d\n\x15team_damage_pokeballs\x18\x02 \x01(\x05\x12\x1f\n\x17gym_ownership_pokeballs\x18\x03 \x01(\x05\x12\x16\n\x0e\x62\x61se_pokeballs\x18\x04 \x01(\x05\x12\x17\n\x0f\x62lue_percentage\x18\x05 \x01(\x01\x12\x16\n\x0ered_percentage\x18\x06 \x01(\x01\x12\x19\n\x11yellow_percentage\x18\x07 \x01(\x01\x12\x1d\n\x15\x62onus_item_multiplier\x18\x08 \x01(\x02\x12P\n\x1chighest_friendship_milestone\x18\t \x01(\x0e\x32*.pogoprotos.enums.FriendshipLevelMilestone\x12$\n\x1chighest_friendship_pokeballs\x18\n \x01(\x05\x12\"\n\x1aspeed_completion_pokeballs\x18\x0b \x01(\x05\x12&\n\x1espeed_completion_mega_resource\x18\x0c \x01(\x05\x12\x1c\n\x14mega_resource_capped\x18\r \x01(\x08\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_friendship__level__milestone__pb2.DESCRIPTOR,])
 
@@ -104,6 +104,27 @@ _PARTICIPATION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='speed_completion_pokeballs', full_name='pogoprotos.data.raid.Participation.speed_completion_pokeballs', index=10,
+      number=11, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='speed_completion_mega_resource', full_name='pogoprotos.data.raid.Participation.speed_completion_mega_resource', index=11,
+      number=12, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mega_resource_capped', full_name='pogoprotos.data.raid.Participation.mega_resource_capped', index=12,
+      number=13, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -117,7 +138,7 @@ _PARTICIPATION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=118,
-  serialized_end=485,
+  serialized_end=591,
 )
 
 _PARTICIPATION.fields_by_name['highest_friendship_milestone'].enum_type = pogoprotos_dot_enums_dot_friendship__level__milestone__pb2._FRIENDSHIPLEVELMILESTONE

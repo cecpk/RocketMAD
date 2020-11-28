@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.unclassed',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n;pogoprotos/data/unclassed/get_friend_details_response.proto\x12\x19pogoprotos.data.unclassed\x1a\x34pogoprotos/data/unclassed/get_profile_response.proto\x1a,pogoprotos/data/friends/friend_details.proto\"\xf6\n\n\x18GetFriendDetailsResponse\x12J\n\x06result\x18\x01 \x01(\x0e\x32:.pogoprotos.data.unclassed.GetFriendDetailsResponse.Result\x12\x63\n\x0e\x66riend_details\x18\x02 \x03(\x0b\x32K.pogoprotos.data.unclassed.GetFriendDetailsResponse.FriendDetailsEntryProto\x1a\x91\x03\n\x17\x46riendDetailsEntryProto\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12M\n\x07profile\x18\x02 \x01(\x0b\x32<.pogoprotos.data.unclassed.GetProfileResponse.ProfileDetails\x12\x63\n\rplayer_status\x18\x03 \x01(\x0b\x32L.pogoprotos.data.unclassed.GetFriendDetailsResponse.PlayerStatusDetailsProto\x12\x41\n\x11\x63\x61lling_game_data\x18\x04 \x01(\x0b\x32&.pogoprotos.data.friends.FriendDetails\x12l\n\x11invitation_status\x18\x05 \x01(\x0e\x32Q.pogoprotos.data.unclassed.GetFriendDetailsResponse.SocialV2Enum.InvitationStatus\x1a\xfb\x02\n\x18PlayerStatusDetailsProto\x12\x1d\n\x15\x64istance_to_player_km\x18\x01 \x01(\x01\x12X\n\x06locale\x18\x02 \x01(\x0b\x32H.pogoprotos.data.unclassed.GetFriendDetailsResponse.PlatformPlayerLocale\x12\x64\n\ronline_status\x18\x03 \x01(\x0e\x32M.pogoprotos.data.unclassed.GetFriendDetailsResponse.SocialV2Enum.OnlineStatus\x12\x1b\n\x13last_played_app_key\x18\x04 \x01(\t\"c\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x12\x18\n\x14\x45RROR_STATUS_UNKNOWN\x10\x03\x12\x14\n\x10\x45RROR_STALE_DATA\x10\x04\x1a\xa9\x01\n\x0cSocialV2Enum\"<\n\x10InvitationStatus\x12\x1b\n\x17INVITATION_STATUS_UNSET\x10\x00\x12\x0b\n\x07INVITED\x10\x01\"[\n\x0cOnlineStatus\x12\x10\n\x0cSTATUS_UNSET\x10\x00\x12\x12\n\x0eSTATUS_UNKNOWN\x10\x01\x12\x11\n\rSTATUS_ONLINE\x10\x02\x12\x12\n\x0eSTATUS_OFFLINE\x10\x03\x1aK\n\x14PlatformPlayerLocale\x12\x0f\n\x07\x63ountry\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\x10\n\x08timezone\x18\x03 \x01(\t\"\\\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x12\'\n#ERROR_EXCEEDS_MAX_FRIENDS_PER_QUERY\x10\x03\"@\n\x0cOnlineStatus\x12\x0e\n\nNOT_ONLINE\x10\x00\x12\x14\n\x10ONLINE_ELSEWHERE\x10\x01\x12\n\n\x06ONLINE\x10\x02\x62\x06proto3')
+  serialized_pb=_b('\n;pogoprotos/data/unclassed/get_friend_details_response.proto\x12\x19pogoprotos.data.unclassed\x1a\x34pogoprotos/data/unclassed/get_profile_response.proto\x1a,pogoprotos/data/friends/friend_details.proto\"\xbc\x0b\n\x18GetFriendDetailsResponse\x12J\n\x06result\x18\x01 \x01(\x0e\x32:.pogoprotos.data.unclassed.GetFriendDetailsResponse.Result\x12\x63\n\x0e\x66riend_details\x18\x02 \x03(\x0b\x32K.pogoprotos.data.unclassed.GetFriendDetailsResponse.FriendDetailsEntryProto\x1a\x91\x03\n\x17\x46riendDetailsEntryProto\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12M\n\x07profile\x18\x02 \x01(\x0b\x32<.pogoprotos.data.unclassed.GetProfileResponse.ProfileDetails\x12\x63\n\rplayer_status\x18\x03 \x01(\x0b\x32L.pogoprotos.data.unclassed.GetFriendDetailsResponse.PlayerStatusDetailsProto\x12\x41\n\x11\x63\x61lling_game_data\x18\x04 \x01(\x0b\x32&.pogoprotos.data.friends.FriendDetails\x12l\n\x11invitation_status\x18\x05 \x01(\x0e\x32Q.pogoprotos.data.unclassed.GetFriendDetailsResponse.SocialV2Enum.InvitationStatus\x1a\xc1\x03\n\x18PlayerStatusDetailsProto\x12\x63\n\x06result\x18\x01 \x01(\x0e\x32S.pogoprotos.data.unclassed.GetFriendDetailsResponse.PlayerStatusDetailsProto.Result\x12X\n\x06locale\x18\x02 \x01(\x0b\x32H.pogoprotos.data.unclassed.GetFriendDetailsResponse.PlatformPlayerLocale\x12\x64\n\ronline_status\x18\x03 \x01(\x0e\x32M.pogoprotos.data.unclassed.GetFriendDetailsResponse.SocialV2Enum.OnlineStatus\x12\x1b\n\x13last_played_app_key\x18\x04 \x01(\t\"c\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x12\x18\n\x14\x45RROR_STATUS_UNKNOWN\x10\x03\x12\x14\n\x10\x45RROR_STALE_DATA\x10\x04\x1a\xa9\x01\n\x0cSocialV2Enum\"<\n\x10InvitationStatus\x12\x1b\n\x17INVITATION_STATUS_UNSET\x10\x00\x12\x0b\n\x07INVITED\x10\x01\"[\n\x0cOnlineStatus\x12\x10\n\x0cSTATUS_UNSET\x10\x00\x12\x12\n\x0eSTATUS_UNKNOWN\x10\x01\x12\x11\n\rSTATUS_ONLINE\x10\x02\x12\x12\n\x0eSTATUS_OFFLINE\x10\x03\x1aK\n\x14PlatformPlayerLocale\x12\x0f\n\x07\x63ountry\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\x10\n\x08timezone\x18\x03 \x01(\t\"\\\n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\x11\n\rERROR_UNKNOWN\x10\x02\x12\'\n#ERROR_EXCEEDS_MAX_FRIENDS_PER_QUERY\x10\x03\"@\n\x0cOnlineStatus\x12\x0e\n\nNOT_ONLINE\x10\x00\x12\x14\n\x10ONLINE_ELSEWHERE\x10\x01\x12\n\n\x06ONLINE\x10\x02\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_unclassed_dot_get__profile__response__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_friends_dot_friend__details__pb2.DESCRIPTOR,])
 
@@ -56,8 +56,8 @@ _GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO_RESULT = _descriptor.EnumDesc
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1081,
-  serialized_end=1180,
+  serialized_start=1151,
+  serialized_end=1250,
 )
 _sym_db.RegisterEnumDescriptor(_GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO_RESULT)
 
@@ -78,8 +78,8 @@ _GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM_INVITATIONSTATUS = _descriptor.EnumDescri
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1199,
-  serialized_end=1259,
+  serialized_start=1269,
+  serialized_end=1329,
 )
 _sym_db.RegisterEnumDescriptor(_GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM_INVITATIONSTATUS)
 
@@ -108,8 +108,8 @@ _GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM_ONLINESTATUS = _descriptor.EnumDescriptor
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1261,
-  serialized_end=1352,
+  serialized_start=1331,
+  serialized_end=1422,
 )
 _sym_db.RegisterEnumDescriptor(_GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM_ONLINESTATUS)
 
@@ -138,8 +138,8 @@ _GETFRIENDDETAILSRESPONSE_RESULT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1431,
-  serialized_end=1523,
+  serialized_start=1501,
+  serialized_end=1593,
 )
 _sym_db.RegisterEnumDescriptor(_GETFRIENDDETAILSRESPONSE_RESULT)
 
@@ -164,8 +164,8 @@ _GETFRIENDDETAILSRESPONSE_ONLINESTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1525,
-  serialized_end=1589,
+  serialized_start=1595,
+  serialized_end=1659,
 )
 _sym_db.RegisterEnumDescriptor(_GETFRIENDDETAILSRESPONSE_ONLINESTATUS)
 
@@ -236,9 +236,9 @@ _GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='distance_to_player_km', full_name='pogoprotos.data.unclassed.GetFriendDetailsResponse.PlayerStatusDetailsProto.distance_to_player_km', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
+      name='result', full_name='pogoprotos.data.unclassed.GetFriendDetailsResponse.PlayerStatusDetailsProto.result', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -277,7 +277,7 @@ _GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=801,
-  serialized_end=1180,
+  serialized_end=1250,
 )
 
 _GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM = _descriptor.Descriptor(
@@ -301,8 +301,8 @@ _GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1183,
-  serialized_end=1352,
+  serialized_start=1253,
+  serialized_end=1422,
 )
 
 _GETFRIENDDETAILSRESPONSE_PLATFORMPLAYERLOCALE = _descriptor.Descriptor(
@@ -345,8 +345,8 @@ _GETFRIENDDETAILSRESPONSE_PLATFORMPLAYERLOCALE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1354,
-  serialized_end=1429,
+  serialized_start=1424,
+  serialized_end=1499,
 )
 
 _GETFRIENDDETAILSRESPONSE = _descriptor.Descriptor(
@@ -385,7 +385,7 @@ _GETFRIENDDETAILSRESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=191,
-  serialized_end=1589,
+  serialized_end=1659,
 )
 
 _GETFRIENDDETAILSRESPONSE_FRIENDDETAILSENTRYPROTO.fields_by_name['profile'].message_type = pogoprotos_dot_data_dot_unclassed_dot_get__profile__response__pb2._GETPROFILERESPONSE_PROFILEDETAILS
@@ -393,6 +393,7 @@ _GETFRIENDDETAILSRESPONSE_FRIENDDETAILSENTRYPROTO.fields_by_name['player_status'
 _GETFRIENDDETAILSRESPONSE_FRIENDDETAILSENTRYPROTO.fields_by_name['calling_game_data'].message_type = pogoprotos_dot_data_dot_friends_dot_friend__details__pb2._FRIENDDETAILS
 _GETFRIENDDETAILSRESPONSE_FRIENDDETAILSENTRYPROTO.fields_by_name['invitation_status'].enum_type = _GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM_INVITATIONSTATUS
 _GETFRIENDDETAILSRESPONSE_FRIENDDETAILSENTRYPROTO.containing_type = _GETFRIENDDETAILSRESPONSE
+_GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO.fields_by_name['result'].enum_type = _GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO_RESULT
 _GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO.fields_by_name['locale'].message_type = _GETFRIENDDETAILSRESPONSE_PLATFORMPLAYERLOCALE
 _GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO.fields_by_name['online_status'].enum_type = _GETFRIENDDETAILSRESPONSE_SOCIALV2ENUM_ONLINESTATUS
 _GETFRIENDDETAILSRESPONSE_PLAYERSTATUSDETAILSPROTO.containing_type = _GETFRIENDDETAILSRESPONSE

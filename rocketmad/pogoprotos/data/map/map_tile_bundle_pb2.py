@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.map',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n)pogoprotos/data/map/map_tile_bundle.proto\x12\x13pogoprotos.data.map\"\xb1\x17\n\rMapTileBundle\x12@\n\x08map_tile\x18\x01 \x03(\x0b\x32..pogoprotos.data.map.MapTileBundle.MapTileData\x1a\xdd\x16\n\x0bMapTileData\x12H\n\x08map_tile\x18\x01 \x01(\x0b\x32\x36.pogoprotos.data.map.MapTileBundle.MapTileData.MapTile\x12T\n\ttile_data\x18\x02 \x01(\x0b\x32\x41.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot\x1a\x85\x04\n\x07MapTile\x12\x14\n\x0ctile_variant\x18\x01 \x01(\r\x12\x14\n\x0ctile_index_x\x18\x02 \x01(\x05\x12\x14\n\x0ctile_index_y\x18\x03 \x01(\x05\x12\x12\n\nzoom_level\x18\x04 \x01(\x05\x12\x17\n\x0findoor_level_id\x18\x05 \x01(\t\x12\x15\n\rpertile_epoch\x18\x06 \x01(\x05\"J\n\x0cTextSizeEnum\x12\x18\n\x14TEXT_SIZE_ENUM_UNSET\x10\x00\x12\t\n\x05SMALL\x10\x01\x12\n\n\x06MEDIUM\x10\x02\x12\t\n\x05LARGE\x10\x03\"\xa7\x02\n\x0cTileTypeEnum\x12\x18\n\x14TILE_TYPE_ENUM_UNSET\x10\x00\x12\r\n\tMAP_ATLAS\x10\x02\x12\r\n\tSATELLITE\x10\x03\x12\x0b\n\x07TRAFFIC\x10\x04\x12\r\n\tGIF_ATLAS\x10\x05\x12\n\n\x06HYBRID\x10\x06\x12\x0b\n\x07TERRAIN\x10\x07\x12\x13\n\x0f\x43LICKABLE_LAYER\x10\x08\x12\x0f\n\x0bSTREET_VIEW\x10\t\x12\x10\n\x0cVECTOR_ATLAS\x10\n\x12\x0e\n\nROAD_GRAPH\x10\x0b\x12\x15\n\x11TERRAIN_NO_LABELS\x10\x0c\x12\x12\n\x0eVECTOR_TRANSIT\x10\r\x12\n\n\x06INDOOR\x10\x0e\x12\x0f\n\x0bLABELS_ONLY\x10\x0f\x12\x1a\n\x16PERSONALIZED_SMARTMAPS\x10\x10\x1a\xa5\x11\n\x12MapCompositionRoot\x12[\n\x08map_area\x18\x01 \x03(\x0b\x32I.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea\x12\x63\n\x0cmap_provider\x18\x02 \x03(\x0b\x32M.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider\x12n\n\x12named_map_settings\x18\x03 \x03(\x0b\x32R.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.NamedMapSettings\x1a\xfc\x01\n\x07MapArea\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t\x12\r\n\x05\x65poch\x18\x02 \x01(\x05\x12\x14\n\x0cmap_provider\x18\x03 \x01(\t\x12m\n\rbounding_rect\x18\x04 \x03(\x0b\x32V.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect\x1aH\n\x0c\x42oundingRect\x12\r\n\x05north\x18\x01 \x01(\x01\x12\r\n\x05south\x18\x02 \x01(\x01\x12\x0c\n\x04\x65\x61st\x18\x03 \x01(\x01\x12\x0c\n\x04west\x18\x04 \x01(\x01\x1a\x93\x05\n\x0bMapProvider\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x62\x61se_url\x18\x02 \x01(\t\x12\x14\n\x0cquery_format\x18\x03 \x01(\t\x12\x65\n\x0cgmm_settings\x18\x04 \x01(\x0b\x32M.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettingsH\x00\x12\x17\n\rsettings_name\x18\x05 \x01(\tH\x00\x12g\n\x08map_type\x18\x06 \x01(\x0e\x32U.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.MapType\x12\x18\n\x10hide_attribution\x18\x07 \x01(\x08\x12\x16\n\x0emin_tile_level\x18\x08 \x01(\x05\x12\x16\n\x0emax_tile_level\x18\t \x01(\x05\x12x\n\x11\x62undle_zoom_range\x18\n \x03(\x0b\x32].pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.BundleZoomRange\x1aR\n\x0f\x42undleZoomRange\x12\x10\n\x08min_zoom\x18\x01 \x01(\x05\x12\x10\n\x08max_zoom\x18\x02 \x01(\x05\x12\x1b\n\x13request_zoom_offset\x18\x03 \x01(\x05\"A\n\x07MapType\x12\t\n\x05UNSET\x10\x00\x12\x07\n\x03GMM\x10\x01\x12\x07\n\x03OSM\x10\x02\x12\t\n\x05\x42LANK\x10\x03\x12\x0e\n\nGMM_BUNDLE\x10\x04\x42\n\n\x08Settings\x1a\x85\x01\n\x10NamedMapSettings\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x63\n\x0cgmm_settings\x18\x02 \x01(\x0b\x32M.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings\x1a\xbf\x06\n\x0bGmmSettings\x12l\n\x0blayer_rules\x18\x01 \x03(\x0b\x32W.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule\x1a\xc1\x05\n\tLayerRule\x12x\n\x0b\x66ill_colors\x18\x01 \x03(\x0b\x32\x63.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor\x12~\n\rroad_priority\x18\x02 \x03(\x0e\x32g.pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.GmmRoadPriority\x12\x1f\n\x17road_attribute_bitfield\x18\x03 \x01(\r\x1a:\n\x0bMaskedColor\x12\x12\n\ncolor_argb\x18\x01 \x01(\r\x12\x17\n\x0f\x63olor_mask_argb\x18\x02 \x01(\r\"?\n\x0cGmmLayerType\x12\x08\n\x04\x41REA\x10\x00\x12\x08\n\x04ROAD\x10\x01\x12\x0c\n\x08\x42UILDING\x10\x02\x12\r\n\tLINE_MESH\x10\x03\"\x9b\x02\n\x0fGmmRoadPriority\x12\x11\n\rPRIORITY_NONE\x10\x00\x12\x15\n\x11PRIORITY_TERMINAL\x10\x01\x12\x12\n\x0ePRIORITY_LOCAL\x10\x02\x12\x1b\n\x17PRIORITY_MINOR_ARTERIAL\x10\x03\x12\x1b\n\x17PRIORITY_MAJOR_ARTERIAL\x10\x04\x12\x1b\n\x17PRIORITY_SECONDARY_ROAD\x10\x05\x12\x1c\n\x18PRIORITY_PRIMARY_HIGHWAY\x10\x06\x12\x1b\n\x17PRIORITY_LIMITED_ACCESS\x10\x07\x12\x1e\n\x1aPRIORITY_CONTROLLED_ACCESS\x10\x08\x12\x18\n\x14PRIORITY_NON_TRAFFIC\x10\tb\x06proto3')
+  serialized_pb=_b('\n)pogoprotos/data/map/map_tile_bundle.proto\x12\x13pogoprotos.data.map\"\xa3\x06\n\rMapTileBundle\x12@\n\x08map_tile\x18\x01 \x03(\x0b\x32..pogoprotos.data.map.MapTileBundle.MapTileData\x1a\xcf\x05\n\x0bMapTileData\x12H\n\x08map_tile\x18\x01 \x01(\x0b\x32\x36.pogoprotos.data.map.MapTileBundle.MapTileData.MapTile\x12:\n\ttile_data\x18\x02 \x01(\x0b\x32\'.pogoprotos.data.map.MapCompositionRoot\x12\x32\n\nlabel_data\x18\x03 \x01(\x0b\x32\x1e.pogoprotos.data.map.LabelTile\x1a\x85\x04\n\x07MapTile\x12\x14\n\x0ctile_variant\x18\x01 \x01(\r\x12\x14\n\x0ctile_index_x\x18\x02 \x01(\x05\x12\x14\n\x0ctile_index_y\x18\x03 \x01(\x05\x12\x12\n\nzoom_level\x18\x04 \x01(\x05\x12\x17\n\x0findoor_level_id\x18\x05 \x01(\t\x12\x15\n\rpertile_epoch\x18\x06 \x01(\x05\"J\n\x0cTextSizeEnum\x12\x18\n\x14TEXT_SIZE_ENUM_UNSET\x10\x00\x12\t\n\x05SMALL\x10\x01\x12\n\n\x06MEDIUM\x10\x02\x12\t\n\x05LARGE\x10\x03\"\xa7\x02\n\x0cTileTypeEnum\x12\x18\n\x14TILE_TYPE_ENUM_UNSET\x10\x00\x12\r\n\tMAP_ATLAS\x10\x02\x12\r\n\tSATELLITE\x10\x03\x12\x0b\n\x07TRAFFIC\x10\x04\x12\r\n\tGIF_ATLAS\x10\x05\x12\n\n\x06HYBRID\x10\x06\x12\x0b\n\x07TERRAIN\x10\x07\x12\x13\n\x0f\x43LICKABLE_LAYER\x10\x08\x12\x0f\n\x0bSTREET_VIEW\x10\t\x12\x10\n\x0cVECTOR_ATLAS\x10\n\x12\x0e\n\nROAD_GRAPH\x10\x0b\x12\x15\n\x11TERRAIN_NO_LABELS\x10\x0c\x12\x12\n\x0eVECTOR_TRANSIT\x10\r\x12\n\n\x06INDOOR\x10\x0e\x12\x0f\n\x0bLABELS_ONLY\x10\x0f\x12\x1a\n\x16PERSONALIZED_SMARTMAPS\x10\x10\"\x86\x0f\n\x12MapCompositionRoot\x12\x41\n\x08map_area\x18\x01 \x03(\x0b\x32/.pogoprotos.data.map.MapCompositionRoot.MapArea\x12I\n\x0cmap_provider\x18\x02 \x03(\x0b\x32\x33.pogoprotos.data.map.MapCompositionRoot.MapProvider\x12T\n\x12named_map_settings\x18\x03 \x03(\x0b\x32\x38.pogoprotos.data.map.MapCompositionRoot.NamedMapSettings\x1a\xe2\x01\n\x07MapArea\x12\x13\n\x0b\x64\x65scription\x18\x01 \x01(\t\x12\r\n\x05\x65poch\x18\x02 \x01(\x05\x12\x14\n\x0cmap_provider\x18\x03 \x01(\t\x12S\n\rbounding_rect\x18\x04 \x03(\x0b\x32<.pogoprotos.data.map.MapCompositionRoot.MapArea.BoundingRect\x1aH\n\x0c\x42oundingRect\x12\r\n\x05north\x18\x01 \x01(\x01\x12\r\n\x05south\x18\x02 \x01(\x01\x12\x0c\n\x04\x65\x61st\x18\x03 \x01(\x01\x12\x0c\n\x04west\x18\x04 \x01(\x01\x1a\xc5\x04\n\x0bMapProvider\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x62\x61se_url\x18\x02 \x01(\t\x12\x14\n\x0cquery_format\x18\x03 \x01(\t\x12M\n\x08map_type\x18\x06 \x01(\x0e\x32;.pogoprotos.data.map.MapCompositionRoot.MapProvider.MapType\x12\x18\n\x10hide_attribution\x18\x07 \x01(\x08\x12\x16\n\x0emin_tile_level\x18\x08 \x01(\x05\x12\x16\n\x0emax_tile_level\x18\t \x01(\x05\x12^\n\x11\x62undle_zoom_range\x18\n \x03(\x0b\x32\x43.pogoprotos.data.map.MapCompositionRoot.MapProvider.BundleZoomRange\x12K\n\x0cgmm_settings\x18\x04 \x01(\x0b\x32\x33.pogoprotos.data.map.MapCompositionRoot.GmmSettingsH\x00\x12\x17\n\rsettings_name\x18\x05 \x01(\tH\x00\x1aR\n\x0f\x42undleZoomRange\x12\x10\n\x08min_zoom\x18\x01 \x01(\x05\x12\x10\n\x08max_zoom\x18\x02 \x01(\x05\x12\x1b\n\x13request_zoom_offset\x18\x03 \x01(\x05\"A\n\x07MapType\x12\t\n\x05UNSET\x10\x00\x12\x07\n\x03GMM\x10\x01\x12\x07\n\x03OSM\x10\x02\x12\t\n\x05\x42LANK\x10\x03\x12\x0e\n\nGMM_BUNDLE\x10\x04\x42\n\n\x08Settings\x1ak\n\x10NamedMapSettings\x12\x0c\n\x04name\x18\x01 \x01(\t\x12I\n\x0cgmm_settings\x18\x02 \x01(\x0b\x32\x33.pogoprotos.data.map.MapCompositionRoot.GmmSettings\x1a\xf1\x05\n\x0bGmmSettings\x12R\n\x0blayer_rules\x18\x01 \x03(\x0b\x32=.pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule\x1a\x8d\x05\n\tLayerRule\x12^\n\x0b\x66ill_colors\x18\x01 \x03(\x0b\x32I.pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor\x12\x64\n\rroad_priority\x18\x02 \x03(\x0e\x32M.pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.GmmRoadPriority\x12\x1f\n\x17road_attribute_bitfield\x18\x03 \x01(\r\x1a:\n\x0bMaskedColor\x12\x12\n\ncolor_argb\x18\x01 \x01(\r\x12\x17\n\x0f\x63olor_mask_argb\x18\x02 \x01(\r\"?\n\x0cGmmLayerType\x12\x08\n\x04\x41REA\x10\x00\x12\x08\n\x04ROAD\x10\x01\x12\x0c\n\x08\x42UILDING\x10\x02\x12\r\n\tLINE_MESH\x10\x03\"\x9b\x02\n\x0fGmmRoadPriority\x12\x11\n\rPRIORITY_NONE\x10\x00\x12\x15\n\x11PRIORITY_TERMINAL\x10\x01\x12\x12\n\x0ePRIORITY_LOCAL\x10\x02\x12\x1b\n\x17PRIORITY_MINOR_ARTERIAL\x10\x03\x12\x1b\n\x17PRIORITY_MAJOR_ARTERIAL\x10\x04\x12\x1b\n\x17PRIORITY_SECONDARY_ROAD\x10\x05\x12\x1c\n\x18PRIORITY_PRIMARY_HIGHWAY\x10\x06\x12\x1b\n\x17PRIORITY_LIMITED_ACCESS\x10\x07\x12\x1e\n\x1aPRIORITY_CONTROLLED_ACCESS\x10\x08\x12\x18\n\x14PRIORITY_NON_TRAFFIC\x10\t\"\xdf\x04\n\tLabelTile\x12\x34\n\x06labels\x18\x01 \x03(\x0b\x32$.pogoprotos.data.map.LabelTile.Label\x1a\x9b\x04\n\x05Label\x12\x10\n\x08priority\x18\x01 \x01(\x05\x12\x44\n\x08geometry\x18\x02 \x01(\x0b\x32\x32.pogoprotos.data.map.LabelTile.Label.LabelGeometry\x12\x42\n\x07\x63ontent\x18\x03 \x01(\x0b\x32\x31.pogoprotos.data.map.LabelTile.Label.LabelContent\x1a\xc5\x01\n\rLabelGeometry\x12L\n\x05point\x18\x01 \x01(\x0b\x32=.pogoprotos.data.map.LabelTile.Label.LabelGeometry.PixelPoint\x12\x10\n\x08min_zoom\x18\x02 \x01(\x05\x12\x10\n\x08max_zoom\x18\x03 \x01(\x05\x1a\x42\n\nPixelPoint\x12\x0f\n\x07pixel_x\x18\x01 \x01(\x05\x12\x0f\n\x07pixel_y\x18\x02 \x01(\x05\x12\x12\n\nzoom_level\x18\x03 \x01(\x05\x1a\xad\x01\n\x0cLabelContent\x12\x61\n\rlocalizations\x18\x01 \x03(\x0b\x32J.pogoprotos.data.map.LabelTile.Label.LabelContent.LabelContentLocalization\x1a:\n\x18LabelContentLocalization\x12\x10\n\x08language\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\tb\x06proto3')
 )
 
 
@@ -49,8 +49,8 @@ _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE_TEXTSIZEENUM = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=472,
-  serialized_end=546,
+  serialized_start=498,
+  serialized_end=572,
 )
 _sym_db.RegisterEnumDescriptor(_MAPTILEBUNDLE_MAPTILEDATA_MAPTILE_TEXTSIZEENUM)
 
@@ -127,14 +127,14 @@ _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE_TILETYPEENUM = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=549,
-  serialized_end=844,
+  serialized_start=575,
+  serialized_end=870,
 )
 _sym_db.RegisterEnumDescriptor(_MAPTILEBUNDLE_MAPTILEDATA_MAPTILE_TILETYPEENUM)
 
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE = _descriptor.EnumDescriptor(
+_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE = _descriptor.EnumDescriptor(
   name='MapType',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.MapType',
+  full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.MapType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -161,14 +161,14 @@ _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE = _descriptor.
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2013,
-  serialized_end=2078,
+  serialized_start=1857,
+  serialized_end=1922,
 )
-_sym_db.RegisterEnumDescriptor(_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE)
+_sym_db.RegisterEnumDescriptor(_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE)
 
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE = _descriptor.EnumDescriptor(
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE = _descriptor.EnumDescriptor(
   name='GmmLayerType',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.GmmLayerType',
+  full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.GmmLayerType',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -191,14 +191,14 @@ _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2711,
-  serialized_end=2774,
+  serialized_start=2450,
+  serialized_end=2513,
 )
-_sym_db.RegisterEnumDescriptor(_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE)
+_sym_db.RegisterEnumDescriptor(_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE)
 
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY = _descriptor.EnumDescriptor(
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY = _descriptor.EnumDescriptor(
   name='GmmRoadPriority',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.GmmRoadPriority',
+  full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.GmmRoadPriority',
   filename=None,
   file=DESCRIPTOR,
   values=[
@@ -245,10 +245,10 @@ _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIOR
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2777,
-  serialized_end=3060,
+  serialized_start=2516,
+  serialized_end=2799,
 )
-_sym_db.RegisterEnumDescriptor(_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY)
+_sym_db.RegisterEnumDescriptor(_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY)
 
 
 _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE = _descriptor.Descriptor(
@@ -314,445 +314,8 @@ _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=327,
-  serialized_end=844,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT = _descriptor.Descriptor(
-  name='BoundingRect',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='north', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect.north', index=0,
-      number=1, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='south', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect.south', index=1,
-      number=2, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='east', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect.east', index=2,
-      number=3, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='west', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect.west', index=3,
-      number=4, type=1, cpp_type=5, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1356,
-  serialized_end=1428,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA = _descriptor.Descriptor(
-  name='MapArea',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='description', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.description', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='epoch', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.epoch', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='map_provider', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.map_provider', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='bounding_rect', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.bounding_rect', index=3,
-      number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT, ],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1176,
-  serialized_end=1428,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE = _descriptor.Descriptor(
-  name='BundleZoomRange',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.BundleZoomRange',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='min_zoom', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.BundleZoomRange.min_zoom', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='max_zoom', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.BundleZoomRange.max_zoom', index=1,
-      number=2, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='request_zoom_offset', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.BundleZoomRange.request_zoom_offset', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=1929,
-  serialized_end=2011,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER = _descriptor.Descriptor(
-  name='MapProvider',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='base_url', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.base_url', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='query_format', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.query_format', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='gmm_settings', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.gmm_settings', index=3,
-      number=4, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='settings_name', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.settings_name', index=4,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='map_type', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.map_type', index=5,
-      number=6, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='hide_attribution', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.hide_attribution', index=6,
-      number=7, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='min_tile_level', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.min_tile_level', index=7,
-      number=8, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='max_tile_level', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.max_tile_level', index=8,
-      number=9, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='bundle_zoom_range', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.bundle_zoom_range', index=9,
-      number=10, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE, ],
-  enum_types=[
-    _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE,
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-    _descriptor.OneofDescriptor(
-      name='Settings', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.Settings',
-      index=0, containing_type=None, fields=[]),
-  ],
-  serialized_start=1431,
-  serialized_end=2090,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS = _descriptor.Descriptor(
-  name='NamedMapSettings',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.NamedMapSettings',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.NamedMapSettings.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='gmm_settings', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.NamedMapSettings.gmm_settings', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2093,
-  serialized_end=2226,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR = _descriptor.Descriptor(
-  name='MaskedColor',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='color_argb', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor.color_argb', index=0,
-      number=1, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='color_mask_argb', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor.color_mask_argb', index=1,
-      number=2, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2651,
-  serialized_end=2709,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE = _descriptor.Descriptor(
-  name='LayerRule',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='fill_colors', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.fill_colors', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='road_priority', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.road_priority', index=1,
-      number=2, type=14, cpp_type=8, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='road_attribute_bitfield', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.road_attribute_bitfield', index=2,
-      number=3, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR, ],
-  enum_types=[
-    _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE,
-    _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY,
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2355,
-  serialized_end=3060,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS = _descriptor.Descriptor(
-  name='GmmSettings',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='layer_rules', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.layer_rules', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE, ],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=2229,
-  serialized_end=3060,
-)
-
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT = _descriptor.Descriptor(
-  name='MapCompositionRoot',
-  full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='map_area', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.map_area', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='map_provider', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.map_provider', index=1,
-      number=2, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='named_map_settings', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.named_map_settings', index=2,
-      number=3, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-  ],
-  extensions=[
-  ],
-  nested_types=[_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA, _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER, _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS, _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS, ],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=847,
-  serialized_end=3060,
+  serialized_start=353,
+  serialized_end=870,
 )
 
 _MAPTILEBUNDLE_MAPTILEDATA = _descriptor.Descriptor(
@@ -776,10 +339,17 @@ _MAPTILEBUNDLE_MAPTILEDATA = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='label_data', full_name='pogoprotos.data.map.MapTileBundle.MapTileData.label_data', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
-  nested_types=[_MAPTILEBUNDLE_MAPTILEDATA_MAPTILE, _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT, ],
+  nested_types=[_MAPTILEBUNDLE_MAPTILEDATA_MAPTILE, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -789,7 +359,7 @@ _MAPTILEBUNDLE_MAPTILEDATA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=151,
-  serialized_end=3060,
+  serialized_end=870,
 )
 
 _MAPTILEBUNDLE = _descriptor.Descriptor(
@@ -819,46 +389,726 @@ _MAPTILEBUNDLE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=67,
-  serialized_end=3060,
+  serialized_end=870,
+)
+
+
+_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT = _descriptor.Descriptor(
+  name='BoundingRect',
+  full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.BoundingRect',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='north', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.BoundingRect.north', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='south', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.BoundingRect.south', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='east', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.BoundingRect.east', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='west', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.BoundingRect.west', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1278,
+  serialized_end=1350,
+)
+
+_MAPCOMPOSITIONROOT_MAPAREA = _descriptor.Descriptor(
+  name='MapArea',
+  full_name='pogoprotos.data.map.MapCompositionRoot.MapArea',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='description', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.description', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='epoch', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.epoch', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='map_provider', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.map_provider', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bounding_rect', full_name='pogoprotos.data.map.MapCompositionRoot.MapArea.bounding_rect', index=3,
+      number=4, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1124,
+  serialized_end=1350,
+)
+
+_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE = _descriptor.Descriptor(
+  name='BundleZoomRange',
+  full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.BundleZoomRange',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='min_zoom', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.BundleZoomRange.min_zoom', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='max_zoom', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.BundleZoomRange.max_zoom', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='request_zoom_offset', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.BundleZoomRange.request_zoom_offset', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1773,
+  serialized_end=1855,
+)
+
+_MAPCOMPOSITIONROOT_MAPPROVIDER = _descriptor.Descriptor(
+  name='MapProvider',
+  full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='base_url', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.base_url', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='query_format', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.query_format', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='map_type', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.map_type', index=3,
+      number=6, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hide_attribution', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.hide_attribution', index=4,
+      number=7, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='min_tile_level', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.min_tile_level', index=5,
+      number=8, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='max_tile_level', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.max_tile_level', index=6,
+      number=9, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bundle_zoom_range', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.bundle_zoom_range', index=7,
+      number=10, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='gmm_settings', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.gmm_settings', index=8,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='settings_name', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.settings_name', index=9,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE, ],
+  enum_types=[
+    _MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='Settings', full_name='pogoprotos.data.map.MapCompositionRoot.MapProvider.Settings',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=1353,
+  serialized_end=1934,
+)
+
+_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS = _descriptor.Descriptor(
+  name='NamedMapSettings',
+  full_name='pogoprotos.data.map.MapCompositionRoot.NamedMapSettings',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='pogoprotos.data.map.MapCompositionRoot.NamedMapSettings.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='gmm_settings', full_name='pogoprotos.data.map.MapCompositionRoot.NamedMapSettings.gmm_settings', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1936,
+  serialized_end=2043,
+)
+
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR = _descriptor.Descriptor(
+  name='MaskedColor',
+  full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='color_argb', full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor.color_argb', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='color_mask_argb', full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor.color_mask_argb', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2390,
+  serialized_end=2448,
+)
+
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE = _descriptor.Descriptor(
+  name='LayerRule',
+  full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='fill_colors', full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.fill_colors', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='road_priority', full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.road_priority', index=1,
+      number=2, type=14, cpp_type=8, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='road_attribute_bitfield', full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.road_attribute_bitfield', index=2,
+      number=3, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR, ],
+  enum_types=[
+    _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE,
+    _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2146,
+  serialized_end=2799,
+)
+
+_MAPCOMPOSITIONROOT_GMMSETTINGS = _descriptor.Descriptor(
+  name='GmmSettings',
+  full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='layer_rules', full_name='pogoprotos.data.map.MapCompositionRoot.GmmSettings.layer_rules', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2046,
+  serialized_end=2799,
+)
+
+_MAPCOMPOSITIONROOT = _descriptor.Descriptor(
+  name='MapCompositionRoot',
+  full_name='pogoprotos.data.map.MapCompositionRoot',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='map_area', full_name='pogoprotos.data.map.MapCompositionRoot.map_area', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='map_provider', full_name='pogoprotos.data.map.MapCompositionRoot.map_provider', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='named_map_settings', full_name='pogoprotos.data.map.MapCompositionRoot.named_map_settings', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_MAPCOMPOSITIONROOT_MAPAREA, _MAPCOMPOSITIONROOT_MAPPROVIDER, _MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS, _MAPCOMPOSITIONROOT_GMMSETTINGS, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=873,
+  serialized_end=2799,
+)
+
+
+_LABELTILE_LABEL_LABELGEOMETRY_PIXELPOINT = _descriptor.Descriptor(
+  name='PixelPoint',
+  full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry.PixelPoint',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='pixel_x', full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry.PixelPoint.pixel_x', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pixel_y', full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry.PixelPoint.pixel_y', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='zoom_level', full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry.PixelPoint.zoom_level', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3167,
+  serialized_end=3233,
+)
+
+_LABELTILE_LABEL_LABELGEOMETRY = _descriptor.Descriptor(
+  name='LabelGeometry',
+  full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='point', full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry.point', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='min_zoom', full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry.min_zoom', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='max_zoom', full_name='pogoprotos.data.map.LabelTile.Label.LabelGeometry.max_zoom', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_LABELTILE_LABEL_LABELGEOMETRY_PIXELPOINT, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3036,
+  serialized_end=3233,
+)
+
+_LABELTILE_LABEL_LABELCONTENT_LABELCONTENTLOCALIZATION = _descriptor.Descriptor(
+  name='LabelContentLocalization',
+  full_name='pogoprotos.data.map.LabelTile.Label.LabelContent.LabelContentLocalization',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='language', full_name='pogoprotos.data.map.LabelTile.Label.LabelContent.LabelContentLocalization.language', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='pogoprotos.data.map.LabelTile.Label.LabelContent.LabelContentLocalization.name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3351,
+  serialized_end=3409,
+)
+
+_LABELTILE_LABEL_LABELCONTENT = _descriptor.Descriptor(
+  name='LabelContent',
+  full_name='pogoprotos.data.map.LabelTile.Label.LabelContent',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='localizations', full_name='pogoprotos.data.map.LabelTile.Label.LabelContent.localizations', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_LABELTILE_LABEL_LABELCONTENT_LABELCONTENTLOCALIZATION, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=3236,
+  serialized_end=3409,
+)
+
+_LABELTILE_LABEL = _descriptor.Descriptor(
+  name='Label',
+  full_name='pogoprotos.data.map.LabelTile.Label',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='priority', full_name='pogoprotos.data.map.LabelTile.Label.priority', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='geometry', full_name='pogoprotos.data.map.LabelTile.Label.geometry', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='content', full_name='pogoprotos.data.map.LabelTile.Label.content', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_LABELTILE_LABEL_LABELGEOMETRY, _LABELTILE_LABEL_LABELCONTENT, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2870,
+  serialized_end=3409,
+)
+
+_LABELTILE = _descriptor.Descriptor(
+  name='LabelTile',
+  full_name='pogoprotos.data.map.LabelTile',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='labels', full_name='pogoprotos.data.map.LabelTile.labels', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_LABELTILE_LABEL, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2802,
+  serialized_end=3409,
 )
 
 _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE.containing_type = _MAPTILEBUNDLE_MAPTILEDATA
 _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE_TEXTSIZEENUM.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE
 _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE_TILETYPEENUM.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA.fields_by_name['bounding_rect'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['gmm_settings'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['map_type'].enum_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['bundle_zoom_range'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings'].fields.append(
-  _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['gmm_settings'])
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['gmm_settings'].containing_oneof = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings']
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings'].fields.append(
-  _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['settings_name'])
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['settings_name'].containing_oneof = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings']
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS.fields_by_name['gmm_settings'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE.fields_by_name['fill_colors'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE.fields_by_name['road_priority'].enum_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS.fields_by_name['layer_rules'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS.containing_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT.fields_by_name['map_area'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT.fields_by_name['map_provider'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT.fields_by_name['named_map_settings'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS
-_MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT.containing_type = _MAPTILEBUNDLE_MAPTILEDATA
 _MAPTILEBUNDLE_MAPTILEDATA.fields_by_name['map_tile'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE
-_MAPTILEBUNDLE_MAPTILEDATA.fields_by_name['tile_data'].message_type = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT
+_MAPTILEBUNDLE_MAPTILEDATA.fields_by_name['tile_data'].message_type = _MAPCOMPOSITIONROOT
+_MAPTILEBUNDLE_MAPTILEDATA.fields_by_name['label_data'].message_type = _LABELTILE
 _MAPTILEBUNDLE_MAPTILEDATA.containing_type = _MAPTILEBUNDLE
 _MAPTILEBUNDLE.fields_by_name['map_tile'].message_type = _MAPTILEBUNDLE_MAPTILEDATA
+_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT.containing_type = _MAPCOMPOSITIONROOT_MAPAREA
+_MAPCOMPOSITIONROOT_MAPAREA.fields_by_name['bounding_rect'].message_type = _MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT
+_MAPCOMPOSITIONROOT_MAPAREA.containing_type = _MAPCOMPOSITIONROOT
+_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE.containing_type = _MAPCOMPOSITIONROOT_MAPPROVIDER
+_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['map_type'].enum_type = _MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE
+_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['bundle_zoom_range'].message_type = _MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE
+_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['gmm_settings'].message_type = _MAPCOMPOSITIONROOT_GMMSETTINGS
+_MAPCOMPOSITIONROOT_MAPPROVIDER.containing_type = _MAPCOMPOSITIONROOT
+_MAPCOMPOSITIONROOT_MAPPROVIDER_MAPTYPE.containing_type = _MAPCOMPOSITIONROOT_MAPPROVIDER
+_MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings'].fields.append(
+  _MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['gmm_settings'])
+_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['gmm_settings'].containing_oneof = _MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings']
+_MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings'].fields.append(
+  _MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['settings_name'])
+_MAPCOMPOSITIONROOT_MAPPROVIDER.fields_by_name['settings_name'].containing_oneof = _MAPCOMPOSITIONROOT_MAPPROVIDER.oneofs_by_name['Settings']
+_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS.fields_by_name['gmm_settings'].message_type = _MAPCOMPOSITIONROOT_GMMSETTINGS
+_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS.containing_type = _MAPCOMPOSITIONROOT
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR.containing_type = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE.fields_by_name['fill_colors'].message_type = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE.fields_by_name['road_priority'].enum_type = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE.containing_type = _MAPCOMPOSITIONROOT_GMMSETTINGS
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMLAYERTYPE.containing_type = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
+_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_GMMROADPRIORITY.containing_type = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
+_MAPCOMPOSITIONROOT_GMMSETTINGS.fields_by_name['layer_rules'].message_type = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE
+_MAPCOMPOSITIONROOT_GMMSETTINGS.containing_type = _MAPCOMPOSITIONROOT
+_MAPCOMPOSITIONROOT.fields_by_name['map_area'].message_type = _MAPCOMPOSITIONROOT_MAPAREA
+_MAPCOMPOSITIONROOT.fields_by_name['map_provider'].message_type = _MAPCOMPOSITIONROOT_MAPPROVIDER
+_MAPCOMPOSITIONROOT.fields_by_name['named_map_settings'].message_type = _MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS
+_LABELTILE_LABEL_LABELGEOMETRY_PIXELPOINT.containing_type = _LABELTILE_LABEL_LABELGEOMETRY
+_LABELTILE_LABEL_LABELGEOMETRY.fields_by_name['point'].message_type = _LABELTILE_LABEL_LABELGEOMETRY_PIXELPOINT
+_LABELTILE_LABEL_LABELGEOMETRY.containing_type = _LABELTILE_LABEL
+_LABELTILE_LABEL_LABELCONTENT_LABELCONTENTLOCALIZATION.containing_type = _LABELTILE_LABEL_LABELCONTENT
+_LABELTILE_LABEL_LABELCONTENT.fields_by_name['localizations'].message_type = _LABELTILE_LABEL_LABELCONTENT_LABELCONTENTLOCALIZATION
+_LABELTILE_LABEL_LABELCONTENT.containing_type = _LABELTILE_LABEL
+_LABELTILE_LABEL.fields_by_name['geometry'].message_type = _LABELTILE_LABEL_LABELGEOMETRY
+_LABELTILE_LABEL.fields_by_name['content'].message_type = _LABELTILE_LABEL_LABELCONTENT
+_LABELTILE_LABEL.containing_type = _LABELTILE
+_LABELTILE.fields_by_name['labels'].message_type = _LABELTILE_LABEL
 DESCRIPTOR.message_types_by_name['MapTileBundle'] = _MAPTILEBUNDLE
+DESCRIPTOR.message_types_by_name['MapCompositionRoot'] = _MAPCOMPOSITIONROOT
+DESCRIPTOR.message_types_by_name['LabelTile'] = _LABELTILE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 MapTileBundle = _reflection.GeneratedProtocolMessageType('MapTileBundle', (_message.Message,), dict(
@@ -869,69 +1119,6 @@ MapTileBundle = _reflection.GeneratedProtocolMessageType('MapTileBundle', (_mess
       DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPTILE,
       __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
       # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapTile)
-      ))
-    ,
-
-    MapCompositionRoot = _reflection.GeneratedProtocolMessageType('MapCompositionRoot', (_message.Message,), dict(
-
-      MapArea = _reflection.GeneratedProtocolMessageType('MapArea', (_message.Message,), dict(
-
-        BoundingRect = _reflection.GeneratedProtocolMessageType('BoundingRect', (_message.Message,), dict(
-          DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT,
-          __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-          # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect)
-          ))
-        ,
-        DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPAREA,
-        __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-        # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapArea)
-        ))
-      ,
-
-      MapProvider = _reflection.GeneratedProtocolMessageType('MapProvider', (_message.Message,), dict(
-
-        BundleZoomRange = _reflection.GeneratedProtocolMessageType('BundleZoomRange', (_message.Message,), dict(
-          DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE,
-          __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-          # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.BundleZoomRange)
-          ))
-        ,
-        DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_MAPPROVIDER,
-        __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-        # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.MapProvider)
-        ))
-      ,
-
-      NamedMapSettings = _reflection.GeneratedProtocolMessageType('NamedMapSettings', (_message.Message,), dict(
-        DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS,
-        __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-        # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.NamedMapSettings)
-        ))
-      ,
-
-      GmmSettings = _reflection.GeneratedProtocolMessageType('GmmSettings', (_message.Message,), dict(
-
-        LayerRule = _reflection.GeneratedProtocolMessageType('LayerRule', (_message.Message,), dict(
-
-          MaskedColor = _reflection.GeneratedProtocolMessageType('MaskedColor', (_message.Message,), dict(
-            DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR,
-            __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-            # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor)
-            ))
-          ,
-          DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE,
-          __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-          # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule)
-          ))
-        ,
-        DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT_GMMSETTINGS,
-        __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-        # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings)
-        ))
-      ,
-      DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA_MAPCOMPOSITIONROOT,
-      __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
-      # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapTileBundle.MapTileData.MapCompositionRoot)
       ))
     ,
     DESCRIPTOR = _MAPTILEBUNDLE_MAPTILEDATA,
@@ -946,15 +1133,124 @@ MapTileBundle = _reflection.GeneratedProtocolMessageType('MapTileBundle', (_mess
 _sym_db.RegisterMessage(MapTileBundle)
 _sym_db.RegisterMessage(MapTileBundle.MapTileData)
 _sym_db.RegisterMessage(MapTileBundle.MapTileData.MapTile)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.MapArea)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.MapArea.BoundingRect)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.MapProvider)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.MapProvider.BundleZoomRange)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.NamedMapSettings)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule)
-_sym_db.RegisterMessage(MapTileBundle.MapTileData.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor)
+
+MapCompositionRoot = _reflection.GeneratedProtocolMessageType('MapCompositionRoot', (_message.Message,), dict(
+
+  MapArea = _reflection.GeneratedProtocolMessageType('MapArea', (_message.Message,), dict(
+
+    BoundingRect = _reflection.GeneratedProtocolMessageType('BoundingRect', (_message.Message,), dict(
+      DESCRIPTOR = _MAPCOMPOSITIONROOT_MAPAREA_BOUNDINGRECT,
+      __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.MapArea.BoundingRect)
+      ))
+    ,
+    DESCRIPTOR = _MAPCOMPOSITIONROOT_MAPAREA,
+    __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.MapArea)
+    ))
+  ,
+
+  MapProvider = _reflection.GeneratedProtocolMessageType('MapProvider', (_message.Message,), dict(
+
+    BundleZoomRange = _reflection.GeneratedProtocolMessageType('BundleZoomRange', (_message.Message,), dict(
+      DESCRIPTOR = _MAPCOMPOSITIONROOT_MAPPROVIDER_BUNDLEZOOMRANGE,
+      __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.MapProvider.BundleZoomRange)
+      ))
+    ,
+    DESCRIPTOR = _MAPCOMPOSITIONROOT_MAPPROVIDER,
+    __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.MapProvider)
+    ))
+  ,
+
+  NamedMapSettings = _reflection.GeneratedProtocolMessageType('NamedMapSettings', (_message.Message,), dict(
+    DESCRIPTOR = _MAPCOMPOSITIONROOT_NAMEDMAPSETTINGS,
+    __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.NamedMapSettings)
+    ))
+  ,
+
+  GmmSettings = _reflection.GeneratedProtocolMessageType('GmmSettings', (_message.Message,), dict(
+
+    LayerRule = _reflection.GeneratedProtocolMessageType('LayerRule', (_message.Message,), dict(
+
+      MaskedColor = _reflection.GeneratedProtocolMessageType('MaskedColor', (_message.Message,), dict(
+        DESCRIPTOR = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE_MASKEDCOLOR,
+        __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+        # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule.MaskedColor)
+        ))
+      ,
+      DESCRIPTOR = _MAPCOMPOSITIONROOT_GMMSETTINGS_LAYERRULE,
+      __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.GmmSettings.LayerRule)
+      ))
+    ,
+    DESCRIPTOR = _MAPCOMPOSITIONROOT_GMMSETTINGS,
+    __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot.GmmSettings)
+    ))
+  ,
+  DESCRIPTOR = _MAPCOMPOSITIONROOT,
+  __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+  # @@protoc_insertion_point(class_scope:pogoprotos.data.map.MapCompositionRoot)
+  ))
+_sym_db.RegisterMessage(MapCompositionRoot)
+_sym_db.RegisterMessage(MapCompositionRoot.MapArea)
+_sym_db.RegisterMessage(MapCompositionRoot.MapArea.BoundingRect)
+_sym_db.RegisterMessage(MapCompositionRoot.MapProvider)
+_sym_db.RegisterMessage(MapCompositionRoot.MapProvider.BundleZoomRange)
+_sym_db.RegisterMessage(MapCompositionRoot.NamedMapSettings)
+_sym_db.RegisterMessage(MapCompositionRoot.GmmSettings)
+_sym_db.RegisterMessage(MapCompositionRoot.GmmSettings.LayerRule)
+_sym_db.RegisterMessage(MapCompositionRoot.GmmSettings.LayerRule.MaskedColor)
+
+LabelTile = _reflection.GeneratedProtocolMessageType('LabelTile', (_message.Message,), dict(
+
+  Label = _reflection.GeneratedProtocolMessageType('Label', (_message.Message,), dict(
+
+    LabelGeometry = _reflection.GeneratedProtocolMessageType('LabelGeometry', (_message.Message,), dict(
+
+      PixelPoint = _reflection.GeneratedProtocolMessageType('PixelPoint', (_message.Message,), dict(
+        DESCRIPTOR = _LABELTILE_LABEL_LABELGEOMETRY_PIXELPOINT,
+        __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+        # @@protoc_insertion_point(class_scope:pogoprotos.data.map.LabelTile.Label.LabelGeometry.PixelPoint)
+        ))
+      ,
+      DESCRIPTOR = _LABELTILE_LABEL_LABELGEOMETRY,
+      __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.map.LabelTile.Label.LabelGeometry)
+      ))
+    ,
+
+    LabelContent = _reflection.GeneratedProtocolMessageType('LabelContent', (_message.Message,), dict(
+
+      LabelContentLocalization = _reflection.GeneratedProtocolMessageType('LabelContentLocalization', (_message.Message,), dict(
+        DESCRIPTOR = _LABELTILE_LABEL_LABELCONTENT_LABELCONTENTLOCALIZATION,
+        __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+        # @@protoc_insertion_point(class_scope:pogoprotos.data.map.LabelTile.Label.LabelContent.LabelContentLocalization)
+        ))
+      ,
+      DESCRIPTOR = _LABELTILE_LABEL_LABELCONTENT,
+      __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.data.map.LabelTile.Label.LabelContent)
+      ))
+    ,
+    DESCRIPTOR = _LABELTILE_LABEL,
+    __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.map.LabelTile.Label)
+    ))
+  ,
+  DESCRIPTOR = _LABELTILE,
+  __module__ = 'pogoprotos.data.map.map_tile_bundle_pb2'
+  # @@protoc_insertion_point(class_scope:pogoprotos.data.map.LabelTile)
+  ))
+_sym_db.RegisterMessage(LabelTile)
+_sym_db.RegisterMessage(LabelTile.Label)
+_sym_db.RegisterMessage(LabelTile.Label.LabelGeometry)
+_sym_db.RegisterMessage(LabelTile.Label.LabelGeometry.PixelPoint)
+_sym_db.RegisterMessage(LabelTile.Label.LabelContent)
+_sym_db.RegisterMessage(LabelTile.Label.LabelContent.LabelContentLocalization)
 
 
 # @@protoc_insertion_point(module_scope)

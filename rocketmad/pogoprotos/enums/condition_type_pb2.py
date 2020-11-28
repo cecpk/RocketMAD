@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.enums',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n%pogoprotos/enums/condition_type.proto\x12\x10pogoprotos.enums*\xeb\x01\n\rConditionType\x12\x13\n\x0fUNSET_CONDITION\x10\x00\x12\x19\n\x15WITH_POKEMON_CP_LIMIT\x10\x01\x12\x15\n\x11WITH_PLAYER_LEVEL\x10\x02\x12\x15\n\x11WITH_POKEMON_TYPE\x10\x03\x12\x19\n\x15WITH_POKEMON_CATEGORY\x10\x04\x12\x17\n\x13WITH_UNIQUE_POKEMON\x10\x05\x12\x15\n\x11POKEMON_WHITELIST\x10\x06\x12\x13\n\x0fPOKEMON_BANLIST\x10\x07\x12\x1c\n\x18POKEMON_CAUGHT_TIMESTAMP\x10\x08\x62\x06proto3')
+  serialized_pb=_b('\n%pogoprotos/enums/condition_type.proto\x12\x10pogoprotos.enums*\x84\x02\n\rConditionType\x12\x13\n\x0fUNSET_CONDITION\x10\x00\x12\x19\n\x15WITH_POKEMON_CP_LIMIT\x10\x01\x12\x15\n\x11WITH_PLAYER_LEVEL\x10\x02\x12\x15\n\x11WITH_POKEMON_TYPE\x10\x03\x12\x19\n\x15WITH_POKEMON_CATEGORY\x10\x04\x12\x17\n\x13WITH_UNIQUE_POKEMON\x10\x05\x12\x15\n\x11POKEMON_WHITELIST\x10\x06\x12\x13\n\x0fPOKEMON_BANLIST\x10\x07\x12\x1c\n\x18POKEMON_CAUGHT_TIMESTAMP\x10\x08\x12\x17\n\x13POKEMON_LEVEL_RANGE\x10\tb\x06proto3')
 )
 
 _CONDITIONTYPE = _descriptor.EnumDescriptor(
@@ -65,11 +65,15 @@ _CONDITIONTYPE = _descriptor.EnumDescriptor(
       name='POKEMON_CAUGHT_TIMESTAMP', index=8, number=8,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='POKEMON_LEVEL_RANGE', index=9, number=9,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=60,
-  serialized_end=295,
+  serialized_end=320,
 )
 _sym_db.RegisterEnumDescriptor(_CONDITIONTYPE)
 
@@ -83,6 +87,7 @@ WITH_UNIQUE_POKEMON = 5
 POKEMON_WHITELIST = 6
 POKEMON_BANLIST = 7
 POKEMON_CAUGHT_TIMESTAMP = 8
+POKEMON_LEVEL_RANGE = 9
 
 
 DESCRIPTOR.enum_types_by_name['ConditionType'] = _CONDITIONTYPE

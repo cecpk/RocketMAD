@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.quests',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n)pogoprotos/data/quests/quest_reward.proto\x12\x16pogoprotos.data.quests\x1a%pogoprotos/data/pokemon_display.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\'pogoprotos/inventory/item/item_id.proto\"\xd7\t\n\x0bQuestReward\x12\x36\n\x04type\x18\x01 \x01(\x0e\x32(.pogoprotos.data.quests.QuestReward.Type\x12\r\n\x03\x65xp\x18\x02 \x01(\x05H\x00\x12>\n\x04item\x18\x03 \x01(\x0b\x32..pogoprotos.data.quests.QuestReward.ItemRewardH\x00\x12\x12\n\x08stardust\x18\x04 \x01(\x05H\x00\x12G\n\x05\x63\x61ndy\x18\x05 \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestReward.PokemonCandyRewardH\x00\x12\x1c\n\x12\x61vatar_template_id\x18\x06 \x01(\tH\x00\x12\x1b\n\x11quest_template_id\x18\x07 \x01(\tH\x00\x12W\n\x11pokemon_encounter\x18\x08 \x01(\x0b\x32:.pogoprotos.data.quests.QuestReward.PokemonEncounterRewardH\x00\x12\x12\n\x08pokecoin\x18\t \x01(\x05H\x00\x12\x44\n\x07sticker\x18\x0c \x01(\x0b\x32\x31.pogoprotos.data.quests.QuestReward.StickerRewardH\x00\x12O\n\rmega_resource\x18\r \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestReward.PokemonCandyRewardH\x00\x1a\x33\n\rStickerReward\x12\x12\n\nsticker_id\x18\x01 \x01(\t\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x05\x1aM\n\nItemReward\x12/\n\x04item\x18\x01 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x05\x1aU\n\x12PokemonCandyReward\x12/\n\npokemon_id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x05\x1a\x93\x02\n\x16PokemonEncounterReward\x12\x31\n\npokemon_id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonIdH\x00\x12\x33\n)use_quest_pokemon_encounter_distribuition\x18\x02 \x01(\x08H\x00\x12\x38\n\x0fpokemon_display\x18\x03 \x01(\x0b\x32\x1f.pogoprotos.data.PokemonDisplay\x12\x17\n\x0fis_hidden_ditto\x18\x04 \x01(\x08\x12\x36\n\rditto_display\x18\x05 \x01(\x0b\x32\x1f.pogoprotos.data.PokemonDisplayB\x06\n\x04Type\"\xa9\x01\n\x04Type\x12\t\n\x05UNSET\x10\x00\x12\x0e\n\nEXPERIENCE\x10\x01\x12\x08\n\x04ITEM\x10\x02\x12\x0c\n\x08STARDUST\x10\x03\x12\t\n\x05\x43\x41NDY\x10\x04\x12\x13\n\x0f\x41VATAR_CLOTHING\x10\x05\x12\t\n\x05QUEST\x10\x06\x12\x15\n\x11POKEMON_ENCOUNTER\x10\x07\x12\x0c\n\x08POKECOIN\x10\x08\x12\x0b\n\x07STICKER\x10\x0b\x12\x11\n\rMEGA_RESOURCE\x10\x0c\x42\x08\n\x06Rewardb\x06proto3')
+  serialized_pb=_b('\n)pogoprotos/data/quests/quest_reward.proto\x12\x16pogoprotos.data.quests\x1a%pogoprotos/data/pokemon_display.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\'pogoprotos/inventory/item/item_id.proto\"\xd5\n\n\x0bQuestReward\x12\x36\n\x04type\x18\x01 \x01(\x0e\x32(.pogoprotos.data.quests.QuestReward.Type\x12\r\n\x03\x65xp\x18\x02 \x01(\x05H\x00\x12>\n\x04item\x18\x03 \x01(\x0b\x32..pogoprotos.data.quests.QuestReward.ItemRewardH\x00\x12\x12\n\x08stardust\x18\x04 \x01(\x05H\x00\x12G\n\x05\x63\x61ndy\x18\x05 \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestReward.PokemonCandyRewardH\x00\x12\x1c\n\x12\x61vatar_template_id\x18\x06 \x01(\tH\x00\x12\x1b\n\x11quest_template_id\x18\x07 \x01(\tH\x00\x12W\n\x11pokemon_encounter\x18\x08 \x01(\x0b\x32:.pogoprotos.data.quests.QuestReward.PokemonEncounterRewardH\x00\x12\x12\n\x08pokecoin\x18\t \x01(\x05H\x00\x12J\n\x08xl_candy\x18\n \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestReward.PokemonCandyRewardH\x00\x12\x13\n\tlevel_cap\x18\x0b \x01(\x05H\x00\x12\x44\n\x07sticker\x18\x0c \x01(\x0b\x32\x31.pogoprotos.data.quests.QuestReward.StickerRewardH\x00\x12O\n\rmega_resource\x18\r \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestReward.PokemonCandyRewardH\x00\x1a\x33\n\rStickerReward\x12\x12\n\nsticker_id\x18\x01 \x01(\t\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x05\x1aM\n\nItemReward\x12/\n\x04item\x18\x01 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x05\x1aU\n\x12PokemonCandyReward\x12/\n\npokemon_id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x0e\n\x06\x61mount\x18\x02 \x01(\x05\x1a\x93\x02\n\x16PokemonEncounterReward\x12\x31\n\npokemon_id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonIdH\x00\x12\x33\n)use_quest_pokemon_encounter_distribuition\x18\x02 \x01(\x08H\x00\x12\x38\n\x0fpokemon_display\x18\x03 \x01(\x0b\x32\x1f.pogoprotos.data.PokemonDisplay\x12\x17\n\x0fis_hidden_ditto\x18\x04 \x01(\x08\x12\x36\n\rditto_display\x18\x05 \x01(\x0b\x32\x1f.pogoprotos.data.PokemonDisplayB\x06\n\x04Type\"\xc6\x01\n\x04Type\x12\t\n\x05UNSET\x10\x00\x12\x0e\n\nEXPERIENCE\x10\x01\x12\x08\n\x04ITEM\x10\x02\x12\x0c\n\x08STARDUST\x10\x03\x12\t\n\x05\x43\x41NDY\x10\x04\x12\x13\n\x0f\x41VATAR_CLOTHING\x10\x05\x12\t\n\x05QUEST\x10\x06\x12\x15\n\x11POKEMON_ENCOUNTER\x10\x07\x12\x0c\n\x08POKECOIN\x10\x08\x12\x0c\n\x08XL_CANDY\x10\t\x12\r\n\tLEVEL_CAP\x10\n\x12\x0b\n\x07STICKER\x10\x0b\x12\x11\n\rMEGA_RESOURCE\x10\x0c\x42\x08\n\x06Rewardb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_pokemon__display__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,])
 
@@ -71,18 +71,26 @@ _QUESTREWARD_TYPE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='STICKER', index=9, number=11,
+      name='XL_CANDY', index=9, number=9,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='MEGA_RESOURCE', index=10, number=12,
+      name='LEVEL_CAP', index=10, number=10,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='STICKER', index=11, number=11,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='MEGA_RESOURCE', index=12, number=12,
       serialized_options=None,
       type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1245,
-  serialized_end=1414,
+  serialized_start=1342,
+  serialized_end=1540,
 )
 _sym_db.RegisterEnumDescriptor(_QUESTREWARD_TYPE)
 
@@ -120,8 +128,8 @@ _QUESTREWARD_STICKERREWARD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=747,
-  serialized_end=798,
+  serialized_start=844,
+  serialized_end=895,
 )
 
 _QUESTREWARD_ITEMREWARD = _descriptor.Descriptor(
@@ -157,8 +165,8 @@ _QUESTREWARD_ITEMREWARD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=800,
-  serialized_end=877,
+  serialized_start=897,
+  serialized_end=974,
 )
 
 _QUESTREWARD_POKEMONCANDYREWARD = _descriptor.Descriptor(
@@ -194,8 +202,8 @@ _QUESTREWARD_POKEMONCANDYREWARD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=879,
-  serialized_end=964,
+  serialized_start=976,
+  serialized_end=1061,
 )
 
 _QUESTREWARD_POKEMONENCOUNTERREWARD = _descriptor.Descriptor(
@@ -255,8 +263,8 @@ _QUESTREWARD_POKEMONENCOUNTERREWARD = _descriptor.Descriptor(
       name='Type', full_name='pogoprotos.data.quests.QuestReward.PokemonEncounterReward.Type',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=967,
-  serialized_end=1242,
+  serialized_start=1064,
+  serialized_end=1339,
 )
 
 _QUESTREWARD = _descriptor.Descriptor(
@@ -330,14 +338,28 @@ _QUESTREWARD = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sticker', full_name='pogoprotos.data.quests.QuestReward.sticker', index=9,
+      name='xl_candy', full_name='pogoprotos.data.quests.QuestReward.xl_candy', index=9,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='level_cap', full_name='pogoprotos.data.quests.QuestReward.level_cap', index=10,
+      number=11, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='sticker', full_name='pogoprotos.data.quests.QuestReward.sticker', index=11,
       number=12, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='mega_resource', full_name='pogoprotos.data.quests.QuestReward.mega_resource', index=10,
+      name='mega_resource', full_name='pogoprotos.data.quests.QuestReward.mega_resource', index=12,
       number=13, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -360,7 +382,7 @@ _QUESTREWARD = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=185,
-  serialized_end=1424,
+  serialized_end=1550,
 )
 
 _QUESTREWARD_STICKERREWARD.containing_type = _QUESTREWARD
@@ -382,6 +404,7 @@ _QUESTREWARD.fields_by_name['type'].enum_type = _QUESTREWARD_TYPE
 _QUESTREWARD.fields_by_name['item'].message_type = _QUESTREWARD_ITEMREWARD
 _QUESTREWARD.fields_by_name['candy'].message_type = _QUESTREWARD_POKEMONCANDYREWARD
 _QUESTREWARD.fields_by_name['pokemon_encounter'].message_type = _QUESTREWARD_POKEMONENCOUNTERREWARD
+_QUESTREWARD.fields_by_name['xl_candy'].message_type = _QUESTREWARD_POKEMONCANDYREWARD
 _QUESTREWARD.fields_by_name['sticker'].message_type = _QUESTREWARD_STICKERREWARD
 _QUESTREWARD.fields_by_name['mega_resource'].message_type = _QUESTREWARD_POKEMONCANDYREWARD
 _QUESTREWARD_TYPE.containing_type = _QUESTREWARD
@@ -409,6 +432,12 @@ _QUESTREWARD.fields_by_name['pokemon_encounter'].containing_oneof = _QUESTREWARD
 _QUESTREWARD.oneofs_by_name['Reward'].fields.append(
   _QUESTREWARD.fields_by_name['pokecoin'])
 _QUESTREWARD.fields_by_name['pokecoin'].containing_oneof = _QUESTREWARD.oneofs_by_name['Reward']
+_QUESTREWARD.oneofs_by_name['Reward'].fields.append(
+  _QUESTREWARD.fields_by_name['xl_candy'])
+_QUESTREWARD.fields_by_name['xl_candy'].containing_oneof = _QUESTREWARD.oneofs_by_name['Reward']
+_QUESTREWARD.oneofs_by_name['Reward'].fields.append(
+  _QUESTREWARD.fields_by_name['level_cap'])
+_QUESTREWARD.fields_by_name['level_cap'].containing_oneof = _QUESTREWARD.oneofs_by_name['Reward']
 _QUESTREWARD.oneofs_by_name['Reward'].fields.append(
   _QUESTREWARD.fields_by_name['sticker'])
 _QUESTREWARD.fields_by_name['sticker'].containing_oneof = _QUESTREWARD.oneofs_by_name['Reward']

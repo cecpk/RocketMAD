@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.avatar',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n1pogoprotos/data/avatar/avatar_customization.proto\x12\x16pogoprotos.data.avatar\x1a/pogoprotos/data/player/player_avatar_type.proto\x1a!pogoprotos/enums/badge_type.proto\"\xad\x08\n\x13\x41vatarCustomization\x12\x0f\n\x07\x65nabled\x18\x01 \x01(\x08\x12=\n\x0b\x61vatar_type\x18\x02 \x01(\x0e\x32(.pogoprotos.data.player.PlayerAvatarType\x12>\n\x04slot\x18\x03 \x03(\x0e\x32\x30.pogoprotos.data.avatar.AvatarCustomization.Slot\x12\x13\n\x0b\x62undle_name\x18\x04 \x01(\t\x12\x12\n\nasset_name\x18\x05 \x01(\t\x12\x12\n\ngroup_name\x18\x06 \x01(\t\x12\x12\n\nsort_order\x18\x07 \x01(\x05\x12^\n\x0bunlock_type\x18\x08 \x01(\x0e\x32I.pogoprotos.data.avatar.AvatarCustomization.AvatarCustomizationUnlockType\x12\\\n\npromo_type\x18\t \x03(\x0e\x32H.pogoprotos.data.avatar.AvatarCustomization.AvatarCustomizationPromoType\x12\x36\n\x11unlock_badge_type\x18\n \x01(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12\x0f\n\x07iap_sku\x18\x0b \x01(\t\x12\x1a\n\x12unlock_badge_level\x18\x0c \x01(\x05\x12\x11\n\ticon_name\x18\r \x01(\t\x12\x1b\n\x13unlock_player_level\x18\x0e \x01(\x05\x12\x10\n\x08set_name\x18\x0f \x01(\t\x12\x16\n\x0eset_prime_item\x18\x10 \x01(\x08\x12!\n\x19incompatible_bundle_names\x18\x11 \x03(\t\"L\n\x1c\x41vatarCustomizationPromoType\x12\x14\n\x10UNSET_PROMO_TYPE\x10\x00\x12\x08\n\x04SALE\x10\x01\x12\x0c\n\x08\x46\x45\x41TURED\x10\x02\"\x91\x01\n\x1d\x41vatarCustomizationUnlockType\x12\x15\n\x11UNSET_UNLOCK_TYPE\x10\x00\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x01\x12\x10\n\x0cMEDAL_REWARD\x10\x02\x12\x10\n\x0cIAP_CLOTHING\x10\x03\x12\x10\n\x0cLEVEL_REWARD\x10\x04\x12\x16\n\x12\x43OMBAT_RANK_REWARD\x10\x05\"\xb2\x01\n\x04Slot\x12\x0e\n\nUNSET_SLOT\x10\x00\x12\x08\n\x04HAIR\x10\x01\x12\t\n\x05SHIRT\x10\x02\x12\t\n\x05PANTS\x10\x03\x12\x07\n\x03HAT\x10\x04\x12\t\n\x05SHOES\x10\x05\x12\x08\n\x04\x45YES\x10\x06\x12\x0c\n\x08\x42\x41\x43KPACK\x10\x07\x12\n\n\x06GLOVES\x10\x08\x12\t\n\x05SOCKS\x10\t\x12\x08\n\x04\x42\x45LT\x10\n\x12\x0b\n\x07GLASSES\x10\x0b\x12\x0c\n\x08NECKLACE\x10\x0c\x12\x08\n\x04SKIN\x10\r\x12\x08\n\x04POSE\x10\x0e\x62\x06proto3')
+  serialized_pb=_b('\n1pogoprotos/data/avatar/avatar_customization.proto\x12\x16pogoprotos.data.avatar\x1a/pogoprotos/data/player/player_avatar_type.proto\x1a!pogoprotos/enums/badge_type.proto\"\xb7\x08\n\x13\x41vatarCustomization\x12\x0f\n\x07\x65nabled\x18\x01 \x01(\x08\x12=\n\x0b\x61vatar_type\x18\x02 \x01(\x0e\x32(.pogoprotos.data.player.PlayerAvatarType\x12>\n\x04slot\x18\x03 \x03(\x0e\x32\x30.pogoprotos.data.avatar.AvatarCustomization.Slot\x12\x13\n\x0b\x62undle_name\x18\x04 \x01(\t\x12\x12\n\nasset_name\x18\x05 \x01(\t\x12\x12\n\ngroup_name\x18\x06 \x01(\t\x12\x12\n\nsort_order\x18\x07 \x01(\x05\x12^\n\x0bunlock_type\x18\x08 \x01(\x0e\x32I.pogoprotos.data.avatar.AvatarCustomization.AvatarCustomizationUnlockType\x12\\\n\npromo_type\x18\t \x03(\x0e\x32H.pogoprotos.data.avatar.AvatarCustomization.AvatarCustomizationPromoType\x12\x36\n\x11unlock_badge_type\x18\n \x01(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12\x0f\n\x07iap_sku\x18\x0b \x01(\t\x12\x1a\n\x12unlock_badge_level\x18\x0c \x01(\x05\x12\x11\n\ticon_name\x18\r \x01(\t\x12\x1b\n\x13unlock_player_level\x18\x0e \x01(\x05\x12\x10\n\x08set_name\x18\x0f \x01(\t\x12\x16\n\x0eset_prime_item\x18\x10 \x01(\x08\x12!\n\x19incompatible_bundle_names\x18\x11 \x03(\t\"L\n\x1c\x41vatarCustomizationPromoType\x12\x14\n\x10UNSET_PROMO_TYPE\x10\x00\x12\x08\n\x04SALE\x10\x01\x12\x0c\n\x08\x46\x45\x41TURED\x10\x02\"\x91\x01\n\x1d\x41vatarCustomizationUnlockType\x12\x15\n\x11UNSET_UNLOCK_TYPE\x10\x00\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x01\x12\x10\n\x0cMEDAL_REWARD\x10\x02\x12\x10\n\x0cIAP_CLOTHING\x10\x03\x12\x10\n\x0cLEVEL_REWARD\x10\x04\x12\x16\n\x12\x43OMBAT_RANK_REWARD\x10\x05\"\xbc\x01\n\x04Slot\x12\x0e\n\nUNSET_SLOT\x10\x00\x12\x08\n\x04HAIR\x10\x01\x12\t\n\x05SHIRT\x10\x02\x12\t\n\x05PANTS\x10\x03\x12\x07\n\x03HAT\x10\x04\x12\t\n\x05SHOES\x10\x05\x12\x08\n\x04\x45YES\x10\x06\x12\x0c\n\x08\x42\x41\x43KPACK\x10\x07\x12\n\n\x06GLOVES\x10\x08\x12\t\n\x05SOCKS\x10\t\x12\x08\n\x04\x42\x45LT\x10\n\x12\x0b\n\x07GLASSES\x10\x0b\x12\x0c\n\x08NECKLACE\x10\x0c\x12\x08\n\x04SKIN\x10\r\x12\x08\n\x04POSE\x10\x0e\x12\x08\n\x04\x46\x41\x43\x45\x10\x0f\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_player_dot_player__avatar__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_badge__type__pb2.DESCRIPTOR,])
 
@@ -157,11 +157,15 @@ _AVATARCUSTOMIZATION_SLOT = _descriptor.EnumDescriptor(
       name='POSE', index=14, number=14,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='FACE', index=15, number=15,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=1053,
-  serialized_end=1231,
+  serialized_end=1241,
 )
 _sym_db.RegisterEnumDescriptor(_AVATARCUSTOMIZATION_SLOT)
 
@@ -308,7 +312,7 @@ _AVATARCUSTOMIZATION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=162,
-  serialized_end=1231,
+  serialized_end=1241,
 )
 
 _AVATARCUSTOMIZATION.fields_by_name['avatar_type'].enum_type = pogoprotos_dot_data_dot_player_dot_player__avatar__type__pb2._PLAYERAVATARTYPE

@@ -15,7 +15,9 @@ _sym_db = _symbol_database.Default()
 from pogoprotos.enums import form_pb2 as pogoprotos_dot_enums_dot_form__pb2
 from pogoprotos.enums import gender_pb2 as pogoprotos_dot_enums_dot_gender__pb2
 from pogoprotos.enums import pokemon_id_pb2 as pogoprotos_dot_enums_dot_pokemon__id__pb2
+from pogoprotos.enums import temporary_evolution_id_pb2 as pogoprotos_dot_enums_dot_temporary__evolution__id__pb2
 from pogoprotos.inventory.item import item_id_pb2 as pogoprotos_dot_inventory_dot_item_dot_item__id__pb2
+from pogoprotos.data import pokemon_data_pb2 as pogoprotos_dot_data_dot_pokemon__data__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -23,9 +25,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master.pokemon',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n9pogoprotos/settings/master/pokemon/evolution_branch.proto\x12\"pogoprotos.settings.master.pokemon\x1a\x1bpogoprotos/enums/form.proto\x1a\x1dpogoprotos/enums/gender.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\'pogoprotos/inventory/item/item_id.proto\"\x80\x04\n\x0f\x45volutionBranch\x12.\n\tevolution\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x45\n\x1a\x65volution_item_requirement\x18\x02 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x12\n\ncandy_cost\x18\x03 \x01(\x05\x12%\n\x1dkm_buddy_distance_requirement\x18\x04 \x01(\x02\x12$\n\x04\x66orm\x18\x05 \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x34\n\x12gender_requirement\x18\x06 \x01(\x0e\x32\x18.pogoprotos.enums.Gender\x12@\n\x15lure_item_requirement\x18\x08 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x15\n\rmust_be_buddy\x18\t \x01(\x08\x12\x14\n\x0conly_daytime\x18\n \x01(\x08\x12\x16\n\x0eonly_nighttime\x18\x0b \x01(\x08\x12\x10\n\x08priority\x18\x0c \x01(\x05\x12\x1f\n\x17no_candy_cost_via_trade\x18\r \x01(\x08\x12%\n\x1dquest_requirement_template_id\x18\x11 \x03(\tb\x06proto3')
+  serialized_pb=_b('\n9pogoprotos/settings/master/pokemon/evolution_branch.proto\x12\"pogoprotos.settings.master.pokemon\x1a\x1bpogoprotos/enums/form.proto\x1a\x1dpogoprotos/enums/gender.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a-pogoprotos/enums/temporary_evolution_id.proto\x1a\'pogoprotos/inventory/item/item_id.proto\x1a\"pogoprotos/data/pokemon_data.proto\"\xd9\x05\n\x0f\x45volutionBranch\x12.\n\tevolution\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x45\n\x1a\x65volution_item_requirement\x18\x02 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x12\n\ncandy_cost\x18\x03 \x01(\x05\x12%\n\x1dkm_buddy_distance_requirement\x18\x04 \x01(\x02\x12$\n\x04\x66orm\x18\x05 \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x34\n\x12gender_requirement\x18\x06 \x01(\x0e\x32\x18.pogoprotos.enums.Gender\x12@\n\x15lure_item_requirement\x18\x08 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemId\x12\x15\n\rmust_be_buddy\x18\t \x01(\x08\x12\x14\n\x0conly_daytime\x18\n \x01(\x08\x12\x16\n\x0eonly_nighttime\x18\x0b \x01(\x08\x12\x10\n\x08priority\x18\x0c \x01(\x05\x12\x1f\n\x17no_candy_cost_via_trade\x18\r \x01(\x08\x12\x43\n\x13temporary_evolution\x18\x0e \x01(\x0e\x32&.pogoprotos.enums.TemporaryEvolutionId\x12\'\n\x1ftemporary_evolution_energy_cost\x18\x0f \x01(\x05\x12\x32\n*temporary_evolution_energy_cost_subsequent\x18\x10 \x01(\x05\x12\\\n\rquest_display\x18\x11 \x03(\x0b\x32\x45.pogoprotos.data.PokemonData.PokemonEvolutionQuest.EvolutionQuestInfob\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_gender__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_gender__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_temporary__evolution__id__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__data__pb2.DESCRIPTOR,])
 
 
 
@@ -122,8 +124,29 @@ _EVOLUTIONBRANCH = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quest_requirement_template_id', full_name='pogoprotos.settings.master.pokemon.EvolutionBranch.quest_requirement_template_id', index=12,
-      number=17, type=9, cpp_type=9, label=3,
+      name='temporary_evolution', full_name='pogoprotos.settings.master.pokemon.EvolutionBranch.temporary_evolution', index=12,
+      number=14, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='temporary_evolution_energy_cost', full_name='pogoprotos.settings.master.pokemon.EvolutionBranch.temporary_evolution_energy_cost', index=13,
+      number=15, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='temporary_evolution_energy_cost_subsequent', full_name='pogoprotos.settings.master.pokemon.EvolutionBranch.temporary_evolution_energy_cost_subsequent', index=14,
+      number=16, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='quest_display', full_name='pogoprotos.settings.master.pokemon.EvolutionBranch.quest_display', index=15,
+      number=17, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -140,8 +163,8 @@ _EVOLUTIONBRANCH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=234,
-  serialized_end=746,
+  serialized_start=317,
+  serialized_end=1046,
 )
 
 _EVOLUTIONBRANCH.fields_by_name['evolution'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
@@ -149,6 +172,8 @@ _EVOLUTIONBRANCH.fields_by_name['evolution_item_requirement'].enum_type = pogopr
 _EVOLUTIONBRANCH.fields_by_name['form'].enum_type = pogoprotos_dot_enums_dot_form__pb2._FORM
 _EVOLUTIONBRANCH.fields_by_name['gender_requirement'].enum_type = pogoprotos_dot_enums_dot_gender__pb2._GENDER
 _EVOLUTIONBRANCH.fields_by_name['lure_item_requirement'].enum_type = pogoprotos_dot_inventory_dot_item_dot_item__id__pb2._ITEMID
+_EVOLUTIONBRANCH.fields_by_name['temporary_evolution'].enum_type = pogoprotos_dot_enums_dot_temporary__evolution__id__pb2._TEMPORARYEVOLUTIONID
+_EVOLUTIONBRANCH.fields_by_name['quest_display'].message_type = pogoprotos_dot_data_dot_pokemon__data__pb2._POKEMONDATA_POKEMONEVOLUTIONQUEST_EVOLUTIONQUESTINFO
 DESCRIPTOR.message_types_by_name['EvolutionBranch'] = _EVOLUTIONBRANCH
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

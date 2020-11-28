@@ -16,6 +16,7 @@ from pogoprotos.enums import raid_level_pb2 as pogoprotos_dot_enums_dot_raid__le
 from pogoprotos.enums import pokemon_id_pb2 as pogoprotos_dot_enums_dot_pokemon__id__pb2
 from pogoprotos.enums import form_pb2 as pogoprotos_dot_enums_dot_form__pb2
 from pogoprotos.enums import team_color_pb2 as pogoprotos_dot_enums_dot_team__color__pb2
+from pogoprotos.enums import temporary_evolution_id_pb2 as pogoprotos_dot_enums_dot_temporary__evolution__id__pb2
 from pogoprotos.data.player import player_avatar_pb2 as pogoprotos_dot_data_dot_player_dot_player__avatar__pb2
 
 
@@ -24,9 +25,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.raid',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n2pogoprotos/data/raid/raid_invitation_details.proto\x12\x14pogoprotos.data.raid\x1a!pogoprotos/enums/raid_level.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\x1bpogoprotos/enums/form.proto\x1a!pogoprotos/enums/team_color.proto\x1a*pogoprotos/data/player/player_avatar.proto\"\xf2\x03\n\x15RaidInvitationDetails\x12\x0e\n\x06gym_id\x18\x01 \x01(\t\x12\x10\n\x08lobby_id\x18\x02 \x03(\x05\x12\x11\n\traid_seed\x18\x03 \x01(\x03\x12!\n\x19raid_invitation_expire_ms\x18\x04 \x01(\x03\x12/\n\nraid_level\x18\x05 \x01(\x0e\x32\x1b.pogoprotos.enums.RaidLevel\x12\x10\n\x08gym_name\x18\x06 \x01(\t\x12\x11\n\timage_url\x18\x07 \x01(\t\x12\x10\n\x08latitude\x18\x08 \x01(\x01\x12\x11\n\tlongitude\x18\t \x01(\x01\x12\x34\n\x0fraid_pokemon_id\x18\n \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x31\n\x11raid_pokemon_form\x18\x0b \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x12\n\ninviter_id\x18\x0c \x01(\t\x12\x18\n\x10inviter_nickname\x18\r \x01(\t\x12<\n\x0einviter_avatar\x18\x0e \x01(\x0b\x32$.pogoprotos.data.player.PlayerAvatar\x12\x31\n\x0cinviter_team\x18\x0f \x01(\x0e\x32\x1b.pogoprotos.enums.TeamColorb\x06proto3')
+  serialized_pb=_b('\n2pogoprotos/data/raid/raid_invitation_details.proto\x12\x14pogoprotos.data.raid\x1a!pogoprotos/enums/raid_level.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\x1bpogoprotos/enums/form.proto\x1a!pogoprotos/enums/team_color.proto\x1a-pogoprotos/enums/temporary_evolution_id.proto\x1a*pogoprotos/data/player/player_avatar.proto\"\xbc\x04\n\x15RaidInvitationDetails\x12\x0e\n\x06gym_id\x18\x01 \x01(\t\x12\x10\n\x08lobby_id\x18\x02 \x03(\x05\x12\x11\n\traid_seed\x18\x03 \x01(\x03\x12!\n\x19raid_invitation_expire_ms\x18\x04 \x01(\x03\x12/\n\nraid_level\x18\x05 \x01(\x0e\x32\x1b.pogoprotos.enums.RaidLevel\x12\x10\n\x08gym_name\x18\x06 \x01(\t\x12\x11\n\timage_url\x18\x07 \x01(\t\x12\x10\n\x08latitude\x18\x08 \x01(\x01\x12\x11\n\tlongitude\x18\t \x01(\x01\x12\x34\n\x0fraid_pokemon_id\x18\n \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x31\n\x11raid_pokemon_form\x18\x0b \x01(\x0e\x32\x16.pogoprotos.enums.Form\x12\x12\n\ninviter_id\x18\x0c \x01(\t\x12\x18\n\x10inviter_nickname\x18\r \x01(\t\x12<\n\x0einviter_avatar\x18\x0e \x01(\x0b\x32$.pogoprotos.data.player.PlayerAvatar\x12\x31\n\x0cinviter_team\x18\x0f \x01(\x0e\x32\x1b.pogoprotos.enums.TeamColor\x12H\n\x18raid_pokemon_temp_evo_id\x18\x10 \x01(\x0e\x32&.pogoprotos.enums.TemporaryEvolutionIdb\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_enums_dot_raid__level__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_team__color__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__avatar__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_enums_dot_raid__level__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_team__color__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_temporary__evolution__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__avatar__pb2.DESCRIPTOR,])
 
 
 
@@ -143,6 +144,13 @@ _RAIDINVITATIONDETAILS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='raid_pokemon_temp_evo_id', full_name='pogoprotos.data.raid.RaidInvitationDetails.raid_pokemon_temp_evo_id', index=15,
+      number=16, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -155,8 +163,8 @@ _RAIDINVITATIONDETAILS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=255,
-  serialized_end=753,
+  serialized_start=302,
+  serialized_end=874,
 )
 
 _RAIDINVITATIONDETAILS.fields_by_name['raid_level'].enum_type = pogoprotos_dot_enums_dot_raid__level__pb2._RAIDLEVEL
@@ -164,6 +172,7 @@ _RAIDINVITATIONDETAILS.fields_by_name['raid_pokemon_id'].enum_type = pogoprotos_
 _RAIDINVITATIONDETAILS.fields_by_name['raid_pokemon_form'].enum_type = pogoprotos_dot_enums_dot_form__pb2._FORM
 _RAIDINVITATIONDETAILS.fields_by_name['inviter_avatar'].message_type = pogoprotos_dot_data_dot_player_dot_player__avatar__pb2._PLAYERAVATAR
 _RAIDINVITATIONDETAILS.fields_by_name['inviter_team'].enum_type = pogoprotos_dot_enums_dot_team__color__pb2._TEAMCOLOR
+_RAIDINVITATIONDETAILS.fields_by_name['raid_pokemon_temp_evo_id'].enum_type = pogoprotos_dot_enums_dot_temporary__evolution__id__pb2._TEMPORARYEVOLUTIONID
 DESCRIPTOR.message_types_by_name['RaidInvitationDetails'] = _RAIDINVITATIONDETAILS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

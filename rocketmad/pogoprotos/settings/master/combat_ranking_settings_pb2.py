@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n8pogoprotos/settings/master/combat_ranking_settings.proto\x12\x1apogoprotos.settings.master\"\xf3\x02\n\x15\x43ombatRankingSettings\x12O\n\nrank_level\x18\x01 \x03(\x0b\x32;.pogoprotos.settings.master.CombatRankingSettings.RankLevel\x12Y\n\x14required_for_rewards\x18\x02 \x01(\x0b\x32;.pogoprotos.settings.master.CombatRankingSettings.RankLevel\x12\"\n\x1amin_rank_to_display_rating\x18\x03 \x01(\x05\x1a\x89\x01\n\tRankLevel\x12\x12\n\nrank_level\x18\x01 \x01(\x05\x12)\n!additional_total_battles_required\x18\x02 \x01(\x05\x12 \n\x18\x61\x64\x64itional_wins_required\x18\x03 \x01(\x05\x12\x1b\n\x13min_rating_required\x18\x04 \x01(\x05\x62\x06proto3')
+  serialized_pb=_b('\n8pogoprotos/settings/master/combat_ranking_settings.proto\x12\x1apogoprotos.settings.master\"\x8a\x03\n\x15\x43ombatRankingSettings\x12O\n\nrank_level\x18\x01 \x03(\x0b\x32;.pogoprotos.settings.master.CombatRankingSettings.RankLevel\x12Y\n\x14required_for_rewards\x18\x02 \x01(\x0b\x32;.pogoprotos.settings.master.CombatRankingSettings.RankLevel\x12\"\n\x1amin_rank_to_display_rating\x18\x03 \x01(\x05\x12\x15\n\rseason_number\x18\x04 \x01(\x05\x1a\x89\x01\n\tRankLevel\x12\x12\n\nrank_level\x18\x01 \x01(\x05\x12)\n!additional_total_battles_required\x18\x02 \x01(\x05\x12 \n\x18\x61\x64\x64itional_wins_required\x18\x03 \x01(\x05\x12\x1b\n\x13min_rating_required\x18\x04 \x01(\x05\x62\x06proto3')
 )
 
 
@@ -72,8 +72,8 @@ _COMBATRANKINGSETTINGS_RANKLEVEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=323,
-  serialized_end=460,
+  serialized_start=346,
+  serialized_end=483,
 )
 
 _COMBATRANKINGSETTINGS = _descriptor.Descriptor(
@@ -104,6 +104,13 @@ _COMBATRANKINGSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='season_number', full_name='pogoprotos.settings.master.CombatRankingSettings.season_number', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -117,7 +124,7 @@ _COMBATRANKINGSETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=89,
-  serialized_end=460,
+  serialized_end=483,
 )
 
 _COMBATRANKINGSETTINGS_RANKLEVEL.containing_type = _COMBATRANKINGSETTINGS

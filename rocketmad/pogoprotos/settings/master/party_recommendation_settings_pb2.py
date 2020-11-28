@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n>pogoprotos/settings/master/party_recommendation_settings.proto\x12\x1apogoprotos.settings.master\"\xd2\x02\n\x1bPartyRecommendationSettings\x12\\\n\x04mode\x18\x01 \x01(\x0e\x32N.pogoprotos.settings.master.PartyRecommendationSettings.PartyRcommendationMode\x12\x10\n\x08variance\x18\x02 \x01(\x02\x12\x19\n\x11third_move_weight\x18\x03 \x01(\x02\"\xa7\x01\n\x16PartyRcommendationMode\x12\t\n\x05UNSET\x10\x00\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_1\x10\x01\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_2\x10\x02\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_3\x10\x03\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_4\x10\x04\x62\x06proto3')
+  serialized_pb=_b('\n>pogoprotos/settings/master/party_recommendation_settings.proto\x12\x1apogoprotos.settings.master\"\xf8\x02\n\x1bPartyRecommendationSettings\x12\\\n\x04mode\x18\x01 \x01(\x0e\x32N.pogoprotos.settings.master.PartyRecommendationSettings.PartyRcommendationMode\x12\x10\n\x08variance\x18\x02 \x01(\x02\x12\x19\n\x11third_move_weight\x18\x03 \x01(\x02\x12$\n\x1cmega_evo_combat_rating_scale\x18\x04 \x01(\x02\"\xa7\x01\n\x16PartyRcommendationMode\x12\t\n\x05UNSET\x10\x00\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_1\x10\x01\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_2\x10\x02\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_3\x10\x03\x12\x1f\n\x1bPARTY_RECOMMENDATION_MODE_4\x10\x04\x62\x06proto3')
 )
 
 
@@ -53,8 +53,8 @@ _PARTYRECOMMENDATIONSETTINGS_PARTYRCOMMENDATIONMODE = _descriptor.EnumDescriptor
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=266,
-  serialized_end=433,
+  serialized_start=304,
+  serialized_end=471,
 )
 _sym_db.RegisterEnumDescriptor(_PARTYRECOMMENDATIONSETTINGS_PARTYRCOMMENDATIONMODE)
 
@@ -87,6 +87,13 @@ _PARTYRECOMMENDATIONSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mega_evo_combat_rating_scale', full_name='pogoprotos.settings.master.PartyRecommendationSettings.mega_evo_combat_rating_scale', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -101,7 +108,7 @@ _PARTYRECOMMENDATIONSETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=95,
-  serialized_end=433,
+  serialized_end=471,
 )
 
 _PARTYRECOMMENDATIONSETTINGS.fields_by_name['mode'].enum_type = _PARTYRECOMMENDATIONSETTINGS_PARTYRCOMMENDATIONMODE

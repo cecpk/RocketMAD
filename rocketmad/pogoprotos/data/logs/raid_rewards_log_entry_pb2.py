@@ -14,6 +14,7 @@ _sym_db = _symbol_database.Default()
 
 from pogoprotos.inventory.item import item_data_pb2 as pogoprotos_dot_inventory_dot_item_dot_item__data__pb2
 from pogoprotos.inventory import loot_item_pb2 as pogoprotos_dot_inventory_dot_loot__item__pb2
+from pogoprotos.data.quests import quest_reward_pb2 as pogoprotos_dot_data_dot_quests_dot_quest__reward__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -21,9 +22,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.logs',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n1pogoprotos/data/logs/raid_rewards_log_entry.proto\x12\x14pogoprotos.data.logs\x1a)pogoprotos/inventory/item/item_data.proto\x1a$pogoprotos/inventory/loot_item.proto\"\xc5\x02\n\x13RaidRewardsLogEntry\x12@\n\x06result\x18\x01 \x01(\x0e\x32\x30.pogoprotos.data.logs.RaidRewardsLogEntry.Result\x12\x14\n\x0cis_exclusive\x18\x02 \x01(\x08\x12\x32\n\x05items\x18\x03 \x03(\x0b\x32#.pogoprotos.inventory.item.ItemData\x12<\n\x0f\x64\x65\x66\x61ult_rewards\x18\x04 \x03(\x0b\x32#.pogoprotos.inventory.item.ItemData\x12\x10\n\x08stardust\x18\x05 \x01(\x05\x12\x30\n\x08stickers\x18\x06 \x03(\x0b\x32\x1e.pogoprotos.inventory.LootItem\" \n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x62\x06proto3')
+  serialized_pb=_b('\n1pogoprotos/data/logs/raid_rewards_log_entry.proto\x12\x14pogoprotos.data.logs\x1a)pogoprotos/inventory/item/item_data.proto\x1a$pogoprotos/inventory/loot_item.proto\x1a)pogoprotos/data/quests/quest_reward.proto\"\xa5\x03\n\x13RaidRewardsLogEntry\x12@\n\x06result\x18\x01 \x01(\x0e\x32\x30.pogoprotos.data.logs.RaidRewardsLogEntry.Result\x12\x14\n\x0cis_exclusive\x18\x02 \x01(\x08\x12\x32\n\x05items\x18\x03 \x03(\x0b\x32#.pogoprotos.inventory.item.ItemData\x12<\n\x0f\x64\x65\x66\x61ult_rewards\x18\x04 \x03(\x0b\x32#.pogoprotos.inventory.item.ItemData\x12\x10\n\x08stardust\x18\x05 \x01(\x05\x12\x30\n\x08stickers\x18\x06 \x03(\x0b\x32\x1e.pogoprotos.inventory.LootItem\x12\x0f\n\x07is_mega\x18\x07 \x01(\x08\x12M\n\rmega_resource\x18\x08 \x01(\x0b\x32\x36.pogoprotos.data.quests.QuestReward.PokemonCandyReward\" \n\x06Result\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x62\x06proto3')
   ,
-  dependencies=[pogoprotos_dot_inventory_dot_item_dot_item__data__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_loot__item__pb2.DESCRIPTOR,])
+  dependencies=[pogoprotos_dot_inventory_dot_item_dot_item__data__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_loot__item__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__reward__pb2.DESCRIPTOR,])
 
 
 
@@ -44,8 +45,8 @@ _RAIDREWARDSLOGENTRY_RESULT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=450,
-  serialized_end=482,
+  serialized_start=589,
+  serialized_end=621,
 )
 _sym_db.RegisterEnumDescriptor(_RAIDREWARDSLOGENTRY_RESULT)
 
@@ -99,6 +100,20 @@ _RAIDREWARDSLOGENTRY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='is_mega', full_name='pogoprotos.data.logs.RaidRewardsLogEntry.is_mega', index=6,
+      number=7, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mega_resource', full_name='pogoprotos.data.logs.RaidRewardsLogEntry.mega_resource', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -112,14 +127,15 @@ _RAIDREWARDSLOGENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=157,
-  serialized_end=482,
+  serialized_start=200,
+  serialized_end=621,
 )
 
 _RAIDREWARDSLOGENTRY.fields_by_name['result'].enum_type = _RAIDREWARDSLOGENTRY_RESULT
 _RAIDREWARDSLOGENTRY.fields_by_name['items'].message_type = pogoprotos_dot_inventory_dot_item_dot_item__data__pb2._ITEMDATA
 _RAIDREWARDSLOGENTRY.fields_by_name['default_rewards'].message_type = pogoprotos_dot_inventory_dot_item_dot_item__data__pb2._ITEMDATA
 _RAIDREWARDSLOGENTRY.fields_by_name['stickers'].message_type = pogoprotos_dot_inventory_dot_loot__item__pb2._LOOTITEM
+_RAIDREWARDSLOGENTRY.fields_by_name['mega_resource'].message_type = pogoprotos_dot_data_dot_quests_dot_quest__reward__pb2._QUESTREWARD_POKEMONCANDYREWARD
 _RAIDREWARDSLOGENTRY_RESULT.containing_type = _RAIDREWARDSLOGENTRY
 DESCRIPTOR.message_types_by_name['RaidRewardsLogEntry'] = _RAIDREWARDSLOGENTRY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)

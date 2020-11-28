@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n.pogoprotos/settings/ardk_config_settings.proto\x12\x13pogoprotos.settings\"\xe2\x02\n\x12\x41rdkConfigSettings\x12\x15\n\rorb_vocab_url\x18\x01 \x01(\t\x12\x1b\n\x13monodpeth_model_url\x18\x02 \x01(\t\x12\x19\n\x11monodepth_devices\x18\x03 \x03(\t\x12M\n\x12monodepth_contexts\x18\x04 \x03(\x0e\x32\x31.pogoprotos.settings.ArdkConfigSettings.ArContext\x12\x1f\n\x17ios_monodepth_model_url\x18\x05 \x01(\t\x12#\n\x1b\x61ndroid_monodepth_model_url\x18\x06 \x01(\t\"h\n\tArContext\x12\t\n\x05UNSET\x10\x00\x12\x10\n\x0c\x41R_ENCOUNTER\x10\x01\x12\x0f\n\x0b\x41R_SNAPSHOT\x10\x02\x12\x16\n\x12SINGLEPLAYER_BUDDY\x10\x03\x12\x15\n\x11MULTIPLAYER_BUDDY\x10\x04\x62\x06proto3')
+  serialized_pb=_b('\n.pogoprotos/settings/ardk_config_settings.proto\x12\x13pogoprotos.settings\"\xff\x02\n\x12\x41rdkConfigSettings\x12\x15\n\rorb_vocab_url\x18\x01 \x01(\t\x12\x1b\n\x13monodpeth_model_url\x18\x02 \x01(\t\x12\x19\n\x11monodepth_devices\x18\x03 \x03(\t\x12M\n\x12monodepth_contexts\x18\x04 \x03(\x0e\x32\x31.pogoprotos.settings.ArdkConfigSettings.ArContext\x12\x1f\n\x17ios_monodepth_model_url\x18\x05 \x01(\t\x12#\n\x1b\x61ndroid_monodepth_model_url\x18\x06 \x01(\t\x12\x1b\n\x13monodepth_model_url\x18\x07 \x01(\t\"h\n\tArContext\x12\t\n\x05UNSET\x10\x00\x12\x10\n\x0c\x41R_ENCOUNTER\x10\x01\x12\x0f\n\x0b\x41R_SNAPSHOT\x10\x02\x12\x16\n\x12SINGLEPLAYER_BUDDY\x10\x03\x12\x15\n\x11MULTIPLAYER_BUDDY\x10\x04\x62\x06proto3')
 )
 
 
@@ -53,8 +53,8 @@ _ARDKCONFIGSETTINGS_ARCONTEXT = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=322,
-  serialized_end=426,
+  serialized_start=351,
+  serialized_end=455,
 )
 _sym_db.RegisterEnumDescriptor(_ARDKCONFIGSETTINGS_ARCONTEXT)
 
@@ -108,6 +108,13 @@ _ARDKCONFIGSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='monodepth_model_url', full_name='pogoprotos.settings.ArdkConfigSettings.monodepth_model_url', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -122,7 +129,7 @@ _ARDKCONFIGSETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=72,
-  serialized_end=426,
+  serialized_end=455,
 )
 
 _ARDKCONFIGSETTINGS.fields_by_name['monodepth_contexts'].enum_type = _ARDKCONFIGSETTINGS_ARCONTEXT

@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.player',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n)pogoprotos/data/player/player_stats.proto\x12\x16pogoprotos.data.player\x1a%pogoprotos/enums/gym_badge_type.proto\x1a\x30pogoprotos/data/combat/player_combat_stats.proto\"\x8d\x0b\n\x0bPlayerStats\x12\r\n\x05level\x18\x01 \x01(\x05\x12\x12\n\nexperience\x18\x02 \x01(\x03\x12\x15\n\rprev_level_xp\x18\x03 \x01(\x03\x12\x15\n\rnext_level_xp\x18\x04 \x01(\x03\x12\x11\n\tkm_walked\x18\x05 \x01(\x02\x12\x1c\n\x14pokemons_encountered\x18\x06 \x01(\x05\x12\x1e\n\x16unique_pokedex_entries\x18\x07 \x01(\x05\x12\x19\n\x11pokemons_captured\x18\x08 \x01(\x05\x12\x12\n\nevolutions\x18\t \x01(\x05\x12\x18\n\x10poke_stop_visits\x18\n \x01(\x05\x12\x18\n\x10pokeballs_thrown\x18\x0b \x01(\x05\x12\x14\n\x0c\x65ggs_hatched\x18\x0c \x01(\x05\x12\x1b\n\x13\x62ig_magikarp_caught\x18\r \x01(\x05\x12\x19\n\x11\x62\x61ttle_attack_won\x18\x0e \x01(\x05\x12\x1b\n\x13\x62\x61ttle_attack_total\x18\x0f \x01(\x05\x12\x1b\n\x13\x62\x61ttle_defended_won\x18\x10 \x01(\x05\x12\x1b\n\x13\x62\x61ttle_training_won\x18\x11 \x01(\x05\x12\x1d\n\x15\x62\x61ttle_training_total\x18\x12 \x01(\x05\x12\x1d\n\x15prestige_raised_total\x18\x13 \x01(\x05\x12\x1e\n\x16prestige_dropped_total\x18\x14 \x01(\x05\x12\x18\n\x10pokemon_deployed\x18\x15 \x01(\x05\x12\x1e\n\x16pokemon_caught_by_type\x18\x16 \x03(\x05\x12\x1c\n\x14small_rattata_caught\x18\x17 \x01(\x05\x12\x14\n\x0cused_km_pool\x18\x18 \x01(\x01\x12\x19\n\x11last_km_refill_ms\x18\x19 \x01(\x03\x12\x1b\n\x13num_raid_battle_won\x18\x1a \x01(\x05\x12\x1d\n\x15num_raid_battle_total\x18\x1b \x01(\x05\x12 \n\x18num_legendary_battle_won\x18\x1c \x01(\x05\x12\"\n\x1anum_legendary_battle_total\x18\x1d \x01(\x05\x12\x17\n\x0fnum_berries_fed\x18\x1e \x01(\x05\x12\x19\n\x11total_defended_ms\x18\x1f \x01(\x03\x12\x34\n\x0c\x65vent_badges\x18  \x03(\x0e\x32\x1e.pogoprotos.enums.GymBadgeType\x12!\n\x19km_walked_past_active_day\x18! \x01(\x02\x12&\n\x1enum_challenge_quests_completed\x18\" \x01(\x05\x12\x12\n\nnum_trades\x18# \x01(\x05\x12\x1d\n\x15num_max_level_friends\x18$ \x01(\x05\x12%\n\x1dtrade_accumulated_distance_km\x18% \x01(\x03\x12(\n fitness_report_last_check_bucket\x18& \x01(\x03\x12?\n\x0c\x63ombat_stats\x18\' \x01(\x0b\x32).pogoprotos.data.combat.PlayerCombatStats\x12\x1b\n\x13num_npc_combats_won\x18( \x01(\x05\x12\x1d\n\x15num_npc_combats_total\x18) \x01(\x05\x12\x1a\n\x12num_photobomb_seen\x18* \x01(\x05\x12\x1c\n\x14num_pokemon_purified\x18+ \x01(\x05\x12\x1b\n\x13num_grunts_defeated\x18, \x01(\x05\x12\x18\n\x10num_best_buddies\x18/ \x01(\x05\x12\x1e\n\x16num_wayfarer_agreement\x18\x36 \x01(\x05\x12$\n\x1cwayfarer_agreement_update_ms\x18\x37 \x01(\x03\x62\x06proto3')
+  serialized_pb=_b('\n)pogoprotos/data/player/player_stats.proto\x12\x16pogoprotos.data.player\x1a%pogoprotos/enums/gym_badge_type.proto\x1a\x30pogoprotos/data/combat/player_combat_stats.proto\"\x8f\r\n\x0bPlayerStats\x12\r\n\x05level\x18\x01 \x01(\x05\x12\x12\n\nexperience\x18\x02 \x01(\x03\x12\x15\n\rprev_level_xp\x18\x03 \x01(\x03\x12\x15\n\rnext_level_xp\x18\x04 \x01(\x03\x12\x11\n\tkm_walked\x18\x05 \x01(\x02\x12\x1c\n\x14pokemons_encountered\x18\x06 \x01(\x05\x12\x1e\n\x16unique_pokedex_entries\x18\x07 \x01(\x05\x12\x19\n\x11pokemons_captured\x18\x08 \x01(\x05\x12\x12\n\nevolutions\x18\t \x01(\x05\x12\x18\n\x10poke_stop_visits\x18\n \x01(\x05\x12\x18\n\x10pokeballs_thrown\x18\x0b \x01(\x05\x12\x14\n\x0c\x65ggs_hatched\x18\x0c \x01(\x05\x12\x1b\n\x13\x62ig_magikarp_caught\x18\r \x01(\x05\x12\x19\n\x11\x62\x61ttle_attack_won\x18\x0e \x01(\x05\x12\x1b\n\x13\x62\x61ttle_attack_total\x18\x0f \x01(\x05\x12\x1b\n\x13\x62\x61ttle_defended_won\x18\x10 \x01(\x05\x12\x1b\n\x13\x62\x61ttle_training_won\x18\x11 \x01(\x05\x12\x1d\n\x15\x62\x61ttle_training_total\x18\x12 \x01(\x05\x12\x1d\n\x15prestige_raised_total\x18\x13 \x01(\x05\x12\x1e\n\x16prestige_dropped_total\x18\x14 \x01(\x05\x12\x18\n\x10pokemon_deployed\x18\x15 \x01(\x05\x12\x1e\n\x16pokemon_caught_by_type\x18\x16 \x03(\x05\x12\x1c\n\x14small_rattata_caught\x18\x17 \x01(\x05\x12\x14\n\x0cused_km_pool\x18\x18 \x01(\x01\x12\x19\n\x11last_km_refill_ms\x18\x19 \x01(\x03\x12\x1b\n\x13num_raid_battle_won\x18\x1a \x01(\x05\x12\x1d\n\x15num_raid_battle_total\x18\x1b \x01(\x05\x12 \n\x18num_legendary_battle_won\x18\x1c \x01(\x05\x12\"\n\x1anum_legendary_battle_total\x18\x1d \x01(\x05\x12\x17\n\x0fnum_berries_fed\x18\x1e \x01(\x05\x12\x19\n\x11total_defended_ms\x18\x1f \x01(\x03\x12\x34\n\x0c\x65vent_badges\x18  \x03(\x0e\x32\x1e.pogoprotos.enums.GymBadgeType\x12!\n\x19km_walked_past_active_day\x18! \x01(\x02\x12&\n\x1enum_challenge_quests_completed\x18\" \x01(\x05\x12\x12\n\nnum_trades\x18# \x01(\x05\x12\x1d\n\x15num_max_level_friends\x18$ \x01(\x05\x12%\n\x1dtrade_accumulated_distance_km\x18% \x01(\x03\x12(\n fitness_report_last_check_bucket\x18& \x01(\x03\x12?\n\x0c\x63ombat_stats\x18\' \x01(\x0b\x32).pogoprotos.data.combat.PlayerCombatStats\x12\x1b\n\x13num_npc_combats_won\x18( \x01(\x05\x12\x1d\n\x15num_npc_combats_total\x18) \x01(\x05\x12\x1a\n\x12num_photobomb_seen\x18* \x01(\x05\x12\x1c\n\x14num_pokemon_purified\x18+ \x01(\x05\x12\x1b\n\x13num_grunts_defeated\x18, \x01(\x05\x12\x18\n\x10num_best_buddies\x18/ \x01(\x05\x12\x11\n\tlevel_cap\x18\x30 \x01(\x05\x12\x19\n\x11seven_day_streaks\x18\x31 \x01(\x05\x12#\n\x1bunique_raid_bosses_defeated\x18\x32 \x01(\x05\x12 \n\x18unique_pokestops_visited\x18\x33 \x01(\x05\x12\x1e\n\x16raids_won_with_friends\x18\x34 \x01(\x05\x12$\n\x1cpokemon_caught_at_your_lures\x18\x35 \x01(\x05\x12\x1e\n\x16num_wayfarer_agreement\x18\x36 \x01(\x05\x12$\n\x1cwayfarer_agreement_update_ms\x18\x37 \x01(\x03\x12!\n\x19num_total_mega_evolutions\x18\x38 \x01(\x05\x12\"\n\x1anum_unique_mega_evolutions\x18\x39 \x01(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_gym__badge__type__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_player__combat__stats__pb2.DESCRIPTOR,])
 
@@ -351,15 +351,71 @@ _PLAYERSTATS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='num_wayfarer_agreement', full_name='pogoprotos.data.player.PlayerStats.num_wayfarer_agreement', index=45,
+      name='level_cap', full_name='pogoprotos.data.player.PlayerStats.level_cap', index=45,
+      number=48, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='seven_day_streaks', full_name='pogoprotos.data.player.PlayerStats.seven_day_streaks', index=46,
+      number=49, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='unique_raid_bosses_defeated', full_name='pogoprotos.data.player.PlayerStats.unique_raid_bosses_defeated', index=47,
+      number=50, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='unique_pokestops_visited', full_name='pogoprotos.data.player.PlayerStats.unique_pokestops_visited', index=48,
+      number=51, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='raids_won_with_friends', full_name='pogoprotos.data.player.PlayerStats.raids_won_with_friends', index=49,
+      number=52, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pokemon_caught_at_your_lures', full_name='pogoprotos.data.player.PlayerStats.pokemon_caught_at_your_lures', index=50,
+      number=53, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='num_wayfarer_agreement', full_name='pogoprotos.data.player.PlayerStats.num_wayfarer_agreement', index=51,
       number=54, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='wayfarer_agreement_update_ms', full_name='pogoprotos.data.player.PlayerStats.wayfarer_agreement_update_ms', index=46,
+      name='wayfarer_agreement_update_ms', full_name='pogoprotos.data.player.PlayerStats.wayfarer_agreement_update_ms', index=52,
       number=55, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='num_total_mega_evolutions', full_name='pogoprotos.data.player.PlayerStats.num_total_mega_evolutions', index=53,
+      number=56, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='num_unique_mega_evolutions', full_name='pogoprotos.data.player.PlayerStats.num_unique_mega_evolutions', index=54,
+      number=57, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -377,7 +433,7 @@ _PLAYERSTATS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=159,
-  serialized_end=1580,
+  serialized_end=1838,
 )
 
 _PLAYERSTATS.fields_by_name['event_badges'].enum_type = pogoprotos_dot_enums_dot_gym__badge__type__pb2._GYMBADGETYPE

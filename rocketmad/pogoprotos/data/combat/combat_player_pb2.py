@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.combat',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n*pogoprotos/data/combat/combat_player.proto\x12\x16pogoprotos.data.combat\x1a\x32pogoprotos/data/player/player_public_profile.proto\x1a+pogoprotos/data/combat/combat_pokemon.proto\x1a*pogoprotos/data/combat/combat_action.proto\"\xd0\x04\n\x0c\x43ombatPlayer\x12\x43\n\x0epublic_profile\x18\x01 \x01(\x0b\x32+.pogoprotos.data.player.PlayerPublicProfile\x12=\n\x0e\x61\x63tive_pokemon\x18\x02 \x01(\x0b\x32%.pogoprotos.data.combat.CombatPokemon\x12>\n\x0freserve_pokemon\x18\x03 \x03(\x0b\x32%.pogoprotos.data.combat.CombatPokemon\x12>\n\x0f\x66\x61inted_pokemon\x18\x04 \x03(\x0b\x32%.pogoprotos.data.combat.CombatPokemon\x12<\n\x0e\x63urrent_action\x18\x05 \x01(\x0b\x32$.pogoprotos.data.combat.CombatAction\x12\x14\n\x0clockstep_ack\x18\x06 \x01(\x08\x12\x19\n\x11last_updated_turn\x18\x07 \x01(\x05\x12=\n\x0fminigame_action\x18\x08 \x01(\x0b\x32$.pogoprotos.data.combat.CombatAction\x12\x1f\n\x17quick_swap_available_ms\x18\t \x01(\x03\x12%\n\x1dminigame_defense_chances_left\x18\n \x01(\x05\x12!\n\x19\x63ombat_npc_personality_id\x18\x0b \x01(\t\x12#\n\x1btimes_combat_actions_called\x18\x0c \x01(\x05\x62\x06proto3')
+  serialized_pb=_b('\n*pogoprotos/data/combat/combat_player.proto\x12\x16pogoprotos.data.combat\x1a\x32pogoprotos/data/player/player_public_profile.proto\x1a+pogoprotos/data/combat/combat_pokemon.proto\x1a*pogoprotos/data/combat/combat_action.proto\"\x99\x05\n\x0c\x43ombatPlayer\x12\x43\n\x0epublic_profile\x18\x01 \x01(\x0b\x32+.pogoprotos.data.player.PlayerPublicProfile\x12=\n\x0e\x61\x63tive_pokemon\x18\x02 \x01(\x0b\x32%.pogoprotos.data.combat.CombatPokemon\x12>\n\x0freserve_pokemon\x18\x03 \x03(\x0b\x32%.pogoprotos.data.combat.CombatPokemon\x12>\n\x0f\x66\x61inted_pokemon\x18\x04 \x03(\x0b\x32%.pogoprotos.data.combat.CombatPokemon\x12<\n\x0e\x63urrent_action\x18\x05 \x01(\x0b\x32$.pogoprotos.data.combat.CombatAction\x12\x14\n\x0clockstep_ack\x18\x06 \x01(\x08\x12\x19\n\x11last_updated_turn\x18\x07 \x01(\x05\x12=\n\x0fminigame_action\x18\x08 \x01(\x0b\x32$.pogoprotos.data.combat.CombatAction\x12\x1f\n\x17quick_swap_available_ms\x18\t \x01(\x03\x12%\n\x1dminigame_defense_chances_left\x18\n \x01(\x05\x12!\n\x19\x63ombat_npc_personality_id\x18\x0b \x01(\t\x12#\n\x1btimes_combat_actions_called\x18\x0c \x01(\x05\x12\x1a\n\x12lobby_join_time_ms\x18\r \x01(\x03\x12+\n#super_effective_charge_attacks_used\x18\x0e \x01(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_player_dot_player__public__profile__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_combat__pokemon__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_combat__action__pb2.DESCRIPTOR,])
 
@@ -120,6 +120,20 @@ _COMBATPLAYER = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lobby_join_time_ms', full_name='pogoprotos.data.combat.CombatPlayer.lobby_join_time_ms', index=12,
+      number=13, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='super_effective_charge_attacks_used', full_name='pogoprotos.data.combat.CombatPlayer.super_effective_charge_attacks_used', index=13,
+      number=14, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -133,7 +147,7 @@ _COMBATPLAYER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=212,
-  serialized_end=804,
+  serialized_end=877,
 )
 
 _COMBATPLAYER.fields_by_name['public_profile'].message_type = pogoprotos_dot_data_dot_player_dot_player__public__profile__pb2._PLAYERPUBLICPROFILE

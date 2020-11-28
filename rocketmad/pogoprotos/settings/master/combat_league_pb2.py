@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n.pogoprotos/settings/master/combat_league.proto\x12\x1apogoprotos.settings.master\x1a!pogoprotos/enums/pokemon_id.proto\x1a!pogoprotos/enums/badge_type.proto\x1a-pogoprotos/data/combat/unlock_condition.proto\x1a.pogoprotos/data/combat/pokemon_condition.proto\"\xb3\x04\n\x0c\x43ombatLeague\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0f\n\x07\x65nabled\x18\x02 \x01(\x08\x12\x41\n\x10unlock_condition\x18\x03 \x03(\x0b\x32\'.pogoprotos.data.combat.UnlockCondition\x12\x43\n\x11pokemon_condition\x18\x04 \x03(\x0b\x32(.pogoprotos.data.combat.PokemonCondition\x12\x10\n\x08icon_url\x18\x05 \x01(\t\x12\x15\n\rpokemon_count\x18\x06 \x01(\x05\x12\x33\n\x0e\x62\x61nned_pokemon\x18\x07 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12/\n\nbadge_type\x18\x08 \x01(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12%\n\x1dminigame_defense_chance_limit\x18\t \x01(\x05\x12.\n&battle_party_combat_league_template_id\x18\n \x01(\t\x12H\n\x0bleague_type\x18\x0b \x01(\x0e\x32\x33.pogoprotos.settings.master.CombatLeague.LeagueType\x12\x18\n\x10\x62order_color_hex\x18\x0c \x01(\t\"1\n\nLeagueType\x12\x08\n\x04NONE\x10\x00\x12\x0c\n\x08STANDARD\x10\x01\x12\x0b\n\x07PREMIER\x10\x02\x62\x06proto3')
+  serialized_pb=_b('\n.pogoprotos/settings/master/combat_league.proto\x12\x1apogoprotos.settings.master\x1a!pogoprotos/enums/pokemon_id.proto\x1a!pogoprotos/enums/badge_type.proto\x1a-pogoprotos/data/combat/unlock_condition.proto\x1a.pogoprotos/data/combat/pokemon_condition.proto\"\xcc\x04\n\x0c\x43ombatLeague\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0f\n\x07\x65nabled\x18\x02 \x01(\x08\x12\x41\n\x10unlock_condition\x18\x03 \x03(\x0b\x32\'.pogoprotos.data.combat.UnlockCondition\x12\x43\n\x11pokemon_condition\x18\x04 \x03(\x0b\x32(.pogoprotos.data.combat.PokemonCondition\x12\x10\n\x08icon_url\x18\x05 \x01(\t\x12\x15\n\rpokemon_count\x18\x06 \x01(\x05\x12\x33\n\x0e\x62\x61nned_pokemon\x18\x07 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12/\n\nbadge_type\x18\x08 \x01(\x0e\x32\x1b.pogoprotos.enums.BadgeType\x12%\n\x1dminigame_defense_chance_limit\x18\t \x01(\x05\x12.\n&battle_party_combat_league_template_id\x18\n \x01(\t\x12H\n\x0bleague_type\x18\x0b \x01(\x0e\x32\x33.pogoprotos.settings.master.CombatLeague.LeagueType\x12\x18\n\x10\x62order_color_hex\x18\x0c \x01(\t\x12\x17\n\x0f\x61llow_temp_evos\x18\r \x01(\x08\"1\n\nLeagueType\x12\x08\n\x04NONE\x10\x00\x12\x0c\n\x08STANDARD\x10\x01\x12\x0b\n\x07PREMIER\x10\x02\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_badge__type__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_unlock__condition__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_pokemon__condition__pb2.DESCRIPTOR,])
 
@@ -50,8 +50,8 @@ _COMBATLEAGUE_LEAGUETYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=758,
-  serialized_end=807,
+  serialized_start=783,
+  serialized_end=832,
 )
 _sym_db.RegisterEnumDescriptor(_COMBATLEAGUE_LEAGUETYPE)
 
@@ -147,6 +147,13 @@ _COMBATLEAGUE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='allow_temp_evos', full_name='pogoprotos.settings.master.CombatLeague.allow_temp_evos', index=12,
+      number=13, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -161,7 +168,7 @@ _COMBATLEAGUE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=244,
-  serialized_end=807,
+  serialized_end=832,
 )
 
 _COMBATLEAGUE.fields_by_name['unlock_condition'].message_type = pogoprotos_dot_data_dot_combat_dot_unlock__condition__pb2._UNLOCKCONDITION

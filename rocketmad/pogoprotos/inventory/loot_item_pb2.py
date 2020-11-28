@@ -22,7 +22,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.inventory',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n$pogoprotos/inventory/loot_item.proto\x12\x14pogoprotos.inventory\x1a\'pogoprotos/inventory/item/item_id.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\"pogoprotos/data/pokemon_data.proto\"\xb1\x02\n\x08LootItem\x12\x31\n\x04item\x18\x01 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemIdH\x00\x12\x12\n\x08stardust\x18\x02 \x01(\x08H\x00\x12\x12\n\x08pokecoin\x18\x03 \x01(\x08H\x00\x12\x34\n\rpokemon_candy\x18\x04 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonIdH\x00\x12\x14\n\nexperience\x18\x06 \x01(\x08H\x00\x12\x33\n\x0bpokemon_egg\x18\x07 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonDataH\x00\x12\x1c\n\x12\x61vatar_template_id\x18\x08 \x01(\tH\x00\x12\x14\n\nsticker_id\x18\t \x01(\tH\x00\x12\r\n\x05\x63ount\x18\x05 \x01(\x05\x42\x06\n\x04Typeb\x06proto3')
+  serialized_pb=_b('\n$pogoprotos/inventory/loot_item.proto\x12\x14pogoprotos.inventory\x1a\'pogoprotos/inventory/item/item_id.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\"pogoprotos/data/pokemon_data.proto\"\xa1\x03\n\x08LootItem\x12\x31\n\x04item\x18\x01 \x01(\x0e\x32!.pogoprotos.inventory.item.ItemIdH\x00\x12\x12\n\x08stardust\x18\x02 \x01(\x08H\x00\x12\x12\n\x08pokecoin\x18\x03 \x01(\x08H\x00\x12\x34\n\rpokemon_candy\x18\x04 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonIdH\x00\x12\x14\n\nexperience\x18\x06 \x01(\x08H\x00\x12\x33\n\x0bpokemon_egg\x18\x07 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonDataH\x00\x12\x1c\n\x12\x61vatar_template_id\x18\x08 \x01(\tH\x00\x12\x14\n\nsticker_id\x18\t \x01(\tH\x00\x12=\n\x16mega_energy_pokemon_id\x18\n \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonIdH\x00\x12/\n\x08xl_candy\x18\x0b \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonIdH\x00\x12\r\n\x05\x63ount\x18\x05 \x01(\x05\x42\x06\n\x04Typeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_item_dot_item__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__data__pb2.DESCRIPTOR,])
 
@@ -93,7 +93,21 @@ _LOOTITEM = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='count', full_name='pogoprotos.inventory.LootItem.count', index=8,
+      name='mega_energy_pokemon_id', full_name='pogoprotos.inventory.LootItem.mega_energy_pokemon_id', index=8,
+      number=10, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='xl_candy', full_name='pogoprotos.inventory.LootItem.xl_candy', index=9,
+      number=11, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='count', full_name='pogoprotos.inventory.LootItem.count', index=10,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -115,12 +129,14 @@ _LOOTITEM = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=175,
-  serialized_end=480,
+  serialized_end=592,
 )
 
 _LOOTITEM.fields_by_name['item'].enum_type = pogoprotos_dot_inventory_dot_item_dot_item__id__pb2._ITEMID
 _LOOTITEM.fields_by_name['pokemon_candy'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
 _LOOTITEM.fields_by_name['pokemon_egg'].message_type = pogoprotos_dot_data_dot_pokemon__data__pb2._POKEMONDATA
+_LOOTITEM.fields_by_name['mega_energy_pokemon_id'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
+_LOOTITEM.fields_by_name['xl_candy'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
 _LOOTITEM.oneofs_by_name['Type'].fields.append(
   _LOOTITEM.fields_by_name['item'])
 _LOOTITEM.fields_by_name['item'].containing_oneof = _LOOTITEM.oneofs_by_name['Type']
@@ -145,6 +161,12 @@ _LOOTITEM.fields_by_name['avatar_template_id'].containing_oneof = _LOOTITEM.oneo
 _LOOTITEM.oneofs_by_name['Type'].fields.append(
   _LOOTITEM.fields_by_name['sticker_id'])
 _LOOTITEM.fields_by_name['sticker_id'].containing_oneof = _LOOTITEM.oneofs_by_name['Type']
+_LOOTITEM.oneofs_by_name['Type'].fields.append(
+  _LOOTITEM.fields_by_name['mega_energy_pokemon_id'])
+_LOOTITEM.fields_by_name['mega_energy_pokemon_id'].containing_oneof = _LOOTITEM.oneofs_by_name['Type']
+_LOOTITEM.oneofs_by_name['Type'].fields.append(
+  _LOOTITEM.fields_by_name['xl_candy'])
+_LOOTITEM.fields_by_name['xl_candy'].containing_oneof = _LOOTITEM.oneofs_by_name['Type']
 DESCRIPTOR.message_types_by_name['LootItem'] = _LOOTITEM
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

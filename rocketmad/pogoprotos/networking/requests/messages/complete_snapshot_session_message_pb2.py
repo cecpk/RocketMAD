@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\nOpogoprotos/networking/requests/messages/complete_snapshot_session_message.proto\x12\'pogoprotos.networking.requests.messages\"T\n\x1e\x43ompleteSnapshotSessionMessage\x12\x18\n\x10photo_pokemon_id\x18\x01 \x01(\x06\x12\x18\n\x10num_photos_taken\x18\x02 \x01(\x05\x62\x06proto3')
+  serialized_pb=_b('\nOpogoprotos/networking/requests/messages/complete_snapshot_session_message.proto\x12\'pogoprotos.networking.requests.messages\"y\n\x1e\x43ompleteSnapshotSessionMessage\x12\x18\n\x10photo_pokemon_id\x18\x01 \x01(\x06\x12\x18\n\x10num_photos_taken\x18\x02 \x01(\x05\x12#\n\x1bsnapshot_session_start_time\x18\x03 \x01(\x03\x62\x06proto3')
 )
 
 
@@ -46,6 +46,13 @@ _COMPLETESNAPSHOTSESSIONMESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='snapshot_session_start_time', full_name='pogoprotos.networking.requests.messages.CompleteSnapshotSessionMessage.snapshot_session_start_time', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -59,7 +66,7 @@ _COMPLETESNAPSHOTSESSIONMESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=124,
-  serialized_end=208,
+  serialized_end=245,
 )
 
 DESCRIPTOR.message_types_by_name['CompleteSnapshotSessionMessage'] = _COMPLETESNAPSHOTSESSIONMESSAGE

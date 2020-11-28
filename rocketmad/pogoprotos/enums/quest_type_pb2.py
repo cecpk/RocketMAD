@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.enums',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n!pogoprotos/enums/quest_type.proto\x12\x10pogoprotos.enums*\xce\x08\n\tQuestType\x12\x16\n\x12QUEST_UNKNOWN_TYPE\x10\x00\x12 \n\x1cQUEST_FIRST_CATCH_OF_THE_DAY\x10\x01\x12#\n\x1fQUEST_FIRST_POKESTOP_OF_THE_DAY\x10\x02\x12\x14\n\x10QUEST_MULTI_PART\x10\x03\x12\x17\n\x13QUEST_CATCH_POKEMON\x10\x04\x12\x17\n\x13QUEST_SPIN_POKESTOP\x10\x05\x12\x13\n\x0fQUEST_HATCH_EGG\x10\x06\x12\x1d\n\x19QUEST_COMPLETE_GYM_BATTLE\x10\x07\x12\x1e\n\x1aQUEST_COMPLETE_RAID_BATTLE\x10\x08\x12\x18\n\x14QUEST_COMPLETE_QUEST\x10\t\x12\x1a\n\x16QUEST_TRANSFER_POKEMON\x10\n\x12\x1a\n\x16QUEST_FAVORITE_POKEMON\x10\x0b\x12\x16\n\x12QUEST_AUTOCOMPLETE\x10\x0c\x12 \n\x1cQUEST_USE_BERRY_IN_ENCOUNTER\x10\r\x12\x19\n\x15QUEST_UPGRADE_POKEMON\x10\x0e\x12\x18\n\x14QUEST_EVOLVE_POKEMON\x10\x0f\x12\x14\n\x10QUEST_LAND_THROW\x10\x10\x12\x19\n\x15QUEST_GET_BUDDY_CANDY\x10\x11\x12\x14\n\x10QUEST_BADGE_RANK\x10\x12\x12\x16\n\x12QUEST_PLAYER_LEVEL\x10\x13\x12\x13\n\x0fQUEST_JOIN_RAID\x10\x14\x12\x19\n\x15QUEST_COMPLETE_BATTLE\x10\x15\x12\x14\n\x10QUEST_ADD_FRIEND\x10\x16\x12\x17\n\x13QUEST_TRADE_POKEMON\x10\x17\x12\x13\n\x0fQUEST_SEND_GIFT\x10\x18\x12\x1d\n\x19QUEST_EVOLVE_INTO_POKEMON\x10\x19\x12\x19\n\x15QUEST_COMPLETE_COMBAT\x10\x1b\x12\x17\n\x13QUEST_TAKE_SNAPSHOT\x10\x1c\x12\x1c\n\x18QUEST_BATTLE_TEAM_ROCKET\x10\x1d\x12\x18\n\x14QUEST_PURIFY_POKEMON\x10\x1e\x12\x1a\n\x16QUEST_FIND_TEAM_ROCKET\x10\x1f\x12 \n\x1cQUEST_FIRST_GRUNT_OF_THE_DAY\x10 \x12\x14\n\x10QUEST_BUDDY_FEED\x10!\x12%\n!QUEST_BUDDY_EARN_AFFECTION_POINTS\x10\"\x12\x13\n\x0fQUEST_BUDDY_PET\x10#\x12\x15\n\x11QUEST_BUDDY_LEVEL\x10$\x12\x14\n\x10QUEST_BUDDY_WALK\x10%\x12\x15\n\x11QUEST_BUDDY_YATTA\x10&\x12\x15\n\x11QUEST_USE_INCENSE\x10\'\x12\x1d\n\x19QUEST_MEGA_EVOLVE_POKEMON\x10+\x12\x1d\n\x19QUEST_GEOTARGETED_AR_SCAN\x10.b\x06proto3')
+  serialized_pb=_b('\n!pogoprotos/enums/quest_type.proto\x12\x10pogoprotos.enums*\x80\n\n\tQuestType\x12\x16\n\x12QUEST_UNKNOWN_TYPE\x10\x00\x12 \n\x1cQUEST_FIRST_CATCH_OF_THE_DAY\x10\x01\x12#\n\x1fQUEST_FIRST_POKESTOP_OF_THE_DAY\x10\x02\x12\x14\n\x10QUEST_MULTI_PART\x10\x03\x12\x17\n\x13QUEST_CATCH_POKEMON\x10\x04\x12\x17\n\x13QUEST_SPIN_POKESTOP\x10\x05\x12\x13\n\x0fQUEST_HATCH_EGG\x10\x06\x12\x1d\n\x19QUEST_COMPLETE_GYM_BATTLE\x10\x07\x12\x1e\n\x1aQUEST_COMPLETE_RAID_BATTLE\x10\x08\x12\x18\n\x14QUEST_COMPLETE_QUEST\x10\t\x12\x1a\n\x16QUEST_TRANSFER_POKEMON\x10\n\x12\x1a\n\x16QUEST_FAVORITE_POKEMON\x10\x0b\x12\x16\n\x12QUEST_AUTOCOMPLETE\x10\x0c\x12 \n\x1cQUEST_USE_BERRY_IN_ENCOUNTER\x10\r\x12\x19\n\x15QUEST_UPGRADE_POKEMON\x10\x0e\x12\x18\n\x14QUEST_EVOLVE_POKEMON\x10\x0f\x12\x14\n\x10QUEST_LAND_THROW\x10\x10\x12\x19\n\x15QUEST_GET_BUDDY_CANDY\x10\x11\x12\x14\n\x10QUEST_BADGE_RANK\x10\x12\x12\x16\n\x12QUEST_PLAYER_LEVEL\x10\x13\x12\x13\n\x0fQUEST_JOIN_RAID\x10\x14\x12\x19\n\x15QUEST_COMPLETE_BATTLE\x10\x15\x12\x14\n\x10QUEST_ADD_FRIEND\x10\x16\x12\x17\n\x13QUEST_TRADE_POKEMON\x10\x17\x12\x13\n\x0fQUEST_SEND_GIFT\x10\x18\x12\x1d\n\x19QUEST_EVOLVE_INTO_POKEMON\x10\x19\x12\x19\n\x15QUEST_COMPLETE_COMBAT\x10\x1b\x12\x17\n\x13QUEST_TAKE_SNAPSHOT\x10\x1c\x12\x1c\n\x18QUEST_BATTLE_TEAM_ROCKET\x10\x1d\x12\x18\n\x14QUEST_PURIFY_POKEMON\x10\x1e\x12\x1a\n\x16QUEST_FIND_TEAM_ROCKET\x10\x1f\x12 \n\x1cQUEST_FIRST_GRUNT_OF_THE_DAY\x10 \x12\x14\n\x10QUEST_BUDDY_FEED\x10!\x12%\n!QUEST_BUDDY_EARN_AFFECTION_POINTS\x10\"\x12\x13\n\x0fQUEST_BUDDY_PET\x10#\x12\x15\n\x11QUEST_BUDDY_LEVEL\x10$\x12\x14\n\x10QUEST_BUDDY_WALK\x10%\x12\x15\n\x11QUEST_BUDDY_YATTA\x10&\x12\x15\n\x11QUEST_USE_INCENSE\x10\'\x12\x1d\n\x19QUEST_BUDDY_FIND_SOUVENIR\x10(\x12\x1c\n\x18QUEST_COLLECT_AS_REWARDS\x10)\x12\x0e\n\nQUEST_WALK\x10*\x12\x1d\n\x19QUEST_MEGA_EVOLVE_POKEMON\x10+\x12\x16\n\x12QUEST_GET_STARDUST\x10,\x12\x1d\n\x19QUEST_GEOTARGETED_AR_SCAN\x10.\x12\x1e\n\x1aQUEST_BUDDY_EVOLUTION_WALK\x10\x32\x12\x12\n\x0eQUEST_GBL_RANK\x10\x33\x12\x17\n\x13QUEST_CHARGE_ATTACK\x10\x35\x62\x06proto3')
 )
 
 _QUESTTYPE = _descriptor.EnumDescriptor(
@@ -186,18 +186,46 @@ _QUESTTYPE = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='QUEST_MEGA_EVOLVE_POKEMON', index=39, number=43,
+      name='QUEST_BUDDY_FIND_SOUVENIR', index=39, number=40,
       serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
-      name='QUEST_GEOTARGETED_AR_SCAN', index=40, number=46,
+      name='QUEST_COLLECT_AS_REWARDS', index=40, number=41,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QUEST_WALK', index=41, number=42,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QUEST_MEGA_EVOLVE_POKEMON', index=42, number=43,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QUEST_GET_STARDUST', index=43, number=44,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QUEST_GEOTARGETED_AR_SCAN', index=44, number=46,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QUEST_BUDDY_EVOLUTION_WALK', index=45, number=50,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QUEST_GBL_RANK', index=46, number=51,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='QUEST_CHARGE_ATTACK', index=47, number=53,
       serialized_options=None,
       type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=56,
-  serialized_end=1158,
+  serialized_end=1336,
 )
 _sym_db.RegisterEnumDescriptor(_QUESTTYPE)
 
@@ -241,8 +269,15 @@ QUEST_BUDDY_LEVEL = 36
 QUEST_BUDDY_WALK = 37
 QUEST_BUDDY_YATTA = 38
 QUEST_USE_INCENSE = 39
+QUEST_BUDDY_FIND_SOUVENIR = 40
+QUEST_COLLECT_AS_REWARDS = 41
+QUEST_WALK = 42
 QUEST_MEGA_EVOLVE_POKEMON = 43
+QUEST_GET_STARDUST = 44
 QUEST_GEOTARGETED_AR_SCAN = 46
+QUEST_BUDDY_EVOLUTION_WALK = 50
+QUEST_GBL_RANK = 51
+QUEST_CHARGE_ATTACK = 53
 
 
 DESCRIPTOR.enum_types_by_name['QuestType'] = _QUESTTYPE

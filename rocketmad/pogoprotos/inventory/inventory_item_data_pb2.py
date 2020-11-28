@@ -36,11 +36,33 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.inventory',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n.pogoprotos/inventory/inventory_item_data.proto\x12\x14pogoprotos.inventory\x1a)pogoprotos/inventory/item/item_data.proto\x1a(pogoprotos/inventory/applied_items.proto\x1a)pogoprotos/inventory/egg_incubators.proto\x1a pogoprotos/inventory/candy.proto\x1a-pogoprotos/inventory/inventory_upgrades.proto\x1a\'pogoprotos/inventory/raid_tickets.proto\x1a(pogoprotos/data/avatar/avatar_item.proto\x1a\"pogoprotos/data/pokemon_data.proto\x1a#pogoprotos/data/pokedex_entry.proto\x1a)pogoprotos/data/player/player_stats.proto\x1a,pogoprotos/data/player/player_currency.proto\x1a*pogoprotos/data/player/player_camera.proto\x1a\"pogoprotos/data/quests/quest.proto\x1a#pogoprotos/data/quests/quests.proto\x1a%pogoprotos/data/gift/gift_boxes.proto\x1a/pogoprotos/data/beluga/beluga_incense_box.proto\x1a%pogoprotos/data/sticker/sticker.proto\"\xc8\x0b\n\x11InventoryItemData\x12\x34\n\x0cpokemon_data\x18\x01 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonDataH\x00\x12\x33\n\x04item\x18\x02 \x01(\x0b\x32#.pogoprotos.inventory.item.ItemDataH\x00\x12\x36\n\rpokedex_entry\x18\x03 \x01(\x0b\x32\x1d.pogoprotos.data.PokedexEntryH\x00\x12;\n\x0cplayer_stats\x18\x04 \x01(\x0b\x32#.pogoprotos.data.player.PlayerStatsH\x00\x12\x41\n\x0fplayer_currency\x18\x05 \x01(\x0b\x32&.pogoprotos.data.player.PlayerCurrencyH\x00\x12=\n\rplayer_camera\x18\x06 \x01(\x0b\x32$.pogoprotos.data.player.PlayerCameraH\x00\x12\x45\n\x12inventory_upgrades\x18\x07 \x01(\x0b\x32\'.pogoprotos.inventory.InventoryUpgradesH\x00\x12;\n\rapplied_items\x18\x08 \x01(\x0b\x32\".pogoprotos.inventory.AppliedItemsH\x00\x12=\n\x0e\x65gg_incubators\x18\t \x01(\x0b\x32#.pogoprotos.inventory.EggIncubatorsH\x00\x12,\n\x05\x63\x61ndy\x18\n \x01(\x0b\x32\x1b.pogoprotos.inventory.CandyH\x00\x12.\n\x05quest\x18\x0b \x01(\x0b\x32\x1d.pogoprotos.data.quests.QuestH\x00\x12\x39\n\x0b\x61vatar_item\x18\x0c \x01(\x0b\x32\".pogoprotos.data.avatar.AvatarItemH\x00\x12\x39\n\x0craid_tickets\x18\r \x01(\x0b\x32!.pogoprotos.inventory.RaidTicketsH\x00\x12\x30\n\x06quests\x18\x0e \x01(\x0b\x32\x1e.pogoprotos.data.quests.QuestsH\x00\x12\x35\n\ngift_boxes\x18\x0f \x01(\x0b\x32\x1f.pogoprotos.data.gift.GiftBoxesH\x00\x12\x42\n\x0e\x62\x65luga_incense\x18\x10 \x01(\x0b\x32(.pogoprotos.data.beluga.BelugaIncenseBoxH\x00\x12g\n\x1blimited_purchase_sku_record\x18\x13 \x01(\x0b\x32@.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecordH\x00\x12\x33\n\x07sticker\x18\x16 \x01(\x0b\x32 .pogoprotos.data.sticker.StickerH\x00\x1a\xe6\x02\n\x18LimitedPurchaseSkuRecord\x12\x62\n\tpurchases\x18\x01 \x03(\x0b\x32O.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.PurchasesEntry\x1a{\n\x0ePurchasesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12X\n\x05value\x18\x02 \x01(\x0b\x32I.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.Purchase:\x02\x38\x01\x1ai\n\x08Purchase\x12\x0f\n\x07version\x18\x01 \x01(\x05\x12\x15\n\rnum_purchases\x18\x02 \x01(\x05\x12\x18\n\x10last_purchase_ms\x18\x04 \x01(\x03\x12\x1b\n\x13total_num_purchases\x18\x05 \x01(\x05\x42\x06\n\x04Typeb\x06proto3')
+  serialized_pb=_b('\n.pogoprotos/inventory/inventory_item_data.proto\x12\x14pogoprotos.inventory\x1a)pogoprotos/inventory/item/item_data.proto\x1a(pogoprotos/inventory/applied_items.proto\x1a)pogoprotos/inventory/egg_incubators.proto\x1a pogoprotos/inventory/candy.proto\x1a-pogoprotos/inventory/inventory_upgrades.proto\x1a\'pogoprotos/inventory/raid_tickets.proto\x1a(pogoprotos/data/avatar/avatar_item.proto\x1a\"pogoprotos/data/pokemon_data.proto\x1a#pogoprotos/data/pokedex_entry.proto\x1a)pogoprotos/data/player/player_stats.proto\x1a,pogoprotos/data/player/player_currency.proto\x1a*pogoprotos/data/player/player_camera.proto\x1a\"pogoprotos/data/quests/quest.proto\x1a#pogoprotos/data/quests/quests.proto\x1a%pogoprotos/data/gift/gift_boxes.proto\x1a/pogoprotos/data/beluga/beluga_incense_box.proto\x1a%pogoprotos/data/sticker/sticker.proto\"\xea\x11\n\x11InventoryItemData\x12\x34\n\x0cpokemon_data\x18\x01 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonDataH\x00\x12\x33\n\x04item\x18\x02 \x01(\x0b\x32#.pogoprotos.inventory.item.ItemDataH\x00\x12\x36\n\rpokedex_entry\x18\x03 \x01(\x0b\x32\x1d.pogoprotos.data.PokedexEntryH\x00\x12;\n\x0cplayer_stats\x18\x04 \x01(\x0b\x32#.pogoprotos.data.player.PlayerStatsH\x00\x12\x41\n\x0fplayer_currency\x18\x05 \x01(\x0b\x32&.pogoprotos.data.player.PlayerCurrencyH\x00\x12=\n\rplayer_camera\x18\x06 \x01(\x0b\x32$.pogoprotos.data.player.PlayerCameraH\x00\x12\x45\n\x12inventory_upgrades\x18\x07 \x01(\x0b\x32\'.pogoprotos.inventory.InventoryUpgradesH\x00\x12;\n\rapplied_items\x18\x08 \x01(\x0b\x32\".pogoprotos.inventory.AppliedItemsH\x00\x12=\n\x0e\x65gg_incubators\x18\t \x01(\x0b\x32#.pogoprotos.inventory.EggIncubatorsH\x00\x12,\n\x05\x63\x61ndy\x18\n \x01(\x0b\x32\x1b.pogoprotos.inventory.CandyH\x00\x12.\n\x05quest\x18\x0b \x01(\x0b\x32\x1d.pogoprotos.data.quests.QuestH\x00\x12\x39\n\x0b\x61vatar_item\x18\x0c \x01(\x0b\x32\".pogoprotos.data.avatar.AvatarItemH\x00\x12\x39\n\x0craid_tickets\x18\r \x01(\x0b\x32!.pogoprotos.inventory.RaidTicketsH\x00\x12\x30\n\x06quests\x18\x0e \x01(\x0b\x32\x1e.pogoprotos.data.quests.QuestsH\x00\x12\x35\n\ngift_boxes\x18\x0f \x01(\x0b\x32\x1f.pogoprotos.data.gift.GiftBoxesH\x00\x12\x42\n\x0e\x62\x65luga_incense\x18\x10 \x01(\x0b\x32(.pogoprotos.data.beluga.BelugaIncenseBoxH\x00\x12g\n\x1blimited_purchase_sku_record\x18\x13 \x01(\x0b\x32@.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecordH\x00\x12_\n\x13mega_evolve_species\x18\x15 \x01(\x0b\x32@.pogoprotos.inventory.InventoryItemData.MegaEvolvePokemonSpeciesH\x00\x12\x33\n\x07sticker\x18\x16 \x01(\x0b\x32 .pogoprotos.data.sticker.StickerH\x00\x12K\n\x0cpokemon_home\x18\x17 \x01(\x0b\x32\x33.pogoprotos.inventory.InventoryItemData.PokemonHomeH\x00\x12^\n\x16player_stats_snapshots\x18\x19 \x01(\x0b\x32<.pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshotsH\x00\x1a\xe6\x02\n\x18LimitedPurchaseSkuRecord\x12\x62\n\tpurchases\x18\x01 \x03(\x0b\x32O.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.PurchasesEntry\x1a{\n\x0ePurchasesEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12X\n\x05value\x18\x02 \x01(\x0b\x32I.pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord.Purchase:\x02\x38\x01\x1ai\n\x08Purchase\x12\x0f\n\x07version\x18\x01 \x01(\x05\x12\x15\n\rnum_purchases\x18\x02 \x01(\x05\x12\x18\n\x10last_purchase_ms\x18\x04 \x01(\x03\x12\x1b\n\x13total_num_purchases\x18\x05 \x01(\x05\x1a\xbe\x02\n\x14PlayerStatsSnapshots\x12\\\n\tsnap_shot\x18\x01 \x03(\x0b\x32I.pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.SnapshotData\x1a\xc7\x01\n\x0cSnapshotData\x12`\n\x06reason\x18\x01 \x01(\x0e\x32P.pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.SnapshotData.Reason\x12\x32\n\x05stats\x18\x02 \x01(\x0b\x32#.pogoprotos.data.player.PlayerStats\"!\n\x06Reason\x12\t\n\x05UNSET\x10\x00\x12\x0c\n\x08LEVEL_UP\x10\x01\x1aL\n\x18MegaEvolvePokemonSpecies\x12\x14\n\x0c\x65nergy_count\x18\x01 \x01(\x05\x12\x1a\n\x12pokemon_species_id\x18\x02 \x01(\x05\x1a\x82\x01\n\x0bPokemonHome\x12\x1a\n\x12transporter_energy\x18\x01 \x01(\x05\x12$\n\x1ctransporter_fully_charged_ms\x18\x02 \x01(\x03\x12\x31\n)last_passive_transporter_energy_gain_hour\x18\x03 \x01(\x03\x42\x06\n\x04Typeb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_inventory_dot_item_dot_item__data__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_applied__items__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_egg__incubators__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_candy__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_inventory__upgrades__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_raid__tickets__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_avatar_dot_avatar__item__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokemon__data__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_pokedex__entry__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__stats__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__currency__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_player_dot_player__camera__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quests__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_gift_dot_gift__boxes__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_beluga_dot_beluga__incense__box__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_sticker_dot_sticker__pb2.DESCRIPTOR,])
 
 
+
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA_REASON = _descriptor.EnumDescriptor(
+  name='Reason',
+  full_name='pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.SnapshotData.Reason',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='UNSET', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='LEVEL_UP', index=1, number=1,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=2801,
+  serialized_end=2834,
+)
+_sym_db.RegisterEnumDescriptor(_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA_REASON)
 
 
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY = _descriptor.Descriptor(
@@ -76,8 +98,8 @@ _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY = _descriptor.Descrip
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2013,
-  serialized_end=2136,
+  serialized_start=2283,
+  serialized_end=2406,
 )
 
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASE = _descriptor.Descriptor(
@@ -127,8 +149,8 @@ _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2138,
-  serialized_end=2243,
+  serialized_start=2408,
+  serialized_end=2513,
 )
 
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD = _descriptor.Descriptor(
@@ -157,8 +179,157 @@ _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1885,
-  serialized_end=2243,
+  serialized_start=2155,
+  serialized_end=2513,
+)
+
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA = _descriptor.Descriptor(
+  name='SnapshotData',
+  full_name='pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.SnapshotData',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='reason', full_name='pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.SnapshotData.reason', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='stats', full_name='pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.SnapshotData.stats', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA_REASON,
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2635,
+  serialized_end=2834,
+)
+
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS = _descriptor.Descriptor(
+  name='PlayerStatsSnapshots',
+  full_name='pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='snap_shot', full_name='pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.snap_shot', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA, ],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2516,
+  serialized_end=2834,
+)
+
+_INVENTORYITEMDATA_MEGAEVOLVEPOKEMONSPECIES = _descriptor.Descriptor(
+  name='MegaEvolvePokemonSpecies',
+  full_name='pogoprotos.inventory.InventoryItemData.MegaEvolvePokemonSpecies',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='energy_count', full_name='pogoprotos.inventory.InventoryItemData.MegaEvolvePokemonSpecies.energy_count', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pokemon_species_id', full_name='pogoprotos.inventory.InventoryItemData.MegaEvolvePokemonSpecies.pokemon_species_id', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2836,
+  serialized_end=2912,
+)
+
+_INVENTORYITEMDATA_POKEMONHOME = _descriptor.Descriptor(
+  name='PokemonHome',
+  full_name='pogoprotos.inventory.InventoryItemData.PokemonHome',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='transporter_energy', full_name='pogoprotos.inventory.InventoryItemData.PokemonHome.transporter_energy', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='transporter_fully_charged_ms', full_name='pogoprotos.inventory.InventoryItemData.PokemonHome.transporter_fully_charged_ms', index=1,
+      number=2, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='last_passive_transporter_energy_gain_hour', full_name='pogoprotos.inventory.InventoryItemData.PokemonHome.last_passive_transporter_energy_gain_hour', index=2,
+      number=3, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2915,
+  serialized_end=3045,
 )
 
 _INVENTORYITEMDATA = _descriptor.Descriptor(
@@ -288,8 +459,29 @@ _INVENTORYITEMDATA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='sticker', full_name='pogoprotos.inventory.InventoryItemData.sticker', index=17,
+      name='mega_evolve_species', full_name='pogoprotos.inventory.InventoryItemData.mega_evolve_species', index=17,
+      number=21, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='sticker', full_name='pogoprotos.inventory.InventoryItemData.sticker', index=18,
       number=22, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pokemon_home', full_name='pogoprotos.inventory.InventoryItemData.pokemon_home', index=19,
+      number=23, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='player_stats_snapshots', full_name='pogoprotos.inventory.InventoryItemData.player_stats_snapshots', index=20,
+      number=25, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -297,7 +489,7 @@ _INVENTORYITEMDATA = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD, ],
+  nested_types=[_INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD, _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS, _INVENTORYITEMDATA_MEGAEVOLVEPOKEMONSPECIES, _INVENTORYITEMDATA_POKEMONHOME, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -310,7 +502,7 @@ _INVENTORYITEMDATA = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=771,
-  serialized_end=2251,
+  serialized_end=3053,
 )
 
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY.fields_by_name['value'].message_type = _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASE
@@ -318,6 +510,14 @@ _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY.containing_type = _IN
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASE.containing_type = _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD.fields_by_name['purchases'].message_type = _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD.containing_type = _INVENTORYITEMDATA
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA.fields_by_name['reason'].enum_type = _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA_REASON
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA.fields_by_name['stats'].message_type = pogoprotos_dot_data_dot_player_dot_player__stats__pb2._PLAYERSTATS
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA.containing_type = _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA_REASON.containing_type = _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS.fields_by_name['snap_shot'].message_type = _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA
+_INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS.containing_type = _INVENTORYITEMDATA
+_INVENTORYITEMDATA_MEGAEVOLVEPOKEMONSPECIES.containing_type = _INVENTORYITEMDATA
+_INVENTORYITEMDATA_POKEMONHOME.containing_type = _INVENTORYITEMDATA
 _INVENTORYITEMDATA.fields_by_name['pokemon_data'].message_type = pogoprotos_dot_data_dot_pokemon__data__pb2._POKEMONDATA
 _INVENTORYITEMDATA.fields_by_name['item'].message_type = pogoprotos_dot_inventory_dot_item_dot_item__data__pb2._ITEMDATA
 _INVENTORYITEMDATA.fields_by_name['pokedex_entry'].message_type = pogoprotos_dot_data_dot_pokedex__entry__pb2._POKEDEXENTRY
@@ -335,7 +535,10 @@ _INVENTORYITEMDATA.fields_by_name['quests'].message_type = pogoprotos_dot_data_d
 _INVENTORYITEMDATA.fields_by_name['gift_boxes'].message_type = pogoprotos_dot_data_dot_gift_dot_gift__boxes__pb2._GIFTBOXES
 _INVENTORYITEMDATA.fields_by_name['beluga_incense'].message_type = pogoprotos_dot_data_dot_beluga_dot_beluga__incense__box__pb2._BELUGAINCENSEBOX
 _INVENTORYITEMDATA.fields_by_name['limited_purchase_sku_record'].message_type = _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD
+_INVENTORYITEMDATA.fields_by_name['mega_evolve_species'].message_type = _INVENTORYITEMDATA_MEGAEVOLVEPOKEMONSPECIES
 _INVENTORYITEMDATA.fields_by_name['sticker'].message_type = pogoprotos_dot_data_dot_sticker_dot_sticker__pb2._STICKER
+_INVENTORYITEMDATA.fields_by_name['pokemon_home'].message_type = _INVENTORYITEMDATA_POKEMONHOME
+_INVENTORYITEMDATA.fields_by_name['player_stats_snapshots'].message_type = _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS
 _INVENTORYITEMDATA.oneofs_by_name['Type'].fields.append(
   _INVENTORYITEMDATA.fields_by_name['pokemon_data'])
 _INVENTORYITEMDATA.fields_by_name['pokemon_data'].containing_oneof = _INVENTORYITEMDATA.oneofs_by_name['Type']
@@ -388,8 +591,17 @@ _INVENTORYITEMDATA.oneofs_by_name['Type'].fields.append(
   _INVENTORYITEMDATA.fields_by_name['limited_purchase_sku_record'])
 _INVENTORYITEMDATA.fields_by_name['limited_purchase_sku_record'].containing_oneof = _INVENTORYITEMDATA.oneofs_by_name['Type']
 _INVENTORYITEMDATA.oneofs_by_name['Type'].fields.append(
+  _INVENTORYITEMDATA.fields_by_name['mega_evolve_species'])
+_INVENTORYITEMDATA.fields_by_name['mega_evolve_species'].containing_oneof = _INVENTORYITEMDATA.oneofs_by_name['Type']
+_INVENTORYITEMDATA.oneofs_by_name['Type'].fields.append(
   _INVENTORYITEMDATA.fields_by_name['sticker'])
 _INVENTORYITEMDATA.fields_by_name['sticker'].containing_oneof = _INVENTORYITEMDATA.oneofs_by_name['Type']
+_INVENTORYITEMDATA.oneofs_by_name['Type'].fields.append(
+  _INVENTORYITEMDATA.fields_by_name['pokemon_home'])
+_INVENTORYITEMDATA.fields_by_name['pokemon_home'].containing_oneof = _INVENTORYITEMDATA.oneofs_by_name['Type']
+_INVENTORYITEMDATA.oneofs_by_name['Type'].fields.append(
+  _INVENTORYITEMDATA.fields_by_name['player_stats_snapshots'])
+_INVENTORYITEMDATA.fields_by_name['player_stats_snapshots'].containing_oneof = _INVENTORYITEMDATA.oneofs_by_name['Type']
 DESCRIPTOR.message_types_by_name['InventoryItemData'] = _INVENTORYITEMDATA
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -415,6 +627,34 @@ InventoryItemData = _reflection.GeneratedProtocolMessageType('InventoryItemData'
     # @@protoc_insertion_point(class_scope:pogoprotos.inventory.InventoryItemData.LimitedPurchaseSkuRecord)
     ))
   ,
+
+  PlayerStatsSnapshots = _reflection.GeneratedProtocolMessageType('PlayerStatsSnapshots', (_message.Message,), dict(
+
+    SnapshotData = _reflection.GeneratedProtocolMessageType('SnapshotData', (_message.Message,), dict(
+      DESCRIPTOR = _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS_SNAPSHOTDATA,
+      __module__ = 'pogoprotos.inventory.inventory_item_data_pb2'
+      # @@protoc_insertion_point(class_scope:pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots.SnapshotData)
+      ))
+    ,
+    DESCRIPTOR = _INVENTORYITEMDATA_PLAYERSTATSSNAPSHOTS,
+    __module__ = 'pogoprotos.inventory.inventory_item_data_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.inventory.InventoryItemData.PlayerStatsSnapshots)
+    ))
+  ,
+
+  MegaEvolvePokemonSpecies = _reflection.GeneratedProtocolMessageType('MegaEvolvePokemonSpecies', (_message.Message,), dict(
+    DESCRIPTOR = _INVENTORYITEMDATA_MEGAEVOLVEPOKEMONSPECIES,
+    __module__ = 'pogoprotos.inventory.inventory_item_data_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.inventory.InventoryItemData.MegaEvolvePokemonSpecies)
+    ))
+  ,
+
+  PokemonHome = _reflection.GeneratedProtocolMessageType('PokemonHome', (_message.Message,), dict(
+    DESCRIPTOR = _INVENTORYITEMDATA_POKEMONHOME,
+    __module__ = 'pogoprotos.inventory.inventory_item_data_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.inventory.InventoryItemData.PokemonHome)
+    ))
+  ,
   DESCRIPTOR = _INVENTORYITEMDATA,
   __module__ = 'pogoprotos.inventory.inventory_item_data_pb2'
   # @@protoc_insertion_point(class_scope:pogoprotos.inventory.InventoryItemData)
@@ -423,6 +663,10 @@ _sym_db.RegisterMessage(InventoryItemData)
 _sym_db.RegisterMessage(InventoryItemData.LimitedPurchaseSkuRecord)
 _sym_db.RegisterMessage(InventoryItemData.LimitedPurchaseSkuRecord.PurchasesEntry)
 _sym_db.RegisterMessage(InventoryItemData.LimitedPurchaseSkuRecord.Purchase)
+_sym_db.RegisterMessage(InventoryItemData.PlayerStatsSnapshots)
+_sym_db.RegisterMessage(InventoryItemData.PlayerStatsSnapshots.SnapshotData)
+_sym_db.RegisterMessage(InventoryItemData.MegaEvolvePokemonSpecies)
+_sym_db.RegisterMessage(InventoryItemData.PokemonHome)
 
 
 _INVENTORYITEMDATA_LIMITEDPURCHASESKURECORD_PURCHASESENTRY._options = None

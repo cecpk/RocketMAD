@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\nIpogoprotos/networking/requests/messages/open_combat_session_message.proto\x12\'pogoprotos.networking.requests.messages\"n\n\x18OpenCombatSessionMessage\x12\x11\n\tcombat_id\x18\x01 \x01(\t\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x02 \x03(\x06\x12!\n\x19\x63ombat_league_template_id\x18\x03 \x01(\tb\x06proto3')
+  serialized_pb=_b('\nIpogoprotos/networking/requests/messages/open_combat_session_message.proto\x12\'pogoprotos.networking.requests.messages\"\x8a\x01\n\x18OpenCombatSessionMessage\x12\x11\n\tcombat_id\x18\x01 \x01(\t\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x02 \x03(\x06\x12!\n\x19\x63ombat_league_template_id\x18\x03 \x01(\t\x12\x1a\n\x12lobby_join_time_ms\x18\x04 \x01(\x03\x62\x06proto3')
 )
 
 
@@ -53,6 +53,13 @@ _OPENCOMBATSESSIONMESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lobby_join_time_ms', full_name='pogoprotos.networking.requests.messages.OpenCombatSessionMessage.lobby_join_time_ms', index=3,
+      number=4, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -65,8 +72,8 @@ _OPENCOMBATSESSIONMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=118,
-  serialized_end=228,
+  serialized_start=119,
+  serialized_end=257,
 )
 
 DESCRIPTOR.message_types_by_name['OpenCombatSessionMessage'] = _OPENCOMBATSESSIONMESSAGE

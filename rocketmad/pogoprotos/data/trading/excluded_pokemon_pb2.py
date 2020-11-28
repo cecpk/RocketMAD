@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.trading',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n.pogoprotos/data/trading/excluded_pokemon.proto\x12\x17pogoprotos.data.trading\"\xb3\x03\n\x0f\x45xcludedPokemon\x12\x12\n\npokemon_id\x18\x01 \x01(\x06\x12R\n\x10\x65xclusion_reason\x18\x02 \x01(\x0e\x32\x38.pogoprotos.data.trading.ExcludedPokemon.ExclusionReason\"\xb7\x02\n\x0f\x45xclusionReason\x12\t\n\x05UNSET\x10\x00\x12\x14\n\x10MYTHICAL_POKEMON\x10\x01\x12\x0b\n\x07SLASHED\x10\x02\x12\x10\n\x0cGYM_DEPLOYED\x10\x03\x12\t\n\x05\x42UDDY\x10\x04\x12\x14\n\x10STAMINA_NOT_FULL\x10\x05\x12\x13\n\x0f\x45GG_NOT_HATCHED\x10\x06\x12\x18\n\x14\x46RIENDSHIP_LEVEL_LOW\x10\x07\x12\x18\n\x14\x46RIEND_CANNOT_AFFORD\x10\x08\x12\x1e\n\x1a\x46RIEND_REACHED_DAILY_LIMIT\x10\t\x12\x12\n\x0e\x41LREADY_TRADED\x10\n\x12\x18\n\x14PLAYER_CANNOT_AFFORD\x10\x0b\x12\x1e\n\x1aPLAYER_REACHED_DAILY_LIMIT\x10\x0c\x12\x0c\n\x08\x46\x41VORITE\x10\rb\x06proto3')
+  serialized_pb=_b('\n.pogoprotos/data/trading/excluded_pokemon.proto\x12\x17pogoprotos.data.trading\"\xc5\x03\n\x0f\x45xcludedPokemon\x12\x12\n\npokemon_id\x18\x01 \x01(\x06\x12R\n\x10\x65xclusion_reason\x18\x02 \x01(\x0e\x32\x38.pogoprotos.data.trading.ExcludedPokemon.ExclusionReason\"\xc9\x02\n\x0f\x45xclusionReason\x12\t\n\x05UNSET\x10\x00\x12\x14\n\x10MYTHICAL_POKEMON\x10\x01\x12\x0b\n\x07SLASHED\x10\x02\x12\x10\n\x0cGYM_DEPLOYED\x10\x03\x12\t\n\x05\x42UDDY\x10\x04\x12\x14\n\x10STAMINA_NOT_FULL\x10\x05\x12\x13\n\x0f\x45GG_NOT_HATCHED\x10\x06\x12\x18\n\x14\x46RIENDSHIP_LEVEL_LOW\x10\x07\x12\x18\n\x14\x46RIEND_CANNOT_AFFORD\x10\x08\x12\x1e\n\x1a\x46RIEND_REACHED_DAILY_LIMIT\x10\t\x12\x12\n\x0e\x41LREADY_TRADED\x10\n\x12\x18\n\x14PLAYER_CANNOT_AFFORD\x10\x0b\x12\x1e\n\x1aPLAYER_REACHED_DAILY_LIMIT\x10\x0c\x12\x0c\n\x08\x46\x41VORITE\x10\r\x12\x10\n\x0cTEMP_EVOLVED\x10\x0e\x62\x06proto3')
 )
 
 
@@ -86,11 +86,15 @@ _EXCLUDEDPOKEMON_EXCLUSIONREASON = _descriptor.EnumDescriptor(
       name='FAVORITE', index=13, number=13,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='TEMP_EVOLVED', index=14, number=14,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=200,
-  serialized_end=511,
+  serialized_end=529,
 )
 _sym_db.RegisterEnumDescriptor(_EXCLUDEDPOKEMON_EXCLUSIONREASON)
 
@@ -130,7 +134,7 @@ _EXCLUDEDPOKEMON = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=76,
-  serialized_end=511,
+  serialized_end=529,
 )
 
 _EXCLUDEDPOKEMON.fields_by_name['exclusion_reason'].enum_type = _EXCLUDEDPOKEMON_EXCLUSIONREASON

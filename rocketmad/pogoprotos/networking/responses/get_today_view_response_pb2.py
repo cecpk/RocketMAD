@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.responses',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n=pogoprotos/networking/responses/get_today_view_response.proto\x12\x1fpogoprotos.networking.responses\x1a!pogoprotos/enums/quest_type.proto\x1a=pogoprotos/networking/responses/get_local_time_response.proto\"\xe0\x19\n\x14GetTodayViewResponse\x12L\n\x06status\x18\x01 \x01(\x0e\x32<.pogoprotos.networking.responses.GetTodayViewResponse.Status\x12S\n\ntoday_view\x18\x02 \x01(\x0b\x32?.pogoprotos.networking.responses.GetTodayViewResponse.TodayView\x1a\xf7\x17\n\tTodayView\x12\x62\n\x08sections\x18\x01 \x03(\x0b\x32P.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection\x1a\x85\x17\n\x10TodayViewSection\x12t\n\x08pokecoin\x18\x01 \x01(\x0b\x32`.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.PokecoinSectionH\x00\x12y\n\x0bgym_pokemon\x18\x02 \x01(\x0b\x32\x62.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.GymPokemonSectionH\x00\x12p\n\x07streaks\x18\x03 \x01(\x0b\x32].pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.DailyStreaksH\x00\x12n\n\x05\x65vent\x18\x04 \x01(\x0b\x32].pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventSectionH\x00\x12q\n\x07up_next\x18\x05 \x01(\x0b\x32^.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.UpNextSectionH\x00\x12y\n\x0btimed_quest\x18\x06 \x01(\x0b\x32\x62.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.TimedQuestSectionH\x00\x12{\n\x0c\x65vent_banner\x18\x07 \x01(\x0b\x32\x63.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventBannerSectionH\x00\x12\x8c\x01\n\x15timed_group_challenge\x18\x08 \x01(\x0b\x32k.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.TimedGroupChallengeSectionH\x00\x1aL\n\x1aTimedGroupChallengeSection\x12\x14\n\x0c\x63hallenge_id\x18\x01 \x01(\t\x12\x18\n\x10header_image_url\x18\x02 \x01(\t\x1a\xc9\x01\n\x12\x45ventBannerSection\x12\x12\n\nevent_icon\x18\x01 \x01(\t\x12\x12\n\ntitle_text\x18\x02 \x01(\t\x12\x11\n\tbody_text\x18\x03 \x01(\t\x12\x11\n\timage_url\x18\x04 \x01(\t\x12\x18\n\x10header_image_url\x18\x05 \x01(\t\x12\x1a\n\x12image_overlay_text\x18\x06 \x01(\t\x12\x17\n\x0flink_from_image\x18\x07 \x01(\t\x12\x16\n\x0eimage_sub_text\x18\x08 \x01(\t\x1a%\n\x11TimedQuestSection\x12\x10\n\x08quest_id\x18\x01 \x01(\t\x1a\xf8\x01\n\x0c\x44\x61ilyStreaks\x12u\n\x07streaks\x18\x01 \x03(\x0b\x32\x64.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.DailyStreaks.Streak\x1aq\n\x06Streak\x12/\n\nquest_type\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.QuestType\x12\r\n\x05\x63ount\x18\x02 \x01(\x05\x12\x0e\n\x06target\x18\x03 \x01(\x05\x12\x17\n\x0fremaining_today\x18\x04 \x01(\x05\x1a\xbc\x06\n\x0c\x45ventSection\x12\x12\n\nevent_name\x18\x01 \x01(\t\x12Q\n\x08\x65nd_time\x18\x03 \x01(\x0b\x32?.pogoprotos.networking.responses.GetLocalTimeResponse.LocalTime\x12\x13\n\x0bref_news_id\x18\x04 \x01(\t\x12{\n\x0b\x62onus_boxes\x18\x05 \x03(\x0b\x32\x66.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventSection.BonusBox\x1a\xb2\x04\n\x08\x42onusBox\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x82\x01\n\ticon_type\x18\x02 \x01(\x0e\x32o.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventSection.BonusBox.IconType\"\x92\x03\n\x08IconType\x12\t\n\x05UNSET\x10\x00\x12\x12\n\x0e\x41\x44VENTURE_SYNC\x10\x01\x12\t\n\x05\x42UDDY\x10\x02\x12\x11\n\rCANDY_GENERAL\x10\x03\x12\x07\n\x03\x45GG\x10\x04\x12\x11\n\rEGG_INCUBATOR\x10\x05\x12\x0e\n\nEVENT_MOVE\x10\x06\x12\r\n\tEVOLUTION\x10\x07\x12\x12\n\x0e\x46IELD_RESEARCH\x10\x08\x12\x0e\n\nFRIENDSHIP\x10\t\x12\x08\n\x04GIFT\x10\n\x12\x0b\n\x07INCENSE\x10\x0b\x12\r\n\tLUCKY_EGG\x10\x0c\x12\x0f\n\x0bLURE_MODULE\x10\r\x12\r\n\tPHOTOBOMB\x10\x0e\x12\x0c\n\x08POKESTOP\x10\x0f\x12\x08\n\x04RAID\x10\x10\x12\r\n\tRAID_PASS\x10\x11\x12\x11\n\rSPAWN_UNKNOWN\x10\x12\x12\x0e\n\nSTAR_PIECE\x10\x13\x12\x0c\n\x08STARDUST\x10\x14\x12\x0f\n\x0bTEAM_ROCKET\x10\x15\x12\t\n\x05TRADE\x10\x16\x12\x12\n\x0eTRANSFER_CANDY\x10\x17\x12\n\n\x06\x42\x41TTLE\x10\x18\x12\x06\n\x02XP\x10\x19\x12\x08\n\x04SHOP\x10\x1a\x1a!\n\rUpNextSection\x12\x10\n\x08\x65vent_id\x18\x01 \x03(\t\x1a`\n\x0fPokecoinSection\x12\x1a\n\x12\x63oins_earned_today\x18\x01 \x01(\x05\x12\x19\n\x11max_coins_per_day\x18\x02 \x01(\x05\x12\x16\n\x0e\x63oins_quest_id\x18\x03 \x01(\t\x1a\x98\x03\n\x11GymPokemonSection\x12\x85\x01\n\x0epokemon_in_gym\x18\x01 \x03(\x0b\x32m.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.GymPokemonSection.GymPokemon\x12\x8d\x01\n\x16pokemon_returned_today\x18\x02 \x03(\x0b\x32m.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.GymPokemonSection.GymPokemon\x1ak\n\nGymPokemon\x12\x12\n\npokemon_id\x18\x01 \x01(\x03\x12\x12\n\nmotivation\x18\x02 \x01(\x02\x12\x1d\n\x15\x64\x65ployed_timestamp_ms\x18\x03 \x01(\x03\x12\x16\n\x0e\x63oins_returned\x18\x04 \x01(\x05\x42\t\n\x07Section\"+\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\t\n\x05\x45RROR\x10\x02\x62\x06proto3')
+  serialized_pb=_b('\n=pogoprotos/networking/responses/get_today_view_response.proto\x12\x1fpogoprotos.networking.responses\x1a!pogoprotos/enums/quest_type.proto\x1a=pogoprotos/networking/responses/get_local_time_response.proto\"\xc9\x1b\n\x14GetTodayViewResponse\x12L\n\x06status\x18\x01 \x01(\x0e\x32<.pogoprotos.networking.responses.GetTodayViewResponse.Status\x12S\n\ntoday_view\x18\x02 \x01(\x0b\x32?.pogoprotos.networking.responses.GetTodayViewResponse.TodayView\x1a\xe0\x19\n\tTodayView\x12\x62\n\x08sections\x18\x01 \x03(\x0b\x32P.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection\x1a\xee\x18\n\x10TodayViewSection\x12t\n\x08pokecoin\x18\x01 \x01(\x0b\x32`.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.PokecoinSectionH\x00\x12y\n\x0bgym_pokemon\x18\x02 \x01(\x0b\x32\x62.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.GymPokemonSectionH\x00\x12p\n\x07streaks\x18\x03 \x01(\x0b\x32].pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.DailyStreaksH\x00\x12n\n\x05\x65vent\x18\x04 \x01(\x0b\x32].pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventSectionH\x00\x12q\n\x07up_next\x18\x05 \x01(\x0b\x32^.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.UpNextSectionH\x00\x12y\n\x0btimed_quest\x18\x06 \x01(\x0b\x32\x62.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.TimedQuestSectionH\x00\x12{\n\x0c\x65vent_banner\x18\x07 \x01(\x0b\x32\x63.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventBannerSectionH\x00\x12\x8c\x01\n\x15timed_group_challenge\x18\x08 \x01(\x0b\x32k.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.TimedGroupChallengeSectionH\x00\x12\x81\x01\n\x0fmini_collection\x18\t \x01(\x0b\x32\x66.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.MiniCollectionSectionH\x00\x1a)\n\x15MiniCollectionSection\x12\x10\n\x08quest_id\x18\x01 \x01(\t\x1aL\n\x1aTimedGroupChallengeSection\x12\x14\n\x0c\x63hallenge_id\x18\x01 \x01(\t\x12\x18\n\x10header_image_url\x18\x02 \x01(\t\x1a\xc9\x01\n\x12\x45ventBannerSection\x12\x12\n\nevent_icon\x18\x01 \x01(\t\x12\x12\n\ntitle_text\x18\x02 \x01(\t\x12\x11\n\tbody_text\x18\x03 \x01(\t\x12\x11\n\timage_url\x18\x04 \x01(\t\x12\x18\n\x10header_image_url\x18\x05 \x01(\t\x12\x1a\n\x12image_overlay_text\x18\x06 \x01(\t\x12\x17\n\x0flink_from_image\x18\x07 \x01(\t\x12\x16\n\x0eimage_sub_text\x18\x08 \x01(\t\x1a%\n\x11TimedQuestSection\x12\x10\n\x08quest_id\x18\x01 \x01(\t\x1a\xf8\x01\n\x0c\x44\x61ilyStreaks\x12u\n\x07streaks\x18\x01 \x03(\x0b\x32\x64.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.DailyStreaks.Streak\x1aq\n\x06Streak\x12/\n\nquest_type\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.QuestType\x12\r\n\x05\x63ount\x18\x02 \x01(\x05\x12\x0e\n\x06target\x18\x03 \x01(\x05\x12\x17\n\x0fremaining_today\x18\x04 \x01(\x05\x1a\xf6\x06\n\x0c\x45ventSection\x12\x12\n\nevent_name\x18\x01 \x01(\t\x12Q\n\x08\x65nd_time\x18\x03 \x01(\x0b\x32?.pogoprotos.networking.responses.GetLocalTimeResponse.LocalTime\x12\x13\n\x0bref_news_id\x18\x04 \x01(\t\x12{\n\x0b\x62onus_boxes\x18\x05 \x03(\x0b\x32\x66.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventSection.BonusBox\x1a\xec\x04\n\x08\x42onusBox\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x82\x01\n\ticon_type\x18\x02 \x01(\x0e\x32o.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.EventSection.BonusBox.IconType\"\xcc\x03\n\x08IconType\x12\t\n\x05UNSET\x10\x00\x12\x12\n\x0e\x41\x44VENTURE_SYNC\x10\x01\x12\t\n\x05\x42UDDY\x10\x02\x12\x11\n\rCANDY_GENERAL\x10\x03\x12\x07\n\x03\x45GG\x10\x04\x12\x11\n\rEGG_INCUBATOR\x10\x05\x12\x0e\n\nEVENT_MOVE\x10\x06\x12\r\n\tEVOLUTION\x10\x07\x12\x12\n\x0e\x46IELD_RESEARCH\x10\x08\x12\x0e\n\nFRIENDSHIP\x10\t\x12\x08\n\x04GIFT\x10\n\x12\x0b\n\x07INCENSE\x10\x0b\x12\r\n\tLUCKY_EGG\x10\x0c\x12\x0f\n\x0bLURE_MODULE\x10\r\x12\r\n\tPHOTOBOMB\x10\x0e\x12\x0c\n\x08POKESTOP\x10\x0f\x12\x08\n\x04RAID\x10\x10\x12\r\n\tRAID_PASS\x10\x11\x12\x11\n\rSPAWN_UNKNOWN\x10\x12\x12\x0e\n\nSTAR_PIECE\x10\x13\x12\x0c\n\x08STARDUST\x10\x14\x12\x0f\n\x0bTEAM_ROCKET\x10\x15\x12\t\n\x05TRADE\x10\x16\x12\x12\n\x0eTRANSFER_CANDY\x10\x17\x12\n\n\x06\x42\x41TTLE\x10\x18\x12\x06\n\x02XP\x10\x19\x12\x08\n\x04SHOP\x10\x1a\x12\x0c\n\x08LOCATION\x10\x1b\x12\t\n\x05\x45VENT\x10\x1c\x12\x0f\n\x0bMYSTERY_BOX\x10\x1d\x12\x0e\n\nTRADE_BALL\x10\x1e\x1a!\n\rUpNextSection\x12\x10\n\x08\x65vent_id\x18\x01 \x03(\t\x1a`\n\x0fPokecoinSection\x12\x1a\n\x12\x63oins_earned_today\x18\x01 \x01(\x05\x12\x19\n\x11max_coins_per_day\x18\x02 \x01(\x05\x12\x16\n\x0e\x63oins_quest_id\x18\x03 \x01(\t\x1a\x98\x03\n\x11GymPokemonSection\x12\x85\x01\n\x0epokemon_in_gym\x18\x01 \x03(\x0b\x32m.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.GymPokemonSection.GymPokemon\x12\x8d\x01\n\x16pokemon_returned_today\x18\x02 \x03(\x0b\x32m.pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.GymPokemonSection.GymPokemon\x1ak\n\nGymPokemon\x12\x12\n\npokemon_id\x18\x01 \x01(\x03\x12\x12\n\nmotivation\x18\x02 \x01(\x02\x12\x1d\n\x15\x64\x65ployed_timestamp_ms\x18\x03 \x01(\x03\x12\x16\n\x0e\x63oins_returned\x18\x04 \x01(\x05\x42\t\n\x07Section\"+\n\x06Status\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07SUCCESS\x10\x01\x12\t\n\x05\x45RROR\x10\x02\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_quest__type__pb2.DESCRIPTOR,pogoprotos_dot_networking_dot_responses_dot_get__local__time__response__pb2.DESCRIPTOR,])
 
@@ -141,11 +141,27 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION_BONUSBOX_ICONTYPE 
       name='SHOP', index=26, number=26,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='LOCATION', index=27, number=27,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='EVENT', index=28, number=28,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='MYSTERY_BOX', index=29, number=29,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='TRADE_BALL', index=30, number=30,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2491,
-  serialized_end=2893,
+  serialized_start=2666,
+  serialized_end=3126,
 )
 _sym_db.RegisterEnumDescriptor(_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION_BONUSBOX_ICONTYPE)
 
@@ -170,11 +186,41 @@ _GETTODAYVIEWRESPONSE_STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=3450,
-  serialized_end=3493,
+  serialized_start=3683,
+  serialized_end=3726,
 )
 _sym_db.RegisterEnumDescriptor(_GETTODAYVIEWRESPONSE_STATUS)
 
+
+_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_MINICOLLECTIONSECTION = _descriptor.Descriptor(
+  name='MiniCollectionSection',
+  full_name='pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.MiniCollectionSection',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='quest_id', full_name='pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.MiniCollectionSection.quest_id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1624,
+  serialized_end=1665,
+)
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDGROUPCHALLENGESECTION = _descriptor.Descriptor(
   name='TimedGroupChallengeSection',
@@ -209,8 +255,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDGROUPCHALLENGESECTION = _d
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1492,
-  serialized_end=1568,
+  serialized_start=1667,
+  serialized_end=1743,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTBANNERSECTION = _descriptor.Descriptor(
@@ -288,8 +334,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTBANNERSECTION = _descripto
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1571,
-  serialized_end=1772,
+  serialized_start=1746,
+  serialized_end=1947,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDQUESTSECTION = _descriptor.Descriptor(
@@ -318,8 +364,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDQUESTSECTION = _descriptor
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1774,
-  serialized_end=1811,
+  serialized_start=1949,
+  serialized_end=1986,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_DAILYSTREAKS_STREAK = _descriptor.Descriptor(
@@ -369,8 +415,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_DAILYSTREAKS_STREAK = _descript
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1949,
-  serialized_end=2062,
+  serialized_start=2124,
+  serialized_end=2237,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_DAILYSTREAKS = _descriptor.Descriptor(
@@ -399,8 +445,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_DAILYSTREAKS = _descriptor.Desc
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1814,
-  serialized_end=2062,
+  serialized_start=1989,
+  serialized_end=2237,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION_BONUSBOX = _descriptor.Descriptor(
@@ -437,8 +483,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION_BONUSBOX = _descri
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2331,
-  serialized_end=2893,
+  serialized_start=2506,
+  serialized_end=3126,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION = _descriptor.Descriptor(
@@ -488,8 +534,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION = _descriptor.Desc
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2065,
-  serialized_end=2893,
+  serialized_start=2240,
+  serialized_end=3126,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_UPNEXTSECTION = _descriptor.Descriptor(
@@ -518,8 +564,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_UPNEXTSECTION = _descriptor.Des
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2895,
-  serialized_end=2928,
+  serialized_start=3128,
+  serialized_end=3161,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_POKECOINSECTION = _descriptor.Descriptor(
@@ -562,8 +608,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_POKECOINSECTION = _descriptor.D
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2930,
-  serialized_end=3026,
+  serialized_start=3163,
+  serialized_end=3259,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_GYMPOKEMONSECTION_GYMPOKEMON = _descriptor.Descriptor(
@@ -613,8 +659,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_GYMPOKEMONSECTION_GYMPOKEMON = 
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3330,
-  serialized_end=3437,
+  serialized_start=3563,
+  serialized_end=3670,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_GYMPOKEMONSECTION = _descriptor.Descriptor(
@@ -650,8 +696,8 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_GYMPOKEMONSECTION = _descriptor
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=3029,
-  serialized_end=3437,
+  serialized_start=3262,
+  serialized_end=3670,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION = _descriptor.Descriptor(
@@ -717,10 +763,17 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='mini_collection', full_name='pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.mini_collection', index=8,
+      number=9, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
-  nested_types=[_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDGROUPCHALLENGESECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTBANNERSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDQUESTSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_DAILYSTREAKS, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_UPNEXTSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_POKECOINSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_GYMPOKEMONSECTION, ],
+  nested_types=[_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_MINICOLLECTIONSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDGROUPCHALLENGESECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTBANNERSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDQUESTSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_DAILYSTREAKS, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_UPNEXTSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_POKECOINSECTION, _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_GYMPOKEMONSECTION, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -733,7 +786,7 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=499,
-  serialized_end=3448,
+  serialized_end=3681,
 )
 
 _GETTODAYVIEWRESPONSE_TODAYVIEW = _descriptor.Descriptor(
@@ -763,7 +816,7 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=385,
-  serialized_end=3448,
+  serialized_end=3681,
 )
 
 _GETTODAYVIEWRESPONSE = _descriptor.Descriptor(
@@ -801,9 +854,10 @@ _GETTODAYVIEWRESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=197,
-  serialized_end=3493,
+  serialized_end=3726,
 )
 
+_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_MINICOLLECTIONSECTION.containing_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDGROUPCHALLENGESECTION.containing_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTBANNERSECTION.containing_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDQUESTSECTION.containing_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION
@@ -831,6 +885,7 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['up_next'].messa
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['timed_quest'].message_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDQUESTSECTION
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['event_banner'].message_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_EVENTBANNERSECTION
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['timed_group_challenge'].message_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDGROUPCHALLENGESECTION
+_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['mini_collection'].message_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_MINICOLLECTIONSECTION
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.containing_type = _GETTODAYVIEWRESPONSE_TODAYVIEW
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.oneofs_by_name['Section'].fields.append(
   _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['pokecoin'])
@@ -856,6 +911,9 @@ _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['event_banner'].
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.oneofs_by_name['Section'].fields.append(
   _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['timed_group_challenge'])
 _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['timed_group_challenge'].containing_oneof = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.oneofs_by_name['Section']
+_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.oneofs_by_name['Section'].fields.append(
+  _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['mini_collection'])
+_GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.fields_by_name['mini_collection'].containing_oneof = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION.oneofs_by_name['Section']
 _GETTODAYVIEWRESPONSE_TODAYVIEW.fields_by_name['sections'].message_type = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION
 _GETTODAYVIEWRESPONSE_TODAYVIEW.containing_type = _GETTODAYVIEWRESPONSE
 _GETTODAYVIEWRESPONSE.fields_by_name['status'].enum_type = _GETTODAYVIEWRESPONSE_STATUS
@@ -869,6 +927,13 @@ GetTodayViewResponse = _reflection.GeneratedProtocolMessageType('GetTodayViewRes
   TodayView = _reflection.GeneratedProtocolMessageType('TodayView', (_message.Message,), dict(
 
     TodayViewSection = _reflection.GeneratedProtocolMessageType('TodayViewSection', (_message.Message,), dict(
+
+      MiniCollectionSection = _reflection.GeneratedProtocolMessageType('MiniCollectionSection', (_message.Message,), dict(
+        DESCRIPTOR = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_MINICOLLECTIONSECTION,
+        __module__ = 'pogoprotos.networking.responses.get_today_view_response_pb2'
+        # @@protoc_insertion_point(class_scope:pogoprotos.networking.responses.GetTodayViewResponse.TodayView.TodayViewSection.MiniCollectionSection)
+        ))
+      ,
 
       TimedGroupChallengeSection = _reflection.GeneratedProtocolMessageType('TimedGroupChallengeSection', (_message.Message,), dict(
         DESCRIPTOR = _GETTODAYVIEWRESPONSE_TODAYVIEW_TODAYVIEWSECTION_TIMEDGROUPCHALLENGESECTION,
@@ -963,6 +1028,7 @@ GetTodayViewResponse = _reflection.GeneratedProtocolMessageType('GetTodayViewRes
 _sym_db.RegisterMessage(GetTodayViewResponse)
 _sym_db.RegisterMessage(GetTodayViewResponse.TodayView)
 _sym_db.RegisterMessage(GetTodayViewResponse.TodayView.TodayViewSection)
+_sym_db.RegisterMessage(GetTodayViewResponse.TodayView.TodayViewSection.MiniCollectionSection)
 _sym_db.RegisterMessage(GetTodayViewResponse.TodayView.TodayViewSection.TimedGroupChallengeSection)
 _sym_db.RegisterMessage(GetTodayViewResponse.TodayView.TodayViewSection.EventBannerSection)
 _sym_db.RegisterMessage(GetTodayViewResponse.TodayView.TodayViewSection.TimedQuestSection)

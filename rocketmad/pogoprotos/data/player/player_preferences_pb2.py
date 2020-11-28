@@ -12,6 +12,7 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
+from pogoprotos.data.battle import battle_parties_pb2 as pogoprotos_dot_data_dot_battle_dot_battle__parties__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -19,8 +20,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.player',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n/pogoprotos/data/player/player_preferences.proto\x12\x16pogoprotos.data.player\"7\n\x11PlayerPreferences\x12\"\n\x1aopt_out_of_sponsored_gifts\x18\x01 \x01(\x08\x62\x06proto3')
-)
+  serialized_pb=_b('\n/pogoprotos/data/player/player_preferences.proto\x12\x16pogoprotos.data.player\x1a+pogoprotos/data/battle/battle_parties.proto\"v\n\x11PlayerPreferences\x12\"\n\x1aopt_out_of_sponsored_gifts\x18\x01 \x01(\x08\x12=\n\x0e\x62\x61ttle_parties\x18\x02 \x01(\x0b\x32%.pogoprotos.data.battle.BattlePartiesb\x06proto3')
+  ,
+  dependencies=[pogoprotos_dot_data_dot_battle_dot_battle__parties__pb2.DESCRIPTOR,])
 
 
 
@@ -39,6 +41,13 @@ _PLAYERPREFERENCES = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='battle_parties', full_name='pogoprotos.data.player.PlayerPreferences.battle_parties', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -51,10 +60,11 @@ _PLAYERPREFERENCES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=75,
-  serialized_end=130,
+  serialized_start=120,
+  serialized_end=238,
 )
 
+_PLAYERPREFERENCES.fields_by_name['battle_parties'].message_type = pogoprotos_dot_data_dot_battle_dot_battle__parties__pb2._BATTLEPARTIES
 DESCRIPTOR.message_types_by_name['PlayerPreferences'] = _PLAYERPREFERENCES
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

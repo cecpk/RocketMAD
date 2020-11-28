@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.requests.messages',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\nRpogoprotos/networking/requests/messages/invasion_open_combat_session_message.proto\x12\'pogoprotos.networking.requests.messages\x1a)pogoprotos/map/fort/incident_lookup.proto\"\x8c\x01\n InvasionOpenCombatSessionMessage\x12<\n\x0fincident_lookup\x18\x01 \x01(\x0b\x32#.pogoprotos.map.fort.IncidentLookup\x12\x0c\n\x04step\x18\x02 \x01(\x05\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x03 \x03(\x06\x62\x06proto3')
+  serialized_pb=_b('\nRpogoprotos/networking/requests/messages/invasion_open_combat_session_message.proto\x12\'pogoprotos.networking.requests.messages\x1a)pogoprotos/map/fort/incident_lookup.proto\"\xa8\x01\n InvasionOpenCombatSessionMessage\x12<\n\x0fincident_lookup\x18\x01 \x01(\x0b\x32#.pogoprotos.map.fort.IncidentLookup\x12\x0c\n\x04step\x18\x02 \x01(\x05\x12\x1c\n\x14\x61ttacking_pokemon_id\x18\x03 \x03(\x06\x12\x1a\n\x12lobby_join_time_ms\x18\x04 \x01(\x03\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_map_dot_fort_dot_incident__lookup__pb2.DESCRIPTOR,])
 
@@ -55,6 +55,13 @@ _INVASIONOPENCOMBATSESSIONMESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='lobby_join_time_ms', full_name='pogoprotos.networking.requests.messages.InvasionOpenCombatSessionMessage.lobby_join_time_ms', index=3,
+      number=4, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -68,7 +75,7 @@ _INVASIONOPENCOMBATSESSIONMESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=171,
-  serialized_end=311,
+  serialized_end=339,
 )
 
 _INVASIONOPENCOMBATSESSIONMESSAGE.fields_by_name['incident_lookup'].message_type = pogoprotos_dot_map_dot_fort_dot_incident__lookup__pb2._INCIDENTLOOKUP

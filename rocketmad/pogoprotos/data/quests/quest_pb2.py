@@ -26,7 +26,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.quests',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\"pogoprotos/data/quests/quest.proto\x12\x16pogoprotos.data.quests\x1a!pogoprotos/enums/quest_type.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\x30pogoprotos/data/quests/catch_pokemon_quest.proto\x1a)pogoprotos/data/quests/quest_reward.proto\x1a\'pogoprotos/data/quests/quest_goal.proto\x1a-pogoprotos/data/quests/add_friend_quest.proto\x1a\x30pogoprotos/data/quests/trade_pokemon_quest.proto\"\xaa\x10\n\x05Quest\x12/\n\nquest_type\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.QuestType\x12?\n\x0b\x64\x61ily_quest\x18\x02 \x01(\x0b\x32(.pogoprotos.data.quests.Quest.DailyQuestH\x00\x12\x42\n\nmulti_part\x18\x03 \x01(\x0b\x32,.pogoprotos.data.quests.Quest.MultiPartQuestH\x00\x12\x42\n\rcatch_pokemon\x18\x04 \x01(\x0b\x32).pogoprotos.data.quests.CatchPokemonQuestH\x00\x12<\n\nadd_friend\x18\x05 \x01(\x0b\x32&.pogoprotos.data.quests.AddFriendQuestH\x00\x12\x42\n\rtrade_pokemon\x18\x06 \x01(\x0b\x32).pogoprotos.data.quests.TradePokemonQuestH\x00\x12W\n\x15\x64\x61ily_buddy_affection\x18\x07 \x01(\x0b\x32\x36.pogoprotos.data.quests.Quest.DailyBuddyAffectionQuestH\x00\x12=\n\nquest_walk\x18\x08 \x01(\x0b\x32\'.pogoprotos.data.quests.Quest.QuestWalkH\x00\x12S\n\x13\x65volve_into_pokemon\x18\t \x01(\x0b\x32\x34.pogoprotos.data.quests.Quest.EvolveIntoPokemonQuestH\x00\x12\x45\n\x0c\x64\x61ys_in_arow\x18\x63 \x01(\x0b\x32/.pogoprotos.data.quests.Quest.DaysWithARowQuest\x12\x10\n\x08quest_id\x18\x64 \x01(\t\x12\x12\n\nquest_seed\x18\x65 \x01(\x03\x12<\n\rquest_context\x18\x66 \x01(\x0e\x32%.pogoprotos.data.quests.Quest.Context\x12\x13\n\x0btemplate_id\x18g \x01(\t\x12\x10\n\x08progress\x18h \x01(\x05\x12/\n\x04goal\x18i \x01(\x0b\x32!.pogoprotos.data.quests.QuestGoal\x12\x34\n\x06status\x18j \x01(\x0e\x32$.pogoprotos.data.quests.Quest.Status\x12:\n\rquest_rewards\x18k \x03(\x0b\x32#.pogoprotos.data.quests.QuestReward\x12\x1d\n\x15\x63reation_timestamp_ms\x18l \x01(\x03\x12 \n\x18last_update_timestamp_ms\x18m \x01(\x03\x12 \n\x18\x63ompeletion_timestamp_ms\x18n \x01(\x03\x12\x0f\n\x07\x66ort_id\x18o \x01(\t\x12\x17\n\x0f\x61\x64min_generated\x18p \x01(\x08\x12$\n\x1cstamp_count_override_enabled\x18q \x01(\x08\x12\x1c\n\x14stamp_count_override\x18r \x01(\x05\x12\x12\n\ns2_cell_id\x18s \x01(\x03\x12$\n\x1cstory_quest_template_version\x18t \x01(\x05\x12\x41\n\rdaily_counter\x18u \x01(\x0b\x32*.pogoprotos.data.quests.Quest.DailyCounter\x12\x1f\n\x17reward_pokemon_icon_url\x18v \x01(\t\x12\x18\n\x10\x65nd_timestamp_ms\x18w \x01(\x03\x1a*\n\tQuestWalk\x12\x1d\n\x15quest_start_km_walked\x18\x01 \x01(\x02\x1aP\n\x16\x45volveIntoPokemonQuest\x12\x36\n\x11unique_pokemon_id\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x1a(\n\x11\x44\x61ysWithARowQuest\x12\x13\n\x0blast_window\x18\x01 \x01(\x05\x1ag\n\x18\x44\x61ilyBuddyAffectionQuest\x12K\n\x17\x64\x61ily_affection_counter\x18\x01 \x01(\x0b\x32*.pogoprotos.data.quests.Quest.DailyCounter\x1a\x43\n\x0eMultiPartQuest\x12\x31\n\nsub_quests\x18\x01 \x03(\x0b\x32\x1d.pogoprotos.data.quests.Quest\x1aI\n\nDailyQuest\x12\x1d\n\x15\x63urrent_period_bucket\x18\x01 \x01(\x05\x12\x1c\n\x14\x63urrent_streak_count\x18\x02 \x01(\x05\x1a\x46\n\x0c\x44\x61ilyCounter\x12\x0e\n\x06window\x18\x01 \x01(\x03\x12\r\n\x05\x63ount\x18\x02 \x01(\x05\x12\x17\n\x0f\x62uckets_per_day\x18\x03 \x01(\x05\"\x7f\n\x07\x43ontext\x12\t\n\x05UNSET\x10\x00\x12\x0f\n\x0bSTORY_QUEST\x10\x01\x12\x13\n\x0f\x43HALLENGE_QUEST\x10\x02\x12\x14\n\x10\x44\x41ILY_COIN_QUEST\x10\x03\x12\x15\n\x11TIMED_STORY_QUEST\x10\x04\x12\x16\n\x12TGC_TRACKING_QUEST\x10\x07\"G\n\x06Status\x12\x14\n\x10STATUS_UNDEFINED\x10\x00\x12\x11\n\rSTATUS_ACTIVE\x10\x01\x12\x14\n\x10STATUS_COMPLETED\x10\x02\x42\x07\n\x05Questb\x06proto3')
+  serialized_pb=_b('\n\"pogoprotos/data/quests/quest.proto\x12\x16pogoprotos.data.quests\x1a!pogoprotos/enums/quest_type.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\x30pogoprotos/data/quests/catch_pokemon_quest.proto\x1a)pogoprotos/data/quests/quest_reward.proto\x1a\'pogoprotos/data/quests/quest_goal.proto\x1a-pogoprotos/data/quests/add_friend_quest.proto\x1a\x30pogoprotos/data/quests/trade_pokemon_quest.proto\"\x97\x15\n\x05Quest\x12/\n\nquest_type\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.QuestType\x12?\n\x0b\x64\x61ily_quest\x18\x02 \x01(\x0b\x32(.pogoprotos.data.quests.Quest.DailyQuestH\x00\x12\x42\n\nmulti_part\x18\x03 \x01(\x0b\x32,.pogoprotos.data.quests.Quest.MultiPartQuestH\x00\x12\x42\n\rcatch_pokemon\x18\x04 \x01(\x0b\x32).pogoprotos.data.quests.CatchPokemonQuestH\x00\x12<\n\nadd_friend\x18\x05 \x01(\x0b\x32&.pogoprotos.data.quests.AddFriendQuestH\x00\x12\x42\n\rtrade_pokemon\x18\x06 \x01(\x0b\x32).pogoprotos.data.quests.TradePokemonQuestH\x00\x12W\n\x15\x64\x61ily_buddy_affection\x18\x07 \x01(\x0b\x32\x36.pogoprotos.data.quests.Quest.DailyBuddyAffectionQuestH\x00\x12=\n\nquest_walk\x18\x08 \x01(\x0b\x32\'.pogoprotos.data.quests.Quest.QuestWalkH\x00\x12S\n\x13\x65volve_into_pokemon\x18\t \x01(\x0b\x32\x34.pogoprotos.data.quests.Quest.EvolveIntoPokemonQuestH\x00\x12\x46\n\x0cget_stardust\x18\n \x01(\x0b\x32..pogoprotos.data.quests.Quest.GetStardustQuestH\x00\x12K\n\x11geotargeted_quest\x18\x0c \x01(\x0b\x32..pogoprotos.data.quests.Quest.GeotargetedQuestH\x00\x12U\n\x14\x62uddy_evolution_walk\x18\r \x01(\x0b\x32\x35.pogoprotos.data.quests.Quest.BuddyEvolutionWalkQuestH\x00\x12\x44\n\x0fwith_single_day\x18\x62 \x01(\x0b\x32+.pogoprotos.data.quests.Quest.WithSingleDay\x12\x45\n\x0c\x64\x61ys_in_arow\x18\x63 \x01(\x0b\x32/.pogoprotos.data.quests.Quest.DaysWithARowQuest\x12\x10\n\x08quest_id\x18\x64 \x01(\t\x12\x12\n\nquest_seed\x18\x65 \x01(\x03\x12<\n\rquest_context\x18\x66 \x01(\x0e\x32%.pogoprotos.data.quests.Quest.Context\x12\x13\n\x0btemplate_id\x18g \x01(\t\x12\x10\n\x08progress\x18h \x01(\x05\x12/\n\x04goal\x18i \x01(\x0b\x32!.pogoprotos.data.quests.QuestGoal\x12\x34\n\x06status\x18j \x01(\x0e\x32$.pogoprotos.data.quests.Quest.Status\x12:\n\rquest_rewards\x18k \x03(\x0b\x32#.pogoprotos.data.quests.QuestReward\x12\x1d\n\x15\x63reation_timestamp_ms\x18l \x01(\x03\x12 \n\x18last_update_timestamp_ms\x18m \x01(\x03\x12\x1f\n\x17\x63ompletion_timestamp_ms\x18n \x01(\x03\x12\x0f\n\x07\x66ort_id\x18o \x01(\t\x12\x17\n\x0f\x61\x64min_generated\x18p \x01(\x08\x12$\n\x1cstamp_count_override_enabled\x18q \x01(\x08\x12\x1c\n\x14stamp_count_override\x18r \x01(\x05\x12\x12\n\ns2_cell_id\x18s \x01(\x03\x12$\n\x1cstory_quest_template_version\x18t \x01(\x05\x12\x41\n\rdaily_counter\x18u \x01(\x0b\x32*.pogoprotos.data.quests.Quest.DailyCounter\x12\x1f\n\x17reward_pokemon_icon_url\x18v \x01(\t\x12\x18\n\x10\x65nd_timestamp_ms\x18w \x01(\x03\x12\x1a\n\x12is_bonus_challenge\x18x \x01(\x08\x1a\x33\n\x17\x42uddyEvolutionWalkQuest\x12\x18\n\x10last_km_recorded\x18\x01 \x01(\x02\x1a\x86\x01\n\x10GeotargetedQuest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1b\n\x13\x63\x61ll_to_action_link\x18\x02 \x01(\t\x12\x11\n\timage_url\x18\x03 \x01(\t\x12\x10\n\x08latitude\x18\x04 \x01(\x01\x12\x11\n\tlongitude\x18\x05 \x01(\x01\x12\x0f\n\x07\x66ort_id\x18\x06 \x01(\t\x1a$\n\x10GetStardustQuest\x12\x10\n\x08stardust\x18\x01 \x01(\x05\x1a$\n\rWithSingleDay\x12\x13\n\x0blast_window\x18\x01 \x01(\x03\x1a*\n\tQuestWalk\x12\x1d\n\x15quest_start_km_walked\x18\x01 \x01(\x02\x1aP\n\x16\x45volveIntoPokemonQuest\x12\x36\n\x11unique_pokemon_id\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x1a(\n\x11\x44\x61ysWithARowQuest\x12\x13\n\x0blast_window\x18\x01 \x01(\x05\x1ag\n\x18\x44\x61ilyBuddyAffectionQuest\x12K\n\x17\x64\x61ily_affection_counter\x18\x01 \x01(\x0b\x32*.pogoprotos.data.quests.Quest.DailyCounter\x1a\x43\n\x0eMultiPartQuest\x12\x31\n\nsub_quests\x18\x01 \x03(\x0b\x32\x1d.pogoprotos.data.quests.Quest\x1aI\n\nDailyQuest\x12\x1d\n\x15\x63urrent_period_bucket\x18\x01 \x01(\x05\x12\x1c\n\x14\x63urrent_streak_count\x18\x02 \x01(\x05\x1a\x46\n\x0c\x44\x61ilyCounter\x12\x0e\n\x06window\x18\x01 \x01(\x03\x12\r\n\x05\x63ount\x18\x02 \x01(\x05\x12\x17\n\x0f\x62uckets_per_day\x18\x03 \x01(\x05\"\x94\x01\n\x07\x43ontext\x12\t\n\x05UNSET\x10\x00\x12\x0f\n\x0bSTORY_QUEST\x10\x01\x12\x13\n\x0f\x43HALLENGE_QUEST\x10\x02\x12\x14\n\x10\x44\x41ILY_COIN_QUEST\x10\x03\x12\x15\n\x11TIMED_STORY_QUEST\x10\x04\x12\x16\n\x12TGC_TRACKING_QUEST\x10\x07\x12\x13\n\x0f\x45VOLUTION_QUEST\x10\x08\"G\n\x06Status\x12\x14\n\x10STATUS_UNDEFINED\x10\x00\x12\x11\n\rSTATUS_ACTIVE\x10\x01\x12\x14\n\x10STATUS_COMPLETED\x10\x02\x42\x07\n\x05Questb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_quest__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_catch__pokemon__quest__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__reward__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_quest__goal__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_add__friend__quest__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_quests_dot_trade__pokemon__quest__pb2.DESCRIPTOR,])
 
@@ -62,11 +62,15 @@ _QUEST_CONTEXT = _descriptor.EnumDescriptor(
       name='TGC_TRACKING_QUEST', index=5, number=7,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='EVOLUTION_QUEST', index=6, number=8,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2245,
-  serialized_end=2372,
+  serialized_start=2845,
+  serialized_end=2993,
 )
 _sym_db.RegisterEnumDescriptor(_QUEST_CONTEXT)
 
@@ -91,11 +95,166 @@ _QUEST_STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=2374,
-  serialized_end=2445,
+  serialized_start=2995,
+  serialized_end=3066,
 )
 _sym_db.RegisterEnumDescriptor(_QUEST_STATUS)
 
+
+_QUEST_BUDDYEVOLUTIONWALKQUEST = _descriptor.Descriptor(
+  name='BuddyEvolutionWalkQuest',
+  full_name='pogoprotos.data.quests.Quest.BuddyEvolutionWalkQuest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='last_km_recorded', full_name='pogoprotos.data.quests.Quest.BuddyEvolutionWalkQuest.last_km_recorded', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2089,
+  serialized_end=2140,
+)
+
+_QUEST_GEOTARGETEDQUEST = _descriptor.Descriptor(
+  name='GeotargetedQuest',
+  full_name='pogoprotos.data.quests.Quest.GeotargetedQuest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='name', full_name='pogoprotos.data.quests.Quest.GeotargetedQuest.name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='call_to_action_link', full_name='pogoprotos.data.quests.Quest.GeotargetedQuest.call_to_action_link', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='image_url', full_name='pogoprotos.data.quests.Quest.GeotargetedQuest.image_url', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='latitude', full_name='pogoprotos.data.quests.Quest.GeotargetedQuest.latitude', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='longitude', full_name='pogoprotos.data.quests.Quest.GeotargetedQuest.longitude', index=4,
+      number=5, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fort_id', full_name='pogoprotos.data.quests.Quest.GeotargetedQuest.fort_id', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2143,
+  serialized_end=2277,
+)
+
+_QUEST_GETSTARDUSTQUEST = _descriptor.Descriptor(
+  name='GetStardustQuest',
+  full_name='pogoprotos.data.quests.Quest.GetStardustQuest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='stardust', full_name='pogoprotos.data.quests.Quest.GetStardustQuest.stardust', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2279,
+  serialized_end=2315,
+)
+
+_QUEST_WITHSINGLEDAY = _descriptor.Descriptor(
+  name='WithSingleDay',
+  full_name='pogoprotos.data.quests.Quest.WithSingleDay',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='last_window', full_name='pogoprotos.data.quests.Quest.WithSingleDay.last_window', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=2317,
+  serialized_end=2353,
+)
 
 _QUEST_QUESTWALK = _descriptor.Descriptor(
   name='QuestWalk',
@@ -123,8 +282,8 @@ _QUEST_QUESTWALK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1756,
-  serialized_end=1798,
+  serialized_start=2355,
+  serialized_end=2397,
 )
 
 _QUEST_EVOLVEINTOPOKEMONQUEST = _descriptor.Descriptor(
@@ -153,8 +312,8 @@ _QUEST_EVOLVEINTOPOKEMONQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1800,
-  serialized_end=1880,
+  serialized_start=2399,
+  serialized_end=2479,
 )
 
 _QUEST_DAYSWITHAROWQUEST = _descriptor.Descriptor(
@@ -183,8 +342,8 @@ _QUEST_DAYSWITHAROWQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1882,
-  serialized_end=1922,
+  serialized_start=2481,
+  serialized_end=2521,
 )
 
 _QUEST_DAILYBUDDYAFFECTIONQUEST = _descriptor.Descriptor(
@@ -213,8 +372,8 @@ _QUEST_DAILYBUDDYAFFECTIONQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1924,
-  serialized_end=2027,
+  serialized_start=2523,
+  serialized_end=2626,
 )
 
 _QUEST_MULTIPARTQUEST = _descriptor.Descriptor(
@@ -243,8 +402,8 @@ _QUEST_MULTIPARTQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2029,
-  serialized_end=2096,
+  serialized_start=2628,
+  serialized_end=2695,
 )
 
 _QUEST_DAILYQUEST = _descriptor.Descriptor(
@@ -280,8 +439,8 @@ _QUEST_DAILYQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2098,
-  serialized_end=2171,
+  serialized_start=2697,
+  serialized_end=2770,
 )
 
 _QUEST_DAILYCOUNTER = _descriptor.Descriptor(
@@ -324,8 +483,8 @@ _QUEST_DAILYCOUNTER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=2173,
-  serialized_end=2243,
+  serialized_start=2772,
+  serialized_end=2842,
 )
 
 _QUEST = _descriptor.Descriptor(
@@ -399,156 +558,191 @@ _QUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='days_in_arow', full_name='pogoprotos.data.quests.Quest.days_in_arow', index=9,
+      name='get_stardust', full_name='pogoprotos.data.quests.Quest.get_stardust', index=9,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='geotargeted_quest', full_name='pogoprotos.data.quests.Quest.geotargeted_quest', index=10,
+      number=12, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='buddy_evolution_walk', full_name='pogoprotos.data.quests.Quest.buddy_evolution_walk', index=11,
+      number=13, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='with_single_day', full_name='pogoprotos.data.quests.Quest.with_single_day', index=12,
+      number=98, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='days_in_arow', full_name='pogoprotos.data.quests.Quest.days_in_arow', index=13,
       number=99, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quest_id', full_name='pogoprotos.data.quests.Quest.quest_id', index=10,
+      name='quest_id', full_name='pogoprotos.data.quests.Quest.quest_id', index=14,
       number=100, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quest_seed', full_name='pogoprotos.data.quests.Quest.quest_seed', index=11,
+      name='quest_seed', full_name='pogoprotos.data.quests.Quest.quest_seed', index=15,
       number=101, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quest_context', full_name='pogoprotos.data.quests.Quest.quest_context', index=12,
+      name='quest_context', full_name='pogoprotos.data.quests.Quest.quest_context', index=16,
       number=102, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='template_id', full_name='pogoprotos.data.quests.Quest.template_id', index=13,
+      name='template_id', full_name='pogoprotos.data.quests.Quest.template_id', index=17,
       number=103, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='progress', full_name='pogoprotos.data.quests.Quest.progress', index=14,
+      name='progress', full_name='pogoprotos.data.quests.Quest.progress', index=18,
       number=104, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='goal', full_name='pogoprotos.data.quests.Quest.goal', index=15,
+      name='goal', full_name='pogoprotos.data.quests.Quest.goal', index=19,
       number=105, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='pogoprotos.data.quests.Quest.status', index=16,
+      name='status', full_name='pogoprotos.data.quests.Quest.status', index=20,
       number=106, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='quest_rewards', full_name='pogoprotos.data.quests.Quest.quest_rewards', index=17,
+      name='quest_rewards', full_name='pogoprotos.data.quests.Quest.quest_rewards', index=21,
       number=107, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='creation_timestamp_ms', full_name='pogoprotos.data.quests.Quest.creation_timestamp_ms', index=18,
+      name='creation_timestamp_ms', full_name='pogoprotos.data.quests.Quest.creation_timestamp_ms', index=22,
       number=108, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='last_update_timestamp_ms', full_name='pogoprotos.data.quests.Quest.last_update_timestamp_ms', index=19,
+      name='last_update_timestamp_ms', full_name='pogoprotos.data.quests.Quest.last_update_timestamp_ms', index=23,
       number=109, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='compeletion_timestamp_ms', full_name='pogoprotos.data.quests.Quest.compeletion_timestamp_ms', index=20,
+      name='completion_timestamp_ms', full_name='pogoprotos.data.quests.Quest.completion_timestamp_ms', index=24,
       number=110, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='fort_id', full_name='pogoprotos.data.quests.Quest.fort_id', index=21,
+      name='fort_id', full_name='pogoprotos.data.quests.Quest.fort_id', index=25,
       number=111, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='admin_generated', full_name='pogoprotos.data.quests.Quest.admin_generated', index=22,
+      name='admin_generated', full_name='pogoprotos.data.quests.Quest.admin_generated', index=26,
       number=112, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stamp_count_override_enabled', full_name='pogoprotos.data.quests.Quest.stamp_count_override_enabled', index=23,
+      name='stamp_count_override_enabled', full_name='pogoprotos.data.quests.Quest.stamp_count_override_enabled', index=27,
       number=113, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='stamp_count_override', full_name='pogoprotos.data.quests.Quest.stamp_count_override', index=24,
+      name='stamp_count_override', full_name='pogoprotos.data.quests.Quest.stamp_count_override', index=28,
       number=114, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='s2_cell_id', full_name='pogoprotos.data.quests.Quest.s2_cell_id', index=25,
+      name='s2_cell_id', full_name='pogoprotos.data.quests.Quest.s2_cell_id', index=29,
       number=115, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='story_quest_template_version', full_name='pogoprotos.data.quests.Quest.story_quest_template_version', index=26,
+      name='story_quest_template_version', full_name='pogoprotos.data.quests.Quest.story_quest_template_version', index=30,
       number=116, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='daily_counter', full_name='pogoprotos.data.quests.Quest.daily_counter', index=27,
+      name='daily_counter', full_name='pogoprotos.data.quests.Quest.daily_counter', index=31,
       number=117, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='reward_pokemon_icon_url', full_name='pogoprotos.data.quests.Quest.reward_pokemon_icon_url', index=28,
+      name='reward_pokemon_icon_url', full_name='pogoprotos.data.quests.Quest.reward_pokemon_icon_url', index=32,
       number=118, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='end_timestamp_ms', full_name='pogoprotos.data.quests.Quest.end_timestamp_ms', index=29,
+      name='end_timestamp_ms', full_name='pogoprotos.data.quests.Quest.end_timestamp_ms', index=33,
       number=119, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='is_bonus_challenge', full_name='pogoprotos.data.quests.Quest.is_bonus_challenge', index=34,
+      number=120, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
-  nested_types=[_QUEST_QUESTWALK, _QUEST_EVOLVEINTOPOKEMONQUEST, _QUEST_DAYSWITHAROWQUEST, _QUEST_DAILYBUDDYAFFECTIONQUEST, _QUEST_MULTIPARTQUEST, _QUEST_DAILYQUEST, _QUEST_DAILYCOUNTER, ],
+  nested_types=[_QUEST_BUDDYEVOLUTIONWALKQUEST, _QUEST_GEOTARGETEDQUEST, _QUEST_GETSTARDUSTQUEST, _QUEST_WITHSINGLEDAY, _QUEST_QUESTWALK, _QUEST_EVOLVEINTOPOKEMONQUEST, _QUEST_DAYSWITHAROWQUEST, _QUEST_DAILYBUDDYAFFECTIONQUEST, _QUEST_MULTIPARTQUEST, _QUEST_DAILYQUEST, _QUEST_DAILYCOUNTER, ],
   enum_types=[
     _QUEST_CONTEXT,
     _QUEST_STATUS,
@@ -563,9 +757,13 @@ _QUEST = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=364,
-  serialized_end=2454,
+  serialized_end=3075,
 )
 
+_QUEST_BUDDYEVOLUTIONWALKQUEST.containing_type = _QUEST
+_QUEST_GEOTARGETEDQUEST.containing_type = _QUEST
+_QUEST_GETSTARDUSTQUEST.containing_type = _QUEST
+_QUEST_WITHSINGLEDAY.containing_type = _QUEST
 _QUEST_QUESTWALK.containing_type = _QUEST
 _QUEST_EVOLVEINTOPOKEMONQUEST.fields_by_name['unique_pokemon_id'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID
 _QUEST_EVOLVEINTOPOKEMONQUEST.containing_type = _QUEST
@@ -585,6 +783,10 @@ _QUEST.fields_by_name['trade_pokemon'].message_type = pogoprotos_dot_data_dot_qu
 _QUEST.fields_by_name['daily_buddy_affection'].message_type = _QUEST_DAILYBUDDYAFFECTIONQUEST
 _QUEST.fields_by_name['quest_walk'].message_type = _QUEST_QUESTWALK
 _QUEST.fields_by_name['evolve_into_pokemon'].message_type = _QUEST_EVOLVEINTOPOKEMONQUEST
+_QUEST.fields_by_name['get_stardust'].message_type = _QUEST_GETSTARDUSTQUEST
+_QUEST.fields_by_name['geotargeted_quest'].message_type = _QUEST_GEOTARGETEDQUEST
+_QUEST.fields_by_name['buddy_evolution_walk'].message_type = _QUEST_BUDDYEVOLUTIONWALKQUEST
+_QUEST.fields_by_name['with_single_day'].message_type = _QUEST_WITHSINGLEDAY
 _QUEST.fields_by_name['days_in_arow'].message_type = _QUEST_DAYSWITHAROWQUEST
 _QUEST.fields_by_name['quest_context'].enum_type = _QUEST_CONTEXT
 _QUEST.fields_by_name['goal'].message_type = pogoprotos_dot_data_dot_quests_dot_quest__goal__pb2._QUESTGOAL
@@ -617,10 +819,47 @@ _QUEST.fields_by_name['quest_walk'].containing_oneof = _QUEST.oneofs_by_name['Qu
 _QUEST.oneofs_by_name['Quest'].fields.append(
   _QUEST.fields_by_name['evolve_into_pokemon'])
 _QUEST.fields_by_name['evolve_into_pokemon'].containing_oneof = _QUEST.oneofs_by_name['Quest']
+_QUEST.oneofs_by_name['Quest'].fields.append(
+  _QUEST.fields_by_name['get_stardust'])
+_QUEST.fields_by_name['get_stardust'].containing_oneof = _QUEST.oneofs_by_name['Quest']
+_QUEST.oneofs_by_name['Quest'].fields.append(
+  _QUEST.fields_by_name['geotargeted_quest'])
+_QUEST.fields_by_name['geotargeted_quest'].containing_oneof = _QUEST.oneofs_by_name['Quest']
+_QUEST.oneofs_by_name['Quest'].fields.append(
+  _QUEST.fields_by_name['buddy_evolution_walk'])
+_QUEST.fields_by_name['buddy_evolution_walk'].containing_oneof = _QUEST.oneofs_by_name['Quest']
 DESCRIPTOR.message_types_by_name['Quest'] = _QUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Quest = _reflection.GeneratedProtocolMessageType('Quest', (_message.Message,), dict(
+
+  BuddyEvolutionWalkQuest = _reflection.GeneratedProtocolMessageType('BuddyEvolutionWalkQuest', (_message.Message,), dict(
+    DESCRIPTOR = _QUEST_BUDDYEVOLUTIONWALKQUEST,
+    __module__ = 'pogoprotos.data.quests.quest_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.Quest.BuddyEvolutionWalkQuest)
+    ))
+  ,
+
+  GeotargetedQuest = _reflection.GeneratedProtocolMessageType('GeotargetedQuest', (_message.Message,), dict(
+    DESCRIPTOR = _QUEST_GEOTARGETEDQUEST,
+    __module__ = 'pogoprotos.data.quests.quest_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.Quest.GeotargetedQuest)
+    ))
+  ,
+
+  GetStardustQuest = _reflection.GeneratedProtocolMessageType('GetStardustQuest', (_message.Message,), dict(
+    DESCRIPTOR = _QUEST_GETSTARDUSTQUEST,
+    __module__ = 'pogoprotos.data.quests.quest_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.Quest.GetStardustQuest)
+    ))
+  ,
+
+  WithSingleDay = _reflection.GeneratedProtocolMessageType('WithSingleDay', (_message.Message,), dict(
+    DESCRIPTOR = _QUEST_WITHSINGLEDAY,
+    __module__ = 'pogoprotos.data.quests.quest_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.Quest.WithSingleDay)
+    ))
+  ,
 
   QuestWalk = _reflection.GeneratedProtocolMessageType('QuestWalk', (_message.Message,), dict(
     DESCRIPTOR = _QUEST_QUESTWALK,
@@ -675,6 +914,10 @@ Quest = _reflection.GeneratedProtocolMessageType('Quest', (_message.Message,), d
   # @@protoc_insertion_point(class_scope:pogoprotos.data.quests.Quest)
   ))
 _sym_db.RegisterMessage(Quest)
+_sym_db.RegisterMessage(Quest.BuddyEvolutionWalkQuest)
+_sym_db.RegisterMessage(Quest.GeotargetedQuest)
+_sym_db.RegisterMessage(Quest.GetStardustQuest)
+_sym_db.RegisterMessage(Quest.WithSingleDay)
 _sym_db.RegisterMessage(Quest.QuestWalk)
 _sym_db.RegisterMessage(Quest.EvolveIntoPokemonQuest)
 _sym_db.RegisterMessage(Quest.DaysWithARowQuest)

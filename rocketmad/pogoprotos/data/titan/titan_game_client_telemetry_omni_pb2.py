@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.titan',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n<pogoprotos/data/titan/titan_game_client_telemetry_omni.proto\x12\x15pogoprotos.data.titan\x1a%pogoprotos/enums/poi_image_type.proto\x1a\x34pogoprotos/data/telemetry/platform_server_data.proto\"\xd5\r\n\x1cTitanGameClientTelemetryOmni\x12n\n\x18poi_submission_telemetry\x18\x01 \x01(\x0b\x32J.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionTelemetryH\x00\x12\x91\x01\n+poi_submission_photo_upload_error_telemetry\x18\x02 \x01(\x0b\x32Z.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionPhotoUploadErrorTelemetryH\x00\x12s\n\x19player_metadata_telemetry\x18\x03 \x01(\x0b\x32N.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiPlayerMetadataTelemetryH\x00\x12\x45\n\x0bserver_data\x18\xe9\x07 \x01(\x0b\x32-.pogoprotos.data.telemetry.PlatformServerDataH\x00\x1a\x45\n\x1aPoiPlayerMetadataTelemetry\x12\x14\n\x0c\x64\x65vice_model\x18\x01 \x01(\t\x12\x11\n\tdevice_os\x18\x02 \x01(\t\x1a\xec\x02\n&PoiSubmissionPhotoUploadErrorTelemetry\x12\x8d\x01\n\x08\x65rror_id\x18\x01 \x01(\x0e\x32{.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionPhotoUploadErrorTelemetry.PoiSubmissionPhotoUploadErrorIds\x12\x32\n\nimage_type\x18\x02 \x01(\x0e\x32\x1e.pogoprotos.enums.PoiImageType\x12\x15\n\rerror_message\x18\x03 \x01(\t\"g\n PoiSubmissionPhotoUploadErrorIds\x12\t\n\x05UNSET\x10\x00\x12\x1a\n\x16POI_PHOTO_UPLOAD_ERROR\x10\x01\x12\x1c\n\x18POI_PHOTO_UPLOAD_TIMEOUT\x10\x02\x1a\xad\x06\n\x16PoiSubmissionTelemetry\x12x\n\x0cgui_event_id\x18\x01 \x01(\x0e\x32\x62.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionTelemetry.PoiSubmissionGuiEventId\x12\x32\n\nimage_type\x18\x02 \x01(\x0e\x32\x1e.pogoprotos.enums.PoiImageType\x12s\n\x0e\x63\x61mera_step_id\x18\x03 \x01(\x0e\x32[.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionTelemetry.PoiCameraStepIds\"K\n\x10PoiCameraStepIds\x12\t\n\x05UNSET\x10\x00\x12\t\n\x05\x45NTER\x10\x01\x12\n\n\x06RETAKE\x10\x02\x12\x0b\n\x07\x43ONFIRM\x10\x03\x12\x08\n\x04\x45XIT\x10\x04\"\xa2\x03\n\x17PoiSubmissionGuiEventId\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x18\n\x14POI_NOMINATION_ENTER\x10\x01\x12\x19\n\x15POI_TUTORIAL_COMPLETE\x10\x02\x12\x1b\n\x17POI_MAP_CHANGEDVIEW_MAP\x10\x03\x12!\n\x1dPOI_MAP_CHANGEDVIEW_SATELLITE\x10\x04\x12\x1b\n\x17POI_MAP_CENTER_LOCATION\x10\x05\x12\x14\n\x10POI_LOCATION_SET\x10\x06\x12\x1a\n\x16POI_PHOTO_CAMERA_ENTER\x10\x07\x12\x19\n\x15POI_PHOTO_CAMERA_EXIT\x10\x08\x12\x15\n\x11POI_TITLE_ENTERED\x10\t\x12\x19\n\x15POI_DESCRIPTION_ENTER\x10\n\x12\x17\n\x13POI_DETAILS_CONFIRM\x10\x0b\x12\x1c\n\x18POI_SUPPORTINGINFO_ENTER\x10\x0c\x12\x19\n\x15POI_SUBMIT_BUTTON_HIT\x10\r\x12\x17\n\x13POI_EXIT_BUTTON_HIT\x10\x0e\x42\x0f\n\rTelemetryDatab\x06proto3')
+  serialized_pb=_b('\n<pogoprotos/data/titan/titan_game_client_telemetry_omni.proto\x12\x15pogoprotos.data.titan\x1a%pogoprotos/enums/poi_image_type.proto\x1a\x34pogoprotos/data/telemetry/platform_server_data.proto\"\xd3\r\n\x1cTitanGameClientTelemetryOmni\x12n\n\x18poi_submission_telemetry\x18\x01 \x01(\x0b\x32J.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionTelemetryH\x00\x12\x91\x01\n+poi_submission_photo_upload_error_telemetry\x18\x02 \x01(\x0b\x32Z.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionPhotoUploadErrorTelemetryH\x00\x12s\n\x19player_metadata_telemetry\x18\x03 \x01(\x0b\x32N.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiPlayerMetadataTelemetryH\x00\x12\x43\n\x0bserver_data\x18\xe9\x07 \x01(\x0b\x32-.pogoprotos.data.telemetry.PlatformServerData\x1a\x45\n\x1aPoiPlayerMetadataTelemetry\x12\x14\n\x0c\x64\x65vice_model\x18\x01 \x01(\t\x12\x11\n\tdevice_os\x18\x02 \x01(\t\x1a\xec\x02\n&PoiSubmissionPhotoUploadErrorTelemetry\x12\x8d\x01\n\x08\x65rror_id\x18\x01 \x01(\x0e\x32{.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionPhotoUploadErrorTelemetry.PoiSubmissionPhotoUploadErrorIds\x12\x32\n\nimage_type\x18\x02 \x01(\x0e\x32\x1e.pogoprotos.enums.PoiImageType\x12\x15\n\rerror_message\x18\x03 \x01(\t\"g\n PoiSubmissionPhotoUploadErrorIds\x12\t\n\x05UNSET\x10\x00\x12\x1a\n\x16POI_PHOTO_UPLOAD_ERROR\x10\x01\x12\x1c\n\x18POI_PHOTO_UPLOAD_TIMEOUT\x10\x02\x1a\xad\x06\n\x16PoiSubmissionTelemetry\x12x\n\x0cgui_event_id\x18\x01 \x01(\x0e\x32\x62.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionTelemetry.PoiSubmissionGuiEventId\x12\x32\n\nimage_type\x18\x02 \x01(\x0e\x32\x1e.pogoprotos.enums.PoiImageType\x12s\n\x0e\x63\x61mera_step_id\x18\x03 \x01(\x0e\x32[.pogoprotos.data.titan.TitanGameClientTelemetryOmni.PoiSubmissionTelemetry.PoiCameraStepIds\"K\n\x10PoiCameraStepIds\x12\t\n\x05UNSET\x10\x00\x12\t\n\x05\x45NTER\x10\x01\x12\n\n\x06RETAKE\x10\x02\x12\x0b\n\x07\x43ONFIRM\x10\x03\x12\x08\n\x04\x45XIT\x10\x04\"\xa2\x03\n\x17PoiSubmissionGuiEventId\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x18\n\x14POI_NOMINATION_ENTER\x10\x01\x12\x19\n\x15POI_TUTORIAL_COMPLETE\x10\x02\x12\x1b\n\x17POI_MAP_CHANGEDVIEW_MAP\x10\x03\x12!\n\x1dPOI_MAP_CHANGEDVIEW_SATELLITE\x10\x04\x12\x1b\n\x17POI_MAP_CENTER_LOCATION\x10\x05\x12\x14\n\x10POI_LOCATION_SET\x10\x06\x12\x1a\n\x16POI_PHOTO_CAMERA_ENTER\x10\x07\x12\x19\n\x15POI_PHOTO_CAMERA_EXIT\x10\x08\x12\x15\n\x11POI_TITLE_ENTERED\x10\t\x12\x19\n\x15POI_DESCRIPTION_ENTER\x10\n\x12\x17\n\x13POI_DETAILS_CONFIRM\x10\x0b\x12\x1c\n\x18POI_SUPPORTINGINFO_ENTER\x10\x0c\x12\x19\n\x15POI_SUBMIT_BUTTON_HIT\x10\r\x12\x17\n\x13POI_EXIT_BUTTON_HIT\x10\x0e\x42\x0f\n\rTelemetryDatab\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_poi__image__type__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_telemetry_dot_platform__server__data__pb2.DESCRIPTOR,])
 
@@ -48,8 +48,8 @@ _TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONPHOTOUPLOADERRORTELEMETRY_POISUBMISSI
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=994,
-  serialized_end=1097,
+  serialized_start=992,
+  serialized_end=1095,
 )
 _sym_db.RegisterEnumDescriptor(_TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONPHOTOUPLOADERRORTELEMETRY_POISUBMISSIONPHOTOUPLOADERRORIDS)
 
@@ -82,8 +82,8 @@ _TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONTELEMETRY_POICAMERASTEPIDS = _descrip
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1417,
-  serialized_end=1492,
+  serialized_start=1415,
+  serialized_end=1490,
 )
 _sym_db.RegisterEnumDescriptor(_TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONTELEMETRY_POICAMERASTEPIDS)
 
@@ -156,8 +156,8 @@ _TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONTELEMETRY_POISUBMISSIONGUIEVENTID = _
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1495,
-  serialized_end=1913,
+  serialized_start=1493,
+  serialized_end=1911,
 )
 _sym_db.RegisterEnumDescriptor(_TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONTELEMETRY_POISUBMISSIONGUIEVENTID)
 
@@ -195,8 +195,8 @@ _TITANGAMECLIENTTELEMETRYOMNI_POIPLAYERMETADATATELEMETRY = _descriptor.Descripto
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=661,
-  serialized_end=730,
+  serialized_start=659,
+  serialized_end=728,
 )
 
 _TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONPHOTOUPLOADERRORTELEMETRY = _descriptor.Descriptor(
@@ -240,8 +240,8 @@ _TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONPHOTOUPLOADERRORTELEMETRY = _descript
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=733,
-  serialized_end=1097,
+  serialized_start=731,
+  serialized_end=1095,
 )
 
 _TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONTELEMETRY = _descriptor.Descriptor(
@@ -286,8 +286,8 @@ _TITANGAMECLIENTTELEMETRYOMNI_POISUBMISSIONTELEMETRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1100,
-  serialized_end=1913,
+  serialized_start=1098,
+  serialized_end=1911,
 )
 
 _TITANGAMECLIENTTELEMETRYOMNI = _descriptor.Descriptor(
@@ -341,7 +341,7 @@ _TITANGAMECLIENTTELEMETRYOMNI = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=181,
-  serialized_end=1930,
+  serialized_end=1928,
 )
 
 _TITANGAMECLIENTTELEMETRYOMNI_POIPLAYERMETADATATELEMETRY.containing_type = _TITANGAMECLIENTTELEMETRYOMNI
@@ -368,9 +368,6 @@ _TITANGAMECLIENTTELEMETRYOMNI.fields_by_name['poi_submission_photo_upload_error_
 _TITANGAMECLIENTTELEMETRYOMNI.oneofs_by_name['TelemetryData'].fields.append(
   _TITANGAMECLIENTTELEMETRYOMNI.fields_by_name['player_metadata_telemetry'])
 _TITANGAMECLIENTTELEMETRYOMNI.fields_by_name['player_metadata_telemetry'].containing_oneof = _TITANGAMECLIENTTELEMETRYOMNI.oneofs_by_name['TelemetryData']
-_TITANGAMECLIENTTELEMETRYOMNI.oneofs_by_name['TelemetryData'].fields.append(
-  _TITANGAMECLIENTTELEMETRYOMNI.fields_by_name['server_data'])
-_TITANGAMECLIENTTELEMETRYOMNI.fields_by_name['server_data'].containing_oneof = _TITANGAMECLIENTTELEMETRYOMNI.oneofs_by_name['TelemetryData']
 DESCRIPTOR.message_types_by_name['TitanGameClientTelemetryOmni'] = _TITANGAMECLIENTTELEMETRYOMNI
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

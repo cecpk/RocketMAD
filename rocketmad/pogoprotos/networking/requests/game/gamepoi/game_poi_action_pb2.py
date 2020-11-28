@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.requests.game.gamepoi',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\nApogoprotos/networking/requests/game/gamepoi/game_poi_action.proto\x12+pogoprotos.networking.requests.game.gamepoi*\xc0\x04\n\rGamePoiAction\x12\x1b\n\x17UNKNOWN_GAME_POI_ACTION\x10\x00\x12\x11\n\x0b\x41\x44\x44_NEW_POI\x10\xe0\xeb%\x12\x1f\n\x19GET_AVAILABLE_SUBMISSIONS\x10\xe1\xeb%\x12%\n\x1fGET_SIGNED_URL_FOR_PHOTO_UPLOAD\x10\xe2\xeb%\x12/\n)GET_PLAYER_SUBMISSION_VALIDATION_SETTINGS\x10\xe3\xeb%\x12\x16\n\x10SUBMIT_POI_IMAGE\x10\xc4\xec%\x12%\n\x1fSUBMIT_POI_TEXT_METADATA_UPDATE\x10\xc5\xec%\x12 \n\x1aSUBMIT_POI_LOCATION_UPDATE\x10\xc6\xec%\x12!\n\x1bSUBMIT_POI_TAKEDOWN_REQUEST\x10\xc7\xec%\x12\x1f\n\x19SUBMIT_SPONSOR_POI_REPORT\x10\xc8\xec%\x12(\n\"SUBMIT_SPONSOR_POI_LOCATION_UPDATE\x10\xc9\xec%\x12\x13\n\rADD_NEW_ROUTE\x10\xa8\xed%\x12\x1e\n\x18GENERATE_GMAP_SIGNED_URL\x10\x8c\xee%\x12\x17\n\x11GET_GMAP_SETTINGS\x10\x8d\xee%\x12\"\n\x1cSUBMIT_POI_AR_VIDEO_METADATA\x10\xf0\xee%\x12#\n\x1dGET_GRAPESHOT_FILE_UPLOAD_URL\x10\xf1\xee%\x12 \n\x1a\x41SYNC_FILE_UPLOAD_COMPLETE\x10\xf2\xee%b\x06proto3')
+  serialized_pb=_b('\nApogoprotos/networking/requests/game/gamepoi/game_poi_action.proto\x12+pogoprotos.networking.requests.game.gamepoi*\xc1\x05\n\rGamePoiAction\x12\x1b\n\x17UNKNOWN_GAME_POI_ACTION\x10\x00\x12\x11\n\x0b\x41\x44\x44_NEW_POI\x10\xe0\xeb%\x12\x1f\n\x19GET_AVAILABLE_SUBMISSIONS\x10\xe1\xeb%\x12%\n\x1fGET_SIGNED_URL_FOR_PHOTO_UPLOAD\x10\xe2\xeb%\x12/\n)GET_PLAYER_SUBMISSION_VALIDATION_SETTINGS\x10\xe3\xeb%\x12\x16\n\x10SUBMIT_POI_IMAGE\x10\xc4\xec%\x12%\n\x1fSUBMIT_POI_TEXT_METADATA_UPDATE\x10\xc5\xec%\x12 \n\x1aSUBMIT_POI_LOCATION_UPDATE\x10\xc6\xec%\x12!\n\x1bSUBMIT_POI_TAKEDOWN_REQUEST\x10\xc7\xec%\x12\x1f\n\x19SUBMIT_SPONSOR_POI_REPORT\x10\xc8\xec%\x12(\n\"SUBMIT_SPONSOR_POI_LOCATION_UPDATE\x10\xc9\xec%\x12\x13\n\rADD_NEW_ROUTE\x10\xa8\xed%\x12\x1e\n\x18GENERATE_GMAP_SIGNED_URL\x10\x8c\xee%\x12\x17\n\x11GET_GMAP_SETTINGS\x10\x8d\xee%\x12\"\n\x1cSUBMIT_POI_AR_VIDEO_METADATA\x10\xf0\xee%\x12#\n\x1dGET_GRAPESHOT_FILE_UPLOAD_URL\x10\xf1\xee%\x12 \n\x1a\x41SYNC_FILE_UPLOAD_COMPLETE\x10\xf2\xee%\x12\x1d\n\x17GET_AR_MAPPING_SETTINGS\x10\xf3\xee%\x12\x18\n\x12GET_IMAGES_FOR_POI\x10\xd4\xef%\x12&\n SUBMIT_PLAYER_IMAGE_VOTE_FOR_POI\x10\xd5\xef%\x12\x1e\n\x18IS_IMAGE_GALLERY_ENABLED\x10\xd6\xef%b\x06proto3')
 )
 
 _GAMEPOIACTION = _descriptor.EnumDescriptor(
@@ -97,11 +97,27 @@ _GAMEPOIACTION = _descriptor.EnumDescriptor(
       name='ASYNC_FILE_UPLOAD_COMPLETE', index=16, number=620402,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='GET_AR_MAPPING_SETTINGS', index=17, number=620403,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='GET_IMAGES_FOR_POI', index=18, number=620500,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='SUBMIT_PLAYER_IMAGE_VOTE_FOR_POI', index=19, number=620501,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='IS_IMAGE_GALLERY_ENABLED', index=20, number=620502,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=115,
-  serialized_end=691,
+  serialized_end=820,
 )
 _sym_db.RegisterEnumDescriptor(_GAMEPOIACTION)
 
@@ -123,6 +139,10 @@ GET_GMAP_SETTINGS = 620301
 SUBMIT_POI_AR_VIDEO_METADATA = 620400
 GET_GRAPESHOT_FILE_UPLOAD_URL = 620401
 ASYNC_FILE_UPLOAD_COMPLETE = 620402
+GET_AR_MAPPING_SETTINGS = 620403
+GET_IMAGES_FOR_POI = 620500
+SUBMIT_PLAYER_IMAGE_VOTE_FOR_POI = 620501
+IS_IMAGE_GALLERY_ENABLED = 620502
 
 
 DESCRIPTOR.enum_types_by_name['GamePoiAction'] = _GAMEPOIACTION

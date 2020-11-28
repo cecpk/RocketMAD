@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.grapeshot',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n6pogoprotos/data/grapeshot/grapeshot_compose_data.proto\x12\x19pogoprotos.data.grapeshot\x1a=pogoprotos/data/grapeshot/grapeshot_authentication_data.proto\"\x80\x01\n\x14GrapeshotComposeData\x12\x18\n\x10target_file_path\x18\x01 \x01(\t\x12N\n\x0e\x61uthentication\x18\x02 \x01(\x0b\x32\x36.pogoprotos.data.grapeshot.GrapeshotAuthenticationDatab\x06proto3')
+  serialized_pb=_b('\n6pogoprotos/data/grapeshot/grapeshot_compose_data.proto\x12\x19pogoprotos.data.grapeshot\x1a=pogoprotos/data/grapeshot/grapeshot_authentication_data.proto\"\x8e\x01\n\x14GrapeshotComposeData\x12\x18\n\x10target_file_path\x18\x01 \x01(\t\x12N\n\x0e\x61uthentication\x18\x02 \x01(\x0b\x32\x36.pogoprotos.data.grapeshot.GrapeshotAuthenticationData\x12\x0c\n\x04hash\x18\x03 \x01(\tb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_grapeshot_dot_grapeshot__authentication__data__pb2.DESCRIPTOR,])
 
@@ -48,6 +48,13 @@ _GRAPESHOTCOMPOSEDATA = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hash', full_name='pogoprotos.data.grapeshot.GrapeshotComposeData.hash', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -61,7 +68,7 @@ _GRAPESHOTCOMPOSEDATA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=149,
-  serialized_end=277,
+  serialized_end=291,
 )
 
 _GRAPESHOTCOMPOSEDATA.fields_by_name['authentication'].message_type = pogoprotos_dot_data_dot_grapeshot_dot_grapeshot__authentication__data__pb2._GRAPESHOTAUTHENTICATIONDATA

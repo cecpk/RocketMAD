@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings.master',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n6pogoprotos/settings/master/ar_telemetry_settings.proto\x12\x1apogoprotos.settings.master\"\xda\x01\n\x13\x41rTelemetrySettings\x12\x17\n\x0fmeasure_battery\x18\x01 \x01(\x08\x12$\n\x1c\x62\x61ttery_sampling_interval_ms\x18\x02 \x01(\x05\x12\x19\n\x11measure_processor\x18\x03 \x01(\x08\x12&\n\x1eprocessor_sampling_interval_ms\x18\x04 \x01(\x05\x12\x19\n\x11measure_framerate\x18\x05 \x01(\x08\x12&\n\x1e\x66ramerate_sampling_interval_ms\x18\x06 \x01(\x05\x62\x06proto3')
+  serialized_pb=_b('\n6pogoprotos/settings/master/ar_telemetry_settings.proto\x12\x1apogoprotos.settings.master\"\x81\x02\n\x13\x41rTelemetrySettings\x12\x17\n\x0fmeasure_battery\x18\x01 \x01(\x08\x12$\n\x1c\x62\x61ttery_sampling_interval_ms\x18\x02 \x01(\x05\x12\x19\n\x11measure_processor\x18\x03 \x01(\x08\x12&\n\x1eprocessor_sampling_interval_ms\x18\x04 \x01(\x05\x12\x19\n\x11measure_framerate\x18\x05 \x01(\x08\x12&\n\x1e\x66ramerate_sampling_interval_ms\x18\x06 \x01(\x05\x12%\n\x1dpercentage_sessions_to_sample\x18\x07 \x01(\x02\x62\x06proto3')
 )
 
 
@@ -74,6 +74,13 @@ _ARTELEMETRYSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='percentage_sessions_to_sample', full_name='pogoprotos.settings.master.ArTelemetrySettings.percentage_sessions_to_sample', index=6,
+      number=7, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -87,7 +94,7 @@ _ARTELEMETRYSETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=87,
-  serialized_end=305,
+  serialized_end=344,
 )
 
 DESCRIPTOR.message_types_by_name['ArTelemetrySettings'] = _ARTELEMETRYSETTINGS

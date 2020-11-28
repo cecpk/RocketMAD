@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.quests',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n0pogoprotos/data/quests/catch_pokemon_quest.proto\x12\x16pogoprotos.data.quests\x1a!pogoprotos/enums/pokemon_id.proto\"K\n\x11\x43\x61tchPokemonQuest\x12\x36\n\x11unique_pokemon_id\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonIdb\x06proto3')
+  serialized_pb=_b('\n0pogoprotos/data/quests/catch_pokemon_quest.proto\x12\x16pogoprotos.data.quests\x1a!pogoprotos/enums/pokemon_id.proto\"h\n\x11\x43\x61tchPokemonQuest\x12\x36\n\x11unique_pokemon_id\x18\x01 \x03(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12\x1b\n\x13\x61\x63tive_encounter_id\x18\x02 \x01(\x06\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,])
 
@@ -41,6 +41,13 @@ _CATCHPOKEMONQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='active_encounter_id', full_name='pogoprotos.data.quests.CatchPokemonQuest.active_encounter_id', index=1,
+      number=2, type=6, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -54,7 +61,7 @@ _CATCHPOKEMONQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=111,
-  serialized_end=186,
+  serialized_end=215,
 )
 
 _CATCHPOKEMONQUEST.fields_by_name['unique_pokemon_id'].enum_type = pogoprotos_dot_enums_dot_pokemon__id__pb2._POKEMONID

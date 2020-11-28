@@ -26,7 +26,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.battle',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n+pogoprotos/data/battle/battle_results.proto\x12\x16pogoprotos.data.battle\x1a#pogoprotos/data/gym/gym_state.proto\x1a/pogoprotos/data/battle/battle_participant.proto\x1a\x32pogoprotos/data/gym/gym_status_and_defenders.proto\x1a(pogoprotos/data/raid/participation.proto\x1a\x1fpogoprotos/inventory/loot.proto\x1a)pogoprotos/data/raid/raid_encounter.proto\x1a-pogoprotos/data/badge/awarded_gym_badge.proto\"\xc5\x04\n\rBattleResults\x12\x30\n\tgym_state\x18\x01 \x01(\x0b\x32\x1d.pogoprotos.data.gym.GymState\x12<\n\tattackers\x18\x02 \x03(\x0b\x32).pogoprotos.data.battle.BattleParticipant\x12\x19\n\x11player_xp_awarded\x18\x03 \x03(\x05\x12 \n\x18next_defender_pokemon_id\x18\x04 \x01(\x03\x12\x18\n\x10gym_points_delta\x18\x05 \x01(\x05\x12>\n\ngym_status\x18\x06 \x01(\x0b\x32*.pogoprotos.data.gym.GymStatusAndDefenders\x12:\n\rparticipation\x18\x07 \x03(\x0b\x32#.pogoprotos.data.raid.Participation\x12\x35\n\x11raid_item_rewards\x18\x08 \x03(\x0b\x32\x1a.pogoprotos.inventory.Loot\x12@\n\x13post_raid_encounter\x18\t \x03(\x0b\x32#.pogoprotos.data.raid.RaidEncounter\x12\x39\n\tgym_badge\x18\n \x03(\x0b\x32&.pogoprotos.data.badge.AwardedGymBadge\x12=\n\x19\x64\x65\x66\x61ult_raid_item_rewards\x18\x0b \x03(\x0b\x32\x1a.pogoprotos.inventory.Lootb\x06proto3')
+  serialized_pb=_b('\n+pogoprotos/data/battle/battle_results.proto\x12\x16pogoprotos.data.battle\x1a#pogoprotos/data/gym/gym_state.proto\x1a/pogoprotos/data/battle/battle_participant.proto\x1a\x32pogoprotos/data/gym/gym_status_and_defenders.proto\x1a(pogoprotos/data/raid/participation.proto\x1a\x1fpogoprotos/inventory/loot.proto\x1a)pogoprotos/data/raid/raid_encounter.proto\x1a-pogoprotos/data/badge/awarded_gym_badge.proto\"\xe1\x04\n\rBattleResults\x12\x30\n\tgym_state\x18\x01 \x01(\x0b\x32\x1d.pogoprotos.data.gym.GymState\x12<\n\tattackers\x18\x02 \x03(\x0b\x32).pogoprotos.data.battle.BattleParticipant\x12\x19\n\x11player_xp_awarded\x18\x03 \x03(\x05\x12 \n\x18next_defender_pokemon_id\x18\x04 \x01(\x03\x12\x18\n\x10gym_points_delta\x18\x05 \x01(\x05\x12>\n\ngym_status\x18\x06 \x01(\x0b\x32*.pogoprotos.data.gym.GymStatusAndDefenders\x12:\n\rparticipation\x18\x07 \x03(\x0b\x32#.pogoprotos.data.raid.Participation\x12\x35\n\x11raid_item_rewards\x18\x08 \x03(\x0b\x32\x1a.pogoprotos.inventory.Loot\x12@\n\x13post_raid_encounter\x18\t \x03(\x0b\x32#.pogoprotos.data.raid.RaidEncounter\x12\x39\n\tgym_badge\x18\n \x03(\x0b\x32&.pogoprotos.data.badge.AwardedGymBadge\x12=\n\x19\x64\x65\x66\x61ult_raid_item_rewards\x18\x0b \x03(\x0b\x32\x1a.pogoprotos.inventory.Loot\x12\x1a\n\x12\x62\x61ttle_duration_ms\x18\x0c \x01(\x03\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_gym_dot_gym__state__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_battle_dot_battle__participant__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_gym_dot_gym__status__and__defenders__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_raid_dot_participation__pb2.DESCRIPTOR,pogoprotos_dot_inventory_dot_loot__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_raid_dot_raid__encounter__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_badge_dot_awarded__gym__badge__pb2.DESCRIPTOR,])
 
@@ -117,6 +117,13 @@ _BATTLERESULTS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='battle_duration_ms', full_name='pogoprotos.data.battle.BattleResults.battle_duration_ms', index=11,
+      number=12, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -130,7 +137,7 @@ _BATTLERESULTS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=375,
-  serialized_end=956,
+  serialized_end=984,
 )
 
 _BATTLERESULTS.fields_by_name['gym_state'].message_type = pogoprotos_dot_data_dot_gym_dot_gym__state__pb2._GYMSTATE

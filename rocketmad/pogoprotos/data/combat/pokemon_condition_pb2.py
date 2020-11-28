@@ -25,12 +25,49 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.data.combat',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n.pogoprotos/data/combat/pokemon_condition.proto\x12\x16pogoprotos.data.combat\x1a%pogoprotos/enums/condition_type.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\x1bpogoprotos/enums/form.proto\x1a\x32pogoprotos/data/combat/with_pokemon_cp_limit.proto\x1a.pogoprotos/data/combat/with_pokemon_type.proto\x1a\x32pogoprotos/data/combat/with_pokemon_category.proto\"\xc7\x07\n\x10PokemonCondition\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.pogoprotos.enums.ConditionType\x12K\n\x15with_pokemon_cp_limit\x18\x02 \x01(\x0b\x32*.pogoprotos.data.combat.WithPokemonCpLimitH\x00\x12\x44\n\x11with_pokemon_type\x18\x03 \x01(\x0b\x32\'.pogoprotos.data.combat.WithPokemonTypeH\x00\x12L\n\x15with_pokemon_category\x18\x04 \x01(\x0b\x32+.pogoprotos.data.combat.WithPokemonCategoryH\x00\x12V\n\x11pokemon_whitelist\x18\x05 \x01(\x0b\x32\x39.pogoprotos.data.combat.PokemonCondition.PokemonWhitelistH\x00\x12R\n\x0fpokemon_banlist\x18\x06 \x01(\x0b\x32\x37.pogoprotos.data.combat.PokemonCondition.PokemonBanlistH\x00\x12\x63\n\x18pokemon_caught_timestamp\x18\x07 \x01(\x0b\x32?.pogoprotos.data.combat.PokemonCondition.PokemonCaughtTimestampH\x00\x1aK\n\x16PokemonCaughtTimestamp\x12\x17\n\x0f\x61\x66ter_timestamp\x18\x01 \x01(\x03\x12\x18\n\x10\x62\x65\x66ore_timestamp\x18\x02 \x01(\x03\x1ai\n\x0ePokemonBanlist\x12\x0c\n\x04name\x18\x01 \x01(\t\x12I\n\x07pokemon\x18\x02 \x03(\x0b\x32\x38.pogoprotos.data.combat.PokemonCondition.PokemonWithForm\x1ak\n\x10PokemonWhitelist\x12\x0c\n\x04name\x18\x01 \x01(\t\x12I\n\x07pokemon\x18\x02 \x03(\x0b\x32\x38.pogoprotos.data.combat.PokemonCondition.PokemonWithForm\x1a`\n\x0fPokemonWithForm\x12\'\n\x02id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12$\n\x04\x66orm\x18\x02 \x01(\x0e\x32\x16.pogoprotos.enums.FormB\x0b\n\tConditionb\x06proto3')
+  serialized_pb=_b('\n.pogoprotos/data/combat/pokemon_condition.proto\x12\x16pogoprotos.data.combat\x1a%pogoprotos/enums/condition_type.proto\x1a!pogoprotos/enums/pokemon_id.proto\x1a\x1bpogoprotos/enums/form.proto\x1a\x32pogoprotos/data/combat/with_pokemon_cp_limit.proto\x1a.pogoprotos/data/combat/with_pokemon_type.proto\x1a\x32pogoprotos/data/combat/with_pokemon_category.proto\"\xdd\x08\n\x10PokemonCondition\x12-\n\x04type\x18\x01 \x01(\x0e\x32\x1f.pogoprotos.enums.ConditionType\x12K\n\x15with_pokemon_cp_limit\x18\x02 \x01(\x0b\x32*.pogoprotos.data.combat.WithPokemonCpLimitH\x00\x12\x44\n\x11with_pokemon_type\x18\x03 \x01(\x0b\x32\'.pogoprotos.data.combat.WithPokemonTypeH\x00\x12L\n\x15with_pokemon_category\x18\x04 \x01(\x0b\x32+.pogoprotos.data.combat.WithPokemonCategoryH\x00\x12V\n\x11pokemon_whitelist\x18\x05 \x01(\x0b\x32\x39.pogoprotos.data.combat.PokemonCondition.PokemonWhitelistH\x00\x12R\n\x0fpokemon_banlist\x18\x06 \x01(\x0b\x32\x37.pogoprotos.data.combat.PokemonCondition.PokemonBanlistH\x00\x12\x63\n\x18pokemon_caught_timestamp\x18\x07 \x01(\x0b\x32?.pogoprotos.data.combat.PokemonCondition.PokemonCaughtTimestampH\x00\x12Y\n\x13pokemon_level_range\x18\x08 \x01(\x0b\x32:.pogoprotos.data.combat.PokemonCondition.PokemonLevelRangeH\x00\x1a\x39\n\x11PokemonLevelRange\x12\x11\n\tmin_level\x18\x01 \x01(\x05\x12\x11\n\tmax_level\x18\x02 \x01(\x05\x1aK\n\x16PokemonCaughtTimestamp\x12\x17\n\x0f\x61\x66ter_timestamp\x18\x01 \x01(\x03\x12\x18\n\x10\x62\x65\x66ore_timestamp\x18\x02 \x01(\x03\x1ai\n\x0ePokemonBanlist\x12\x0c\n\x04name\x18\x01 \x01(\t\x12I\n\x07pokemon\x18\x02 \x03(\x0b\x32\x38.pogoprotos.data.combat.PokemonCondition.PokemonWithForm\x1ak\n\x10PokemonWhitelist\x12\x0c\n\x04name\x18\x01 \x01(\t\x12I\n\x07pokemon\x18\x02 \x03(\x0b\x32\x38.pogoprotos.data.combat.PokemonCondition.PokemonWithForm\x1a`\n\x0fPokemonWithForm\x12\'\n\x02id\x18\x01 \x01(\x0e\x32\x1b.pogoprotos.enums.PokemonId\x12$\n\x04\x66orm\x18\x02 \x01(\x0e\x32\x16.pogoprotos.enums.FormB\x0b\n\tConditionb\x06proto3')
   ,
   dependencies=[pogoprotos_dot_enums_dot_condition__type__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_pokemon__id__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_form__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_with__pokemon__cp__limit__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_with__pokemon__type__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_combat_dot_with__pokemon__category__pb2.DESCRIPTOR,])
 
 
 
+
+_POKEMONCONDITION_POKEMONLEVELRANGE = _descriptor.Descriptor(
+  name='PokemonLevelRange',
+  full_name='pogoprotos.data.combat.PokemonCondition.PokemonLevelRange',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='min_level', full_name='pogoprotos.data.combat.PokemonCondition.PokemonLevelRange.min_level', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='max_level', full_name='pogoprotos.data.combat.PokemonCondition.PokemonLevelRange.max_level', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=986,
+  serialized_end=1043,
+)
 
 _POKEMONCONDITION_POKEMONCAUGHTTIMESTAMP = _descriptor.Descriptor(
   name='PokemonCaughtTimestamp',
@@ -65,8 +102,8 @@ _POKEMONCONDITION_POKEMONCAUGHTTIMESTAMP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=895,
-  serialized_end=970,
+  serialized_start=1045,
+  serialized_end=1120,
 )
 
 _POKEMONCONDITION_POKEMONBANLIST = _descriptor.Descriptor(
@@ -102,8 +139,8 @@ _POKEMONCONDITION_POKEMONBANLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=972,
-  serialized_end=1077,
+  serialized_start=1122,
+  serialized_end=1227,
 )
 
 _POKEMONCONDITION_POKEMONWHITELIST = _descriptor.Descriptor(
@@ -139,8 +176,8 @@ _POKEMONCONDITION_POKEMONWHITELIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1079,
-  serialized_end=1186,
+  serialized_start=1229,
+  serialized_end=1336,
 )
 
 _POKEMONCONDITION_POKEMONWITHFORM = _descriptor.Descriptor(
@@ -176,8 +213,8 @@ _POKEMONCONDITION_POKEMONWITHFORM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1188,
-  serialized_end=1284,
+  serialized_start=1338,
+  serialized_end=1434,
 )
 
 _POKEMONCONDITION = _descriptor.Descriptor(
@@ -236,10 +273,17 @@ _POKEMONCONDITION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pokemon_level_range', full_name='pogoprotos.data.combat.PokemonCondition.pokemon_level_range', index=7,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
-  nested_types=[_POKEMONCONDITION_POKEMONCAUGHTTIMESTAMP, _POKEMONCONDITION_POKEMONBANLIST, _POKEMONCONDITION_POKEMONWHITELIST, _POKEMONCONDITION_POKEMONWITHFORM, ],
+  nested_types=[_POKEMONCONDITION_POKEMONLEVELRANGE, _POKEMONCONDITION_POKEMONCAUGHTTIMESTAMP, _POKEMONCONDITION_POKEMONBANLIST, _POKEMONCONDITION_POKEMONWHITELIST, _POKEMONCONDITION_POKEMONWITHFORM, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -252,9 +296,10 @@ _POKEMONCONDITION = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=330,
-  serialized_end=1297,
+  serialized_end=1447,
 )
 
+_POKEMONCONDITION_POKEMONLEVELRANGE.containing_type = _POKEMONCONDITION
 _POKEMONCONDITION_POKEMONCAUGHTTIMESTAMP.containing_type = _POKEMONCONDITION
 _POKEMONCONDITION_POKEMONBANLIST.fields_by_name['pokemon'].message_type = _POKEMONCONDITION_POKEMONWITHFORM
 _POKEMONCONDITION_POKEMONBANLIST.containing_type = _POKEMONCONDITION
@@ -270,6 +315,7 @@ _POKEMONCONDITION.fields_by_name['with_pokemon_category'].message_type = pogopro
 _POKEMONCONDITION.fields_by_name['pokemon_whitelist'].message_type = _POKEMONCONDITION_POKEMONWHITELIST
 _POKEMONCONDITION.fields_by_name['pokemon_banlist'].message_type = _POKEMONCONDITION_POKEMONBANLIST
 _POKEMONCONDITION.fields_by_name['pokemon_caught_timestamp'].message_type = _POKEMONCONDITION_POKEMONCAUGHTTIMESTAMP
+_POKEMONCONDITION.fields_by_name['pokemon_level_range'].message_type = _POKEMONCONDITION_POKEMONLEVELRANGE
 _POKEMONCONDITION.oneofs_by_name['Condition'].fields.append(
   _POKEMONCONDITION.fields_by_name['with_pokemon_cp_limit'])
 _POKEMONCONDITION.fields_by_name['with_pokemon_cp_limit'].containing_oneof = _POKEMONCONDITION.oneofs_by_name['Condition']
@@ -288,10 +334,20 @@ _POKEMONCONDITION.fields_by_name['pokemon_banlist'].containing_oneof = _POKEMONC
 _POKEMONCONDITION.oneofs_by_name['Condition'].fields.append(
   _POKEMONCONDITION.fields_by_name['pokemon_caught_timestamp'])
 _POKEMONCONDITION.fields_by_name['pokemon_caught_timestamp'].containing_oneof = _POKEMONCONDITION.oneofs_by_name['Condition']
+_POKEMONCONDITION.oneofs_by_name['Condition'].fields.append(
+  _POKEMONCONDITION.fields_by_name['pokemon_level_range'])
+_POKEMONCONDITION.fields_by_name['pokemon_level_range'].containing_oneof = _POKEMONCONDITION.oneofs_by_name['Condition']
 DESCRIPTOR.message_types_by_name['PokemonCondition'] = _POKEMONCONDITION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PokemonCondition = _reflection.GeneratedProtocolMessageType('PokemonCondition', (_message.Message,), dict(
+
+  PokemonLevelRange = _reflection.GeneratedProtocolMessageType('PokemonLevelRange', (_message.Message,), dict(
+    DESCRIPTOR = _POKEMONCONDITION_POKEMONLEVELRANGE,
+    __module__ = 'pogoprotos.data.combat.pokemon_condition_pb2'
+    # @@protoc_insertion_point(class_scope:pogoprotos.data.combat.PokemonCondition.PokemonLevelRange)
+    ))
+  ,
 
   PokemonCaughtTimestamp = _reflection.GeneratedProtocolMessageType('PokemonCaughtTimestamp', (_message.Message,), dict(
     DESCRIPTOR = _POKEMONCONDITION_POKEMONCAUGHTTIMESTAMP,
@@ -325,6 +381,7 @@ PokemonCondition = _reflection.GeneratedProtocolMessageType('PokemonCondition', 
   # @@protoc_insertion_point(class_scope:pogoprotos.data.combat.PokemonCondition)
   ))
 _sym_db.RegisterMessage(PokemonCondition)
+_sym_db.RegisterMessage(PokemonCondition.PokemonLevelRange)
 _sym_db.RegisterMessage(PokemonCondition.PokemonCaughtTimestamp)
 _sym_db.RegisterMessage(PokemonCondition.PokemonBanlist)
 _sym_db.RegisterMessage(PokemonCondition.PokemonWhitelist)

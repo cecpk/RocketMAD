@@ -25,7 +25,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.networking.responses',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n;pogoprotos/networking/responses/fort_details_response.proto\x12\x1fpogoprotos.networking.responses\x1a\"pogoprotos/data/pokemon_data.proto\x1a%pogoprotos/data/raid/event_info.proto\x1a!pogoprotos/enums/team_color.proto\x1a#pogoprotos/map/fort/fort_type.proto\x1a\'pogoprotos/map/fort/fort_modifier.proto\x1a+pogoprotos/map/fort/sponsored_details.proto\"\xda\x04\n\x13\x46ortDetailsResponse\x12\x0f\n\x07\x66ort_id\x18\x01 \x01(\t\x12/\n\nteam_color\x18\x02 \x01(\x0e\x32\x1b.pogoprotos.enums.TeamColor\x12\x32\n\x0cpokemon_data\x18\x03 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonData\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x12\n\nimage_urls\x18\x05 \x03(\t\x12\n\n\x02\x66p\x18\x06 \x01(\x05\x12\x0f\n\x07stamina\x18\x07 \x01(\x05\x12\x13\n\x0bmax_stamina\x18\x08 \x01(\x05\x12+\n\x04type\x18\t \x01(\x0e\x32\x1d.pogoprotos.map.fort.FortType\x12\x10\n\x08latitude\x18\n \x01(\x01\x12\x11\n\tlongitude\x18\x0b \x01(\x01\x12\x13\n\x0b\x64\x65scription\x18\x0c \x01(\t\x12\x34\n\tmodifiers\x18\r \x03(\x0b\x32!.pogoprotos.map.fort.FortModifier\x12\x12\n\nclose_soon\x18\x0e \x01(\x08\x12\x19\n\x11\x63heckin_image_url\x18\x0f \x01(\t\x12\x33\n\nevent_info\x18\x10 \x01(\x0b\x32\x1f.pogoprotos.data.raid.EventInfo\x12\x19\n\x11promo_description\x18\x11 \x03(\t\x12\x1b\n\x13\x63\x61ll_to_action_link\x18\x12 \x01(\t\x12@\n\x11sponsored_details\x18\x13 \x01(\x0b\x32%.pogoprotos.map.fort.SponsoredDetailsb\x06proto3')
+  serialized_pb=_b('\n;pogoprotos/networking/responses/fort_details_response.proto\x12\x1fpogoprotos.networking.responses\x1a\"pogoprotos/data/pokemon_data.proto\x1a%pogoprotos/data/raid/event_info.proto\x1a!pogoprotos/enums/team_color.proto\x1a#pogoprotos/map/fort/fort_type.proto\x1a\'pogoprotos/map/fort/fort_modifier.proto\x1a+pogoprotos/map/fort/sponsored_details.proto\"\xc5\x05\n\x13\x46ortDetailsResponse\x12\x0f\n\x07\x66ort_id\x18\x01 \x01(\t\x12/\n\nteam_color\x18\x02 \x01(\x0e\x32\x1b.pogoprotos.enums.TeamColor\x12\x32\n\x0cpokemon_data\x18\x03 \x01(\x0b\x32\x1c.pogoprotos.data.PokemonData\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x12\n\nimage_urls\x18\x05 \x03(\t\x12\n\n\x02\x66p\x18\x06 \x01(\x05\x12\x0f\n\x07stamina\x18\x07 \x01(\x05\x12\x13\n\x0bmax_stamina\x18\x08 \x01(\x05\x12+\n\x04type\x18\t \x01(\x0e\x32\x1d.pogoprotos.map.fort.FortType\x12\x10\n\x08latitude\x18\n \x01(\x01\x12\x11\n\tlongitude\x18\x0b \x01(\x01\x12\x13\n\x0b\x64\x65scription\x18\x0c \x01(\t\x12\x34\n\tmodifiers\x18\r \x03(\x0b\x32!.pogoprotos.map.fort.FortModifier\x12\x12\n\nclose_soon\x18\x0e \x01(\x08\x12\x19\n\x11\x63heckin_image_url\x18\x0f \x01(\t\x12\x33\n\nevent_info\x18\x10 \x01(\x0b\x32\x1f.pogoprotos.data.raid.EventInfo\x12\x19\n\x11promo_description\x18\x11 \x03(\t\x12\x1b\n\x13\x63\x61ll_to_action_link\x18\x12 \x01(\t\x12@\n\x11sponsored_details\x18\x13 \x01(\x0b\x32%.pogoprotos.map.fort.SponsoredDetails\x12&\n\x1egeostore_tombstone_message_key\x18\x14 \x01(\t\x12\'\n\x1fgeostore_suspension_message_key\x18\x15 \x01(\t\x12\x18\n\x10poi_images_count\x18\x16 \x01(\x05\x62\x06proto3')
   ,
   dependencies=[pogoprotos_dot_data_dot_pokemon__data__pb2.DESCRIPTOR,pogoprotos_dot_data_dot_raid_dot_event__info__pb2.DESCRIPTOR,pogoprotos_dot_enums_dot_team__color__pb2.DESCRIPTOR,pogoprotos_dot_map_dot_fort_dot_fort__type__pb2.DESCRIPTOR,pogoprotos_dot_map_dot_fort_dot_fort__modifier__pb2.DESCRIPTOR,pogoprotos_dot_map_dot_fort_dot_sponsored__details__pb2.DESCRIPTOR,])
 
@@ -172,6 +172,27 @@ _FORTDETAILSRESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='geostore_tombstone_message_key', full_name='pogoprotos.networking.responses.FortDetailsResponse.geostore_tombstone_message_key', index=19,
+      number=20, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='geostore_suspension_message_key', full_name='pogoprotos.networking.responses.FortDetailsResponse.geostore_suspension_message_key', index=20,
+      number=21, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='poi_images_count', full_name='pogoprotos.networking.responses.FortDetailsResponse.poi_images_count', index=21,
+      number=22, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -185,7 +206,7 @@ _FORTDETAILSRESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=330,
-  serialized_end=932,
+  serialized_end=1039,
 )
 
 _FORTDETAILSRESPONSE.fields_by_name['team_color'].enum_type = pogoprotos_dot_enums_dot_team__color__pb2._TEAMCOLOR

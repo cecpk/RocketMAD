@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='pogoprotos.settings',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n-pogoprotos/settings/ar_mapping_settings.proto\x12\x13pogoprotos.settings\"\x9a\x04\n\x11\x41rMappingSettings\x12 \n\x18min_hours_between_prompt\x18\x01 \x01(\x05\x12\x1e\n\x16max_video_time_seconds\x18\x02 \x01(\x05\x12\"\n\x1apreview_video_bitrate_kbps\x18\x03 \x01(\x05\x12!\n\x19preview_video_deadline_ms\x18\x04 \x01(\x05\x12#\n\x1bresearch_video_bitrate_kbps\x18\x05 \x01(\x05\x12\"\n\x1aresearch_video_deadline_ms\x18\x06 \x01(\x05\x12\x1e\n\x16min_video_time_seconds\x18\x07 \x01(\x05\x12\x1e\n\x16preview_frame_rate_fps\x18\x08 \x01(\x05\x12\x1e\n\x16preview_frames_to_jump\x18\t \x01(\x05\x12\'\n\x1fmax_upload_chunk_rejected_count\x18\n \x01(\x05\x12 \n\x18\x61rdk_desired_accuracy_mm\x18\x0b \x01(\x05\x12\x1f\n\x17\x61rdk_update_distance_mm\x18\x0c \x01(\x05\x12$\n\x1cmax_pending_upload_kilobytes\x18\r \x01(\x05\x12\x1f\n\x17\x65nable_sponsor_poi_scan\x18\x0e \x01(\x08\x12 \n\x18min_disk_space_needed_mb\x18\x0f \x01(\x05\x62\x06proto3')
+  serialized_pb=_b('\n-pogoprotos/settings/ar_mapping_settings.proto\x12\x13pogoprotos.settings\"\x8e\x08\n\x11\x41rMappingSettings\x12 \n\x18min_hours_between_prompt\x18\x01 \x01(\x05\x12\x1e\n\x16max_video_time_seconds\x18\x02 \x01(\x05\x12\"\n\x1apreview_video_bitrate_kbps\x18\x03 \x01(\x05\x12!\n\x19preview_video_deadline_ms\x18\x04 \x01(\x05\x12#\n\x1bresearch_video_bitrate_kbps\x18\x05 \x01(\x05\x12\"\n\x1aresearch_video_deadline_ms\x18\x06 \x01(\x05\x12\x1e\n\x16min_video_time_seconds\x18\x07 \x01(\x05\x12\x1e\n\x16preview_frame_rate_fps\x18\x08 \x01(\x05\x12\x1e\n\x16preview_frames_to_jump\x18\t \x01(\x05\x12\'\n\x1fmax_upload_chunk_rejected_count\x18\n \x01(\x05\x12 \n\x18\x61rdk_desired_accuracy_mm\x18\x0b \x01(\x05\x12\x1f\n\x17\x61rdk_update_distance_mm\x18\x0c \x01(\x05\x12$\n\x1cmax_pending_upload_kilobytes\x18\r \x01(\x05\x12\x1f\n\x17\x65nable_sponsor_poi_scan\x18\x0e \x01(\x08\x12 \n\x18min_disk_space_needed_mb\x18\x0f \x01(\x05\x12\x1f\n\x17scan_validation_enabled\x18\x10 \x01(\x08\x12%\n\x1dscan_validation_start_delay_s\x18\x11 \x01(\x02\x12,\n$scan_validation_lumens_min_threshold\x18\x12 \x01(\x02\x12/\n\'scan_validation_lumens_smoothing_factor\x18\x13 \x01(\x02\x12/\n\'scan_validation_average_pixel_threshold\x18\x14 \x01(\x02\x12\x36\n.scan_validation_average_pixel_smoothing_factor\x18\x15 \x01(\x02\x12\x32\n*scan_validation_speed_min_threshold_mper_s\x18\x16 \x01(\x02\x12\x32\n*scan_validation_speed_max_threshold_mper_s\x18\x17 \x01(\x02\x12.\n&scan_validation_speed_smoothing_factor\x18\x18 \x01(\x02\x12*\n\"scan_validation_max_warning_time_s\x18\x19 \x01(\x02\x12\x1e\n\x16\x61r_recorder_v2_enabled\x18\x1a \x01(\x08\x62\x06proto3')
 )
 
 
@@ -137,6 +137,83 @@ _ARMAPPINGSETTINGS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_enabled', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_enabled', index=15,
+      number=16, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_start_delay_s', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_start_delay_s', index=16,
+      number=17, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_lumens_min_threshold', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_lumens_min_threshold', index=17,
+      number=18, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_lumens_smoothing_factor', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_lumens_smoothing_factor', index=18,
+      number=19, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_average_pixel_threshold', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_average_pixel_threshold', index=19,
+      number=20, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_average_pixel_smoothing_factor', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_average_pixel_smoothing_factor', index=20,
+      number=21, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_speed_min_threshold_mper_s', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_speed_min_threshold_mper_s', index=21,
+      number=22, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_speed_max_threshold_mper_s', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_speed_max_threshold_mper_s', index=22,
+      number=23, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_speed_smoothing_factor', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_speed_smoothing_factor', index=23,
+      number=24, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='scan_validation_max_warning_time_s', full_name='pogoprotos.settings.ArMappingSettings.scan_validation_max_warning_time_s', index=24,
+      number=25, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ar_recorder_v2_enabled', full_name='pogoprotos.settings.ArMappingSettings.ar_recorder_v2_enabled', index=25,
+      number=26, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -150,7 +227,7 @@ _ARMAPPINGSETTINGS = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=71,
-  serialized_end=609,
+  serialized_end=1109,
 )
 
 DESCRIPTOR.message_types_by_name['ArMappingSettings'] = _ARMAPPINGSETTINGS
