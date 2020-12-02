@@ -19474,6 +19474,19 @@
       }
     }
   },
+  "866": {
+    "name": "Mr. Rime",
+    "types": [
+      {
+        "type": "Ice",
+        "color": "#b8b8d0"
+      },
+      {
+        "type": "Psychic",
+        "color": "#b8b8d0"
+      }
+    ]
+  },
   "867": {
     "name": "Runerigus",
     "types": [
