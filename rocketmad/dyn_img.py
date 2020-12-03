@@ -13,14 +13,14 @@ from .utils import get_args, get_pokemon_data
 log = logging.getLogger(__name__)
 args = get_args()
 
-path_static = os.path.join(os.path.dirname(__file__), '..', 'static')
-path_icons = os.path.join(path_static, 'icons')
-path_images = os.path.join(path_static, 'images')
-path_gym = os.path.join(path_images, 'gym')
-path_raid = os.path.join(path_images, 'raid')
-path_weather = os.path.join(path_images, 'weather')
-path_generated = os.path.join(path_images, 'generated')
-path_generated_gym = os.path.join(path_generated, 'gym')
+path_static = Path(args.root_path) / 'static'
+path_icons = path_static / 'icons'
+path_images = path_static / 'images'
+path_gym = path_images / 'gym'
+path_raid = path_images / 'raid'
+path_weather = path_images / 'weather'
+path_generated = path_images / 'generated'
+path_generated_gym = path_generated / 'gym'
 
 # Protos constants.
 GENDER_UNSET = 0
@@ -44,26 +44,26 @@ weather_names = {
 }
 
 egg_images = {
-    1: os.path.join(path_gym, 'egg_normal.png'),
-    2: os.path.join(path_gym, 'egg_normal.png'),
-    3: os.path.join(path_gym, 'egg_rare.png'),
-    4: os.path.join(path_gym, 'egg_rare.png'),
-    5: os.path.join(path_gym, 'egg_legendary.png'),
-    6: os.path.join(path_gym, 'egg_mega.png')
+    1: path_gym / 'egg_normal.png',
+    2: path_gym / 'egg_normal.png',
+    3: path_gym / 'egg_rare.png',
+    4: path_gym / 'egg_rare.png',
+    5: path_gym / 'egg_legendary.png',
+    6: path_gym / 'egg_mega.png'
 }
 
 weather_images = {
-    1: os.path.join(path_weather, 'weather_icon_clear.png'),
-    2: os.path.join(path_weather, 'weather_icon_rain.png'),
-    3: os.path.join(path_weather, 'weather_icon_partlycloudy.png'),
-    4: os.path.join(path_weather, 'weather_icon_cloudy.png'),
-    5: os.path.join(path_weather, 'weather_icon_windy.png'),
-    6: os.path.join(path_weather, 'weather_icon_snow.png'),
-    7: os.path.join(path_weather, 'weather_icon_fog.png')
+    1: path_weather / 'weather_icon_clear.png',
+    2: path_weather / 'weather_icon_rain.png',
+    3: path_weather / 'weather_icon_partlycloudy.png',
+    4: path_weather / 'weather_icon_cloudy.png',
+    5: path_weather / 'weather_icon_windy.png',
+    6: path_weather / 'weather_icon_snow.png',
+    7: path_weather / 'weather_icon_fog.png'
 }
 
 # Info about Pokemon spritesheet
-path_pokemon_spritesheet = os.path.join(path_static, 'icons-large-sprite.png')
+path_pokemon_spritesheet = path_static / 'icons-large-sprite.png'
 pkm_sprites_size = 80
 pkm_sprites_cols = 28
 
@@ -100,7 +100,7 @@ raid_colors = {
     6: "\"rgb(141,54,40)\""
 }
 
-font = os.path.join(path_static, 'Arial Black.ttf')
+font = path_static / 'Arial Black.ttf'
 font_pointsize = 25
 
 
@@ -180,7 +180,7 @@ class ImageGenerator:
                         ]
             return self._run_imagemagick(source, im_lines, target)
         else:
-            return os.path.join(self.path_icons, '{}.png'.format(pkm))
+            return self.path_icons / '{}.png'.format(pkm)
 
     def get_pokemon_map_icon(self, pkm, gender=GENDER_UNSET, form=0, costume=0,
                              evolution=EVOLUTION_UNSET, weather=None):
@@ -206,11 +206,9 @@ class ImageGenerator:
             source = path_pokemon_spritesheet
             weather_suffix = '_{}'.format(
                 weather_names[weather]) if weather else ''
-            target_path = os.path.join(
-                path_generated, 'pokemon_spritesheet_marker')
-            target = os.path.join(
-                target_path, 'pokemon_{}{}.png'.format(pkm, weather_suffix))
-
+            target_path = path_generated / 'pokemon_spritesheet_marker'
+            target = target_path / 'pokemon_{}{}.png'.format(pkm,
+                                                             weather_suffix)
             target_size = pkm_sprites_size
             pkm_idx = pkm - 1
             x = (pkm_idx % pkm_sprites_cols) * pkm_sprites_size
@@ -245,12 +243,10 @@ class ImageGenerator:
             costume_extension = '_C{}'.format(costume) if costume > 0 else ''
             evolution_extension = ('_E{}'.format(evolution)
                                    if evolution > 0 else '')
-            out_filename = os.path.join(
-                path_generated_gym,
+            out_filename = (path_generated_gym /
                 "{}_L{}_R{}_P{}{}{}{}.png".format(
                     team, level, raid_level, pkm, form_extension,
-                    costume_extension, evolution_extension)
-            )
+                    costume_extension, evolution_extension))
             im_lines.extend(self._draw_raid_pokemon(pkm, form, costume,
                                                     evolution))
             im_lines.extend(self._draw_raid_level(raid_level))
@@ -258,8 +254,7 @@ class ImageGenerator:
                 im_lines.extend(self._draw_gym_level(level, team))
         elif raid_level > 0:
             # Gym with upcoming raid (egg).
-            out_filename = os.path.join(
-                path_generated_gym,
+            out_filename = (path_generated_gym /
                 "{}_L{}_R{}.png".format(team, level, raid_level))
             im_lines.extend(self._draw_raid_egg(raid_level))
             im_lines.extend(self._draw_raid_level(raid_level))
@@ -267,25 +262,24 @@ class ImageGenerator:
                 im_lines.extend(self._draw_gym_level(level, team))
         elif level > 0:
             # Occupied gym.
-            out_filename = os.path.join(
-                path_generated_gym,
-                '{}_L{}.png'.format(team, level))
+            out_filename = path_generated_gym / '{}_L{}.png'.format(team,
+                                                                    level)
             im_lines.extend(self._draw_gym_level(level, team))
         else:
             # Neutral gym.
-            return os.path.join(path_gym, '{}.png'.format(team))
+            return path_gym / '{}.png'.format(team)
 
         # Battle Indicator.
         if in_battle:
-            out_filename = out_filename.replace('.png', '_B.png')
+            out_filename = Path(str(out_filename).replace('.png', '_B.png'))
             im_lines.extend(self._draw_battle_indicator())
 
         # EX raid eligble indicator.
         if ex_raid_eligible:
-            out_filename = out_filename.replace('.png', '_EX.png')
+            out_filename = Path(str(out_filename).replace('.png', '_EX.png'))
             im_lines.extend(self._draw_ex_raid_eligible_indicator())
 
-        gym_image = os.path.join(path_gym, '{}.png'.format(team))
+        gym_image = path_gym / '{}.png'.format(team)
         return self._run_imagemagick(gym_image, im_lines, out_filename)
 
     def _draw_raid_pokemon(self, pkm, form, costume, evolution):
@@ -294,7 +288,7 @@ class ImageGenerator:
                 pkm, form=form, costume=costume, evolution=evolution)
             trim = True
         else:
-            pkm_path = os.path.join(path_icons, '{}.png'.format(pkm))
+            pkm_path = path_icons / '{}.png'.format(pkm)
             trim = False
         return self._draw_gym_subject(pkm_path, 64, trim=trim)
 
@@ -317,7 +311,7 @@ class ImageGenerator:
     def _draw_ex_raid_eligible_indicator(self):
         return [
             '-gravity SouthWest ( "{}" -resize 40x28 ) '.format(
-                os.path.join(path_gym, 'ex.png')),
+                path_gym / 'ex.png'),
             '-geometry +0+0 -composite'
         ]
 
@@ -325,7 +319,7 @@ class ImageGenerator:
         # BOOM! Sticker
         return [
             '-gravity center ( "{}" -resize 84x84 ) '.format(
-                os.path.join(path_gym, 'boom.png')),
+                path_gym / 'boom.png'),
             '-geometry +0+0 -composite'
         ]
 
@@ -337,7 +331,7 @@ class ImageGenerator:
             '-fill white -stroke black -draw "circle {},{} {},{}"'.format(
                 x, y, x - gym_badge_radius, y),
             '-gravity east ( "{}" -resize 24x24 ) -geometry+4+0 '.format(
-                os.path.join(path_gym, 'fist.png')),
+                path_gym / 'fist.png'),
             '-composite'
         ]
 
@@ -345,7 +339,7 @@ class ImageGenerator:
         # Flame Badge
         return [
             '-gravity east ( "{}" -resize 32x32 )  -geometry +0+0 '.format(
-                os.path.join(path_gym, 'flame.png')),
+                path_gym / 'flame.png'),
             '-composite'
         ]
 
@@ -357,7 +351,7 @@ class ImageGenerator:
             '-fill white -stroke black -draw "circle {},{} {},{}"'.format(
                 x, y, x - gym_badge_radius, y),
             '-gravity east ( "{}" -resize 24x24 ) -geometry +4+0 '.format(
-                os.path.join(path_gym, 'swords.png')),
+                path_gym / 'swords.png'),
             '-composite'
         ]
 
@@ -413,17 +407,15 @@ class ImageGenerator:
                     .format(pkm, gender_form_asset_suffix,
                             costume_asset_suffix, shiny_suffix))
 
-        target_path = os.path.join(
-            path_generated, 'pokemon_{}'.format(
-                classifier)) if classifier else os.path.join(
-            path_generated, 'pokemon')
-        target_name = os.path.join(target_path,
-                                   "pkm_{:03d}{}{}{}{}{}{}.png".format(
-                                       pkm, gender_suffix, form_suffix,
-                                       costume_suffix, evolution_suffix,
-                                       weather_suffix, shiny_suffix))
+        if classifier:
+            target_path = path_generated / 'pokemon_{}'.format(classifier)
+        else:
+            target_path = path_generated / 'pokemon'
+        target_name = target_path / 'pkm_{:03d}{}{}{}{}{}{}.png'.format(
+            pkm, gender_suffix, form_suffix, costume_suffix, evolution_suffix,
+            weather_suffix, shiny_suffix)
 
-        if os.path.isfile(assets_fullname):
+        if assets_fullname.exists():
             return assets_fullname, target_name
         else:
             if gender == MALE:
@@ -464,14 +456,6 @@ class ImageGenerator:
         ]
         return lines
 
-    def _init_image_dir(self, path):
-        if not os.path.isdir(path):
-            try:
-                os.makedirs(path)
-            except OSError:
-                if not os.path.isdir(path):
-                    raise
-
     def _default_gym_image(self, team, level, raid_level, pkm):
         path = path_gym
         if pkm > 0:
@@ -483,21 +467,21 @@ class ImageGenerator:
             icon = "{}_{}.png".format(team, level)
         else:
             icon = "{}.png".format(team)
-        if not os.path.isfile(os.path.join(path, icon)):
+        if not (path / icon).is_file():
             icon = "{}_{}_unknown.png".format(team, raid_level)
 
-        return os.path.join(path, icon)
+        return path / icon
 
-    def _run_imagemagick(self, source, im_lines, out_filename):
-        if not os.path.isfile(out_filename):
+    def _run_imagemagick(self, source, im_lines, out_file):
+        if not out_file.is_file():
             # Make sure, target path exists
-            self._init_image_dir(os.path.split(out_filename)[0])
+            out_file.parent.mkdir(parents=True, exist_ok=True)
 
             cmd = '{} "{}" {} "{}"'.format(
                 self.imagemagick_executable, source, " ".join(im_lines),
-                out_filename)
+                out_file)
             if os.name != 'nt':
                 cmd = cmd.replace(" ( ", " \\( ").replace(" ) ", " \\) ")
-            log.info("Generating icon '{}'".format(out_filename))
+            log.info("Generating icon '{}'".format(out_file))
             subprocess.call(cmd, shell=True)
-        return out_filename
+        return out_file
