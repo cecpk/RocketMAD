@@ -19485,7 +19485,21 @@
         "type": "Psychic",
         "color": "#b8b8d0"
       }
-    ]
+    ],
+    "forms": {
+      "2513": {
+        "formName": "",
+        "assetId": "31"
+      },
+      "2514": {
+        "formName": "Shadow",
+        "assetId": "31"
+      },
+      "2515": {
+        "formName": "Purified",
+        "assetId": "31"
+      }
+    }
   },
   "867": {
     "name": "Runerigus",
