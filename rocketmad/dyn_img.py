@@ -429,10 +429,13 @@ class ImageGenerator:
             if gender == MALE:
                 log.warning("Cannot find PogoAssets file {}".format(
                     assets_fullname))
-                # Dummy Pokemon icon
-                return (os.path.join(self.pokemon_icon_path,
-                                     'pokemon_icon_000.png'),
-                        os.path.join(target_path, 'pkm_000.png'))
+                dummy_icon = self.pokemon_icon_path / 'pokemon_icon_000.png'
+                target = Path(target_path) / 'pkm_000.png'
+                if dummy_icon.exists():
+                    return dummy_icon, target
+                else:
+                    return Path(path_images) / 'dummy_pokemon.png', target
+
             return self._pokemon_asset_path(pkm, classifier=classifier,
                                             gender=MALE, form=form,
                                             costume=costume,
