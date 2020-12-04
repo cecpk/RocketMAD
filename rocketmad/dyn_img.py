@@ -484,4 +484,4 @@ class ImageGenerator:
                 cmd = cmd.replace(" ( ", " \\( ").replace(" ) ", " \\) ")
             log.info("Generating icon '{}'".format(out_file))
             subprocess.call(cmd, shell=True)
-        return out_file
+        return str(out_file)
