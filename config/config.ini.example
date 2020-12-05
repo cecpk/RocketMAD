@@ -105,7 +105,7 @@
 
 # Parks
 #######
-# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/data/parks/{file_name}.json`.
+# Download ex raid eligible and nest parks from the Overpass API. Parks are saved to `static/dist/data/parks/{file_name}.json`.
 # Remove the JSON file(s) to redownload the parks. Park downloading is done by running runhelper.py
 
 #ex-parks                       # Display ex raid eligible parks. (default=False)
