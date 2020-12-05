@@ -243,8 +243,8 @@ class ImageGenerator:
             costume_extension = '_C{}'.format(costume) if costume > 0 else ''
             evolution_extension = ('_E{}'.format(evolution)
                                    if evolution > 0 else '')
-            out_filename = (path_generated_gym /
-                "{}_L{}_R{}_P{}{}{}{}.png".format(
+            out_filename = (
+                path_generated_gym / "{}_L{}_R{}_P{}{}{}{}.png".format(
                     team, level, raid_level, pkm, form_extension,
                     costume_extension, evolution_extension))
             im_lines.extend(self._draw_raid_pokemon(pkm, form, costume,
@@ -254,8 +254,9 @@ class ImageGenerator:
                 im_lines.extend(self._draw_gym_level(level, team))
         elif raid_level > 0:
             # Gym with upcoming raid (egg).
-            out_filename = (path_generated_gym /
-                "{}_L{}_R{}.png".format(team, level, raid_level))
+            out_filename = (
+                path_generated_gym / "{}_L{}_R{}.png".format(team, level,
+                                                             raid_level))
             im_lines.extend(self._draw_raid_egg(raid_level))
             im_lines.extend(self._draw_raid_level(raid_level))
             if level > 0:
