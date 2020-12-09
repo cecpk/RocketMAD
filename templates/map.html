@@ -201,7 +201,7 @@
     {% if settings.pokemonValues %}
     <div id="pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 class="pokemon-filter-title">{{ i18n('Pokémon filtered by values') }}</h6>
+        <h6 class="pokemon-filter-title">{{ i18n('Pokémon filtered by stats') }}</h6>
         <label for="unfiltered-pokemon">
           <input id="unfiltered-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -337,7 +337,7 @@
     {% if settings.pokemonValues %}
     <div id="notif-pokemon-values-filter-modal" class="modal filter-modal pokemon-filter-modal">
       <div class="modal-content">
-        <h6 class="pokemon-filter-title">{{ i18n('Notif Pokémon filtered by values') }}</h6>
+        <h6 class="pokemon-filter-title">{{ i18n('Notif Pokémon filtered by stats') }}</h6>
         <label for="no-notif-values-pokemon">
           <input id="no-notif-values-pokemon" type="text" readonly="true" style="display:none;">
           <div class="pokemon-filter-list"></div>
@@ -602,7 +602,7 @@
                   <label>
                     <input type="checkbox" id="pokemon-values-switch">
                     <span class="lever"></span>
-                    {{ i18n('Pokémon values') }}
+                    {{ i18n('Pokémon stats') }}
                   </label>
                 </div>
               </div>
@@ -612,7 +612,7 @@
                     <label>
                       <input type="checkbox" id="filter-values-switch">
                       <span class="lever"></span>
-                      {{ i18n('Filter by values') }}
+                      {{ i18n('Filter by stats') }}
                     </label>
                     <a data-target="pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select Pokémon') }}"><i class="material-icons left">filter_list</i></a>
                   </div>
@@ -1236,7 +1236,7 @@
                   <label>
                     <input type="checkbox" id="pokemon-values-notifs-switch">
                     <span class="lever"></span>
-                    {{ i18n('Notifs filtered by values') }}
+                    {{ i18n('Notifs filtered by stats') }}
                   </label>
                   <a data-target="notif-pokemon-values-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select Pokémon') }}"><i class="material-icons left">filter_list</i></a>
                 </div>

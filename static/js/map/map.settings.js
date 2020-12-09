@@ -1864,7 +1864,7 @@ function initPokemonFilters() {
 
     if (serverSettings.pokemonValues) {
         filterManagers.noFilterValuesPokemon = new PokemonFilterManager(
-            'pokemon-values-filter-modal', 'noFilterValuesPokemon', i18n('Pokémon filtered by values'), true,
+            'pokemon-values-filter-modal', 'noFilterValuesPokemon', i18n('Pokémon filtered by stats'), true,
             pokemonIds => {
                 for (const pokemonId of pokemonIds) {
                     reincludedPokemon.add(pokemonId)
@@ -1875,7 +1875,7 @@ function initPokemonFilters() {
         )
 
         filterManagers.notifValuesPokemon = new PokemonFilterManager(
-            'notif-pokemon-values-filter-modal', 'notifValuesPokemon', i18n('Notif Pokémon filtered by values'), false,
+            'notif-pokemon-values-filter-modal', 'notifValuesPokemon', i18n('Notif Pokémon filtered by stats'), false,
             pokemonIds => {
                 updatePokemons(new Set(pokemonIds))
                 if (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways) {
