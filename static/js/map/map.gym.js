@@ -3,7 +3,7 @@ globals autoPanPopup, $gymNameFilter, addListeners, gymEggZIndex,
 gymNotifiedZIndex, gymRaidBossZIndex, gymSidebar, gymZIndex, mapData,
 notifiedGymData, openGymSidebarId:writable, raidIds,
 removeMarker, removeRangeCircle, settings, sendNotification, setupRangeCircle,
-upcomingRaidIds, updateRangeCircle, updateMarkerLayer
+upcomingRaidIds, updateRangeCircle, updateMarkerLayer, filterManagers
 */
 /* exported processGym, readdGymMarkers, updateGyms */
 
@@ -627,8 +627,8 @@ function excludeRaidLevel(level) { // eslint-disable-line no-unused-vars
 }
 
 function excludeRaidPokemon(id) { // eslint-disable-line no-unused-vars
-    if (!settings.excludedRaidPokemon.has(id)) {
-        $('label[for="exclude-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+    if (filterManagers.excludedRaidPokemon !== null) {
+        filterManagers.excludedRaidPokemon.add([id])
     }
 }
 
@@ -646,7 +646,9 @@ function toggleEggNotif(level) { // eslint-disable-line no-unused-vars
 }
 
 function toggleRaidPokemonNotif(id) { // eslint-disable-line no-unused-vars
-    $('label[for="no-notif-raid-pokemon"] .pokemon-filter-list .filter-button[data-id="' + id + '"]').click()
+    if (filterManagers.notifRaidPokemon !== null) {
+        filterManagers.notifRaidPokemon.toggle(id)
+    }
 }
 
 function getGymNotificationInfo(gym) {
