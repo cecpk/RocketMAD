@@ -3959,7 +3959,7 @@
   },
   "144": {
     "name": "Articuno",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Ice",
@@ -3987,7 +3987,7 @@
   },
   "145": {
     "name": "Zapdos",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Electric",
@@ -4015,7 +4015,7 @@
   },
   "146": {
     "name": "Moltres",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Fire",
@@ -4120,7 +4120,7 @@
   },
   "150": {
     "name": "Mewtwo",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -4128,7 +4128,7 @@
       }
     ],
     "forms": {
-      "135": {
+	  "135": {
         "formName": "",
         "assetId": "00"
       },
@@ -4148,7 +4148,7 @@
   },
   "151": {
     "name": "Mew",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Psychic",
@@ -6555,7 +6555,7 @@
   },
   "243": {
     "name": "Raikou",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Electric",
@@ -6579,7 +6579,7 @@
   },
   "244": {
     "name": "Entei",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Fire",
@@ -6603,7 +6603,7 @@
   },
   "245": {
     "name": "Suicune",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Water",
@@ -6708,7 +6708,7 @@
   },
   "249": {
     "name": "Lugia",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -6736,7 +6736,7 @@
   },
   "250": {
     "name": "Ho-Oh",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Fire",
@@ -6764,7 +6764,7 @@
   },
   "251": {
     "name": "Celebi",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Psychic",
@@ -10045,7 +10045,7 @@
   },
   "377": {
     "name": "Regirock",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Rock",
@@ -10069,7 +10069,7 @@
   },
   "378": {
     "name": "Regice",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Ice",
@@ -10093,7 +10093,7 @@
   },
   "379": {
     "name": "Registeel",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Steel",
@@ -10117,7 +10117,7 @@
   },
   "380": {
     "name": "Latias",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dragon",
@@ -10145,7 +10145,7 @@
   },
   "381": {
     "name": "Latios",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dragon",
@@ -10173,7 +10173,7 @@
   },
   "382": {
     "name": "Kyogre",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Water",
@@ -10197,7 +10197,7 @@
   },
   "383": {
     "name": "Groudon",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Ground",
@@ -10221,7 +10221,7 @@
   },
   "384": {
     "name": "Rayquaza",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dragon",
@@ -10249,7 +10249,7 @@
   },
   "385": {
     "name": "Jirachi",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Steel",
@@ -10277,7 +10277,7 @@
   },
   "386": {
     "name": "Deoxys",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Psychic",
@@ -12770,7 +12770,7 @@
   },
   "480": {
     "name": "Uxie",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -12794,7 +12794,7 @@
   },
   "481": {
     "name": "Mesprit",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -12818,7 +12818,7 @@
   },
   "482": {
     "name": "Azelf",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -12842,7 +12842,7 @@
   },
   "483": {
     "name": "Dialga",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Steel",
@@ -12870,7 +12870,7 @@
   },
   "484": {
     "name": "Palkia",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Water",
@@ -12898,7 +12898,7 @@
   },
   "485": {
     "name": "Heatran",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Fire",
@@ -12926,7 +12926,7 @@
   },
   "486": {
     "name": "Regigigas",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Normal",
@@ -12950,7 +12950,7 @@
   },
   "487": {
     "name": "Giratina",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Ghost",
@@ -12986,7 +12986,7 @@
   },
   "488": {
     "name": "Cresselia",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -13010,7 +13010,7 @@
   },
   "489": {
     "name": "Phione",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Water",
@@ -13034,7 +13034,7 @@
   },
   "490": {
     "name": "Manaphy",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Water",
@@ -13058,7 +13058,7 @@
   },
   "491": {
     "name": "Darkrai",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Dark",
@@ -13082,7 +13082,7 @@
   },
   "492": {
     "name": "Shaymin",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Grass",
@@ -13124,7 +13124,7 @@
   },
   "493": {
     "name": "Arceus",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Normal",
@@ -13310,7 +13310,7 @@
   },
   "494": {
     "name": "Victini",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Psychic",
@@ -16959,7 +16959,7 @@
   },
   "638": {
     "name": "Cobalion",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Steel",
@@ -16987,7 +16987,7 @@
   },
   "639": {
     "name": "Terrakion",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Rock",
@@ -17015,7 +17015,7 @@
   },
   "640": {
     "name": "Virizion",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Grass",
@@ -17043,7 +17043,7 @@
   },
   "641": {
     "name": "Tornadus",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Flying",
@@ -17063,7 +17063,7 @@
   },
   "642": {
     "name": "Thundurus",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Electric",
@@ -17087,7 +17087,7 @@
   },
   "643": {
     "name": "Reshiram",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dragon",
@@ -17115,7 +17115,7 @@
   },
   "644": {
     "name": "Zekrom",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dragon",
@@ -17143,7 +17143,7 @@
   },
   "645": {
     "name": "Landorus",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Ground",
@@ -17167,7 +17167,7 @@
   },
   "646": {
     "name": "Kyurem",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dragon",
@@ -17195,7 +17195,7 @@
   },
   "647": {
     "name": "Keldeo",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Water",
@@ -17219,7 +17219,7 @@
   },
   "648": {
     "name": "Meloetta",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Normal",
@@ -17253,7 +17253,7 @@
   },
   "649": {
     "name": "Genesect",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Bug",
@@ -18283,7 +18283,7 @@
   },
   "716": {
     "name": "Xerneas",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Fairy",
@@ -18303,7 +18303,7 @@
   },
   "717": {
     "name": "Yveltal",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dark",
@@ -18317,7 +18317,7 @@
   },
   "718": {
     "name": "Zygarde",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dragon",
@@ -18345,7 +18345,7 @@
   },
   "719": {
     "name": "Diancie",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Rock",
@@ -18359,7 +18359,7 @@
   },
   "720": {
     "name": "Hoopa",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Psychic",
@@ -18403,7 +18403,7 @@
   },
   "721": {
     "name": "Volcanion",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Fire",
@@ -18983,7 +18983,7 @@
   },
   "772": {
     "name": "Type: Null",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Normal",
@@ -18993,7 +18993,7 @@
   },
   "773": {
     "name": "Silvally",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Normal",
@@ -19138,7 +19138,7 @@
   },
   "785": {
     "name": "Tapu Koko",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Electric",
@@ -19152,7 +19152,7 @@
   },
   "786": {
     "name": "Tapu Lele",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -19166,7 +19166,7 @@
   },
   "787": {
     "name": "Tapu Bulu",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Grass",
@@ -19180,7 +19180,7 @@
   },
   "788": {
     "name": "Tapu Fini",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Water",
@@ -19194,7 +19194,7 @@
   },
   "789": {
     "name": "Cosmog",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -19204,7 +19204,7 @@
   },
   "790": {
     "name": "Cosmoem",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -19214,7 +19214,7 @@
   },
   "791": {
     "name": "Solgaleo",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -19228,7 +19228,7 @@
   },
   "792": {
     "name": "Lunala",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -19242,7 +19242,7 @@
   },
   "793": {
     "name": "Nihilego",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Rock",
@@ -19256,7 +19256,7 @@
   },
   "794": {
     "name": "Buzzwole",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Bug",
@@ -19270,7 +19270,7 @@
   },
   "795": {
     "name": "Pheromosa",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Bug",
@@ -19284,7 +19284,7 @@
   },
   "796": {
     "name": "Xurkitree",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Electric",
@@ -19294,7 +19294,7 @@
   },
   "797": {
     "name": "Celesteela",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Steel",
@@ -19308,7 +19308,7 @@
   },
   "798": {
     "name": "Kartana",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Grass",
@@ -19322,7 +19322,7 @@
   },
   "799": {
     "name": "Guzzlord",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Dark",
@@ -19336,7 +19336,7 @@
   },
   "800": {
     "name": "Necrozma",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Psychic",
@@ -19346,7 +19346,7 @@
   },
   "801": {
     "name": "Magearna",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Steel",
@@ -19360,7 +19360,7 @@
   },
   "802": {
     "name": "Marshadow",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Fighting",
@@ -19374,7 +19374,7 @@
   },
   "803": {
     "name": "Poipole",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Poison",
@@ -19384,7 +19384,7 @@
   },
   "804": {
     "name": "Naganadel",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Poison",
@@ -19398,7 +19398,7 @@
   },
   "805": {
     "name": "Stakataka",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Rock",
@@ -19412,7 +19412,7 @@
   },
   "806": {
     "name": "Blacephalon",
-	"legendary": true,
+    "legendary": true,
     "types": [
       {
         "type": "Fire",
@@ -19426,7 +19426,7 @@
   },
   "807": {
     "name": "Zeraora",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Electric",
@@ -19436,7 +19436,7 @@
   },
   "808": {
     "name": "Meltan",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Steel",
@@ -19460,7 +19460,7 @@
   },
   "809": {
     "name": "Melmetal",
-	"mythical": true,
+    "mythical": true,
     "types": [
       {
         "type": "Steel",
