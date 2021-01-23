@@ -10,6 +10,7 @@
   },
   "1": {
     "name": "Bulbasaur",
+    "familyId": 1,
     "types": [
       {
         "type": "Grass",
@@ -41,6 +42,7 @@
   },
   "2": {
     "name": "Ivysaur",
+    "familyId": 1,
     "types": [
       {
         "type": "Grass",
@@ -68,6 +70,7 @@
   },
   "3": {
     "name": "Venusaur",
+    "familyId": 1,
     "types": [
       {
         "type": "Grass",
@@ -99,6 +102,7 @@
   },
   "4": {
     "name": "Charmander",
+    "familyId": 4,
     "types": [
       {
         "type": "Fire",
@@ -126,6 +130,7 @@
   },
   "5": {
     "name": "Charmeleon",
+    "familyId": 4,
     "types": [
       {
         "type": "Fire",
@@ -149,6 +154,7 @@
   },
   "6": {
     "name": "Charizard",
+    "familyId": 4,
     "types": [
       {
         "type": "Fire",
@@ -180,6 +186,7 @@
   },
   "7": {
     "name": "Squirtle",
+    "familyId": 7,
     "types": [
       {
         "type": "Water",
@@ -207,6 +214,7 @@
   },
   "8": {
     "name": "Wartortle",
+    "familyId": 7,
     "types": [
       {
         "type": "Water",
@@ -230,6 +238,7 @@
   },
   "9": {
     "name": "Blastoise",
+    "familyId": 7,
     "types": [
       {
         "type": "Water",
@@ -257,6 +266,7 @@
   },
   "10": {
     "name": "Caterpie",
+    "familyId": 10,
     "types": [
       {
         "type": "Bug",
@@ -280,6 +290,7 @@
   },
   "11": {
     "name": "Metapod",
+    "familyId": 10,
     "types": [
       {
         "type": "Bug",
@@ -303,6 +314,7 @@
   },
   "12": {
     "name": "Butterfree",
+    "familyId": 10,
     "types": [
       {
         "type": "Bug",
@@ -330,6 +342,7 @@
   },
   "13": {
     "name": "Weedle",
+    "familyId": 13,
     "types": [
       {
         "type": "Bug",
@@ -357,6 +370,7 @@
   },
   "14": {
     "name": "Kakuna",
+    "familyId": 13,
     "types": [
       {
         "type": "Bug",
@@ -384,6 +398,7 @@
   },
   "15": {
     "name": "Beedrill",
+    "familyId": 13,
     "types": [
       {
         "type": "Bug",
@@ -411,6 +426,7 @@
   },
   "16": {
     "name": "Pidgey",
+    "familyId": 16,
     "types": [
       {
         "type": "Normal",
@@ -438,6 +454,7 @@
   },
   "17": {
     "name": "Pidgeotto",
+    "familyId": 16,
     "types": [
       {
         "type": "Normal",
@@ -465,6 +482,7 @@
   },
   "18": {
     "name": "Pidgeot",
+    "familyId": 16,
     "types": [
       {
         "type": "Normal",
@@ -492,6 +510,7 @@
   },
   "19": {
     "name": "Rattata",
+    "familyId": 19,
     "types": [
       {
         "type": "Normal",
@@ -529,6 +548,7 @@
   },
   "20": {
     "name": "Raticate",
+    "familyId": 19,
     "types": [
       {
         "type": "Normal",
@@ -570,6 +590,7 @@
   },
   "21": {
     "name": "Spearow",
+    "familyId": 21,
     "types": [
       {
         "type": "Normal",
@@ -597,6 +618,7 @@
   },
   "22": {
     "name": "Fearow",
+    "familyId": 21,
     "types": [
       {
         "type": "Normal",
@@ -624,6 +646,7 @@
   },
   "23": {
     "name": "Ekans",
+    "familyId": 23,
     "types": [
       {
         "type": "Poison",
@@ -647,6 +670,7 @@
   },
   "24": {
     "name": "Arbok",
+    "familyId": 23,
     "types": [
       {
         "type": "Poison",
@@ -670,6 +694,7 @@
   },
   "25": {
     "name": "Pikachu",
+    "familyId": 25,
     "types": [
       {
         "type": "Electric",
@@ -717,6 +742,7 @@
   },
   "26": {
     "name": "Raichu",
+    "familyId": 25,
     "types": [
       {
         "type": "Electric",
@@ -754,6 +780,7 @@
   },
   "27": {
     "name": "Sandshrew",
+    "familyId": 27,
     "types": [
       {
         "type": "Ground",
@@ -791,6 +818,7 @@
   },
   "28": {
     "name": "Sandslash",
+    "familyId": 27,
     "types": [
       {
         "type": "Ground",
@@ -828,6 +856,7 @@
   },
   "29": {
     "name": "Nidoran♀",
+    "familyId": 29,
     "types": [
       {
         "type": "Poison",
@@ -851,6 +880,7 @@
   },
   "30": {
     "name": "Nidorina",
+    "familyId": 29,
     "types": [
       {
         "type": "Poison",
@@ -874,6 +904,7 @@
   },
   "31": {
     "name": "Nidoqueen",
+    "familyId": 29,
     "types": [
       {
         "type": "Poison",
@@ -901,6 +932,7 @@
   },
   "32": {
     "name": "Nidoran♂",
+    "familyId": 32,
     "types": [
       {
         "type": "Poison",
@@ -924,6 +956,7 @@
   },
   "33": {
     "name": "Nidorino",
+    "familyId": 32,
     "types": [
       {
         "type": "Poison",
@@ -947,6 +980,7 @@
   },
   "34": {
     "name": "Nidoking",
+    "familyId": 32,
     "types": [
       {
         "type": "Poison",
@@ -974,6 +1008,7 @@
   },
   "35": {
     "name": "Clefairy",
+    "familyId": 35,
     "types": [
       {
         "type": "Fairy",
@@ -997,6 +1032,7 @@
   },
   "36": {
     "name": "Clefable",
+    "familyId": 35,
     "types": [
       {
         "type": "Fairy",
@@ -1020,6 +1056,7 @@
   },
   "37": {
     "name": "Vulpix",
+    "familyId": 37,
     "types": [
       {
         "type": "Fire",
@@ -1053,6 +1090,7 @@
   },
   "38": {
     "name": "Ninetales",
+    "familyId": 37,
     "types": [
       {
         "type": "Fire",
@@ -1090,6 +1128,7 @@
   },
   "39": {
     "name": "Jigglypuff",
+    "familyId": 39,
     "types": [
       {
         "type": "Normal",
@@ -1117,6 +1156,7 @@
   },
   "40": {
     "name": "Wigglytuff",
+    "familyId": 39,
     "types": [
       {
         "type": "Normal",
@@ -1144,6 +1184,7 @@
   },
   "41": {
     "name": "Zubat",
+    "familyId": 41,
     "types": [
       {
         "type": "Poison",
@@ -1171,6 +1212,7 @@
   },
   "42": {
     "name": "Golbat",
+    "familyId": 41,
     "types": [
       {
         "type": "Poison",
@@ -1198,6 +1240,7 @@
   },
   "43": {
     "name": "Oddish",
+    "familyId": 43,
     "types": [
       {
         "type": "Grass",
@@ -1225,6 +1268,7 @@
   },
   "44": {
     "name": "Gloom",
+    "familyId": 43,
     "types": [
       {
         "type": "Grass",
@@ -1252,6 +1296,7 @@
   },
   "45": {
     "name": "Vileplume",
+    "familyId": 43,
     "types": [
       {
         "type": "Grass",
@@ -1279,6 +1324,7 @@
   },
   "46": {
     "name": "Paras",
+    "familyId": 46,
     "types": [
       {
         "type": "Bug",
@@ -1306,6 +1352,7 @@
   },
   "47": {
     "name": "Parasect",
+    "familyId": 46,
     "types": [
       {
         "type": "Bug",
@@ -1333,6 +1380,7 @@
   },
   "48": {
     "name": "Venonat",
+    "familyId": 48,
     "types": [
       {
         "type": "Bug",
@@ -1360,6 +1408,7 @@
   },
   "49": {
     "name": "Venomoth",
+    "familyId": 48,
     "types": [
       {
         "type": "Bug",
@@ -1387,6 +1436,7 @@
   },
   "50": {
     "name": "Diglett",
+    "familyId": 50,
     "types": [
       {
         "type": "Ground",
@@ -1424,6 +1474,7 @@
   },
   "51": {
     "name": "Dugtrio",
+    "familyId": 50,
     "types": [
       {
         "type": "Ground",
@@ -1461,6 +1512,7 @@
   },
   "52": {
     "name": "Meowth",
+    "familyId": 52,
     "types": [
       {
         "type": "Normal",
@@ -1504,6 +1556,7 @@
   },
   "53": {
     "name": "Persian",
+    "familyId": 52,
     "types": [
       {
         "type": "Normal",
@@ -1537,6 +1590,7 @@
   },
   "54": {
     "name": "Psyduck",
+    "familyId": 54,
     "types": [
       {
         "type": "Water",
@@ -1560,6 +1614,7 @@
   },
   "55": {
     "name": "Golduck",
+    "familyId": 54,
     "types": [
       {
         "type": "Water",
@@ -1583,6 +1638,7 @@
   },
   "56": {
     "name": "Mankey",
+    "familyId": 56,
     "types": [
       {
         "type": "Fighting",
@@ -1606,6 +1662,7 @@
   },
   "57": {
     "name": "Primeape",
+    "familyId": 56,
     "types": [
       {
         "type": "Fighting",
@@ -1629,6 +1686,7 @@
   },
   "58": {
     "name": "Growlithe",
+    "familyId": 58,
     "types": [
       {
         "type": "Fire",
@@ -1652,6 +1710,7 @@
   },
   "59": {
     "name": "Arcanine",
+    "familyId": 58,
     "types": [
       {
         "type": "Fire",
@@ -1675,6 +1734,7 @@
   },
   "60": {
     "name": "Poliwag",
+    "familyId": 60,
     "types": [
       {
         "type": "Water",
@@ -1698,6 +1758,7 @@
   },
   "61": {
     "name": "Poliwhirl",
+    "familyId": 60,
     "types": [
       {
         "type": "Water",
@@ -1721,6 +1782,7 @@
   },
   "62": {
     "name": "Poliwrath",
+    "familyId": 60,
     "types": [
       {
         "type": "Water",
@@ -1748,6 +1810,7 @@
   },
   "63": {
     "name": "Abra",
+    "familyId": 63,
     "types": [
       {
         "type": "Psychic",
@@ -1771,6 +1834,7 @@
   },
   "64": {
     "name": "Kadabra",
+    "familyId": 63,
     "types": [
       {
         "type": "Psychic",
@@ -1794,6 +1858,7 @@
   },
   "65": {
     "name": "Alakazam",
+    "familyId": 63,
     "types": [
       {
         "type": "Psychic",
@@ -1817,6 +1882,7 @@
   },
   "66": {
     "name": "Machop",
+    "familyId": 66,
     "types": [
       {
         "type": "Fighting",
@@ -1840,6 +1906,7 @@
   },
   "67": {
     "name": "Machoke",
+    "familyId": 66,
     "types": [
       {
         "type": "Fighting",
@@ -1863,6 +1930,7 @@
   },
   "68": {
     "name": "Machamp",
+    "familyId": 66,
     "types": [
       {
         "type": "Fighting",
@@ -1886,6 +1954,7 @@
   },
   "69": {
     "name": "Bellsprout",
+    "familyId": 69,
     "types": [
       {
         "type": "Grass",
@@ -1913,6 +1982,7 @@
   },
   "70": {
     "name": "Weepinbell",
+    "familyId": 69,
     "types": [
       {
         "type": "Grass",
@@ -1940,6 +2010,7 @@
   },
   "71": {
     "name": "Victreebel",
+    "familyId": 69,
     "types": [
       {
         "type": "Grass",
@@ -1967,6 +2038,7 @@
   },
   "72": {
     "name": "Tentacool",
+    "familyId": 72,
     "types": [
       {
         "type": "Water",
@@ -1994,6 +2066,7 @@
   },
   "73": {
     "name": "Tentacruel",
+    "familyId": 72,
     "types": [
       {
         "type": "Water",
@@ -2021,6 +2094,7 @@
   },
   "74": {
     "name": "Geodude",
+    "familyId": 74,
     "types": [
       {
         "type": "Rock",
@@ -2062,6 +2136,7 @@
   },
   "75": {
     "name": "Graveler",
+    "familyId": 74,
     "types": [
       {
         "type": "Rock",
@@ -2103,6 +2178,7 @@
   },
   "76": {
     "name": "Golem",
+    "familyId": 74,
     "types": [
       {
         "type": "Rock",
@@ -2144,6 +2220,7 @@
   },
   "77": {
     "name": "Ponyta",
+    "familyId": 77,
     "types": [
       {
         "type": "Fire",
@@ -2177,6 +2254,7 @@
   },
   "78": {
     "name": "Rapidash",
+    "familyId": 77,
     "types": [
       {
         "type": "Fire",
@@ -2214,6 +2292,7 @@
   },
   "79": {
     "name": "Slowpoke",
+    "familyId": 79,
     "types": [
       {
         "type": "Water",
@@ -2255,6 +2334,7 @@
   },
   "80": {
     "name": "Slowbro",
+    "familyId": 79,
     "types": [
       {
         "type": "Water",
@@ -2300,6 +2380,7 @@
   },
   "81": {
     "name": "Magnemite",
+    "familyId": 81,
     "types": [
       {
         "type": "Electric",
@@ -2327,6 +2408,7 @@
   },
   "82": {
     "name": "Magneton",
+    "familyId": 81,
     "types": [
       {
         "type": "Electric",
@@ -2354,6 +2436,7 @@
   },
   "83": {
     "name": "Farfetch'd",
+    "familyId": 83,
     "types": [
       {
         "type": "Normal",
@@ -2391,6 +2474,7 @@
   },
   "84": {
     "name": "Doduo",
+    "familyId": 84,
     "types": [
       {
         "type": "Normal",
@@ -2418,6 +2502,7 @@
   },
   "85": {
     "name": "Dodrio",
+    "familyId": 84,
     "types": [
       {
         "type": "Normal",
@@ -2445,6 +2530,7 @@
   },
   "86": {
     "name": "Seel",
+    "familyId": 86,
     "types": [
       {
         "type": "Water",
@@ -2468,6 +2554,7 @@
   },
   "87": {
     "name": "Dewgong",
+    "familyId": 86,
     "types": [
       {
         "type": "Water",
@@ -2495,6 +2582,7 @@
   },
   "88": {
     "name": "Grimer",
+    "familyId": 88,
     "types": [
       {
         "type": "Poison",
@@ -2532,6 +2620,7 @@
   },
   "89": {
     "name": "Muk",
+    "familyId": 88,
     "types": [
       {
         "type": "Poison",
@@ -2569,6 +2658,7 @@
   },
   "90": {
     "name": "Shellder",
+    "familyId": 90,
     "types": [
       {
         "type": "Water",
@@ -2592,6 +2682,7 @@
   },
   "91": {
     "name": "Cloyster",
+    "familyId": 90,
     "types": [
       {
         "type": "Water",
@@ -2619,6 +2710,7 @@
   },
   "92": {
     "name": "Gastly",
+    "familyId": 92,
     "types": [
       {
         "type": "Ghost",
@@ -2646,6 +2738,7 @@
   },
   "93": {
     "name": "Haunter",
+    "familyId": 92,
     "types": [
       {
         "type": "Ghost",
@@ -2673,6 +2766,7 @@
   },
   "94": {
     "name": "Gengar",
+    "familyId": 92,
     "types": [
       {
         "type": "Ghost",
@@ -2704,6 +2798,7 @@
   },
   "95": {
     "name": "Onix",
+    "familyId": 95,
     "types": [
       {
         "type": "Rock",
@@ -2735,6 +2830,7 @@
   },
   "96": {
     "name": "Drowzee",
+    "familyId": 96,
     "types": [
       {
         "type": "Psychic",
@@ -2758,6 +2854,7 @@
   },
   "97": {
     "name": "Hypno",
+    "familyId": 96,
     "types": [
       {
         "type": "Psychic",
@@ -2781,6 +2878,7 @@
   },
   "98": {
     "name": "Krabby",
+    "familyId": 98,
     "types": [
       {
         "type": "Water",
@@ -2804,6 +2902,7 @@
   },
   "99": {
     "name": "Kingler",
+    "familyId": 98,
     "types": [
       {
         "type": "Water",
@@ -2827,6 +2926,7 @@
   },
   "100": {
     "name": "Voltorb",
+    "familyId": 100,
     "types": [
       {
         "type": "Electric",
@@ -2850,6 +2950,7 @@
   },
   "101": {
     "name": "Electrode",
+    "familyId": 100,
     "types": [
       {
         "type": "Electric",
@@ -2873,6 +2974,7 @@
   },
   "102": {
     "name": "Exeggcute",
+    "familyId": 102,
     "types": [
       {
         "type": "Grass",
@@ -2900,6 +3002,7 @@
   },
   "103": {
     "name": "Exeggutor",
+    "familyId": 102,
     "types": [
       {
         "type": "Grass",
@@ -2941,6 +3044,7 @@
   },
   "104": {
     "name": "Cubone",
+    "familyId": 104,
     "types": [
       {
         "type": "Ground",
@@ -2964,6 +3068,7 @@
   },
   "105": {
     "name": "Marowak",
+    "familyId": 104,
     "types": [
       {
         "type": "Ground",
@@ -3001,6 +3106,7 @@
   },
   "106": {
     "name": "Hitmonlee",
+    "familyId": 236,
     "types": [
       {
         "type": "Fighting",
@@ -3024,6 +3130,7 @@
   },
   "107": {
     "name": "Hitmonchan",
+    "familyId": 236,
     "types": [
       {
         "type": "Fighting",
@@ -3047,6 +3154,7 @@
   },
   "108": {
     "name": "Lickitung",
+    "familyId": 108,
     "types": [
       {
         "type": "Normal",
@@ -3070,6 +3178,7 @@
   },
   "109": {
     "name": "Koffing",
+    "familyId": 109,
     "types": [
       {
         "type": "Poison",
@@ -3093,6 +3202,7 @@
   },
   "110": {
     "name": "Weezing",
+    "familyId": 109,
     "types": [
       {
         "type": "Poison",
@@ -3130,6 +3240,7 @@
   },
   "111": {
     "name": "Rhyhorn",
+    "familyId": 111,
     "types": [
       {
         "type": "Ground",
@@ -3157,6 +3268,7 @@
   },
   "112": {
     "name": "Rhydon",
+    "familyId": 111,
     "types": [
       {
         "type": "Ground",
@@ -3184,6 +3296,7 @@
   },
   "113": {
     "name": "Chansey",
+    "familyId": 113,
     "types": [
       {
         "type": "Normal",
@@ -3207,6 +3320,7 @@
   },
   "114": {
     "name": "Tangela",
+    "familyId": 114,
     "types": [
       {
         "type": "Grass",
@@ -3230,6 +3344,7 @@
   },
   "115": {
     "name": "Kangaskhan",
+    "familyId": 115,
     "types": [
       {
         "type": "Normal",
@@ -3253,6 +3368,7 @@
   },
   "116": {
     "name": "Horsea",
+    "familyId": 116,
     "types": [
       {
         "type": "Water",
@@ -3276,6 +3392,7 @@
   },
   "117": {
     "name": "Seadra",
+    "familyId": 116,
     "types": [
       {
         "type": "Water",
@@ -3299,6 +3416,7 @@
   },
   "118": {
     "name": "Goldeen",
+    "familyId": 118,
     "types": [
       {
         "type": "Water",
@@ -3322,6 +3440,7 @@
   },
   "119": {
     "name": "Seaking",
+    "familyId": 118,
     "types": [
       {
         "type": "Water",
@@ -3345,6 +3464,7 @@
   },
   "120": {
     "name": "Staryu",
+    "familyId": 120,
     "types": [
       {
         "type": "Water",
@@ -3368,6 +3488,7 @@
   },
   "121": {
     "name": "Starmie",
+    "familyId": 120,
     "types": [
       {
         "type": "Water",
@@ -3395,6 +3516,7 @@
   },
   "122": {
     "name": "Mr. Mime",
+    "familyId": 122,
     "types": [
       {
         "type": "Psychic",
@@ -3436,6 +3558,7 @@
   },
   "123": {
     "name": "Scyther",
+    "familyId": 123,
     "types": [
       {
         "type": "Bug",
@@ -3463,6 +3586,7 @@
   },
   "124": {
     "name": "Jynx",
+    "familyId": 124,
     "types": [
       {
         "type": "Ice",
@@ -3490,6 +3614,7 @@
   },
   "125": {
     "name": "Electabuzz",
+    "familyId": 125,
     "types": [
       {
         "type": "Electric",
@@ -3513,6 +3638,7 @@
   },
   "126": {
     "name": "Magmar",
+    "familyId": 126,
     "types": [
       {
         "type": "Fire",
@@ -3536,6 +3662,7 @@
   },
   "127": {
     "name": "Pinsir",
+    "familyId": 127,
     "types": [
       {
         "type": "Bug",
@@ -3559,6 +3686,7 @@
   },
   "128": {
     "name": "Tauros",
+    "familyId": 128,
     "types": [
       {
         "type": "Normal",
@@ -3582,6 +3710,7 @@
   },
   "129": {
     "name": "Magikarp",
+    "familyId": 129,
     "types": [
       {
         "type": "Water",
@@ -3605,6 +3734,7 @@
   },
   "130": {
     "name": "Gyarados",
+    "familyId": 129,
     "types": [
       {
         "type": "Water",
@@ -3632,6 +3762,7 @@
   },
   "131": {
     "name": "Lapras",
+    "familyId": 131,
     "types": [
       {
         "type": "Water",
@@ -3663,6 +3794,7 @@
   },
   "132": {
     "name": "Ditto",
+    "familyId": 132,
     "types": [
       {
         "type": "Normal",
@@ -3686,6 +3818,7 @@
   },
   "133": {
     "name": "Eevee",
+    "familyId": 133,
     "types": [
       {
         "type": "Normal",
@@ -3709,6 +3842,7 @@
   },
   "134": {
     "name": "Vaporeon",
+    "familyId": 133,
     "types": [
       {
         "type": "Water",
@@ -3732,6 +3866,7 @@
   },
   "135": {
     "name": "Jolteon",
+    "familyId": 133,
     "types": [
       {
         "type": "Electric",
@@ -3755,6 +3890,7 @@
   },
   "136": {
     "name": "Flareon",
+    "familyId": 133,
     "types": [
       {
         "type": "Fire",
@@ -3778,6 +3914,7 @@
   },
   "137": {
     "name": "Porygon",
+    "familyId": 137,
     "types": [
       {
         "type": "Normal",
@@ -3801,6 +3938,7 @@
   },
   "138": {
     "name": "Omanyte",
+    "familyId": 138,
     "types": [
       {
         "type": "Rock",
@@ -3828,6 +3966,7 @@
   },
   "139": {
     "name": "Omastar",
+    "familyId": 138,
     "types": [
       {
         "type": "Rock",
@@ -3855,6 +3994,7 @@
   },
   "140": {
     "name": "Kabuto",
+    "familyId": 140,
     "types": [
       {
         "type": "Rock",
@@ -3882,6 +4022,7 @@
   },
   "141": {
     "name": "Kabutops",
+    "familyId": 140,
     "types": [
       {
         "type": "Rock",
@@ -3909,6 +4050,7 @@
   },
   "142": {
     "name": "Aerodactyl",
+    "familyId": 142,
     "types": [
       {
         "type": "Rock",
@@ -3936,6 +4078,7 @@
   },
   "143": {
     "name": "Snorlax",
+    "familyId": 143,
     "types": [
       {
         "type": "Normal",
@@ -3959,6 +4102,7 @@
   },
   "144": {
     "name": "Articuno",
+    "familyId": 144,
     "legendary": true,
     "types": [
       {
@@ -3987,6 +4131,7 @@
   },
   "145": {
     "name": "Zapdos",
+    "familyId": 145,
     "legendary": true,
     "types": [
       {
@@ -4015,6 +4160,7 @@
   },
   "146": {
     "name": "Moltres",
+    "familyId": 146,
     "legendary": true,
     "types": [
       {
@@ -4043,6 +4189,7 @@
   },
   "147": {
     "name": "Dratini",
+    "familyId": 147,
     "types": [
       {
         "type": "Dragon",
@@ -4066,6 +4213,7 @@
   },
   "148": {
     "name": "Dragonair",
+    "familyId": 147,
     "types": [
       {
         "type": "Dragon",
@@ -4089,6 +4237,7 @@
   },
   "149": {
     "name": "Dragonite",
+    "familyId": 147,
     "types": [
       {
         "type": "Dragon",
@@ -4120,6 +4269,7 @@
   },
   "150": {
     "name": "Mewtwo",
+    "familyId": 150,
     "legendary": true,
     "types": [
       {
@@ -4135,7 +4285,7 @@
       "133": {
         "formName": "Armored",
         "assetSuffix": "pm0150_00_pgo_a"
-      },
+      },	  
       "1113": {
         "formName": "Shadow",
         "assetId": "00"
@@ -4148,6 +4298,7 @@
   },
   "151": {
     "name": "Mew",
+    "familyId": 151,
     "mythical": true,
     "types": [
       {
@@ -4172,6 +4323,7 @@
   },
   "152": {
     "name": "Chikorita",
+    "familyId": 152,
     "types": [
       {
         "type": "Grass",
@@ -4195,6 +4347,7 @@
   },
   "153": {
     "name": "Bayleef",
+    "familyId": 152,
     "types": [
       {
         "type": "Grass",
@@ -4218,6 +4371,7 @@
   },
   "154": {
     "name": "Meganium",
+    "familyId": 152,
     "types": [
       {
         "type": "Grass",
@@ -4241,6 +4395,7 @@
   },
   "155": {
     "name": "Cyndaquil",
+    "familyId": 155,
     "types": [
       {
         "type": "Fire",
@@ -4264,6 +4419,7 @@
   },
   "156": {
     "name": "Quilava",
+    "familyId": 155,
     "types": [
       {
         "type": "Fire",
@@ -4287,6 +4443,7 @@
   },
   "157": {
     "name": "Typhlosion",
+    "familyId": 155,
     "types": [
       {
         "type": "Fire",
@@ -4310,6 +4467,7 @@
   },
   "158": {
     "name": "Totodile",
+    "familyId": 158,
     "types": [
       {
         "type": "Water",
@@ -4333,6 +4491,7 @@
   },
   "159": {
     "name": "Croconaw",
+    "familyId": 158,
     "types": [
       {
         "type": "Water",
@@ -4356,6 +4515,7 @@
   },
   "160": {
     "name": "Feraligatr",
+    "familyId": 158,
     "types": [
       {
         "type": "Water",
@@ -4379,6 +4539,7 @@
   },
   "161": {
     "name": "Sentret",
+    "familyId": 161,
     "types": [
       {
         "type": "Normal",
@@ -4402,6 +4563,7 @@
   },
   "162": {
     "name": "Furret",
+    "familyId": 161,
     "types": [
       {
         "type": "Normal",
@@ -4425,6 +4587,7 @@
   },
   "163": {
     "name": "Hoothoot",
+    "familyId": 163,
     "types": [
       {
         "type": "Normal",
@@ -4452,6 +4615,7 @@
   },
   "164": {
     "name": "Noctowl",
+    "familyId": 163,
     "types": [
       {
         "type": "Normal",
@@ -4479,6 +4643,7 @@
   },
   "165": {
     "name": "Ledyba",
+    "familyId": 165,
     "types": [
       {
         "type": "Bug",
@@ -4506,6 +4671,7 @@
   },
   "166": {
     "name": "Ledian",
+    "familyId": 165,
     "types": [
       {
         "type": "Bug",
@@ -4533,6 +4699,7 @@
   },
   "167": {
     "name": "Spinarak",
+    "familyId": 167,
     "types": [
       {
         "type": "Bug",
@@ -4560,6 +4727,7 @@
   },
   "168": {
     "name": "Ariados",
+    "familyId": 167,
     "types": [
       {
         "type": "Bug",
@@ -4587,6 +4755,7 @@
   },
   "169": {
     "name": "Crobat",
+    "familyId": 41,
     "types": [
       {
         "type": "Poison",
@@ -4614,6 +4783,7 @@
   },
   "170": {
     "name": "Chinchou",
+    "familyId": 170,
     "types": [
       {
         "type": "Water",
@@ -4641,6 +4811,7 @@
   },
   "171": {
     "name": "Lanturn",
+    "familyId": 170,
     "types": [
       {
         "type": "Water",
@@ -4668,6 +4839,7 @@
   },
   "172": {
     "name": "Pichu",
+    "familyId": 25,
     "types": [
       {
         "type": "Electric",
@@ -4691,6 +4863,7 @@
   },
   "173": {
     "name": "Cleffa",
+    "familyId": 35,
     "types": [
       {
         "type": "Fairy",
@@ -4714,6 +4887,7 @@
   },
   "174": {
     "name": "Igglybuff",
+    "familyId": 39,
     "types": [
       {
         "type": "Normal",
@@ -4741,6 +4915,7 @@
   },
   "175": {
     "name": "Togepi",
+    "familyId": 175,
     "types": [
       {
         "type": "Fairy",
@@ -4764,6 +4939,7 @@
   },
   "176": {
     "name": "Togetic",
+    "familyId": 175,
     "types": [
       {
         "type": "Fairy",
@@ -4791,6 +4967,7 @@
   },
   "177": {
     "name": "Natu",
+    "familyId": 177,
     "types": [
       {
         "type": "Psychic",
@@ -4818,6 +4995,7 @@
   },
   "178": {
     "name": "Xatu",
+    "familyId": 177,
     "types": [
       {
         "type": "Psychic",
@@ -4845,6 +5023,7 @@
   },
   "179": {
     "name": "Mareep",
+    "familyId": 179,
     "types": [
       {
         "type": "Electric",
@@ -4868,6 +5047,7 @@
   },
   "180": {
     "name": "Flaaffy",
+    "familyId": 179,
     "types": [
       {
         "type": "Electric",
@@ -4891,6 +5071,7 @@
   },
   "181": {
     "name": "Ampharos",
+    "familyId": 179,
     "types": [
       {
         "type": "Electric",
@@ -4914,6 +5095,7 @@
   },
   "182": {
     "name": "Bellossom",
+    "familyId": 43,
     "types": [
       {
         "type": "Grass",
@@ -4937,6 +5119,7 @@
   },
   "183": {
     "name": "Marill",
+    "familyId": 183,
     "types": [
       {
         "type": "Water",
@@ -4964,6 +5147,7 @@
   },
   "184": {
     "name": "Azumarill",
+    "familyId": 183,
     "types": [
       {
         "type": "Water",
@@ -4991,6 +5175,7 @@
   },
   "185": {
     "name": "Sudowoodo",
+    "familyId": 185,
     "types": [
       {
         "type": "Rock",
@@ -5014,6 +5199,7 @@
   },
   "186": {
     "name": "Politoed",
+    "familyId": 60,
     "types": [
       {
         "type": "Water",
@@ -5037,6 +5223,7 @@
   },
   "187": {
     "name": "Hoppip",
+    "familyId": 187,
     "types": [
       {
         "type": "Grass",
@@ -5064,6 +5251,7 @@
   },
   "188": {
     "name": "Skiploom",
+    "familyId": 187,
     "types": [
       {
         "type": "Grass",
@@ -5091,6 +5279,7 @@
   },
   "189": {
     "name": "Jumpluff",
+    "familyId": 187,
     "types": [
       {
         "type": "Grass",
@@ -5118,6 +5307,7 @@
   },
   "190": {
     "name": "Aipom",
+    "familyId": 190,
     "types": [
       {
         "type": "Normal",
@@ -5141,6 +5331,7 @@
   },
   "191": {
     "name": "Sunkern",
+    "familyId": 191,
     "types": [
       {
         "type": "Grass",
@@ -5164,6 +5355,7 @@
   },
   "192": {
     "name": "Sunflora",
+    "familyId": 191,
     "types": [
       {
         "type": "Grass",
@@ -5187,6 +5379,7 @@
   },
   "193": {
     "name": "Yanma",
+    "familyId": 193,
     "types": [
       {
         "type": "Bug",
@@ -5214,6 +5407,7 @@
   },
   "194": {
     "name": "Wooper",
+    "familyId": 194,
     "types": [
       {
         "type": "Water",
@@ -5241,6 +5435,7 @@
   },
   "195": {
     "name": "Quagsire",
+    "familyId": 194,
     "types": [
       {
         "type": "Water",
@@ -5268,6 +5463,7 @@
   },
   "196": {
     "name": "Espeon",
+    "familyId": 133,
     "types": [
       {
         "type": "Psychic",
@@ -5291,6 +5487,7 @@
   },
   "197": {
     "name": "Umbreon",
+    "familyId": 133,
     "types": [
       {
         "type": "Dark",
@@ -5314,6 +5511,7 @@
   },
   "198": {
     "name": "Murkrow",
+    "familyId": 198,
     "types": [
       {
         "type": "Dark",
@@ -5341,6 +5539,7 @@
   },
   "199": {
     "name": "Slowking",
+    "familyId": 79,
     "types": [
       {
         "type": "Water",
@@ -5368,6 +5567,7 @@
   },
   "200": {
     "name": "Misdreavus",
+    "familyId": 200,
     "types": [
       {
         "type": "Ghost",
@@ -5391,6 +5591,7 @@
   },
   "201": {
     "name": "Unown",
+    "familyId": 201,
     "types": [
       {
         "type": "Psychic",
@@ -5514,6 +5715,7 @@
   },
   "202": {
     "name": "Wobbuffet",
+    "familyId": 202,
     "types": [
       {
         "type": "Psychic",
@@ -5541,6 +5743,7 @@
   },
   "203": {
     "name": "Girafarig",
+    "familyId": 203,
     "types": [
       {
         "type": "Normal",
@@ -5568,6 +5771,7 @@
   },
   "204": {
     "name": "Pineco",
+    "familyId": 204,
     "types": [
       {
         "type": "Bug",
@@ -5591,6 +5795,7 @@
   },
   "205": {
     "name": "Forretress",
+    "familyId": 204,
     "types": [
       {
         "type": "Bug",
@@ -5618,6 +5823,7 @@
   },
   "206": {
     "name": "Dunsparce",
+    "familyId": 206,
     "types": [
       {
         "type": "Normal",
@@ -5641,6 +5847,7 @@
   },
   "207": {
     "name": "Gligar",
+    "familyId": 207,
     "types": [
       {
         "type": "Ground",
@@ -5668,6 +5875,7 @@
   },
   "208": {
     "name": "Steelix",
+    "familyId": 95,
     "types": [
       {
         "type": "Steel",
@@ -5695,6 +5903,7 @@
   },
   "209": {
     "name": "Snubbull",
+    "familyId": 209,
     "types": [
       {
         "type": "Fairy",
@@ -5718,6 +5927,7 @@
   },
   "210": {
     "name": "Granbull",
+    "familyId": 209,
     "types": [
       {
         "type": "Fairy",
@@ -5741,6 +5951,7 @@
   },
   "211": {
     "name": "Qwilfish",
+    "familyId": 211,
     "types": [
       {
         "type": "Water",
@@ -5768,6 +5979,7 @@
   },
   "212": {
     "name": "Scizor",
+    "familyId": 123,
     "types": [
       {
         "type": "Bug",
@@ -5795,6 +6007,7 @@
   },
   "213": {
     "name": "Shuckle",
+    "familyId": 213,
     "types": [
       {
         "type": "Bug",
@@ -5822,6 +6035,7 @@
   },
   "214": {
     "name": "Heracross",
+    "familyId": 214,
     "types": [
       {
         "type": "Bug",
@@ -5849,6 +6063,7 @@
   },
   "215": {
     "name": "Sneasel",
+    "familyId": 215,
     "types": [
       {
         "type": "Dark",
@@ -5876,6 +6091,7 @@
   },
   "216": {
     "name": "Teddiursa",
+    "familyId": 216,
     "types": [
       {
         "type": "Normal",
@@ -5899,6 +6115,7 @@
   },
   "217": {
     "name": "Ursaring",
+    "familyId": 216,
     "types": [
       {
         "type": "Normal",
@@ -5922,6 +6139,7 @@
   },
   "218": {
     "name": "Slugma",
+    "familyId": 218,
     "types": [
       {
         "type": "Fire",
@@ -5945,6 +6163,7 @@
   },
   "219": {
     "name": "Magcargo",
+    "familyId": 218,
     "types": [
       {
         "type": "Fire",
@@ -5972,6 +6191,7 @@
   },
   "220": {
     "name": "Swinub",
+    "familyId": 220,
     "types": [
       {
         "type": "Ice",
@@ -5999,6 +6219,7 @@
   },
   "221": {
     "name": "Piloswine",
+    "familyId": 220,
     "types": [
       {
         "type": "Ice",
@@ -6026,6 +6247,7 @@
   },
   "222": {
     "name": "Corsola",
+    "familyId": 222,
     "types": [
       {
         "type": "Water",
@@ -6063,6 +6285,7 @@
   },
   "223": {
     "name": "Remoraid",
+    "familyId": 223,
     "types": [
       {
         "type": "Water",
@@ -6086,6 +6309,7 @@
   },
   "224": {
     "name": "Octillery",
+    "familyId": 223,
     "types": [
       {
         "type": "Water",
@@ -6109,6 +6333,7 @@
   },
   "225": {
     "name": "Delibird",
+    "familyId": 225,
     "types": [
       {
         "type": "Ice",
@@ -6140,6 +6365,7 @@
   },
   "226": {
     "name": "Mantine",
+    "familyId": 226,
     "types": [
       {
         "type": "Water",
@@ -6167,6 +6393,7 @@
   },
   "227": {
     "name": "Skarmory",
+    "familyId": 227,
     "types": [
       {
         "type": "Steel",
@@ -6194,6 +6421,7 @@
   },
   "228": {
     "name": "Houndour",
+    "familyId": 228,
     "types": [
       {
         "type": "Dark",
@@ -6221,6 +6449,7 @@
   },
   "229": {
     "name": "Houndoom",
+    "familyId": 228,
     "types": [
       {
         "type": "Dark",
@@ -6248,6 +6477,7 @@
   },
   "230": {
     "name": "Kingdra",
+    "familyId": 116,
     "types": [
       {
         "type": "Water",
@@ -6275,6 +6505,7 @@
   },
   "231": {
     "name": "Phanpy",
+    "familyId": 231,
     "types": [
       {
         "type": "Ground",
@@ -6298,6 +6529,7 @@
   },
   "232": {
     "name": "Donphan",
+    "familyId": 231,
     "types": [
       {
         "type": "Ground",
@@ -6321,6 +6553,7 @@
   },
   "233": {
     "name": "Porygon2",
+    "familyId": 137,
     "types": [
       {
         "type": "Normal",
@@ -6344,6 +6577,7 @@
   },
   "234": {
     "name": "Stantler",
+    "familyId": 234,
     "types": [
       {
         "type": "Normal",
@@ -6367,6 +6601,7 @@
   },
   "235": {
     "name": "Smeargle",
+    "familyId": 235,
     "types": [
       {
         "type": "Normal",
@@ -6390,6 +6625,7 @@
   },
   "236": {
     "name": "Tyrogue",
+    "familyId": 236,
     "types": [
       {
         "type": "Fighting",
@@ -6413,6 +6649,7 @@
   },
   "237": {
     "name": "Hitmontop",
+    "familyId": 236,
     "types": [
       {
         "type": "Fighting",
@@ -6436,6 +6673,7 @@
   },
   "238": {
     "name": "Smoochum",
+    "familyId": 124,
     "types": [
       {
         "type": "Ice",
@@ -6463,6 +6701,7 @@
   },
   "239": {
     "name": "Elekid",
+    "familyId": 125,
     "types": [
       {
         "type": "Electric",
@@ -6486,6 +6725,7 @@
   },
   "240": {
     "name": "Magby",
+    "familyId": 126,
     "types": [
       {
         "type": "Fire",
@@ -6509,6 +6749,7 @@
   },
   "241": {
     "name": "Miltank",
+    "familyId": 241,
     "types": [
       {
         "type": "Normal",
@@ -6532,6 +6773,7 @@
   },
   "242": {
     "name": "Blissey",
+    "familyId": 113,
     "types": [
       {
         "type": "Normal",
@@ -6555,6 +6797,7 @@
   },
   "243": {
     "name": "Raikou",
+    "familyId": 243,
     "legendary": true,
     "types": [
       {
@@ -6579,6 +6822,7 @@
   },
   "244": {
     "name": "Entei",
+    "familyId": 244,
     "legendary": true,
     "types": [
       {
@@ -6603,6 +6847,7 @@
   },
   "245": {
     "name": "Suicune",
+    "familyId": 245,
     "legendary": true,
     "types": [
       {
@@ -6627,6 +6872,7 @@
   },
   "246": {
     "name": "Larvitar",
+    "familyId": 246,
     "types": [
       {
         "type": "Rock",
@@ -6654,6 +6900,7 @@
   },
   "247": {
     "name": "Pupitar",
+    "familyId": 246,
     "types": [
       {
         "type": "Rock",
@@ -6681,6 +6928,7 @@
   },
   "248": {
     "name": "Tyranitar",
+    "familyId": 246,
     "types": [
       {
         "type": "Rock",
@@ -6708,6 +6956,7 @@
   },
   "249": {
     "name": "Lugia",
+    "familyId": 249,
     "legendary": true,
     "types": [
       {
@@ -6736,6 +6985,7 @@
   },
   "250": {
     "name": "Ho-Oh",
+    "familyId": 250,
     "legendary": true,
     "types": [
       {
@@ -6764,6 +7014,7 @@
   },
   "251": {
     "name": "Celebi",
+    "familyId": 251,
     "mythical": true,
     "types": [
       {
@@ -6792,6 +7043,7 @@
   },
   "252": {
     "name": "Treecko",
+    "familyId": 252,
     "types": [
       {
         "type": "Grass",
@@ -6815,6 +7067,7 @@
   },
   "253": {
     "name": "Grovyle",
+    "familyId": 252,
     "types": [
       {
         "type": "Grass",
@@ -6838,6 +7091,7 @@
   },
   "254": {
     "name": "Sceptile",
+    "familyId": 252,
     "types": [
       {
         "type": "Grass",
@@ -6861,6 +7115,7 @@
   },
   "255": {
     "name": "Torchic",
+    "familyId": 255,
     "types": [
       {
         "type": "Fire",
@@ -6884,6 +7139,7 @@
   },
   "256": {
     "name": "Combusken",
+    "familyId": 255,
     "types": [
       {
         "type": "Fire",
@@ -6911,6 +7167,7 @@
   },
   "257": {
     "name": "Blaziken",
+    "familyId": 255,
     "types": [
       {
         "type": "Fire",
@@ -6938,6 +7195,7 @@
   },
   "258": {
     "name": "Mudkip",
+    "familyId": 258,
     "types": [
       {
         "type": "Water",
@@ -6961,6 +7219,7 @@
   },
   "259": {
     "name": "Marshtomp",
+    "familyId": 258,
     "types": [
       {
         "type": "Water",
@@ -6988,6 +7247,7 @@
   },
   "260": {
     "name": "Swampert",
+    "familyId": 258,
     "types": [
       {
         "type": "Water",
@@ -7015,6 +7275,7 @@
   },
   "261": {
     "name": "Poochyena",
+    "familyId": 261,
     "types": [
       {
         "type": "Dark",
@@ -7038,6 +7299,7 @@
   },
   "262": {
     "name": "Mightyena",
+    "familyId": 261,
     "types": [
       {
         "type": "Dark",
@@ -7061,6 +7323,7 @@
   },
   "263": {
     "name": "Zigzagoon",
+    "familyId": 263,
     "types": [
       {
         "type": "Normal",
@@ -7098,6 +7361,7 @@
   },
   "264": {
     "name": "Linoone",
+    "familyId": 263,
     "types": [
       {
         "type": "Normal",
@@ -7135,6 +7399,7 @@
   },
   "265": {
     "name": "Wurmple",
+    "familyId": 265,
     "types": [
       {
         "type": "Bug",
@@ -7162,6 +7427,7 @@
   },
   "266": {
     "name": "Silcoon",
+    "familyId": 265,
     "types": [
       {
         "type": "Bug",
@@ -7185,6 +7451,7 @@
   },
   "267": {
     "name": "Beautifly",
+    "familyId": 265,
     "types": [
       {
         "type": "Bug",
@@ -7212,6 +7479,7 @@
   },
   "268": {
     "name": "Cascoon",
+    "familyId": 265,
     "types": [
       {
         "type": "Bug",
@@ -7235,6 +7503,7 @@
   },
   "269": {
     "name": "Dustox",
+    "familyId": 265,
     "types": [
       {
         "type": "Bug",
@@ -7262,6 +7531,7 @@
   },
   "270": {
     "name": "Lotad",
+    "familyId": 270,
     "types": [
       {
         "type": "Water",
@@ -7289,6 +7559,7 @@
   },
   "271": {
     "name": "Lombre",
+    "familyId": 270,
     "types": [
       {
         "type": "Water",
@@ -7316,6 +7587,7 @@
   },
   "272": {
     "name": "Ludicolo",
+    "familyId": 270,
     "types": [
       {
         "type": "Water",
@@ -7343,6 +7615,7 @@
   },
   "273": {
     "name": "Seedot",
+    "familyId": 273,
     "types": [
       {
         "type": "Grass",
@@ -7366,6 +7639,7 @@
   },
   "274": {
     "name": "Nuzleaf",
+    "familyId": 273,
     "types": [
       {
         "type": "Grass",
@@ -7393,6 +7667,7 @@
   },
   "275": {
     "name": "Shiftry",
+    "familyId": 273,
     "types": [
       {
         "type": "Grass",
@@ -7420,6 +7695,7 @@
   },
   "276": {
     "name": "Taillow",
+    "familyId": 276,
     "types": [
       {
         "type": "Normal",
@@ -7447,6 +7723,7 @@
   },
   "277": {
     "name": "Swellow",
+    "familyId": 276,
     "types": [
       {
         "type": "Normal",
@@ -7474,6 +7751,7 @@
   },
   "278": {
     "name": "Wingull",
+    "familyId": 278,
     "types": [
       {
         "type": "Water",
@@ -7501,6 +7779,7 @@
   },
   "279": {
     "name": "Pelipper",
+    "familyId": 278,
     "types": [
       {
         "type": "Water",
@@ -7528,6 +7807,7 @@
   },
   "280": {
     "name": "Ralts",
+    "familyId": 280,
     "types": [
       {
         "type": "Psychic",
@@ -7555,6 +7835,7 @@
   },
   "281": {
     "name": "Kirlia",
+    "familyId": 280,
     "types": [
       {
         "type": "Psychic",
@@ -7582,6 +7863,7 @@
   },
   "282": {
     "name": "Gardevoir",
+    "familyId": 280,
     "types": [
       {
         "type": "Psychic",
@@ -7609,6 +7891,7 @@
   },
   "283": {
     "name": "Surskit",
+    "familyId": 283,
     "types": [
       {
         "type": "Bug",
@@ -7636,6 +7919,7 @@
   },
   "284": {
     "name": "Masquerain",
+    "familyId": 283,
     "types": [
       {
         "type": "Bug",
@@ -7663,6 +7947,7 @@
   },
   "285": {
     "name": "Shroomish",
+    "familyId": 285,
     "types": [
       {
         "type": "Grass",
@@ -7686,6 +7971,7 @@
   },
   "286": {
     "name": "Breloom",
+    "familyId": 285,
     "types": [
       {
         "type": "Grass",
@@ -7713,6 +7999,7 @@
   },
   "287": {
     "name": "Slakoth",
+    "familyId": 287,
     "types": [
       {
         "type": "Normal",
@@ -7736,6 +8023,7 @@
   },
   "288": {
     "name": "Vigoroth",
+    "familyId": 287,
     "types": [
       {
         "type": "Normal",
@@ -7759,6 +8047,7 @@
   },
   "289": {
     "name": "Slaking",
+    "familyId": 287,
     "types": [
       {
         "type": "Normal",
@@ -7782,6 +8071,7 @@
   },
   "290": {
     "name": "Nincada",
+    "familyId": 290,
     "types": [
       {
         "type": "Bug",
@@ -7809,6 +8099,7 @@
   },
   "291": {
     "name": "Ninjask",
+    "familyId": 290,
     "types": [
       {
         "type": "Bug",
@@ -7836,6 +8127,7 @@
   },
   "292": {
     "name": "Shedinja",
+    "familyId": 290,
     "types": [
       {
         "type": "Bug",
@@ -7863,6 +8155,7 @@
   },
   "293": {
     "name": "Whismur",
+    "familyId": 293,
     "types": [
       {
         "type": "Normal",
@@ -7886,6 +8179,7 @@
   },
   "294": {
     "name": "Loudred",
+    "familyId": 293,
     "types": [
       {
         "type": "Normal",
@@ -7909,6 +8203,7 @@
   },
   "295": {
     "name": "Exploud",
+    "familyId": 293,
     "types": [
       {
         "type": "Normal",
@@ -7932,6 +8227,7 @@
   },
   "296": {
     "name": "Makuhita",
+    "familyId": 296,
     "types": [
       {
         "type": "Fighting",
@@ -7955,6 +8251,7 @@
   },
   "297": {
     "name": "Hariyama",
+    "familyId": 296,
     "types": [
       {
         "type": "Fighting",
@@ -7978,6 +8275,7 @@
   },
   "298": {
     "name": "Azurill",
+    "familyId": 183,
     "types": [
       {
         "type": "Normal",
@@ -8005,6 +8303,7 @@
   },
   "299": {
     "name": "Nosepass",
+    "familyId": 299,
     "types": [
       {
         "type": "Rock",
@@ -8028,6 +8327,7 @@
   },
   "300": {
     "name": "Skitty",
+    "familyId": 300,
     "types": [
       {
         "type": "Normal",
@@ -8051,6 +8351,7 @@
   },
   "301": {
     "name": "Delcatty",
+    "familyId": 300,
     "types": [
       {
         "type": "Normal",
@@ -8074,6 +8375,7 @@
   },
   "302": {
     "name": "Sableye",
+    "familyId": 302,
     "types": [
       {
         "type": "Dark",
@@ -8109,6 +8411,7 @@
   },
   "303": {
     "name": "Mawile",
+    "familyId": 303,
     "types": [
       {
         "type": "Steel",
@@ -8136,6 +8439,7 @@
   },
   "304": {
     "name": "Aron",
+    "familyId": 304,
     "types": [
       {
         "type": "Steel",
@@ -8163,6 +8467,7 @@
   },
   "305": {
     "name": "Lairon",
+    "familyId": 304,
     "types": [
       {
         "type": "Steel",
@@ -8190,6 +8495,7 @@
   },
   "306": {
     "name": "Aggron",
+    "familyId": 304,
     "types": [
       {
         "type": "Steel",
@@ -8217,6 +8523,7 @@
   },
   "307": {
     "name": "Meditite",
+    "familyId": 307,
     "types": [
       {
         "type": "Fighting",
@@ -8244,6 +8551,7 @@
   },
   "308": {
     "name": "Medicham",
+    "familyId": 307,
     "types": [
       {
         "type": "Fighting",
@@ -8271,6 +8579,7 @@
   },
   "309": {
     "name": "Electrike",
+    "familyId": 309,
     "types": [
       {
         "type": "Electric",
@@ -8294,6 +8603,7 @@
   },
   "310": {
     "name": "Manectric",
+    "familyId": 309,
     "types": [
       {
         "type": "Electric",
@@ -8317,6 +8627,7 @@
   },
   "311": {
     "name": "Plusle",
+    "familyId": 311,
     "types": [
       {
         "type": "Electric",
@@ -8340,6 +8651,7 @@
   },
   "312": {
     "name": "Minun",
+    "familyId": 312,
     "types": [
       {
         "type": "Electric",
@@ -8363,6 +8675,7 @@
   },
   "313": {
     "name": "Volbeat",
+    "familyId": 313,
     "types": [
       {
         "type": "Bug",
@@ -8386,6 +8699,7 @@
   },
   "314": {
     "name": "Illumise",
+    "familyId": 314,
     "types": [
       {
         "type": "Bug",
@@ -8409,6 +8723,7 @@
   },
   "315": {
     "name": "Roselia",
+    "familyId": 315,
     "types": [
       {
         "type": "Grass",
@@ -8436,6 +8751,7 @@
   },
   "316": {
     "name": "Gulpin",
+    "familyId": 316,
     "types": [
       {
         "type": "Poison",
@@ -8459,6 +8775,7 @@
   },
   "317": {
     "name": "Swalot",
+    "familyId": 316,
     "types": [
       {
         "type": "Poison",
@@ -8482,6 +8799,7 @@
   },
   "318": {
     "name": "Carvanha",
+    "familyId": 318,
     "types": [
       {
         "type": "Water",
@@ -8509,6 +8827,7 @@
   },
   "319": {
     "name": "Sharpedo",
+    "familyId": 318,
     "types": [
       {
         "type": "Water",
@@ -8536,6 +8855,7 @@
   },
   "320": {
     "name": "Wailmer",
+    "familyId": 320,
     "types": [
       {
         "type": "Water",
@@ -8559,6 +8879,7 @@
   },
   "321": {
     "name": "Wailord",
+    "familyId": 320,
     "types": [
       {
         "type": "Water",
@@ -8582,6 +8903,7 @@
   },
   "322": {
     "name": "Numel",
+    "familyId": 322,
     "types": [
       {
         "type": "Fire",
@@ -8609,6 +8931,7 @@
   },
   "323": {
     "name": "Camerupt",
+    "familyId": 322,
     "types": [
       {
         "type": "Fire",
@@ -8636,6 +8959,7 @@
   },
   "324": {
     "name": "Torkoal",
+    "familyId": 324,
     "types": [
       {
         "type": "Fire",
@@ -8659,6 +8983,7 @@
   },
   "325": {
     "name": "Spoink",
+    "familyId": 325,
     "types": [
       {
         "type": "Psychic",
@@ -8682,6 +9007,7 @@
   },
   "326": {
     "name": "Grumpig",
+    "familyId": 325,
     "types": [
       {
         "type": "Psychic",
@@ -8705,6 +9031,7 @@
   },
   "327": {
     "name": "Spinda",
+    "familyId": 327,
     "types": [
       {
         "type": "Normal",
@@ -8796,6 +9123,7 @@
   },
   "328": {
     "name": "Trapinch",
+    "familyId": 328,
     "types": [
       {
         "type": "Ground",
@@ -8819,6 +9147,7 @@
   },
   "329": {
     "name": "Vibrava",
+    "familyId": 328,
     "types": [
       {
         "type": "Ground",
@@ -8846,6 +9175,7 @@
   },
   "330": {
     "name": "Flygon",
+    "familyId": 328,
     "types": [
       {
         "type": "Ground",
@@ -8873,6 +9203,7 @@
   },
   "331": {
     "name": "Cacnea",
+    "familyId": 331,
     "types": [
       {
         "type": "Grass",
@@ -8896,6 +9227,7 @@
   },
   "332": {
     "name": "Cacturne",
+    "familyId": 331,
     "types": [
       {
         "type": "Grass",
@@ -8923,6 +9255,7 @@
   },
   "333": {
     "name": "Swablu",
+    "familyId": 333,
     "types": [
       {
         "type": "Normal",
@@ -8950,6 +9283,7 @@
   },
   "334": {
     "name": "Altaria",
+    "familyId": 333,
     "types": [
       {
         "type": "Dragon",
@@ -8977,6 +9311,7 @@
   },
   "335": {
     "name": "Zangoose",
+    "familyId": 335,
     "types": [
       {
         "type": "Normal",
@@ -9000,6 +9335,7 @@
   },
   "336": {
     "name": "Seviper",
+    "familyId": 336,
     "types": [
       {
         "type": "Poison",
@@ -9023,6 +9359,7 @@
   },
   "337": {
     "name": "Lunatone",
+    "familyId": 337,
     "types": [
       {
         "type": "Rock",
@@ -9050,6 +9387,7 @@
   },
   "338": {
     "name": "Solrock",
+    "familyId": 338,
     "types": [
       {
         "type": "Rock",
@@ -9077,6 +9415,7 @@
   },
   "339": {
     "name": "Barboach",
+    "familyId": 339,
     "types": [
       {
         "type": "Water",
@@ -9104,6 +9443,7 @@
   },
   "340": {
     "name": "Whiscash",
+    "familyId": 339,
     "types": [
       {
         "type": "Water",
@@ -9131,6 +9471,7 @@
   },
   "341": {
     "name": "Corphish",
+    "familyId": 341,
     "types": [
       {
         "type": "Water",
@@ -9154,6 +9495,7 @@
   },
   "342": {
     "name": "Crawdaunt",
+    "familyId": 341,
     "types": [
       {
         "type": "Water",
@@ -9181,6 +9523,7 @@
   },
   "343": {
     "name": "Baltoy",
+    "familyId": 343,
     "types": [
       {
         "type": "Ground",
@@ -9208,6 +9551,7 @@
   },
   "344": {
     "name": "Claydol",
+    "familyId": 343,
     "types": [
       {
         "type": "Ground",
@@ -9235,6 +9579,7 @@
   },
   "345": {
     "name": "Lileep",
+    "familyId": 345,
     "types": [
       {
         "type": "Rock",
@@ -9262,6 +9607,7 @@
   },
   "346": {
     "name": "Cradily",
+    "familyId": 345,
     "types": [
       {
         "type": "Rock",
@@ -9289,6 +9635,7 @@
   },
   "347": {
     "name": "Anorith",
+    "familyId": 347,
     "types": [
       {
         "type": "Rock",
@@ -9316,6 +9663,7 @@
   },
   "348": {
     "name": "Armaldo",
+    "familyId": 347,
     "types": [
       {
         "type": "Rock",
@@ -9343,6 +9691,7 @@
   },
   "349": {
     "name": "Feebas",
+    "familyId": 349,
     "types": [
       {
         "type": "Water",
@@ -9366,6 +9715,7 @@
   },
   "350": {
     "name": "Milotic",
+    "familyId": 349,
     "types": [
       {
         "type": "Water",
@@ -9389,6 +9739,7 @@
   },
   "351": {
     "name": "Castform",
+    "familyId": 351,
     "types": [
       {
         "type": "Normal",
@@ -9434,6 +9785,7 @@
   },
   "352": {
     "name": "Kecleon",
+    "familyId": 352,
     "types": [
       {
         "type": "Normal",
@@ -9457,6 +9809,7 @@
   },
   "353": {
     "name": "Shuppet",
+    "familyId": 353,
     "types": [
       {
         "type": "Ghost",
@@ -9480,6 +9833,7 @@
   },
   "354": {
     "name": "Banette",
+    "familyId": 353,
     "types": [
       {
         "type": "Ghost",
@@ -9503,6 +9857,7 @@
   },
   "355": {
     "name": "Duskull",
+    "familyId": 355,
     "types": [
       {
         "type": "Ghost",
@@ -9526,6 +9881,7 @@
   },
   "356": {
     "name": "Dusclops",
+    "familyId": 355,
     "types": [
       {
         "type": "Ghost",
@@ -9549,6 +9905,7 @@
   },
   "357": {
     "name": "Tropius",
+    "familyId": 357,
     "types": [
       {
         "type": "Grass",
@@ -9576,6 +9933,7 @@
   },
   "358": {
     "name": "Chimecho",
+    "familyId": 358,
     "types": [
       {
         "type": "Psychic",
@@ -9599,6 +9957,7 @@
   },
   "359": {
     "name": "Absol",
+    "familyId": 359,
     "types": [
       {
         "type": "Dark",
@@ -9622,6 +9981,7 @@
   },
   "360": {
     "name": "Wynaut",
+    "familyId": 202,
     "types": [
       {
         "type": "Psychic",
@@ -9645,6 +10005,7 @@
   },
   "361": {
     "name": "Snorunt",
+    "familyId": 361,
     "types": [
       {
         "type": "Ice",
@@ -9668,6 +10029,7 @@
   },
   "362": {
     "name": "Glalie",
+    "familyId": 361,
     "types": [
       {
         "type": "Ice",
@@ -9691,6 +10053,7 @@
   },
   "363": {
     "name": "Spheal",
+    "familyId": 363,
     "types": [
       {
         "type": "Ice",
@@ -9718,6 +10081,7 @@
   },
   "364": {
     "name": "Sealeo",
+    "familyId": 363,
     "types": [
       {
         "type": "Ice",
@@ -9745,6 +10109,7 @@
   },
   "365": {
     "name": "Walrein",
+    "familyId": 363,
     "types": [
       {
         "type": "Ice",
@@ -9772,6 +10137,7 @@
   },
   "366": {
     "name": "Clamperl",
+    "familyId": 366,
     "types": [
       {
         "type": "Water",
@@ -9795,6 +10161,7 @@
   },
   "367": {
     "name": "Huntail",
+    "familyId": 366,
     "types": [
       {
         "type": "Water",
@@ -9818,6 +10185,7 @@
   },
   "368": {
     "name": "Gorebyss",
+    "familyId": 366,
     "types": [
       {
         "type": "Water",
@@ -9841,6 +10209,7 @@
   },
   "369": {
     "name": "Relicanth",
+    "familyId": 369,
     "types": [
       {
         "type": "Water",
@@ -9868,6 +10237,7 @@
   },
   "370": {
     "name": "Luvdisc",
+    "familyId": 370,
     "types": [
       {
         "type": "Water",
@@ -9891,6 +10261,7 @@
   },
   "371": {
     "name": "Bagon",
+    "familyId": 371,
     "types": [
       {
         "type": "Dragon",
@@ -9914,6 +10285,7 @@
   },
   "372": {
     "name": "Shelgon",
+    "familyId": 371,
     "types": [
       {
         "type": "Dragon",
@@ -9937,6 +10309,7 @@
   },
   "373": {
     "name": "Salamence",
+    "familyId": 371,
     "types": [
       {
         "type": "Dragon",
@@ -9964,6 +10337,7 @@
   },
   "374": {
     "name": "Beldum",
+    "familyId": 374,
     "types": [
       {
         "type": "Steel",
@@ -9991,6 +10365,7 @@
   },
   "375": {
     "name": "Metang",
+    "familyId": 374,
     "types": [
       {
         "type": "Steel",
@@ -10018,6 +10393,7 @@
   },
   "376": {
     "name": "Metagross",
+    "familyId": 374,
     "types": [
       {
         "type": "Steel",
@@ -10045,6 +10421,7 @@
   },
   "377": {
     "name": "Regirock",
+    "familyId": 377,
     "legendary": true,
     "types": [
       {
@@ -10069,6 +10446,7 @@
   },
   "378": {
     "name": "Regice",
+    "familyId": 378,
     "legendary": true,
     "types": [
       {
@@ -10093,6 +10471,7 @@
   },
   "379": {
     "name": "Registeel",
+    "familyId": 379,
     "legendary": true,
     "types": [
       {
@@ -10117,6 +10496,7 @@
   },
   "380": {
     "name": "Latias",
+    "familyId": 380,
     "legendary": true,
     "types": [
       {
@@ -10145,6 +10525,7 @@
   },
   "381": {
     "name": "Latios",
+    "familyId": 381,
     "legendary": true,
     "types": [
       {
@@ -10173,6 +10554,7 @@
   },
   "382": {
     "name": "Kyogre",
+    "familyId": 382,
     "legendary": true,
     "types": [
       {
@@ -10197,6 +10579,7 @@
   },
   "383": {
     "name": "Groudon",
+    "familyId": 383,
     "legendary": true,
     "types": [
       {
@@ -10221,6 +10604,7 @@
   },
   "384": {
     "name": "Rayquaza",
+    "familyId": 384,
     "legendary": true,
     "types": [
       {
@@ -10249,6 +10633,7 @@
   },
   "385": {
     "name": "Jirachi",
+    "familyId": 385,
     "mythical": true,
     "types": [
       {
@@ -10277,6 +10662,7 @@
   },
   "386": {
     "name": "Deoxys",
+    "familyId": 386,
     "mythical": true,
     "types": [
       {
@@ -10305,6 +10691,7 @@
   },
   "387": {
     "name": "Turtwig",
+    "familyId": 387,
     "types": [
       {
         "type": "Grass",
@@ -10328,6 +10715,7 @@
   },
   "388": {
     "name": "Grotle",
+    "familyId": 387,
     "types": [
       {
         "type": "Grass",
@@ -10351,6 +10739,7 @@
   },
   "389": {
     "name": "Torterra",
+    "familyId": 387,
     "types": [
       {
         "type": "Grass",
@@ -10378,6 +10767,7 @@
   },
   "390": {
     "name": "Chimchar",
+    "familyId": 390,
     "types": [
       {
         "type": "Fire",
@@ -10401,6 +10791,7 @@
   },
   "391": {
     "name": "Monferno",
+    "familyId": 390,
     "types": [
       {
         "type": "Fire",
@@ -10428,6 +10819,7 @@
   },
   "392": {
     "name": "Infernape",
+    "familyId": 390,
     "types": [
       {
         "type": "Fire",
@@ -10455,6 +10847,7 @@
   },
   "393": {
     "name": "Piplup",
+    "familyId": 393,
     "types": [
       {
         "type": "Water",
@@ -10478,6 +10871,7 @@
   },
   "394": {
     "name": "Prinplup",
+    "familyId": 393,
     "types": [
       {
         "type": "Water",
@@ -10501,6 +10895,7 @@
   },
   "395": {
     "name": "Empoleon",
+    "familyId": 393,
     "types": [
       {
         "type": "Water",
@@ -10528,6 +10923,7 @@
   },
   "396": {
     "name": "Starly",
+    "familyId": 396,
     "types": [
       {
         "type": "Normal",
@@ -10555,6 +10951,7 @@
   },
   "397": {
     "name": "Staravia",
+    "familyId": 396,
     "types": [
       {
         "type": "Normal",
@@ -10582,6 +10979,7 @@
   },
   "398": {
     "name": "Staraptor",
+    "familyId": 396,
     "types": [
       {
         "type": "Normal",
@@ -10609,6 +11007,7 @@
   },
   "399": {
     "name": "Bidoof",
+    "familyId": 399,
     "types": [
       {
         "type": "Normal",
@@ -10632,6 +11031,7 @@
   },
   "400": {
     "name": "Bibarel",
+    "familyId": 399,
     "types": [
       {
         "type": "Normal",
@@ -10659,6 +11059,7 @@
   },
   "401": {
     "name": "Kricketot",
+    "familyId": 401,
     "types": [
       {
         "type": "Bug",
@@ -10682,6 +11083,7 @@
   },
   "402": {
     "name": "Kricketune",
+    "familyId": 401,
     "types": [
       {
         "type": "Bug",
@@ -10705,6 +11107,7 @@
   },
   "403": {
     "name": "Shinx",
+    "familyId": 403,
     "types": [
       {
         "type": "Electric",
@@ -10728,6 +11131,7 @@
   },
   "404": {
     "name": "Luxio",
+    "familyId": 403,
     "types": [
       {
         "type": "Electric",
@@ -10751,6 +11155,7 @@
   },
   "405": {
     "name": "Luxray",
+    "familyId": 403,
     "types": [
       {
         "type": "Electric",
@@ -10774,6 +11179,7 @@
   },
   "406": {
     "name": "Budew",
+    "familyId": 315,
     "types": [
       {
         "type": "Grass",
@@ -10801,6 +11207,7 @@
   },
   "407": {
     "name": "Roserade",
+    "familyId": 315,
     "types": [
       {
         "type": "Grass",
@@ -10828,6 +11235,7 @@
   },
   "408": {
     "name": "Cranidos",
+    "familyId": 408,
     "types": [
       {
         "type": "Rock",
@@ -10851,6 +11259,7 @@
   },
   "409": {
     "name": "Rampardos",
+    "familyId": 408,
     "types": [
       {
         "type": "Rock",
@@ -10874,6 +11283,7 @@
   },
   "410": {
     "name": "Shieldon",
+    "familyId": 410,
     "types": [
       {
         "type": "Rock",
@@ -10901,6 +11311,7 @@
   },
   "411": {
     "name": "Bastiodon",
+    "familyId": 410,
     "types": [
       {
         "type": "Rock",
@@ -10928,6 +11339,7 @@
   },
   "412": {
     "name": "Burmy",
+    "familyId": 412,
     "types": [
       {
         "type": "Bug",
@@ -10963,6 +11375,7 @@
   },
   "413": {
     "name": "Wormadam",
+    "familyId": 412,
     "types": [
       {
         "type": "Bug",
@@ -11022,6 +11435,7 @@
   },
   "414": {
     "name": "Mothim",
+    "familyId": 412,
     "types": [
       {
         "type": "Bug",
@@ -11049,6 +11463,7 @@
   },
   "415": {
     "name": "Combee",
+    "familyId": 415,
     "types": [
       {
         "type": "Bug",
@@ -11076,6 +11491,7 @@
   },
   "416": {
     "name": "Vespiquen",
+    "familyId": 415,
     "types": [
       {
         "type": "Bug",
@@ -11103,6 +11519,7 @@
   },
   "417": {
     "name": "Pachirisu",
+    "familyId": 417,
     "types": [
       {
         "type": "Electric",
@@ -11126,6 +11543,7 @@
   },
   "418": {
     "name": "Buizel",
+    "familyId": 418,
     "types": [
       {
         "type": "Water",
@@ -11149,6 +11567,7 @@
   },
   "419": {
     "name": "Floatzel",
+    "familyId": 418,
     "types": [
       {
         "type": "Water",
@@ -11172,6 +11591,7 @@
   },
   "420": {
     "name": "Cherubi",
+    "familyId": 420,
     "types": [
       {
         "type": "Grass",
@@ -11195,6 +11615,7 @@
   },
   "421": {
     "name": "Cherrim",
+    "familyId": 420,
     "types": [
       {
         "type": "Grass",
@@ -11226,6 +11647,7 @@
   },
   "422": {
     "name": "Shellos",
+    "familyId": 422,
     "types": [
       {
         "type": "Water",
@@ -11257,6 +11679,7 @@
   },
   "423": {
     "name": "Gastrodon",
+    "familyId": 422,
     "types": [
       {
         "type": "Water",
@@ -11292,6 +11715,7 @@
   },
   "424": {
     "name": "Ambipom",
+    "familyId": 190,
     "types": [
       {
         "type": "Normal",
@@ -11315,6 +11739,7 @@
   },
   "425": {
     "name": "Drifloon",
+    "familyId": 425,
     "types": [
       {
         "type": "Ghost",
@@ -11342,6 +11767,7 @@
   },
   "426": {
     "name": "Drifblim",
+    "familyId": 425,
     "types": [
       {
         "type": "Ghost",
@@ -11369,6 +11795,7 @@
   },
   "427": {
     "name": "Buneary",
+    "familyId": 427,
     "types": [
       {
         "type": "Normal",
@@ -11392,6 +11819,7 @@
   },
   "428": {
     "name": "Lopunny",
+    "familyId": 427,
     "types": [
       {
         "type": "Normal",
@@ -11415,6 +11843,7 @@
   },
   "429": {
     "name": "Mismagius",
+    "familyId": 200,
     "types": [
       {
         "type": "Ghost",
@@ -11438,6 +11867,7 @@
   },
   "430": {
     "name": "Honchkrow",
+    "familyId": 198,
     "types": [
       {
         "type": "Dark",
@@ -11465,6 +11895,7 @@
   },
   "431": {
     "name": "Glameow",
+    "familyId": 431,
     "types": [
       {
         "type": "Normal",
@@ -11488,6 +11919,7 @@
   },
   "432": {
     "name": "Purugly",
+    "familyId": 431,
     "types": [
       {
         "type": "Normal",
@@ -11511,6 +11943,7 @@
   },
   "433": {
     "name": "Chingling",
+    "familyId": 358,
     "types": [
       {
         "type": "Psychic",
@@ -11534,6 +11967,7 @@
   },
   "434": {
     "name": "Stunky",
+    "familyId": 434,
     "types": [
       {
         "type": "Poison",
@@ -11561,6 +11995,7 @@
   },
   "435": {
     "name": "Skuntank",
+    "familyId": 434,
     "types": [
       {
         "type": "Poison",
@@ -11588,6 +12023,7 @@
   },
   "436": {
     "name": "Bronzor",
+    "familyId": 436,
     "types": [
       {
         "type": "Steel",
@@ -11615,6 +12051,7 @@
   },
   "437": {
     "name": "Bronzong",
+    "familyId": 436,
     "types": [
       {
         "type": "Steel",
@@ -11642,6 +12079,7 @@
   },
   "438": {
     "name": "Bonsly",
+    "familyId": 185,
     "types": [
       {
         "type": "Rock",
@@ -11665,6 +12103,7 @@
   },
   "439": {
     "name": "Mime Jr.",
+    "familyId": 122,
     "types": [
       {
         "type": "Psychic",
@@ -11692,6 +12131,7 @@
   },
   "440": {
     "name": "Happiny",
+    "familyId": 113,
     "types": [
       {
         "type": "Normal",
@@ -11715,6 +12155,7 @@
   },
   "441": {
     "name": "Chatot",
+    "familyId": 441,
     "types": [
       {
         "type": "Normal",
@@ -11742,6 +12183,7 @@
   },
   "442": {
     "name": "Spiritomb",
+    "familyId": 442,
     "types": [
       {
         "type": "Ghost",
@@ -11769,6 +12211,7 @@
   },
   "443": {
     "name": "Gible",
+    "familyId": 443,
     "types": [
       {
         "type": "Dragon",
@@ -11796,6 +12239,7 @@
   },
   "444": {
     "name": "Gabite",
+    "familyId": 443,
     "types": [
       {
         "type": "Dragon",
@@ -11823,6 +12267,7 @@
   },
   "445": {
     "name": "Garchomp",
+    "familyId": 443,
     "types": [
       {
         "type": "Dragon",
@@ -11850,6 +12295,7 @@
   },
   "446": {
     "name": "Munchlax",
+    "familyId": 143,
     "types": [
       {
         "type": "Normal",
@@ -11873,6 +12319,7 @@
   },
   "447": {
     "name": "Riolu",
+    "familyId": 448,
     "types": [
       {
         "type": "Fighting",
@@ -11896,6 +12343,7 @@
   },
   "448": {
     "name": "Lucario",
+    "familyId": 448,
     "types": [
       {
         "type": "Fighting",
@@ -11923,6 +12371,7 @@
   },
   "449": {
     "name": "Hippopotas",
+    "familyId": 449,
     "types": [
       {
         "type": "Ground",
@@ -11946,6 +12395,7 @@
   },
   "450": {
     "name": "Hippowdon",
+    "familyId": 449,
     "types": [
       {
         "type": "Ground",
@@ -11969,6 +12419,7 @@
   },
   "451": {
     "name": "Skorupi",
+    "familyId": 451,
     "types": [
       {
         "type": "Poison",
@@ -11996,6 +12447,7 @@
   },
   "452": {
     "name": "Drapion",
+    "familyId": 451,
     "types": [
       {
         "type": "Poison",
@@ -12023,6 +12475,7 @@
   },
   "453": {
     "name": "Croagunk",
+    "familyId": 453,
     "types": [
       {
         "type": "Poison",
@@ -12050,6 +12503,7 @@
   },
   "454": {
     "name": "Toxicroak",
+    "familyId": 453,
     "types": [
       {
         "type": "Poison",
@@ -12077,6 +12531,7 @@
   },
   "455": {
     "name": "Carnivine",
+    "familyId": 455,
     "types": [
       {
         "type": "Grass",
@@ -12100,6 +12555,7 @@
   },
   "456": {
     "name": "Finneon",
+    "familyId": 456,
     "types": [
       {
         "type": "Water",
@@ -12123,6 +12579,7 @@
   },
   "457": {
     "name": "Lumineon",
+    "familyId": 456,
     "types": [
       {
         "type": "Water",
@@ -12146,6 +12603,7 @@
   },
   "458": {
     "name": "Mantyke",
+    "familyId": 226,
     "types": [
       {
         "type": "Water",
@@ -12173,6 +12631,7 @@
   },
   "459": {
     "name": "Snover",
+    "familyId": 459,
     "types": [
       {
         "type": "Grass",
@@ -12200,6 +12659,7 @@
   },
   "460": {
     "name": "Abomasnow",
+    "familyId": 459,
     "types": [
       {
         "type": "Grass",
@@ -12227,6 +12687,7 @@
   },
   "461": {
     "name": "Weavile",
+    "familyId": 215,
     "types": [
       {
         "type": "Dark",
@@ -12254,6 +12715,7 @@
   },
   "462": {
     "name": "Magnezone",
+    "familyId": 81,
     "types": [
       {
         "type": "Electric",
@@ -12281,6 +12743,7 @@
   },
   "463": {
     "name": "Lickilicky",
+    "familyId": 108,
     "types": [
       {
         "type": "Normal",
@@ -12304,6 +12767,7 @@
   },
   "464": {
     "name": "Rhyperior",
+    "familyId": 111,
     "types": [
       {
         "type": "Ground",
@@ -12331,6 +12795,7 @@
   },
   "465": {
     "name": "Tangrowth",
+    "familyId": 114,
     "types": [
       {
         "type": "Grass",
@@ -12354,6 +12819,7 @@
   },
   "466": {
     "name": "Electivire",
+    "familyId": 125,
     "types": [
       {
         "type": "Electric",
@@ -12377,6 +12843,7 @@
   },
   "467": {
     "name": "Magmortar",
+    "familyId": 126,
     "types": [
       {
         "type": "Fire",
@@ -12400,6 +12867,7 @@
   },
   "468": {
     "name": "Togekiss",
+    "familyId": 175,
     "types": [
       {
         "type": "Fairy",
@@ -12427,6 +12895,7 @@
   },
   "469": {
     "name": "Yanmega",
+    "familyId": 193,
     "types": [
       {
         "type": "Bug",
@@ -12454,6 +12923,7 @@
   },
   "470": {
     "name": "Leafeon",
+    "familyId": 133,
     "types": [
       {
         "type": "Grass",
@@ -12477,6 +12947,7 @@
   },
   "471": {
     "name": "Glaceon",
+    "familyId": 133,
     "types": [
       {
         "type": "Ice",
@@ -12500,6 +12971,7 @@
   },
   "472": {
     "name": "Gliscor",
+    "familyId": 207,
     "types": [
       {
         "type": "Ground",
@@ -12527,6 +12999,7 @@
   },
   "473": {
     "name": "Mamoswine",
+    "familyId": 220,
     "types": [
       {
         "type": "Ice",
@@ -12554,6 +13027,7 @@
   },
   "474": {
     "name": "Porygon-Z",
+    "familyId": 137,
     "types": [
       {
         "type": "Normal",
@@ -12577,6 +13051,7 @@
   },
   "475": {
     "name": "Gallade",
+    "familyId": 280,
     "types": [
       {
         "type": "Psychic",
@@ -12604,6 +13079,7 @@
   },
   "476": {
     "name": "Probopass",
+    "familyId": 299,
     "types": [
       {
         "type": "Rock",
@@ -12631,6 +13107,7 @@
   },
   "477": {
     "name": "Dusknoir",
+    "familyId": 355,
     "types": [
       {
         "type": "Ghost",
@@ -12654,6 +13131,7 @@
   },
   "478": {
     "name": "Froslass",
+    "familyId": 361,
     "types": [
       {
         "type": "Ice",
@@ -12681,6 +13159,7 @@
   },
   "479": {
     "name": "Rotom",
+    "familyId": 479,
     "types": [
       {
         "type": "Electric",
@@ -12770,6 +13249,7 @@
   },
   "480": {
     "name": "Uxie",
+    "familyId": 480,
     "legendary": true,
     "types": [
       {
@@ -12794,6 +13274,7 @@
   },
   "481": {
     "name": "Mesprit",
+    "familyId": 481,
     "legendary": true,
     "types": [
       {
@@ -12818,6 +13299,7 @@
   },
   "482": {
     "name": "Azelf",
+    "familyId": 482,
     "legendary": true,
     "types": [
       {
@@ -12842,6 +13324,7 @@
   },
   "483": {
     "name": "Dialga",
+    "familyId": 483,
     "legendary": true,
     "types": [
       {
@@ -12870,6 +13353,7 @@
   },
   "484": {
     "name": "Palkia",
+    "familyId": 484,
     "legendary": true,
     "types": [
       {
@@ -12898,6 +13382,7 @@
   },
   "485": {
     "name": "Heatran",
+    "familyId": 485,
     "legendary": true,
     "types": [
       {
@@ -12926,6 +13411,7 @@
   },
   "486": {
     "name": "Regigigas",
+    "familyId": 486,
     "legendary": true,
     "types": [
       {
@@ -12950,6 +13436,7 @@
   },
   "487": {
     "name": "Giratina",
+    "familyId": 487,
     "legendary": true,
     "types": [
       {
@@ -12986,6 +13473,7 @@
   },
   "488": {
     "name": "Cresselia",
+    "familyId": 488,
     "legendary": true,
     "types": [
       {
@@ -13010,6 +13498,7 @@
   },
   "489": {
     "name": "Phione",
+    "familyId": 489,
     "mythical": true,
     "types": [
       {
@@ -13034,6 +13523,7 @@
   },
   "490": {
     "name": "Manaphy",
+    "familyId": 489,
     "mythical": true,
     "types": [
       {
@@ -13058,6 +13548,7 @@
   },
   "491": {
     "name": "Darkrai",
+    "familyId": 491,
     "mythical": true,
     "types": [
       {
@@ -13082,6 +13573,7 @@
   },
   "492": {
     "name": "Shaymin",
+    "familyId": 492,
     "mythical": true,
     "types": [
       {
@@ -13124,6 +13616,7 @@
   },
   "493": {
     "name": "Arceus",
+    "familyId": 493,
     "mythical": true,
     "types": [
       {
@@ -13310,6 +13803,7 @@
   },
   "494": {
     "name": "Victini",
+    "familyId": 494,
     "mythical": true,
     "types": [
       {
@@ -13338,6 +13832,7 @@
   },
   "495": {
     "name": "Snivy",
+    "familyId": 495,
     "types": [
       {
         "type": "Grass",
@@ -13361,6 +13856,7 @@
   },
   "496": {
     "name": "Servine",
+    "familyId": 495,
     "types": [
       {
         "type": "Grass",
@@ -13384,6 +13880,7 @@
   },
   "497": {
     "name": "Serperior",
+    "familyId": 495,
     "types": [
       {
         "type": "Grass",
@@ -13407,6 +13904,7 @@
   },
   "498": {
     "name": "Tepig",
+    "familyId": 498,
     "types": [
       {
         "type": "Fire",
@@ -13430,6 +13928,7 @@
   },
   "499": {
     "name": "Pignite",
+    "familyId": 498,
     "types": [
       {
         "type": "Fire",
@@ -13457,6 +13956,7 @@
   },
   "500": {
     "name": "Emboar",
+    "familyId": 498,
     "types": [
       {
         "type": "Fire",
@@ -13484,6 +13984,7 @@
   },
   "501": {
     "name": "Oshawott",
+    "familyId": 501,
     "types": [
       {
         "type": "Water",
@@ -13507,6 +14008,7 @@
   },
   "502": {
     "name": "Dewott",
+    "familyId": 501,
     "types": [
       {
         "type": "Water",
@@ -13530,6 +14032,7 @@
   },
   "503": {
     "name": "Samurott",
+    "familyId": 501,
     "types": [
       {
         "type": "Water",
@@ -13553,6 +14056,7 @@
   },
   "504": {
     "name": "Patrat",
+    "familyId": 504,
     "types": [
       {
         "type": "Normal",
@@ -13576,6 +14080,7 @@
   },
   "505": {
     "name": "Watchog",
+    "familyId": 504,
     "types": [
       {
         "type": "Normal",
@@ -13599,6 +14104,7 @@
   },
   "506": {
     "name": "Lillipup",
+    "familyId": 506,
     "types": [
       {
         "type": "Normal",
@@ -13622,6 +14128,7 @@
   },
   "507": {
     "name": "Herdier",
+    "familyId": 506,
     "types": [
       {
         "type": "Normal",
@@ -13645,6 +14152,7 @@
   },
   "508": {
     "name": "Stoutland",
+    "familyId": 506,
     "types": [
       {
         "type": "Normal",
@@ -13668,6 +14176,7 @@
   },
   "509": {
     "name": "Purrloin",
+    "familyId": 509,
     "types": [
       {
         "type": "Dark",
@@ -13691,6 +14200,7 @@
   },
   "510": {
     "name": "Liepard",
+    "familyId": 509,
     "types": [
       {
         "type": "Dark",
@@ -13714,6 +14224,7 @@
   },
   "511": {
     "name": "Pansage",
+    "familyId": 511,
     "types": [
       {
         "type": "Grass",
@@ -13737,6 +14248,7 @@
   },
   "512": {
     "name": "Simisage",
+    "familyId": 511,
     "types": [
       {
         "type": "Grass",
@@ -13760,6 +14272,7 @@
   },
   "513": {
     "name": "Pansear",
+    "familyId": 513,
     "types": [
       {
         "type": "Fire",
@@ -13783,6 +14296,7 @@
   },
   "514": {
     "name": "Simisear",
+    "familyId": 513,
     "types": [
       {
         "type": "Fire",
@@ -13806,6 +14320,7 @@
   },
   "515": {
     "name": "Panpour",
+    "familyId": 515,
     "types": [
       {
         "type": "Water",
@@ -13829,6 +14344,7 @@
   },
   "516": {
     "name": "Simipour",
+    "familyId": 515,
     "types": [
       {
         "type": "Water",
@@ -13852,6 +14368,7 @@
   },
   "517": {
     "name": "Munna",
+    "familyId": 517,
     "types": [
       {
         "type": "Psychic",
@@ -13875,6 +14392,7 @@
   },
   "518": {
     "name": "Musharna",
+    "familyId": 517,
     "types": [
       {
         "type": "Psychic",
@@ -13898,6 +14416,7 @@
   },
   "519": {
     "name": "Pidove",
+    "familyId": 519,
     "types": [
       {
         "type": "Normal",
@@ -13925,6 +14444,7 @@
   },
   "520": {
     "name": "Tranquill",
+    "familyId": 519,
     "types": [
       {
         "type": "Normal",
@@ -13952,6 +14472,7 @@
   },
   "521": {
     "name": "Unfezant",
+    "familyId": 519,
     "types": [
       {
         "type": "Normal",
@@ -13979,6 +14500,7 @@
   },
   "522": {
     "name": "Blitzle",
+    "familyId": 522,
     "types": [
       {
         "type": "Electric",
@@ -14002,6 +14524,7 @@
   },
   "523": {
     "name": "Zebstrika",
+    "familyId": 522,
     "types": [
       {
         "type": "Electric",
@@ -14025,6 +14548,7 @@
   },
   "524": {
     "name": "Roggenrola",
+    "familyId": 524,
     "types": [
       {
         "type": "Rock",
@@ -14048,6 +14572,7 @@
   },
   "525": {
     "name": "Boldore",
+    "familyId": 524,
     "types": [
       {
         "type": "Rock",
@@ -14071,6 +14596,7 @@
   },
   "526": {
     "name": "Gigalith",
+    "familyId": 524,
     "types": [
       {
         "type": "Rock",
@@ -14094,6 +14620,7 @@
   },
   "527": {
     "name": "Woobat",
+    "familyId": 527,
     "types": [
       {
         "type": "Psychic",
@@ -14121,6 +14648,7 @@
   },
   "528": {
     "name": "Swoobat",
+    "familyId": 527,
     "types": [
       {
         "type": "Psychic",
@@ -14148,6 +14676,7 @@
   },
   "529": {
     "name": "Drilbur",
+    "familyId": 529,
     "types": [
       {
         "type": "Ground",
@@ -14171,6 +14700,7 @@
   },
   "530": {
     "name": "Excadrill",
+    "familyId": 529,
     "types": [
       {
         "type": "Ground",
@@ -14198,6 +14728,7 @@
   },
   "531": {
     "name": "Audino",
+    "familyId": 531,
     "types": [
       {
         "type": "Normal",
@@ -14221,6 +14752,7 @@
   },
   "532": {
     "name": "Timburr",
+    "familyId": 532,
     "types": [
       {
         "type": "Fighting",
@@ -14244,6 +14776,7 @@
   },
   "533": {
     "name": "Gurdurr",
+    "familyId": 532,
     "types": [
       {
         "type": "Fighting",
@@ -14267,6 +14800,7 @@
   },
   "534": {
     "name": "Conkeldurr",
+    "familyId": 532,
     "types": [
       {
         "type": "Fighting",
@@ -14290,6 +14824,7 @@
   },
   "535": {
     "name": "Tympole",
+    "familyId": 535,
     "types": [
       {
         "type": "Water",
@@ -14313,6 +14848,7 @@
   },
   "536": {
     "name": "Palpitoad",
+    "familyId": 535,
     "types": [
       {
         "type": "Water",
@@ -14340,6 +14876,7 @@
   },
   "537": {
     "name": "Seismitoad",
+    "familyId": 535,
     "types": [
       {
         "type": "Water",
@@ -14367,6 +14904,7 @@
   },
   "538": {
     "name": "Throh",
+    "familyId": 538,
     "types": [
       {
         "type": "Fighting",
@@ -14390,6 +14928,7 @@
   },
   "539": {
     "name": "Sawk",
+    "familyId": 539,
     "types": [
       {
         "type": "Fighting",
@@ -14413,6 +14952,7 @@
   },
   "540": {
     "name": "Sewaddle",
+    "familyId": 540,
     "types": [
       {
         "type": "Bug",
@@ -14440,6 +14980,7 @@
   },
   "541": {
     "name": "Swadloon",
+    "familyId": 540,
     "types": [
       {
         "type": "Bug",
@@ -14467,6 +15008,7 @@
   },
   "542": {
     "name": "Leavanny",
+    "familyId": 540,
     "types": [
       {
         "type": "Bug",
@@ -14494,6 +15036,7 @@
   },
   "543": {
     "name": "Venipede",
+    "familyId": 543,
     "types": [
       {
         "type": "Bug",
@@ -14521,6 +15064,7 @@
   },
   "544": {
     "name": "Whirlipede",
+    "familyId": 543,
     "types": [
       {
         "type": "Bug",
@@ -14548,6 +15092,7 @@
   },
   "545": {
     "name": "Scolipede",
+    "familyId": 543,
     "types": [
       {
         "type": "Bug",
@@ -14575,6 +15120,7 @@
   },
   "546": {
     "name": "Cottonee",
+    "familyId": 546,
     "types": [
       {
         "type": "Grass",
@@ -14602,6 +15148,7 @@
   },
   "547": {
     "name": "Whimsicott",
+    "familyId": 546,
     "types": [
       {
         "type": "Grass",
@@ -14629,6 +15176,7 @@
   },
   "548": {
     "name": "Petilil",
+    "familyId": 548,
     "types": [
       {
         "type": "Grass",
@@ -14652,6 +15200,7 @@
   },
   "549": {
     "name": "Lilligant",
+    "familyId": 548,
     "types": [
       {
         "type": "Grass",
@@ -14675,6 +15224,7 @@
   },
   "550": {
     "name": "Basculin",
+    "familyId": 550,
     "types": [
       {
         "type": "Water",
@@ -14694,6 +15244,7 @@
   },
   "551": {
     "name": "Sandile",
+    "familyId": 551,
     "types": [
       {
         "type": "Ground",
@@ -14721,6 +15272,7 @@
   },
   "552": {
     "name": "Krokorok",
+    "familyId": 551,
     "types": [
       {
         "type": "Ground",
@@ -14748,6 +15300,7 @@
   },
   "553": {
     "name": "Krookodile",
+    "familyId": 551,
     "types": [
       {
         "type": "Ground",
@@ -14775,6 +15328,7 @@
   },
   "554": {
     "name": "Darumaka",
+    "familyId": 554,
     "types": [
       {
         "type": "Fire",
@@ -14808,6 +15362,7 @@
   },
   "555": {
     "name": "Darmanitan",
+    "familyId": 554,
     "types": [
       {
         "type": "Fire",
@@ -14861,6 +15416,7 @@
   },
   "556": {
     "name": "Maractus",
+    "familyId": 556,
     "types": [
       {
         "type": "Grass",
@@ -14884,6 +15440,7 @@
   },
   "557": {
     "name": "Dwebble",
+    "familyId": 557,
     "types": [
       {
         "type": "Bug",
@@ -14911,6 +15468,7 @@
   },
   "558": {
     "name": "Crustle",
+    "familyId": 557,
     "types": [
       {
         "type": "Bug",
@@ -14938,6 +15496,7 @@
   },
   "559": {
     "name": "Scraggy",
+    "familyId": 559,
     "types": [
       {
         "type": "Dark",
@@ -14965,6 +15524,7 @@
   },
   "560": {
     "name": "Scrafty",
+    "familyId": 559,
     "types": [
       {
         "type": "Dark",
@@ -14992,6 +15552,7 @@
   },
   "561": {
     "name": "Sigilyph",
+    "familyId": 561,
     "types": [
       {
         "type": "Psychic",
@@ -15019,6 +15580,7 @@
   },
   "562": {
     "name": "Yamask",
+    "familyId": 562,
     "types": [
       {
         "type": "Ghost",
@@ -15056,6 +15618,7 @@
   },
   "563": {
     "name": "Cofagrigus",
+    "familyId": 562,
     "types": [
       {
         "type": "Ghost",
@@ -15079,6 +15642,7 @@
   },
   "564": {
     "name": "Tirtouga",
+    "familyId": 564,
     "types": [
       {
         "type": "Water",
@@ -15106,6 +15670,7 @@
   },
   "565": {
     "name": "Carracosta",
+    "familyId": 564,
     "types": [
       {
         "type": "Water",
@@ -15133,6 +15698,7 @@
   },
   "566": {
     "name": "Archen",
+    "familyId": 566,
     "types": [
       {
         "type": "Rock",
@@ -15160,6 +15726,7 @@
   },
   "567": {
     "name": "Archeops",
+    "familyId": 566,
     "types": [
       {
         "type": "Rock",
@@ -15187,6 +15754,7 @@
   },
   "568": {
     "name": "Trubbish",
+    "familyId": 568,
     "types": [
       {
         "type": "Poison",
@@ -15210,6 +15778,7 @@
   },
   "569": {
     "name": "Garbodor",
+    "familyId": 568,
     "types": [
       {
         "type": "Poison",
@@ -15233,6 +15802,7 @@
   },
   "570": {
     "name": "Zorua",
+    "familyId": 570,
     "types": [
       {
         "type": "Dark",
@@ -15256,6 +15826,7 @@
   },
   "571": {
     "name": "Zoroark",
+    "familyId": 570,
     "types": [
       {
         "type": "Dark",
@@ -15279,6 +15850,7 @@
   },
   "572": {
     "name": "Minccino",
+    "familyId": 572,
     "types": [
       {
         "type": "Normal",
@@ -15302,6 +15874,7 @@
   },
   "573": {
     "name": "Cinccino",
+    "familyId": 572,
     "types": [
       {
         "type": "Normal",
@@ -15325,6 +15898,7 @@
   },
   "574": {
     "name": "Gothita",
+    "familyId": 574,
     "types": [
       {
         "type": "Psychic",
@@ -15348,6 +15922,7 @@
   },
   "575": {
     "name": "Gothorita",
+    "familyId": 574,
     "types": [
       {
         "type": "Psychic",
@@ -15371,6 +15946,7 @@
   },
   "576": {
     "name": "Gothitelle",
+    "familyId": 574,
     "types": [
       {
         "type": "Psychic",
@@ -15394,6 +15970,7 @@
   },
   "577": {
     "name": "Solosis",
+    "familyId": 577,
     "types": [
       {
         "type": "Psychic",
@@ -15417,6 +15994,7 @@
   },
   "578": {
     "name": "Duosion",
+    "familyId": 577,
     "types": [
       {
         "type": "Psychic",
@@ -15440,6 +16018,7 @@
   },
   "579": {
     "name": "Reuniclus",
+    "familyId": 577,
     "types": [
       {
         "type": "Psychic",
@@ -15463,6 +16042,7 @@
   },
   "580": {
     "name": "Ducklett",
+    "familyId": 580,
     "types": [
       {
         "type": "Water",
@@ -15490,6 +16070,7 @@
   },
   "581": {
     "name": "Swanna",
+    "familyId": 580,
     "types": [
       {
         "type": "Water",
@@ -15517,6 +16098,7 @@
   },
   "582": {
     "name": "Vanillite",
+    "familyId": 582,
     "types": [
       {
         "type": "Ice",
@@ -15540,6 +16122,7 @@
   },
   "583": {
     "name": "Vanillish",
+    "familyId": 582,
     "types": [
       {
         "type": "Ice",
@@ -15563,6 +16146,7 @@
   },
   "584": {
     "name": "Vanilluxe",
+    "familyId": 582,
     "types": [
       {
         "type": "Ice",
@@ -15586,6 +16170,7 @@
   },
   "585": {
     "name": "Deerling",
+    "familyId": 585,
     "types": [
       {
         "type": "Normal",
@@ -15617,6 +16202,7 @@
   },
   "586": {
     "name": "Sawsbuck",
+    "familyId": 585,
     "types": [
       {
         "type": "Normal",
@@ -15648,6 +16234,7 @@
   },
   "587": {
     "name": "Emolga",
+    "familyId": 587,
     "types": [
       {
         "type": "Electric",
@@ -15675,6 +16262,7 @@
   },
   "588": {
     "name": "Karrablast",
+    "familyId": 588,
     "types": [
       {
         "type": "Bug",
@@ -15698,6 +16286,7 @@
   },
   "589": {
     "name": "Escavalier",
+    "familyId": 588,
     "types": [
       {
         "type": "Bug",
@@ -15725,6 +16314,7 @@
   },
   "590": {
     "name": "Foongus",
+    "familyId": 590,
     "types": [
       {
         "type": "Grass",
@@ -15752,6 +16342,7 @@
   },
   "591": {
     "name": "Amoonguss",
+    "familyId": 590,
     "types": [
       {
         "type": "Grass",
@@ -15779,6 +16370,7 @@
   },
   "592": {
     "name": "Frillish",
+    "familyId": 592,
     "types": [
       {
         "type": "Water",
@@ -15810,6 +16402,7 @@
   },
   "593": {
     "name": "Jellicent",
+    "familyId": 592,
     "types": [
       {
         "type": "Water",
@@ -15841,6 +16434,7 @@
   },
   "594": {
     "name": "Alomomola",
+    "familyId": 594,
     "types": [
       {
         "type": "Water",
@@ -15864,6 +16458,7 @@
   },
   "595": {
     "name": "Joltik",
+    "familyId": 595,
     "types": [
       {
         "type": "Bug",
@@ -15891,6 +16486,7 @@
   },
   "596": {
     "name": "Galvantula",
+    "familyId": 595,
     "types": [
       {
         "type": "Bug",
@@ -15918,6 +16514,7 @@
   },
   "597": {
     "name": "Ferroseed",
+    "familyId": 597,
     "types": [
       {
         "type": "Grass",
@@ -15945,6 +16542,7 @@
   },
   "598": {
     "name": "Ferrothorn",
+    "familyId": 597,
     "types": [
       {
         "type": "Grass",
@@ -15972,6 +16570,7 @@
   },
   "599": {
     "name": "Klink",
+    "familyId": 599,
     "types": [
       {
         "type": "Steel",
@@ -15995,6 +16594,7 @@
   },
   "600": {
     "name": "Klang",
+    "familyId": 599,
     "types": [
       {
         "type": "Steel",
@@ -16018,6 +16618,7 @@
   },
   "601": {
     "name": "Klinklang",
+    "familyId": 599,
     "types": [
       {
         "type": "Steel",
@@ -16041,6 +16642,7 @@
   },
   "602": {
     "name": "Tynamo",
+    "familyId": 602,
     "types": [
       {
         "type": "Electric",
@@ -16064,6 +16666,7 @@
   },
   "603": {
     "name": "Eelektrik",
+    "familyId": 602,
     "types": [
       {
         "type": "Electric",
@@ -16087,6 +16690,7 @@
   },
   "604": {
     "name": "Eelektross",
+    "familyId": 602,
     "types": [
       {
         "type": "Electric",
@@ -16110,6 +16714,7 @@
   },
   "605": {
     "name": "Elgyem",
+    "familyId": 605,
     "types": [
       {
         "type": "Psychic",
@@ -16133,6 +16738,7 @@
   },
   "606": {
     "name": "Beheeyem",
+    "familyId": 605,
     "types": [
       {
         "type": "Psychic",
@@ -16156,6 +16762,7 @@
   },
   "607": {
     "name": "Litwick",
+    "familyId": 607,
     "types": [
       {
         "type": "Ghost",
@@ -16183,6 +16790,7 @@
   },
   "608": {
     "name": "Lampent",
+    "familyId": 607,
     "types": [
       {
         "type": "Ghost",
@@ -16210,6 +16818,7 @@
   },
   "609": {
     "name": "Chandelure",
+    "familyId": 607,
     "types": [
       {
         "type": "Ghost",
@@ -16237,6 +16846,7 @@
   },
   "610": {
     "name": "Axew",
+    "familyId": 610,
     "types": [
       {
         "type": "Dragon",
@@ -16260,6 +16870,7 @@
   },
   "611": {
     "name": "Fraxure",
+    "familyId": 610,
     "types": [
       {
         "type": "Dragon",
@@ -16283,6 +16894,7 @@
   },
   "612": {
     "name": "Haxorus",
+    "familyId": 610,
     "types": [
       {
         "type": "Dragon",
@@ -16306,6 +16918,7 @@
   },
   "613": {
     "name": "Cubchoo",
+    "familyId": 613,
     "types": [
       {
         "type": "Ice",
@@ -16333,6 +16946,7 @@
   },
   "614": {
     "name": "Beartic",
+    "familyId": 613,
     "types": [
       {
         "type": "Ice",
@@ -16356,6 +16970,7 @@
   },
   "615": {
     "name": "Cryogonal",
+    "familyId": 615,
     "types": [
       {
         "type": "Ice",
@@ -16379,6 +16994,7 @@
   },
   "616": {
     "name": "Shelmet",
+    "familyId": 616,
     "types": [
       {
         "type": "Bug",
@@ -16402,6 +17018,7 @@
   },
   "617": {
     "name": "Accelgor",
+    "familyId": 616,
     "types": [
       {
         "type": "Bug",
@@ -16425,6 +17042,7 @@
   },
   "618": {
     "name": "Stunfisk",
+    "familyId": 618,
     "types": [
       {
         "type": "Ground",
@@ -16466,6 +17084,7 @@
   },
   "619": {
     "name": "Mienfoo",
+    "familyId": 619,
     "types": [
       {
         "type": "Fighting",
@@ -16489,6 +17108,7 @@
   },
   "620": {
     "name": "Mienshao",
+    "familyId": 619,
     "types": [
       {
         "type": "Fighting",
@@ -16512,6 +17132,7 @@
   },
   "621": {
     "name": "Druddigon",
+    "familyId": 621,
     "types": [
       {
         "type": "Dragon",
@@ -16535,6 +17156,7 @@
   },
   "622": {
     "name": "Golett",
+    "familyId": 622,
     "types": [
       {
         "type": "Ground",
@@ -16562,6 +17184,7 @@
   },
   "623": {
     "name": "Golurk",
+    "familyId": 622,
     "types": [
       {
         "type": "Ground",
@@ -16589,6 +17212,7 @@
   },
   "624": {
     "name": "Pawniard",
+    "familyId": 624,
     "types": [
       {
         "type": "Dark",
@@ -16616,6 +17240,7 @@
   },
   "625": {
     "name": "Bisharp",
+    "familyId": 624,
     "types": [
       {
         "type": "Dark",
@@ -16643,6 +17268,7 @@
   },
   "626": {
     "name": "Bouffalant",
+    "familyId": 626,
     "types": [
       {
         "type": "Normal",
@@ -16666,6 +17292,7 @@
   },
   "627": {
     "name": "Rufflet",
+    "familyId": 627,
     "types": [
       {
         "type": "Normal",
@@ -16693,6 +17320,7 @@
   },
   "628": {
     "name": "Braviary",
+    "familyId": 627,
     "types": [
       {
         "type": "Normal",
@@ -16720,6 +17348,7 @@
   },
   "629": {
     "name": "Vullaby",
+    "familyId": 629,
     "types": [
       {
         "type": "Dark",
@@ -16747,6 +17376,7 @@
   },
   "630": {
     "name": "Mandibuzz",
+    "familyId": 629,
     "types": [
       {
         "type": "Dark",
@@ -16774,6 +17404,7 @@
   },
   "631": {
     "name": "Heatmor",
+    "familyId": 631,
     "types": [
       {
         "type": "Fire",
@@ -16797,6 +17428,7 @@
   },
   "632": {
     "name": "Durant",
+    "familyId": 632,
     "types": [
       {
         "type": "Bug",
@@ -16824,6 +17456,7 @@
   },
   "633": {
     "name": "Deino",
+    "familyId": 633,
     "types": [
       {
         "type": "Dark",
@@ -16851,6 +17484,7 @@
   },
   "634": {
     "name": "Zweilous",
+    "familyId": 633,
     "types": [
       {
         "type": "Dark",
@@ -16878,6 +17512,7 @@
   },
   "635": {
     "name": "Hydreigon",
+    "familyId": 633,
     "types": [
       {
         "type": "Dark",
@@ -16905,6 +17540,7 @@
   },
   "636": {
     "name": "Larvesta",
+    "familyId": 636,
     "types": [
       {
         "type": "Bug",
@@ -16932,6 +17568,7 @@
   },
   "637": {
     "name": "Volcarona",
+    "familyId": 636,
     "types": [
       {
         "type": "Bug",
@@ -16959,6 +17596,7 @@
   },
   "638": {
     "name": "Cobalion",
+    "familyId": 638,
     "legendary": true,
     "types": [
       {
@@ -16987,6 +17625,7 @@
   },
   "639": {
     "name": "Terrakion",
+    "familyId": 639,
     "legendary": true,
     "types": [
       {
@@ -17015,6 +17654,7 @@
   },
   "640": {
     "name": "Virizion",
+    "familyId": 640,
     "legendary": true,
     "types": [
       {
@@ -17043,6 +17683,7 @@
   },
   "641": {
     "name": "Tornadus",
+    "familyId": 641,
     "legendary": true,
     "types": [
       {
@@ -17063,6 +17704,7 @@
   },
   "642": {
     "name": "Thundurus",
+    "familyId": 642,
     "legendary": true,
     "types": [
       {
@@ -17087,6 +17729,7 @@
   },
   "643": {
     "name": "Reshiram",
+    "familyId": 643,
     "legendary": true,
     "types": [
       {
@@ -17115,6 +17758,7 @@
   },
   "644": {
     "name": "Zekrom",
+    "familyId": 644,
     "legendary": true,
     "types": [
       {
@@ -17143,6 +17787,7 @@
   },
   "645": {
     "name": "Landorus",
+    "familyId": 645,
     "legendary": true,
     "types": [
       {
@@ -17167,6 +17812,7 @@
   },
   "646": {
     "name": "Kyurem",
+    "familyId": 646,
     "legendary": true,
     "types": [
       {
@@ -17195,6 +17841,7 @@
   },
   "647": {
     "name": "Keldeo",
+    "familyId": 647,
     "mythical": true,
     "types": [
       {
@@ -17219,6 +17866,7 @@
   },
   "648": {
     "name": "Meloetta",
+    "familyId": 648,
     "mythical": true,
     "types": [
       {
@@ -17253,6 +17901,7 @@
   },
   "649": {
     "name": "Genesect",
+    "familyId": 649,
     "mythical": true,
     "types": [
       {
@@ -17289,6 +17938,7 @@
   },
   "650": {
     "name": "Chespin",
+    "familyId": 650,
     "types": [
       {
         "type": "Grass",
@@ -17298,6 +17948,7 @@
   },
   "651": {
     "name": "Quilladin",
+    "familyId": 650,
     "types": [
       {
         "type": "Grass",
@@ -17307,6 +17958,7 @@
   },
   "652": {
     "name": "Chesnaught",
+    "familyId": 650,
     "types": [
       {
         "type": "Grass",
@@ -17320,6 +17972,7 @@
   },
   "653": {
     "name": "Fennekin",
+    "familyId": 653,
     "types": [
       {
         "type": "Fire",
@@ -17329,6 +17982,7 @@
   },
   "654": {
     "name": "Braixen",
+    "familyId": 653,
     "types": [
       {
         "type": "Fire",
@@ -17338,6 +17992,7 @@
   },
   "655": {
     "name": "Delphox",
+    "familyId": 653,
     "types": [
       {
         "type": "Fire",
@@ -17351,6 +18006,7 @@
   },
   "656": {
     "name": "Froakie",
+    "familyId": 656,
     "types": [
       {
         "type": "Water",
@@ -17360,6 +18016,7 @@
   },
   "657": {
     "name": "Frogadier",
+    "familyId": 656,
     "types": [
       {
         "type": "Water",
@@ -17369,6 +18026,7 @@
   },
   "658": {
     "name": "Greninja",
+    "familyId": 656,
     "types": [
       {
         "type": "Water",
@@ -17382,6 +18040,7 @@
   },
   "659": {
     "name": "Bunnelby",
+    "familyId": 659,
     "types": [
       {
         "type": "Normal",
@@ -17391,6 +18050,7 @@
   },
   "660": {
     "name": "Diggersby",
+    "familyId": 659,
     "types": [
       {
         "type": "Normal",
@@ -17404,6 +18064,7 @@
   },
   "661": {
     "name": "Fletchling",
+    "familyId": 661,
     "types": [
       {
         "type": "Normal",
@@ -17417,6 +18078,7 @@
   },
   "662": {
     "name": "Fletchinder",
+    "familyId": 661,
     "types": [
       {
         "type": "Fire",
@@ -17430,6 +18092,7 @@
   },
   "663": {
     "name": "Talonflame",
+    "familyId": 661,
     "types": [
       {
         "type": "Fire",
@@ -17443,6 +18106,7 @@
   },
   "664": {
     "name": "Scatterbug",
+    "familyId": 664,
     "types": [
       {
         "type": "Bug",
@@ -17452,6 +18116,7 @@
   },
   "665": {
     "name": "Spewpa",
+    "familyId": 664,
     "types": [
       {
         "type": "Bug",
@@ -17461,6 +18126,7 @@
   },
   "666": {
     "name": "Vivillon",
+    "familyId": 664,
     "types": [
       {
         "type": "Bug",
@@ -17556,6 +18222,7 @@
   },
   "667": {
     "name": "Litleo",
+    "familyId": 667,
     "types": [
       {
         "type": "Fire",
@@ -17569,6 +18236,7 @@
   },
   "668": {
     "name": "Pyroar",
+    "familyId": 667,
     "types": [
       {
         "type": "Fire",
@@ -17592,6 +18260,7 @@
   },
   "669": {
     "name": "Flabébé",
+    "familyId": 669,
     "types": [
       {
         "type": "Fairy",
@@ -17623,6 +18292,7 @@
   },
   "670": {
     "name": "Floette",
+    "familyId": 669,
     "types": [
       {
         "type": "Fairy",
@@ -17654,6 +18324,7 @@
   },
   "671": {
     "name": "Florges",
+    "familyId": 669,
     "types": [
       {
         "type": "Fairy",
@@ -17685,6 +18356,7 @@
   },
   "672": {
     "name": "Skiddo",
+    "familyId": 672,
     "types": [
       {
         "type": "Grass",
@@ -17694,6 +18366,7 @@
   },
   "673": {
     "name": "Gogoat",
+    "familyId": 672,
     "types": [
       {
         "type": "Grass",
@@ -17703,6 +18376,7 @@
   },
   "674": {
     "name": "Pancham",
+    "familyId": 674,
     "types": [
       {
         "type": "Fighting",
@@ -17712,6 +18386,7 @@
   },
   "675": {
     "name": "Pangoro",
+    "familyId": 674,
     "types": [
       {
         "type": "Fighting",
@@ -17725,6 +18400,7 @@
   },
   "676": {
     "name": "Furfrou",
+    "familyId": 676,
     "types": [
       {
         "type": "Normal",
@@ -17776,6 +18452,7 @@
   },
   "677": {
     "name": "Espurr",
+    "familyId": 677,
     "types": [
       {
         "type": "Psychic",
@@ -17785,6 +18462,7 @@
   },
   "678": {
     "name": "Meowstic",
+    "familyId": 677,
     "types": [
       {
         "type": "Psychic",
@@ -17804,6 +18482,7 @@
   },
   "679": {
     "name": "Honedge",
+    "familyId": 679,
     "types": [
       {
         "type": "Steel",
@@ -17817,6 +18496,7 @@
   },
   "680": {
     "name": "Doublade",
+    "familyId": 679,
     "types": [
       {
         "type": "Steel",
@@ -17830,6 +18510,7 @@
   },
   "681": {
     "name": "Aegislash",
+    "familyId": 679,
     "types": [
       {
         "type": "Steel",
@@ -17853,6 +18534,7 @@
   },
   "682": {
     "name": "Spritzee",
+    "familyId": 682,
     "types": [
       {
         "type": "Fairy",
@@ -17862,6 +18544,7 @@
   },
   "683": {
     "name": "Aromatisse",
+    "familyId": 682,
     "types": [
       {
         "type": "Fairy",
@@ -17871,6 +18554,7 @@
   },
   "684": {
     "name": "Swirlix",
+    "familyId": 684,
     "types": [
       {
         "type": "Fairy",
@@ -17880,6 +18564,7 @@
   },
   "685": {
     "name": "Slurpuff",
+    "familyId": 684,
     "types": [
       {
         "type": "Fairy",
@@ -17889,6 +18574,7 @@
   },
   "686": {
     "name": "Inkay",
+    "familyId": 686,
     "types": [
       {
         "type": "Dark",
@@ -17902,6 +18588,7 @@
   },
   "687": {
     "name": "Malamar",
+    "familyId": 686,
     "types": [
       {
         "type": "Dark",
@@ -17915,6 +18602,7 @@
   },
   "688": {
     "name": "Binacle",
+    "familyId": 688,
     "types": [
       {
         "type": "Rock",
@@ -17928,6 +18616,7 @@
   },
   "689": {
     "name": "Barbaracle",
+    "familyId": 688,
     "types": [
       {
         "type": "Rock",
@@ -17941,6 +18630,7 @@
   },
   "690": {
     "name": "Skrelp",
+    "familyId": 690,
     "types": [
       {
         "type": "Poison",
@@ -17954,6 +18644,7 @@
   },
   "691": {
     "name": "Dragalge",
+    "familyId": 690,
     "types": [
       {
         "type": "Poison",
@@ -17967,6 +18658,7 @@
   },
   "692": {
     "name": "Clauncher",
+    "familyId": 692,
     "types": [
       {
         "type": "Water",
@@ -17976,6 +18668,7 @@
   },
   "693": {
     "name": "Clawitzer",
+    "familyId": 692,
     "types": [
       {
         "type": "Water",
@@ -17985,6 +18678,7 @@
   },
   "694": {
     "name": "Helioptile",
+    "familyId": 694,
     "types": [
       {
         "type": "Electric",
@@ -17998,6 +18692,7 @@
   },
   "695": {
     "name": "Heliolisk",
+    "familyId": 694,
     "types": [
       {
         "type": "Electric",
@@ -18011,6 +18706,7 @@
   },
   "696": {
     "name": "Tyrunt",
+    "familyId": 696,
     "types": [
       {
         "type": "Rock",
@@ -18024,6 +18720,7 @@
   },
   "697": {
     "name": "Tyrantrum",
+    "familyId": 696,
     "types": [
       {
         "type": "Rock",
@@ -18037,6 +18734,7 @@
   },
   "698": {
     "name": "Amaura",
+    "familyId": 698,
     "types": [
       {
         "type": "Rock",
@@ -18050,6 +18748,7 @@
   },
   "699": {
     "name": "Aurorus",
+    "familyId": 698,
     "types": [
       {
         "type": "Rock",
@@ -18063,6 +18762,7 @@
   },
   "700": {
     "name": "Sylveon",
+    "familyId": 133,
     "types": [
       {
         "type": "Fairy",
@@ -18072,6 +18772,7 @@
   },
   "701": {
     "name": "Hawlucha",
+    "familyId": 701,
     "types": [
       {
         "type": "Fighting",
@@ -18085,6 +18786,7 @@
   },
   "702": {
     "name": "Dedenne",
+    "familyId": 702,
     "types": [
       {
         "type": "Electric",
@@ -18098,6 +18800,7 @@
   },
   "703": {
     "name": "Carbink",
+    "familyId": 703,
     "types": [
       {
         "type": "Rock",
@@ -18111,6 +18814,7 @@
   },
   "704": {
     "name": "Goomy",
+    "familyId": 704,
     "types": [
       {
         "type": "Dragon",
@@ -18120,6 +18824,7 @@
   },
   "705": {
     "name": "Sliggoo",
+    "familyId": 704,
     "types": [
       {
         "type": "Dragon",
@@ -18129,6 +18834,7 @@
   },
   "706": {
     "name": "Goodra",
+    "familyId": 704,
     "types": [
       {
         "type": "Dragon",
@@ -18138,6 +18844,7 @@
   },
   "707": {
     "name": "Klefki",
+    "familyId": 707,
     "types": [
       {
         "type": "Steel",
@@ -18151,6 +18858,7 @@
   },
   "708": {
     "name": "Phantump",
+    "familyId": 708,
     "types": [
       {
         "type": "Ghost",
@@ -18164,6 +18872,7 @@
   },
   "709": {
     "name": "Trevenant",
+    "familyId": 708,
     "types": [
       {
         "type": "Ghost",
@@ -18177,6 +18886,7 @@
   },
   "710": {
     "name": "Pumpkaboo",
+    "familyId": 710,
     "types": [
       {
         "type": "Ghost",
@@ -18208,6 +18918,7 @@
   },
   "711": {
     "name": "Gourgeist",
+    "familyId": 710,
     "types": [
       {
         "type": "Ghost",
@@ -18239,6 +18950,7 @@
   },
   "712": {
     "name": "Bergmite",
+    "familyId": 712,
     "types": [
       {
         "type": "Ice",
@@ -18248,6 +18960,7 @@
   },
   "713": {
     "name": "Avalugg",
+    "familyId": 712,
     "types": [
       {
         "type": "Ice",
@@ -18257,6 +18970,7 @@
   },
   "714": {
     "name": "Noibat",
+    "familyId": 714,
     "types": [
       {
         "type": "Flying",
@@ -18270,6 +18984,7 @@
   },
   "715": {
     "name": "Noivern",
+    "familyId": 714,
     "types": [
       {
         "type": "Flying",
@@ -18283,6 +18998,7 @@
   },
   "716": {
     "name": "Xerneas",
+    "familyId": 716,
     "legendary": true,
     "types": [
       {
@@ -18303,6 +19019,7 @@
   },
   "717": {
     "name": "Yveltal",
+    "familyId": 717,
     "legendary": true,
     "types": [
       {
@@ -18317,6 +19034,7 @@
   },
   "718": {
     "name": "Zygarde",
+    "familyId": 718,
     "legendary": true,
     "types": [
       {
@@ -18345,6 +19063,7 @@
   },
   "719": {
     "name": "Diancie",
+    "familyId": 719,
     "mythical": true,
     "types": [
       {
@@ -18359,6 +19078,7 @@
   },
   "720": {
     "name": "Hoopa",
+    "familyId": 720,
     "mythical": true,
     "types": [
       {
@@ -18403,6 +19123,7 @@
   },
   "721": {
     "name": "Volcanion",
+    "familyId": 721,
     "mythical": true,
     "types": [
       {
@@ -18417,6 +19138,7 @@
   },
   "722": {
     "name": "Rowlet",
+    "familyId": 722,
     "types": [
       {
         "type": "Grass",
@@ -18430,6 +19152,7 @@
   },
   "723": {
     "name": "Dartrix",
+    "familyId": 722,
     "types": [
       {
         "type": "Grass",
@@ -18443,6 +19166,7 @@
   },
   "724": {
     "name": "Decidueye",
+    "familyId": 722,
     "types": [
       {
         "type": "Grass",
@@ -18456,6 +19180,7 @@
   },
   "725": {
     "name": "Litten",
+    "familyId": 725,
     "types": [
       {
         "type": "Fire",
@@ -18465,6 +19190,7 @@
   },
   "726": {
     "name": "Torracat",
+    "familyId": 725,
     "types": [
       {
         "type": "Fire",
@@ -18474,6 +19200,7 @@
   },
   "727": {
     "name": "Incineroar",
+    "familyId": 725,
     "types": [
       {
         "type": "Fire",
@@ -18487,6 +19214,7 @@
   },
   "728": {
     "name": "Popplio",
+    "familyId": 728,
     "types": [
       {
         "type": "Water",
@@ -18496,6 +19224,7 @@
   },
   "729": {
     "name": "Brionne",
+    "familyId": 728,
     "types": [
       {
         "type": "Water",
@@ -18505,6 +19234,7 @@
   },
   "730": {
     "name": "Primarina",
+    "familyId": 728,
     "types": [
       {
         "type": "Water",
@@ -18518,6 +19248,7 @@
   },
   "731": {
     "name": "Pikipek",
+    "familyId": 731,
     "types": [
       {
         "type": "Normal",
@@ -18531,6 +19262,7 @@
   },
   "732": {
     "name": "Trumbeak",
+    "familyId": 731,
     "types": [
       {
         "type": "Normal",
@@ -18544,6 +19276,7 @@
   },
   "733": {
     "name": "Toucannon",
+    "familyId": 731,
     "types": [
       {
         "type": "Normal",
@@ -18557,6 +19290,7 @@
   },
   "734": {
     "name": "Yungoos",
+    "familyId": 734,
     "types": [
       {
         "type": "Normal",
@@ -18566,6 +19300,7 @@
   },
   "735": {
     "name": "Gumshoos",
+    "familyId": 734,
     "types": [
       {
         "type": "Normal",
@@ -18575,6 +19310,7 @@
   },
   "736": {
     "name": "Grubbin",
+    "familyId": 736,
     "types": [
       {
         "type": "Bug",
@@ -18584,6 +19320,7 @@
   },
   "737": {
     "name": "Charjabug",
+    "familyId": 736,
     "types": [
       {
         "type": "Bug",
@@ -18597,6 +19334,7 @@
   },
   "738": {
     "name": "Vikavolt",
+    "familyId": 736,
     "types": [
       {
         "type": "Bug",
@@ -18610,6 +19348,7 @@
   },
   "739": {
     "name": "Crabrawler",
+    "familyId": 739,
     "types": [
       {
         "type": "Fighting",
@@ -18619,6 +19358,7 @@
   },
   "740": {
     "name": "Crabominable",
+    "familyId": 739,
     "types": [
       {
         "type": "Fighting",
@@ -18632,6 +19372,7 @@
   },
   "741": {
     "name": "Oricorio",
+    "familyId": 741,
     "types": [
       {
         "type": "Fire",
@@ -18645,6 +19386,7 @@
   },
   "742": {
     "name": "Cutiefly",
+    "familyId": 742,
     "types": [
       {
         "type": "Bug",
@@ -18658,6 +19400,7 @@
   },
   "743": {
     "name": "Ribombee",
+    "familyId": 742,
     "types": [
       {
         "type": "Bug",
@@ -18671,6 +19414,7 @@
   },
   "744": {
     "name": "Rockruff",
+    "familyId": 744,
     "types": [
       {
         "type": "Rock",
@@ -18680,6 +19424,7 @@
   },
   "745": {
     "name": "Lycanroc",
+    "familyId": 744,
     "types": [
       {
         "type": "Rock",
@@ -18689,6 +19434,7 @@
   },
   "746": {
     "name": "Wishiwashi",
+    "familyId": 746,
     "types": [
       {
         "type": "Water",
@@ -18698,6 +19444,7 @@
   },
   "747": {
     "name": "Mareanie",
+    "familyId": 747,
     "types": [
       {
         "type": "Poison",
@@ -18711,6 +19458,7 @@
   },
   "748": {
     "name": "Toxapex",
+    "familyId": 747,
     "types": [
       {
         "type": "Poison",
@@ -18724,6 +19472,7 @@
   },
   "749": {
     "name": "Mudbray",
+    "familyId": 749,
     "types": [
       {
         "type": "Ground",
@@ -18733,6 +19482,7 @@
   },
   "750": {
     "name": "Mudsdale",
+    "familyId": 749,
     "types": [
       {
         "type": "Ground",
@@ -18742,6 +19492,7 @@
   },
   "751": {
     "name": "Dewpider",
+    "familyId": 751,
     "types": [
       {
         "type": "Water",
@@ -18755,6 +19506,7 @@
   },
   "752": {
     "name": "Araquanid",
+    "familyId": 751,
     "types": [
       {
         "type": "Water",
@@ -18768,6 +19520,7 @@
   },
   "753": {
     "name": "Fomantis",
+    "familyId": 753,
     "types": [
       {
         "type": "Grass",
@@ -18777,6 +19530,7 @@
   },
   "754": {
     "name": "Lurantis",
+    "familyId": 753,
     "types": [
       {
         "type": "Grass",
@@ -18786,6 +19540,7 @@
   },
   "755": {
     "name": "Morelull",
+    "familyId": 755,
     "types": [
       {
         "type": "Grass",
@@ -18799,6 +19554,7 @@
   },
   "756": {
     "name": "Shiinotic",
+    "familyId": 755,
     "types": [
       {
         "type": "Grass",
@@ -18812,6 +19568,7 @@
   },
   "757": {
     "name": "Salandit",
+    "familyId": 757,
     "types": [
       {
         "type": "Poison",
@@ -18825,6 +19582,7 @@
   },
   "758": {
     "name": "Salazzle",
+    "familyId": 757,
     "types": [
       {
         "type": "Poison",
@@ -18838,6 +19596,7 @@
   },
   "759": {
     "name": "Stufful",
+    "familyId": 759,
     "types": [
       {
         "type": "Normal",
@@ -18851,6 +19610,7 @@
   },
   "760": {
     "name": "Bewear",
+    "familyId": 759,
     "types": [
       {
         "type": "Normal",
@@ -18864,6 +19624,7 @@
   },
   "761": {
     "name": "Bounsweet",
+    "familyId": 761,
     "types": [
       {
         "type": "Grass",
@@ -18873,6 +19634,7 @@
   },
   "762": {
     "name": "Steenee",
+    "familyId": 761,
     "types": [
       {
         "type": "Grass",
@@ -18882,6 +19644,7 @@
   },
   "763": {
     "name": "Tsareena",
+    "familyId": 761,
     "types": [
       {
         "type": "Grass",
@@ -18891,6 +19654,7 @@
   },
   "764": {
     "name": "Comfey",
+    "familyId": 764,
     "types": [
       {
         "type": "Fairy",
@@ -18900,6 +19664,7 @@
   },
   "765": {
     "name": "Oranguru",
+    "familyId": 765,
     "types": [
       {
         "type": "Normal",
@@ -18913,6 +19678,7 @@
   },
   "766": {
     "name": "Passimian",
+    "familyId": 766,
     "types": [
       {
         "type": "Fighting",
@@ -18922,6 +19688,7 @@
   },
   "767": {
     "name": "Wimpod",
+    "familyId": 767,
     "types": [
       {
         "type": "Bug",
@@ -18935,6 +19702,7 @@
   },
   "768": {
     "name": "Golisopod",
+    "familyId": 767,
     "types": [
       {
         "type": "Bug",
@@ -18948,6 +19716,7 @@
   },
   "769": {
     "name": "Sandygast",
+    "familyId": 769,
     "types": [
       {
         "type": "Ghost",
@@ -18961,6 +19730,7 @@
   },
   "770": {
     "name": "Palossand",
+    "familyId": 769,
     "types": [
       {
         "type": "Ghost",
@@ -18974,6 +19744,7 @@
   },
   "771": {
     "name": "Pyukumuku",
+    "familyId": 771,
     "types": [
       {
         "type": "Water",
@@ -18983,6 +19754,7 @@
   },
   "772": {
     "name": "Type: Null",
+    "familyId": 772,
     "legendary": true,
     "types": [
       {
@@ -18993,6 +19765,7 @@
   },
   "773": {
     "name": "Silvally",
+    "familyId": 772,
     "legendary": true,
     "types": [
       {
@@ -19003,6 +19776,7 @@
   },
   "774": {
     "name": "Minior",
+    "familyId": 774,
     "types": [
       {
         "type": "Rock",
@@ -19016,6 +19790,7 @@
   },
   "775": {
     "name": "Komala",
+    "familyId": 775,
     "types": [
       {
         "type": "Normal",
@@ -19025,6 +19800,7 @@
   },
   "776": {
     "name": "Turtonator",
+    "familyId": 776,
     "types": [
       {
         "type": "Fire",
@@ -19038,6 +19814,7 @@
   },
   "777": {
     "name": "Togedemaru",
+    "familyId": 777,
     "types": [
       {
         "type": "Electric",
@@ -19051,6 +19828,7 @@
   },
   "778": {
     "name": "Mimikyu",
+    "familyId": 778,
     "types": [
       {
         "type": "Ghost",
@@ -19064,6 +19842,7 @@
   },
   "779": {
     "name": "Bruxish",
+    "familyId": 779,
     "types": [
       {
         "type": "Water",
@@ -19077,6 +19856,7 @@
   },
   "780": {
     "name": "Drampa",
+    "familyId": 780,
     "types": [
       {
         "type": "Normal",
@@ -19090,6 +19870,7 @@
   },
   "781": {
     "name": "Dhelmise",
+    "familyId": 781,
     "types": [
       {
         "type": "Ghost",
@@ -19103,6 +19884,7 @@
   },
   "782": {
     "name": "Jangmo-o",
+    "familyId": 782,
     "types": [
       {
         "type": "Dragon",
@@ -19112,6 +19894,7 @@
   },
   "783": {
     "name": "Hakamo-o",
+    "familyId": 782,
     "types": [
       {
         "type": "Dragon",
@@ -19125,6 +19908,7 @@
   },
   "784": {
     "name": "Kommo-o",
+    "familyId": 782,
     "types": [
       {
         "type": "Dragon",
@@ -19138,6 +19922,7 @@
   },
   "785": {
     "name": "Tapu Koko",
+    "familyId": 785,
     "legendary": true,
     "types": [
       {
@@ -19152,6 +19937,7 @@
   },
   "786": {
     "name": "Tapu Lele",
+    "familyId": 786,
     "legendary": true,
     "types": [
       {
@@ -19166,6 +19952,7 @@
   },
   "787": {
     "name": "Tapu Bulu",
+    "familyId": 787,
     "legendary": true,
     "types": [
       {
@@ -19180,6 +19967,7 @@
   },
   "788": {
     "name": "Tapu Fini",
+    "familyId": 788,
     "legendary": true,
     "types": [
       {
@@ -19194,6 +19982,7 @@
   },
   "789": {
     "name": "Cosmog",
+    "familyId": 789,
     "legendary": true,
     "types": [
       {
@@ -19204,6 +19993,7 @@
   },
   "790": {
     "name": "Cosmoem",
+    "familyId": 789,
     "legendary": true,
     "types": [
       {
@@ -19214,6 +20004,7 @@
   },
   "791": {
     "name": "Solgaleo",
+    "familyId": 789,
     "legendary": true,
     "types": [
       {
@@ -19228,6 +20019,7 @@
   },
   "792": {
     "name": "Lunala",
+    "familyId": 789,
     "legendary": true,
     "types": [
       {
@@ -19242,6 +20034,7 @@
   },
   "793": {
     "name": "Nihilego",
+    "familyId": 793,
     "legendary": true,
     "types": [
       {
@@ -19256,6 +20049,7 @@
   },
   "794": {
     "name": "Buzzwole",
+    "familyId": 794,
     "legendary": true,
     "types": [
       {
@@ -19270,6 +20064,7 @@
   },
   "795": {
     "name": "Pheromosa",
+    "familyId": 795,
     "legendary": true,
     "types": [
       {
@@ -19284,6 +20079,7 @@
   },
   "796": {
     "name": "Xurkitree",
+    "familyId": 796,
     "legendary": true,
     "types": [
       {
@@ -19294,6 +20090,7 @@
   },
   "797": {
     "name": "Celesteela",
+    "familyId": 797,
     "legendary": true,
     "types": [
       {
@@ -19308,6 +20105,7 @@
   },
   "798": {
     "name": "Kartana",
+    "familyId": 798,
     "legendary": true,
     "types": [
       {
@@ -19322,6 +20120,7 @@
   },
   "799": {
     "name": "Guzzlord",
+    "familyId": 799,
     "legendary": true,
     "types": [
       {
@@ -19336,6 +20135,7 @@
   },
   "800": {
     "name": "Necrozma",
+    "familyId": 800,
     "legendary": true,
     "types": [
       {
@@ -19346,6 +20146,7 @@
   },
   "801": {
     "name": "Magearna",
+    "familyId": 801,
     "mythical": true,
     "types": [
       {
@@ -19360,6 +20161,7 @@
   },
   "802": {
     "name": "Marshadow",
+    "familyId": 802,
     "mythical": true,
     "types": [
       {
@@ -19374,6 +20176,7 @@
   },
   "803": {
     "name": "Poipole",
+    "familyId": 803,
     "legendary": true,
     "types": [
       {
@@ -19384,6 +20187,7 @@
   },
   "804": {
     "name": "Naganadel",
+    "familyId": 803,
     "legendary": true,
     "types": [
       {
@@ -19398,6 +20202,7 @@
   },
   "805": {
     "name": "Stakataka",
+    "familyId": 805,
     "legendary": true,
     "types": [
       {
@@ -19412,6 +20217,7 @@
   },
   "806": {
     "name": "Blacephalon",
+    "familyId": 806,
     "legendary": true,
     "types": [
       {
@@ -19426,6 +20232,7 @@
   },
   "807": {
     "name": "Zeraora",
+    "familyId": 807,
     "mythical": true,
     "types": [
       {
@@ -19436,6 +20243,7 @@
   },
   "808": {
     "name": "Meltan",
+    "familyId": 808,
     "mythical": true,
     "types": [
       {
@@ -19460,6 +20268,7 @@
   },
   "809": {
     "name": "Melmetal",
+    "familyId": 808,
     "mythical": true,
     "types": [
       {
@@ -19484,6 +20293,7 @@
   },
   "810": {
     "name": "Grookey",
+    "familyId": 810,
     "types": [
       {
         "type": "Grass",
@@ -19493,6 +20303,7 @@
   },
   "811": {
     "name": "Thwackey",
+    "familyId": 810,
     "types": [
       {
         "type": "Grass",
@@ -19502,6 +20313,7 @@
   },
   "812": {
     "name": "Rillaboom",
+    "familyId": 810,
     "types": [
       {
         "type": "Grass",
@@ -19511,6 +20323,7 @@
   },
   "813": {
     "name": "Scorbunny",
+    "familyId": 813,
     "types": [
       {
         "type": "Fire",
@@ -19520,6 +20333,7 @@
   },
   "814": {
     "name": "Raboot",
+    "familyId": 813,
     "types": [
       {
         "type": "Fire",
@@ -19529,6 +20343,7 @@
   },
   "815": {
     "name": "Cinderace",
+    "familyId": 813,
     "types": [
       {
         "type": "Fire",
@@ -19538,6 +20353,7 @@
   },
   "816": {
     "name": "Sobble",
+    "familyId": 816,
     "types": [
       {
         "type": "Water",
@@ -19547,6 +20363,7 @@
   },
   "817": {
     "name": "Drizzile",
+    "familyId": 816,
     "types": [
       {
         "type": "Water",
@@ -19556,6 +20373,7 @@
   },
   "818": {
     "name": "Inteleon",
+    "familyId": 816,
     "types": [
       {
         "type": "Water",
@@ -19565,6 +20383,7 @@
   },
   "819": {
     "name": "Skwovet",
+    "familyId": 819,
     "types": [
       {
         "type": "Normal",
@@ -19574,6 +20393,7 @@
   },
   "820": {
     "name": "Greedent",
+    "familyId": 819,
     "types": [
       {
         "type": "Normal",
@@ -19583,6 +20403,7 @@
   },
   "821": {
     "name": "Rookidee",
+    "familyId": 821,
     "types": [
       {
         "type": "Flying",
@@ -19592,6 +20413,7 @@
   },
   "822": {
     "name": "Corvisquire",
+    "familyId": 821,
     "types": [
       {
         "type": "Flying",
@@ -19601,6 +20423,7 @@
   },
   "823": {
     "name": "Corviknight",
+    "familyId": 821,
     "types": [
       {
         "type": "Flying",
@@ -19614,6 +20437,7 @@
   },
   "824": {
     "name": "Blipbug",
+    "familyId": 824,
     "types": [
       {
         "type": "Bug",
@@ -19623,6 +20447,7 @@
   },
   "825": {
     "name": "Dottler",
+    "familyId": 824,
     "types": [
       {
         "type": "Bug",
@@ -19636,6 +20461,7 @@
   },
   "826": {
     "name": "Orbeetle",
+    "familyId": 824,
     "types": [
       {
         "type": "Bug",
@@ -19649,6 +20475,7 @@
   },
   "827": {
     "name": "Nickit",
+    "familyId": 827,
     "types": [
       {
         "type": "Dark",
@@ -19658,6 +20485,7 @@
   },
   "828": {
     "name": "Thievul",
+    "familyId": 827,
     "types": [
       {
         "type": "Dark",
@@ -19667,6 +20495,7 @@
   },
   "829": {
     "name": "Gossifleur",
+    "familyId": 829,
     "types": [
       {
         "type": "Grass",
@@ -19676,6 +20505,7 @@
   },
   "830": {
     "name": "Eldegoss",
+    "familyId": 829,
     "types": [
       {
         "type": "Grass",
@@ -19685,6 +20515,7 @@
   },
   "831": {
     "name": "Wooloo",
+    "familyId": 831,
     "types": [
       {
         "type": "Normal",
@@ -19694,6 +20525,7 @@
   },
   "832": {
     "name": "Dubwool",
+    "familyId": 831,
     "types": [
       {
         "type": "Normal",
@@ -19703,6 +20535,7 @@
   },
   "833": {
     "name": "Chewtle",
+    "familyId": 833,
     "types": [
       {
         "type": "Water",
@@ -19712,6 +20545,7 @@
   },
   "834": {
     "name": "Drednaw",
+    "familyId": 833,
     "types": [
       {
         "type": "Water",
@@ -19725,6 +20559,7 @@
   },
   "835": {
     "name": "Yamper",
+    "familyId": 835,
     "types": [
       {
         "type": "Electric",
@@ -19734,6 +20569,7 @@
   },
   "836": {
     "name": "Boltund",
+    "familyId": 835,
     "types": [
       {
         "type": "Electric",
@@ -19743,6 +20579,7 @@
   },
   "837": {
     "name": "Rolycoly",
+    "familyId": 837,
     "types": [
       {
         "type": "Rock",
@@ -19752,6 +20589,7 @@
   },
   "838": {
     "name": "Carkol",
+    "familyId": 837,
     "types": [
       {
         "type": "Rock",
@@ -19765,6 +20603,7 @@
   },
   "839": {
     "name": "Coalossal",
+    "familyId": 837,
     "types": [
       {
         "type": "Rock",
@@ -19778,6 +20617,7 @@
   },
   "840": {
     "name": "Applin",
+    "familyId": 840,
     "types": [
       {
         "type": "Grass",
@@ -19791,6 +20631,7 @@
   },
   "841": {
     "name": "Flapple",
+    "familyId": 840,
     "types": [
       {
         "type": "Grass",
@@ -19804,6 +20645,7 @@
   },
   "842": {
     "name": "Appletun",
+    "familyId": 840,
     "types": [
       {
         "type": "Grass",
@@ -19817,6 +20659,7 @@
   },
   "843": {
     "name": "Silicobra",
+    "familyId": 843,
     "types": [
       {
         "type": "Ground",
@@ -19826,6 +20669,7 @@
   },
   "844": {
     "name": "Sandaconda",
+    "familyId": 843,
     "types": [
       {
         "type": "Ground",
@@ -19835,6 +20679,7 @@
   },
   "845": {
     "name": "Cramorant",
+    "familyId": 845,
     "types": [
       {
         "type": "Flying",
@@ -19848,6 +20693,7 @@
   },
   "846": {
     "name": "Arrokuda",
+    "familyId": 846,
     "types": [
       {
         "type": "Water",
@@ -19857,6 +20703,7 @@
   },
   "847": {
     "name": "Barraskewda",
+    "familyId": 846,
     "types": [
       {
         "type": "Water",
@@ -19866,6 +20713,7 @@
   },
   "848": {
     "name": "Toxel",
+    "familyId": 849,
     "types": [
       {
         "type": "Electric",
@@ -19879,6 +20727,7 @@
   },
   "849": {
     "name": "Toxtricity",
+    "familyId": 849,
     "types": [
       {
         "type": "Electric",
@@ -19892,6 +20741,7 @@
   },
   "850": {
     "name": "Sizzlipede",
+    "familyId": 850,
     "types": [
       {
         "type": "Fire",
@@ -19905,6 +20755,7 @@
   },
   "851": {
     "name": "Centiskorch",
+    "familyId": 850,
     "types": [
       {
         "type": "Fire",
@@ -19918,6 +20769,7 @@
   },
   "852": {
     "name": "Clobbopus",
+    "familyId": 852,
     "types": [
       {
         "type": "Fighting",
@@ -19927,6 +20779,7 @@
   },
   "853": {
     "name": "Grapploct",
+    "familyId": 852,
     "types": [
       {
         "type": "Fighting",
@@ -19936,6 +20789,7 @@
   },
   "854": {
     "name": "Sinistea",
+    "familyId": 854,
     "types": [
       {
         "type": "Ghost",
@@ -19945,6 +20799,7 @@
   },
   "855": {
     "name": "Polteageist",
+    "familyId": 854,
     "types": [
       {
         "type": "Ghost",
@@ -19954,6 +20809,7 @@
   },
   "856": {
     "name": "Hatenna",
+    "familyId": 856,
     "types": [
       {
         "type": "Psychic",
@@ -19963,6 +20819,7 @@
   },
   "857": {
     "name": "Hattrem",
+    "familyId": 856,
     "types": [
       {
         "type": "Psychic",
@@ -19972,6 +20829,7 @@
   },
   "858": {
     "name": "Hatterene",
+    "familyId": 856,
     "types": [
       {
         "type": "Psychic",
@@ -19985,6 +20843,7 @@
   },
   "859": {
     "name": "Impidimp",
+    "familyId": 859,
     "types": [
       {
         "type": "Dark",
@@ -19998,6 +20857,7 @@
   },
   "860": {
     "name": "Morgrem",
+    "familyId": 859,
     "types": [
       {
         "type": "Dark",
@@ -20011,6 +20871,7 @@
   },
   "861": {
     "name": "Grimmsnarl",
+    "familyId": 859,
     "types": [
       {
         "type": "Dark",
@@ -20024,6 +20885,7 @@
   },
   "862": {
     "name": "Obstagoon",
+    "familyId": 263,
     "types": [
       {
         "type": "Dark",
@@ -20051,6 +20913,7 @@
   },
   "863": {
     "name": "Perrserker",
+    "familyId": 52,
     "types": [
       {
         "type": "Steel",
@@ -20074,6 +20937,7 @@
   },
   "864": {
     "name": "Cursola",
+    "familyId": 222,
     "types": [
       {
         "type": "Ghost",
@@ -20083,6 +20947,7 @@
   },
   "865": {
     "name": "Sirfetch'd",
+    "familyId": 83,
     "types": [
       {
         "type": "Fighting",
@@ -20106,6 +20971,7 @@
   },
   "866": {
     "name": "Mr. Rime",
+    "familyId": 122,
     "types": [
       {
         "type": "Ice",
@@ -20133,6 +20999,7 @@
   },
   "867": {
     "name": "Runerigus",
+    "familyId": 562,
     "types": [
       {
         "type": "Ground",
@@ -20160,6 +21027,7 @@
   },
   "868": {
     "name": "Milcery",
+    "familyId": 868,
     "types": [
       {
         "type": "Fairy",
@@ -20169,6 +21037,7 @@
   },
   "869": {
     "name": "Alcremie",
+    "familyId": 868,
     "types": [
       {
         "type": "Fairy",
@@ -20178,6 +21047,7 @@
   },
   "870": {
     "name": "Falinks",
+    "familyId": 870,
     "types": [
       {
         "type": "Fighting",
@@ -20187,6 +21057,7 @@
   },
   "871": {
     "name": "Pincurchin",
+    "familyId": 871,
     "types": [
       {
         "type": "Electric",
@@ -20196,6 +21067,7 @@
   },
   "872": {
     "name": "Snom",
+    "familyId": 872,
     "types": [
       {
         "type": "Ice",
@@ -20209,6 +21081,7 @@
   },
   "873": {
     "name": "Frosmoth",
+    "familyId": 872,
     "types": [
       {
         "type": "Ice",
@@ -20222,6 +21095,7 @@
   },
   "874": {
     "name": "Stonjourner",
+    "familyId": 874,
     "types": [
       {
         "type": "Rock",
@@ -20231,6 +21105,7 @@
   },
   "875": {
     "name": "Eiscue",
+    "familyId": 875,
     "types": [
       {
         "type": "Ice",
@@ -20240,6 +21115,7 @@
   },
   "876": {
     "name": "Indeedee",
+    "familyId": 876,
     "types": [
       {
         "type": "Psychic",
@@ -20253,6 +21129,7 @@
   },
   "877": {
     "name": "Morpeko",
+    "familyId": 877,
     "types": [
       {
         "type": "Electric",
@@ -20266,6 +21143,7 @@
   },
   "878": {
     "name": "Cufant",
+    "familyId": 878,
     "types": [
       {
         "type": "Steel",
@@ -20275,6 +21153,7 @@
   },
   "879": {
     "name": "Copperajah",
+    "familyId": 878,
     "types": [
       {
         "type": "Steel",
@@ -20284,6 +21163,7 @@
   },
   "880": {
     "name": "Dracozolt",
+    "familyId": 880,
     "types": [
       {
         "type": "Electric",
@@ -20297,6 +21177,7 @@
   },
   "881": {
     "name": "Arctozolt",
+    "familyId": 881,
     "types": [
       {
         "type": "Electric",
@@ -20310,6 +21191,7 @@
   },
   "882": {
     "name": "Dracovish",
+    "familyId": 882,
     "types": [
       {
         "type": "Water",
@@ -20323,6 +21205,7 @@
   },
   "883": {
     "name": "Arctovish",
+    "familyId": 883,
     "types": [
       {
         "type": "Water",
@@ -20336,6 +21219,7 @@
   },
   "884": {
     "name": "Duraludon",
+    "familyId": 884,
     "types": [
       {
         "type": "Steel",
@@ -20349,6 +21233,7 @@
   },
   "885": {
     "name": "Dreepy",
+    "familyId": 885,
     "types": [
       {
         "type": "Dragon",
@@ -20362,6 +21247,7 @@
   },
   "886": {
     "name": "Drakloak",
+    "familyId": 885,
     "types": [
       {
         "type": "Dragon",
@@ -20375,6 +21261,7 @@
   },
   "887": {
     "name": "Dragapult",
+    "familyId": 885,
     "types": [
       {
         "type": "Dragon",
@@ -20388,6 +21275,7 @@
   },
   "888": {
     "name": "Zacian",
+    "familyId": 888,
     "legendary": true,
     "types": [
       {
@@ -20398,6 +21286,7 @@
   },
   "889": {
     "name": "Zamazenta",
+    "familyId": 889,
     "legendary": true,
     "types": [
       {
@@ -20408,6 +21297,7 @@
   },
   "890": {
     "name": "Eternatus",
+    "familyId": 890,
     "legendary": true,
     "types": [
       {
@@ -20422,6 +21312,7 @@
   },
   "891": {
     "name": "Kubfu",
+    "familyId": 891,
     "legendary": true,
     "types": [
       {
@@ -20432,6 +21323,7 @@
   },
   "892": {
     "name": "Urshifu",
+    "familyId": 891,
     "legendary": true,
     "types": [
       {
@@ -20446,6 +21338,7 @@
   },
   "893": {
     "name": "Zarude",
+    "familyId": 893,
     "mythical": true,
     "types": [
       {
@@ -20460,6 +21353,7 @@
   },
   "894": {
     "name": "Regieleki",
+    "familyId": 894,
     "legendary": true,
     "types": [
       {
@@ -20470,6 +21364,7 @@
   },
   "895": {
     "name": "Regidrago",
+    "familyId": 895,
     "legendary": true,
     "types": [
       {
@@ -20480,6 +21375,7 @@
   },
   "896": {
     "name": "Glastrier",
+    "familyId": 896,
     "legendary": true,
     "types": [
       {
@@ -20490,6 +21386,7 @@
   },
   "897": {
     "name": "Spectrier",
+    "familyId": 897,
     "legendary": true,
     "types": [
       {
@@ -20500,6 +21397,7 @@
   },
   "898": {
     "name": "Calyrex",
+    "familyId": 898,
     "legendary": true,
     "types": [
       {
