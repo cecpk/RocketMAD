@@ -123,7 +123,8 @@ class ImageGenerator:
                 if args.pogo_assets:
                     pokemon_dirs = [
                         Path(args.pogo_assets) / 'pokemon_icons',
-                        Path(args.pogo_assets) / 'Images/Pokemon - 256x256'
+                        Path(args.pogo_assets) / 'Images/Pokemon - 256x256',
+                        Path(args.pogo_assets)
                     ]
                     for pokemon_dir in pokemon_dirs:
                         if pokemon_dir.exists():
