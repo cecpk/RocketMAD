@@ -453,6 +453,9 @@ function getExcludedPokemon() {
 }
 
 function excludePokemon(id) { // eslint-disable-line no-unused-vars
+    if (!settings.filterPokemonById) {
+        $('#filter-pokemon-switch').click()
+    }
     if (filterManagers.excludedPokemon !== null) {
         filterManagers.excludedPokemon.add([id])
     }
