@@ -1,332 +1,766 @@
 {
-  "0": {
-    "type": "",
-    "grunt": ""
-  },
-  "1": {
-    "type": "",
-    "grunt": "Blanche"
-  },
-  "2": {
-    "type": "",
-    "grunt": "Candela"
-  },
-  "3": {
-    "type": "",
-    "grunt": "Spark"
-  },
-  "4": {
-    "type": "Kanto starter",
-    "grunt": "Male"
-  },
-  "5": {
-    "type": "Mixed",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [142], "isReward": true},
-      "2": {"ids": [143, 62, 282], "isReward": false},
-      "3": {"ids": [143, 130, 149], "isReward": false}
+    "1": {
+        "type": "",
+        "grunt": "Blanche"
+    },
+    "6": {
+        "type": "Bug",
+        "grunt": "Female"
+    },
+    "7": {
+        "type": "Bug",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    347,
+                    48,
+                    213
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    127,
+                    212,
+                    49
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    15,
+                    123,
+                    212
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "2": {
+        "type": "",
+        "grunt": "Candela"
+    },
+    "10": {
+        "type": "Dark",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    302,
+                    434
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    274,
+                    435
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    332,
+                    275
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "11": {
+        "type": "Dark",
+        "grunt": "Male"
+    },
+    "46": {
+        "type": "",
+        "grunt": "Decoy Grunt",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    69
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    20,
+                    70
+                ],
+                "isReward": true
+            },
+            "3": {
+                "ids": [
+                    20,
+                    143
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "45": {
+        "type": "",
+        "grunt": "Decoy Grunt"
+    },
+    "12": {
+        "type": "Dragon",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    147
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    148
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    130,
+                    149
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "13": {
+        "type": "Dragon",
+        "grunt": "Male"
+    },
+    "49": {
+        "type": "Electric",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    81,
+                    125,
+                    179
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    180,
+                    125,
+                    82
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    125,
+                    181
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "50": {
+        "type": "Electric",
+        "grunt": "Male"
+    },
+    "42": {
+        "type": "",
+        "grunt": "Leader Arlo",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    374
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    282,
+                    392,
+                    306
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    373,
+                    212,
+                    348
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "41": {
+        "type": "",
+        "grunt": "Leader Cliff",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    142
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    475,
+                    346,
+                    199
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    248,
+                    477,
+                    473
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "43": {
+        "type": "",
+        "grunt": "Leader Sierra",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    318
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    450,
+                    474,
+                    429
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    365,
+                    229,
+                    330
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "14": {
+        "type": "Fairy",
+        "grunt": "Female"
+    },
+    "15": {
+        "type": "Fairy",
+        "grunt": "Male"
+    },
+    "16": {
+        "type": "Fighting",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    107,
+                    66,
+                    106
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    67
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    67,
+                    106
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "17": {
+        "type": "Fighting",
+        "grunt": "Male"
+    },
+    "18": {
+        "type": "Fire",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    228,
+                    37
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    38,
+                    126,
+                    229
+                ],
+                "isReward": true
+            },
+            "3": {
+                "ids": [
+                    38,
+                    5,
+                    59
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "19": {
+        "type": "Fire",
+        "grunt": "Male"
+    },
+    "20": {
+        "type": "Flying",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    42,
+                    227,
+                    207
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    42,
+                    169,
+                    123
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    149,
+                    169,
+                    130
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "21": {
+        "type": "Flying",
+        "grunt": "Male"
+    },
+    "47": {
+        "type": "Ghost",
+        "grunt": "Female"
+    },
+    "48": {
+        "type": "Ghost",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    200,
+                    353,
+                    355
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    354,
+                    356
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    477,
+                    354,
+                    302
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "44": {
+        "type": "",
+        "grunt": "Giovanni",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    53
+                ],
+                "isReward": false
+            },
+            "2": {
+                "ids": [
+                    115,
+                    445,
+                    34
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    150
+                ],
+                "isReward": true
+            }
+        }
+    },
+    "22": {
+        "type": "Grass",
+        "grunt": "Female"
+    },
+    "23": {
+        "type": "Grass",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    345,
+                    187,
+                    43
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    44,
+                    2,
+                    70
+                ],
+                "isReward": true
+            },
+            "3": {
+                "ids": [
+                    275,
+                    71,
+                    45
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "24": {
+        "type": "Ground",
+        "grunt": "Female"
+    },
+    "25": {
+        "type": "Ground",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    220,
+                    50
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    105,
+                    329,
+                    247
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    472,
+                    330
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "53": {
+        "type": "",
+        "grunt": "Jessie",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    123
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    23
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    234
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "54": {
+        "type": "",
+        "grunt": "James",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    127
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    109
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    88
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "5": {
+        "type": "",
+        "grunt": "Female"
+    },
+    "4": {
+        "type": "",
+        "grunt": "Male"
+    },
+    "26": {
+        "type": "Ice",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    459,
+                    363
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    91,
+                    364,
+                    220
+                ],
+                "isReward": true
+            },
+            "3": {
+                "ids": [
+                    91,
+                    131,
+                    460
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "27": {
+        "type": "Ice",
+        "grunt": "Male"
+    },
+    "28": {
+        "type": "",
+        "grunt": "Female"
+    },
+    "29": {
+        "type": "",
+        "grunt": "Male"
+    },
+    "30": {
+        "type": "Normal",
+        "grunt": "Female"
+    },
+    "31": {
+        "type": "Normal",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    216
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    20,
+                    233
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    143,
+                    474
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "32": {
+        "type": "Poison",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    0,
+                    41,
+                    0
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    89,
+                    88
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    30,
+                    89,
+                    110
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "33": {
+        "type": "Poison",
+        "grunt": "Male"
+    },
+    "34": {
+        "type": "Psychic",
+        "grunt": "Female"
+    },
+    "35": {
+        "type": "Psychic",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    102,
+                    202,
+                    79
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    64,
+                    96,
+                    281
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    103,
+                    281,
+                    97
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "36": {
+        "type": "Rock",
+        "grunt": "Female"
+    },
+    "37": {
+        "type": "Rock",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    304,
+                    299
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    246,
+                    305,
+                    247
+                ],
+                "isReward": true
+            },
+            "3": {
+                "ids": [
+                    247,
+                    248
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "3": {
+        "type": "",
+        "grunt": "Spark"
+    },
+    "38": {
+        "type": "Water",
+        "grunt": "Female",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    90,
+                    60,
+                    194
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    55,
+                    61,
+                    259
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    186,
+                    62
+                ],
+                "isReward": false
+            }
+        }
+    },
+    "39": {
+        "type": "Water",
+        "grunt": "Male",
+        "pokemon": {
+            "1": {
+                "ids": [
+                    129
+                ],
+                "isReward": true
+            },
+            "2": {
+                "ids": [
+                    129
+                ],
+                "isReward": false
+            },
+            "3": {
+                "ids": [
+                    129,
+                    130
+                ],
+                "isReward": false
+            }
+        }
     }
-  },
-  "6": {
-    "type": "Bug",
-    "grunt": "Female"
-  },
-  "7": {
-    "type": "Bug",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [13, 48, 213], "isReward": true},
-      "2": {"ids": [49, 212, 14], "isReward": false},
-      "3": {"ids": [123, 212, 15], "isReward": false}
-    }
-  },
-  "8": {
-    "type": "Ghost",
-    "grunt": "Female"
-  },
-  "9": {
-    "type": "Ghost",
-    "grunt": "Male"
-  },
-  "10": {
-    "type": "Dark",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [434], "isReward": true},
-      "2": {"ids": [435, 302], "isReward": false},
-      "3": {"ids": [435, 275], "isReward": false}
-    }
-  },
-  "11": {
-    "type": "Dark",
-    "grunt": "Male"
-  },
-  "12": {
-    "type": "Dragon",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [147], "isReward": true},
-      "2": {"ids": [330, 148], "isReward": false},
-      "3": {"ids": [130, 149, 148], "isReward": false}
-    }
-  },
-  "13": {
-    "type": "Dragon",
-    "grunt": "Male"
-  },
-  "14": {
-    "type": "Fairy",
-    "grunt": "Female"
-  },
-  "15": {
-    "type": "Fairy",
-    "grunt": "Male"
-  },
-  "16": {
-    "type": "Fighting",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [66, 106], "isReward": true},
-      "2": {"ids": [106], "isReward": false},
-      "3": {"ids": [67], "isReward": false}
-    }
-  },
-  "17": {
-    "type": "Fighting",
-    "grunt": "Male"
-  },
-  "18": {
-    "type": "Fire",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [37, 228], "isReward": true},
-      "2": {"ids": [38, 229], "isReward": true},
-      "3": {"ids": [229, 5, 59], "isReward": false}
-    }
-  },
-  "19": {
-    "type": "Fire",
-    "grunt": "Male"
-  },
-  "20": {
-    "type": "Flying",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [41, 227, 42], "isReward": true},
-      "2": {"ids": [123, 42, 169], "isReward": false},
-      "3": {"ids": [130, 149, 169], "isReward": false}
-    }
-  },
-  "21": {
-    "type": "Flying",
-    "grunt": "Male"
-  },
-  "22": {
-    "type": "Grass",
-    "grunt": "Female"
-  },
-  "23": {
-    "type": "Grass",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [187, 1], "isReward": true},
-      "2": {"ids": [70, 2, 44], "isReward": true},
-      "3": {"ids": [45, 71, 275], "isReward": false}
-    }
-  },
-  "24": {
-    "type": "Ground",
-    "grunt": "Female"
-  },
-  "25": {
-    "type": "Ground",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [207, 50], "isReward": true},
-      "2": {"ids": [329, 247, 105], "isReward": false},
-      "3": {"ids": [472, 330], "isReward": false}
-    }
-  },
-  "26": {
-    "type": "Ice",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [459, 91], "isReward": true},
-      "2": {"ids": [459, 460], "isReward": false},
-      "3": {"ids": [131, 460], "isReward": false}
-    }
-  },
-  "27": {
-    "type": "Ice",
-    "grunt": "Male"
-  },
-  "28": {
-    "type": "Steel",
-    "grunt": "Female"
-  },
-  "29": {
-    "type": "Steel",
-    "grunt": "Male"
-  },
-  "30": {
-    "type": "Normal",
-    "grunt": "Female"
-  },
-  "31": {
-    "type": "Normal",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [216], "isReward": true},
-      "2": {"ids": [20, 233], "isReward": false},
-      "3": {"ids": [143, 474], "isReward": false}
-    }
-  },
-  "32": {
-    "type": "Poison",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [32, 29], "isReward": true},
-      "2": {"ids": [89, 88, 42], "isReward": false},
-      "3": {"ids": [33, 30], "isReward": false}
-    }
-  },
-  "33": {
-    "type": "Poison",
-    "grunt": "Male"
-  },
-  "34": {
-    "type": "Psychic",
-    "grunt": "Female"
-  },
-  "35": {
-    "type": "Psychic",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [202, 79, 63], "isReward": true},
-      "2": {"ids": [280, 97, 96], "isReward": true},
-      "3": {"ids": [281, 64, 97], "isReward": false}
-    }
-  },
-  "36": {
-    "type": "Rock",
-    "grunt": "Female"
-  },
-  "37": {
-    "type": "Rock",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [246, 142], "isReward": true},
-      "2": {"ids": [247, 246], "isReward": false},
-      "3": {"ids": [248, 247], "isReward": false}
-    }
-  },
-  "38": {
-    "type": "Water",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [90, 54], "isReward": true},
-      "2": {"ids": [61, 55], "isReward": false},
-      "3": {"ids": [62, 186], "isReward": false}
-    }
-  },
-  "39": {
-    "type": "Magikarp",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [129], "isReward": true},
-      "2": {"ids": [129], "isReward": false},
-      "3": {"ids": [129, 130], "isReward": false}
-    }
-  },
-  "40": {
-    "type": "",
-    "grunt": "Team Leader"
-  },
-  "41": {
-    "type": "",
-    "grunt": "Cliff",
-    "pokemon": {
-      "1": {"ids": [138], "isReward": true},
-      "2": {"ids": [95, 68, 466], "isReward": false},
-      "3": {"ids": [248, 389, 260], "isReward": false}
-    }
-  },
-  "42": {
-    "type": "",
-    "grunt": "Arlo",
-    "pokemon": {
-      "1": {"ids": [58], "isReward": true},
-      "2": {"ids": [208, 6, 9], "isReward": false},
-      "3": {"ids": [212, 373, 149], "isReward": false}
-    }
-  },
-  "43": {
-    "type": "",
-    "grunt": "Sierra",
-    "pokemon": {
-      "1": {"ids": [96], "isReward": true},
-      "2": {"ids": [319, 131, 103], "isReward": false},
-      "3": {"ids": [275, 229, 65], "isReward": false}
-    }
-  },
-  "44": {
-    "type": "",
-    "grunt": "Giovanni",
-    "pokemon": {
-      "1": {"ids": [53], "isReward": false},
-      "2": {"ids": [115, 34, 445], "isReward": false},
-      "3": {"ids": [150], "isReward": true}
-    }
-  },
-  "45": {
-    "type": "Decoy",
-    "grunt": "Male"
-  },
-  "46": {
-    "type": "Decoy",
-    "grunt": "Female"
-  },
-  "47": {
-    "type": "Ghost",
-    "grunt": "Female"
-  },
-  "48": {
-    "type": "Ghost",
-    "grunt": "Male",
-    "pokemon": {
-      "1": {"ids": [353, 302, 355], "isReward": true},
-      "2": {"ids": [302, 356, 354], "isReward": false},
-      "3": {"ids": [302, 477, 354], "isReward": false}
-    }
-  },
-  "49": {
-    "type": "Electric",
-    "grunt": "Female",
-    "pokemon": {
-      "1": {"ids": [179, 81, 125], "isReward": true},
-      "2": {"ids": [82, 180, 125], "isReward": false},
-      "3": {"ids": [125, 181], "isReward": false}
-    }
-  },
-  "50": {
-    "type": "Electric",
-    "grunt": "Male"
-  },
-  "51": {
-    "type": "Balloon",
-    "grunt": "Female"
-  },
-  "52": {
-    "type": "Balloon",
-    "grunt": "Male"
-  },
-  "53": {
-    "type": "",
-    "grunt": "Female"
-  },
-  "54": {
-    "type": "",
-    "grunt": "Male"
-  }
 }
