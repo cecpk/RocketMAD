@@ -1,4 +1,5 @@
 from pogodata import PogoData
+from collections import OrderedDict
 import json
 
 
@@ -35,5 +36,6 @@ if __name__ == "__main__":
                 },
             }
 
+    sorted_result = OrderedDict(sorted(result.items()))
     with open("invasions.json", "w+") as f:
-        f.write(json.dumps(result, indent=2))
+        f.write(json.dumps(sorted_result, indent=2))
