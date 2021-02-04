@@ -387,8 +387,8 @@
     "pokemon": {
       "1": {
         "ids": [
-          0,
-          0,
+          29,
+          32,
           41
         ],
         "isReward": true
