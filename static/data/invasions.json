@@ -786,5 +786,49 @@
         "isReward": false
       }
     }
+  },
+  "500": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "501": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "502": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "503": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "504": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "505": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "506": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "507": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "508": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "509": {
+    "type": "",
+    "grunt": "NPC"
+  },
+  "510": {
+    "type": "",
+    "grunt": "NPC"
   }
 }
