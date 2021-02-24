@@ -5562,6 +5562,20 @@
       "1240": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2584": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#f8d030"
+          },
+		  {
+            "type": "Psychic",
+            "color": "#f8d030"
+          }
+        ],
+        "assetId": "31"
       }
     }
   },
@@ -20943,7 +20957,21 @@
         "type": "Ghost",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2507": {
+        "formName": "",
+        "assetId": "31"
+      },
+      "2508": {
+        "formName": "Shadow",
+        "assetId": "31"
+      },
+      "2509": {
+        "formName": "Purified",
+        "assetId": "31"
+      }
+    }
   },
   "865": {
     "name": "Sirfetch'd",
