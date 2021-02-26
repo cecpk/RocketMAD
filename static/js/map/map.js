@@ -115,8 +115,12 @@ const settings = {
     showNestParks: null,
     showS2Cells: null,
     showS2CellsLevel10: null,
+    showS2CellsLevel11: null,
+    showS2CellsLevel12: null,
     showS2CellsLevel13: null,
     showS2CellsLevel14: null,
+    showS2CellsLevel15: null,
+    showS2CellsLevel16: null,
     showS2CellsLevel17: null,
     warnHiddenS2Cells: null,
     showRanges: null,
@@ -1300,7 +1304,7 @@ $(function () {
         // Initial load.
         return updateMap()
     }).catch(function () {
-        // updateMap() failed... ¯\_(ツ)_/¯
+        // updateMap() failed... ¯\_(?)_/¯
     }).then(function () {
         initPokemonFilters()
         if (serverSettings.quests) {
