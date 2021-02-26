@@ -1304,7 +1304,7 @@ $(function () {
         // Initial load.
         return updateMap()
     }).catch(function () {
-        // updateMap() failed... ¯\_(?)_/¯
+        // updateMap() failed... ¯\_(ツ)_/¯
     }).then(function () {
         initPokemonFilters()
         if (serverSettings.quests) {
