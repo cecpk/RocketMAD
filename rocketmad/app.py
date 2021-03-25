@@ -6,7 +6,7 @@ import logging
 import redis
 import time
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from flask import (abort, Flask, jsonify, redirect, render_template, request,
                    send_file, send_from_directory, session, url_for)
 from flask.json import JSONEncoder
@@ -144,6 +144,7 @@ def create_app():
         r = redis.Redis(args.redis_host, args.redis_port)
         app.config['SESSION_REDIS'] = r
         app.config['SESSION_USE_SIGNER'] = True
+        app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=3.0)
         app.secret_key = args.secret_key
         Session(app)
         if args.basic_auth:
