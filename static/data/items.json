@@ -38,7 +38,7 @@
   },
   "103": {
     "name": "Hyper Potion",
-    "questBundles": [3]
+    "questBundles": [2, 3]
   },
   "104": {
     "name": "Max Potion",
@@ -46,7 +46,7 @@
   },
   "201": {
     "name": "Revive",
-    "questBundles": [2, 3, 4, 6, 8]
+    "questBundles": [1, 2, 3, 4, 6, 8]
   },
   "202": {
     "name": "Max Revive",
