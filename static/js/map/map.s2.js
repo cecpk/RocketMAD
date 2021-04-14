@@ -64,6 +64,22 @@ function updateS2Overlay() {
             }
         }
 
+        if (settings.showS2CellsLevel16) {
+            if (zoomLevel > 13) {
+                showS2Cells(16, 'orange', 1)
+            } else if (settings.warnHiddenS2Cells) {
+                toastWarning(i18n('S2 Level 16 cells are hidden!'), i18n('Zoom in more to show them.'))
+            }
+        }
+
+        if (settings.showS2CellsLevel15) {
+            if (zoomLevel > 12) {
+                showS2Cells(15, 'green', 1)
+            } else if (settings.warnHiddenS2Cells) {
+                toastWarning(i18n('S2 Level 15 cells are hidden!'), i18n('Zoom in more to show them.'))
+            }
+        }
+
         if (settings.showS2CellsLevel14) {
             if (zoomLevel > 11) {
                 showS2Cells(14, 'red', 1.5)
@@ -77,6 +93,22 @@ function updateS2Overlay() {
                 showS2Cells(13, 'black', 2)
             } else if (settings.warnHiddenS2Cells) {
                 toastWarning(i18n('EX trigger cells are hidden!'), i18n('Zoom in more to show them.'))
+            }
+        }
+
+        if (settings.showS2CellsLevel12) {
+            if (zoomLevel > 9) {
+                showS2Cells(12, 'purple', 2)
+            } else if (settings.warnHiddenS2Cells) {
+                toastWarning(i18n('S2 Level 12 cells are hidden!'), i18n('Zoom in more to show them.'))
+            }
+        }
+
+        if (settings.showS2CellsLevel11) {
+            if (zoomLevel > 8) {
+                showS2Cells(11, 'yellow', 2)
+            } else if (settings.warnHiddenS2Cells) {
+                toastWarning(i18n('S2 Level 11 cells are hidden!'), i18n('Zoom in more to show them.'))
             }
         }
 

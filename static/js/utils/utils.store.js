@@ -367,12 +367,28 @@ const StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    showS2CellsLevel11: {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    showS2CellsLevel12: {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     showS2CellsLevel13: {
         default: true,
         type: StoreTypes.Boolean
     },
     showS2CellsLevel14: {
         default: true,
+        type: StoreTypes.Boolean
+    },
+    showS2CellsLevel15: {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    showS2CellsLevel16: {
+        default: false,
         type: StoreTypes.Boolean
     },
     showS2CellsLevel17: {
