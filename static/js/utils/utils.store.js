@@ -67,6 +67,10 @@ const StoreOptions = {
         default: 100,
         type: StoreTypes.Number
     },
+    excludeNearbyCells: {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     showPokemonValues: {
         default: true,
         type: StoreTypes.Boolean
