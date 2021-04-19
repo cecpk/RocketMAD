@@ -52,6 +52,8 @@ class Pokemon(db.Model):
     )
     weather_boosted_condition = db.Column(db.SmallInteger)
     last_modified = db.Column(db.DateTime)
+    seen_type = db.Column(db.String)
+    fort_id = db.Column(db.String)
 
     __table_args__ = (
         Index('pokemon_spawnpoint_id', 'spawnpoint_id'),
@@ -66,7 +68,7 @@ class Pokemon(db.Model):
     def get_active(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
                    oNeLat=None, oNeLng=None, timestamp=0, eids=None, ids=None,
                    geofences=None, exclude_geofences=None,
-                   verified_despawn_time=False):
+                   verified_despawn_time=False, exclude_nearby_cells=True):
         columns = [
             Pokemon.encounter_id, Pokemon.pokemon_id, Pokemon.latitude,
             Pokemon.longitude, Pokemon.disappear_time,
@@ -75,7 +77,7 @@ class Pokemon(db.Model):
             Pokemon.cp, Pokemon.cp_multiplier, Pokemon.weight, Pokemon.height,
             Pokemon.gender, Pokemon.form, Pokemon.costume,
             Pokemon.catch_prob_1, Pokemon.catch_prob_2, Pokemon.catch_prob_3,
-            Pokemon.weather_boosted_condition, Pokemon.last_modified
+            Pokemon.weather_boosted_condition, Pokemon.last_modified, Pokemon.seen_type
         ]
 
         if verified_despawn_time:
@@ -91,7 +93,11 @@ class Pokemon(db.Model):
         else:
             query = db.session.query(*columns)
 
-        query = query.filter(Pokemon.disappear_time > datetime.utcnow())
+        filter_term = (Pokemon.disappear_time > datetime.utcnow())
+        query = query.filter(filter_term)
+
+        if exclude_nearby_cells:
+            query = query.filter(Pokemon.seen_type != "nearby_cell")
 
         if timestamp > 0:
             # If timestamp is known only load modified Pokémon.
