@@ -117,8 +117,12 @@ function initSettings() {
     settings.showS2Cells = serverSettings.s2Cells && Store.get('showS2Cells')
     if (serverSettings.s2Cells) {
         settings.showS2CellsLevel10 = Store.get('showS2CellsLevel10')
+        settings.showS2CellsLevel11 = Store.get('showS2CellsLevel11')
+        settings.showS2CellsLevel12 = Store.get('showS2CellsLevel12')
         settings.showS2CellsLevel13 = Store.get('showS2CellsLevel13')
         settings.showS2CellsLevel14 = Store.get('showS2CellsLevel14')
+        settings.showS2CellsLevel15 = Store.get('showS2CellsLevel15')
+        settings.showS2CellsLevel16 = Store.get('showS2CellsLevel16')
         settings.showS2CellsLevel17 = Store.get('showS2CellsLevel17')
         settings.warnHiddenS2Cells = Store.get('warnHiddenS2Cells')
     }
@@ -794,6 +798,18 @@ function initSettingsSidebar() {
             Store.set('showS2CellsLevel10', this.checked)
         })
 
+        $('#s2-level11-switch').on('change', function () {
+            settings.showS2CellsLevel11 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel11', this.checked)
+        })
+
+        $('#s2-level12-switch').on('change', function () {
+            settings.showS2CellsLevel12 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel12', this.checked)
+        })
+
         $('#s2-level13-switch').on('change', function () {
             settings.showS2CellsLevel13 = this.checked
             updateS2Overlay()
@@ -804,6 +820,18 @@ function initSettingsSidebar() {
             settings.showS2CellsLevel14 = this.checked
             updateS2Overlay()
             Store.set('showS2CellsLevel14', this.checked)
+        })
+
+        $('#s2-level15-switch').on('change', function () {
+            settings.showS2CellsLevel15 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel15', this.checked)
+        })
+
+        $('#s2-level16-switch').on('change', function () {
+            settings.showS2CellsLevel16 = this.checked
+            updateS2Overlay()
+            Store.set('showS2CellsLevel16', this.checked)
         })
 
         $('#s2-level17-switch').on('change', function () {
@@ -1457,8 +1485,12 @@ function initSettingsSidebar() {
         $('#s2-cell-switch').prop('checked', settings.showS2Cells)
         $('#s2-filters-wrapper').toggle(settings.showS2Cells)
         $('#s2-level10-switch').prop('checked', settings.showS2CellsLevel10)
+        $('#s2-level11-switch').prop('checked', settings.showS2CellsLevel11)
+        $('#s2-level12-switch').prop('checked', settings.showS2CellsLevel12)
         $('#s2-level13-switch').prop('checked', settings.showS2CellsLevel13)
         $('#s2-level14-switch').prop('checked', settings.showS2CellsLevel14)
+        $('#s2-level15-switch').prop('checked', settings.showS2CellsLevel15)
+        $('#s2-level16-switch').prop('checked', settings.showS2CellsLevel16)
         $('#s2-level17-switch').prop('checked', settings.showS2CellsLevel17)
         $('#s2-cells-warning-switch').prop('checked', settings.warnHiddenS2Cells)
     }
