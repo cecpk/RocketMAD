@@ -2063,6 +2063,14 @@
     "energy": 11,
     "dps": 13.33
   },
+  "321": {
+    "name": "Giga Impact",
+    "type": "Normal",
+    "damage": 200,
+    "duration": 4700,
+    "energy": 200,
+    "dps": 42
+  }, 
   "322": {
     "name": "Frustration",
     "type": "Normal",
