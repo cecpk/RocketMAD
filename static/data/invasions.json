@@ -28,8 +28,8 @@
       "2": {
         "ids": [
           282,
-          143,
-          62
+          62,
+          143
         ],
         "isReward": false
       },
@@ -54,16 +54,16 @@
       "1": {
         "ids": [
           347,
-          48,
-          213
+          213,
+          451
         ],
         "isReward": true
       },
       "2": {
         "ids": [
           127,
-          212,
-          49
+          49,
+          212
         ],
         "isReward": false
       },
@@ -83,17 +83,17 @@
     "pokemon": {
       "1": {
         "ids": [
-          434,
-          302
+          198,
+          261
         ],
         "isReward": true
       },
       "2": {
         "ids": [
-          274,
-          435
+          262,
+          302
         ],
-        "isReward": false
+        "isReward": true
       },
       "3": {
         "ids": [
@@ -127,8 +127,9 @@
       },
       "3": {
         "ids": [
+          330,
           149,
-          130
+          148
         ],
         "isReward": false
       }
@@ -140,7 +141,28 @@
   },
   "14": {
     "type": "Fairy",
-    "grunt": "Female"
+    "grunt": "Female",
+    "pokemon": {
+      "1": {
+        "ids": [
+          209
+        ],
+        "isReward": true
+      },
+      "2": {
+        "ids": [
+          210,
+          209
+        ],
+        "isReward": false
+      },
+      "3": {
+        "ids": [
+          210
+        ],
+        "isReward": false
+      }
+    }
   },
   "15": {
     "type": "Fairy",
@@ -152,8 +174,8 @@
     "pokemon": {
       "1": {
         "ids": [
-          107,
-          66
+          66,
+          296
         ],
         "isReward": true
       },
@@ -165,7 +187,8 @@
       },
       "3": {
         "ids": [
-          67,
+          107,
+          297,
           106
         ],
         "isReward": false
@@ -189,16 +212,16 @@
       },
       "2": {
         "ids": [
-          229,
           38,
-          126
+          126,
+          229
         ],
         "isReward": true
       },
       "3": {
         "ids": [
-          5,
           38,
+          5,
           59
         ],
         "isReward": false
@@ -215,17 +238,15 @@
     "pokemon": {
       "1": {
         "ids": [
-          42,
-          207,
-          227
+          41,
+          396
         ],
         "isReward": true
       },
       "2": {
         "ids": [
           42,
-          169,
-          123
+          397
         ],
         "isReward": false
       },
@@ -254,24 +275,24 @@
       "1": {
         "ids": [
           187,
-          345,
-          43
+          43,
+          114
         ],
         "isReward": true
       },
       "2": {
         "ids": [
           44,
-          2,
-          70
+          114,
+          188
         ],
         "isReward": true
       },
       "3": {
         "ids": [
-          275,
+          45,
           71,
-          45
+          275
         ],
         "isReward": false
       }
@@ -295,15 +316,14 @@
       "2": {
         "ids": [
           105,
-          329,
-          247
+          329
         ],
         "isReward": false
       },
       "3": {
         "ids": [
-          330,
-          472
+          472,
+          330
         ],
         "isReward": false
       }
@@ -315,23 +335,23 @@
     "pokemon": {
       "1": {
         "ids": [
-          459,
-          363
+          363,
+          459
         ],
         "isReward": true
       },
       "2": {
         "ids": [
           91,
-          364,
-          220
+          220,
+          364
         ],
         "isReward": true
       },
       "3": {
         "ids": [
-          460,
           131,
+          460,
           91
         ],
         "isReward": false
@@ -373,8 +393,8 @@
       },
       "3": {
         "ids": [
-          474,
-          143
+          143,
+          474
         ],
         "isReward": false
       }
@@ -388,14 +408,14 @@
         "ids": [
           29,
           29,
-          41
+          451
         ],
         "isReward": true
       },
       "2": {
         "ids": [
-          89,
-          88
+          30,
+          33
         ],
         "isReward": false
       },
@@ -424,24 +444,23 @@
       "1": {
         "ids": [
           102,
-          202,
-          79
+          79,
+          202
         ],
         "isReward": true
       },
       "2": {
         "ids": [
-          96,
           64,
-          281
+          96
         ],
         "isReward": false
       },
       "3": {
         "ids": [
-          97,
+          103,
           281,
-          103
+          97
         ],
         "isReward": false
       }
@@ -457,15 +476,15 @@
     "pokemon": {
       "1": {
         "ids": [
-          304,
-          299
+          299,
+          304
         ],
         "isReward": true
       },
       "2": {
         "ids": [
-          246,
           305,
+          246,
           247
         ],
         "isReward": true
@@ -485,24 +504,23 @@
     "pokemon": {
       "1": {
         "ids": [
-          60,
-          90,
-          194
+          116,
+          363,
+          60
         ],
         "isReward": true
       },
       "2": {
         "ids": [
-          55,
           259,
-          61
+          195
         ],
         "isReward": false
       },
       "3": {
         "ids": [
-          62,
-          186
+          186,
+          62
         ],
         "isReward": false
       }
@@ -545,8 +563,8 @@
       },
       "2": {
         "ids": [
-          296,
           99,
+          297,
           62
         ],
         "isReward": false
@@ -554,8 +572,8 @@
       "3": {
         "ids": [
           248,
-          319,
-          389
+          389,
+          319
         ],
         "isReward": false
       }
@@ -573,16 +591,16 @@
       },
       "2": {
         "ids": [
-          217,
           310,
-          169
+          169,
+          217
         ],
         "isReward": false
       },
       "3": {
         "ids": [
-          212,
           462,
+          212,
           45
         ],
         "isReward": false
@@ -629,9 +647,9 @@
       },
       "2": {
         "ids": [
+          115,
           445,
-          34,
-          115
+          34
         ],
         "isReward": false
       },
@@ -659,15 +677,15 @@
       },
       "2": {
         "ids": [
-          70,
-          20
+          20,
+          70
         ],
         "isReward": true
       },
       "3": {
         "ids": [
-          143,
-          20
+          20,
+          143
         ],
         "isReward": false
       }
@@ -683,23 +701,23 @@
     "pokemon": {
       "1": {
         "ids": [
-          200,
           355,
+          200,
           353
         ],
         "isReward": true
       },
       "2": {
         "ids": [
-          356,
-          354
+          354,
+          356
         ],
         "isReward": false
       },
       "3": {
         "ids": [
-          354,
           477,
+          354,
           302
         ],
         "isReward": false
@@ -712,8 +730,8 @@
     "pokemon": {
       "1": {
         "ids": [
+          309,
           125,
-          81,
           179
         ],
         "isReward": true
@@ -721,7 +739,6 @@
       "2": {
         "ids": [
           125,
-          82,
           180
         ],
         "isReward": false
@@ -741,94 +758,42 @@
   },
   "53": {
     "type": "",
-    "grunt": "Jessie",
-    "pokemon": {
-      "1": {
-        "ids": [
-          123
-        ],
-        "isReward": true
-      },
-      "2": {
-        "ids": [
-          23
-        ],
-        "isReward": false
-      },
-      "3": {
-        "ids": [
-          234
-        ],
-        "isReward": false
-      }
-    }
+    "grunt": "Jessie"
   },
   "54": {
     "type": "",
-    "grunt": "James",
-    "pokemon": {
-      "1": {
-        "ids": [
-          127
-        ],
-        "isReward": true
-      },
-      "2": {
-        "ids": [
-          109
-        ],
-        "isReward": false
-      },
-      "3": {
-        "ids": [
-          88
-        ],
-        "isReward": false
-      }
-    }
+    "grunt": "James"
   },
   "500": {
     "type": "",
-    "grunt": "NPC"
+    "grunt": "LenTao9"
   },
   "501": {
     "type": "",
-    "grunt": "NPC"
+    "grunt": "oneslapguy"
   },
   "502": {
     "type": "",
-    "grunt": "NPC"
-  },
-  "503": {
-    "type": "",
-    "grunt": "NPC"
+    "grunt": "DieCurryWurst"
   },
   "504": {
     "type": "",
-    "grunt": "NPC"
-  },
-  "505": {
-    "type": "",
-    "grunt": "NPC"
+    "grunt": "Juanevoli"
   },
   "506": {
     "type": "",
-    "grunt": "NPC"
+    "grunt": "CashmereFeline"
   },
   "507": {
     "type": "",
-    "grunt": "NPC"
-  },
-  "508": {
-    "type": "",
-    "grunt": "NPC"
+    "grunt": "enjoyryde"
   },
   "509": {
     "type": "",
-    "grunt": "NPC"
+    "grunt": "Telli997"
   },
   "510": {
     "type": "",
-    "grunt": "NPC"
+    "grunt": "malibuleo"
   }
 }
