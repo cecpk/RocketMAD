@@ -642,6 +642,12 @@ function initSettingsSidebar() {
             } else {
                 filterButton.hide()
             }
+            const wrapper = $('#filter-quests-form-wrapper')
+            if (this.checked) {
+                wrapper.show()
+            } else {
+                wrapper.hide()
+            }
             updatePokestops()
             updateMap({ loadAllPokestops: true })
             Store.set('filterQuests', this.checked)
@@ -1452,6 +1458,7 @@ function initSettingsSidebar() {
         $('#filter-quests-switch-wrapper').toggle(settings.showQuests)
         $('#filter-quests-switch').prop('checked', settings.filterQuests)
         $('a[data-target="quest-filter-modal"]').toggle(settings.filterQuests)
+        $('#quest-form-filter').val(settings.questFormFilter)
     }
     if (serverSettings.invasions) {
         $('#invasion-switch').prop('checked', settings.showInvasions)
