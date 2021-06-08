@@ -6,7 +6,7 @@ settingsSideNav:writable, startFollowingUser, startLocationMarker,
 stopFollowingUser, updateExParks, updateGyms, updateNestParks, updateNests,
 updateMap, updatePokestops, updatePokemons, updateS2Overlay,
 updateScannedLocations, updateSpawnpoints, updateStartLocationMarker,
-updateUserLocationMarker, updateWeatherButton, updateWeathers
+updateUserLocationMarker, updateWeatherButton, updateWeathers, setQuestFormFilter
 */
 /* exported initBackupModals, initInvasionFilters, initItemFilters, initPokemonFilters, initSettings, initSettingsSidebar */
 
