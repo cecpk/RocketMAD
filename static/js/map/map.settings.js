@@ -85,6 +85,7 @@ function initSettings() {
     if (serverSettings.quests) {
         settings.filterQuests = Store.get('filterQuests')
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
+        settings.questFormFilter = Store.get('questFormFilter')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
         settings.questNotifs = Store.get('questNotifs')
         settings.notifQuestPokemon = Store.get('notifQuestPokemon')
@@ -1293,6 +1294,11 @@ function initSettingsSidebar() {
     $('#map-style-select').on('change', function () {
         setTileLayer(this.value, map)
         Store.set('mapStyle', this.value)
+    })
+
+    $('#quest-form-filter').on('change', function () {
+        setQuestFormFilter(this.value)
+        Store.set('questFormFilter', this.value)
     })
 
     $('#map-service-provider-select').on('change', function () {
