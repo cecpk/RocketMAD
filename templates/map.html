@@ -910,6 +910,19 @@
                     <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select rewards') }}"><i class="material-icons left">filter_list</i></a>
                   </div>
                 </div>
+                <div id="filter-quests-form-wrapper">
+                  <div class="form-control">
+                    <div class="input-field">
+                      <div class="select-title">{{ i18n('Filter Quest Pokemon Form') }}</div>
+                      <select id="quest-form-filter">
+                        <option value="Any">Any</option>
+                        <option value="Galarian">Galarian</option>
+                        <option value="Alola">Alola</option>
+                        <option value="">Normal</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             {% endif %}
