@@ -2286,5 +2286,21 @@
     "duration": 0,
     "energy": 0,
     "dps": 0
+  },
+  "349": {
+    "name": "Fiery Dance",
+    "type": "Fire",
+    "damage": 0,
+    "duration": 0,
+    "energy": 0,
+    "dps": 0
+  },
+  "350": {
+    "name": "Fairy Wind",
+    "type": "Fairy",
+    "damage": 0,
+    "duration": 0,
+    "energy": 0,
+    "dps": 0
   }
 }
