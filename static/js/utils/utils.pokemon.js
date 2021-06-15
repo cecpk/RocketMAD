@@ -2,8 +2,9 @@
 exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
 getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
 getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
-getPokemonRarityName, getPokemonRawIconUrl, getPokemonTypes, initMoveData,
-initPokemonData, searchPokemon, createPokemonMarker, updatePokemonRarities
+getPokemonRarityName, getLocationNearStop, getLocationInCell,
+getPokemonRawIconUrl, getPokemonTypes, initMoveData, initPokemonData,
+searchPokemon, createPokemonMarker, updatePokemonRarities
 */
 
 var pokemonData = {}
@@ -170,11 +171,11 @@ function getPokemonRarityName(pokemonId) {
 }
 
 function getLocationNearStop() {
-    return "❗ " + i18n("Location inaccurate") + ".<br>" + i18n("Pokemon close to stop")
+    return '❗ ' + i18n('Location inaccurate') + '.<br>' + i18n('Pokemon close to stop')
 }
 
 function getLocationInCell() {
-    return "❗ " + i18n("Location very inaccurate") + ".<br>" + i18n("Pokemon in L15 S2 cell")
+    return '❗ ' + i18n('Location very inaccurate') + '.<br>' + i18n('Pokemon in L15 S2 cell')
 }
 
 function getPokemonRawIconUrl(pokemon, generateImages) {
@@ -242,8 +243,9 @@ function createPokemonMarker(pokemon, generateImages) {
         iconSize: [32, 32]
     })
 
-    let offsetLat = 0, offsetLon = 0
-    if (pokemon.seen_type === "nearby_stop" || pokemon.seen_type === "nearby_cell") {
+    let offsetLat = 0
+    let offsetLon = 0
+    if (pokemon.seen_type === 'nearby_stop' || pokemon.seen_type === 'nearby_cell') {
         offsetLat = (Math.floor(Math.random() * 10) - 5) / 10000
         offsetLon = (Math.floor(Math.random() * 10) - 5) / 10000
     }

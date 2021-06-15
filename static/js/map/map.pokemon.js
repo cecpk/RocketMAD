@@ -54,7 +54,7 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
         }
     }
 
-    if (settings.excludeNearbyCells && pokemon.seen_type === "nearby_cell") {
+    if (settings.excludeNearbyCells && pokemon.seen_type === 'nearby_cell') {
         return false
     }
 
@@ -188,14 +188,14 @@ function pokemonLabel(item) {
     }
 
 
-    if (item.seen_type === "nearby_stop") {
+    if (item.seen_type === 'nearby_stop') {
         nearbyStopWarning = `
-            <div class=\'info-container\'>
+            <div class="info-container">
                ${getLocationNearStop()}
             </div>`
-    } else if (item.seen_type === "nearby_cell") {
+    } else if (item.seen_type === 'nearby_cell') {
         nearbyStopWarning = `
-            <div class=\'info-container\'>
+            <div class="info-container">
                ${getLocationInCell()}
             </div>`
     }

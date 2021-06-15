@@ -277,8 +277,8 @@ def get_args(access_config=None):
                         default=None)
     parser.add_argument('-du', '--discord-url', help='Discord server invite'
                                                      ' link.', default=None)
-    parser.add_argument('-mru', '--messenger-url', help='Messenger group'
-                                                        ' invite link.', default=None)
+    parser.add_argument('-mru', '--messenger-url',
+                        help='Messenger group invite link.', default=None)
     parser.add_argument('-tu', '--telegram-url', help='Telegram group invite'
                                                       ' link.', default=None)
     parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite'
@@ -722,8 +722,8 @@ def get_args(access_config=None):
         args.custom_tile_servers = tile_servers
 
     if (args.db_cleanup_pokemon > 0 or args.db_cleanup_gym > 0
-        or args.db_cleanup_pokestop or args.db_cleanup_forts > 0
-        or args.db_cleanup_spawnpoint > 0):
+            or args.db_cleanup_pokestop or args.db_cleanup_forts > 0
+            or args.db_cleanup_spawnpoint > 0):
         args.db_cleanup = True
     else:
         args.db_cleanup = False
@@ -752,16 +752,16 @@ def get_args(access_config=None):
         sys.exit(1)
 
     if args.discord_auth and not args.discord_no_permission_redirect and (
-        args.discord_blacklisted_users or args.discord_whitelisted_users
-        or args.discord_required_guilds or args.discord_blacklisted_guilds
-        or args.discord_required_roles or args.discord_blacklisted_roles):
+            args.discord_blacklisted_users or args.discord_whitelisted_users
+            or args.discord_required_guilds or args.discord_blacklisted_guilds
+            or args.discord_required_roles or args.discord_blacklisted_roles):
         parser.print_usage()
         print(sys.argv[0] + ': error: -DAr/--discord-no-permission-redirect '
                             'parameter is required for Discord auth.')
         sys.exit(1)
 
     if args.telegram_auth and not args.telegram_no_permission_redirect and (
-        args.telegram_blacklisted_users or args.telegram_required_chats):
+            args.telegram_blacklisted_users or args.telegram_required_chats):
         parser.print_usage()
         print(sys.argv[0] + ': error: -TAr/--telegram-no-permission-redirect '
                             'parameter is required for Telegram auth.')
