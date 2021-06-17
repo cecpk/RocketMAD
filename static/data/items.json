@@ -29,7 +29,8 @@
     "questBundles": [5, 10, 15, 20]
   },
   "8": {
-    "name": "Candy"
+    "name": "Candy",
+    "questBundles": [3]
   },
   "101": {
     "name": "Potion",
