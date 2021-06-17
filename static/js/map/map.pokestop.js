@@ -24,6 +24,10 @@ function isPokestopMeetsQuestFilters(pokestop) {
                 const id = '6_' + pokestop.quest.stardust
                 return !settings.excludedQuestItems.has(id)
             }
+            case 4: {
+                const id = '8_' + pokestop.quest.item_amount
+                return !settings.excludedQuestItems.has(id)
+			}
             case 7: {
                 return !settings.excludedQuestPokemon.has(pokestop.quest.pokemon_id)
             }
@@ -113,6 +117,10 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
                 shadowImage = getItemImageUrl(6)
                 shadowSize = [30, 30]
                 break
+            case 4:
+                shadowImage = getItemImageUrl(8)
+                shadowSize = [30, 30]
+                break
             case 7:
                 shadowImage = getPokemonMapIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
                 shadowSize = [35, 35]
@@ -199,6 +207,13 @@ function pokestopLabel(pokestop) {
                 excludeFunction = `excludeQuestItem(6,${quest.stardust})`
                 notifFunction = `toggleQuestItemNotif(6,${quest.stardust})`
                 isNotifQuest = settings.notifQuestItems.has('6_' + quest.stardust)
+                break
+            case 4:
+                rewardImageUrl = getItemImageUrl(8)
+                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(8)}`
+                excludeFunction = `excludeQuestItem(8,${quest.item_amount})`
+                notifFunction = `toggleQuestItemNotif(8,${quest.item_amount})`
+                isNotifQuest = settings.notifQuestItems.has('8_' + quest.item_amount)
                 break
             case 7:
                 rewardImageUrl = getPokemonRawIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
@@ -586,6 +601,11 @@ function getPokestopNotificationInfo(pokestop) {
                     }
                     break
                 }
+                case 4:
+                    const itemId = '8_' + pokestop.quest.item_amount
+                    if (settings.notifQuestItems.has(itemId)) {
+                        questNotif = true
+                    }
                 case 7: {
                     if (settings.notifQuestPokemon.has(pokestop.quest.pokemon_id)) {
                         questNotif = true

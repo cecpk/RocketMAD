@@ -137,6 +137,10 @@ $(function () {
                                 rewardImageUrl = getItemImageUrl(6)
                                 rewardText = quest.stardust + ' ' + getItemName(6)
                                 break
+                            case 4:
+                                rewardImageUrl = getItemImageUrl(8)
+                                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(8)}`
+                                break
                             case 7:
                                 rewardImageUrl = getPokemonRawIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
                                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='${i18n('View on GamePress')}'>#${quest.pokemon_id}</a>`
@@ -162,6 +166,8 @@ $(function () {
                                 return getItemName(quest.item_id) + ' ' + quest.item_amount
                             case 3:
                                 return getItemName(6) + ' ' + quest.stardust
+                            case 4:
+                                return `${getItemName(8)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
                             case 7:
                                 return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
                             case 12:
@@ -174,6 +180,8 @@ $(function () {
                             return quest.item_amount + ' ' + getItemName(quest.item_id)
                         case 3:
                             return quest.stardust + ' ' + getItemName(6)
+                        case 4:
+                            return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(8)}`
                         case 7:
                             return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
                         case 12:

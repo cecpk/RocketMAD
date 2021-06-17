@@ -28,6 +28,9 @@
     "name": "Mega Energy",
     "questBundles": [5, 10, 15, 20]
   },
+  "8": {
+    "name": "Candy"
+  },
   "101": {
     "name": "Potion",
     "questBundles": [5]
