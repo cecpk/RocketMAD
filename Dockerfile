@@ -32,4 +32,7 @@ RUN apt-get update \
  && apt-get purge -y --auto-remove build-essential git nodejs unzip
 
 # Copy everything to the working directory (Python files, templates, config) in one go.
-COPY . /usr/src/app/
+COPY . /usr/src/app
+
+# Remove samples to allow mounting config directory from outside the container
+RUN rm -rf /usr/src/app/config
