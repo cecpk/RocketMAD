@@ -22,13 +22,6 @@ from .blacklist import fingerprints
 from .dyn_img import ImageGenerator
 from .models import (db, Pokemon, Gym, Pokestop, Nest, ScannedLocation,
                      TrsSpawn, Weather)
-from .pogoprotos.enums.costume_pb2 import Costume
-from .pogoprotos.enums.form_pb2 import Form
-from .pogoprotos.enums.gender_pb2 import Gender
-from .pogoprotos.enums.pokemon_evolution_pb2 import PokemonEvolution
-from .pogoprotos.enums.pokemon_id_pb2 import PokemonId
-from .pogoprotos.enums.raid_level_pb2 import RaidLevel
-from .pogoprotos.enums.weather_condition_pb2 import WeatherCondition
 from .transform import transform_from_wgs_to_gcj
 from .utils import (get_args, get_pokemon_name, get_sessions, i18n,
                     parse_geofence_file)
@@ -1047,7 +1040,7 @@ def create_app():
         evolution = int(request.args.get('evolution', '0'))
         in_battle = 'in-battle' in request.args
         ex_raid_eligible = 'ex-raid-eligible' in request.args
-        
+
         if level < 0 or level > 6 or (pkm > 0 and raid_level == 0):
             abort(400)
 
