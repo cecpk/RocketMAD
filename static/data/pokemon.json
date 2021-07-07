@@ -739,20 +739,20 @@
         "assetSuffix": "pm0025_00_pgo_winter2020"
       },
       "2675": {
-        "formName": "",
-        "assetId": "00"
+        "formName": "Kariyushi",
+        "assetSuffix": "pm0025_00_pikachu_pgo_kariyushi"
       },
       "2676": {
-        "formName": "",
-        "assetId": "00"
+        "formName": "Popstar",
+        "assetSuffix": "pm0025_00_pgo_popstar"
       },
       "2677": {
-        "formName": "",
-        "assetId": "00"
+        "formName": "Rockstar",
+        "assetSuffix": "pm0025_00_pgo_rockstar"
       },
       "2678": {
-        "formName": "",
-        "assetId": "00"
+        "formName": "Flying",
+        "assetSuffix": "pm0025_00_pgo_5thanniversary"
       }
     }
   },
