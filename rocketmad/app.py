@@ -1017,25 +1017,14 @@ def create_app():
 
     @app.route('/pkm_img')
     def pokemon_img():
-        try:
-            raw = 'raw' in request.args
-            pkm = int(request.args.get('pkm'))
-            gender = int(request.args.get('gender', '0'))
-            form = int(request.args.get('form', '0'))
-            costume = int(request.args.get('costume', '0'))
-            evolution = int(request.args.get('evolution', '0'))
-            shiny = 'shiny' in request.args
-            weather = int(request.args.get('weather', '0'))
-
-            # An exception is thrown when values are invalid.
-            PokemonId.Name(pkm)
-            Gender.Name(gender)
-            Form.Name(form)
-            Costume.Name(costume)
-            PokemonEvolution.Name(evolution)
-            WeatherCondition.Name(weather)
-        except Exception:
-            abort(400)
+        raw = 'raw' in request.args
+        pkm = int(request.args.get('pkm'))
+        gender = int(request.args.get('gender', '0'))
+        form = int(request.args.get('form', '0'))
+        costume = int(request.args.get('costume', '0'))
+        evolution = int(request.args.get('evolution', '0'))
+        shiny = 'shiny' in request.args
+        weather = int(request.args.get('weather', '0'))
 
         if raw:
             filename = image_generator.get_pokemon_raw_icon(
@@ -1049,26 +1038,17 @@ def create_app():
 
     @app.route('/gym_img')
     def gym_img():
-        try:
-            team = request.args.get('team')
-            level = int(request.args.get('level'))
-            raid_level = int(request.args.get('raid-level', '0'))
-            pkm = int(request.args.get('pkm', '0'))
-            form = int(request.args.get('form', '0'))
-            costume = int(request.args.get('costume', '0'))
-            evolution = int(request.args.get('evolution', '0'))
-            in_battle = 'in-battle' in request.args
-            ex_raid_eligible = 'ex-raid-eligible' in request.args
-
-            # An exception is thrown when values are invalid.
-            RaidLevel.Name(raid_level)
-            PokemonId.Name(pkm)
-            Form.Name(form)
-            Costume.Name(costume)
-            PokemonEvolution.Name(evolution)
-            if level < 0 or level > 6 or (pkm > 0 and raid_level == 0):
-                raise ValueError()
-        except Exception:
+        team = request.args.get('team')
+        level = int(request.args.get('level'))
+        raid_level = int(request.args.get('raid-level', '0'))
+        pkm = int(request.args.get('pkm', '0'))
+        form = int(request.args.get('form', '0'))
+        costume = int(request.args.get('costume', '0'))
+        evolution = int(request.args.get('evolution', '0'))
+        in_battle = 'in-battle' in request.args
+        ex_raid_eligible = 'ex-raid-eligible' in request.args
+        
+        if level < 0 or level > 6 or (pkm > 0 and raid_level == 0):
             abort(400)
 
         return send_file(
