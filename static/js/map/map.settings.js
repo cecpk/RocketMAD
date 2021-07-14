@@ -6,7 +6,7 @@ settingsSideNav:writable, startFollowingUser, startLocationMarker,
 stopFollowingUser, updateExParks, updateGyms, updateNestParks, updateNests,
 updateMap, updatePokestops, updatePokemons, updateS2Overlay,
 updateScannedLocations, updateSpawnpoints, updateStartLocationMarker,
-updateUserLocationMarker, updateWeatherButton, updateWeathers
+updateUserLocationMarker, updateWeatherButton, updateWeathers, setQuestFormFilter
 */
 /* exported initBackupModals, initInvasionFilters, initItemFilters, initPokemonFilters, initSettings, initSettingsSidebar */
 
@@ -85,6 +85,7 @@ function initSettings() {
     if (serverSettings.quests) {
         settings.filterQuests = Store.get('filterQuests')
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
+        settings.questFormFilter = Store.get('questFormFilter')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
         settings.questNotifs = Store.get('questNotifs')
         settings.notifQuestPokemon = Store.get('notifQuestPokemon')
@@ -640,6 +641,12 @@ function initSettingsSidebar() {
                 filterButton.show()
             } else {
                 filterButton.hide()
+            }
+            const wrapper = $('#filter-quests-form-wrapper')
+            if (this.checked) {
+                wrapper.show()
+            } else {
+                wrapper.hide()
             }
             updatePokestops()
             updateMap({ loadAllPokestops: true })
@@ -1295,6 +1302,11 @@ function initSettingsSidebar() {
         Store.set('mapStyle', this.value)
     })
 
+    $('#quest-form-filter').on('change', function () {
+        setQuestFormFilter(this.value)
+        Store.set('questFormFilter', this.value)
+    })
+
     $('#map-service-provider-select').on('change', function () {
         settings.mapServiceProvider = this.value
         if (settings.showPokemon) {
@@ -1446,6 +1458,7 @@ function initSettingsSidebar() {
         $('#filter-quests-switch-wrapper').toggle(settings.showQuests)
         $('#filter-quests-switch').prop('checked', settings.filterQuests)
         $('a[data-target="quest-filter-modal"]').toggle(settings.filterQuests)
+        $('#quest-form-filter').val(settings.questFormFilter)
     }
     if (serverSettings.invasions) {
         $('#invasion-switch').prop('checked', settings.showInvasions)

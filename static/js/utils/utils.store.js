@@ -271,6 +271,10 @@ const StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    questFormFilter: {
+        default: 'Any',
+        type: StoreTypes.String
+    },
     excludedQuestPokemon: {
         default: new Set(),
         type: StoreTypes.Set
