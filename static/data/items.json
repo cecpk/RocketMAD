@@ -12,7 +12,7 @@
   },
   "3": {
     "name": "Ultra Ball",
-    "questBundles": [2, 5, 10]
+    "questBundles": [2, 3, 5, 10]
   },
   "4": {
     "name": "Master Ball"
