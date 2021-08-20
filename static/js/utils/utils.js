@@ -198,9 +198,23 @@ function getTimeUntil(time) {
     var now = Date.now()
     var tdiff = time - now
 
+    var negTimeUntil = 0
+    if (tdiff < 0) {
+        negTimeUntil = 1
+        tdiff *= -1
+        tdiff += 1000
+    }
+
     var sec = Math.floor((tdiff / 1000) % 60)
     var min = Math.floor((tdiff / 1000 / 60) % 60)
     var hour = Math.floor((tdiff / (1000 * 60 * 60)) % 24)
+
+    if (negTimeUntil == 1) {
+      tdiff *= -1
+      if (hour > 0) hour *= -1
+      else if (min > 0) min *= -1
+      else sec *= -1
+    }
 
     return {
         total: tdiff,
