@@ -209,7 +209,7 @@ function getTimeUntil(time) {
     var min = Math.floor((tdiff / 1000 / 60) % 60)
     var hour = Math.floor((tdiff / (1000 * 60 * 60)) % 24)
 
-    if (negTimeUntil == 1) {
+    if (negTimeUntil === 1) {
       tdiff *= -1
       if (hour > 0) hour *= -1
       else if (min > 0) min *= -1
