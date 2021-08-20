@@ -84,11 +84,18 @@ function getPokemonIds() {
         // Gen 7 and 8.
         pokemonIds.add(808)
         pokemonIds.add(809)
+        pokemonIds.add(819)
+        pokemonIds.add(820)
+        pokemonIds.add(831)
+        pokemonIds.add(832)
         pokemonIds.add(862)
         pokemonIds.add(863)
         pokemonIds.add(865)
         pokemonIds.add(866)
         pokemonIds.add(867)
+        pokemonIds.add(870)
+        pokemonIds.add(888)
+        pokemonIds.add(889)
     }
     return new Set(pokemonIds)
 }
