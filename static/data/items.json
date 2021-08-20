@@ -12,7 +12,7 @@
   },
   "3": {
     "name": "Ultra Ball",
-    "questBundles": [2, 5, 10]
+    "questBundles": [2, 3, 5, 10]
   },
   "4": {
     "name": "Master Ball"
@@ -27,6 +27,10 @@
   "7": {
     "name": "Mega Energy",
     "questBundles": [5, 10, 15, 20]
+  },
+  "8": {
+    "name": "Candy",
+    "questBundles": [3]
   },
   "101": {
     "name": "Potion",
@@ -96,7 +100,7 @@
   },
   "701": {
     "name": "Razz Berry",
-    "questBundles": [2, 3, 5, 6, 9]
+    "questBundles": [2, 3, 4, 5, 6, 9]
   },
   "702": {
     "name": "Bluk Berry"

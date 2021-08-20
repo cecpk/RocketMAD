@@ -383,6 +383,7 @@ function gymLabel(gym) {
                     <div>
                       <a href='javascript:toggleRaidPokemonNotif(${raid.pokemon_id})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
                       <a href='javascript:excludeRaidPokemon(${raid.pokemon_id})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
+                      <a href='javascript:removeRaidMarker("${gym.gym_id}")' class='link-button' title=${i18n('Remove')}><i class="fas fa-trash"></i></a>
                       <a href='https://pokemongo.gamepress.gg/pokemon/${raid.pokemon_id}' class='link-button' target='_blank' title='${i18n('View on GamePress')}'><i class="fas fa-info-circle"></i></a>
                     </div>
                   </div>
@@ -413,6 +414,7 @@ function gymLabel(gym) {
                     <div>
                       <a href='javascript:toggleEggNotif(${raid.level})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
                       <a href='javascript:excludeRaidLevel(${raid.level})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
+                      <a href='javascript:removeRaidMarker("${gym.gym_id}")' class='link-button' title=${i18n('Remove')}><i class="fas fa-trash"></i></a>
                     </div>
                   </div>
                 </div>`
@@ -606,6 +608,10 @@ function removeGym(gym) {
             upcomingRaidIds.delete(id)
         }
     }
+}
+
+function removeRaidMarker(id) { // eslint-disable-line no-unused-vars
+    removeMarker(mapData.gyms[id].marker)
 }
 
 function readdGymMarkers() {

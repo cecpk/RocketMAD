@@ -24,6 +24,10 @@ function isPokestopMeetsQuestFilters(pokestop) {
                 const id = '6_' + pokestop.quest.stardust
                 return !settings.excludedQuestItems.has(id)
             }
+            case 4: {
+                const id = '8_' + pokestop.quest.item_amount
+                return !settings.excludedQuestItems.has(id)
+			}
             case 7: {
                 return !settings.excludedQuestPokemon.has(pokestop.quest.pokemon_id)
             }
@@ -113,6 +117,10 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
                 shadowImage = getItemImageUrl(6)
                 shadowSize = [30, 30]
                 break
+            case 4:
+                shadowImage = getItemImageUrl(8)
+                shadowSize = [30, 30]
+                break
             case 7:
                 shadowImage = getPokemonMapIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
                 shadowSize = [35, 35]
@@ -200,6 +208,13 @@ function pokestopLabel(pokestop) {
                 notifFunction = `toggleQuestItemNotif(6,${quest.stardust})`
                 isNotifQuest = settings.notifQuestItems.has('6_' + quest.stardust)
                 break
+            case 4:
+                rewardImageUrl = getItemImageUrl(8)
+                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(8)}`
+                excludeFunction = `excludeQuestItem(8,${quest.item_amount})`
+                notifFunction = `toggleQuestItemNotif(8,${quest.item_amount})`
+                isNotifQuest = settings.notifQuestItems.has('8_' + quest.item_amount)
+                break
             case 7:
                 rewardImageUrl = getPokemonRawIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} #${quest.pokemon_id}`
@@ -245,6 +260,7 @@ function pokestopLabel(pokestop) {
                 <div>
                   <a href='javascript:${notifFunction}' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
                   <a href='javascript:${excludeFunction}' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
+                  <a href='javascript:removePokestopMarker("${pokestop.pokestop_id}")' class='link-button' title=${i18n('Remove')}><i class="fas fa-trash"></i></a>
                   ${infoButtonDisplay}
                 </div>
               </div>
@@ -318,6 +334,7 @@ function pokestopLabel(pokestop) {
                 <div>
                   <a href='javascript:toggleInvasionNotif(${invasionId})' class='link-button' title="${notifText}"><i class="${notifIconClass}"></i></a>
                   <a href='javascript:excludeInvasion(${invasionId})' class='link-button' title=${i18n('Hide')}><i class="fas fa-eye-slash"></i></a>
+                  <a href='javascript:removePokestopMarker("${pokestop.pokestop_id}")' class='link-button' title=${i18n('Remove')}><i class="fas fa-trash"></i></a>
                 </div>
               </div>
             </div>`
@@ -512,6 +529,10 @@ function removePokestop(pokestop) {
     }
 }
 
+function removePokestopMarker(id) { // eslint-disable-line no-unused-vars
+    removeMarker(mapData.pokestops[id].marker)
+}
+
 function excludeQuestPokemon(id) { // eslint-disable-line no-unused-vars
     if (filterManagers.excludedQuestPokemon !== null) {
         filterManagers.excludedQuestPokemon.add([id])
@@ -586,6 +607,11 @@ function getPokestopNotificationInfo(pokestop) {
                     }
                     break
                 }
+                case 4:
+                    const itemId = '8_' + pokestop.quest.item_amount
+                    if (settings.notifQuestItems.has(itemId)) {
+                        questNotif = true
+                    }
                 case 7: {
                     if (settings.notifQuestPokemon.has(pokestop.quest.pokemon_id)) {
                         questNotif = true
