@@ -458,7 +458,7 @@ class ImageGenerator:
             target_dir = path_generated / 'pokemon_{}'.format(classifier)
         else:
             target_dir = path_generated / 'pokemon'
-        target_filename = 'pm_{}{}{}{}{}{}{}.png'.format(
+        target_filename = 'pm{}{}{}{}{}{}{}.png'.format(
             pkm, gender_suffix, form_suffix, costume_suffix, evolution_suffix,
             shiny_suffix, weather_suffix)
 
@@ -468,7 +468,7 @@ class ImageGenerator:
             log.warning("Cannot find PogoAssets file for target file {}"
                         .format(target_filename))
             dummy_icon = self.pokemon_icon_path / 'pokemon_icon_000.png'
-            target = Path(target_dir) / 'pm_0.png'
+            target = Path(target_dir) / 'pm0.png'
             if dummy_icon.exists():
                 return dummy_icon, target
             else:
