@@ -253,8 +253,8 @@ class ImageGenerator:
                                    if evolution > 0 else '')
             out_filename = (
                 path_generated_gym / "{}_L{}_R{}_P{}{}{}{}.png".format(
-                team, level, raid_level, pkm, form_extension,
-                costume_extension, evolution_extension))
+                    team, level, raid_level, pkm, form_extension,
+                    costume_extension, evolution_extension))
             im_lines.extend(self._draw_raid_pokemon(pkm, form, costume,
                                                     evolution))
             im_lines.extend(self._draw_raid_level(raid_level))
@@ -388,6 +388,11 @@ class ImageGenerator:
     def _get_old_pokemon_asset_path(self, pkm, gender=GENDER_UNSET, form=0,
                                     costume=0, evolution=EVOLUTION_UNSET,
                                     shiny=False):
+        if gender == MALE or gender == FEMALE:
+            gender_form_asset_suffix = (
+                '_{:02d}'.format(gender - 1))
+        else:
+            gender_form_asset_suffix = '_00'
         costume_asset_suffix = '_{:02d}'.format(costume) if costume > 0 else ''
         shiny_suffix = '_shiny' if shiny else ''
 
@@ -420,7 +425,7 @@ class ImageGenerator:
         if should_use_asset_bundle_suffix:
             file_path = (
                 self.pokemon_icon_path / 'pokemon_icon{}{}.png'.format(
-                gender_form_asset_suffix, shiny_suffix))
+                    gender_form_asset_suffix, shiny_suffix))
         else:
             file_path = (
                 self.pokemon_icon_path / 'pokemon_icon_{:03d}{}{}{}.png'
@@ -442,27 +447,27 @@ class ImageGenerator:
             asset_path = self._get_old_pokemon_asset_path(
                 pkm, gender, form, costume, evolution, shiny)
 
-        if gender == MALE or gender == FEMALE:
-            gender_suffix = '_{:02d}'.format(gender - 1)
-        else:
-            gender_suffix = '_00'
+        gender_suffix = '_g2' if gender == FEMALE else '_g1'
+        form_suffix = '_f' + str(form) if form > 0 else ''
+        costume_suffix = '_c' + str(costume) if costume > 0 else ''
+        evolution_suffix = '_e' + str(evolution) if evolution > 0 else ''
+        shiny_suffix = '_s' if shiny else ''
         weather_suffix = '_' + weather_names[weather] if weather else ''
-        shiny_suffix = '_shiny' if shiny else ''
 
         if classifier:
             target_path = path_generated / 'pokemon_{}'.format(classifier)
         else:
             target_path = path_generated / 'pokemon'
-        target_name = target_path / 'pkm_{:03d}{}{:02d}{:02d}{:02d}{}{}.png' \
-            .format(pkm, gender_suffix, form, costume, evolution,
-                    weather_suffix, shiny_suffix)
+        target_name = target_path / 'pm_{}{}{}{}{}{}{}.png'.format(
+            pkm, gender_suffix, form_suffix, costume_suffix, evolution_suffix,
+            shiny_suffix, weather_suffix)
 
         if asset_path.exists():
             return asset_path, target_name
         else:
             log.warning("Cannot find PogoAssets file {}".format(asset_path))
             dummy_icon = self.pokemon_icon_path / 'pokemon_icon_000.png'
-            target = Path(target_path) / 'pkm_000.png'
+            target = Path(target_path) / 'pm_0.png'
             if dummy_icon.exists():
                 return dummy_icon, target
             else:
