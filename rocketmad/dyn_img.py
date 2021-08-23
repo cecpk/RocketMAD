@@ -455,19 +455,20 @@ class ImageGenerator:
         weather_suffix = '_' + weather_names[weather] if weather else ''
 
         if classifier:
-            target_path = path_generated / 'pokemon_{}'.format(classifier)
+            target_dir = path_generated / 'pokemon_{}'.format(classifier)
         else:
-            target_path = path_generated / 'pokemon'
-        target_name = target_path / 'pm_{}{}{}{}{}{}{}.png'.format(
+            target_dir = path_generated / 'pokemon'
+        target_filename = 'pm_{}{}{}{}{}{}{}.png'.format(
             pkm, gender_suffix, form_suffix, costume_suffix, evolution_suffix,
             shiny_suffix, weather_suffix)
 
         if asset_path.exists():
-            return asset_path, target_name
+            return asset_path, target_dir / target_filename
         else:
-            log.warning("Cannot find PogoAssets file {}".format(asset_path))
+            log.warning("Cannot find PogoAssets file for target file {}"
+                        .format(target_filename))
             dummy_icon = self.pokemon_icon_path / 'pokemon_icon_000.png'
-            target = Path(target_path) / 'pm_0.png'
+            target = Path(target_dir) / 'pm_0.png'
             if dummy_icon.exists():
                 return dummy_icon, target
             else:
