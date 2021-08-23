@@ -382,7 +382,7 @@ class ImageGenerator:
         shiny_suffix = '.s' if shiny else ''
 
         filename = f'pm{pkm}{form_suffix}{costume_suffix}{gender_suffix}' \
-                   f'{shiny_suffix}.png'
+                   f'{shiny_suffix}.icon.png'
         return self.pokemon_icon_path / 'Addressable Assets' / filename
 
     def _get_old_pokemon_asset_path(self, pkm, gender=GENDER_UNSET, form=0,
