@@ -383,7 +383,13 @@ class ImageGenerator:
 
         filename = f'pm{pkm}{form_suffix}{costume_suffix}{gender_suffix}' \
                    f'{shiny_suffix}.icon.png'
-        return self.pokemon_icon_path / 'Addressable Assets' / filename
+        file_path = self.pokemon_icon_path / 'Addressable Assets' / filename
+
+        if not file_path.exists() and gender != MALE:
+            return self._get_unity_pokemon_asset_path(
+                pkm, MALE, form, costume, evolution, shiny)
+
+        return file_path
 
     def _get_old_pokemon_asset_path(self, pkm, gender=GENDER_UNSET, form=0,
                                     costume=0, evolution=EVOLUTION_UNSET,
@@ -432,7 +438,7 @@ class ImageGenerator:
                 .format(pkm, gender_form_asset_suffix,
                         costume_asset_suffix, shiny_suffix))
 
-        if not file_path.exists() and gender == FEMALE:
+        if not file_path.exists() and gender != MALE:
             return self._get_old_pokemon_asset_path(
                 pkm, MALE, form, costume, evolution, shiny)
 
