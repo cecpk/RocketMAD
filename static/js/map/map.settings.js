@@ -207,6 +207,7 @@ function initSettingsSidebar() {
         $('#exclude-nearby-cell-switch').on('change', function () {
             settings.excludeNearbyCells = this.checked
             updateMap({ loadAllPokemon: true })
+            updatePokemons()
             Store.set('excludeNearbyCells', this.checked)
         })
 
