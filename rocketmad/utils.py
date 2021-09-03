@@ -153,7 +153,7 @@ def get_args(access_config=None):
                         action='store_true', default=False)
     parser.add_argument('-bwb', '--black-white-badges',
                         help='Use black/white background with white/black'
-                        ' text for gym/raid level badge in gym icons.',
+                             ' text for gym/raid level badge in gym icons.',
                         action='store_true', default=False)
     parser.add_argument('-nps', '--no-pokestops',
                         help=('Disables PokéStops.'),
@@ -272,17 +272,17 @@ def get_args(access_config=None):
     parser.add_argument('-mu', '--madmin-url', help='MADmin server URL.',
                         default=None)
     parser.add_argument('-dtu', '--donate-url', help='Donation link, e.g.'
-                        ' PayPal.', default=None)
+                                                     ' PayPal.', default=None)
     parser.add_argument('-pu', '--patreon-url', help='Patreon page link.',
                         default=None)
     parser.add_argument('-du', '--discord-url', help='Discord server invite'
-                        ' link.', default=None)
-    parser.add_argument('-mru', '--messenger-url', help='Messenger group'
-                        ' invite link.', default=None)
+                                                     ' link.', default=None)
+    parser.add_argument('-mru', '--messenger-url',
+                        help='Messenger group invite link.', default=None)
     parser.add_argument('-tu', '--telegram-url', help='Telegram group invite'
-                        ' link.', default=None)
+                                                      ' link.', default=None)
     parser.add_argument('-wu', '--whatsapp-url', help='WhatsApp group invite'
-                        ' link.', default=None)
+                                                      ' link.', default=None)
     parser.add_argument('-ai', '--analytics-id',
                         default=None,
                         help='Google Analytics Tracking-ID.'),
@@ -732,14 +732,14 @@ def get_args(access_config=None):
         if args.server_uri is None:
             parser.print_usage()
             print(sys.argv[0] + ': error: -CAsu/--server-uri parameter is '
-                  'required for Discord/Telegram auth.')
+                                'required for Discord/Telegram auth.')
             sys.exit(1)
 
         args.server_uri = args.server_uri.rstrip('/')
         if args.secret_key is None or len(args.secret_key) < 16:
             parser.print_usage()
             print(sys.argv[0] + ': error: argument -CAs/--secret-key must be '
-                  'at least 16 characters long.')
+                                'at least 16 characters long.')
             sys.exit(1)
         args.client_auth = True
     else:
@@ -748,7 +748,7 @@ def get_args(access_config=None):
     if args.basic_auth and not args.basic_auth_credentials:
         parser.print_usage()
         print(sys.argv[0] + ': error: -BAc/--basic-auth-credentials parameter '
-              'is required for basic auth.')
+                            'is required for basic auth.')
         sys.exit(1)
 
     if args.discord_auth and not args.discord_no_permission_redirect and (
@@ -757,14 +757,14 @@ def get_args(access_config=None):
             or args.discord_required_roles or args.discord_blacklisted_roles):
         parser.print_usage()
         print(sys.argv[0] + ': error: -DAr/--discord-no-permission-redirect '
-              'parameter is required for Discord auth.')
+                            'parameter is required for Discord auth.')
         sys.exit(1)
 
     if args.telegram_auth and not args.telegram_no_permission_redirect and (
             args.telegram_blacklisted_users or args.telegram_required_chats):
         parser.print_usage()
         print(sys.argv[0] + ': error: -TAr/--telegram-no-permission-redirect '
-              'parameter is required for Telegram auth.')
+                            'parameter is required for Telegram auth.')
         sys.exit(1)
 
     return args
@@ -934,7 +934,7 @@ def calc_pokemon_cp(pokemon, base_attack, base_defense, base_stamina):
     defense = base_defense + pokemon['individual_defense']
     stamina = base_stamina + pokemon['individual_stamina']
     cp = ((attack * math.sqrt(defense) * math.sqrt(stamina)
-          * pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
+           * pokemon['cp_multiplier'] * pokemon['cp_multiplier']) / 10)
     return int(cp) if cp > 10 else 10
 
 
