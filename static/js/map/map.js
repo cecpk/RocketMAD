@@ -91,6 +91,7 @@ const settings = {
     showPokestopsNoEvent: null,
     showQuests: null,
     filterQuests: null,
+    questFormFilter: null,
     excludedQuestPokemon: null,
     excludedQuestItems: null,
     showInvasions: null,
