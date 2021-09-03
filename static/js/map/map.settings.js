@@ -207,12 +207,6 @@ function initSettingsSidebar() {
         $('#exclude-nearby-cell-switch').on('change', function () {
             settings.excludeNearbyCells = this.checked
             updateMap({ loadAllPokemon: true })
-            if (!this.checked) {
-                settings.showS2Cells = true
-                settings.showS2CellsLevel15 = true
-                Store.set('showS2Cells', true)
-                Store.set('showS2CellsLevel15', true)
-            }
             Store.set('excludeNearbyCells', this.checked)
         })
 
