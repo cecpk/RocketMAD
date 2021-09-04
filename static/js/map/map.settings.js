@@ -6,7 +6,7 @@ settingsSideNav:writable, startFollowingUser, startLocationMarker,
 stopFollowingUser, updateExParks, updateGyms, updateNestParks, updateNests,
 updateMap, updatePokestops, updatePokemons, updateS2Overlay,
 updateScannedLocations, updateSpawnpoints, updateStartLocationMarker,
-updateUserLocationMarker, updateWeatherButton, updateWeathers
+updateUserLocationMarker, updateWeatherButton, updateWeathers, setQuestFormFilter
 */
 /* exported initBackupModals, initInvasionFilters, initItemFilters, initPokemonFilters, initSettings, initSettingsSidebar */
 
@@ -23,6 +23,7 @@ function initSettings() {
         settings.showNotifPokemonOnly = Store.get('showNotifPokemonOnly')
         settings.showNotifPokemonAlways = Store.get('showNotifPokemonAlways')
         settings.playCries = serverSettings.pokemonCries && Store.get('playCries')
+        settings.excludeNearbyCells = Store.get('excludeNearbyCells')
     }
     if (serverSettings.pokemonValues) {
         settings.filterPokemonByValues = Store.get('filterPokemonByValues')
@@ -85,6 +86,7 @@ function initSettings() {
     if (serverSettings.quests) {
         settings.filterQuests = Store.get('filterQuests')
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
+        settings.questFormFilter = Store.get('questFormFilter')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
         settings.questNotifs = Store.get('questNotifs')
         settings.notifQuestPokemon = Store.get('notifQuestPokemon')
@@ -201,6 +203,13 @@ function initSettingsSidebar() {
                 updateMap()
             }
             Store.set('filterPokemonById', this.checked)
+        })
+
+        $('#exclude-nearby-cell-switch').on('change', function () {
+            settings.excludeNearbyCells = this.checked
+            updateMap({ loadAllPokemon: true })
+            updatePokemons()
+            Store.set('excludeNearbyCells', this.checked)
         })
 
         $('#pokemon-icon-size-select').on('change', function () {
@@ -640,6 +649,12 @@ function initSettingsSidebar() {
                 filterButton.show()
             } else {
                 filterButton.hide()
+            }
+            const wrapper = $('#filter-quests-form-wrapper')
+            if (this.checked) {
+                wrapper.show()
+            } else {
+                wrapper.hide()
             }
             updatePokestops()
             updateMap({ loadAllPokestops: true })
@@ -1295,6 +1310,11 @@ function initSettingsSidebar() {
         Store.set('mapStyle', this.value)
     })
 
+    $('#quest-form-filter').on('change', function () {
+        setQuestFormFilter(this.value)
+        Store.set('questFormFilter', this.value)
+    })
+
     $('#map-service-provider-select').on('change', function () {
         settings.mapServiceProvider = this.value
         if (settings.showPokemon) {
@@ -1379,6 +1399,7 @@ function initSettingsSidebar() {
         $('#filter-pokemon-switch').prop('checked', settings.filterPokemonById)
         $('a[data-target="pokemon-filter-modal"]').toggle(settings.filterPokemonById)
         $('#pokemon-icon-size-select').val(settings.pokemonIconSizeModifier)
+        $('#exclude-nearby-cell-switch').prop('checked', settings.excludeNearbyCells)
     }
     if (serverSettings.pokemonValues) {
         $('#pokemon-values-switch').prop('checked', settings.showPokemonValues)
@@ -1446,6 +1467,7 @@ function initSettingsSidebar() {
         $('#filter-quests-switch-wrapper').toggle(settings.showQuests)
         $('#filter-quests-switch').prop('checked', settings.filterQuests)
         $('a[data-target="quest-filter-modal"]').toggle(settings.filterQuests)
+        $('#quest-form-filter').val(settings.questFormFilter)
     }
     if (serverSettings.invasions) {
         $('#invasion-switch').prop('checked', settings.showInvasions)

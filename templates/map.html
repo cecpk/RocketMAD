@@ -592,6 +592,15 @@
                   </select>
                 </div>
               </div>
+              <div class="form-control">
+                <div class="switch">
+                  <label>
+                    <input type="checkbox" id="exclude-nearby-cell-switch">
+                    <span class="lever"></span>
+                      {{ i18n('Hide S2 L15 Spawns') }}
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
           <div class="pokemon-filters-wrapper">
@@ -908,6 +917,19 @@
                       {{ i18n('Filter Quests') }}
                     </label>
                     <a data-target="quest-filter-modal" class="waves-effect btn-flat modal-trigger filter-button" title="{{ i18n('Select rewards') }}"><i class="material-icons left">filter_list</i></a>
+                  </div>
+                </div>
+                <div id="filter-quests-form-wrapper">
+                  <div class="form-control">
+                    <div class="input-field">
+                      <div class="select-title">{{ i18n('Filter Quest Pokemon Form') }}</div>
+                      <select id="quest-form-filter">
+                        <option value="Any">{{ i18n('Any') }}</option>
+                        <option value="{{ i18n('Galarian') }}">{{ i18n('Galarian') }}</option>
+                        <option value="{{ i18n('Alola') }}">{{ i18n('Alola') }}</option>
+                        <option value="">{{ i18n('Normal') }}</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>

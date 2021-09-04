@@ -54,6 +54,10 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
         }
     }
 
+    if (settings.excludeNearbyCells && pokemon.seen_type === 'nearby_cell') {
+        return false
+    }
+
     return true
 }
 
@@ -162,6 +166,7 @@ function pokemonLabel(item) {
     var verifiedDisplay = ''
     var typesDisplay = ''
     var statsDisplay = ''
+    var nearbyStopWarning = ''
 
     if (id === 29 || id === 32) {
         name = name.slice(0, -1)
@@ -180,6 +185,19 @@ function pokemonLabel(item) {
         verifiedDisplay = '<i id="despawn-verified" class="fas fa-check-square" title="Despawn time verified"></i>'
     } else if (item.verified_disappear_time === null) {
         verifiedDisplay = '<i id="despawn-unverified" class="fas fa-exclamation-triangle" title="Despawn time not verified"></i>'
+    }
+
+
+    if (item.seen_type === 'nearby_stop') {
+        nearbyStopWarning = `
+            <div class="info-container">
+               ${getLocationNearStop()}
+            </div>`
+    } else if (item.seen_type === 'nearby_cell') {
+        nearbyStopWarning = `
+            <div class="info-container">
+               ${getLocationInCell()}
+            </div>`
     }
 
     $.each(types, function (idx, type) {
@@ -286,6 +304,7 @@ function pokemonLabel(item) {
               ${statsDisplay}
               ${genRarityDisplayRight}
               <div class='coordinates'>
+                ${nearbyStopWarning}
                 <a href='javascript:void(0);' onclick='javascript:openMapDirections(${latitude},${longitude},"${settings.mapServiceProvider}");' class='link-button' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${latitude.toFixed(5)}, ${longitude.toFixed(5)}</a>
               </div>
               <div>

@@ -43,7 +43,11 @@ RUN apt-get update \
 EXPOSE 5000
 
 # Copy everything to the working directory (Python files, templates, config) in one go.
-COPY . /usr/src/app/
+COPY . /usr/src/app
+
+# Remove samples to allow mounting config directory from outside the container
+RUN rm -rf /usr/src/app/config
+
 # Copy compiled statics from stage 0
 COPY --from=0 /usr/src/app/static /usr/src/app/static
 
