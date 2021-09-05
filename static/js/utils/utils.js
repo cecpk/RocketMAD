@@ -194,27 +194,18 @@ function isNowBetween(timestamp1, timestamp2) {
     return timestamp1 <= now && now <= timestamp2
 }
 
-function getTimeUntil(time) {
-    var now = Date.now()
-    var tdiff = time - now
+function getTimeUntil(time, now) {
+    // let now = Date.now()
+    let tdiff = time - now
+    let roundFunction = tdiff < 0 ? Math.ceil : Math.floor
+    if (tdiff < 0) tdiff -= 1000
 
-    var negTimeUntil = false
-    if (tdiff < 0) {
-        negTimeUntil = true
-        tdiff *= -1
-        tdiff += 1000
-    }
+    let sec = roundFunction((tdiff / 1000) % 60)
+    let min = roundFunction((tdiff / 1000 / 60) % 60)
+    let hour = roundFunction((tdiff / (1000 * 60 * 60)) % 24)
 
-    var sec = Math.floor((tdiff / 1000) % 60)
-    var min = Math.floor((tdiff / 1000 / 60) % 60)
-    var hour = Math.floor((tdiff / (1000 * 60 * 60)) % 24)
-
-    if (negTimeUntil) {
-      tdiff *= -1
-      if (hour > 0) hour *= -1
-      else if (min > 0) min *= -1
-      else sec *= -1
-    }
+    if (min < 0) sec = Math.abs(sec)
+    if (hour < 0) min = Math.abs(min)
 
     return {
         total: tdiff,
@@ -241,7 +232,7 @@ function updateLabelDiffTime() {
 
         if (disappearsAt.ttime < disappearsAt.now) {
             timestring = 'expired'
-        } else if (hours > 0) {
+        } else if (hours != 0) {
             timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
         } else {
             timestring = lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
