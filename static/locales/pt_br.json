@@ -700,13 +700,11 @@
   "Zorua": "Zorua",
   "Zubat": "Zubat",
   "Zweilous": "Zweilous",
-  "Zygarde": "Zygarde",
-  
+  "Zygarde": "Zygarde",  
   "Autumn": "Outono",
   "Spring": "Primavera",
   "Summer": "Verão",
-  "Winter": "Inverno",
-  
+  "Winter": "Inverno",  
   "Satellite": "Satellite",
   "Status": "Status",
   "Gyms & Raids": "Ginásios & Reides",  
@@ -904,8 +902,7 @@
   "Leader": "Líder",
   "Leader Cliff": "Líder Cliff",
   "Leader Arlo": "Líder Arlo",
-  "Leader Sierra": "Líder Sierra",
-  
+  "Leader Sierra": "Líder Sierra",  
   "Origin": "Origem",  
   "Altered": "Alterada", 
   "Heat": "Calor", 
@@ -924,8 +921,7 @@
   "Chill": "Congelante",
   "Douse": "Hídrico",
   "Galarian": "Galar",
-  "Alolan": "Alola",
-  
+  "Alolan": "Alola",  
   "Fast": "Rápido",
   "Fast move": "Ataque rápido",
   "Disappears at": "Some em",  
@@ -950,11 +946,9 @@
   "Mossy Lure": "Lure musgoso",
   "Mossy Lures": "Lures musgosos",
   "Normal Lure": "Lure normal",
-  "Normal Lures": "Lures normais",
-  
+  "Normal Lures": "Lures normais",  
   "Rainy Lure": "Lure chuvoso",
-  "Rainy Lures": "Lures chuvosos",    
-  
+  "Rainy Lures": "Lures chuvosos",
   "Please try again.": "Por favor, tente novamente.",
   "Big Magikarp notifs": "Notificar Magikarp grande",
   "Egg notifs": "Notificar ovo",
@@ -985,7 +979,6 @@
   "Map service provider": "Provedor do mapa",
   "EX eligible parks": "Parques elegíveis EX",
   "Ex trigger cells": "Células de gatilho EX",  
-  
   "S2 Level 11 cells": "Células S2 Nível 11", 
   "S2 Level 12 cells": "Células S2 Nível 12", 
   "S2 Level 15 cells": "Células S2 Nível 15", 
@@ -994,12 +987,10 @@
   "Pokemon in L15 S2 cell": "Pokémon na célula S2 Nível 15",
   "Hide S2 L15 Spawns": "Ocultar spawns S2 Nível 15",
   "Location inaccurate": "Localização imprecisa",
-  "Location very inaccurate": "Localização muito imprecisa",
-  
+  "Location very inaccurate": "Localização muito imprecisa",  
   "Pokémon stats": "Pokémon status", 
   "Filter by stats": "Filtrar por status",
-  "Pokémon filtered by stats": "Pokémon filtrado por status",
-  
+  "Pokémon filtered by stats": "Pokémon filtrado por status",  
   "Present": "Presente",
   "Rain": "Chuvoso",
   "Cloudy": "Nublado",
@@ -1374,8 +1365,7 @@
   "Baneful Bunker": "Obstáculo Grave", 
   "Belch": "Arrotar",
   "Bestow": "Trocar",  
-  "Burn Up": "Queimar",
-  
+  "Burn Up": "Queimar",  
   "Aegislash": "Aegislash",  
   "Amaura": "Amaura",  
   "Aromatisse": "Aromatisse",
@@ -1386,8 +1376,7 @@
   "Binacle": "Binacle",
   "Carbink": "Carbink",
   "Clauncher": "Clauncher",  
-  "Clawitzer": "Clawitzer",
-  
+  "Clawitzer": "Clawitzer",  
   "Clear Smog": "Fumaça limpa",
   "Coil": "Serpentina",
   "Comet Punch": "Soco Cometa",
@@ -1401,6 +1390,5 @@
   "Cosmic Power": "Poder Cósmico",
   "Cotton Guard": "Defesa de Algodão",
   "Cotton Spore": "Esporos de Algodão",
-  "Covet": "Cobiçar"    
-  
+  "Covet": "Cobiçar"  
 }
