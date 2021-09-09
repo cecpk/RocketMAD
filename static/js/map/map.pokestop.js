@@ -127,7 +127,7 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
                 shadowSize = [35, 35]
                 break
             case 12:
-                shadowImage = getItemImageUrl(7)
+                shadowImage = getRewardMegaImageUrl(quest.pokemon_id)
                 shadowSize = [30, 30]
         }
     }
@@ -225,7 +225,7 @@ function pokestopLabel(pokestop) {
                 isNotifQuest = settings.notifQuestPokemon.has(quest.pokemon_id)
                 break
             case 12:
-                rewardImageUrl = getItemImageUrl(7)
+                rewardImageUrl = getRewardMegaImageUrl(quest.pokemon_id)
                 rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
                 excludeFunction = `excludeQuestItem(7,${quest.item_amount})`
                 notifFunction = `toggleQuestItemNotif(7,${quest.item_amount})`

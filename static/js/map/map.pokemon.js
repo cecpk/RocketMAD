@@ -226,9 +226,9 @@ function pokemonLabel(item) {
         if (serverSettings.catchRates && item.catch_prob_1) {
             catchRatesDisplay = `
                 <div>
-                  <span title='Catch rate with Poké Ball' ><span class='ball-icon' ><img src='static/images/items/1.png' width='19'></span> ${(item.catch_prob_1 * 100).toFixed(1)}%</span>
-                  <span title='Catch rate with Great Ball' ><span class='ball-icon' ><img src='static/images/items/2.png' width='19'></span> ${(item.catch_prob_2 * 100).toFixed(1)}%</span>
-                  <span title='Catch rate with Ultra Ball' ><span class='ball-icon' ><img src='static/images/items/3.png' width='19'></span> ${(item.catch_prob_3 * 100).toFixed(1)}%</span>
+                  <span title='Catch rate with Poké Ball' ><span class='ball-icon' ><img src='static/images/reward/item/1.png' width='19'></span> ${(item.catch_prob_1 * 100).toFixed(1)}%</span>
+                  <span title='Catch rate with Great Ball' ><span class='ball-icon' ><img src='static/images/reward/item/2.png' width='19'></span> ${(item.catch_prob_2 * 100).toFixed(1)}%</span>
+                  <span title='Catch rate with Ultra Ball' ><span class='ball-icon' ><img src='static/images/reward/item/3.png' width='19'></span> ${(item.catch_prob_3 * 100).toFixed(1)}%</span>
                 </div>`
         }
 
