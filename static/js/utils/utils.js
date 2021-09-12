@@ -204,7 +204,7 @@ function getTimeUntil(time, now) {
     let min = roundFunction((tdiff / 1000 / 60) % 60)
     let hour = roundFunction((tdiff / (1000 * 60 * 60)) % 24)
 
-    if (min < 0) sec = Math.abs(sec)
+    if (hour < 0 || min < 0) sec = Math.abs(sec)
     if (hour < 0) min = Math.abs(min)
 
     return {
