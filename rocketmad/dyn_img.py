@@ -372,7 +372,9 @@ class ImageGenerator:
             form_suffix = '.f' + evolution_suffixes[evolution]
         elif form > 0:
             form_proto = PokemonDisplayProto().Form.Name(form)
-            form_suffix = '.f' + form_proto[form_proto.index('_') + 1:]
+            form_name = form_proto[form_proto.index('_') + 1:]
+            if form_name not in ['NORMAL', 'SHADOW', 'PURIFIED']:
+                form_suffix = '.f' + form_name
 
         costume_suffix = ''
         if costume > 0:
