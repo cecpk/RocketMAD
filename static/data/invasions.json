@@ -69,9 +69,9 @@
       },
       "3": {
         "ids": [
+          212,
           15,
-          123,
-          212
+          123
         ],
         "isReward": false
       }
@@ -187,8 +187,8 @@
       },
       "3": {
         "ids": [
-          107,
           106,
+          107,
           297
         ],
         "isReward": false
@@ -213,8 +213,8 @@
       "2": {
         "ids": [
           38,
-          126,
-          229
+          229,
+          126
         ],
         "isReward": true
       },
@@ -316,8 +316,8 @@
       "2": {
         "ids": [
           105,
-          329,
-          247
+          247,
+          329
         ],
         "isReward": false
       },
@@ -364,11 +364,11 @@
     "grunt": "Male"
   },
   "28": {
-    "type": "",
+    "type": "Steel",
     "grunt": "Female"
   },
   "29": {
-    "type": "",
+    "type": "Steel",
     "grunt": "Male"
   },
   "30": {
@@ -415,8 +415,8 @@
       },
       "2": {
         "ids": [
-          33,
-          30
+          30,
+          33
         ],
         "isReward": false
       },
@@ -573,8 +573,8 @@
       "3": {
         "ids": [
           248,
-          389,
-          319
+          319,
+          389
         ],
         "isReward": false
       }
@@ -638,29 +638,7 @@
   },
   "44": {
     "type": "",
-    "grunt": "Giovanni",
-    "pokemon": {
-      "1": {
-        "ids": [
-          53
-        ],
-        "isReward": false
-      },
-      "2": {
-        "ids": [
-          445,
-          115,
-          34
-        ],
-        "isReward": false
-      },
-      "3": {
-        "ids": [
-          146
-        ],
-        "isReward": true
-      }
-    }
+    "grunt": "Giovanni"
   },
   "45": {
     "type": "",
@@ -668,29 +646,7 @@
   },
   "46": {
     "type": "",
-    "grunt": "Decoy Grunt",
-    "pokemon": {
-      "1": {
-        "ids": [
-          69
-        ],
-        "isReward": true
-      },
-      "2": {
-        "ids": [
-          70,
-          20
-        ],
-        "isReward": true
-      },
-      "3": {
-        "ids": [
-          20,
-          143
-        ],
-        "isReward": false
-      }
-    }
+    "grunt": "Decoy Grunt"
   },
   "47": {
     "type": "Ghost",
@@ -717,8 +673,8 @@
       },
       "3": {
         "ids": [
-          354,
           477,
+          354,
           302
         ],
         "isReward": false
@@ -767,27 +723,27 @@
   },
   "500": {
     "type": "",
-    "grunt": "LenTao9"
+    "grunt": "Cool Challenger"
   },
   "501": {
     "type": "",
-    "grunt": "oneslapguy"
+    "grunt": "Quirky Challenger"
   },
   "502": {
     "type": "",
-    "grunt": "DieCurryWurst"
+    "grunt": "Sassy Challenger"
   },
   "504": {
     "type": "",
-    "grunt": "Juanevoli"
+    "grunt": "Rugged Challenger"
   },
   "506": {
     "type": "",
-    "grunt": "CashmereFeline"
+    "grunt": "Eccentric Challenger"
   },
   "507": {
     "type": "",
-    "grunt": "enjoyryde"
+    "grunt": "Slick Challenger"
   },
   "509": {
     "type": "",
