@@ -2018,7 +2018,7 @@ function initItemFilters() {
 }
 
 function initInvasionFilters() {
-    const invasionIds = new Set([41, 42, 43, 44, 5, 4, 6, 7, 10, 11, 12, 13, 49, 50, 14, 15, 16, 17, 18, 19, 20, 21, 47, 48, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 28, 29, 38, 39])
+    const invasionIds = new Set([41, 42, 43, 44, 5, 4, 6, 7, 10, 11, 12, 13, 49, 50, 14, 15, 16, 17, 18, 19, 20, 21, 47, 48, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 28, 29, 38, 39, 500, 501, 502, 504, 506, 507])
 
     class InvasionFilterManager extends FilterManager {
         getListSelector() { return '.invasion-filter-list' }
