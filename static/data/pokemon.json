@@ -4301,7 +4301,7 @@
       "133": {
         "formName": "Armored",
         "assetSuffix": "pm0150_00_pgo_a"
-      },	  
+      },
       "1113": {
         "formName": "Shadow",
         "assetId": "00"
@@ -18437,6 +18437,7 @@
         "color": "#8a8a59"
       }
     ],
+    "defaultFormId": 2629,
     "forms": {
       "2629": {
         "formName": "Natural Form",
