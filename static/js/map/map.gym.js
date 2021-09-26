@@ -421,6 +421,29 @@ function gymLabel(gym) {
         }
     }
 
+    const gymS2CellId = S2.toId(S2.S2Cell.FromLatLng({ lat: gym.latitude, lng: gym.longitude }, 10).toHilbertQuadkey());
+    const weather = mapData.weather[gymS2CellId]
+    if (weather) {
+        weatherDisplay = $('<div class="wsnowrap" style="margin-top:3px;" />')
+        $('<img />',
+            { src: getWeatherIconUrl(weather),
+              title: i18n(weatherNames[weather.gameplay_weather]),
+              width: 20
+            }).appendTo(weatherDisplay)
+        weatherDisplay.append('<strong><span style="vertical-align:top;">:</span></strong>')
+        $.each(boostedTypes[weather.gameplay_weather], function (index, type) {
+            weatherDisplay.append(`
+                <img src='static/images/types/${type.toLowerCase()}.png' title=${i18n(type)} width=16 />
+            `)
+        })
+        if (!isUpToDateWeather(weather)) {
+            weatherDisplay.append(`
+                <br/><span class='weather-outdated'>(${i18n('outdated')})</span>
+            `)
+        }
+        weatherDisplay = weatherDisplay.prop('outerHTML')
+    }
+
     return `
         <div>
           <div id='gym-container'>
@@ -429,12 +452,13 @@ function gymLabel(gym) {
               <div class='team ${teamName.toLowerCase()}'>
                 <strong>${i18n(teamName)}</strong>
               </div>
+              ${weatherDisplay}
             </div>
             <div id='gym-container-right'>
               <div class='title'>
                 ${titleText} ${exDisplay}
               </div>
-              <div class='info-container'>
+              <div class='info-container wsnowrap'>
                 ${strenghtDisplay}
                 <div>
                   ${i18n('Free slots')}: <strong>${gym.slots_available}</strong>
