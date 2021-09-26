@@ -194,8 +194,8 @@ function isNowBetween(timestamp1, timestamp2) {
     return timestamp1 <= now && now <= timestamp2
 }
 
-function getTimeUntil(time, now) {
-    // let now = Date.now()
+function getTimeUntil(time) {
+    let now = Date.now()
     let tdiff = time - now
     let roundFunction = tdiff < 0 ? Math.ceil : Math.floor
     if (tdiff < 0) tdiff -= 1000
