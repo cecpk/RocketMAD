@@ -285,6 +285,7 @@ function gymLabel(gym) {
     var strenghtDisplay = ''
     var gymLeaderDisplay = ''
     var raidDisplay = ''
+    var weatherDisplay = ''
 
     if (gym.is_ex_raid_eligible) {
         exDisplay = '<img id="ex-icon" src="static/images/gym/ex.png" width="22" title="EX eligible Gym">'
