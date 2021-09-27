@@ -723,34 +723,158 @@
   },
   "500": {
     "type": "",
-    "grunt": "Cool Challenger"
+    "grunt": "Cool Challenger",
+    "pokemon": {
+      "1": {
+        "ids": [
+          676
+        ],
+        "isReward": false
+      },
+      "2": {
+        "ids": [
+          215
+        ],
+        "isReward": false
+      },
+      "3": {
+        "ids": [
+          576
+        ],
+        "isReward": false
+      }
+    }
   },
   "501": {
     "type": "",
-    "grunt": "Quirky Challenger"
+    "grunt": "Quirky Challenger",
+    "pokemon": {
+      "1": {
+        "ids": [
+          676
+        ],
+        "isReward": false
+      },
+      "2": {
+        "ids": [
+          654
+        ],
+        "isReward": false
+      },
+      "3": {
+        "ids": [
+          403
+        ],
+        "isReward": false
+      }
+    }
   },
   "502": {
     "type": "",
-    "grunt": "Sassy Challenger"
+    "grunt": "Sassy Challenger",
+    "pokemon": {
+      "1": {
+        "ids": [
+          676
+        ],
+        "isReward": false
+      },
+      "2": {
+        "ids": [
+          12
+        ],
+        "isReward": false
+      },
+      "3": {
+        "ids": [
+          134
+        ],
+        "isReward": false
+      }
+    }
   },
   "504": {
     "type": "",
-    "grunt": "Rugged Challenger"
+    "grunt": "Rugged Challenger",
+    "pokemon": {
+      "1": {
+        "ids": [
+          676
+        ],
+        "isReward": false
+      },
+      "2": {
+        "ids": [
+          281
+        ],
+        "isReward": false
+      },
+      "3": {
+        "ids": [
+          620
+        ],
+        "isReward": false
+      }
+    }
   },
   "506": {
     "type": "",
-    "grunt": "Eccentric Challenger"
+    "grunt": "Eccentric Challenger",
+    "pokemon": {
+      "1": {
+        "ids": [
+          676
+        ],
+        "isReward": false
+      },
+      "2": {
+        "ids": [
+          75
+        ],
+        "isReward": false
+      },
+      "3": {
+        "ids": [
+          522
+        ],
+        "isReward": false
+      }
+    }
   },
   "507": {
     "type": "",
-    "grunt": "Slick Challenger"
+    "grunt": "Slick Challenger",
+    "pokemon": {
+      "1": {
+        "ids": [
+          676
+        ],
+        "isReward": false
+      },
+      "2": {
+        "ids": [
+          453
+        ],
+        "isReward": false
+      },
+      "3": {
+        "ids": [
+          862
+        ],
+        "isReward": false
+      }
+    }
+  },
+  "508": {
+    "type": "",
+    "grunt": ""
   },
   "509": {
     "type": "",
-    "grunt": "Telli997"
+    "grunt": ""
   },
   "510": {
     "type": "",
-    "grunt": "malibuleo"
+    "grunt": ""
   }
 }

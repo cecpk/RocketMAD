@@ -225,7 +225,7 @@ function updateLabelDiffTime() {
         var seconds = disappearsAt.sec
         var timestring = ''
 
-        if (disappearsAt.ttime < disappearsAt.now) {
+        if (disappearsAt.time < disappearsAt.now) {
             timestring = 'expired'
         } else if (hours > 0) {
             timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
