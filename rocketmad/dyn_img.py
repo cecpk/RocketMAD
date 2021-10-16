@@ -478,8 +478,8 @@ class ImageGenerator:
         if asset_path.exists():
             return asset_path, target_dir / target_filename
         else:
-            log.warning("Cannot find PogoAssets file for target file {}"
-                        .format(target_filename))
+            log.warning("Cannot find PogoAssets {} file for target file {}"
+                        .format(asset_path, target_filename))
             dummy_icon = self.pokemon_icon_path / 'pokemon_icon_000.png'
             target = Path(target_dir) / 'pm0.png'
             if dummy_icon.exists():
