@@ -8,7 +8,7 @@ import sys
 
 from pathlib import Path
 
-from .pogo_protos_pb2 import PDIGMIAGCOI as PokemonDisplayProto
+from .pogo_protos_pb2 import PokemonDisplayProto
 from .utils import get_args, get_pokemon_data
 
 log = logging.getLogger(__name__)
@@ -371,7 +371,7 @@ class ImageGenerator:
         if evolution != EVOLUTION_UNSET:
             form_suffix = '.f' + evolution_suffixes[evolution]
         elif form > 0:
-            form_proto = PokemonDisplayProto().OBPLOOCGMIE.Name(form)
+            form_proto = PokemonDisplayProto().Form.Name(form)
             form_name = form_proto[form_proto.index('_') + 1:]
             if form_name not in ['NORMAL', 'SHADOW', 'PURIFIED']:
                 form_suffix = '.f' + form_name
@@ -383,7 +383,7 @@ class ImageGenerator:
 
         costume_suffix = ''
         if costume > 0:
-            costume_suffix = '.c' + PokemonDisplayProto().FDCOLMPIPJL.Name(costume)
+            costume_suffix = '.c' + PokemonDisplayProto().Costume.Name(costume)
 
         gender_suffix = '.g2' if gender == FEMALE else ''
         shiny_suffix = '.s' if shiny else ''
