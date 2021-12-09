@@ -1,2370 +1,1186 @@
 {
   "1": {
     "name": "Thunder Shock",
-    "type": "Electric",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Electric"
   },
   "2": {
     "name": "Quick Attack",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "3": {
     "name": "Scratch",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "4": {
     "name": "Ember",
-    "type": "Fire",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fire"
   },
   "5": {
     "name": "Vine Whip",
-    "type": "Grass",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Grass"
   },
   "6": {
     "name": "Tackle",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "7": {
     "name": "Razor Leaf",
-    "type": "Grass",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Grass"
   },
   "8": {
     "name": "Take Down",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "9": {
     "name": "Water Gun",
-    "type": "Water",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Water"
   },
   "10": {
     "name": "Bite",
-    "type": "Dark",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Dark"
   },
   "11": {
     "name": "Pound",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "12": {
     "name": "Double Slap",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "13": {
     "name": "Wrap",
-    "type": "Normal",
-    "damage": 60,
-    "duration": 2900,
-    "energy": 33,
-    "dps": 20.69
+    "type": "Normal"
   },
   "14": {
     "name": "Hyper Beam",
-    "type": "Normal",
-    "damage": 150,
-    "duration": 3800,
-    "energy": 100,
-    "dps": 39.47
+    "type": "Normal"
   },
   "15": {
     "name": "Lick",
-    "type": "Ghost",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ghost"
   },
   "16": {
     "name": "Dark Pulse",
-    "type": "Dark",
-    "damage": 80,
-    "duration": 3000,
-    "energy": 50,
-    "dps": 26.67
+    "type": "Dark"
   },
   "17": {
     "name": "Smog",
-    "type": "Poison",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Poison"
   },
   "18": {
     "name": "Sludge",
-    "type": "Poison",
-    "damage": 50,
-    "duration": 2100,
-    "energy": 33,
-    "dps": 23.81
+    "type": "Poison"
   },
   "19": {
     "name": "Metal Claw",
-    "type": "Steel",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Steel"
   },
   "20": {
     "name": "Vice Grip",
-    "type": "Normal",
-    "damage": 35,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 18.42
+    "type": "Normal"
   },
   "21": {
     "name": "Flame Wheel",
-    "type": "Fire",
-    "damage": 60,
-    "duration": 2700,
-    "energy": 50,
-    "dps": 22.22
+    "type": "Fire"
   },
   "22": {
     "name": "Megahorn",
-    "type": "Bug",
-    "damage": 90,
-    "duration": 2200,
-    "energy": 100,
-    "dps": 40.91
+    "type": "Bug"
   },
   "23": {
     "name": "Wing Attack",
-    "type": "Flying",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Flying"
   },
   "24": {
     "name": "Flamethrower",
-    "type": "Fire",
-    "damage": 70,
-    "duration": 2200,
-    "energy": 50,
-    "dps": 31.82
+    "type": "Fire"
   },
   "25": {
     "name": "Sucker Punch",
-    "type": "Dark",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Dark"
   },
   "26": {
     "name": "Dig",
-    "type": "Ground",
-    "damage": 100,
-    "duration": 4700,
-    "energy": 50,
-    "dps": 21.28
+    "type": "Ground"
   },
   "27": {
     "name": "Low Kick",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "28": {
     "name": "Cross Chop",
-    "type": "Fighting",
-    "damage": 50,
-    "duration": 1500,
-    "energy": 50,
-    "dps": 33.33
+    "type": "Fighting"
   },
   "29": {
     "name": "Psycho Cut",
-    "type": "Psychic",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Psychic"
   },
   "30": {
     "name": "Psybeam",
-    "type": "Psychic",
-    "damage": 70,
-    "duration": 3200,
-    "energy": 50,
-    "dps": 21.88
+    "type": "Psychic"
   },
   "31": {
     "name": "Earthquake",
-    "type": "Ground",
-    "damage": 120,
-    "duration": 3600,
-    "energy": 100,
-    "dps": 33.33
+    "type": "Ground"
   },
   "32": {
     "name": "Stone Edge",
-    "type": "Rock",
-    "damage": 100,
-    "duration": 2300,
-    "energy": 100,
-    "dps": 43.48
+    "type": "Rock"
   },
   "33": {
     "name": "Ice Punch",
-    "type": "Ice",
-    "damage": 50,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 26.32
+    "type": "Ice"
   },
   "34": {
     "name": "Heart Stamp",
-    "type": "Psychic",
-    "damage": 40,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 21.05
+    "type": "Psychic"
   },
   "35": {
     "name": "Discharge",
-    "type": "Electric",
-    "damage": 65,
-    "duration": 2500,
-    "energy": 33,
-    "dps": 26
+    "type": "Electric"
   },
   "36": {
     "name": "Flash Cannon",
-    "type": "Steel",
-    "damage": 100,
-    "duration": 2700,
-    "energy": 100,
-    "dps": 37.04
+    "type": "Steel"
   },
   "37": {
     "name": "Peck",
-    "type": "Flying",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Flying"
   },
   "38": {
     "name": "Drill Peck",
-    "type": "Flying",
-    "damage": 60,
-    "duration": 2300,
-    "energy": 33,
-    "dps": 26.09
+    "type": "Flying"
   },
   "39": {
     "name": "Ice Beam",
-    "type": "Ice",
-    "damage": 90,
-    "duration": 3300,
-    "energy": 50,
-    "dps": 27.27
+    "type": "Ice"
   },
   "40": {
     "name": "Blizzard",
-    "type": "Ice",
-    "damage": 130,
-    "duration": 3100,
-    "energy": 100,
-    "dps": 41.94
+    "type": "Ice"
   },
   "41": {
     "name": "Air Slash",
-    "type": "Flying",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Flying"
   },
   "42": {
     "name": "Heat Wave",
-    "type": "Fire",
-    "damage": 95,
-    "duration": 3000,
-    "energy": 100,
-    "dps": 31.67
+    "type": "Fire"
   },
   "43": {
     "name": "Twineedle",
-    "type": "Bug",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Bug"
   },
   "44": {
     "name": "Poison Jab",
-    "type": "Poison",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Poison"
   },
   "45": {
     "name": "Aerial Ace",
-    "type": "Flying",
-    "damage": 55,
-    "duration": 2400,
-    "energy": 33,
-    "dps": 22.92
+    "type": "Flying"
   },
   "46": {
     "name": "Drill Run",
-    "type": "Ground",
-    "damage": 80,
-    "duration": 2800,
-    "energy": 50,
-    "dps": 28.57
+    "type": "Ground"
   },
   "47": {
     "name": "Petal Blizzard",
-    "type": "Grass",
-    "damage": 110,
-    "duration": 2600,
-    "energy": 100,
-    "dps": 42.31
+    "type": "Grass"
   },
   "48": {
     "name": "Mega Drain",
-    "type": "Grass",
-    "damage": 25,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 9.62
+    "type": "Grass"
   },
   "49": {
     "name": "Bug Buzz",
-    "type": "Bug",
-    "damage": 90,
-    "duration": 3700,
-    "energy": 50,
-    "dps": 24.32
+    "type": "Bug"
   },
   "50": {
     "name": "Poison Fang",
-    "type": "Poison",
-    "damage": 35,
-    "duration": 1700,
-    "energy": 33,
-    "dps": 20.59
+    "type": "Poison"
   },
   "51": {
     "name": "Night Slash",
-    "type": "Dark",
-    "damage": 50,
-    "duration": 2200,
-    "energy": 33,
-    "dps": 22.73
+    "type": "Dark"
   },
   "52": {
     "name": "Slash",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "53": {
     "name": "Bubble Beam",
-    "type": "Water",
-    "damage": 45,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 23.68
+    "type": "Water"
   },
   "54": {
     "name": "Submission",
-    "type": "Fighting",
-    "damage": 60,
-    "duration": 2200,
-    "energy": 50,
-    "dps": 27.27
+    "type": "Fighting"
   },
   "55": {
     "name": "Karate Chop",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "56": {
     "name": "Low Sweep",
-    "type": "Fighting",
-    "damage": 40,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 21.05
+    "type": "Fighting"
   },
   "57": {
     "name": "Aqua Jet",
-    "type": "Water",
-    "damage": 45,
-    "duration": 2600,
-    "energy": 33,
-    "dps": 17.31
+    "type": "Water"
   },
   "58": {
     "name": "Aqua Tail",
-    "type": "Water",
-    "damage": 50,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 26.32
+    "type": "Water"
   },
   "59": {
     "name": "Seed Bomb",
-    "type": "Grass",
-    "damage": 55,
-    "duration": 2100,
-    "energy": 33,
-    "dps": 26.19
+    "type": "Grass"
   },
   "60": {
     "name": "Psyshock",
-    "type": "Psychic",
-    "damage": 65,
-    "duration": 2700,
-    "energy": 33,
-    "dps": 24.07
+    "type": "Psychic"
   },
   "61": {
     "name": "Rock Throw",
-    "type": "Rock",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Rock"
   },
   "62": {
     "name": "Ancient Power",
-    "type": "Rock",
-    "damage": 70,
-    "duration": 3500,
-    "energy": 33,
-    "dps": 20
+    "type": "Rock"
   },
   "63": {
     "name": "Rock Tomb",
-    "type": "Rock",
-    "damage": 70,
-    "duration": 3200,
-    "energy": 50,
-    "dps": 21.88
+    "type": "Rock"
   },
   "64": {
     "name": "Rock Slide",
-    "type": "Rock",
-    "damage": 80,
-    "duration": 2700,
-    "energy": 50,
-    "dps": 29.63
+    "type": "Rock"
   },
   "65": {
     "name": "Power Gem",
-    "type": "Rock",
-    "damage": 80,
-    "duration": 2900,
-    "energy": 50,
-    "dps": 27.59
+    "type": "Rock"
   },
   "66": {
     "name": "Shadow Sneak",
-    "type": "Ghost",
-    "damage": 50,
-    "duration": 2900,
-    "energy": 33,
-    "dps": 17.24
+    "type": "Ghost"
   },
   "67": {
     "name": "Shadow Punch",
-    "type": "Ghost",
-    "damage": 40,
-    "duration": 1700,
-    "energy": 33,
-    "dps": 23.53
+    "type": "Ghost"
   },
   "68": {
     "name": "Shadow Claw",
-    "type": "Ghost",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ghost"
   },
   "69": {
     "name": "Ominous Wind",
-    "type": "Ghost",
-    "damage": 50,
-    "duration": 2300,
-    "energy": 33,
-    "dps": 21.74
+    "type": "Ghost"
   },
   "70": {
     "name": "Shadow Ball",
-    "type": "Ghost",
-    "damage": 100,
-    "duration": 3000,
-    "energy": 50,
-    "dps": 33.33
+    "type": "Ghost"
   },
   "71": {
     "name": "Bullet Punch",
-    "type": "Steel",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Steel"
   },
   "72": {
     "name": "Magnet Bomb",
-    "type": "Steel",
-    "damage": 70,
-    "duration": 2800,
-    "energy": 33,
-    "dps": 25
+    "type": "Steel"
   },
   "73": {
     "name": "Steel Wing",
-    "type": "Steel",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Steel"
   },
   "74": {
     "name": "Iron Head",
-    "type": "Steel",
-    "damage": 60,
-    "duration": 1900,
-    "energy": 50,
-    "dps": 31.58
+    "type": "Steel"
   },
   "75": {
     "name": "Parabolic Charge",
-    "type": "Electric",
-    "damage": 25,
-    "duration": 2800,
-    "energy": 50,
-    "dps": 8.93
+    "type": "Electric"
   },
   "76": {
     "name": "Spark",
-    "type": "Electric",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Electric"
   },
   "77": {
     "name": "Thunder Punch",
-    "type": "Electric",
-    "damage": 45,
-    "duration": 1800,
-    "energy": 33,
-    "dps": 25
+    "type": "Electric"
   },
   "78": {
     "name": "Thunder",
-    "type": "Electric",
-    "damage": 100,
-    "duration": 2400,
-    "energy": 100,
-    "dps": 41.67
+    "type": "Electric"
   },
   "79": {
     "name": "Thunderbolt",
-    "type": "Electric",
-    "damage": 80,
-    "duration": 2500,
-    "energy": 50,
-    "dps": 32
+    "type": "Electric"
   },
   "80": {
     "name": "Twister",
-    "type": "Dragon",
-    "damage": 45,
-    "duration": 2800,
-    "energy": 33,
-    "dps": 16.07
+    "type": "Dragon"
   },
   "81": {
     "name": "Dragon Breath",
-    "type": "Dragon",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Dragon"
   },
   "82": {
     "name": "Dragon Pulse",
-    "type": "Dragon",
-    "damage": 90,
-    "duration": 3600,
-    "energy": 50,
-    "dps": 25
+    "type": "Dragon"
   },
   "83": {
     "name": "Dragon Claw",
-    "type": "Dragon",
-    "damage": 50,
-    "duration": 1700,
-    "energy": 33,
-    "dps": 29.41
+    "type": "Dragon"
   },
   "84": {
     "name": "Disarming Voice",
-    "type": "Fairy",
-    "damage": 70,
-    "duration": 3900,
-    "energy": 33,
-    "dps": 17.95
+    "type": "Fairy"
   },
   "85": {
     "name": "Draining Kiss",
-    "type": "Fairy",
-    "damage": 60,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 23.08
+    "type": "Fairy"
   },
   "86": {
     "name": "Dazzling Gleam",
-    "type": "Fairy",
-    "damage": 100,
-    "duration": 3500,
-    "energy": 50,
-    "dps": 28.57
+    "type": "Fairy"
   },
   "87": {
     "name": "Moonblast",
-    "type": "Fairy",
-    "damage": 130,
-    "duration": 3900,
-    "energy": 100,
-    "dps": 33.33
+    "type": "Fairy"
   },
   "88": {
     "name": "Play Rough",
-    "type": "Fairy",
-    "damage": 90,
-    "duration": 2900,
-    "energy": 50,
-    "dps": 31.03
+    "type": "Fairy"
   },
   "89": {
     "name": "Cross Poison",
-    "type": "Poison",
-    "damage": 40,
-    "duration": 1500,
-    "energy": 33,
-    "dps": 26.67
+    "type": "Poison"
   },
   "90": {
     "name": "Sludge Bomb",
-    "type": "Poison",
-    "damage": 80,
-    "duration": 2300,
-    "energy": 50,
-    "dps": 34.78
+    "type": "Poison"
   },
   "91": {
     "name": "Sludge Wave",
-    "type": "Poison",
-    "damage": 110,
-    "duration": 3200,
-    "energy": 100,
-    "dps": 34.38
+    "type": "Poison"
   },
   "92": {
     "name": "Gunk Shot",
-    "type": "Poison",
-    "damage": 130,
-    "duration": 3100,
-    "energy": 100,
-    "dps": 41.94
+    "type": "Poison"
   },
   "93": {
     "name": "Mud Shot",
-    "type": "Ground",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ground"
   },
   "94": {
     "name": "Bone Club",
-    "type": "Ground",
-    "damage": 40,
-    "duration": 1600,
-    "energy": 33,
-    "dps": 25
+    "type": "Ground"
   },
   "95": {
     "name": "Bulldoze",
-    "type": "Ground",
-    "damage": 80,
-    "duration": 3500,
-    "energy": 50,
-    "dps": 22.86
+    "type": "Ground"
   },
   "96": {
     "name": "Mud Bomb",
-    "type": "Ground",
-    "damage": 55,
-    "duration": 2300,
-    "energy": 33,
-    "dps": 23.91
+    "type": "Ground"
   },
   "97": {
     "name": "Fury Cutter",
-    "type": "Bug",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Bug"
   },
   "98": {
     "name": "Bug Bite",
-    "type": "Bug",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Bug"
   },
   "99": {
     "name": "Signal Beam",
-    "type": "Bug",
-    "damage": 75,
-    "duration": 2900,
-    "energy": 50,
-    "dps": 25.86
+    "type": "Bug"
   },
   "100": {
     "name": "X-Scissor",
-    "type": "Bug",
-    "damage": 45,
-    "duration": 1600,
-    "energy": 33,
-    "dps": 28.13
+    "type": "Bug"
   },
   "101": {
     "name": "Flame Charge",
-    "type": "Fire",
-    "damage": 70,
-    "duration": 3800,
-    "energy": 33,
-    "dps": 18.42
+    "type": "Fire"
   },
   "102": {
     "name": "Flame Burst",
-    "type": "Fire",
-    "damage": 70,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 26.92
+    "type": "Fire"
   },
   "103": {
     "name": "Fire Blast",
-    "type": "Fire",
-    "damage": 140,
-    "duration": 4200,
-    "energy": 100,
-    "dps": 33.33
+    "type": "Fire"
   },
   "104": {
     "name": "Brine",
-    "type": "Water",
-    "damage": 60,
-    "duration": 2300,
-    "energy": 50,
-    "dps": 26.09
+    "type": "Water"
   },
   "105": {
     "name": "Water Pulse",
-    "type": "Water",
-    "damage": 70,
-    "duration": 3200,
-    "energy": 50,
-    "dps": 21.88
+    "type": "Water"
   },
   "106": {
     "name": "Scald",
-    "type": "Water",
-    "damage": 80,
-    "duration": 3700,
-    "energy": 50,
-    "dps": 21.62
+    "type": "Water"
   },
   "107": {
     "name": "Hydro Pump",
-    "type": "Water",
-    "damage": 130,
-    "duration": 3300,
-    "energy": 100,
-    "dps": 39.39
+    "type": "Water"
   },
   "108": {
     "name": "Psychic",
-    "type": "Psychic",
-    "damage": 100,
-    "duration": 2800,
-    "energy": 100,
-    "dps": 35.71
+    "type": "Psychic"
   },
   "109": {
     "name": "Psystrike",
-    "type": "Psychic",
-    "damage": 100,
-    "duration": 4400,
-    "energy": 50,
-    "dps": 22.73
+    "type": "Psychic"
   },
   "110": {
     "name": "Ice Shard",
-    "type": "Ice",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ice"
   },
   "111": {
     "name": "Icy Wind",
-    "type": "Ice",
-    "damage": 60,
-    "duration": 3300,
-    "energy": 33,
-    "dps": 18.18
+    "type": "Ice"
   },
   "112": {
     "name": "Frost Breath",
-    "type": "Ice",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ice"
   },
   "113": {
     "name": "Absorb",
-    "type": "Grass",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Grass"
   },
   "114": {
     "name": "Giga Drain",
-    "type": "Grass",
-    "damage": 50,
-    "duration": 3900,
-    "energy": 100,
-    "dps": 12.82
+    "type": "Grass"
   },
   "115": {
     "name": "Fire Punch",
-    "type": "Fire",
-    "damage": 55,
-    "duration": 2200,
-    "energy": 33,
-    "dps": 25
+    "type": "Fire"
   },
   "116": {
     "name": "Solar Beam",
-    "type": "Grass",
-    "damage": 180,
-    "duration": 4900,
-    "energy": 100,
-    "dps": 36.73
+    "type": "Grass"
   },
   "117": {
     "name": "Leaf Blade",
-    "type": "Grass",
-    "damage": 70,
-    "duration": 2400,
-    "energy": 33,
-    "dps": 29.17
+    "type": "Grass"
   },
   "118": {
     "name": "Power Whip",
-    "type": "Grass",
-    "damage": 90,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 34.62
+    "type": "Grass"
   },
   "119": {
     "name": "Splash",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "120": {
     "name": "Acid",
-    "type": "Poison",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Poison"
   },
   "121": {
     "name": "Air Cutter",
-    "type": "Flying",
-    "damage": 60,
-    "duration": 2700,
-    "energy": 50,
-    "dps": 22.22
+    "type": "Flying"
   },
   "122": {
     "name": "Hurricane",
-    "type": "Flying",
-    "damage": 110,
-    "duration": 2700,
-    "energy": 100,
-    "dps": 40.74
+    "type": "Flying"
   },
   "123": {
     "name": "Brick Break",
-    "type": "Fighting",
-    "damage": 40,
-    "duration": 1600,
-    "energy": 33,
-    "dps": 25
+    "type": "Fighting"
   },
   "124": {
     "name": "Cut",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "125": {
     "name": "Swift",
-    "type": "Normal",
-    "damage": 60,
-    "duration": 2800,
-    "energy": 50,
-    "dps": 21.43
+    "type": "Normal"
   },
   "126": {
     "name": "Horn Attack",
-    "type": "Normal",
-    "damage": 40,
-    "duration": 1850,
-    "energy": 33,
-    "dps": 21.62
+    "type": "Normal"
   },
   "127": {
     "name": "Stomp",
-    "type": "Normal",
-    "damage": 55,
-    "duration": 1700,
-    "energy": 50,
-    "dps": 32.35
+    "type": "Normal"
   },
   "128": {
     "name": "Headbutt",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "129": {
     "name": "Hyper Fang",
-    "type": "Normal",
-    "damage": 80,
-    "duration": 2500,
-    "energy": 50,
-    "dps": 32
+    "type": "Normal"
   },
   "130": {
     "name": "Slam",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "131": {
     "name": "Body Slam",
-    "type": "Normal",
-    "damage": 50,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 26.32
+    "type": "Normal"
   },
   "132": {
     "name": "Rest",
-    "type": "Normal",
-    "damage": 50,
-    "duration": 1900,
-    "energy": 33,
-    "dps": 26.32
+    "type": "Normal"
   },
   "133": {
     "name": "Struggle",
-    "type": "Normal",
-    "damage": 35,
-    "duration": 2200,
-    "energy": 0,
-    "dps": 15.91
+    "type": "Normal"
   },
   "134": {
     "name": "Scald Blastoise",
-    "type": "Water",
-    "damage": 50,
-    "duration": 4700,
-    "energy": 100,
-    "dps": 10.64
+    "type": "Water"
   },
   "135": {
     "name": "Hydro Pump Blastoise",
-    "type": "Water",
-    "damage": 90,
-    "duration": 4500,
-    "energy": 100,
-    "dps": 20
+    "type": "Water"
   },
   "136": {
     "name": "Wrap Green",
-    "type": "Normal",
-    "damage": 25,
-    "duration": 2900,
-    "energy": 33,
-    "dps": 8.62
+    "type": "Normal"
   },
   "137": {
     "name": "Wrap Pink",
-    "type": "Normal",
-    "damage": 25,
-    "duration": 2900,
-    "energy": 33,
-    "dps": 8.62
+    "type": "Normal"
   },
   "200": {
     "name": "Fury Cutter",
-    "type": "Bug",
-    "damage": 3,
-    "duration": 400,
-    "energy": 6,
-    "dps": 7.5
+    "type": "Bug"
   },
   "201": {
     "name": "Bug Bite",
-    "type": "Bug",
-    "damage": 5,
-    "duration": 500,
-    "energy": 6,
-    "dps": 10
+    "type": "Bug"
   },
   "202": {
     "name": "Bite",
-    "type": "Dark",
-    "damage": 6,
-    "duration": 500,
-    "energy": 4,
-    "dps": 12
+    "type": "Dark"
   },
   "203": {
     "name": "Sucker Punch",
-    "type": "Dark",
-    "damage": 7,
-    "duration": 700,
-    "energy": 8,
-    "dps": 10
+    "type": "Dark"
   },
   "204": {
     "name": "Dragon Breath",
-    "type": "Dragon",
-    "damage": 6,
-    "duration": 500,
-    "energy": 4,
-    "dps": 12
+    "type": "Dragon"
   },
   "205": {
     "name": "Thunder Shock",
-    "type": "Electric",
-    "damage": 5,
-    "duration": 600,
-    "energy": 8,
-    "dps": 8.33
+    "type": "Electric"
   },
   "206": {
     "name": "Spark",
-    "type": "Electric",
-    "damage": 6,
-    "duration": 700,
-    "energy": 9,
-    "dps": 8.57
+    "type": "Electric"
   },
   "207": {
     "name": "Low Kick",
-    "type": "Fighting",
-    "damage": 6,
-    "duration": 600,
-    "energy": 6,
-    "dps": 10
+    "type": "Fighting"
   },
   "208": {
     "name": "Karate Chop",
-    "type": "Fighting",
-    "damage": 8,
-    "duration": 800,
-    "energy": 10,
-    "dps": 10
+    "type": "Fighting"
   },
   "209": {
     "name": "Ember",
-    "type": "Fire",
-    "damage": 10,
-    "duration": 1000,
-    "energy": 10,
-    "dps": 10
+    "type": "Fire"
   },
   "210": {
     "name": "Wing Attack",
-    "type": "Flying",
-    "damage": 8,
-    "duration": 800,
-    "energy": 9,
-    "dps": 10
+    "type": "Flying"
   },
   "211": {
     "name": "Peck",
-    "type": "Flying",
-    "damage": 10,
-    "duration": 1000,
-    "energy": 10,
-    "dps": 10
+    "type": "Flying"
   },
   "212": {
     "name": "Lick",
-    "type": "Ghost",
-    "damage": 5,
-    "duration": 500,
-    "energy": 6,
-    "dps": 10
+    "type": "Ghost"
   },
   "213": {
     "name": "Shadow Claw",
-    "type": "Ghost",
-    "damage": 9,
-    "duration": 700,
-    "energy": 6,
-    "dps": 12.86
+    "type": "Ghost"
   },
   "214": {
     "name": "Vine Whip",
-    "type": "Grass",
-    "damage": 7,
-    "duration": 600,
-    "energy": 6,
-    "dps": 11.67
+    "type": "Grass"
   },
   "215": {
     "name": "Razor Leaf",
-    "type": "Grass",
-    "damage": 13,
-    "duration": 1000,
-    "energy": 7,
-    "dps": 13
+    "type": "Grass"
   },
   "216": {
     "name": "Mud Shot",
-    "type": "Ground",
-    "damage": 5,
-    "duration": 600,
-    "energy": 7,
-    "dps": 8.33
+    "type": "Ground"
   },
   "217": {
     "name": "Ice Shard",
-    "type": "Ice",
-    "damage": 12,
-    "duration": 1200,
-    "energy": 12,
-    "dps": 10
+    "type": "Ice"
   },
   "218": {
     "name": "Frost Breath",
-    "type": "Ice",
-    "damage": 10,
-    "duration": 900,
-    "energy": 8,
-    "dps": 11.11
+    "type": "Ice"
   },
   "219": {
     "name": "Quick Attack",
-    "type": "Normal",
-    "damage": 8,
-    "duration": 800,
-    "energy": 10,
-    "dps": 10
+    "type": "Normal"
   },
   "220": {
     "name": "Scratch",
-    "type": "Normal",
-    "damage": 6,
-    "duration": 500,
-    "energy": 4,
-    "dps": 12
+    "type": "Normal"
   },
   "221": {
     "name": "Tackle",
-    "type": "Normal",
-    "damage": 5,
-    "duration": 500,
-    "energy": 5,
-    "dps": 10
+    "type": "Normal"
   },
   "222": {
     "name": "Pound",
-    "type": "Normal",
-    "damage": 7,
-    "duration": 600,
-    "energy": 6,
-    "dps": 11.67
+    "type": "Normal"
   },
   "223": {
     "name": "Cut",
-    "type": "Normal",
-    "damage": 5,
-    "duration": 500,
-    "energy": 5,
-    "dps": 10
+    "type": "Normal"
   },
   "224": {
     "name": "Poison Jab",
-    "type": "Poison",
-    "damage": 10,
-    "duration": 800,
-    "energy": 7,
-    "dps": 12.5
+    "type": "Poison"
   },
   "225": {
     "name": "Acid",
-    "type": "Poison",
-    "damage": 9,
-    "duration": 800,
-    "energy": 8,
-    "dps": 11.25
+    "type": "Poison"
   },
   "226": {
     "name": "Psycho Cut",
-    "type": "Psychic",
-    "damage": 5,
-    "duration": 600,
-    "energy": 8,
-    "dps": 8.33
+    "type": "Psychic"
   },
   "227": {
     "name": "Rock Throw",
-    "type": "Rock",
-    "damage": 12,
-    "duration": 900,
-    "energy": 7,
-    "dps": 13.33
+    "type": "Rock"
   },
   "228": {
     "name": "Metal Claw",
-    "type": "Steel",
-    "damage": 8,
-    "duration": 700,
-    "energy": 7,
-    "dps": 11.43
+    "type": "Steel"
   },
   "229": {
     "name": "Bullet Punch",
-    "type": "Steel",
-    "damage": 9,
-    "duration": 900,
-    "energy": 10,
-    "dps": 10
+    "type": "Steel"
   },
   "230": {
     "name": "Water Gun",
-    "type": "Water",
-    "damage": 5,
-    "duration": 500,
-    "energy": 5,
-    "dps": 10
+    "type": "Water"
   },
   "231": {
     "name": "Splash",
-    "type": "Water",
-    "damage": 0,
-    "duration": 1730,
-    "energy": 20,
-    "dps": 0
+    "type": "Water"
   },
   "232": {
     "name": "Water Gun Blastoise",
-    "type": "Water",
-    "damage": 10,
-    "duration": 1000,
-    "energy": 6,
-    "dps": 10
+    "type": "Water"
   },
   "233": {
     "name": "Mud Slap",
-    "type": "Ground",
-    "damage": 15,
-    "duration": 1400,
-    "energy": 12,
-    "dps": 10.71
+    "type": "Ground"
   },
   "234": {
     "name": "Zen Headbutt",
-    "type": "Psychic",
-    "damage": 12,
-    "duration": 1100,
-    "energy": 10,
-    "dps": 10.91
+    "type": "Psychic"
   },
   "235": {
     "name": "Confusion",
-    "type": "Psychic",
-    "damage": 20,
-    "duration": 1600,
-    "energy": 15,
-    "dps": 12.5
+    "type": "Psychic"
   },
   "236": {
     "name": "Poison Sting",
-    "type": "Poison",
-    "damage": 5,
-    "duration": 600,
-    "energy": 7,
-    "dps": 8.33
+    "type": "Poison"
   },
   "237": {
     "name": "Bubble",
-    "type": "Water",
-    "damage": 12,
-    "duration": 1200,
-    "energy": 14,
-    "dps": 10
+    "type": "Water"
   },
   "238": {
     "name": "Feint Attack",
-    "type": "Dark",
-    "damage": 10,
-    "duration": 900,
-    "energy": 9,
-    "dps": 11.11
+    "type": "Dark"
   },
   "239": {
     "name": "Steel Wing",
-    "type": "Steel",
-    "damage": 11,
-    "duration": 800,
-    "energy": 6,
-    "dps": 13.75
+    "type": "Steel"
   },
   "240": {
     "name": "Fire Fang",
-    "type": "Fire",
-    "damage": 11,
-    "duration": 900,
-    "energy": 8,
-    "dps": 12.22
+    "type": "Fire"
   },
   "241": {
     "name": "Rock Smash",
-    "type": "Fighting",
-    "damage": 15,
-    "duration": 1300,
-    "energy": 10,
-    "dps": 11.54
+    "type": "Fighting"
   },
   "242": {
     "name": "Transform",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 2230,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "243": {
     "name": "Counter",
-    "type": "Fighting",
-    "damage": 12,
-    "duration": 900,
-    "energy": 8,
-    "dps": 13.33
+    "type": "Fighting"
   },
   "244": {
     "name": "Powder Snow",
-    "type": "Ice",
-    "damage": 6,
-    "duration": 1000,
-    "energy": 15,
-    "dps": 6
+    "type": "Ice"
   },
   "245": {
     "name": "Close Combat",
-    "type": "Fighting",
-    "damage": 100,
-    "duration": 2300,
-    "energy": 100,
-    "dps": 43.48
+    "type": "Fighting"
   },
   "246": {
     "name": "Dynamic Punch",
-    "type": "Fighting",
-    "damage": 90,
-    "duration": 2700,
-    "energy": 50,
-    "dps": 33.33
+    "type": "Fighting"
   },
   "247": {
     "name": "Focus Blast",
-    "type": "Fighting",
-    "damage": 140,
-    "duration": 3500,
-    "energy": 100,
-    "dps": 40
+    "type": "Fighting"
   },
   "248": {
     "name": "Aurora Beam",
-    "type": "Ice",
-    "damage": 80,
-    "duration": 3550,
-    "energy": 50,
-    "dps": 22.54
+    "type": "Ice"
   },
   "249": {
     "name": "Charge Beam",
-    "type": "Electric",
-    "damage": 8,
-    "duration": 1100,
-    "energy": 15,
-    "dps": 7.27
+    "type": "Electric"
   },
   "250": {
     "name": "Volt Switch",
-    "type": "Electric",
-    "damage": 20,
-    "duration": 2300,
-    "energy": 25,
-    "dps": 8.7
+    "type": "Electric"
   },
   "251": {
     "name": "Wild Charge",
-    "type": "Electric",
-    "damage": 90,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 34.62
+    "type": "Electric"
   },
   "252": {
     "name": "Zap Cannon",
-    "type": "Electric",
-    "damage": 140,
-    "duration": 3700,
-    "energy": 100,
-    "dps": 37.84
+    "type": "Electric"
   },
   "253": {
     "name": "Dragon Tail",
-    "type": "Dragon",
-    "damage": 15,
-    "duration": 1100,
-    "energy": 9,
-    "dps": 13.64
+    "type": "Dragon"
   },
   "254": {
     "name": "Avalanche",
-    "type": "Ice",
-    "damage": 90,
-    "duration": 2700,
-    "energy": 50,
-    "dps": 33.33
+    "type": "Ice"
   },
   "255": {
     "name": "Air Slash",
-    "type": "Flying",
-    "damage": 14,
-    "duration": 1200,
-    "energy": 10,
-    "dps": 11.67
+    "type": "Flying"
   },
   "256": {
     "name": "Brave Bird",
-    "type": "Flying",
-    "damage": 90,
-    "duration": 2000,
-    "energy": 100,
-    "dps": 45
+    "type": "Flying"
   },
   "257": {
     "name": "Sky Attack",
-    "type": "Flying",
-    "damage": 80,
-    "duration": 2000,
-    "energy": 50,
-    "dps": 40
+    "type": "Flying"
   },
   "258": {
     "name": "Sand Tomb",
-    "type": "Ground",
-    "damage": 80,
-    "duration": 4000,
-    "energy": 50,
-    "dps": 20
+    "type": "Ground"
   },
   "259": {
     "name": "Rock Blast",
-    "type": "Rock",
-    "damage": 50,
-    "duration": 2100,
-    "energy": 33,
-    "dps": 23.81
+    "type": "Rock"
   },
   "260": {
     "name": "Infestation",
-    "type": "Bug",
-    "damage": 10,
-    "duration": 1100,
-    "energy": 14,
-    "dps": 9.09
+    "type": "Bug"
   },
   "261": {
     "name": "Struggle Bug",
-    "type": "Bug",
-    "damage": 15,
-    "duration": 1500,
-    "energy": 15,
-    "dps": 10
+    "type": "Bug"
   },
   "262": {
     "name": "Silver Wind",
-    "type": "Bug",
-    "damage": 70,
-    "duration": 3700,
-    "energy": 33,
-    "dps": 18.92
+    "type": "Bug"
   },
   "263": {
     "name": "Astonish",
-    "type": "Ghost",
-    "damage": 8,
-    "duration": 1100,
-    "energy": 14,
-    "dps": 7.27
+    "type": "Ghost"
   },
   "264": {
     "name": "Hex",
-    "type": "Ghost",
-    "damage": 10,
-    "duration": 1200,
-    "energy": 15,
-    "dps": 8.33
+    "type": "Ghost"
   },
   "265": {
     "name": "Night Shade",
-    "type": "Ghost",
-    "damage": 60,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 23.08
+    "type": "Ghost"
   },
   "266": {
     "name": "Iron Tail",
-    "type": "Steel",
-    "damage": 15,
-    "duration": 1100,
-    "energy": 7,
-    "dps": 13.64
+    "type": "Steel"
   },
   "267": {
     "name": "Gyro Ball",
-    "type": "Steel",
-    "damage": 80,
-    "duration": 3300,
-    "energy": 50,
-    "dps": 24.24
+    "type": "Steel"
   },
   "268": {
     "name": "Heavy Slam",
-    "type": "Steel",
-    "damage": 70,
-    "duration": 2100,
-    "energy": 50,
-    "dps": 33.33
+    "type": "Steel"
   },
   "269": {
     "name": "Fire Spin",
-    "type": "Fire",
-    "damage": 14,
-    "duration": 1100,
-    "energy": 10,
-    "dps": 12.73
+    "type": "Fire"
   },
   "270": {
     "name": "Overheat",
-    "type": "Fire",
-    "damage": 160,
-    "duration": 4000,
-    "energy": 100,
-    "dps": 40
+    "type": "Fire"
   },
   "271": {
     "name": "Bullet Seed",
-    "type": "Grass",
-    "damage": 8,
-    "duration": 1100,
-    "energy": 14,
-    "dps": 7.27
+    "type": "Grass"
   },
   "272": {
     "name": "Grass Knot",
-    "type": "Grass",
-    "damage": 90,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 34.62
+    "type": "Grass"
   },
   "273": {
     "name": "Energy Ball",
-    "type": "Grass",
-    "damage": 90,
-    "duration": 3900,
-    "energy": 50,
-    "dps": 23.08
+    "type": "Grass"
   },
   "274": {
     "name": "Extrasensory",
-    "type": "Psychic",
-    "damage": 12,
-    "duration": 1100,
-    "energy": 12,
-    "dps": 10.91
+    "type": "Psychic"
   },
   "275": {
     "name": "Future Sight",
-    "type": "Psychic",
-    "damage": 120,
-    "duration": 2700,
-    "energy": 100,
-    "dps": 44.44
+    "type": "Psychic"
   },
   "276": {
     "name": "Mirror Coat",
-    "type": "Psychic",
-    "damage": 60,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 23.08
+    "type": "Psychic"
   },
   "277": {
     "name": "Outrage",
-    "type": "Dragon",
-    "damage": 110,
-    "duration": 3900,
-    "energy": 50,
-    "dps": 28.21
+    "type": "Dragon"
   },
   "278": {
     "name": "Snarl",
-    "type": "Dark",
-    "damage": 12,
-    "duration": 1100,
-    "energy": 12,
-    "dps": 10.91
+    "type": "Dark"
   },
   "279": {
     "name": "Crunch",
-    "type": "Dark",
-    "damage": 70,
-    "duration": 3200,
-    "energy": 33,
-    "dps": 21.88
+    "type": "Dark"
   },
   "280": {
     "name": "Foul Play",
-    "type": "Dark",
-    "damage": 70,
-    "duration": 2000,
-    "energy": 50,
-    "dps": 35
+    "type": "Dark"
   },
   "281": {
     "name": "Hidden Power",
-    "type": "Normal",
-    "damage": 15,
-    "duration": 1500,
-    "energy": 15,
-    "dps": 10
+    "type": "Normal"
   },
   "282": {
     "name": "Take Down",
-    "type": "Normal",
-    "damage": 8,
-    "duration": 1200,
-    "energy": 10,
-    "dps": 6.67
+    "type": "Normal"
   },
   "283": {
     "name": "Waterfall",
-    "type": "Water",
-    "damage": 16,
-    "duration": 1200,
-    "energy": 8,
-    "dps": 13.33
+    "type": "Water"
   },
   "284": {
     "name": "Surf",
-    "type": "Water",
-    "damage": 65,
-    "duration": 1700,
-    "energy": 50,
-    "dps": 38.24
+    "type": "Water"
   },
   "285": {
     "name": "Draco Meteor",
-    "type": "Dragon",
-    "damage": 150,
-    "duration": 3600,
-    "energy": 100,
-    "dps": 41.67
+    "type": "Dragon"
   },
   "286": {
     "name": "Doom Desire",
-    "type": "Steel",
-    "damage": 70,
-    "duration": 1700,
-    "energy": 33,
-    "dps": 41.18
+    "type": "Steel"
   },
   "287": {
     "name": "Yawn",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 1700,
-    "energy": 15,
-    "dps": 0
+    "type": "Normal"
   },
   "288": {
     "name": "Psycho Boost",
-    "type": "Psychic",
-    "damage": 70,
-    "duration": 4000,
-    "energy": 50,
-    "dps": 17.5
+    "type": "Psychic"
   },
   "289": {
     "name": "Origin Pulse",
-    "type": "Water",
-    "damage": 130,
-    "duration": 1700,
-    "energy": 100,
-    "dps": 76.47
+    "type": "Water"
   },
   "290": {
     "name": "Precipice Blades",
-    "type": "Ground",
-    "damage": 130,
-    "duration": 1700,
-    "energy": 100,
-    "dps": 76.47
+    "type": "Ground"
   },
   "291": {
     "name": "Present",
-    "type": "Normal",
-    "damage": 5,
-    "duration": 1300,
-    "energy": 20,
-    "dps": 3.85
+    "type": "Normal"
   },
   "292": {
     "name": "Weather Ball",
-    "type": "Fire",
-    "damage": 60,
-    "duration": 1600,
-    "energy": 33,
-    "dps": 37.5
+    "type": "Fire"
   },
   "293": {
     "name": "Weather Ball",
-    "type": "Ice",
-    "damage": 60,
-    "duration": 1600,
-    "energy": 33,
-    "dps": 37.5
+    "type": "Ice"
   },
   "294": {
     "name": "Weather Ball",
-    "type": "Rock",
-    "damage": 60,
-    "duration": 1600,
-    "energy": 33,
-    "dps": 37.5
+    "type": "Rock"
   },
   "295": {
     "name": "Weather Ball",
-    "type": "Water",
-    "damage": 60,
-    "duration": 1600,
-    "energy": 33,
-    "dps": 37.5
+    "type": "Water"
   },
   "296": {
     "name": "Frenzy Plant",
-    "type": "Grass",
-    "damage": 100,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 38.46
+    "type": "Grass"
   },
   "297": {
     "name": "Smack Down",
-    "type": "Rock",
-    "damage": 16,
-    "duration": 1200,
-    "energy": 8,
-    "dps": 13.33
+    "type": "Rock"
   },
   "298": {
     "name": "Blast Burn",
-    "type": "Fire",
-    "damage": 110,
-    "duration": 3300,
-    "energy": 50,
-    "dps": 33.33
+    "type": "Fire"
   },
   "299": {
     "name": "Hydro Cannon",
-    "type": "Water",
-    "damage": 90,
-    "duration": 1900,
-    "energy": 50,
-    "dps": 47.37
+    "type": "Water"
   },
   "300": {
     "name": "Last Resort",
-    "type": "Normal",
-    "damage": 90,
-    "duration": 2900,
-    "energy": 50,
-    "dps": 31.03
+    "type": "Normal"
   },
   "301": {
     "name": "Meteor Mash",
-    "type": "Steel",
-    "damage": 100,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 38.46
+    "type": "Steel"
   },
   "302": {
     "name": "Skull Bash",
-    "type": "Normal",
-    "damage": 130,
-    "duration": 3100,
-    "energy": 100,
-    "dps": 41.94
+    "type": "Normal"
   },
   "303": {
     "name": "Acid Spray",
-    "type": "Poison",
-    "damage": 20,
-    "duration": 3000,
-    "energy": 50,
-    "dps": 6.67
+    "type": "Poison"
   },
   "304": {
     "name": "Earth Power",
-    "type": "Ground",
-    "damage": 100,
-    "duration": 3600,
-    "energy": 50,
-    "dps": 27.78
+    "type": "Ground"
   },
   "305": {
     "name": "Crabhammer",
-    "type": "Water",
-    "damage": 85,
-    "duration": 1900,
-    "energy": 50,
-    "dps": 44.74
+    "type": "Water"
   },
   "306": {
     "name": "Lunge",
-    "type": "Bug",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Bug"
   },
   "307": {
     "name": "Crush Claw",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "308": {
     "name": "Octazooka",
-    "type": "Water",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Water"
   },
   "309": {
     "name": "Mirror Shot",
-    "type": "Steel",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Steel"
   },
   "310": {
     "name": "Superpower",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "311": {
     "name": "Fell Stinger",
-    "type": "Bug",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Bug"
   },
   "312": {
     "name": "Leaf Tornado",
-    "type": "Grass",
-    "damage": 45,
-    "duration": 3100,
-    "energy": 33,
-    "dps": 14.52
+    "type": "Grass"
   },
   "313": {
     "name": "Leech Life",
-    "type": "Bug",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Bug"
   },
   "314": {
     "name": "Drain Punch",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "315": {
     "name": "Shadow Bone",
-    "type": "Ghost",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ghost"
   },
   "316": {
     "name": "Muddy Water",
-    "type": "Water",
-    "damage": 50,
-    "duration": 2200,
-    "energy": 33,
-    "dps": 22.73
+    "type": "Water"
   },
   "317": {
     "name": "Blaze Kick",
-    "type": "Fire",
-    "damage": 45,
-    "duration": 1200,
-    "energy": 33,
-    "dps": 37.5
+    "type": "Fire"
   },
   "318": {
     "name": "Razor Shell",
-    "type": "Water",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Water"
   },
   "319": {
     "name": "Power-Up Punch",
-    "type": "Fighting",
-    "damage": 50,
-    "duration": 2000,
-    "energy": 33,
-    "dps": 25
+    "type": "Fighting"
   },
   "320": {
     "name": "Charm",
-    "type": "Fairy",
-    "damage": 20,
-    "duration": 1500,
-    "energy": 11,
-    "dps": 13.33
+    "type": "Fairy"
   },
   "321": {
     "name": "Giga Impact",
-    "type": "Normal",
-    "damage": 200,
-    "duration": 4700,
-    "energy": 200,
-    "dps": 42
-  }, 
+    "type": "Normal"
+  },
   "322": {
     "name": "Frustration",
-    "type": "Normal",
-    "damage": 10,
-    "duration": 2000,
-    "energy": 33,
-    "dps": 5
+    "type": "Normal"
   },
   "323": {
     "name": "Return",
-    "type": "Normal",
-    "damage": 35,
-    "duration": 700,
-    "energy": 33,
-    "dps": 50
+    "type": "Normal"
   },
   "324": {
     "name": "Synchronoise",
-    "type": "Psychic",
-    "damage": 80,
-    "duration": 2600,
-    "energy": 50,
-    "dps": 30.77
+    "type": "Psychic"
   },
   "325": {
     "name": "Lock-on",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "326": {
     "name": "Thunder Fang",
-    "type": "Electric",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Electric"
   },
   "327": {
     "name": "Ice Fang",
-    "type": "Ice",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ice"
   },
   "328": {
     "name": "Horn Drill",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "329": {
     "name": "Fissure",
-    "type": "Ground",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ground"
   },
   "330": {
     "name": "Sacred Sword",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "331": {
     "name": "Flying Press",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "332": {
     "name": "Aura Sphere",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "333": {
     "name": "Payback",
-    "type": "Dark",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Dark"
   },
   "334": {
     "name": "Rock Wrecker",
-    "type": "Rock",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Rock"
   },
   "335": {
     "name": "Aeroblast",
-    "type": "Flying",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Flying"
   },
   "336": {
     "name": "Techno Blast Normal",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "337": {
     "name": "Techno Blast Burn",
-    "type": "Fire",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fire"
   },
   "338": {
     "name": "Techno Blast Chill",
-    "type": "Ice",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Ice"
   },
   "339": {
     "name": "Techno Blast Water",
-    "type": "Water",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Water"
   },
   "340": {
     "name": "Techno Blast Shock",
-    "type": "Electric",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Electric"
   },
   "341": {
     "name": "Fly",
-    "type": "Flying",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Flying"
   },
   "342": {
     "name": "V-create",
-    "type": "Fire",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fire"
   },
   "343": {
     "name": "Leaf Storm",
-    "type": "Grass",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Grass"
   },
   "344": {
     "name": "Tri Attack",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "345": {
     "name": "Gust",
-    "type": "Flying",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Flying"
   },
   "346": {
     "name": "Incinerate",
-    "type": "Fire",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fire"
   },
   "347": {
     "name": "Dark Void",
-    "type": "Dark",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Dark"
   },
   "348": {
     "name": "Feather Dance",
-    "type": "Flying",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Flying"
   },
   "349": {
     "name": "Fiery Dance",
-    "type": "Fire",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fire"
   },
   "350": {
     "name": "Fairy Wind",
-    "type": "Fairy",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fairy"
   },
   "351": {
     "name": "Relic Song",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "352": {
     "name": "Weather Ball",
-    "type": "Normal",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Normal"
   },
   "353": {
     "name": "Psychic Fangs",
-    "type": "Psychic",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Psychic"
   },
   "354": {
     "name": "Hyperspace Fury",
-    "type": "Dark",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Dark"
   },
   "355": {
     "name": "Hyperspace Hole",
-    "type": "Psychic",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Psychic"
   },
   "356": {
     "name": "Double Kick",
-    "type": "Fighting",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fighting"
   },
   "357": {
     "name": "Magical Leaf",
-    "type": "Grass",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Grass"
   },
   "358": {
     "name": "Sacred Fire",
-    "type": "Fire",
-    "damage": 0,
-    "duration": 0,
-    "energy": 0,
-    "dps": 0
+    "type": "Fire"
   }
 }
