@@ -144,7 +144,8 @@ def create_app():
         r = redis.Redis(args.redis_host, args.redis_port)
         app.config['SESSION_REDIS'] = r
         app.config['SESSION_USE_SIGNER'] = True
-        app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=3.0)
+        app.config['PERMANENT_SESSION_LIFETIME'] = \
+            timedelta(days=args.session_duration)
         app.secret_key = args.secret_key
         Session(app)
         if args.basic_auth:

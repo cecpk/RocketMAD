@@ -463,6 +463,11 @@ def get_args(access_config=None):
     group.add_argument('-CAnl', '--no-multiple-logins',
                        action='store_true',
                        help='Do not allow more than one login per account.')
+    group.add_argument('-CAsd', '--session-duration',
+                       type=int, default=7,
+                       help='Number of days before the session expires and '
+                            'the user is logged out.')
+
     group = parser.add_argument_group('Basic Auth')
     group.add_argument('-BA', '--basic-auth',
                        action='store_true', default=False,
