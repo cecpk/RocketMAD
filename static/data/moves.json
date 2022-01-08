@@ -1182,5 +1182,9 @@
   "358": {
     "name": "Sacred Fire",
     "type": "Fire"
+  },
+  "359": {
+    "name": "Icicle Spear",
+    "type": "Ice"
   }
 }
