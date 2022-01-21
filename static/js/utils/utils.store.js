@@ -304,7 +304,7 @@ const StoreOptions = {
         type: StoreTypes.Set
     },
     includedLureTypes: {
-        default: [501, 502, 503, 504],
+        default: [501, 502, 503, 504, 505],
         type: StoreTypes.JSON
     },
     pokestopNotifs: {
