@@ -190,6 +190,7 @@
 #redis-port:                    # Port of Redis server. (default=6379)
 #login-required                 # If enabled, user must be logged in with any auth system before one can access the map. (default=False)
 #no-multiple-logins             # Do not allow more than one login per account. (default=False)
+#session-duration               # Number of days before the session expires and the user is logged out. (default=7)
 
 
 # Basic authentication
