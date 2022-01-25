@@ -1186,5 +1186,21 @@
   "359": {
     "name": "Icicle Spear",
     "type": "Ice"
+  },
+  "360": {
+    "name": "Aeroblast Plus",
+    "type": "Flying"
+  },
+  "361": {
+    "name": "Aeroblast Plus Plus",
+    "type": "Flying"
+  },
+  "362": {
+    "name": "Sacred Fire Plus",
+    "type": "Fire"
+  },
+  "363": {
+    "name": "Sacred Fire Plus Plus",
+    "type": "Fire"
   }
 }
