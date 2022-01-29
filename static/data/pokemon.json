@@ -2989,6 +2989,10 @@
       "1052": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2735": {
+        "formName": "Hisuian",
+        "assetId": "00"
       }
     }
   },
