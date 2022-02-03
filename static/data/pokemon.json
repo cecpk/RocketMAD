@@ -2961,6 +2961,20 @@
       "1049": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2728": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Grass",
+            "color": "#f85888"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -2984,6 +2998,20 @@
       },
       "1052": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2735": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Electric",
+            "color": "#f8d030"
+          },
+          {
+            "type": "Grass",
+            "color": "#f85888"
+          }
+        ],
         "assetId": "00"
       }
     }
