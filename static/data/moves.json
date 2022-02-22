@@ -1206,5 +1206,9 @@
   "364": {
     "name": "Acrobatics",
     "type": "Flying"
+  },
+  "365": {
+    "name": "Luster Purge",
+    "type": "Psychic"
   }
 }
