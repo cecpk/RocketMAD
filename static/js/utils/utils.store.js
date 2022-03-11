@@ -521,14 +521,14 @@ const Store = {
     },
     dump: function () {
         const dump = {}
-        for (let key in StoreOptions) {
+        for (const key in StoreOptions) {
             if (key === 'savedSettings') continue
             dump[key] = Store.get(key)
         }
         return dump
     },
-    restore: function(dump) {
-        for (let key in dump) {
+    restore: function (dump) {
+        for (const key in dump) {
             Store.set(key, dump[key])
         }
     }

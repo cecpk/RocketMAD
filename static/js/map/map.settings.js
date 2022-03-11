@@ -1401,7 +1401,7 @@ function initSettingsSidebar() {
 
     $('#save-settings-button').on('click', function () {
         const settingsName = prompt('Please state a name for this set of settings (saved settings with the same name will be overwritten):', 'Setting1')
-        settings.savedSettings[settingsName.replaceAll(/[^\w-_\ ]/gi, '')] = JSON.stringify(Store.dump())
+        settings.savedSettings[settingsName.replaceAll(/[^\w-_ ]/gi, '')] = JSON.stringify(Store.dump())
         Store.set('savedSettings', settings.savedSettings)
         refreshSavedSettings()
     })
@@ -1655,7 +1655,7 @@ function initSettingsSidebar() {
 const refreshSavedSettings = function () {
     const loadSettingsSelect = document.getElementById('load-settings-select')
     const deleteSettingsSelect = document.getElementById('delete-settings-select')
-    const addOption = function(item) {
+    const addOption = function (item) {
         const option = document.createElement('option')
         option.value = option.text = item
         loadSettingsSelect.options.add(option.cloneNode(true))
