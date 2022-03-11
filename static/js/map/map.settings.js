@@ -502,7 +502,7 @@ function initSettingsSidebar() {
             const oldGymLastScannedHours = settings.gymLastScannedHours
             settings.gymLastScannedHours = this.value
             if ((settings.gymLastScannedHours < oldGymLastScannedHours &&
-                !settings.gymLastScannedHours === 0) || oldGymLastScannedHours === 0) {
+                    !settings.gymLastScannedHours === 0) || oldGymLastScannedHours === 0) {
                 updateGyms()
             } else {
                 updateMap({ loadAllGyms: true })
@@ -1074,7 +1074,7 @@ function initSettingsSidebar() {
             }
 
             if ((settings.minNotifIvs < oldMinIvs || settings.maxNotifIvs > oldMaxIvs) &&
-                (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
+                    (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
                 updateMap({ loadAllPokemon: true })
             }
             updatePokemons(new Set(), true)
@@ -1109,7 +1109,7 @@ function initSettingsSidebar() {
             $('#pokemon-level-notifs-slider-title').text(`${i18n('Notif Levels')} (${settings.minNotifLevel} - ${settings.maxNotifLevel})`)
 
             if ((settings.minNotifLevel < oldMinLevel || settings.maxNotifLevel > oldMaxLevel) &&
-                (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
+                    (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
                 updateMap({ loadAllPokemon: true })
             }
             updatePokemons(new Set(), true)
@@ -1144,7 +1144,7 @@ function initSettingsSidebar() {
             const oldNotifRarities = settings.notifRarities
             settings.notifRarities = $(this).val().map(Number)
             if (settings.notifRarities.length > oldNotifRarities.length &&
-                (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
+                    (settings.showNotifPokemonOnly || settings.showNotifPokemonAlways)) {
                 updateMap({ loadAllPokemon: true })
             }
             updatePokemons()
