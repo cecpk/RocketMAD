@@ -660,6 +660,7 @@ function excludeRaidLevel(level) { // eslint-disable-line no-unused-vars
 function excludeRaidPokemon(id) { // eslint-disable-line no-unused-vars
     if (filterManagers.excludedRaidPokemon !== null) {
         filterManagers.excludedRaidPokemon.add([id])
+        $('#filter-raid-pokemon-switch').prop('checked', true).trigger('change')
     }
 }
 
