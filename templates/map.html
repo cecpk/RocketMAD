@@ -1601,6 +1601,27 @@
         <div class="collapsible-body">
           <div class="settings-container">
             <div class="form-control">
+              <div><a id="save-settings-button" class="waves-effect waves-light btn"><i class="material-icons left">settings_backup_restore</i>{{ i18n('Save current settings') }}</a></div>
+            </div>
+            <div class="form-control">
+              <div class="input-field">
+                <div class="select-title">{{ i18n('Load saved settings') }}</div>
+                <select id="load-settings-select">
+                  <!-- Options are dynamically added. -->
+                </select>
+              </div>
+            </div>
+            <div class="form-control">
+              <div class="input-field">
+                <div class="select-title">{{ i18n('Delete saved settings') }}</div>
+                <select id="delete-settings-select">
+                  <!-- Options are dynamically added. -->
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="settings-container">
+            <div class="form-control">
               <input id="settings-file-input" type="file" accept=".txt" style="display:none;">
               <div><a id="import-settings-button" class="waves-effect waves-light btn" onclick="document.getElementById('settings-file-input').click()"><i class="material-icons left">file_download</i>{{ i18n('Import settings') }}</a></div>
             </div>
