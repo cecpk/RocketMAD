@@ -44,6 +44,7 @@ function initSettings() {
         settings.maxNotifLevel = Store.get('maxNotifLevel')
         settings.tinyRattataNotifs = Store.get('tinyRattataNotifs')
         settings.bigMagikarpNotifs = Store.get('bigMagikarpNotifs')
+        settings.scaleByValues = Store.get('scaleByValues')
     }
     settings.scaleByRarity = serverSettings.rarity && Store.get('scaleByRarity')
     if (serverSettings.rarity) {
@@ -355,6 +356,12 @@ function initSettingsSidebar() {
 
             Store.set('minLevel', settings.minLevel)
             Store.set('maxLevel', settings.maxLevel)
+        })
+
+        $('#scale-values-switch').on('change', function () {
+            settings.scaleByValues = this.checked
+            updatePokemons()
+            Store.set('scaleByValues', this.checked)
         })
     }
 
@@ -1441,6 +1448,7 @@ function initSettingsSidebar() {
         $('#hundo-ivs-pokemon-switch-wrapper').toggle(settings.maxIvs < 100)
         $('#pokemon-level-slider-title').text(`${i18n('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
         $('#pokemon-level-slider-wrapper').toggle(settings.filterPokemonByValues)
+        $('#scale-values-switch').prop('checked', settings.scaleByValues)
     }
     if (serverSettings.rarity) {
         $('#rarity-select').val(settings.includedRarities)

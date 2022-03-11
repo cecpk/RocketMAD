@@ -49,6 +49,7 @@ const settings = {
     showHundoIvsPokemon: null,
     minLevel: null,
     maxLevel: null,
+    scaleByValues: null,
     includedRarities: null,
     scaleByRarity: null,
     pokemonNotifs: null,

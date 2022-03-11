@@ -201,8 +201,10 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
     const costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
     const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
     const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
-
-    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}`
+    const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
+    const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
+    const modifierParam = ivs === 100 ? '&modifier=perfect' : ivs >= 90 ? '&modifier=highiv' : lvl > 27 ? '&modifier=highlevel' : ''
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}${modifierParam}`
 }
 
 function getIvsPercentage(atk, def, sta) {
@@ -225,6 +227,9 @@ function getIvsPercentageCssColor(ivs) {
 }
 
 function getPokemonLevel(cpMultiplier) {
+    if (!cpMultiplier) {
+        return 0
+    }
     if (cpMultiplier < 0.734) {
         var pokemonLevel = 58.35178527 * cpMultiplier * cpMultiplier - 2.838007664 * cpMultiplier + 0.8539209906
     } else {

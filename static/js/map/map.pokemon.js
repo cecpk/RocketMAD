@@ -83,11 +83,30 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 }
 
 function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
-    var iconSize = 32 * (settings.pokemonIconSizeModifier / 100)
-    var upscaleModifier = 1
+    let iconSize = 32 * (settings.pokemonIconSizeModifier / 100)
+    let upscaleModifier = 1
+    let zIndex = pokemonZIndex
+
+    if (settings.scaleByValues) {
+        if (pokemon.individual_attack) {
+            const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
+            if (ivsPercentage === 100) {
+                iconSize *= 1.5
+                zIndex = pokemonNewSpawnZIndex
+            } else if (ivsPercentage >= 90) {
+                iconSize *= 1.25
+                zIndex = pokemonUltraRareZIndex
+            }
+        }
+        if (pokemon.cp_multiplier && getPokemonLevel(pokemon.cp_multiplier) > 27) {
+            iconSize *= 1.1
+        }
+    }
+
     if ((isNotifPokemon && settings.upscaleNotifMarkers) || serverSettings.upscaledPokemon.includes(pokemon.pokemon_id)) {
         upscaleModifier = 1.3
     }
+
     if (settings.scaleByRarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
         switch (pokemonRarity) {
@@ -101,39 +120,39 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
                 upscaleModifier = 1.5
         }
     }
+
     iconSize *= upscaleModifier
 
-    var icon = marker.options.icon
+    const icon = marker.options.icon
     icon.options.iconSize = [iconSize, iconSize]
     marker.setIcon(icon)
 
     if (isNotifPokemon) {
-        marker.setZIndexOffset(pokemonNotifiedZIndex)
+        zIndex = Math.max(pokemonNotifiedZIndex, zIndex)
     } else if (serverSettings.rarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
         switch (pokemonRarity) {
             case 2:
-                marker.setZIndexOffset(pokemonUncommonZIndex)
+                zIndex = Math.max(pokemonUncommonZIndex, zIndex)
                 break
             case 3:
-                marker.setZIndexOffset(pokemonRareZIndex)
+                zIndex = Math.max(pokemonRareZIndex, zIndex)
                 break
             case 4:
-                marker.setZIndexOffset(pokemonVeryRareZIndex)
+                zIndex = Math.max(pokemonVeryRareZIndex, zIndex)
                 break
             case 5:
-                marker.setZIndexOffset(pokemonUltraRareZIndex)
+                zIndex = Math.max(pokemonUltraRareZIndex, zIndex)
                 break
             case 6:
-                marker.setZIndexOffset(pokemonNewSpawnZIndex)
+                zIndex = Math.max(pokemonNewSpawnZIndex, zIndex)
                 break
             default:
-                marker.setZIndexOffset(pokemonZIndex)
+                zIndex = Math.max(pokemonZIndex, zIndex)
         }
-    } else {
-        marker.setZIndexOffset(pokemonZIndex)
     }
 
+    marker.setZIndexOffset(zIndex)
     updateMarkerLayer(marker, isNotifPokemon, notifiedPokemonData[pokemon.encounter_id])
 
     return marker

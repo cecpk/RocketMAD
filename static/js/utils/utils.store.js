@@ -107,6 +107,10 @@ const StoreOptions = {
         default: 35,
         type: StoreTypes.Number
     },
+    scaleByValues: {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     includedRarities: {
         default: [1, 2, 3, 4, 5, 6], // Common ... New Spawn
         type: StoreTypes.JSON
