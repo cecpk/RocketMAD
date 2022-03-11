@@ -41,6 +41,11 @@
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
 #pokemon-cries                  # Play cries for pokemon notifications. Place your sound files (wav or mp3) in static/sounds/cries. (default=False)
+#highlight-pokemon              # Highlight high level, high IV and perfect IV pokemon on the map. (default=False)
+#highlight-highlevel-color:     # Color for high level (>27) pokemon. Set to None to not highlight. (default=green)
+#highlight-highiv-color:        # Color for high IV (>=90) pokemon. Set to None to not highlight. (default=red)
+#highlight-perfect-color:       # Color for perfect IV (=100) pokemon. Set to None to not highlight. (default=purple)
+#highlight-perfect-circle       # Add circle symbol with "100" similar to the weather one for perfect IV pokemon. (default=false)
 
 #no-gyms                        # Disables gyms. (default=False)
 #no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)

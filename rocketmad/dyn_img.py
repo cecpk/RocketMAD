@@ -110,6 +110,12 @@ raid_colors = {
 font = path_static / 'Arial Black.ttf'
 font_pointsize = 25
 
+highlight_colors = {
+    'highlevel': args.highlight_highlevel_color.lower(),
+    'highiv': args.highlight_highiv_color.lower(),
+    'perfect': args.highlight_perfect_color.lower()
+}
+
 
 class ImageGenerator:
     # Will be set during config parsing
@@ -191,22 +197,35 @@ class ImageGenerator:
             return path_icons / '{}.png'.format(pkm)
 
     def get_pokemon_map_icon(self, pkm, gender=GENDER_UNSET, form=0, costume=0,
-                             evolution=EVOLUTION_UNSET, weather=None):
+                             evolution=EVOLUTION_UNSET, weather=None, modifier=None):
         im_lines = []
 
         # Add Pokemon icon
         if self.use_pogo_assets:
             source, target = self._pokemon_asset_path(
                 pkm, classifier='marker', gender=gender, form=form,
-                costume=costume, evolution=evolution, weather=weather)
+                costume=costume, evolution=evolution, weather=weather, modifier=modifier)
             target_size = 96
+
+            highlight = args.highlight_pokemon and modifier in highlight_colors and highlight_colors[modifier] != 'none'
+
             im_lines.append(
                 '-fuzz 0.5% -trim +repage'
                 ' -scale "133x133>" -unsharp 0x1'
                 ' -background none -gravity center -extent 139x139'
                 ' -background black -alpha background'
                 ' -channel A -blur 0x1 -level 0,10%'
-                ' -adaptive-resize {size}x{size}'
+                ' \( +clone -background black -shadow 100x{radius}+0+0 -channel A -level 0,50% +channel \) +swap'
+                ' -background none -layers merge +repage'.format(radius=(1 if highlight else 3))
+            )
+            if highlight:
+                im_lines.append(
+                    '\( +clone -background {bcolor} -shadow 100x8+0+0 -channel A -level 0,50% +channel \) +swap'
+                    ' -background none -layers merge +repage'
+                    ' -shave 12x12 +repage'.format(bcolor=highlight_colors[modifier])
+                )
+            im_lines.append(
+                '-adaptive-resize {size}x{size}'
                 ' -modulate 100,110'.format(size=target_size)
             )
         else:
@@ -234,6 +253,18 @@ class ImageGenerator:
                 ' -fill "#FFFD" -stroke black -draw "circle {x},{y} {x},{y2}"'
                 ' -draw "image over 1,1 42,42 \'{weather_img}\'"'.format(
                     x=x, y=y, y2=y2, weather_img=weather_images[weather])
+            )
+
+        if args.highlight_perfect_circle and modifier == 'perfect':
+            radius = 20
+            x = radius + 1
+            y = target_size - radius - 2
+            y2 = target_size - 1
+            im_lines.append(
+                '-gravity southwest'
+                ' -fill "#FFFD" -stroke black -draw "circle {x},{y} {x},{y2}"'
+                ' -fill "#333" -stroke "#333" -font "{font}" -pointsize 18 -annotate +3+9 "100"'.format(
+                    x=x, y=y, y2=y2, size=target_size, font=font)
             )
 
         return self._run_imagemagick(source, im_lines, target)
@@ -453,7 +484,7 @@ class ImageGenerator:
 
     def _pokemon_asset_path(self, pkm, classifier=None, gender=GENDER_UNSET,
                             form=0, costume=0, evolution=EVOLUTION_UNSET,
-                            shiny=False, weather=None):
+                            shiny=False, weather=None, modifier=None):
         asset_path = self._get_unity_pokemon_asset_path(
             pkm, gender, form, costume, evolution, shiny)
         if not asset_path.exists():
@@ -467,13 +498,16 @@ class ImageGenerator:
         shiny_suffix = '_s' if shiny else ''
         weather_suffix = '_' + weather_names[weather] if weather else ''
 
+        highlight = args.highlight_pokemon and modifier in highlight_colors and highlight_colors[modifier] != 'none'
+        modifier_suffix = '_' + str(modifier) if highlight else ''
+
         if classifier:
             target_dir = path_generated / 'pokemon_{}'.format(classifier)
         else:
             target_dir = path_generated / 'pokemon'
-        target_filename = 'pm{}{}{}{}{}{}{}.png'.format(
+        target_filename = 'pm{}{}{}{}{}{}{}{}.png'.format(
             pkm, gender_suffix, form_suffix, costume_suffix, evolution_suffix,
-            shiny_suffix, weather_suffix)
+            shiny_suffix, weather_suffix, modifier_suffix)
 
         if asset_path.exists():
             return asset_path, target_dir / target_filename

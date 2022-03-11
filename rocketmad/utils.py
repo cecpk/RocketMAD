@@ -253,6 +253,23 @@ def get_args(access_config=None):
     parser.add_argument('-pc', '--pokemon-cries',
                         help='Play cries for pokemon notifications.',
                         action='store_true', default=False)
+
+    parser.add_argument('-hp', '--highlight-pokemon',
+                        help='Highlight high level, high IV and perfect IV pokemon on the map.',
+                        action='store_true', default=False)
+    parser.add_argument('-hplc', '--highlight-highlevel-color',
+                        help='Color for high level (>27) pokemon. Set to None to not highlight.',
+                        default='green')
+    parser.add_argument('-hpic', '--highlight-highiv-color',
+                        help='Color for high IV (>=90) pokemon. Set to None to not highlight.',
+                        default='red')
+    parser.add_argument('-hppc', '--highlight-perfect-color',
+                        help='Color for perfect IV (=100) pokemon. Set to None to not highlight.',
+                        default='purple')
+    parser.add_argument('-hpc', '--highlight-perfect-circle',
+                        help='Add circle symbol with "100" similar to the weather one for perfect IV pokemon.',
+                        action='store_true', default=False)
+
     parser.add_argument('-mt', '--map-title', default='RocketMAD',
                         help=('The title of the map. Default: RocketMAD'))
     parser.add_argument('-cfi', '--custom-favicon',
@@ -637,6 +654,11 @@ def get_args(access_config=None):
             'verified_despawn_time',
             'show_all_zoom_level',
             'pokemon_cries',
+            'highlight_pokemon',
+            'highlight_highlevel_color',
+            'highlight_highiv_color',
+            'highlight_perfect_color',
+            'highlight_perfect_circle',
             'no_gyms',
             'no_gym_sidebar',
             'no_gym_filters',
