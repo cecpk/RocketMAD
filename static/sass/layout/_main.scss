@@ -19,4 +19,16 @@ body.dark {
   @media screen and (max-width: 600px) {
     height: calc(100% - 48px);
   }
+
+  .marker-perfect {
+    filter: drop-shadow(0px 0px 8px purple);
+  }
+
+  .marker-highlevel {
+    filter: drop-shadow(0px 0px 8px green);
+  }
+
+  .marker-highiv {
+    filter: drop-shadow(0px 0px 8px red);
+  }
 }

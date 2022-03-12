@@ -201,10 +201,8 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
     const costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
     const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
     const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
-    const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
-    const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
-    const modifierParam = ivs === 100 ? '&modifier=perfect' : ivs >= 90 ? '&modifier=highiv' : lvl > 27 ? '&modifier=highlevel' : ''
-    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}${modifierParam}`
+
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}}`
 }
 
 function getIvsPercentage(atk, def, sta) {
@@ -241,9 +239,14 @@ function getPokemonLevel(cpMultiplier) {
 }
 
 function createPokemonMarker(pokemon, generateImages) {
+    const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
+    const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
+    const className = ivs === 100 ? 'marker-perfect' : ivs >= 90 ? 'marker-highiv' : lvl > 27 ? 'marker-highlevel' : ''
+
     const icon = L.contentIcon({
         iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
-        iconSize: [32, 32]
+        iconSize: [32, 32],
+        className: className
     })
 
     let offsetLat = 0
