@@ -713,6 +713,14 @@
                       <input placeholder="{{ i18n('Color...') }}" id="hightlight-color-level" type="text">
                     </div>
                   </div>
+                  {% if settings.highlightPokemon != "server" %}
+                  <div class="form-control">
+                    <span id="highlight-radius-slider-title" class="slider-title">Blur Radius</span>
+                    <div class="slider-container">
+                      <div id="highlight-radius-slider"></div>
+                    </div>
+                  </div>
+                  {% endif %}
                   <div class="form-control">
                     <span id="highlight-iv-slider-title" class="slider-title">min. IVs</span>
                     <div class="slider-container">

@@ -51,6 +51,7 @@ function initSettings() {
         settings.highlightColorLevel = Store.get('highlightColorLevel')
         settings.highlightThresholdIV = Store.get('highlightThresholdIV')
         settings.highlightThresholdLevel = Store.get('highlightThresholdLevel')
+        settings.highlightRadius = Store.get('highlightRadius')
     }
     settings.scaleByRarity = serverSettings.rarity && Store.get('scaleByRarity')
     if (serverSettings.rarity) {
@@ -451,6 +452,32 @@ function initSettingsSidebar() {
             $('#highlight-level-slider-title').text(`${i18n('min. Level')} (L${settings.highlightThresholdLevel})`)
             updatePokemons()
             Store.set('highlightThresholdLevel', settings.highlightThresholdLevel)
+        })
+
+        var highlightRadiusSlider = document.getElementById('highlight-radius-slider')
+        noUiSlider.create(highlightRadiusSlider, {
+            start: [settings.highlightRadius],
+            connect: 'lower',
+            step: 1,
+            range: {
+                min: 0,
+                max: 40
+            },
+            format: {
+                to: function (value) {
+                    return Math.round(value)
+                },
+                from: function (value) {
+                    return Number(value)
+                }
+            }
+        })
+        highlightRadiusSlider.noUiSlider.on('change', function () {
+            settings.highlightRadius = this.get()
+            $('#highlight-radius-slider-title').text(`${i18n('Blur Radius')} (${settings.highlightRadius}px)`)
+            document.documentElement.style.setProperty('--blur-radius', `${settings.highlightRadius}px`)
+            updatePokemons()
+            Store.set('highlightRadius', settings.highlightRadius)
         })
     }
 
@@ -1542,6 +1569,7 @@ function initSettingsSidebar() {
         $('#highlight-pokemon-wrapper').toggle(settings.highlightPokemon)
         $('#highlight-iv-slider-title').text(`${i18n('min. IVs')} (${settings.highlightThresholdIV}%)`)
         $('#highlight-level-slider-title').text(`${i18n('min. Level')} (L${settings.highlightThresholdLevel})`)
+        $('#highlight-radius-slider-title').text(`${i18n('Blur Radius')} (${settings.highlightRadius}px)`)
         $('#hightlight-color-perfect').val(settings.highlightColorPerfect)
         document.documentElement.style.setProperty('--color-perfect', settings.highlightColorPerfect)
         $('#hightlight-color-iv').val(settings.highlightColorIV)
