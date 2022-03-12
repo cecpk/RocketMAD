@@ -83,22 +83,24 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 }
 
 function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
+    const icon = marker.options.icon
+
     let iconSize = 32 * (settings.pokemonIconSizeModifier / 100)
     let upscaleModifier = 1
     let zIndex = pokemonZIndex
 
+    const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
+    const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
+
     if (settings.scaleByValues) {
-        if (pokemon.individual_attack) {
-            const ivsPercentage = getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina)
-            if (ivsPercentage === 100) {
-                iconSize *= 1.5
-                zIndex = pokemonNewSpawnZIndex
-            } else if (ivsPercentage >= 90) {
-                iconSize *= 1.25
-                zIndex = pokemonUltraRareZIndex
-            }
+        if (ivs === 100) {
+            iconSize *= 1.5
+            zIndex = pokemonNewSpawnZIndex
+        } else if (ivs >= settings.highlightThresholdIV) {
+            iconSize *= 1.25
+            zIndex = pokemonUltraRareZIndex
         }
-        if (pokemon.cp_multiplier && getPokemonLevel(pokemon.cp_multiplier) > 27) {
+        if (lvl >= settings.highlightThresholdLevel) {
             iconSize *= 1.1
         }
     }
@@ -123,11 +125,19 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
 
     iconSize *= upscaleModifier
 
-    const icon = marker.options.icon
-    icon.options.iconSize = [iconSize, iconSize]
-    if (serverSettings.highlightPokemonSVG && icon.options.shadowSize) {
-        icon.options.shadowSize = [iconSize * 1.4, iconSize * 1.4]
+    if (serverSettings.highlightPokemon) {
+        const type = ivs === 100 ? 'Perfect' : ivs >= settings.highlightThresholdIV ? 'IV' : lvl > settings.highlightThresholdLevel ? 'Level' : ''
+        if (type) {
+            if (serverSettings.highlightPokemonSVG) {
+                icon.options.shadowUrl = `data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle style="fill:${settings[`highlightColor${type}`]};filter:blur(${settings.highlightRadius}px)" cx="75" cy="75" r="50"/></svg>`
+                icon.options.shadowSize = [iconSize * 1.4, iconSize * 1.4]
+            } else if (serverSettings.highlightPokemonCSS) {
+                icon.options.className = `marker-highlight-${type.toLowerCase()}`
+            }
+        }
     }
+
+    icon.options.iconSize = [iconSize, iconSize]
     marker.setIcon(icon)
 
     if (isNotifPokemon) {

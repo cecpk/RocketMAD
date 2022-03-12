@@ -111,6 +111,34 @@ const StoreOptions = {
         default: true,
         type: StoreTypes.Boolean
     },
+    highlightPokemon: {
+        default: true,
+        type: StoreTypes.Boolean
+    },
+    highlightColorPerfect: {
+        default: 'purple',
+        type: StoreTypes.String
+    },
+    highlightColorIV: {
+        default: 'red',
+        type: StoreTypes.String
+    },
+    highlightColorLevel: {
+        default: 'green',
+        type: StoreTypes.String
+    },
+    highlightThresholdIV: {
+        default: 90,
+        type: StoreTypes.Number
+    },
+    highlightThresholdLevel: {
+        default: 30,
+        type: StoreTypes.Number
+    },
+    highlightRadius: {
+        default: 15,
+        type: StoreTypes.Number
+    },
     includedRarities: {
         default: [1, 2, 3, 4, 5, 6], // Common ... New Spawn
         type: StoreTypes.JSON

@@ -247,23 +247,6 @@ function createPokemonMarker(pokemon, generateImages) {
         iconSize: [32, 32]
     })
 
-    if (serverSettings.highlightPokemon) {
-        const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
-        const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
-
-        if (serverSettings.highlightPokemonSVG) {
-            const color = ivs === 100 ? 'purple' : ivs >= 90 ? 'red' : lvl > 27 ? 'green' : ''
-            if (color) {
-                icon.options.shadowUrl = `data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle style="fill:${color};filter:blur(15px)" cx="75" cy="75" r="50"/></svg>`
-                icon.options.shadowSize = [48, 48]
-            }
-        }
-
-        if (serverSettings.highlightPokemonCSS) {
-            icon.options.className = ivs === 100 ? 'marker-perfect' : ivs >= 90 ? 'marker-highiv' : lvl > 27 ? 'marker-highlevel' : ''
-        }
-    }
-
     let offsetLat = 0
     let offsetLon = 0
     if (pokemon.seen_type === 'nearby_stop' || pokemon.seen_type === 'nearby_cell') {
