@@ -92,16 +92,16 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
     const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
     const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
 
-    if (settings.scaleByValues) {
+    if (settings.highlightPokemon && settings.scaleByValues) {
         if (ivs === 100) {
-            iconSize *= 1.5
+            iconSize *= 1.7
             zIndex = pokemonNewSpawnZIndex
         } else if (ivs >= settings.highlightThresholdIV) {
-            iconSize *= 1.25
+            iconSize *= 1.3
             zIndex = pokemonUltraRareZIndex
         }
         if (lvl >= settings.highlightThresholdLevel) {
-            iconSize *= 1.1
+            iconSize *= 1.2
         }
     }
 
