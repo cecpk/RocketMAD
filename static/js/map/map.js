@@ -57,6 +57,7 @@ const settings = {
     highlightThresholdLevel: null,
     highlightThresholdIV: null,
     highlightRadius: null,
+    highlightSize: null,
     includedRarities: null,
     scaleByRarity: null,
     pokemonNotifs: null,

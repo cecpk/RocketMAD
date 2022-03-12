@@ -139,6 +139,10 @@ const StoreOptions = {
         default: 15,
         type: StoreTypes.Number
     },
+    highlightSize: {
+        default: 30,
+        type: StoreTypes.Number
+    },
     includedRarities: {
         default: [1, 2, 3, 4, 5, 6], // Common ... New Spawn
         type: StoreTypes.JSON

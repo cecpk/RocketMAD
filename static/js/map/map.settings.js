@@ -52,6 +52,7 @@ function initSettings() {
         settings.highlightThresholdIV = Store.get('highlightThresholdIV')
         settings.highlightThresholdLevel = Store.get('highlightThresholdLevel')
         settings.highlightRadius = Store.get('highlightRadius')
+        settings.highlightSize = Store.get('highlightSize')
     }
     settings.scaleByRarity = serverSettings.rarity && Store.get('scaleByRarity')
     if (serverSettings.rarity) {
@@ -461,7 +462,7 @@ function initSettingsSidebar() {
             step: 1,
             range: {
                 min: 0,
-                max: 40
+                max: 30
             },
             format: {
                 to: function (value) {
@@ -478,6 +479,31 @@ function initSettingsSidebar() {
             document.documentElement.style.setProperty('--blur-radius', `${settings.highlightRadius}px`)
             updatePokemons()
             Store.set('highlightRadius', settings.highlightRadius)
+        })
+
+        var highlightSizeSlider = document.getElementById('highlight-size-slider')
+        noUiSlider.create(highlightSizeSlider, {
+            start: [settings.highlightSize],
+            connect: 'lower',
+            step: 1,
+            range: {
+                min: 0,
+                max: 30
+            },
+            format: {
+                to: function (value) {
+                    return Math.round(value)
+                },
+                from: function (value) {
+                    return Number(value)
+                }
+            }
+        })
+        highlightSizeSlider.noUiSlider.on('change', function () {
+            settings.highlightSize = this.get()
+            $('#highlight-size-slider-title').text(`${i18n('Circle Size')} (${settings.highlightSize})`)
+            updatePokemons()
+            Store.set('highlightSize', settings.highlightSize)
         })
     }
 
