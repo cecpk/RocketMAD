@@ -5,7 +5,7 @@ pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
 pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
 removeRangeCircle, sendNotification, settings, setupRangeCircle,
 updateRangeCircle, weatherClassesDay, weatherNames, updateMarkerLayer,
-createPokemonMarker, filterManagers
+createPokemonMarker, filterManagers, serverSettings
 */
 /* exported processPokemon, updatePokemons */
 
@@ -125,6 +125,9 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
 
     const icon = marker.options.icon
     icon.options.iconSize = [iconSize, iconSize]
+    if (serverSettings.highlightPokemonSVG && icon.options.shadowSize) {
+        icon.options.shadowSize = [iconSize * 1.4, iconSize * 1.4]
+    }
     marker.setIcon(icon)
 
     if (isNotifPokemon) {

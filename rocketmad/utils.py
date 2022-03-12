@@ -257,6 +257,12 @@ def get_args(access_config=None):
     parser.add_argument('-hp', '--highlight-pokemon',
                         help='Highlight high level, high IV and perfect IV pokemon on the map.',
                         action='store_true', default=False)
+    parser.add_argument('-hpcss', '--highlight-pokemon-css',
+                        help='Use CSS for highlighting.',
+                        action='store_true', default=False)
+    parser.add_argument('-hpsvg', '--highlight-pokemon-svg',
+                        help='Use SVG for highlighting.',
+                        action='store_true', default=False)
     parser.add_argument('-hplc', '--highlight-highlevel-color',
                         help='Color for high level (>27) pokemon. Set to None to not highlight.',
                         default='green')
@@ -655,6 +661,8 @@ def get_args(access_config=None):
             'show_all_zoom_level',
             'pokemon_cries',
             'highlight_pokemon',
+            'highlight_pokemon_css',
+            'highlight_pokemon_svg',
             'highlight_highlevel_color',
             'highlight_highiv_color',
             'highlight_perfect_color',

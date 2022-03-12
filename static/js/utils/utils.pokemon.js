@@ -1,4 +1,7 @@
 /*
+globals serverSettings, version, i18n
+*/
+/*
 exported genderClasses, getIvsPercentage, getIvsPercentageCssColor,
 getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
 getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
@@ -25,7 +28,7 @@ function initPokemonData() {
     return $.getJSON('static/dist/data/pokemon.min.json?v=' + version).done(function (data) {
         pokemonData = data
         $.each(pokemonData, function (id, value) {
-            let gen
+            let gen = 1
             if (id <= 151) {
                 gen = 1
             } else if (id <= 251) {
@@ -202,7 +205,7 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
     const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
     const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
 
-    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}}`
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}`
 }
 
 function getIvsPercentage(atk, def, sta) {
@@ -239,15 +242,27 @@ function getPokemonLevel(cpMultiplier) {
 }
 
 function createPokemonMarker(pokemon, generateImages) {
-    const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
-    const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
-    const className = ivs === 100 ? 'marker-perfect' : ivs >= 90 ? 'marker-highiv' : lvl > 27 ? 'marker-highlevel' : ''
-
     const icon = L.contentIcon({
         iconUrl: getPokemonMapIconUrl(pokemon, generateImages),
-        iconSize: [32, 32],
-        className: className
+        iconSize: [32, 32]
     })
+
+    if (serverSettings.highlightPokemon) {
+        const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
+        const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
+
+        if (serverSettings.highlightPokemonSVG) {
+            const color = ivs === 100 ? 'purple' : ivs >= 90 ? 'red' : lvl > 27 ? 'green' : ''
+            if (color) {
+                icon.options.shadowUrl = `data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle style="fill:${color};filter:blur(15px)" cx="75" cy="75" r="50"/></svg>`
+                icon.options.shadowSize = [48, 48]
+            }
+        }
+
+        if (serverSettings.highlightPokemonCSS) {
+            icon.options.className = ivs === 100 ? 'marker-perfect' : ivs >= 90 ? 'marker-highiv' : lvl > 27 ? 'marker-highlevel' : ''
+        }
+    }
 
     let offsetLat = 0
     let offsetLon = 0

@@ -44,6 +44,25 @@
     {% endif %}
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
+    {% if settings.highlightPokemon %}
+    <style>
+      :root {
+        --color-perfect: {{ settings.highlight_perfect_color }};
+        --color-highiv: {{ settings.highlight_highiv_color }};
+        --color-highlevel: {{ settings.highlight_highlevel_color }};
+        --blur-radius: 5px;
+      }
+      .map-container .marker-perfect {
+        filter: drop-shadow(0px 0px var(--blur-radius) var(--color-perfect));
+      }
+      .map-container .marker-highiv {
+        filter: drop-shadow(0px 0px var(--blur-radius) var(--color-highiv));
+      }
+      .map-container .marker-highlevel {
+        filter: drop-shadow(0px 0px var(--blur-radius) var(--color-highlevel));
+      }
+    </style>
+    {% endif %}
   </head>
 
   <body class="map-body">
