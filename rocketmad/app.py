@@ -250,6 +250,10 @@ def create_app():
             'exParks': user_args.ex_parks,
             'exParksFileName': user_args.ex_parks_filename,
             'highlightPokemon': user_args.highlight_pokemon.lower(),
+            'highlightColorPerfect': user_args.highlight_color_perfect,
+            'highlightColorIV': user_args.highlight_color_iv,
+            'highlightColorLevel': user_args.highlight_color_level,
+            'highlightPerfectCircle': user_args.highlight_perfect_circle,
         }
 
         return render_template(

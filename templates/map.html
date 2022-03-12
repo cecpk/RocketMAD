@@ -47,9 +47,9 @@
     {% if settings.highlightPokemon == 'css' %}
     <style>
       :root {
-        --color-perfect: purple;
-        --color-iv: red;
-        --color-level: green;
+        --color-perfect: {{ settings.highlightColorPerfect }};
+        --color-iv: {{ settings.highlightColorIV }};
+        --color-level: {{ settings.highlightColorLevel }};
         --blur-radius: 5px;
       }
       .map-container .marker-highlight-perfect {
