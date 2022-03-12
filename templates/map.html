@@ -44,7 +44,7 @@
     {% endif %}
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
-    {% if settings.highlightPokemon and settings.highlightPokemonCSS %}
+    {% if settings.highlightPokemon == 'css' %}
     <style>
       :root {
         --color-perfect: purple;
@@ -694,6 +694,7 @@
                   </label>
                 </div>
               </div>
+              {% if settings.highlightPokemon %}
               <div class="form-control">
                 <div class="switch">
                   <label>
@@ -705,18 +706,19 @@
               </div>
               <div id="highlight-pokemon-wrapper">
                 <div class="form-control">
-                  <span id="highlight-iv-slider-title" class="slider-title">mind. IVs</span>
+                  <span id="highlight-iv-slider-title" class="slider-title">min. IVs</span>
                   <div class="slider-container">
                     <div id="highlight-iv-slider"></div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="highlight-level-slider-title" class="slider-title">mind. Level</span>
+                  <span id="highlight-level-slider-title" class="slider-title">min. Level</span>
                   <div class="slider-container">
                     <div id="highlight-level-slider"></div>
                   </div>
                 </div>
               </div>
+              {% endif %}
             </div>
             {% endif %}
             {% if settings.rarity %}

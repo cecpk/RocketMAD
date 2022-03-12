@@ -40,8 +40,8 @@
 #verified-despawn-time          # Show if pokemon despawn time is verified.
 #show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
                                 # Set to 0 to disable this feature. Set to 19 or higher for nice results.
-#pokemon-cries                  # Play cries for pokemon notifications. Place your sound files (wav or mp3) in static/sounds/cries. (default=False)
-#highlight-pokemon              # Highlight high level, high IV and perfect IV pokemon on the map. (default=False)
+#pokemon-cries                  # Play cries for pokemon notifications. Place your sound files (wav or mp3) in static/sounds/cries. (default=None)
+#highlight-pokemon:             # Highlight pokemon on the map using the stated way. Options: Server / SVG / CSS (default='')
 #highlight-perfect-circle       # Add circle symbol with "100" similar to the weather one for perfect IV pokemon. (default=False)
 
 #no-gyms                        # Disables gyms. (default=False)

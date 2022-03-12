@@ -255,23 +255,7 @@ def get_args(access_config=None):
                         action='store_true', default=False)
 
     parser.add_argument('-hp', '--highlight-pokemon',
-                        help='Highlight high level, high IV and perfect IV pokemon on the map.',
-                        action='store_true', default=False)
-    parser.add_argument('-hpcss', '--highlight-pokemon-css',
-                        help='Use CSS for highlighting.',
-                        action='store_true', default=False)
-    parser.add_argument('-hpsvg', '--highlight-pokemon-svg',
-                        help='Use SVG for highlighting.',
-                        action='store_true', default=False)
-    parser.add_argument('-hplc', '--highlight-highlevel-color',
-                        help='Color for high level (>27) pokemon. Set to None to not highlight.',
-                        default='green')
-    parser.add_argument('-hpic', '--highlight-highiv-color',
-                        help='Color for high IV (>=90) pokemon. Set to None to not highlight.',
-                        default='red')
-    parser.add_argument('-hppc', '--highlight-perfect-color',
-                        help='Color for perfect IV (=100) pokemon. Set to None to not highlight.',
-                        default='purple')
+                        help='Highlight pokemon on the map using the stated way. Options: Server / SVG / CSS')
     parser.add_argument('-hpc', '--highlight-perfect-circle',
                         help='Add circle symbol with "100" similar to the weather one for perfect IV pokemon.',
                         action='store_true', default=False)
@@ -661,8 +645,6 @@ def get_args(access_config=None):
             'show_all_zoom_level',
             'pokemon_cries',
             'highlight_pokemon',
-            'highlight_pokemon_css',
-            'highlight_pokemon_svg',
             'highlight_perfect_circle',
             'no_gyms',
             'no_gym_sidebar',

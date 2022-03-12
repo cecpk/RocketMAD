@@ -207,7 +207,7 @@ class ImageGenerator:
                 costume=costume, evolution=evolution, weather=weather, modifier=modifier)
             target_size = 96
 
-            highlight = args.highlight_pokemon and modifier in highlight_colors and highlight_colors[modifier] != 'none'
+            highlight = args.highlight_pokemon.lower() == 'server' and modifier in highlight_colors and highlight_colors[modifier] != 'none'
 
             im_lines.append(
                 '-fuzz 0.5% -trim +repage'
@@ -498,7 +498,7 @@ class ImageGenerator:
         shiny_suffix = '_s' if shiny else ''
         weather_suffix = '_' + weather_names[weather] if weather else ''
 
-        highlight = args.highlight_pokemon and modifier in highlight_colors and highlight_colors[modifier] != 'none'
+        highlight = args.highlight_pokemon.lower() == 'server' and modifier in highlight_colors and highlight_colors[modifier] != 'none'
         modifier_suffix = '_' + str(modifier) if highlight else ''
 
         if classifier:

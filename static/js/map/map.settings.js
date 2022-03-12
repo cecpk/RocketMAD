@@ -1517,6 +1517,10 @@ function initSettingsSidebar() {
         $('#pokemon-level-slider-title').text(`${i18n('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
         $('#pokemon-level-slider-wrapper').toggle(settings.filterPokemonByValues)
         $('#scale-values-switch').prop('checked', settings.scaleByValues)
+        $('#pokemon-highlight-switch').prop('checked', settings.highlightPokemon)
+        $('#highlight-pokemon-wrapper').toggle(settings.highlightPokemon)
+        $('#highlight-iv-slider-title').text(`${i18n('min. IVs')} (${settings.highlightThresholdIV}%)`)
+        $('#highlight-level-slider-title').text(`${i18n('min. Level')} (L${settings.highlightThresholdLevel})`)
     }
     if (serverSettings.rarity) {
         $('#rarity-select').val(settings.includedRarities)
