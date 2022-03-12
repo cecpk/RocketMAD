@@ -254,7 +254,7 @@ def get_args(access_config=None):
                         help='Play cries for pokemon notifications.',
                         action='store_true', default=False)
 
-    parser.add_argument('-hp', '--highlight-pokemon',
+    parser.add_argument('-hp', '--highlight-pokemon', default='',
                         help='Highlight pokemon on the map using the stated way. Options: Server / SVG / CSS')
     parser.add_argument('-hpcp', '--highlight-color-perfect',
                         help='Color for perfect IV pokemon. Set to None to not highlight.',
