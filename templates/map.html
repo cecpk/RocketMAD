@@ -684,41 +684,59 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-control">
-                <div class="switch">
-                  <label>
-                    <input type="checkbox" id="scale-values-switch">
-                    <span class="lever"></span>
-                    {{ i18n('Scale by stats') }}
-                  </label>
-                </div>
-              </div>
-              {% if settings.highlightPokemon %}
-              <div class="form-control">
-                <div class="switch">
-                  <label>
-                    <input type="checkbox" id="pokemon-highlight-switch">
-                    <span class="lever"></span>
-                    {{ i18n('Highlight Pokémon') }}
-                  </label>
-                </div>
-              </div>
-              <div id="highlight-pokemon-wrapper">
+                {% if settings.highlightPokemon %}
                 <div class="form-control">
-                  <span id="highlight-iv-slider-title" class="slider-title">min. IVs</span>
-                  <div class="slider-container">
-                    <div id="highlight-iv-slider"></div>
+                  <div class="switch">
+                    <label>
+                      <input type="checkbox" id="pokemon-highlight-switch">
+                      <span class="lever"></span>
+                      {{ i18n('Highlight Pokémon') }}
+                    </label>
+                  </div>
+                </div>
+                <div id="highlight-pokemon-wrapper">
+                  <div class="form-control">
+                    <div class="input-field">
+                      <div class="text-input-title">{{ i18n('Color for Perfect IV') }}</div>
+                      <input placeholder="{{ i18n('Color...') }}" id="hightlight-color-perfect" type="text">
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <div class="input-field">
+                      <div class="text-input-title">{{ i18n('Color for High IV') }}</div>
+                      <input placeholder="{{ i18n('Color...') }}" id="hightlight-color-iv" type="text">
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <div class="input-field">
+                      <div class="text-input-title">{{ i18n('Color for High Level') }}</div>
+                      <input placeholder="{{ i18n('Color...') }}" id="hightlight-color-level" type="text">
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <span id="highlight-iv-slider-title" class="slider-title">min. IVs</span>
+                    <div class="slider-container">
+                      <div id="highlight-iv-slider"></div>
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <span id="highlight-level-slider-title" class="slider-title">min. Level</span>
+                    <div class="slider-container">
+                      <div id="highlight-level-slider"></div>
+                    </div>
                   </div>
                 </div>
                 <div class="form-control">
-                  <span id="highlight-level-slider-title" class="slider-title">min. Level</span>
-                  <div class="slider-container">
-                    <div id="highlight-level-slider"></div>
+                  <div class="switch">
+                    <label>
+                      <input type="checkbox" id="scale-values-switch">
+                      <span class="lever"></span>
+                      {{ i18n('Scale by stats') }}
+                    </label>
                   </div>
                 </div>
+                {% endif %}
               </div>
-              {% endif %}
             </div>
             {% endif %}
             {% if settings.rarity %}

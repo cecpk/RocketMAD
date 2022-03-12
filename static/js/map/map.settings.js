@@ -47,10 +47,10 @@ function initSettings() {
         settings.scaleByValues = Store.get('scaleByValues')
         settings.highlightPokemon = Store.get('highlightPokemon')
         settings.highlightColorPerfect = Store.get('highlightColorPerfect')
-        settings.highlightColorLevel = Store.get('highlightColorLevel')
         settings.highlightColorIV = Store.get('highlightColorIV')
-        settings.highlightThresholdLevel = Store.get('highlightThresholdLevel')
+        settings.highlightColorLevel = Store.get('highlightColorLevel')
         settings.highlightThresholdIV = Store.get('highlightThresholdIV')
+        settings.highlightThresholdLevel = Store.get('highlightThresholdLevel')
     }
     settings.scaleByRarity = serverSettings.rarity && Store.get('scaleByRarity')
     if (serverSettings.rarity) {
@@ -380,6 +380,27 @@ function initSettingsSidebar() {
             }
             updatePokemons()
             Store.set('highlightPokemon', this.checked)
+        })
+
+        $('#hightlight-color-perfect').on('change', function () {
+            settings.highlightColorPerfect = this.value
+            document.documentElement.style.setProperty('--color-perfect', this.value)
+            updatePokemons()
+            Store.set('highlightColorPerfect', this.value)
+        })
+
+        $('#hightlight-color-iv').on('change', function () {
+            settings.highlightColorIV = this.value
+            document.documentElement.style.setProperty('--color-iv', this.value)
+            updatePokemons()
+            Store.set('highlightColorIV', this.value)
+        })
+
+        $('#hightlight-color-level').on('change', function () {
+            settings.highlightColorLevel = this.value
+            document.documentElement.style.setProperty('--color-level', this.value)
+            updatePokemons()
+            Store.set('highlightColorLevel', this.value)
         })
 
         var highlightIvSlider = document.getElementById('highlight-iv-slider')
@@ -1521,6 +1542,12 @@ function initSettingsSidebar() {
         $('#highlight-pokemon-wrapper').toggle(settings.highlightPokemon)
         $('#highlight-iv-slider-title').text(`${i18n('min. IVs')} (${settings.highlightThresholdIV}%)`)
         $('#highlight-level-slider-title').text(`${i18n('min. Level')} (L${settings.highlightThresholdLevel})`)
+        $('#hightlight-color-perfect').val(settings.highlightColorPerfect)
+        document.documentElement.style.setProperty('--color-perfect', settings.highlightColorPerfect)
+        $('#hightlight-color-iv').val(settings.highlightColorIV)
+        document.documentElement.style.setProperty('--color-iv', settings.highlightColorIV)
+        $('#hightlight-color-level').val(settings.highlightColorLevel)
+        document.documentElement.style.setProperty('--color-level', settings.highlightColorLevel)
     }
     if (serverSettings.rarity) {
         $('#rarity-select').val(settings.includedRarities)
