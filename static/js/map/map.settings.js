@@ -45,6 +45,12 @@ function initSettings() {
         settings.tinyRattataNotifs = Store.get('tinyRattataNotifs')
         settings.bigMagikarpNotifs = Store.get('bigMagikarpNotifs')
         settings.scaleByValues = Store.get('scaleByValues')
+        settings.highlightPokemon = Store.get('highlightPokemon')
+        settings.highlightColorPerfect = Store.get('highlightColorPerfect')
+        settings.highlightColorLevel = Store.get('highlightColorLevel')
+        settings.highlightColorIV = Store.get('highlightColorIV')
+        settings.highlightThresholdLevel = Store.get('highlightThresholdLevel')
+        settings.highlightThresholdIV = Store.get('highlightThresholdIV')
     }
     settings.scaleByRarity = serverSettings.rarity && Store.get('scaleByRarity')
     if (serverSettings.rarity) {
@@ -362,6 +368,68 @@ function initSettingsSidebar() {
             settings.scaleByValues = this.checked
             updatePokemons()
             Store.set('scaleByValues', this.checked)
+        })
+
+        $('#pokemon-highlight-switch').on('change', function () {
+            settings.highlightPokemon = this.checked
+            const highlightPokemonWrapper = $('#highlight-pokemon-wrapper')
+            if (this.checked) {
+                highlightPokemonWrapper.show()
+            } else {
+                highlightPokemonWrapper.hide()
+            }
+            updatePokemons()
+            Store.set('highlightPokemon', this.checked)
+        })
+
+        var highlightIvSlider = document.getElementById('highlight-iv-slider')
+        noUiSlider.create(highlightIvSlider, {
+            start: [settings.highlightThresholdIV],
+            connect: 'lower',
+            step: 1,
+            range: {
+                min: 0,
+                max: 100
+            },
+            format: {
+                to: function (value) {
+                    return Math.round(value)
+                },
+                from: function (value) {
+                    return Number(value)
+                }
+            }
+        })
+        highlightIvSlider.noUiSlider.on('change', function () {
+            settings.highlightThresholdIV = this.get()
+            $('#highlight-iv-slider-title').text(`${i18n('min. IVs')} (${settings.highlightThresholdIV}%)`)
+            updatePokemons()
+            Store.set('highlightThresholdIV', settings.highlightThresholdIV)
+        })
+
+        var highlightLevelSlider = document.getElementById('highlight-level-slider')
+        noUiSlider.create(highlightLevelSlider, {
+            start: [settings.highlightThresholdLevel],
+            connect: 'lower',
+            step: 1,
+            range: {
+                min: 0,
+                max: 35
+            },
+            format: {
+                to: function (value) {
+                    return Math.round(value)
+                },
+                from: function (value) {
+                    return Number(value)
+                }
+            }
+        })
+        highlightLevelSlider.noUiSlider.on('change', function () {
+            settings.highlightThresholdLevel = this.get()
+            $('#highlight-level-slider-title').text(`${i18n('min. Level')} (L${settings.highlightThresholdLevel})`)
+            updatePokemons()
+            Store.set('highlightThresholdLevel', settings.highlightThresholdLevel)
         })
     }
 
