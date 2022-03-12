@@ -209,7 +209,7 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
     if (serverSide || serverSettings.highlightPerfectCircle) {
         const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
         const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
-        modifierParam = ivs === 100 ? '&modifier=perfect' : serverSide && ivs >= 90 ? '&modifier=highiv' : serverSide && lvl > 27 ? '&modifier=highlevel' : ''
+        modifierParam = ivs === 100 ? '&modifier=perfect' : serverSide && ivs >= settings.highlightThresholdIV ? '&modifier=highiv' : serverSide && lvl >= settings.highlightThresholdLevel ? '&modifier=highlevel' : ''
     }
     return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}${modifierParam}`
 }
