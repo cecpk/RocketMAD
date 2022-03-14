@@ -116,15 +116,15 @@ const StoreOptions = {
         type: StoreTypes.Boolean
     },
     highlightColorPerfect: {
-        default: 'purple',
+        default: '#5500ff',
         type: StoreTypes.String
     },
     highlightColorIV: {
-        default: 'red',
+        default: '#ff0000',
         type: StoreTypes.String
     },
     highlightColorLevel: {
-        default: 'green',
+        default: '#00cc00',
         type: StoreTypes.String
     },
     highlightThresholdIV: {

@@ -264,7 +264,7 @@ def get_args(access_config=None):
                         default='#ff0000')
     parser.add_argument('-hpcl', '--highlight-color-level',
                         help='Color for high level pokemon. Set to None to not highlight. Important for highlight type "server". ',
-                        default='#00ff00')
+                        default='#00cc00')
     parser.add_argument('-hpc', '--highlight-perfect-circle',
                         help='Add circle symbol with "100" similar to the weather one for perfect IV pokemon.',
                         action='store_true', default=False)
