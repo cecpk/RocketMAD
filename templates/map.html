@@ -707,21 +707,21 @@
                 <div id="highlight-pokemon-wrapper">
                   {% if settings.highlightPokemon != "server" %}
                   <div class="form-control">
-                    <div class="input-field">
+                    <div class="input-field color">
                       <div class="text-input-title">{{ i18n('Color for Perfect IV') }}</div>
-                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-perfect" type="text">
+                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-perfect" type="color">
                     </div>
                   </div>
                   <div class="form-control">
-                    <div class="input-field">
+                    <div class="input-field color">
                       <div class="text-input-title">{{ i18n('Color for High IV') }}</div>
-                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-iv" type="text">
+                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-iv" type="color">
                     </div>
                   </div>
                   <div class="form-control">
-                    <div class="input-field">
+                    <div class="input-field color">
                       <div class="text-input-title">{{ i18n('Color for High Level') }}</div>
-                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-level" type="text">
+                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-level" type="color">
                     </div>
                   </div>
                   {% if settings.highlightPokemon == "svg" %}

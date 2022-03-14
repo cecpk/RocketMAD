@@ -48,6 +48,13 @@
     margin: 0 !important;
   }
 
+  .input-field.color {
+    text-align: right;
+    .text-input-title {
+      float: left;
+    }
+  }
+
   input.select-dropdown, input[type=text] {
     height: 2rem !important;
     width: calc(100% - 8px) !important;

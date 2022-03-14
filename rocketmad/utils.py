@@ -258,13 +258,13 @@ def get_args(access_config=None):
                         help='Highlight pokemon on the map using the stated way. Options: server / svg / css')
     parser.add_argument('-hpcp', '--highlight-color-perfect',
                         help='Color for perfect IV pokemon. Set to None to not highlight. Important for highlight type "server". ',
-                        default='purple')
+                        default='#5500ff')
     parser.add_argument('-hpci', '--highlight-color-iv',
                         help='Color for high IV pokemon. Set to None to not highlight. Important for highlight type "server". ',
-                        default='red')
+                        default='#ff0000')
     parser.add_argument('-hpcl', '--highlight-color-level',
                         help='Color for high level pokemon. Set to None to not highlight. Important for highlight type "server". ',
-                        default='green')
+                        default='#00ff00')
     parser.add_argument('-hpc', '--highlight-perfect-circle',
                         help='Add circle symbol with "100" similar to the weather one for perfect IV pokemon.',
                         action='store_true', default=False)
