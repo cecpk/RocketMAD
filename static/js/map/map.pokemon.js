@@ -132,8 +132,9 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
         const type = ivs === 100 ? 'Perfect' : ivs >= settings.highlightThresholdIV ? 'IV' : lvl >= settings.highlightThresholdLevel ? 'Level' : ''
         if (type && settings[`highlightColor${type}`]) {
             if (serverSettings.highlightPokemon === 'svg') {
-                icon.options.shadowUrl = `data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle style="fill:${settings[`highlightColor${type}`]};filter:blur(${settings.highlightRadius}px)" cx="75" cy="75" r="${settings.highlightSize}"/></svg>`
+                icon.options.shadowUrl = `data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle style="fill:${settings[`highlightColor${type}`]}" cx="75" cy="75" r="${settings.highlightSize}"/></svg>`
                 icon.options.shadowSize = [iconSize * 2, iconSize * 2]
+                icon.options.className = 'marker-highlight'
             } else if (serverSettings.highlightPokemon === 'css') {
                 icon.options.className = `marker-highlight-${type.toLowerCase()}`
             }

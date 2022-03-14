@@ -44,6 +44,16 @@
     {% endif %}
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
+    {% if settings.highlightPokemon == 'svg' %}
+    <style>
+      :root {
+        --blur-radius: 5px;
+      }
+      .map-container .marker-highlight {
+        filter: blur(var(--blur-radius));
+      }
+    </style>
+    {% endif %}
     {% if settings.highlightPokemon == 'css' %}
     <style>
       :root {
