@@ -1744,15 +1744,34 @@ class FilterManager {
         const modalDiv = document.getElementById(modalId)
         this._settingsIds = settings[settingsKey]
         this._titleElement = modalDiv.querySelector(this.getTitleSelector())
-        this._buttonById = {}
+        this._filterListDiv = modalDiv.querySelector(this.getListSelector())
+        this._buttonById = { }
         this._modalInitialized = false
+
+        const appendButtons = (start, end) => {
+            if (start > 0) this._filterListDiv.lastChild.remove()
+            const buttons = Object.values(this._buttonById)
+            this._filterListDiv.append(...buttons.slice(start, end))
+            if (end < buttons.length) {
+                const loadMoreButton = document.createElement('div')
+                loadMoreButton.classList.add('load-more-button')
+                loadMoreButton.innerHTML = 'Load More...'
+                loadMoreButton.addEventListener('click', () => {
+                    appendButtons(end, end + 100)
+                })
+                this._filterListDiv.appendChild(loadMoreButton)
+            }
+        }
+
+        setModalFunction(modalDiv, 'onCloseEnd', () => {
+            this._filterListDiv.innerHTML = ''
+        })
 
         setModalFunction(modalDiv, 'onOpenStart', () => {
             if (this._modalInitialized) {
+                appendButtons(0, 100)
                 return
             }
-
-            const filterListDiv = modalDiv.querySelector(this.getListSelector())
 
             for (const id of this.getAllIds()) {
                 const isActive = this._settingsIds.has(id) !== isExclusion
@@ -1764,12 +1783,13 @@ class FilterManager {
                     isActive
                 )
                 this._buttonById[id] = button
-                filterListDiv.appendChild(button)
             }
+
+            appendButtons(0, 100)
 
             this._updateTitle()
 
-            filterListDiv.addEventListener('click', e => {
+            this._filterListDiv.addEventListener('click', e => {
                 const button = e.target.closest('.filter-button')
                 if (button === null) {
                     return
@@ -1801,8 +1821,8 @@ class FilterManager {
                 }
             }
 
-            filterListDiv.parentElement.querySelector('.filter-select-all').addEventListener('click', onSelectDeselectAllClick.bind(this, true))
-            filterListDiv.parentElement.querySelector('.filter-deselect-all').addEventListener('click', onSelectDeselectAllClick.bind(this, false))
+            this._filterListDiv.parentElement.querySelector('.filter-select-all').addEventListener('click', onSelectDeselectAllClick.bind(this, true))
+            this._filterListDiv.parentElement.querySelector('.filter-deselect-all').addEventListener('click', onSelectDeselectAllClick.bind(this, false))
 
             this._modalInitialized = true
         })

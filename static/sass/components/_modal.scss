@@ -86,7 +86,7 @@
       height: 2rem;
   }
 
-  .filter-button {
+  .filter-button, .load-more-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,6 +108,10 @@
       height: 32px;
       margin: auto;
     }
+  }
+
+  .load-more-button {
+    background-color: #cddfff;
   }
 
   .filter-button-content {
@@ -135,6 +139,11 @@
     &.active {
       background-color: #004d40;
     }
+  }
+
+  .load-more-button {
+    color: $text-color-dark;
+    background-color: #1c40b7;
   }
 
   .btn-flat {
