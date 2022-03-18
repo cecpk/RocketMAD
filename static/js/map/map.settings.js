@@ -1681,46 +1681,24 @@ const refreshSavedSettings = function () {
 
 const createFilterButton = (function () {
     let templateDiv
-    let lazyImageObserver
 
     function createTemplateDiv() {
         const containerDiv = document.createElement('div')
         containerDiv.innerHTML = `
-          <div class='filter-button'>
-            <div class='filter-button-content'>
-              <div id='btnheader'></div>
-              <div><div class='filter-image'></div>
-              <div id='btnfooter'></div>
+          <div class="filter-button">
+            <div class="filter-button-content">
+              <div id="btnheader"></div>
+              <img class="filter-image" src="../../images/placeholder.png" loading="lazy">
+              <div id="btnfooter"></div>
             </div>
           </div>`
         return containerDiv.firstElementChild
-    }
-
-    function tryCreateLazyImageObserver() {
-        if (!('IntersectionObserver' in window)) {
-            return null
-        }
-
-        return new IntersectionObserver(function (entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const lazyImage = entry.target
-                    lazyImage.style.content = lazyImage.dataset.lazyContent
-                    delete lazyImage.dataset.lazyContent
-                    observer.unobserve(lazyImage)
-                }
-            })
-        })
     }
 
     return function (id, header, footer, iconUrl, isActive) {
         if (typeof templateDiv === 'undefined') {
             templateDiv = createTemplateDiv()
         }
-        if (typeof lazyImageObserver === 'undefined') {
-            lazyImageObserver = tryCreateLazyImageObserver()
-        }
-
         // Clone a template div, which is faster than creating and parsing HTML for each filter button.
         const buttonDiv = templateDiv.cloneNode(true)
         buttonDiv.dataset.id = id
@@ -1732,14 +1710,8 @@ const createFilterButton = (function () {
         headerDiv.removeAttribute('id')
         headerDiv.textContent = header
 
-        const imageDiv = buttonDiv.querySelector('div.filter-image')
-        const imageContent = `url(${iconUrl})`
-        if (lazyImageObserver === null) {
-            imageDiv.style.content = imageContent
-        } else {
-            imageDiv.dataset.lazyContent = imageContent
-            lazyImageObserver.observe(imageDiv)
-        }
+        const imageImg = buttonDiv.querySelector('img.filter-image')
+        imageImg.setAttribute('src', iconUrl)
 
         const footerDiv = buttonDiv.querySelector('#btnfooter')
         footerDiv.removeAttribute('id')
