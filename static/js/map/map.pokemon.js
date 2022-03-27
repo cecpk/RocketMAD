@@ -474,6 +474,7 @@ function getExcludedPokemon() {
 function excludePokemon(id) { // eslint-disable-line no-unused-vars
     if (filterManagers.excludedPokemon !== null) {
         filterManagers.excludedPokemon.add([id])
+        $('#filter-pokemon-switch').prop('checked', true).trigger('change')
     }
 }
 
