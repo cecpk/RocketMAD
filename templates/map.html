@@ -117,12 +117,15 @@
       <li><a href="{{ url_for('pokemon_history_page') }}"><i class="material-icons">pets</i>{{ i18n('Pokémon history') }}</a></li>
       {% endif %}
       {% if quest_page %}
+      <li class="divider" tabindex="-1"></li>
       <li><a href="{{ url_for('quest_page') }}"><i class="material-icons">explore</i>{{ i18n('Quests') }}</a></li>
       {% endif %}
       {% if admin %}
+      <li class="divider" tabindex="-1"></li>
       <li><a href="{{ url_for('admin_page') }}"><i class="material-icons">dashboard</i>Admin</a></li>
       {% endif %}
       {% if madmin_url %}
+      <li class="divider" tabindex="-1"></li>
       <li><a href="{{ madmin_url }}" target="_blank"><i class="material-icons">phone_android</i>MADmin</a></li>
       {% endif %}
       {% if donate_url or patreon_url %}

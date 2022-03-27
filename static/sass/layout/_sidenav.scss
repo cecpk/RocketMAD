@@ -3,6 +3,11 @@
   max-width: 80%;
   height: 100%;
   z-index: 1001;
+  margin-top: 56px;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 48px;
+  }
 
   .sidenav-close {
     position: absolute;
@@ -16,7 +21,7 @@
   }
 
   li.active .collapsible-header {
-      border-bottom: 0 !important;
+    border-bottom: 0 !important;
   }
 
   .settings-container {
@@ -69,13 +74,6 @@
       line-height: 1;
       margin-right: 0;
     }
-  }
-}
-
-.map-body .sidenav {
-  @media screen and (min-width: 601px) {
-    top: 56px;
-    height: calc(100% - 56px);
   }
 }
 
