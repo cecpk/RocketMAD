@@ -486,34 +486,50 @@ const StoreOptions = {
     zoomLevel: {
         default: 16,
         type: StoreTypes.Number
+    },
+    savedSettings: {
+        default: {},
+        type: StoreTypes.JSON
     }
 }
 
 const Store = {
     getOption: function (key) {
-        var option = StoreOptions[key]
+        const option = StoreOptions[key]
         if (!option) {
             throw new Error('Store key was not defined ' + key)
         }
         return option
     },
     get: function (key) {
-        var option = this.getOption(key)
-        var optionType = option.type
-        var rawValue = localStorage[key]
+        const option = this.getOption(key)
+        const optionType = option.type
+        const rawValue = localStorage[key]
         if (rawValue === null || rawValue === undefined) {
             return option.default
         }
-        var value = optionType.parse(rawValue)
-        return value
+        return optionType.parse(rawValue)
     },
     set: function (key, value) {
-        var option = this.getOption(key)
-        var optionType = option.type || StoreTypes.String
-        var rawValue = optionType.stringify(value)
+        const option = this.getOption(key)
+        const optionType = option.type || StoreTypes.String
+        const rawValue = optionType.stringify(value)
         localStorage[key] = rawValue
     },
     reset: function (key) {
         localStorage.removeItem(key)
+    },
+    dump: function () {
+        const dump = {}
+        for (const key in StoreOptions) {
+            if (key === 'savedSettings') continue
+            dump[key] = Store.get(key)
+        }
+        return dump
+    },
+    restore: function (dump) {
+        for (const key in dump) {
+            Store.set(key, dump[key])
+        }
     }
 }

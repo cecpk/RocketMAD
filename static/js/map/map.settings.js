@@ -150,6 +150,8 @@ function initSettings() {
     settings.darkMode = Store.get('darkMode')
 
     settings.clusterZoomLevel = isMobileDevice() ? serverSettings.clusterZoomLevelMobile : serverSettings.clusterZoomLevel
+
+    settings.savedSettings = Store.get('savedSettings')
 }
 
 function initSettingsSidebar() {
@@ -1380,6 +1382,30 @@ function initSettingsSidebar() {
         }
     })
 
+    $('#load-settings-select').on('change', function () {
+        const confirmed = confirm(`Are you sure you want to load the saved settings "${this.value}" and replace all current ones?`)
+        if (confirmed) {
+            Store.restore(JSON.parse(settings.savedSettings[this.value]))
+            window.location.reload()
+        }
+    })
+
+    $('#delete-settings-select').on('change', function () {
+        const confirmed = confirm(`Are you sure you want to delete the saved settings named "${this.value}"?`)
+        if (confirmed) {
+            delete settings.savedSettings[this.value]
+            Store.set('savedSettings', settings.savedSettings)
+            refreshSavedSettings()
+        }
+    })
+
+    $('#save-settings-button').on('click', function () {
+        const settingsName = prompt('Please state a name for this set of settings (saved settings with the same name will be overwritten):', 'Setting1')
+        settings.savedSettings[settingsName.replaceAll(/[^\w-_ ]/gi, '')] = JSON.stringify(Store.dump())
+        Store.set('savedSettings', settings.savedSettings)
+        refreshSavedSettings()
+    })
+
     $('#export-settings-button').on('click', function () {
         downloadData('rocketmad_settings', JSON.stringify(localStorage))
     })
@@ -1592,6 +1618,8 @@ function initSettingsSidebar() {
     $('#map-service-provider-select').val(settings.mapServiceProvider)
     $('#dark-mode-switch').prop('checked', settings.darkMode)
 
+    refreshSavedSettings()
+
     $.getJSON('static/dist/data/markerstyles.min.json?v=' + version).done(function (data) {
         markerStyles = data // eslint-disable-line
         updateStartLocationMarker()
@@ -1621,6 +1649,34 @@ function initSettingsSidebar() {
     }).fail(function () {
         console.log('Error loading search marker styles JSON.')
     })
+}
+
+
+const refreshSavedSettings = function () {
+    const loadSettingsSelect = document.getElementById('load-settings-select')
+    const deleteSettingsSelect = document.getElementById('delete-settings-select')
+    const addOption = function (item) {
+        const option = document.createElement('option')
+        option.value = option.text = item
+        loadSettingsSelect.options.add(option.cloneNode(true))
+        deleteSettingsSelect.options.add(option)
+    }
+    while (loadSettingsSelect.options.length) {
+        loadSettingsSelect.remove(0)
+    }
+    while (deleteSettingsSelect.options.length) {
+        deleteSettingsSelect.remove(0)
+    }
+    addOption('')
+    for (const item in settings.savedSettings) {
+        addOption(item)
+    }
+    if (M.FormSelect.getInstance(loadSettingsSelect)) {
+        M.FormSelect.init(loadSettingsSelect)
+    }
+    if (M.FormSelect.getInstance(deleteSettingsSelect)) {
+        M.FormSelect.init(deleteSettingsSelect)
+    }
 }
 
 const createFilterButton = (function () {
@@ -1716,7 +1772,7 @@ class FilterManager {
         const modalDiv = document.getElementById(modalId)
         this._settingsIds = settings[settingsKey]
         this._titleElement = modalDiv.querySelector(this.getTitleSelector())
-        this._buttonById = { }
+        this._buttonById = {}
         this._modalInitialized = false
 
         setModalFunction(modalDiv, 'onOpenStart', () => {
