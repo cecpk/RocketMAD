@@ -753,6 +753,10 @@
       "2678": {
         "formName": "Flying",
         "assetSuffix": "pm0025_00_pgo_5thanniversary"
+      },
+      "2736": {
+        "formName": "Flying Okinawa",
+        "assetId": "00"
       }
     }
   },
@@ -18170,7 +18174,89 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ]
+    ],
+    "forms": {
+      "2745": {
+        "formName": "Archipelago",
+        "assetId": "00"
+      },
+      "2746": {
+        "formName": "Continental",
+        "assetId": "00"
+      },
+      "2747": {
+        "formName": "Elegant",
+        "assetId": "00"
+      },
+      "2748": {
+        "formName": "Fancy",
+        "assetId": "00"
+      },
+      "2749": {
+        "formName": "Garden",
+        "assetId": "00"
+      },
+      "2750": {
+        "formName": "High Plains",
+        "assetId": "00"
+      },
+      "2751": {
+        "formName": "Icy Snow",
+        "assetId": "00"
+      },
+      "2752": {
+        "formName": "Jungle",
+        "assetId": "00"
+      },
+      "2753": {
+        "formName": "Marine",
+        "assetId": "00"
+      },
+      "2754": {
+        "formName": "Meadow",
+        "assetId": "00"
+      },
+      "2755": {
+        "formName": "Modern",
+        "assetId": "00"
+      },
+      "2756": {
+        "formName": "Monsoon",
+        "assetId": "00"
+      },
+      "2757": {
+        "formName": "Ocean",
+        "assetId": "00"
+      },
+      "2758": {
+        "formName": "Poké Ball",
+        "assetId": "00"
+      },
+      "2759": {
+        "formName": "Polar",
+        "assetId": "00"
+      },
+      "2760": {
+        "formName": "River",
+        "assetId": "00"
+      },
+      "2761": {
+        "formName": "Sandstorm",
+        "assetId": "00"
+      },
+      "2762": {
+        "formName": "Savanna",
+        "assetId": "00"
+      },
+      "2763": {
+        "formName": "Sun",
+        "assetId": "00"
+      },
+      "2764": {
+        "formName": "Tundra",
+        "assetId": "00"
+      }
+    }
   },
   "665": {
     "name": "Spewpa",
@@ -18180,7 +18266,89 @@
         "type": "Bug",
         "color": "#a8b820"
       }
-    ]
+    ],
+    "forms": {
+      "2765": {
+        "formName": "Archipelago",
+        "assetId": "00"
+      },
+      "2766": {
+        "formName": "Continental",
+        "assetId": "00"
+      },
+      "2767": {
+        "formName": "Elegant",
+        "assetId": "00"
+      },
+      "2768": {
+        "formName": "Fancy",
+        "assetId": "00"
+      },
+      "2769": {
+        "formName": "Garden",
+        "assetId": "00"
+      },
+      "2770": {
+        "formName": "High Plains",
+        "assetId": "00"
+      },
+      "2771": {
+        "formName": "Icy Snow",
+        "assetId": "00"
+      },
+      "2772": {
+        "formName": "Jungle",
+        "assetId": "00"
+      },
+      "2773": {
+        "formName": "Marine",
+        "assetId": "00"
+      },
+      "2774": {
+        "formName": "Meadow",
+        "assetId": "00"
+      },
+      "2775": {
+        "formName": "Modern",
+        "assetId": "00"
+      },
+      "2776": {
+        "formName": "Monsoon",
+        "assetId": "00"
+      },
+      "2777": {
+        "formName": "Ocean",
+        "assetId": "00"
+      },
+      "2778": {
+        "formName": "Poké Ball",
+        "assetId": "00"
+      },
+      "2779": {
+        "formName": "Polar",
+        "assetId": "00"
+      },
+      "2780": {
+        "formName": "River",
+        "assetId": "00"
+      },
+      "2781": {
+        "formName": "Sandstorm",
+        "assetId": "00"
+      },
+      "2782": {
+        "formName": "Savanna",
+        "assetId": "00"
+      },
+      "2783": {
+        "formName": "Sun",
+        "assetId": "00"
+      },
+      "2784": {
+        "formName": "Tundra",
+        "assetId": "00"
+      }
+    }
   },
   "666": {
     "name": "Vivillon",
@@ -19540,7 +19708,13 @@
         "type": "Rock",
         "color": "#b8a038"
       }
-    ]
+    ],
+    "forms": {
+      "2737": {
+        "formName": "Dusk",
+        "assetId": "00"
+      }
+    }
   },
   "745": {
     "name": "Lycanroc",
@@ -20115,35 +20289,59 @@
     ],
     "forms": {
       "2707": {
-        "formName": "Meteor",
+        "formName": "Meteor Blue",
         "assetId": "00"
       },
       "2708": {
         "formName": "Blue",
         "assetId": "00"
       },
-	  "2709": {
+      "2709": {
         "formName": "Green",
         "assetId": "00"
       },
-	  "2710": {
+      "2710": {
         "formName": "Indigo",
         "assetId": "00"
       },
-	  "2711": {
+      "2711": {
         "formName": "Orange",
         "assetId": "00"
       },
-	  "2712": {
+      "2712": {
         "formName": "Red",
         "assetId": "00"
       },
-	  "2713": {
+      "2713": {
         "formName": "Violet",
         "assetId": "00"
       },
-	  "2714": {
+      "2714": {
         "formName": "Yellow",
+        "assetId": "00"
+      },
+      "2739": {
+        "formName": "Meteor Green",
+        "assetId": "00"
+      },
+      "2740": {
+        "formName": "Meteor Indigo",
+        "assetId": "00"
+      },
+      "2741": {
+        "formName": "Meteor Orange",
+        "assetId": "00"
+      },
+      "2742": {
+        "formName": "Meteor Red",
+        "assetId": "00"
+      },
+      "2743": {
+        "formName": "Meteor Violet",
+        "assetId": "00"
+      },
+      "2744": {
+        "formName": "Meteor Yellow",
         "assetId": "00"
       }
     }
