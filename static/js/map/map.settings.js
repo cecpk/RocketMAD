@@ -387,36 +387,62 @@ function initSettingsSidebar() {
                 Store.set('highlightPokemon', this.checked)
             })
 
-            if (serverSettings.highlightPokemon) {
-                $('#highlight-color-perfect').on('change', function () {
-                    settings.highlightColorPerfect = this.value
-                    document.documentElement.style.setProperty('--color-perfect', this.value)
-                    updatePokemons()
-                    Store.set('highlightColorPerfect', this.value)
-                })
+            $('#highlight-color-perfect').on('change', function () {
+                settings.highlightColorPerfect = this.value
+                document.documentElement.style.setProperty('--color-perfect', this.value)
+                updatePokemons()
+                Store.set('highlightColorPerfect', this.value)
+            })
 
-                $('#highlight-color-iv').on('change', function () {
-                    settings.highlightColorIV = this.value
-                    document.documentElement.style.setProperty('--color-iv', this.value)
-                    updatePokemons()
-                    Store.set('highlightColorIV', this.value)
-                })
+            $('#highlight-color-iv').on('change', function () {
+                settings.highlightColorIV = this.value
+                document.documentElement.style.setProperty('--color-iv', this.value)
+                updatePokemons()
+                Store.set('highlightColorIV', this.value)
+            })
 
-                $('#highlight-color-level').on('change', function () {
-                    settings.highlightColorLevel = this.value
-                    document.documentElement.style.setProperty('--color-level', this.value)
-                    updatePokemons()
-                    Store.set('highlightColorLevel', this.value)
-                })
+            $('#highlight-color-level').on('change', function () {
+                settings.highlightColorLevel = this.value
+                document.documentElement.style.setProperty('--color-level', this.value)
+                updatePokemons()
+                Store.set('highlightColorLevel', this.value)
+            })
 
-                var highlightRadiusSlider = document.getElementById('highlight-radius-slider')
-                noUiSlider.create(highlightRadiusSlider, {
-                    start: [settings.highlightRadius],
+            var highlightRadiusSlider = document.getElementById('highlight-radius-slider')
+            noUiSlider.create(highlightRadiusSlider, {
+                start: [settings.highlightRadius],
+                connect: 'lower',
+                step: 1,
+                range: {
+                    min: 0,
+                    max: 30
+                },
+                format: {
+                    to: function (value) {
+                        return Math.round(value)
+                    },
+                    from: function (value) {
+                        return Number(value)
+                    }
+                }
+            })
+            highlightRadiusSlider.noUiSlider.on('change', function () {
+                settings.highlightRadius = this.get()
+                $('#highlight-radius-slider-title').text(`${i18n('Blur Radius')} (${settings.highlightRadius}px)`)
+                document.documentElement.style.setProperty('--blur-radius', `${settings.highlightRadius}px`)
+                updatePokemons()
+                Store.set('highlightRadius', settings.highlightRadius)
+            })
+
+            if (serverSettings.highlightPokemon === 'svg') {
+                var highlightSizeSlider = document.getElementById('highlight-size-slider')
+                noUiSlider.create(highlightSizeSlider, {
+                    start: [settings.highlightSize],
                     connect: 'lower',
                     step: 1,
                     range: {
-                        min: 0,
-                        max: 30
+                        min: 10,
+                        max: 50
                     },
                     format: {
                         to: function (value) {
@@ -427,40 +453,12 @@ function initSettingsSidebar() {
                         }
                     }
                 })
-                highlightRadiusSlider.noUiSlider.on('change', function () {
-                    settings.highlightRadius = this.get()
-                    $('#highlight-radius-slider-title').text(`${i18n('Blur Radius')} (${settings.highlightRadius}px)`)
-                    document.documentElement.style.setProperty('--blur-radius', `${settings.highlightRadius}px`)
+                highlightSizeSlider.noUiSlider.on('change', function () {
+                    settings.highlightSize = this.get()
+                    $('#highlight-size-slider-title').text(`${i18n('Circle Size')} (${settings.highlightSize})`)
                     updatePokemons()
-                    Store.set('highlightRadius', settings.highlightRadius)
+                    Store.set('highlightSize', settings.highlightSize)
                 })
-
-                if (serverSettings.highlightPokemon === 'svg') {
-                    var highlightSizeSlider = document.getElementById('highlight-size-slider')
-                    noUiSlider.create(highlightSizeSlider, {
-                        start: [settings.highlightSize],
-                        connect: 'lower',
-                        step: 1,
-                        range: {
-                            min: 10,
-                            max: 50
-                        },
-                        format: {
-                            to: function (value) {
-                                return Math.round(value)
-                            },
-                            from: function (value) {
-                                return Number(value)
-                            }
-                        }
-                    })
-                    highlightSizeSlider.noUiSlider.on('change', function () {
-                        settings.highlightSize = this.get()
-                        $('#highlight-size-slider-title').text(`${i18n('Circle Size')} (${settings.highlightSize})`)
-                        updatePokemons()
-                        Store.set('highlightSize', settings.highlightSize)
-                    })
-                }
             }
 
             var highlightIvSlider = document.getElementById('highlight-iv-slider')
