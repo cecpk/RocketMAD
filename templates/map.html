@@ -44,6 +44,35 @@
     {% endif %}
     <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/app.min.css') }}">
+    {% if settings.highlightPokemon == 'svg' %}
+    <style>
+      :root {
+        --blur-radius: 5px;
+      }
+      .map-container .leaflet-marker-shadow.marker-highlight {
+        filter: blur(var(--blur-radius));
+      }
+    </style>
+    {% endif %}
+    {% if settings.highlightPokemon == 'css' %}
+    <style>
+      :root {
+        --color-perfect: #5500ff;
+        --color-iv: #ff0000;
+        --color-level: #00cc00;
+        --blur-radius: 5px;
+      }
+      .map-container .leaflet-marker-icon.marker-highlight-perfect {
+        filter: drop-shadow(0px 0px var(--blur-radius) var(--color-perfect));
+      }
+      .map-container .leaflet-marker-icon.marker-highlight-iv {
+        filter: drop-shadow(0px 0px var(--blur-radius) var(--color-iv));
+      }
+      .map-container .leaflet-marker-icon.marker-highlight-level {
+        filter: drop-shadow(0px 0px var(--blur-radius) var(--color-level));
+      }
+    </style>
+    {% endif %}
   </head>
 
   <body class="map-body">
@@ -653,18 +682,84 @@
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="pokemon-ivs-slider-title" class="slider-title">IVs</span>
+                    <span id="pokemon-ivs-slider-title" class="slider-title">{{ i18n('IVs') }}</span>
                     <div class="slider-container">
                       <div id="pokemon-ivs-slider"></div>
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="pokemon-level-slider-title" class="slider-title">Levels</span>
+                    <span id="pokemon-level-slider-title" class="slider-title">{{ i18n('Levels') }}</span>
                     <div class="slider-container">
                       <div id="pokemon-level-slider"></div>
                     </div>
                   </div>
                 </div>
+                {% if settings.highlightPokemon %}
+                <div class="form-control">
+                  <div class="switch">
+                    <label>
+                      <input type="checkbox" id="pokemon-highlight-switch">
+                      <span class="lever"></span>
+                      {{ i18n('Highlight Pokémon') }}
+                    </label>
+                  </div>
+                </div>
+                <div id="highlight-pokemon-wrapper">
+                  <div class="form-control">
+                    <div class="input-field color">
+                      <div class="text-input-title">{{ i18n('Color for 100% IV') }}</div>
+                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-perfect" type="color">
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <div class="input-field color">
+                      <div class="text-input-title">{{ i18n('Color for High IV') }}</div>
+                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-iv" type="color">
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <div class="input-field color">
+                      <div class="text-input-title">{{ i18n('Color for High Level') }}</div>
+                      <input placeholder="{{ i18n('Color...') }}" id="highlight-color-level" type="color">
+                    </div>
+                  </div>
+                  {% if settings.highlightPokemon == "svg" %}
+                  <div class="form-control">
+                    <span id="highlight-size-slider-title" class="slider-title">{{ i18n('Circle Size') }}</span>
+                    <div class="slider-container">
+                      <div id="highlight-size-slider"></div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  <div class="form-control">
+                    <span id="highlight-radius-slider-title" class="slider-title">{{ i18n('Blur Radius') }}</span>
+                    <div class="slider-container">
+                      <div id="highlight-radius-slider"></div>
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <span id="highlight-iv-slider-title" class="slider-title">{{ i18n('min. Highlight IVs') }}</span>
+                    <div class="slider-container">
+                      <div id="highlight-iv-slider"></div>
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <span id="highlight-level-slider-title" class="slider-title">{{ i18n('min. Highlight Level') }}</span>
+                    <div class="slider-container">
+                      <div id="highlight-level-slider"></div>
+                    </div>
+                  </div>
+                  <div class="form-control">
+                    <div class="switch">
+                      <label>
+                        <input type="checkbox" id="scale-values-switch">
+                        <span class="lever"></span>
+                        {{ i18n('Scale by stats') }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
               </div>
             </div>
             {% endif %}

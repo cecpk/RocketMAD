@@ -5,7 +5,7 @@ pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
 pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
 removeRangeCircle, sendNotification, settings, setupRangeCircle,
 updateRangeCircle, weatherClassesDay, weatherNames, updateMarkerLayer,
-createPokemonMarker, filterManagers
+createPokemonMarker, filterManagers, serverSettings
 */
 /* exported processPokemon, updatePokemons */
 
@@ -83,11 +83,32 @@ function customizePokemonMarker(pokemon, marker, isNotifPokemon) {
 }
 
 function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
-    var iconSize = 32 * (settings.pokemonIconSizeModifier / 100)
-    var upscaleModifier = 1
+    const icon = marker.options.icon
+
+    let iconSize = 32 * (settings.pokemonIconSizeModifier / 100)
+    let upscaleModifier = 1
+    let zIndex = pokemonZIndex
+
+    const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
+    const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
+
+    if (settings.highlightPokemon && settings.scaleByValues) {
+        if (ivs === 100) {
+            iconSize *= 1.7
+            zIndex = pokemonNewSpawnZIndex
+        } else if (ivs >= settings.highlightThresholdIV) {
+            iconSize *= 1.3
+            zIndex = pokemonUltraRareZIndex
+        }
+        if (lvl >= settings.highlightThresholdLevel) {
+            iconSize *= 1.2
+        }
+    }
+
     if ((isNotifPokemon && settings.upscaleNotifMarkers) || serverSettings.upscaledPokemon.includes(pokemon.pokemon_id)) {
         upscaleModifier = 1.3
     }
+
     if (settings.scaleByRarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
         switch (pokemonRarity) {
@@ -101,39 +122,54 @@ function updatePokemonMarker(pokemon, marker, isNotifPokemon) {
                 upscaleModifier = 1.5
         }
     }
+
     iconSize *= upscaleModifier
 
-    var icon = marker.options.icon
+    icon.options.shadowUrl = null
+    icon.options.shadowSize = null
+    icon.options.className = null
+    if (serverSettings.highlightPokemon && settings.highlightPokemon) {
+        const type = ivs === 100 ? 'Perfect' : ivs >= settings.highlightThresholdIV ? 'IV' : lvl >= settings.highlightThresholdLevel ? 'Level' : ''
+        if (type && settings[`highlightColor${type}`]) {
+            if (serverSettings.highlightPokemon === 'svg') {
+                icon.options.shadowUrl = `data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle style="fill:${settings[`highlightColor${type}`].replace('#', '%23')}" cx="75" cy="75" r="${settings.highlightSize}"/></svg>`
+                icon.options.shadowSize = [iconSize * 2, iconSize * 2]
+                icon.options.className = 'marker-highlight'
+            } else if (serverSettings.highlightPokemon === 'css') {
+                icon.options.className = `marker-highlight-${type.toLowerCase()}`
+            }
+        }
+    }
+
     icon.options.iconSize = [iconSize, iconSize]
     marker.setIcon(icon)
 
     if (isNotifPokemon) {
-        marker.setZIndexOffset(pokemonNotifiedZIndex)
+        zIndex = Math.max(pokemonNotifiedZIndex, zIndex)
     } else if (serverSettings.rarity) {
         const pokemonRarity = getPokemonRarity(pokemon.pokemon_id)
         switch (pokemonRarity) {
             case 2:
-                marker.setZIndexOffset(pokemonUncommonZIndex)
+                zIndex = Math.max(pokemonUncommonZIndex, zIndex)
                 break
             case 3:
-                marker.setZIndexOffset(pokemonRareZIndex)
+                zIndex = Math.max(pokemonRareZIndex, zIndex)
                 break
             case 4:
-                marker.setZIndexOffset(pokemonVeryRareZIndex)
+                zIndex = Math.max(pokemonVeryRareZIndex, zIndex)
                 break
             case 5:
-                marker.setZIndexOffset(pokemonUltraRareZIndex)
+                zIndex = Math.max(pokemonUltraRareZIndex, zIndex)
                 break
             case 6:
-                marker.setZIndexOffset(pokemonNewSpawnZIndex)
+                zIndex = Math.max(pokemonNewSpawnZIndex, zIndex)
                 break
             default:
-                marker.setZIndexOffset(pokemonZIndex)
+                zIndex = Math.max(pokemonZIndex, zIndex)
         }
-    } else {
-        marker.setZIndexOffset(pokemonZIndex)
     }
 
+    marker.setZIndexOffset(zIndex)
     updateMarkerLayer(marker, isNotifPokemon, notifiedPokemonData[pokemon.encounter_id])
 
     return marker
