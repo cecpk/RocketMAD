@@ -1601,20 +1601,18 @@ function initSettingsSidebar() {
         if (serverSettings.highlightPokemon) {
             $('#pokemon-highlight-switch').prop('checked', settings.highlightPokemon)
             $('#highlight-pokemon-wrapper').toggle(settings.highlightPokemon)
-            $('#highlight-iv-slider-title').text(`${i18n('min. IVs')} (${settings.highlightThresholdIV}%)`)
-            $('#highlight-level-slider-title').text(`${i18n('min. Level')} (L${settings.highlightThresholdLevel})`)
+            $('#highlight-iv-slider-title').text(`${i18n('min. Highlight IVs')} (${settings.highlightThresholdIV}%)`)
+            $('#highlight-level-slider-title').text(`${i18n('min. Highlight Level')} (L${settings.highlightThresholdLevel})`)
             $('#scale-values-switch').prop('checked', settings.scaleByValues)
-            if (serverSettings.highlightPokemon) {
-                if (serverSettings.highlightPokemon === 'svg') {
-                    $('#highlight-size-slider-title').text(`${i18n('Circle Size')} (${settings.highlightSize})`)
-                }
-                $('#highlight-radius-slider-title').text(`${i18n('Blur Radius')} (${settings.highlightRadius}px)`)
-                $('#highlight-color-perfect').val(settings.highlightColorPerfect)
-                document.documentElement.style.setProperty('--color-perfect', settings.highlightColorPerfect)
-                $('#highlight-color-iv').val(settings.highlightColorIV)
-                document.documentElement.style.setProperty('--color-iv', settings.highlightColorIV)
-                $('#highlight-color-level').val(settings.highlightColorLevel)
-                document.documentElement.style.setProperty('--color-level', settings.highlightColorLevel)
+            $('#highlight-radius-slider-title').text(`${i18n('Blur Radius')} (${settings.highlightRadius}px)`)
+            $('#highlight-color-perfect').val(settings.highlightColorPerfect)
+            document.documentElement.style.setProperty('--color-perfect', settings.highlightColorPerfect)
+            $('#highlight-color-iv').val(settings.highlightColorIV)
+            document.documentElement.style.setProperty('--color-iv', settings.highlightColorIV)
+            $('#highlight-color-level').val(settings.highlightColorLevel)
+            document.documentElement.style.setProperty('--color-level', settings.highlightColorLevel)
+            if (serverSettings.highlightPokemon === 'svg') {
+                $('#highlight-size-slider-title').text(`${i18n('Circle Size')} (${settings.highlightSize})`)
             }
         }
     }
