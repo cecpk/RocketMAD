@@ -205,7 +205,7 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
     const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
     const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
     let perfectParam = ''
-    if (serverSettings.highlightPerfectCircle) {
+    if (serverSettings.perfectCircle) {
         const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
         perfectParam = ivs === 100 ? '&perfect=1' : ''
     }

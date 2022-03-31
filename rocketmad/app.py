@@ -249,7 +249,8 @@ def create_app():
             'nestParksFileName': user_args.nest_parks_filename,
             'exParks': user_args.ex_parks,
             'exParksFileName': user_args.ex_parks_filename,
-            'highlightPokemon': user_args.highlight_pokemon.lower()
+            'highlightPokemon': user_args.highlight_pokemon.lower(),
+            'perfectCircle': user_args.perfect_circle
         }
 
         return render_template(
