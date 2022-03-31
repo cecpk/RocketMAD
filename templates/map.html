@@ -682,13 +682,13 @@
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="pokemon-ivs-slider-title" class="slider-title">IVs</span>
+                    <span id="pokemon-ivs-slider-title" class="slider-title">{{ i18n('IVs') }}</span>
                     <div class="slider-container">
                       <div id="pokemon-ivs-slider"></div>
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="pokemon-level-slider-title" class="slider-title">Levels</span>
+                    <span id="pokemon-level-slider-title" class="slider-title">{{ i18n('Levels') }}</span>
                     <div class="slider-container">
                       <div id="pokemon-level-slider"></div>
                     </div>
@@ -707,7 +707,7 @@
                 <div id="highlight-pokemon-wrapper">
                   <div class="form-control">
                     <div class="input-field color">
-                      <div class="text-input-title">{{ i18n('Color for Perfect IV') }}</div>
+                      <div class="text-input-title">{{ i18n('Color for 100% IV') }}</div>
                       <input placeholder="{{ i18n('Color...') }}" id="highlight-color-perfect" type="color">
                     </div>
                   </div>
@@ -725,26 +725,26 @@
                   </div>
                   {% if settings.highlightPokemon == "svg" %}
                   <div class="form-control">
-                    <span id="highlight-size-slider-title" class="slider-title">Circle Size</span>
+                    <span id="highlight-size-slider-title" class="slider-title">{{ i18n('Circle Size') }}</span>
                     <div class="slider-container">
                       <div id="highlight-size-slider"></div>
                     </div>
                   </div>
                   {% endif %}
                   <div class="form-control">
-                    <span id="highlight-radius-slider-title" class="slider-title">Blur Radius</span>
+                    <span id="highlight-radius-slider-title" class="slider-title">{{ i18n('Blur Radius') }}</span>
                     <div class="slider-container">
                       <div id="highlight-radius-slider"></div>
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="highlight-iv-slider-title" class="slider-title">min. IVs</span>
+                    <span id="highlight-iv-slider-title" class="slider-title">{{ i18n('min. Highlight IVs') }}</span>
                     <div class="slider-container">
                       <div id="highlight-iv-slider"></div>
                     </div>
                   </div>
                   <div class="form-control">
-                    <span id="highlight-level-slider-title" class="slider-title">min. Level</span>
+                    <span id="highlight-level-slider-title" class="slider-title">{{ i18n('min. Highlight Level') }}</span>
                     <div class="slider-container">
                       <div id="highlight-level-slider"></div>
                     </div>
