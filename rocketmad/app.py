@@ -249,11 +249,7 @@ def create_app():
             'nestParksFileName': user_args.nest_parks_filename,
             'exParks': user_args.ex_parks,
             'exParksFileName': user_args.ex_parks_filename,
-            'highlightPokemon': user_args.highlight_pokemon.lower(),
-            'highlightColorPerfect': user_args.highlight_color_perfect,
-            'highlightColorIV': user_args.highlight_color_iv,
-            'highlightColorLevel': user_args.highlight_color_level,
-            'highlightPerfectCircle': user_args.highlight_perfect_circle,
+            'highlightPokemon': user_args.highlight_pokemon.lower()
         }
 
         return render_template(
@@ -1032,7 +1028,7 @@ def create_app():
         evolution = int(request.args.get('evolution', '0'))
         shiny = 'shiny' in request.args
         weather = int(request.args.get('weather', '0'))
-        modifier = request.args.get('modifier', None)
+        perfect = request.args.get('perfect', None)
 
 
         if raw:
@@ -1042,7 +1038,7 @@ def create_app():
         else:
             filename = image_generator.get_pokemon_map_icon(
                 pkm, gender=gender, form=form, costume=costume,
-                evolution=evolution, weather=weather, modifier=modifier)
+                evolution=evolution, weather=weather, perfect=perfect)
         return send_file(filename, mimetype='image/png')
 
     @app.route('/gym_img')

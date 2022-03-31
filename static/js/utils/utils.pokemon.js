@@ -204,14 +204,12 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
     const costumeParam = pokemon.costume ? `&costume=${pokemon.costume}` : ''
     const evolutionParam = pokemon.evolution ? `&evolution=${pokemon.evolution}` : ''
     const weatherParam = pokemon.weather_boosted_condition ? `&weather=${pokemon.weather_boosted_condition}` : ''
-    let modifierParam = ''
-    const serverSide = serverSettings.highlightPokemon === 'server'
-    if (serverSide || serverSettings.highlightPerfectCircle) {
+    let perfectParam = ''
+    if (serverSettings.highlightPerfectCircle) {
         const ivs = pokemon.individual_attack ? getIvsPercentage(pokemon.individual_attack, pokemon.individual_defense, pokemon.individual_stamina) : 0
-        const lvl = pokemon.cp_multiplier ? getPokemonLevel(pokemon.cp_multiplier) : 0
-        modifierParam = ivs === 100 ? '&modifier=perfect' : serverSide && ivs >= settings.highlightThresholdIV ? '&modifier=highiv' : serverSide && lvl >= settings.highlightThresholdLevel ? '&modifier=highlevel' : ''
+        perfectParam = ivs === 100 ? '&perfect=1' : ''
     }
-    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}${modifierParam}`
+    return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}${perfectParam}`
 }
 
 function getIvsPercentage(atk, def, sta) {

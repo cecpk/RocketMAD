@@ -57,9 +57,9 @@
     {% if settings.highlightPokemon == 'css' %}
     <style>
       :root {
-        --color-perfect: {{ settings.highlightColorPerfect }};
-        --color-iv: {{ settings.highlightColorIV }};
-        --color-level: {{ settings.highlightColorLevel }};
+        --color-perfect: #5500ff;
+        --color-iv: #ff0000;
+        --color-level: #00cc00;
         --blur-radius: 5px;
       }
       .map-container .leaflet-marker-icon.marker-highlight-perfect {
@@ -705,7 +705,6 @@
                   </div>
                 </div>
                 <div id="highlight-pokemon-wrapper">
-                  {% if settings.highlightPokemon != "server" %}
                   <div class="form-control">
                     <div class="input-field color">
                       <div class="text-input-title">{{ i18n('Color for Perfect IV') }}</div>
@@ -738,7 +737,6 @@
                       <div id="highlight-radius-slider"></div>
                     </div>
                   </div>
-                  {% endif %}
                   <div class="form-control">
                     <span id="highlight-iv-slider-title" class="slider-title">min. IVs</span>
                     <div class="slider-container">

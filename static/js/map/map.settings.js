@@ -387,7 +387,7 @@ function initSettingsSidebar() {
                 Store.set('highlightPokemon', this.checked)
             })
 
-            if (serverSettings.highlightPokemon !== 'server') {
+            if (serverSettings.highlightPokemon) {
                 $('#highlight-color-perfect').on('change', function () {
                     settings.highlightColorPerfect = this.value
                     document.documentElement.style.setProperty('--color-perfect', this.value)
@@ -1604,7 +1604,7 @@ function initSettingsSidebar() {
             $('#highlight-iv-slider-title').text(`${i18n('min. IVs')} (${settings.highlightThresholdIV}%)`)
             $('#highlight-level-slider-title').text(`${i18n('min. Level')} (L${settings.highlightThresholdLevel})`)
             $('#scale-values-switch').prop('checked', settings.scaleByValues)
-            if (serverSettings.highlightPokemon !== 'server') {
+            if (serverSettings.highlightPokemon) {
                 if (serverSettings.highlightPokemon === 'svg') {
                     $('#highlight-size-slider-title').text(`${i18n('Circle Size')} (${settings.highlightSize})`)
                 }
