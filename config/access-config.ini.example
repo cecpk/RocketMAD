@@ -37,10 +37,12 @@
 #rarity                         # Display Pokémon rarity. (default=False)
 #upscaled-pokemon:              # Pokémon IDs to upscale icons for. Seperate IDs with commas. (default=None)
 #no-pokemon-history-page        # Disables pokemon history page. (default=False)
-#verified-despawn-time          # Show if pokemon despawn time is verified.
-#show-all-zoom-level            # Show all Pokemon, even excluded, at this map zoom level.
-                                # Set to 0 to disable this feature. Set to 19 or higher for nice results.
+#verified-despawn-time          # Show if pokemon despawn time is verified. (default=False)
+#show-all-zoom-level:           # Show all Pokemon, even excluded, at this map zoom level.
+                                # Set to 0 to disable this feature. Set to 19 or higher for nice results. (default=0)
 #pokemon-cries                  # Play cries for pokemon notifications. Place your sound files (wav or mp3) in static/sounds/cries. (default=False)
+#highlight-pokemon:             # Highlight pokemon on the map using the stated way. Options: svg / css (default='')
+#perfect-circle                 # Add circle symbol with "100" similar to the weather one for perfect IV pokemon. (default=False)
 
 #no-gyms                        # Disables gyms. (default=False)
 #no-gym-sidebar                 # Disable the gym sidebar and toggle. (default=False)

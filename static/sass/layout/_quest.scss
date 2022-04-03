@@ -1,5 +1,5 @@
 #quest-container {
-  padding-bottom: 16px;
+  padding: 16px;
 
   @media screen and (min-width: 601px) {
     padding: 0 19px 16px 19px;
@@ -7,6 +7,10 @@
 
   #quest-title {
     margin-bottom: 0.8rem;
+  }
+
+  table.dataTable>tbody>tr.child ul.dtr-details {
+    width: 100%;
   }
 }
 

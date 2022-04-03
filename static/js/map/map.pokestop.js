@@ -543,18 +543,21 @@ function removePokestopMarker(id) { // eslint-disable-line no-unused-vars
 function excludeQuestPokemon(id) { // eslint-disable-line no-unused-vars
     if (filterManagers.excludedQuestPokemon !== null) {
         filterManagers.excludedQuestPokemon.add([id])
+        $('#filter-quests-switch').prop('checked', true).trigger('change')
     }
 }
 
 function excludeQuestItem(id, bundle) { // eslint-disable-line no-unused-vars
     if (filterManagers.excludedQuestItems !== null) {
         filterManagers.excludedQuestItems.add([id + '_' + bundle])
+        $('#filter-quests-switch').prop('checked', true).trigger('change')
     }
 }
 
 function excludeInvasion(id) { // eslint-disable-line no-unused-vars
     if (filterManagers.excludedInvasions !== null) {
         filterManagers.excludedInvasions.add([id])
+        $('#filter-invasions-switch').prop('checked', true).trigger('change')
     }
 }
 

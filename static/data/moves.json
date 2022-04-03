@@ -1210,5 +1210,9 @@
   "365": {
     "name": "Luster Purge",
     "type": "Psychic"
+  },
+  "366": {
+    "name": "Mist Ball",
+    "type": "Psychic"
   }
 }

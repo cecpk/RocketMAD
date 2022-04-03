@@ -191,14 +191,14 @@ class ImageGenerator:
             return path_icons / '{}.png'.format(pkm)
 
     def get_pokemon_map_icon(self, pkm, gender=GENDER_UNSET, form=0, costume=0,
-                             evolution=EVOLUTION_UNSET, weather=None):
+                             evolution=EVOLUTION_UNSET, weather=None, perfect=None):
         im_lines = []
 
         # Add Pokemon icon
         if self.use_pogo_assets:
             source, target = self._pokemon_asset_path(
                 pkm, classifier='marker', gender=gender, form=form,
-                costume=costume, evolution=evolution, weather=weather)
+                costume=costume, evolution=evolution, weather=weather, perfect=perfect)
             target_size = 96
             im_lines.append(
                 '-fuzz 0.5% -trim +repage'
@@ -206,6 +206,8 @@ class ImageGenerator:
                 ' -background none -gravity center -extent 139x139'
                 ' -background black -alpha background'
                 ' -channel A -blur 0x1 -level 0,10%'
+                ' \( +clone -background black -shadow 100x3+0+0 -channel A -level 0,50% +channel \) +swap'
+                ' -background none -layers merge +repage'
                 ' -adaptive-resize {size}x{size}'
                 ' -modulate 100,110'.format(size=target_size)
             )
@@ -234,6 +236,18 @@ class ImageGenerator:
                 ' -fill "#FFFD" -stroke black -draw "circle {x},{y} {x},{y2}"'
                 ' -draw "image over 1,1 42,42 \'{weather_img}\'"'.format(
                     x=x, y=y, y2=y2, weather_img=weather_images[weather])
+            )
+
+        if args.perfect_circle and perfect:
+            radius = 20
+            x = radius + 1
+            y = target_size - radius - 2
+            y2 = target_size - 1
+            im_lines.append(
+                '-gravity southwest'
+                ' -fill "#FFFD" -stroke black -draw "circle {x},{y} {x},{y2}"'
+                ' -fill "#333" -stroke "#333" -font "{font}" -pointsize 18 -annotate +3+9 "100"'.format(
+                    x=x, y=y, y2=y2, size=target_size, font=font)
             )
 
         return self._run_imagemagick(source, im_lines, target)
@@ -453,7 +467,7 @@ class ImageGenerator:
 
     def _pokemon_asset_path(self, pkm, classifier=None, gender=GENDER_UNSET,
                             form=0, costume=0, evolution=EVOLUTION_UNSET,
-                            shiny=False, weather=None):
+                            shiny=False, weather=None, perfect=False):
         asset_path = self._get_unity_pokemon_asset_path(
             pkm, gender, form, costume, evolution, shiny)
         if not asset_path.exists():
@@ -466,14 +480,15 @@ class ImageGenerator:
         evolution_suffix = '_e' + str(evolution) if evolution > 0 else ''
         shiny_suffix = '_s' if shiny else ''
         weather_suffix = '_' + weather_names[weather] if weather else ''
+        perfect_suffix = '_perfect' if (args.perfect_circle and perfect) else ''
 
         if classifier:
             target_dir = path_generated / 'pokemon_{}'.format(classifier)
         else:
             target_dir = path_generated / 'pokemon'
-        target_filename = 'pm{}{}{}{}{}{}{}.png'.format(
+        target_filename = 'pm{}{}{}{}{}{}{}{}.png'.format(
             pkm, gender_suffix, form_suffix, costume_suffix, evolution_suffix,
-            shiny_suffix, weather_suffix)
+            shiny_suffix, weather_suffix, perfect_suffix)
 
         if asset_path.exists():
             return asset_path, target_dir / target_filename
