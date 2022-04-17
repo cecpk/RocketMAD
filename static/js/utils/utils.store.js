@@ -276,7 +276,7 @@ const StoreOptions = {
         type: StoreTypes.Boolean
     },
     includedRaidLevels: {
-        default: [1, 2, 3, 4, 5, 6],
+        default: [1, 2, 3, 4, 5, 6, 7],
         type: StoreTypes.JSON
     },
     raidNotifs: {
