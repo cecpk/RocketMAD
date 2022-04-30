@@ -1214,5 +1214,13 @@
   "366": {
     "name": "Mist Ball",
     "type": "Psychic"
+  },
+  "367": {
+    "name": "Brutal Swing",
+    "type": "Dark"
+  },
+  "368": {
+    "name": "Rollout",
+    "type": "Rock"
   }
 }

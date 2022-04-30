@@ -276,7 +276,7 @@ const StoreOptions = {
         type: StoreTypes.Boolean
     },
     includedRaidLevels: {
-        default: [1, 2, 3, 4, 5, 6],
+        default: [1, 2, 3, 4, 5, 6, 7],
         type: StoreTypes.JSON
     },
     raidNotifs: {
@@ -559,7 +559,11 @@ const Store = {
         const dump = {}
         for (const key in StoreOptions) {
             if (key === 'savedSettings') continue
-            dump[key] = Store.get(key)
+            if (StoreOptions[key].type === StoreTypes.Set) {
+                dump[key] = Array.from(Store.get(key))
+            } else {
+                dump[key] = Store.get(key)
+            }
         }
         return dump
     },

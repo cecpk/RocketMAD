@@ -56,7 +56,8 @@ egg_images = {
     3: path_gym / 'egg_rare.png',
     4: path_gym / 'egg_rare.png',
     5: path_gym / 'egg_legendary.png',
-    6: path_gym / 'egg_mega.png'
+    6: path_gym / 'egg_mega.png',
+    7: path_gym / 'egg_legendary_mega.png'
 }
 
 weather_images = {
