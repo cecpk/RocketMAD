@@ -757,6 +757,10 @@
       "2736": {
         "formName": "Flying Okinawa",
         "assetId": "00"
+      },
+      "2805": {
+        "formName": "GO Fest 2022",
+	    "assetId": "00"
       }
     }
   },
@@ -1725,6 +1729,20 @@
       "282": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2792": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Fire",
+            "color": "#707070"
+          },
+          {
+            "type": "Rock",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -1748,6 +1766,20 @@
       },
       "285": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2793": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Fire",
+            "color": "#707070"
+          },
+          {
+            "type": "Rock",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -4174,6 +4206,20 @@
       "718": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2801": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#707070"
+          },
+          {
+            "type": "Flying",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -4203,6 +4249,20 @@
       "775": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2800": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Fighting",
+            "color": "#707070"
+          },
+          {
+            "type": "Flying",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -4231,6 +4291,20 @@
       },
       "838": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2799": {
+        "formName": "Galarian",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#707070"
+          },
+          {
+            "type": "Flying",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -4509,6 +4583,20 @@
       },
       "1135": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2786": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Fire",
+            "color": "#707070"
+          },
+          {
+            "type": "Ghost",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -6036,6 +6124,20 @@
       "1261": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2788": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Dark",
+            "color": "#707070"
+          },
+          {
+            "type": "Poison",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -6147,6 +6249,20 @@
       },
       "799": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2794": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Fighting",
+            "color": "#707070"
+          },
+          {
+            "type": "Poison",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -14113,6 +14229,20 @@
       "1915": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2787": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Water",
+            "color": "#707070"
+          },
+          {
+            "type": "Dark",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -15281,6 +15411,20 @@
       "2053": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2789": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Grass",
+            "color": "#707070"
+          },
+          {
+            "type": "Fighting",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -15296,11 +15440,15 @@
     "forms": {
       "136": {
         "formName": "Red-Striped",
-        "assetId": "11"
+        "assetId": "00"
       },
       "137": {
         "formName": "Blue-Striped",
-        "assetId": "12"
+        "assetId": "00"
+      },
+      "2804": {
+        "formName": "White-Striped",
+        "assetId": "00"
       }
     }
   },
@@ -15883,6 +16031,20 @@
       "2110": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2796": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Normal",
+            "color": "#707070"
+          },
+          {
+            "type": "Ghost",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -15906,6 +16068,20 @@
       },
       "2113": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2797": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Normal",
+            "color": "#707070"
+          },
+          {
+            "type": "Ghost",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -17404,6 +17580,20 @@
       },
       "2278": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2798": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Psychic",
+            "color": "#707070"
+          },
+          {
+            "type": "Flying",
+            "color": "#8a8a59"
+          }
+        ],
         "assetId": "00"
       }
     }
@@ -19060,7 +19250,23 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ]
+    ],
+    "forms": {
+      "2790": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Steel",
+            "color": "#707070"
+          },
+          {
+            "type": "Dragon",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
+      }
+    }
   },
   "706": {
     "name": "Goodra",
@@ -19070,7 +19276,23 @@
         "type": "Dragon",
         "color": "#7038f8"
       }
-    ]
+    ],
+    "forms": {
+      "2791": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Steel",
+            "color": "#707070"
+          },
+          {
+            "type": "Dragon",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
+      }
+    }
   },
   "707": {
     "name": "Klefki",
@@ -19196,7 +19418,23 @@
         "type": "Ice",
         "color": "#98d8d8"
       }
-    ]
+    ],
+    "forms": {
+      "2795": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Ice",
+            "color": "#707070"
+          },
+          {
+            "type": "Rock",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
+      }
+    }
   },
   "714": {
     "name": "Noibat",
@@ -19406,7 +19644,23 @@
         "type": "Ghost",
         "color": "#705898"
       }
-    ]
+    ],
+    "forms": {
+      "2785": {
+        "formName": "Hisuian",
+        "formTypes": [
+          {
+            "type": "Grass",
+            "color": "#707070"
+          },
+          {
+            "type": "Fighting",
+            "color": "#8a8a59"
+          }
+        ],
+        "assetId": "00"
+      }
+    }
   },
   "725": {
     "name": "Litten",
@@ -20604,6 +20858,7 @@
     "name": "Nihilego",
     "familyId": 793,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Rock",
@@ -20619,6 +20874,7 @@
     "name": "Buzzwole",
     "familyId": 794,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Bug",
@@ -20634,6 +20890,7 @@
     "name": "Pheromosa",
     "familyId": 795,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Bug",
@@ -20649,6 +20906,7 @@
     "name": "Xurkitree",
     "familyId": 796,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Electric",
@@ -20660,6 +20918,7 @@
     "name": "Celesteela",
     "familyId": 797,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Steel",
@@ -20675,6 +20934,7 @@
     "name": "Kartana",
     "familyId": 798,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Grass",
@@ -20690,6 +20950,7 @@
     "name": "Guzzlord",
     "familyId": 799,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Dark",
@@ -20804,6 +21065,7 @@
     "name": "Poipole",
     "familyId": 803,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Poison",
@@ -20815,6 +21077,7 @@
     "name": "Naganadel",
     "familyId": 803,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Poison",
@@ -20830,6 +21093,7 @@
     "name": "Stakataka",
     "familyId": 805,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Rock",
@@ -20845,6 +21109,7 @@
     "name": "Blacephalon",
     "familyId": 806,
     "legendary": true,
+    "ultraBeast": true,
     "types": [
       {
         "type": "Fire",
@@ -22220,6 +22485,115 @@
             "color": "#8a8a59"
           }
         ],
+        "assetId": "00"
+      }
+    }
+  },
+  "899": {
+    "name": "Wyrdeer",
+    "familyId": 234,
+    "types": [
+      {
+        "type": "Normal",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Psychic",
+        "color": "#ffffff"
+      }
+    ]
+  },
+  "900": {
+    "name": "Kleavor",
+    "familyId": 123,
+    "types": [
+      {
+        "type": "Bug",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Rock",
+        "color": "#ffffff"
+      }
+    ]
+  },
+  "901": {
+    "name": "Ursaluna",
+    "familyId": 216,
+    "types": [
+      {
+        "type": "Ground",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Normal",
+        "color": "#ffffff"
+      }
+    ]
+  },
+  "902": {
+    "name": "Basculegion",
+    "familyId": 550,
+    "types": [
+      {
+        "type": "Water",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Ghost",
+        "color": "#ffffff"
+      }
+    ]
+  },
+  "903": {
+    "name": "Sneasler",
+    "familyId": 215,
+    "types": [
+      {
+        "type": "Fighting",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Poison",
+        "color": "#ffffff"
+      }
+    ]
+  },
+  "904": {
+    "name": "Overqwil",
+    "familyId": 211,
+    "types": [
+      {
+        "type": "Dark",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Poison",
+        "color": "#ffffff"
+      }
+    ]
+  },
+  "905": {
+    "name": "Enamorus",
+    "familyId": 905,
+    "legendary": true,
+    "types": [
+      {
+        "type": "Fairy",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Flying",
+        "color": "#ffffff"
+      }
+    ],
+    "forms": {
+      "2802": {
+        "formName": "Incarnate",
+        "assetId": "00"
+      },
+      "2803": {
+        "formName": "Therian",
         "assetId": "00"
       }
     }
