@@ -76,6 +76,7 @@ $(function () {
     }
 
     table = $('#quest-table').DataTable({
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         responsive: true,
         deferRender: true,
         language: {
@@ -146,7 +147,7 @@ $(function () {
                                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='${i18n('View on GamePress')}'>#${quest.pokemon_id}</a>`
                                 break
                             case 12:
-                                rewardImageUrl = getItemImageUrl(7)
+                                rewardImageUrl = getRewardMegaImageUrl(quest.pokemon_id)
                                 rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
                         }
 

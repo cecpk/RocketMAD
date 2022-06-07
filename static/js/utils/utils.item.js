@@ -20,7 +20,12 @@ function getItemName(id) {
 }
 
 function getItemImageUrl(id) {
-    return 'static/images/items/' + id + '.png'
+    return 'static/images/reward/item/' + id + '.png'
+}
+
+function getRewardMegaImageUrl(id) {
+    return 'static/images/reward/mega_resource/' + id + '.png'
+
 }
 
 function getQuestBundles(id) {
