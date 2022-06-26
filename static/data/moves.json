@@ -1226,5 +1226,9 @@
   "369": {
     "name": "Seed Flare",
     "type": "Grass"
+  },
+  "370": {
+    "name": "Obstruct",
+    "type": "Dark"
   }
 }

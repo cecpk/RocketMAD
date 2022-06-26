@@ -21,8 +21,7 @@
     "name": "Premier Ball"
   },
   "6": {
-    "name": "Stardust",
-    "questBundles": [200, 250, 500, 750, 800, 1000, 1200, 1500, 3500]
+    "name": "Beast Ball"
   },
   "7": {
     "name": "Mega Energy",
@@ -31,6 +30,10 @@
   "8": {
     "name": "Candy",
     "questBundles": [3]
+  },
+  "99": {
+    "name": "Stardust",
+    "questBundles": [200, 250, 500, 750, 800, 1000, 1200, 1500, 3500]
   },
   "101": {
     "name": "Potion",

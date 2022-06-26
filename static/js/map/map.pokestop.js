@@ -21,7 +21,7 @@ function isPokestopMeetsQuestFilters(pokestop) {
                 return !settings.excludedQuestItems.has(id)
             }
             case 3: {
-                const id = '6_' + pokestop.quest.stardust
+                const id = '99_' + pokestop.quest.stardust
                 return !settings.excludedQuestItems.has(id)
             }
             case 4: {
@@ -115,7 +115,7 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
                 shadowSize = [30, 30]
                 break
             case 3:
-                shadowImage = getItemImageUrl(6)
+                shadowImage = getItemImageUrl(99)
                 shadowSize = [30, 30]
                 break
             case 4:
@@ -203,11 +203,11 @@ function pokestopLabel(pokestop) {
                 isNotifQuest = settings.notifQuestItems.has(quest.item_id + '_' + quest.item_amount)
                 break
             case 3:
-                rewardImageUrl = getItemImageUrl(6)
-                rewardText = quest.stardust + ' ' + getItemName(6)
-                excludeFunction = `excludeQuestItem(6,${quest.stardust})`
-                notifFunction = `toggleQuestItemNotif(6,${quest.stardust})`
-                isNotifQuest = settings.notifQuestItems.has('6_' + quest.stardust)
+                rewardImageUrl = getItemImageUrl(99)
+                rewardText = quest.stardust + ' ' + getItemName(99)
+                excludeFunction = `excludeQuestItem(99,${quest.stardust})`
+                notifFunction = `toggleQuestItemNotif(99,${quest.stardust})`
+                isNotifQuest = settings.notifQuestItems.has('99_' + quest.stardust)
                 break
             case 4:
                 rewardImageUrl = getItemImageUrl(8)
@@ -681,7 +681,7 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
                     notifTitle += `${i18n('Quest')}: ${pokestop.quest.item_amount} ${getItemName(pokestop.quest.item_id)}(s)`
                     break
                 case 3:
-                    notifTitle += `${i18n('Quest')}: ${pokestop.quest.stardust} ${getItemName(6)}`
+                    notifTitle += `${i18n('Quest')}: ${pokestop.quest.stardust} ${getItemName(99)}`
                     break
                 case 7:
                     notifTitle += `${i18n('Quest')}: ${getPokemonNameWithForm(pokestop.quest.pokemon_id, pokestop.quest.form_id)}`

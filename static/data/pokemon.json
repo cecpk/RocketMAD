@@ -22515,7 +22515,13 @@
         "type": "Rock",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2806": {
+        "formName": "",
+        "assetId": "00"
+      }
+    }
   },
   "901": {
     "name": "Ursaluna",
@@ -22529,7 +22535,13 @@
         "type": "Normal",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2807": {
+        "formName": "",
+        "assetId": "00"
+      }
+    }
   },
   "902": {
     "name": "Basculegion",

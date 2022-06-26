@@ -134,8 +134,8 @@ $(function () {
                                 rewardText = quest.item_amount + ' ' + getItemName(quest.item_id)
                                 break
                             case 3:
-                                rewardImageUrl = getItemImageUrl(6)
-                                rewardText = quest.stardust + ' ' + getItemName(6)
+                                rewardImageUrl = getItemImageUrl(99)
+                                rewardText = quest.stardust + ' ' + getItemName(99)
                                 break
                             case 4:
                                 rewardImageUrl = getItemImageUrl(8)
@@ -165,7 +165,7 @@ $(function () {
                             case 2:
                                 return getItemName(quest.item_id) + ' ' + quest.item_amount
                             case 3:
-                                return getItemName(6) + ' ' + quest.stardust
+                                return getItemName(99) + ' ' + quest.stardust
                             case 4:
                                 return `${getItemName(8)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
                             case 7:
@@ -179,7 +179,7 @@ $(function () {
                         case 2:
                             return quest.item_amount + ' ' + getItemName(quest.item_id)
                         case 3:
-                            return quest.stardust + ' ' + getItemName(6)
+                            return quest.stardust + ' ' + getItemName(99)
                         case 4:
                             return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(8)}`
                         case 7:
