@@ -2211,7 +2211,7 @@ function initItemFilters() {
     })
 
     const questItemIds = new Set()
-    const includeInFilter = [6, 1, 2, 3, 701, 703, 705, 706, 708, 709, 101, 102, 103, 104, 201, 202, 1301, 1201, 1202, 501, 502, 503, 504, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 7, 8, 1501]
+    const includeInFilter = [6, 1, 2, 3, 701, 703, 705, 706, 708, 709, 101, 102, 103, 104, 201, 202, 1301, 1201, 1202, 501, 502, 503, 504, 1101, 1102, 1103, 1104, 1105, 1106, 1107, 7, 8, 1501, 99]
 
     for (const id of includeInFilter) {
         for (const bundle of getQuestBundles(id)) {
