@@ -1230,5 +1230,9 @@
   "370": {
     "name": "Obstruct",
     "type": "Dark"
+  },
+  "371": {
+    "name": "Shadow Force",
+    "type": "Ghost"
   }
 }
