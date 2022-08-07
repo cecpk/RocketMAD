@@ -1234,5 +1234,13 @@
   "371": {
     "name": "Shadow Force",
     "type": "Ghost"
+  },
+  "372": {
+    "name": "Meteor Beam",
+    "type": "Rock"
+  },
+  "373": {
+    "name": "Water Shuriken",
+    "type": "Water"
   }
 }
