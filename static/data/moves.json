@@ -1250,5 +1250,9 @@
   "375": {
     "name": "Fusion Flare",
     "type": "Fire"
+  },
+  "376": {
+    "name": "Poltergeist",
+    "type": "Ghost"
   }
 }
