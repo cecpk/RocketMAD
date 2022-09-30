@@ -31,6 +31,10 @@
     "name": "Candy",
     "questBundles": [3]
   },
+  "9": {
+    "name": "Experience",
+    "questBundles": [700]
+  },
   "99": {
     "name": "Stardust",
     "questBundles": [200, 250, 500, 750, 800, 1000, 1200, 1500, 3500]
