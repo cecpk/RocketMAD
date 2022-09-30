@@ -129,6 +129,10 @@ $(function () {
                         let rewardImageUrl = ''
                         let rewardText = ''
                         switch (quest.reward_type) {
+                            case 1:
+                                rewardImageUrl = getItemImageUrl(9)
+                                rewardText = quest.stardust + ' ' + getItemName(9)
+                                break
                             case 2:
                                 rewardImageUrl = getItemImageUrl(quest.item_id)
                                 rewardText = quest.item_amount + ' ' + getItemName(quest.item_id)
@@ -162,6 +166,8 @@ $(function () {
                         `
                     } else if (type === 'sort') {
                         switch (quest.reward_type) {
+                            case 1:
+                                return getItemName(9) + ' ' + quest.stardust
                             case 2:
                                 return getItemName(quest.item_id) + ' ' + quest.item_amount
                             case 3:
@@ -176,6 +182,8 @@ $(function () {
                     }
 
                     switch (quest.reward_type) {
+                        case 1:
+                            return quest.stardust + ' ' + getItemName(9)
                         case 2:
                             return quest.item_amount + ' ' + getItemName(quest.item_id)
                         case 3:
