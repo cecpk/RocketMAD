@@ -16,6 +16,10 @@ function isPokestopMeetsQuestFilters(pokestop) {
 
     if (settings.filterQuests) {
         switch (pokestop.quest.reward_type) {
+            case 1: {
+                const id = '9_' + pokestop.quest.stardust
+                return !settings.excludedQuestItems.has(id)
+            }
             case 2: {
                 const id = pokestop.quest.item_id + '_' + pokestop.quest.item_amount
                 return !settings.excludedQuestItems.has(id)
@@ -110,6 +114,10 @@ function updatePokestopMarker(pokestop, marker, isNotifPokestop) {
         const quest = pokestop.quest
         shadowAnchor = [30, 30]
         switch (quest.reward_type) {
+            case 1:
+                shadowImage = getItemImageUrl(9)
+                shadowSize = [30, 30]
+                break
             case 2:
                 shadowImage = getItemImageUrl(quest.item_id)
                 shadowSize = [30, 30]
@@ -195,6 +203,13 @@ function pokestopLabel(pokestop) {
         let infoButtonDisplay = ''
 
         switch (quest.reward_type) {
+            case 1:
+                rewardImageUrl = getItemImageUrl(9)
+                rewardText = quest.stardust + ' ' + getItemName(9)
+                excludeFunction = `excludeQuestItem(9,${quest.stardust})`
+                notifFunction = `toggleQuestItemNotif(9,${quest.stardust})`
+                isNotifQuest = settings.notifQuestItems.has('9_' + quest.stardust)
+                break
             case 2:
                 rewardImageUrl = getItemImageUrl(quest.item_id)
                 rewardText = quest.item_amount + ' ' + getItemName(quest.item_id)
@@ -603,6 +618,13 @@ function getPokestopNotificationInfo(pokestop) {
         const id = pokestop.pokestop_id
         if (settings.questNotifs && isPokestopMeetsQuestFilters(pokestop)) {
             switch (pokestop.quest.reward_type) {
+                case 1: {
+                    const itemId = '9_' + pokestop.quest.stardust
+                    if (settings.notifQuestItems.has(itemId)) {
+                        questNotif = true
+                    }
+                    break
+                }
                 case 2: {
                     const itemId = pokestop.quest.item_id + '_' + pokestop.quest.item_amount
                     if (settings.notifQuestItems.has(itemId)) {
@@ -677,6 +699,9 @@ function sendPokestopNotification(pokestop, questNotif, invasionNotif, lureNotif
         let notifText = i18n('PokéStop') + ': ' + pokestopName
         if (questNotif) {
             switch (pokestop.quest.reward_type) {
+                case 1:
+                    notifTitle += `${i18n('Quest')}: ${pokestop.quest.stardust} ${getItemName(9)}`
+                    break
                 case 2:
                     notifTitle += `${i18n('Quest')}: ${pokestop.quest.item_amount} ${getItemName(pokestop.quest.item_id)}(s)`
                     break
