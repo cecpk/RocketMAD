@@ -1254,5 +1254,9 @@
   "376": {
     "name": "Poltergeist",
     "type": "Ghost"
+  },
+  "377": {
+    "name": "High Horsepower",
+    "type": "Ground"
   }
 }
