@@ -304,7 +304,7 @@ function updateStatsTable() {
 
     if (selectedTab === '#gym-stats-tab') {
         const teamCounts = [0, 0, 0, 0]
-        const eggCounts = [0, 0, 0, 0, 0, 0, 0, 0]
+        const eggCounts = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         const raidPokemonData = {}
         let gymCount = 0
         let eggCount = 0
