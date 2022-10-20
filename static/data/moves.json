@@ -1258,5 +1258,9 @@
   "377": {
     "name": "High Horsepower",
     "type": "Ground"
+  },
+  "378": {
+    "name": "Glaciate",
+    "type": "Ice"
   }
 }
