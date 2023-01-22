@@ -54,6 +54,7 @@ class Pokemon(db.Model):
     last_modified = db.Column(db.DateTime)
     seen_type = db.Column(db.String)
     fort_id = db.Column(db.String)
+    size = db.Column(db.SmallInteger)
 
     __table_args__ = (
         Index('pokemon_spawnpoint_id', 'spawnpoint_id'),
@@ -77,7 +78,8 @@ class Pokemon(db.Model):
             Pokemon.cp, Pokemon.cp_multiplier, Pokemon.weight, Pokemon.height,
             Pokemon.gender, Pokemon.form, Pokemon.costume,
             Pokemon.catch_prob_1, Pokemon.catch_prob_2, Pokemon.catch_prob_3,
-            Pokemon.weather_boosted_condition, Pokemon.last_modified, Pokemon.seen_type
+            Pokemon.weather_boosted_condition, Pokemon.last_modified, Pokemon.seen_type,
+            Pokemon.size
         ]
 
         if verified_despawn_time:

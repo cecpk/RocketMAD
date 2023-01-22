@@ -27,6 +27,8 @@ function initSettings() {
     }
     if (serverSettings.pokemonValues) {
         settings.filterPokemonByValues = Store.get('filterPokemonByValues')
+        settings.filterPokemonBySize = Store.get('filterPokemonBySize')
+        settings.filterPokemonBySize = Store.get('filterPokemonBySizeOptions')
         settings.noFilterValuesPokemon = Store.get('noFilterValuesPokemon')
         settings.minIvs = Store.get('minIvs')
         settings.maxIvs = Store.get('maxIvs')
@@ -231,6 +233,26 @@ function initSettingsSidebar() {
             updatePokemons()
             Store.set('pokemonIconSizeModifier', iconSize)
         })
+
+        $('#filter-by-size-switch').on('change', function () {
+            settings.filterPokemonBySize = this.checked
+            const sizeFilterOptions = $('#filter-by-size-select').closest('.form-control')
+            if (this.checked) {
+                sizeFilterOptions.show()
+            } else {
+                sizeFilterOptions.hide()
+                updateMap({ loadAllPokemon: true })
+            }
+            updatePokemons()
+            Store.set('filterPokemonBySize', this.checked)
+        })
+
+        $('#filter-by-size-select').on('change', function () {
+            settings.filterPokemonBySizeOptions = $(this).val().map(Number)
+            updateMap({ loadAllPokemon: true })
+            Store.set('filterPokemonBySizeOptions', $(this).val().map(Number))
+        })
+            
     }
 
     if (serverSettings.pokemonValues) {

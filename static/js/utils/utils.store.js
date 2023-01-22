@@ -59,6 +59,14 @@ const StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    filterPokemonBySize: {
+        default: false,
+        type: StoreTypes.Boolean
+    },
+    filterPokemonBySizeOptions: {
+        default: [1, 2, 3, 4, 5],
+        type: StoreTypes.JSON
+    },
     excludedPokemon: {
         default: new Set(),
         type: StoreTypes.Set
