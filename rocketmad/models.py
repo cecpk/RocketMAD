@@ -470,6 +470,7 @@ class Pokestop(db.Model):
         incident_columns = [
             'incident_expiration', 'incident_display_type', 'character_display'
         ]
+
         if quests:
             quest_columns = [
                 'GUID', 'quest_timestamp', 'quest_task', 'quest_type',
