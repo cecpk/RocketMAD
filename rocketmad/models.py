@@ -568,7 +568,7 @@ class Pokestop(db.Model):
         now = datetime.utcnow()
         pokestops = []
         for r in result:
-            pokestop_orm = r[0] if quests else r
+            pokestop_orm = r[0] if quests or invasions else r
             quest_orm = r[1] if quests else None
             incident_orm = r[2] if quests else r[1]
             pokestop = orm_to_dict(pokestop_orm)
