@@ -570,7 +570,7 @@ class Pokestop(db.Model):
         for r in result:
             pokestop_orm = r[0] if quests or invasions else r
             quest_orm = r[1] if quests else None
-            incident_orm = r[2] if quests else r[1]
+            incident_orm = r[2] if quests and invasions else r[1] if invasions else None
             pokestop = orm_to_dict(pokestop_orm)
             if quest_orm is not None:
                 pokestop['quest'] = {
@@ -1168,7 +1168,7 @@ def db_clean_pokestops():
     db.session.commit()
 
     # Remove expired invasion data.
-    Pokestop.query.filter(Pokestop.incident_expiration < now).update(
+    Pokestop.query.filter(PokestopIncident.incident_expiration < now).update(
         dict(incident_expiration=None, incident_grunt_type=None)
     )
     db.session.commit()
