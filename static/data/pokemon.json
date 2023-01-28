@@ -22609,5 +22609,29 @@
         "assetId": "00"
       }
     }
+  },
+  "999": {
+    "name": "Gimmighoul",
+    "familyId": 999,
+    "types": [
+      {
+        "type": "Ghost",
+        "color": "#ffffff"
+      }
+    ]
+  },
+  "1000": {
+    "name": "Gholdengo",
+    "familyId": 999,
+    "types": [
+      {
+        "type": "Steel",
+        "color": "#ffffff"
+      },
+      {
+        "type": "Ghost",
+        "color": "#ffffff"
+      }
+    ]
   }
 }

@@ -1266,5 +1266,13 @@
   "379": {
     "name": "Breaking Swipe",
     "type": "Dragon"
+  },
+  "380": {
+    "name": "Boomburst",
+    "type": "Normal"
+  },
+  "381": {
+    "name": "Double Iron Bash",
+    "type": "Steel"
   }
 }
