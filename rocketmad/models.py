@@ -448,9 +448,6 @@ class Pokestop(db.Model):
     last_updated = db.Column(db.DateTime)
     name = db.Column(db.String(length=250, collation='utf8mb4_unicode_ci'))
     image = db.Column(db.String(length=255, collation='utf8mb4_unicode_ci'))
-    incident_start = db.Column(db.DateTime)
-    incident_expiration = db.Column(db.DateTime)
-    incident_grunt_type = db.Column(db.SmallInteger)
 
     __table_args__ = (
         Index('pokestop_last_modified', 'last_modified'),
@@ -467,8 +464,11 @@ class Pokestop(db.Model):
                       lures=True, geofences=None, exclude_geofences=None):
         columns = [
             'pokestop_id', 'name', 'image', 'latitude', 'longitude',
-            'last_updated', 'incident_grunt_type', 'incident_expiration',
-            'active_fort_modifier', 'lure_expiration'
+            'last_updated', 'active_fort_modifier', 'lure_expiration'
+        ]
+
+        incident_columns = [
+            'incident_expiration', 'incident_display_type', 'character_display'
         ]
 
         if quests:
@@ -485,7 +485,8 @@ class Pokestop(db.Model):
             )
             reset_timestamp = datetime.timestamp(reset_time)
             query = (
-                db.session.query(Pokestop, TrsQuest)
+                db.session.query(Pokestop, TrsQuest, PokestopIncident)
+                .select_from(Pokestop)
                 .outerjoin(
                     TrsQuest,
                     and_(
@@ -493,20 +494,39 @@ class Pokestop(db.Model):
                         TrsQuest.quest_timestamp >= reset_timestamp
                     )
                 )
+                .outerjoin(
+                    PokestopIncident,
+                    and_(
+                        Pokestop.pokestop_id == PokestopIncident.pokestop_id
+                    )
+                )
                 .options(
                     Load(Pokestop).load_only(*columns),
-                    Load(TrsQuest).load_only(*quest_columns)
+                    Load(TrsQuest).load_only(*quest_columns),
+                    Load(PokestopIncident).load_only(*incident_columns)
                 )
             )
         else:
-            query = Pokestop.query.options(load_only(*columns))
+            query = (
+                db.session.query(Pokestop, PokestopIncident)
+                .outerjoin(
+                    PokestopIncident,
+                    and_(
+                        Pokestop.pokestop_id == PokestopIncident.pokestop_id
+                    )
+                )
+                .options(
+                    Load(Pokestop).load_only(*columns),
+                    Load(PokestopIncident).load_only(*incident_columns)
+                )
+            )
 
         if not eventless_stops:
             conds = []
             if quests:
                 conds.append(TrsQuest.GUID.isnot(None))
             if invasions:
-                conds.append(Pokestop.incident_expiration > datetime.utcnow())
+                conds.append(PokestopIncident.incident_expiration > datetime.utcnow())
             if lures:
                 conds.append(Pokestop.lure_expiration > datetime.utcnow())
             query = query.filter(or_(*conds))
@@ -548,8 +568,9 @@ class Pokestop(db.Model):
         now = datetime.utcnow()
         pokestops = []
         for r in result:
-            pokestop_orm = r[0] if quests else r
+            pokestop_orm = r[0] if quests or invasions else r
             quest_orm = r[1] if quests else None
+            incident_orm = r[2] if quests and invasions else r[1] if invasions else None
             pokestop = orm_to_dict(pokestop_orm)
             if quest_orm is not None:
                 pokestop['quest'] = {
@@ -565,6 +586,13 @@ class Pokestop(db.Model):
                 }
             else:
                 pokestop['quest'] = None
+
+            if incident_orm is not None:
+                pokestop['incident_expiration'] = incident_orm.incident_expiration
+                pokestop['incident_grunt_type'] = incident_orm.character_display
+            else:
+                pokestop['incident_expiration'] = None
+
             if (pokestop['incident_expiration'] is not None
                     and (pokestop['incident_expiration'] < now
                          or not invasions)):
@@ -1140,7 +1168,7 @@ def db_clean_pokestops():
     db.session.commit()
 
     # Remove expired invasion data.
-    Pokestop.query.filter(Pokestop.incident_expiration < now).update(
+    Pokestop.query.filter(PokestopIncident.incident_expiration < now).update(
         dict(incident_expiration=None, incident_grunt_type=None)
     )
     db.session.commit()
@@ -1202,3 +1230,22 @@ def db_clean_spawnpoints(age_hours):
     time_diff = default_timer() - start_timer
     log.debug('Completed cleanup of old spawnpoint data in %.6f seconds.',
               time_diff)
+
+
+class PokestopIncident(db.Model):
+    __tablename__ = 'pokestop_incident'
+    __table_args__ = (
+        Index('pokestop_incident_stop_expiration', 'pokestop_id', 'incident_expiration'),
+        Index('pokestop_incident_expiration', 'incident_expiration'),
+    )
+    pokestop_id = db.Column(db.ForeignKey('pokestop.pokestop_id', ondelete='CASCADE'), primary_key=True,
+                         nullable=False)
+    incident_id = db.Column(db.String(50, 'utf8mb4_unicode_ci'), primary_key=True, unique=True)
+    incident_start = db.Column(db.DateTime, nullable=False)
+    incident_expiration = db.Column(db.DateTime, nullable=False, index=True)
+    hide_incident = db.Column(db.BOOLEAN, nullable=False, server_default=text("'0'"))
+    incident_display_type = db.Column(db.SmallInteger)
+    incident_display_order_priority = db.Column(db.Integer)
+    custom_display = db.Column(db.String(50))
+    is_cross_stop_incident = db.Column(db.BOOLEAN, nullable=False, server_default=text("'0'"))
+    character_display = db.Column(db.SmallInteger, server_default=None, nullable=True)
