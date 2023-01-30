@@ -291,11 +291,7 @@ class Gym(db.Model):
     longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
     total_cp = db.Column(db.SmallInteger, default=0, nullable=False)
     is_in_battle = db.Column(TINYINT, default=0, nullable=False)
-    gender = db.Column(db.SmallInteger)
-    form = db.Column(db.SmallInteger)
-    costume = db.Column(db.SmallInteger)
     weather_boosted_condition = db.Column(db.SmallInteger)
-    shiny = db.Column(TINYINT)
     last_modified = db.Column(
         db.DateTime, default=datetime.utcnow(), nullable=False
     )
@@ -303,6 +299,7 @@ class Gym(db.Model):
         db.DateTime, default=datetime.utcnow(), nullable=False
     )
     is_ex_raid_eligible = db.Column(TINYINT, default=0, nullable=False)
+    is_ar_scan_eligible = db.Column(TINYINT, default=0, nullable=False)
 
     gym_details = db.relationship(
         'GymDetails', uselist=False, backref='gym', lazy='joined',
