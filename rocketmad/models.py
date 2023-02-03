@@ -494,7 +494,8 @@ class Pokestop(db.Model):
                 .outerjoin(
                     PokestopIncident,
                     and_(
-                        Pokestop.pokestop_id == PokestopIncident.pokestop_id
+                        Pokestop.pokestop_id == PokestopIncident.pokestop_id,
+                        PokestopIncident.incident_expiration > datetime.utcnow()
                     )
                 )
                 .options(
