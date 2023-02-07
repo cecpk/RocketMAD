@@ -32,7 +32,8 @@
     "build": "grunt build",
     "watch": "grunt default",
     "lint": "grunt lint",
-    "grunt": "grunt"
+    "grunt": "grunt",
+    "invasions": "grunt invasions"
   },
   "repository": {
     "type": "git",

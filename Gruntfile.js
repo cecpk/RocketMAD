@@ -5,6 +5,7 @@ module.exports = function (grunt) {
         unzip: 'grunt-zip'
     })
 
+    var python_exe = grunt.option('python') || 'python3';
     var path = require('path')
     var fs = require('fs')
 
@@ -191,4 +192,29 @@ module.exports = function (grunt) {
     grunt.registerTask('build', ['clean', 'js-build', 'css-build', 'json', 'unzip'])
     grunt.registerTask('lint', ['js-lint'])
     grunt.registerTask('default', ['build', 'watch'])
+    
+    grunt.registerTask('invasions', ['gen_invasions', 'build'])
+    grunt.registerTask('gen_invasions', function() {
+        var exec = require('child_process').exec
+        var done_cb = this.async()
+        grunt.log.writeln("Running " + python_exe + " scripts/generate_invasion_data.py - this could take a minute")
+        exec(python_exe + ' scripts/generate_invasion_data.py', {cwd: '.'}, function(error, stdout, stderr) {
+          if (error === null) {
+            grunt.log.write(stdout);
+            grunt.log.write('Copying generated file to static/data/invasions.json')
+            grunt.file.copy('invasions.json', 'static/data/invasions.json')
+            grunt.file.delete('invasions.json')
+            done_cb();
+          } else {
+            grunt.log.error(stderr);
+            if (stderr.includes("ModuleNotFoundError")) {
+                grunt.log.writeln("--")
+                grunt.log.error("Detected ModuleNotFoundError - you sure you run it via correct python/venv?");
+                grunt.log.error("You can provider proper python3 executable via --python option, for example:")
+                grunt.log.error("npm run invasions -- --python=~/venv/bin/python3");
+            }
+            done_cb(false);
+          }
+        })
+    })
 }
