@@ -33,11 +33,13 @@ EVOLUTION_UNSET = 0
 EVOLUTION_MEGA = 1
 EVOLUTION_MEGA_X = 2
 EVOLUTION_MEGA_Y = 3
+EVOLUTION_PRIMAL = 4
 
 evolution_suffixes = {
     EVOLUTION_MEGA: "MEGA",
     EVOLUTION_MEGA_X: "MEGA_X",
-    EVOLUTION_MEGA_Y: "MEGA_Y"
+    EVOLUTION_MEGA_Y: "MEGA_Y",
+    EVOLUTION_PRIMAL: "PRIMAL"
 }
 
 weather_names = {
@@ -59,7 +61,8 @@ egg_images = {
     6: path_gym / 'egg_mega.png',
     7: path_gym / 'egg_legendary_mega.png',
     8: path_gym / 'ultra_wormhole.png',
-    9: path_gym / 'egg_elite.png'
+    9: path_gym / 'egg_elite.png',
+   10: path_gym / 'egg_primal.png'
 }
 
 weather_images = {
@@ -110,7 +113,8 @@ raid_colors = {
     6: "\"rgb(141,54,40)\"",
     7: "\"rgb(90,132,132)\"",
     8: "\"rgb(184,165,221)\"",
-    9: "\"rgb(210,60,60)\""
+    9: "\"rgb(210,60,60)\"",
+   10: "\"rgb(94,134,188)\""
 }
 
 font = path_static / 'Arial Black.ttf'

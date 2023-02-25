@@ -113,6 +113,8 @@ function getPokemonName(id, evolutionId = 0) {
             return i18n('Mega') + ' ' + name + ' X'
         case 3:
             return i18n('Mega') + ' ' + name + ' Y'
+        case 4:
+            return i18n('Primal') + ' ' + name
         default:
             return name
     }
