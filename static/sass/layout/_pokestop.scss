@@ -41,6 +41,10 @@
       &.lure-rainy {
         border: 3px solid rgb(3, 28, 252);
       }
+
+      &.lure-golden {
+        border: 3px solid rgb(252, 194, 45);
+      }
     }
   }
 
@@ -91,6 +95,10 @@
 
       &.lure-mossy {
         color: rgb(112, 188, 23);
+      }
+
+      &.lure-golden {
+        color: rgb(252, 194, 45);
       }
     }
   }
