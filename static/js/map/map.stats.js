@@ -435,6 +435,7 @@ function updateStatsTable() {
         let magneticLureCount = 0
         let mossyLureCount = 0
         let rainyLureCount = 0
+        let goldenLureCount = 0
         let pokestopCount = 0
 
         $.each(mapData.pokestops, function (id, pokestop) {
@@ -466,6 +467,9 @@ function updateStatsTable() {
                             break
                         case ActiveFortModifierEnum.rainy:
                             rainyLureCount++
+                            break
+                        case ActiveFortModifierEnum.golden:
+                            goldenLureCount++
                             break
                     }
                     hasStatus = true
@@ -554,6 +558,16 @@ function updateStatsTable() {
                     i18n('Rainy Lure'),
                     rainyLureCount,
                     (rainyLureCount * 100) / pokestopCount
+                ]
+            )
+        }
+        if (goldenLureCount > 0) {
+            pokestopRows.push(
+                [
+                    '<img src="static/images/pokestop/stop_l_506.png" width=32 />',
+                    i18n('Golden Lure'),
+                    goldenLureCount,
+                    (goldenLureCount * 100) / pokestopCount
                 ]
             )
         }
