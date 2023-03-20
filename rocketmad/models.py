@@ -583,7 +583,10 @@ class Pokestop(db.Model):
 
             if incident_orm is not None:
                 pokestop['incident_expiration'] = incident_orm.incident_expiration
-                pokestop['incident_grunt_type'] = incident_orm.character_display
+                if incident_orm.incident_display_type == 8:
+                    pokestop['incident_grunt_type'] = 352
+                else:
+                    pokestop['incident_grunt_type'] = incident_orm.character_display
             else:
                 pokestop['incident_expiration'] = None
 
