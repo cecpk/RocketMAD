@@ -5,14 +5,16 @@ const ActiveFortModifierEnum = Object.freeze({
     glacial: 502,
     mossy: 503,
     magnetic: 504,
-    rainy: 505
+    rainy: 505,
+    golden: 506
 })
 const lureTypes = {
     501: 'Normal',
     502: 'Glacial',
     503: 'Mossy',
     504: 'Magnetic',
-    505: 'Rainy'
+    505: 'Rainy',
+    506: 'Golden'
 }
 var invasionData = {}
 
