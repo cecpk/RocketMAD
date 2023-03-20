@@ -124,11 +124,12 @@
 # Database settings
 ###################
 
-#db-host:                       # Required for mysql ()
-#db-name:                       # Required for mysql
-#db-user:                       # Required for mysql
-#db-pass:                       # Required for mysql
-#db-port:                       # Required for mysql (default=3306)
+#db-host:                       # Hostname or IP address for mysql database (default=127.0.0.1)
+#db-port:                       # Port to connect to mysql database (default=3306)
+#db-socket:                     # Path to a unix socket file (disabled by default)
+#db-name:                       # Mysql database name
+#db-user:                       # Mysql user name
+#db-pass:                       # Mysql password
 #db-pool-recycle:               # Number of seconds after which a connection is automatically recycled. (default=7200)
 
 
