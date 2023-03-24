@@ -359,14 +359,16 @@ def get_args(access_config=None):
     group.add_argument('--db-name',
                        help='Name of the database to be used.', required=True)
     group.add_argument('--db-user',
-                       help='Username for the database.', required=True)
+                       help='Username for the database.')
     group.add_argument('--db-pass',
-                       help='Password for the database.', required=True)
+                       help='Password for the database.')
     group.add_argument('--db-host',
                        help='IP or hostname for the database.',
                        default='127.0.0.1')
     group.add_argument('--db-port',
                        help='Port for the database.', type=int, default=3306)
+    group.add_argument('--db-socket',
+                       help='Path to a unix socket file, disabled by default')
     group.add_argument('--db-pool-recycle',
                        type=int, default=7200,
                        help='Number of seconds after which a connection is '
