@@ -130,8 +130,8 @@ def create_app():
         CORS(app)
 
     if args.db_socket:
-        db_uri = 'mysql+pymysql:///{}?charset=utf8mb4&unix_socket={}'.format(
-        args.db_name, args.db_socket)
+        db_uri = 'mysql+pymysql://{}:{}@localhost/{}?charset=utf8mb4&unix_socket={}'.format(
+        args.db_user, args.db_pass, args.db_name, args.db_socket)
     else:
         db_uri = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8mb4'.format(
         args.db_user, args.db_pass, args.db_host, args.db_port, args.db_name)
