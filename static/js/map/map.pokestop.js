@@ -13,6 +13,10 @@ function isPokestopMeetsQuestFilters(pokestop) {
     if (!settings.showQuests || !pokestop.quest) {
         return false
     }
+    if ((settings.filterQuestsAr && pokestop.quest.layer == 0)
+      || (!settings.filterQuestsAr && pokestop.quest.layer == 1)) {
+      return false
+    }
 
     if (settings.filterQuests) {
         switch (pokestop.quest.reward_type) {
