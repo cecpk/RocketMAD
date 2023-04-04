@@ -311,6 +311,10 @@ const StoreOptions = {
         default: false,
         type: StoreTypes.Boolean
     },
+    filterQuestsAr: {
+        default: true,
+        type: StoreTypes.Boolean
+    },
     questFormFilter: {
         default: 'Any',
         type: StoreTypes.String
