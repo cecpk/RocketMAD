@@ -457,7 +457,7 @@ class Pokestop(db.Model):
     @staticmethod
     def get_pokestops(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
                       oNeLat=None, oNeLng=None, timestamp=0,
-                      eventless_stops=True, quests=True, invasions=True,
+                      eventless_stops=True, quests=True, quests_ar=True, invasions=True,
                       lures=True, geofences=None, exclude_geofences=None):
         models = [Pokestop]
         joins = []
@@ -472,7 +472,7 @@ class Pokestop(db.Model):
             Pokestop.lure_expiration
         )]
         filters = []
-
+        layer = 1 if quests_ar else 0
         if quests:
             hours = int(args.quest_reset_time.split(':')[0])
             minutes = int(args.quest_reset_time.split(':')[1])
@@ -483,6 +483,7 @@ class Pokestop(db.Model):
             models.append(TrsQuest)
             joins.append((TrsQuest, and_(
                 Pokestop.pokestop_id == TrsQuest.GUID,
+                TrsQuest.layer == layer,
                 TrsQuest.quest_timestamp >= reset_timestamp
             )))
             options.append(Load(TrsQuest).load_only(
@@ -496,7 +497,8 @@ class Pokestop(db.Model):
                 TrsQuest.quest_pokemon_costume_id,
                 TrsQuest.quest_reward_type,
                 TrsQuest.quest_item_id,
-                TrsQuest.quest_item_amount
+                TrsQuest.quest_item_amount,
+                TrsQuest.layer
             ))
 
         if invasions:
@@ -576,7 +578,8 @@ class Pokestop(db.Model):
                     'pokemon_id': quest_orm.quest_pokemon_id,
                     'form_id': quest_orm.quest_pokemon_form_id,
                     'costume_id': quest_orm.quest_pokemon_costume_id,
-                    'stardust': quest_orm.quest_stardust
+                    'stardust': quest_orm.quest_stardust,
+                    'layer': quest_orm.layer
                 }
             else:
                 pokestop['quest'] = None
@@ -651,6 +654,9 @@ class TrsQuest(db.Model):
         db.SmallInteger, default=0, nullable=False
     )
     quest_pokemon_costume_id = db.Column(
+        db.SmallInteger, default=0, nullable=False
+    )
+    layer = db.Column(
         db.SmallInteger, default=0, nullable=False
     )
 

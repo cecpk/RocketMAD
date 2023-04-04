@@ -100,6 +100,7 @@ const settings = {
     showPokestopsNoEvent: null,
     showQuests: null,
     filterQuests: null,
+    filterQuestsAr: null,
     questFormFilter: null,
     excludedQuestPokemon: null,
     excludedQuestItems: null,
@@ -785,6 +786,7 @@ function loadRawData() {
     const loadPokestops = settings.showPokestops
     const loadPokestopsNoEvent = settings.showPokestopsNoEvent
     const loadQuests = settings.showQuests
+    const loadQuestsAr = settings.filterQuestsAr
     const loadInvasions = settings.showInvasions
     const loadLures = settings.includedLureTypes && settings.includedLureTypes.length > 0
     const loadWeather = settings.showWeather
@@ -821,6 +823,7 @@ function loadRawData() {
             pokestops: loadPokestops,
             eventlessPokestops: loadPokestopsNoEvent,
             quests: loadQuests,
+            questsAr: loadQuestsAr,
             invasions: loadInvasions,
             lures: loadLures,
             gyms: loadGyms,

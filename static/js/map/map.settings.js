@@ -96,6 +96,7 @@ function initSettings() {
     }
     if (serverSettings.quests) {
         settings.filterQuests = Store.get('filterQuests')
+        settings.filterQuestsAr = Store.get('filterQuestsAr')
         settings.excludedQuestPokemon = Store.get('excludedQuestPokemon')
         settings.questFormFilter = Store.get('questFormFilter')
         settings.excludedQuestItems = Store.get('excludedQuestItems')
@@ -797,6 +798,13 @@ function initSettingsSidebar() {
             updatePokestops()
             updateMap({ loadAllPokestops: true })
             Store.set('showQuests', this.checked)
+        })
+
+        $('#filter-quests-ar').on('change', function () {
+            settings.filterQuestsAr = this.checked
+            Store.set('filterQuestsAr', this.checked)
+            updatePokestops()
+            updateMap({ loadAllPokestops: true })
         })
 
         $('#filter-quests-switch').on('change', function () {
@@ -1663,6 +1671,7 @@ function initSettingsSidebar() {
     if (serverSettings.quests) {
         $('#quest-switch').prop('checked', settings.showQuests)
         $('#filter-quests-switch-wrapper').toggle(settings.showQuests)
+        $('#filter-quests-ar').prop('checked', settings.filterQuestsAr)
         $('#filter-quests-switch').prop('checked', settings.filterQuests)
         $('a[data-target="quest-filter-modal"]').toggle(settings.filterQuests)
         $('#quest-form-filter').val(settings.questFormFilter)
