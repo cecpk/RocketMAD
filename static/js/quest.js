@@ -10,8 +10,13 @@ function initSidebar() {
         }
         Store.set('darkMode', this.checked)
     })
+    $('#ar-layer-switch').on('change', function () {
+          Store.set('filterQuestsAr', this.checked)
+          loadQuests()
+   })
 
     $('#dark-mode-switch').prop('checked', Store.get('darkMode'))
+    $('#ar-layer-switch').prop('checked', Store.get('filterQuestsAr'))
 }
 
 function loadRawData() {
@@ -20,7 +25,8 @@ function loadRawData() {
         type: 'GET',
         data: {
             pokestops: true,
-            quests: true
+            quests: true,
+            questsAr: Store.get('filterQuestsAr')
         },
         dataType: 'json',
         beforeSend: function () {
@@ -45,6 +51,7 @@ function loadQuests() {
     $('.preloader-wrapper').show()
 
     loadRawData().done(function (result) {
+        table.clear()
         $.each(result.pokestops, function (id, pokestop) {
             if (!pokestop.quest) {
                 return true
