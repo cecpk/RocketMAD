@@ -1274,5 +1274,9 @@
   "381": {
     "name": "Double Iron Bash",
     "type": "Steel"
+  },
+  "382": {
+    "name": "Mystical Fire",
+    "type": "Fire"
   }
 }
