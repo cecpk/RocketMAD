@@ -761,6 +761,38 @@
       "2805": {
         "formName": "GO Fest 2022",
         "assetId": "00"
+      },
+      "2813": {
+        "formName": "T-shirt 1",
+        "assetId": "00"
+      },
+      "2814": {
+        "formName": "T-shirt 2",
+        "assetId": "00"
+      },
+      "2815": {
+        "formName": "Flying 1",
+        "assetId": "00"
+      },
+      "2816": {
+        "formName": "Flying 2",
+        "assetId": "00"
+      },
+      "3002": {
+        "formName": "Summer 2023 A",
+        "assetId": "00"
+      },
+      "3003": {
+        "formName": "Summer 2023 B",
+        "assetId": "00"
+      },
+      "3004": {
+        "formName": "Summer 2023 C",
+        "assetId": "00"
+      },
+      "3005": {
+        "formName": "Summer 2023 D",
+        "assetId": "00"
       }
     }
   },
@@ -3785,6 +3817,44 @@
       "1088": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "3006": {
+        "formName": "Paldean Combat",
+        "formTypes": [
+          {
+            "type": "Fighting",
+            "color": "#707070"
+          }
+        ],
+        "assetId": "00"
+      },
+      "3007": {
+        "formName": "Paldean Blaze",
+        "formTypes": [
+          {
+            "type": "Fighting",
+            "color": "#707070"
+          },
+          {
+            "type": "Fire",
+            "color": "#707070"
+          }
+        ],
+        "assetId": "00"
+      },
+      "3008": {
+        "formName": "Paldean Aqua",
+        "formTypes": [
+          {
+            "type": "Fighting",
+            "color": "#707070"
+          },
+          {
+            "type": "Water",
+            "color": "#707070"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -4152,6 +4222,10 @@
       },
       "1112": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "3001": {
+        "formName": "Summer 2023",
         "assetId": "00"
       }
     }
@@ -5566,6 +5640,20 @@
       "1228": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "3009": {
+        "formName": "Paldean",
+        "formTypes": [
+          {
+            "type": "Poison",
+            "color": "#707070"
+          },
+          {
+            "type": "Ground",
+            "color": "#707070"
+          }
+        ],
+        "assetId": "00"
       }
     }
   },
@@ -5712,6 +5800,10 @@
           }
         ],
         "assetId": "31"
+      },
+      "2734": {
+        "formName": "2022",
+        "assetId": "00"
       }
     }
   },
@@ -6995,6 +7087,10 @@
       "1333": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2731": {
+        "formName": "S",
+        "assetId": "00"
       }
     }
   },
@@ -7020,6 +7116,10 @@
       "1336": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2732": {
+        "formName": "S",
+        "assetId": "00"
       }
     }
   },
@@ -7044,6 +7144,10 @@
       },
       "1339": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2733": {
+        "formName": "S",
         "assetId": "00"
       }
     }
@@ -7158,6 +7262,10 @@
       "1342": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2729": {
+        "formName": "S",
+        "assetId": "00"
       }
     }
   },
@@ -7186,6 +7294,10 @@
       },
       "1345": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2730": {
+        "formName": "S",
         "assetId": "00"
       }
     }
@@ -10698,6 +10810,10 @@
       "1633": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2821": {
+        "formName": "S",
+        "assetId": "00"
       }
     }
   },
@@ -10726,6 +10842,10 @@
       },
       "1636": {
         "formName": "Purified",
+        "assetId": "00"
+      },
+      "2822": {
+        "formName": "S",
         "assetId": "00"
       }
     }
@@ -17203,6 +17323,10 @@
       "2236": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2820": {
+        "formName": "Winter 2020",
+        "assetId": "00"
       }
     }
   },
@@ -19265,6 +19389,10 @@
           }
         ],
         "assetId": "00"
+      },
+      "2810": {
+        "formName": "",
+        "assetId": "00"
       }
     }
   },
@@ -19290,6 +19418,10 @@
             "color": "#8a8a59"
           }
         ],
+        "assetId": "00"
+      },
+      "2811": {
+        "formName": "",
         "assetId": "00"
       }
     }
@@ -19433,6 +19565,10 @@
           }
         ],
         "assetId": "00"
+      },
+      "2812": {
+        "formName": "",
+        "assetId": "00"
       }
     }
   },
@@ -19525,6 +19661,14 @@
       },
       "2593": {
         "formName": "Complete",
+        "assetId": "00"
+      },
+      "2823": {
+        "formName": "Complete 10%",
+        "assetId": "00"
+      },
+      "2824": {
+        "formName": "Complete 50%",
         "assetId": "00"
       }
     }
@@ -19658,6 +19802,10 @@
             "color": "#8a8a59"
           }
         ],
+        "assetId": "00"
+      },
+      "2809": {
+        "formName": "",
         "assetId": "00"
       }
     }
@@ -22537,8 +22685,16 @@
       }
     ],
     "forms": {
-      "2807": {
+      "2817": {
         "formName": "",
+        "assetId": "00"
+      },
+      "2818": {
+        "formName": "Shadow",
+        "assetId": "00"
+      },
+      "2819": {
+        "formName": "Purified",
         "assetId": "00"
       }
     }
@@ -22555,7 +22711,17 @@
         "type": "Ghost",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2807": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2808": {
+        "formName": "Female",
+        "assetId": "00"
+      }
+    }
   },
   "903": {
     "name": "Sneasler",
@@ -22730,7 +22896,17 @@
         "type": "Normal",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2981": {
+        "formName": "",
+        "assetId": "00"
+      },
+      "2982": {
+        "formName": "Female",
+        "assetId": "00"
+      }
+    }
   },
   "917": {
     "name": "Tarountula",
@@ -22832,7 +23008,17 @@
         "type": "Normal",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2983": {
+        "formName": "Family of Three",
+        "assetId": "00"
+      },
+      "2984": {
+        "formName": "Family of Four",
+        "assetId": "00"
+      }
+    }
   },
   "926": {
     "name": "Fidough",
@@ -22908,7 +23094,25 @@
         "type": "Flying",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2985": {
+        "formName": "Green Plumage",
+        "assetId": "00"
+      },
+      "2986": {
+        "formName": "Blue Plumage",
+        "assetId": "00"
+      },
+      "2987": {
+        "formName": "Yellow Plumage",
+        "assetId": "00"
+      },
+      "2988": {
+        "formName": "White Plumage",
+        "assetId": "00"
+      }
+    }
   },
   "932": {
     "name": "Nacli",
@@ -23302,7 +23506,17 @@
         "type": "Water",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2989": {
+        "formName": "Zero",
+        "assetId": "00"
+      },
+      "2990": {
+        "formName": "Hero",
+        "assetId": "00"
+      }
+    }
   },
   "965": {
     "name": "Varoom",
@@ -23474,7 +23688,21 @@
         "type": "Water",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2991": {
+        "formName": "Curly",
+        "assetId": "00"
+      },
+      "2992": {
+        "formName": "Droopy",
+        "assetId": "00"
+      },
+      "2993": {
+        "formName": "Stretchy",
+        "assetId": "00"
+      }
+    }
   },
   "979": {
     "name": "Annihilape",
@@ -23526,7 +23754,17 @@
         "type": "Normal",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2994": {
+        "formName": "Two-Segment",
+        "assetId": "00"
+      },
+      "2995": {
+        "formName": "Three-Segment",
+        "assetId": "00"
+      }
+    }
   },
   "983": {
     "name": "Kingambit",
@@ -23760,7 +23998,13 @@
         "type": "Ghost",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2998": {
+        "formName": "",
+        "assetId": "00"
+      }
+    }
   },
   "1000": {
     "name": "Gholdengo",
@@ -23774,7 +24018,13 @@
         "type": "Ghost",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "3000": {
+        "formName": "",
+        "assetId": "00"
+      }
+    }
   },
   "1001": {
     "name": "Wo-Chien",
@@ -23877,7 +24127,13 @@
         "type": "Dragon",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2996": {
+        "formName": "Apex Build",
+        "assetId": "00"
+      }
+    }
   },
   "1008": {
     "name": "Miraidon",
@@ -23892,7 +24148,13 @@
         "type": "Dragon",
         "color": "#ffffff"
       }
-    ]
+    ],
+    "forms": {
+      "2997": {
+        "formName": "Ultimate Mode",
+        "assetId": "00"
+      }
+    }
   },
   "1009": {
     "name": "Walking Wake",
