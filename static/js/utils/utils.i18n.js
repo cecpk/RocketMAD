@@ -10,6 +10,7 @@ const dataTablesLocFileName = {
     ko: 'Korean.json',
     pt_br: 'Portuguese-Brasil.json',
     ru: 'Russian.json',
+    se: 'Swedish.json',
     zh_cn: 'Chinese.json',
     zh_hk: 'Chinese-traditional.json',
     zh_tw: 'Chinese-traditional.json'
