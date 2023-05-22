@@ -230,10 +230,10 @@ function updateGymSidebar(id) {
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
-        const levelStars = '★'.repeat(raid.level)
+        const levelStars = '★'.repeat(raid.level <= 10 ? raid.level : raid.level-10)
 
         if (isOngoingRaid(raid) && raid.pokemon_id) {
-            const name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
+            const name = (raid.level <= 10 ? '' : i18n('Shadow') + ' ') + getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             const fastMoveName = getMoveName(raid.move_1)
             const chargeMoveName = getMoveName(raid.move_2)
             const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
@@ -322,7 +322,7 @@ function gymLabel(gym) {
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
-        const levelStars = '★'.repeat(raid.level)
+        const levelStars = '★'.repeat(raid.level <= 10 ? raid.level : raid.level-10)
 
         if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid, serverSettings.generateImages)
@@ -337,7 +337,7 @@ function gymLabel(gym) {
                 }
             })
 
-            const name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
+            const name = (raid.level <= 10 ? '' : i18n('Shadow') + ' ') + getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             const fastMoveName = getMoveName(raid.move_1)
             const chargeMoveName = getMoveName(raid.move_2)
             const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
