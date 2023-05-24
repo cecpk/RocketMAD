@@ -288,6 +288,8 @@ class ImageGenerator:
             im_lines.extend(self._draw_raid_pokemon(pkm, form, costume,
                                                     evolution))
             im_lines.extend(self._draw_raid_level(raid_level))
+            if raid_level > 10:
+              im_lines.extend(self._draw_shadow_raid_effect())
             if level > 0:
                 im_lines.extend(self._draw_gym_level(level, team))
         elif raid_level > 0:
@@ -352,6 +354,13 @@ class ImageGenerator:
             '-gravity SouthWest ( "{}" -resize 40x28 ) '.format(
                 path_gym / 'ex.png'),
             '-geometry +0+0 -composite'
+        ]
+
+    def _draw_shadow_raid_effect(self):
+        return [
+            '-gravity South ( "{}" -resize 72x72 ) '.format(
+                path_gym / 'shadow_icon.png'),
+            '-geometry +0+15 -composite'
         ]
 
     def _battle_indicator_boom(self):
