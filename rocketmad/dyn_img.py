@@ -64,7 +64,9 @@ egg_images = {
     9: path_gym / 'egg_elite.png',
    10: path_gym / 'egg_primal.png',
    11: path_gym / 'egg_normal_shadow.png',
+   12: path_gym / 'egg_normal_shadow.png',
    13: path_gym / 'egg_rare_shadow.png',
+   14: path_gym / 'egg_rare_shadow.png',
    15: path_gym / 'egg_legendary_shadow.png'
 }
 
@@ -119,7 +121,9 @@ raid_colors = {
     9: "\"rgb(210,60,60)\"",
    10: "\"rgb(94,134,188)\"",
    11: "\"rgb(98,42,162)\"",
+   12: "\"rgb(98,42,162)\"",
    13: "\"rgb(98,42,162)\"",
+   14: "\"rgb(98,42,162)\"",
    15: "\"rgb(98,42,162)\""
 }
 
@@ -288,7 +292,7 @@ class ImageGenerator:
             im_lines.extend(self._draw_raid_pokemon(pkm, form, costume,
                                                     evolution))
             im_lines.extend(self._draw_raid_level(raid_level))
-            if raid_level > 10:
+            if 11 <= raid_level <= 15:
               im_lines.extend(self._draw_shadow_raid_effect())
             if level > 0:
                 im_lines.extend(self._draw_gym_level(level, team))
