@@ -230,10 +230,10 @@ function updateGymSidebar(id) {
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
-        const levelStars = '★'.repeat(raid.level)
+        const levelStars = '★'.repeat(11 <= raid.level && raid.level <= 15 ? raid.level-10 : raid.level)
 
         if (isOngoingRaid(raid) && raid.pokemon_id) {
-            const name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
+            const name = (11 <= raid.level && raid.level <= 15 ? i18n('Shadow') + ' ' : '') + getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             const fastMoveName = getMoveName(raid.move_1)
             const chargeMoveName = getMoveName(raid.move_2)
             const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
@@ -322,7 +322,7 @@ function gymLabel(gym) {
 
     if (isGymMeetsRaidFilters(gym)) {
         const raid = gym.raid
-        const levelStars = '★'.repeat(raid.level)
+        const levelStars = '★'.repeat(11 <= raid.level && raid.level <= 15 ? raid.level-10 : raid.level)
 
         if (isOngoingRaid(raid) && raid.pokemon_id !== null) {
             const pokemonIconUrl = getPokemonRawIconUrl(raid, serverSettings.generateImages)
@@ -337,11 +337,12 @@ function gymLabel(gym) {
                 }
             })
 
-            const name = getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
+            const name = (11 <= raid.level && raid.level <= 15 ? i18n('Shadow') + ' ' : '') + getPokemonNameWithForm(raid.pokemon_id, raid.form, raid.evolution)
             const fastMoveName = getMoveName(raid.move_1)
             const chargeMoveName = getMoveName(raid.move_2)
             const fastMoveType = getMoveTypeNoI8ln(raid.move_1)
             const chargeMoveType = getMoveTypeNoI8ln(raid.move_2)
+            const shadowOverlay = (11 <= raid.level && raid.level <= 15 ? '<img src="static/images/gym/shadow_icon.png" width="64px" style="position:absolute;left:20px;bottom:64px;">' : '')
 
             const isNotifRaid = settings.notifRaidPokemon.has(raid.pokemon_id)
             const notifText = isNotifRaid ? i18n('Don\'t notify') : i18n('Notify')
@@ -353,6 +354,7 @@ function gymLabel(gym) {
                   <div id='raid-container-left'>
                     <div>
                       <img src='${pokemonIconUrl}' width='64px'>
+                      ${shadowOverlay}
                     </div>
                     <div>
                       ${typesDisplay}
