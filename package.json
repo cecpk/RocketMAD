@@ -25,8 +25,7 @@
     "grunt-sass": "^3.1.0",
     "grunt-zip": "^0.18.2",
     "jit-grunt": "^0.10.0",
-    "node-sass": "^6.0.1",
-    "sass": "^1.35.1"
+    "sass": "^1.63.6"
   },
   "scripts": {
     "build": "grunt build",
