@@ -1,5 +1,5 @@
 module.exports = function (grunt) {
-    const sass = require('node')
+    const sass = require('sass')
     // load plugins as needed instead of up front
     require('jit-grunt')(grunt, {
         unzip: 'grunt-zip'
