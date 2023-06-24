@@ -1,5 +1,5 @@
 module.exports = function (grunt) {
-    const sass = require('node-sass')
+    const sass = require('sass')
     // load plugins as needed instead of up front
     require('jit-grunt')(grunt, {
         unzip: 'grunt-zip'
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
             dist3: {
                 src: [
                     'static/js/utils/utils.store.js', 'static/js/utils/utils.i18n.js', 'static/js/utils/utils.item.js',
-                    'static/js/utils/utils.motd.js', 'static/js/utils/utils.pokemon.js',  'static/js/utils/utils.js',
+                    'static/js/utils/utils.motd.js', 'static/js/utils/utils.pokemon.js', 'static/js/utils/utils.js',
                     'static/js/custom.js', 'static/js/quest.js'
                 ],
                 dest: 'static/dist/js/quest.concat.js'
@@ -92,7 +92,7 @@ module.exports = function (grunt) {
                     'static/dist/js/users.built.js': 'static/dist/js/users.concat.js',
                     'static/dist/js/basic-login.built.js': 'static/dist/js/basic-login.concat.js',
                     'static/dist/js/serviceWorker.built.js': 'static/js/serviceWorker.js'
-               }
+                }
             }
         },
         uglify: {
@@ -143,17 +143,17 @@ module.exports = function (grunt) {
             },
             js: {
                 files: ['static/js/**/*.js'],
-                options: {livereload: true},
+                options: { livereload: true },
                 tasks: ['js-lint', 'js-build']
             },
             json: {
                 files: ['static/data/*.json', 'static/locales/*.json'],
-                options: {livereload: true},
+                options: { livereload: true },
                 tasks: ['json']
             },
             css: {
                 files: '**/*.scss',
-                options: {livereload: true},
+                options: { livereload: true },
                 tasks: ['css-build']
             }
         },
@@ -192,29 +192,29 @@ module.exports = function (grunt) {
     grunt.registerTask('build', ['clean', 'js-build', 'css-build', 'json', 'unzip'])
     grunt.registerTask('lint', ['js-lint'])
     grunt.registerTask('default', ['build', 'watch'])
-    
+
     grunt.registerTask('invasions', ['gen_invasions', 'build'])
-    grunt.registerTask('gen_invasions', function() {
+    grunt.registerTask('gen_invasions', function () {
         var exec = require('child_process').exec
         var done_cb = this.async()
         grunt.log.writeln("Running " + python_exe + " scripts/generate_invasion_data.py - this could take a minute")
-        exec(python_exe + ' scripts/generate_invasion_data.py', {cwd: '.'}, function(error, stdout, stderr) {
-          if (error === null) {
-            grunt.log.write(stdout);
-            grunt.log.write('Copying generated file to static/data/invasions.json')
-            grunt.file.copy('invasions.json', 'static/data/invasions.json')
-            grunt.file.delete('invasions.json')
-            done_cb();
-          } else {
-            grunt.log.error(stderr);
-            if (stderr.includes("ModuleNotFoundError")) {
-                grunt.log.writeln("--")
-                grunt.log.error("Detected ModuleNotFoundError - you sure you run it via correct python/venv?");
-                grunt.log.error("You can provider proper python3 executable via --python option, for example:")
-                grunt.log.error("npm run invasions -- --python=~/venv/bin/python3");
+        exec(python_exe + ' scripts/generate_invasion_data.py', { cwd: '.' }, function (error, stdout, stderr) {
+            if (error === null) {
+                grunt.log.write(stdout);
+                grunt.log.write('Copying generated file to static/data/invasions.json')
+                grunt.file.copy('invasions.json', 'static/data/invasions.json')
+                grunt.file.delete('invasions.json')
+                done_cb();
+            } else {
+                grunt.log.error(stderr);
+                if (stderr.includes("ModuleNotFoundError")) {
+                    grunt.log.writeln("--")
+                    grunt.log.error("Detected ModuleNotFoundError - you sure you run it via correct python/venv?");
+                    grunt.log.error("You can provider proper python3 executable via --python option, for example:")
+                    grunt.log.error("npm run invasions -- --python=~/venv/bin/python3");
+                }
+                done_cb(false);
             }
-            done_cb(false);
-          }
         })
     })
 }
