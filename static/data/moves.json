@@ -1298,5 +1298,17 @@
   "386": {
     "name": "Magma Storm",
     "type": "Fire"
+  },
+  "387": {
+    "name": "Geomancy",
+    "type": "Fairy"
+  },
+  "388": {
+    "name": "Spacial Rend",
+    "type": "Dragon"
+  },
+  "389": {
+    "name": "Oblivion Wing",
+    "type": "Flying"
   }
 }
