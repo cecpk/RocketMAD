@@ -33,11 +33,13 @@ EVOLUTION_UNSET = 0
 EVOLUTION_MEGA = 1
 EVOLUTION_MEGA_X = 2
 EVOLUTION_MEGA_Y = 3
+EVOLUTION_PRIMAL = 4
 
 evolution_suffixes = {
     EVOLUTION_MEGA: "MEGA",
     EVOLUTION_MEGA_X: "MEGA_X",
-    EVOLUTION_MEGA_Y: "MEGA_Y"
+    EVOLUTION_MEGA_Y: "MEGA_Y",
+    EVOLUTION_PRIMAL: "PRIMAL"
 }
 
 weather_names = {
@@ -59,7 +61,13 @@ egg_images = {
     6: path_gym / 'egg_mega.png',
     7: path_gym / 'egg_legendary_mega.png',
     8: path_gym / 'ultra_wormhole.png',
-    9: path_gym / 'egg_elite.png'
+    9: path_gym / 'egg_elite.png',
+   10: path_gym / 'egg_primal.png',
+   11: path_gym / 'egg_normal_shadow.png',
+   12: path_gym / 'egg_normal_shadow.png',
+   13: path_gym / 'egg_rare_shadow.png',
+   14: path_gym / 'egg_rare_shadow.png',
+   15: path_gym / 'egg_legendary_shadow.png'
 }
 
 weather_images = {
@@ -110,7 +118,13 @@ raid_colors = {
     6: "\"rgb(141,54,40)\"",
     7: "\"rgb(90,132,132)\"",
     8: "\"rgb(184,165,221)\"",
-    9: "\"rgb(210,60,60)\""
+    9: "\"rgb(210,60,60)\"",
+   10: "\"rgb(94,134,188)\"",
+   11: "\"rgb(98,42,162)\"",
+   12: "\"rgb(98,42,162)\"",
+   13: "\"rgb(98,42,162)\"",
+   14: "\"rgb(98,42,162)\"",
+   15: "\"rgb(98,42,162)\""
 }
 
 font = path_static / 'Arial Black.ttf'
@@ -278,6 +292,8 @@ class ImageGenerator:
             im_lines.extend(self._draw_raid_pokemon(pkm, form, costume,
                                                     evolution))
             im_lines.extend(self._draw_raid_level(raid_level))
+            if 11 <= raid_level <= 15:
+                im_lines.extend(self._draw_shadow_raid_effect())
             if level > 0:
                 im_lines.extend(self._draw_gym_level(level, team))
         elif raid_level > 0:
@@ -342,6 +358,13 @@ class ImageGenerator:
             '-gravity SouthWest ( "{}" -resize 40x28 ) '.format(
                 path_gym / 'ex.png'),
             '-geometry +0+0 -composite'
+        ]
+
+    def _draw_shadow_raid_effect(self):
+        return [
+            '-gravity South ( "{}" -resize 72x72 ) '.format(
+                path_gym / 'shadow_icon.png'),
+            '-geometry +0+15 -composite'
         ]
 
     def _battle_indicator_boom(self):

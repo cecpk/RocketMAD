@@ -284,7 +284,7 @@ const StoreOptions = {
         type: StoreTypes.Boolean
     },
     includedRaidLevels: {
-        default: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15],
         type: StoreTypes.JSON
     },
     raidNotifs: {
@@ -348,7 +348,7 @@ const StoreOptions = {
         type: StoreTypes.Set
     },
     includedLureTypes: {
-        default: [501, 502, 503, 504, 505],
+        default: [501, 502, 503, 504, 505, 506],
         type: StoreTypes.JSON
     },
     pokestopNotifs: {

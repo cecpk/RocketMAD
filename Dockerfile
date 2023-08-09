@@ -4,7 +4,7 @@
 #   docker run -d -P rocketmap -a ptc -u YOURUSERNAME -p YOURPASSWORD -l "Seattle, WA" -st 10 --gmaps-key CHECKTHEWIKI
 
 # Stage 0: build static assets using Node
-FROM node:12-slim
+FROM node:18-slim
 
 WORKDIR /usr/src/app
 
@@ -13,6 +13,8 @@ COPY package.json /usr/src/app/
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
         ca-certificates git unzip \
+        python3 \
+        build-essential\
  && npm install
 
 COPY Gruntfile.js static01.zip /usr/src/app/
@@ -21,9 +23,8 @@ COPY static /usr/src/app/static
 # Build the assets - later we'll copy it to the app's image
 RUN npm run build
 
-
 # Stage 1: Build the actual image
-FROM python:3.6-slim
+FROM python:3.10-slim
 
 # Working directory for the application
 WORKDIR /usr/src/app

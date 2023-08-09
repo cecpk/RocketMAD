@@ -26,7 +26,7 @@ from pathlib import Path
 from requests import Session
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
-from cHaversine import haversine
+from haversine import haversine
 from pprint import pformat
 from time import strftime
 from timeit import default_timer

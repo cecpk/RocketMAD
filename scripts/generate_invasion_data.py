@@ -37,5 +37,11 @@ if __name__ == "__main__":
             }
 
     sorted_result = OrderedDict(sorted(result.items()))
+    # force insert Kecleon, at the end.
+    sorted_result[352] = {
+        "type": "",
+        "grunt": "Kecleon",
+    }
+    
     with open("invasions.json", "w+") as f:
         f.write(json.dumps(sorted_result, indent=2))

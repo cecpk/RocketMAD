@@ -3,6 +3,7 @@
 .gitignore
 credentials.example.json
 node_modules
+venv
 Easy\ Setup
 pogom.db
 core
