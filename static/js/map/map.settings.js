@@ -28,7 +28,7 @@ function initSettings() {
     if (serverSettings.pokemonValues) {
         settings.filterPokemonByValues = Store.get('filterPokemonByValues')
         settings.filterPokemonBySize = Store.get('filterPokemonBySize')
-        settings.filterPokemonBySize = Store.get('filterPokemonBySizeOptions')
+        settings.filterPokemonBySizeOptions = Store.get('filterPokemonBySizeOptions')
         settings.noFilterValuesPokemon = Store.get('noFilterValuesPokemon')
         settings.minIvs = Store.get('minIvs')
         settings.maxIvs = Store.get('maxIvs')
@@ -1618,6 +1618,8 @@ function initSettingsSidebar() {
         $('#hundo-ivs-pokemon-switch-wrapper').toggle(settings.maxIvs < 100)
         $('#pokemon-level-slider-title').text(`${i18n('Levels')} (${settings.minLevel} - ${settings.maxLevel})`)
         $('#pokemon-level-slider-wrapper').toggle(settings.filterPokemonByValues)
+        $('#filter-by-size-switch').prop('checked', settings.filterPokemonBySize)
+        $('#filter-by-size-select').val(settings.filterPokemonBySizeOptions)
         if (serverSettings.highlightPokemon) {
             $('#pokemon-highlight-switch').prop('checked', settings.highlightPokemon)
             $('#highlight-pokemon-wrapper').toggle(settings.highlightPokemon)
