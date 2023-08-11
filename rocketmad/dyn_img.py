@@ -414,10 +414,17 @@ class ImageGenerator:
         if evolution != EVOLUTION_UNSET:
             form_suffix = '.f' + evolution_suffixes[evolution]
         elif form > 0:
-            form_proto = PokemonDisplayProto().Form.Name(form)
-            form_name = form_proto[form_proto.index('_') + 1:]
-            if form_name not in ['NORMAL', 'SHADOW', 'PURIFIED']:
-                form_suffix = '.f' + form_name
+            try:
+                form_proto = PokemonDisplayProto().Form.Name(form)
+                form_name = form_proto[form_proto.index('_') + 1:]
+                if form_name not in ['NORMAL', 'SHADOW', 'PURIFIED']:
+                    form_suffix = '.f' + form_name
+            except Exception as exc:
+                log.error(f"Error getting form from protos: {exc}")
+                default_form = get_pokemon_data(pkm).get('defaultFormId')
+                if default_form:
+                    return self._get_unity_pokemon_asset_path(
+                        pkm, gender, int(default_form), costume, evolution, shiny)
         else:
             default_form = get_pokemon_data(pkm).get('defaultFormId')
             if default_form:
