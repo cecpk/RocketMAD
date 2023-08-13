@@ -77,7 +77,24 @@ function setupRoutePath(route) {
         routePoints.push(pointLL)
     }
 
-    var routePath = new L.Polyline(routePoints, {
+    L.ClusterablePolyline = L.Polyline.extend({
+        _originalInitialize: L.Polyline.prototype.initialize,
+
+        initialize: function (bounds, options) {
+            this._originalInitialize(bounds, options);
+            this._latlng = this.getBounds().getCenter();
+        },
+
+        getLatLng: function () {
+            return this._latlng;
+        },
+
+        // dummy method.
+        setLatLng: function () {
+        }
+    });
+
+    var routePath = new L.ClusterablePolyline(routePoints, {
         color: '#999999',
         weight: 3,
         smoothFactor: 1
