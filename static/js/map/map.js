@@ -116,6 +116,7 @@ const settings = {
     invasionNotifs: null,
     notifInvasions: null,
     notifLureTypes: null,
+    showRoutes: null,
     showWeather: null,
     showWeatherCells: null,
     showMainWeather: null,
@@ -167,6 +168,7 @@ const mapData = {
     gyms: {},
     pokestops: {},
     lurePokemons: {},
+    routes: {},
     weather: {},
     scannedLocs: {},
     spawnpoints: {},
@@ -587,6 +589,11 @@ function addListeners(marker, type) {
                 // Always update label before opening since weather might have become outdated.
                 updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                 break
+            case 'routes':
+                if (mapData.routes[marker.route_id].updated) {
+                    updateRouteLabel(mapData.routes[marker.route_id], marker)
+                }
+                break
             case 'nest':
                 if (mapData.nests[marker.nest_id].updated) {
                     updateNestLabel(mapData.nests[marker.nest_id], marker)
@@ -789,6 +796,7 @@ function loadRawData() {
     const loadQuestsAr = settings.filterQuestsAr
     const loadInvasions = settings.showInvasions
     const loadLures = settings.includedLureTypes && settings.includedLureTypes.length > 0
+    const loadRoutes = settings.showRoutes
     const loadWeather = settings.showWeather
     const loadSpawnpoints = settings.showSpawnpoints
     const loadScannedLocs = settings.showScannedLocations
@@ -829,6 +837,7 @@ function loadRawData() {
             gyms: loadGyms,
             raids: loadRaids,
             nests: loadNests,
+            routes: loadRoutes,
             weather: loadWeather,
             spawnpoints: loadSpawnpoints,
             scannedLocs: loadScannedLocs,
@@ -864,6 +873,7 @@ function updateMap({
     loadAllPokemon = false,
     loadAllGyms = false,
     loadAllPokestops = false,
+    loadAllRoutes = false,
     loadAllWeather = false,
     loadAllSpawnpoints = false,
     loadAllScannedLocs = false,
@@ -880,6 +890,10 @@ function updateMap({
     if (loadAllPokestops) {
         getAllPokestopsTimestamp = Date.now()
         getAllPokestops = true
+    }
+    if (loadAllRoutes) {
+        getAllRoutesTimestamp = Date.now()
+        getAllRoutes = true
     }
     if (loadAllWeather) {
         getAllWeatherTimestamp = Date.now()
@@ -918,6 +932,9 @@ function updateMap({
             $.each(result.pokestops, function (id, pokestop) {
                 processPokestop(pokestop)
             })
+            $.each(result.routes, function (idx, route) {
+                processRoute(route)
+            })
             $.each(result.weather, function (idx, weather) {
                 processWeather(weather)
             })
@@ -952,6 +969,9 @@ function updateMap({
         }
         if (result.allPokestops && getAllPokestopsTimestamp <= requestTimestamp) {
             getAllPokestops = false
+        }
+        if (result.allRoutes && getAllRoutesTimestamp <= requestTimestamp) {
+            getAllRoutes = false
         }
         if (result.allWeather && getAllWeatherTimestamp <= requestTimestamp) {
             getAllWeather = false
