@@ -1702,6 +1702,11 @@ function initSettingsSidebar() {
         $('#lure-type-select').val(settings.includedLureTypes)
     }
 
+    // Routes.
+    if (serverSettings.routes) {
+        $('#routes-switch').prop('checked', settings.showRoutes)
+    }
+
     // Weather.
     if (serverSettings.weather) {
         $('#weather-switch').prop('checked', settings.showWeather)
