@@ -203,6 +203,7 @@ let getAllPokemonTimestamp
 let getAllGymsTimestamp
 let getAllPokestopsTimestamp
 let getAllWeatherTimestamp
+let getAllRoutesTimestamp
 let getAllSpawnpointsTimestamp
 let getAllScannedLocsTimestamp
 let getAllNestsTimestamp
