@@ -17,10 +17,6 @@ function setupRouteMarker(route, start = true) {
         lng = route.end_poi_longitude
     }
 
-    if (!lat || !lng) {
-        console.log(route)
-    }
-
     var marker = L.marker([lat, lng])
 
     marker.start = start
@@ -70,6 +66,9 @@ function getRouteIconUrl(route, start) {
 function setupRoutePath(route) {
     var routePoints = []
     for (const waypoint in route.waypoints) {
+        if (!waypoint['lat_degrees'] || !waypoint['lng_degrees']) {
+            console.log(waypoint)
+        }
         var wp = new L.LatLng(waypoint['lat_degrees'], waypoint['lng_degrees'])
         routePoints.push(wp)
     }
