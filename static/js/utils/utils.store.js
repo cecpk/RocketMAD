@@ -375,6 +375,10 @@ const StoreOptions = {
         default: [],
         type: StoreTypes.JSON
     },
+    showRoutes: {
+        default: false,
+        type: StoreTypes.Boolean
+    },
     showWeather: {
         default: false,
         type: StoreTypes.Boolean
