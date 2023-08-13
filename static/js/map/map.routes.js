@@ -156,10 +156,9 @@ function processRoute(route) {
     const id = route.route_id
     if (!(id in mapData.routes)) {
         route.marker1 = setupRouteMarker(route)
-        route.marker2 = setupRouteMarker(route, start = false)
+        route.marker2 = setupRouteMarker(route, false)
         route.routePath = setupRoutePath(route)
         mapData.routes[id] = route
-
     } else {
         updateRoute(id, route)
     }
