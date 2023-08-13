@@ -226,9 +226,15 @@ function updateRoutes() {
 function removeRoute(route) {
     const id = route.route_id
     if (id in mapData.routes) {
-        markers.removeLayer(mapData.routes[id].marker1)
-        markers.removeLayer(mapData.routes[id].marker2)
-        markers.removeLayer(mapData.routes[id].routePath)
+        if (mapData.routes[id].marker1) {
+            markers.removeLayer(mapData.routes[id].marker1)
+        }
+        if (mapData.routes[id].marker2) {
+            markers.removeLayer(mapData.routes[id].marker2)
+        }
+        if (mapData.routes[id].routePath) {
+            markers.removeLayer(mapData.routes[id].routePath)
+        }
         delete mapData.routes[id]
     }
 }
