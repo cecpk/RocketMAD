@@ -36,7 +36,7 @@ function updateRouteMarker(route, marker) {
         routeAnchor = [20, -40]
     }
 
-    const icon = L.icon({
+    const routeIcon = L.icon({
         iconUrl: getRouteIconUrl(route, start),
         iconSize: [32, 32],
         iconAnchor: routeAnchor,
