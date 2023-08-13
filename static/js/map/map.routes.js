@@ -24,6 +24,7 @@ function setupRouteMarker(route, start = true) {
     updateRouteMarker(route, marker)
     marker.bindPopup('', { autoPan: autoPanPopup() })
     addListeners(marker, 'routes')
+    updateRouteLabel(route, marker)
 
     return marker
 }
@@ -31,16 +32,16 @@ function setupRouteMarker(route, start = true) {
 function updateRouteMarker(route, marker) {
 
     var start = marker.start
-    var routeAnchor = [20, 20]
+    var routeAnchor = [-12, 20]
     if (start === false) {
-        routeAnchor = [20, -40]
+        routeAnchor = [-12, 12]
     }
 
     const routeIcon = L.icon({
         iconUrl: getRouteIconUrl(route, start),
-        iconSize: [32, 32],
+        iconSize: [24, 24],
         iconAnchor: routeAnchor,
-        popupAnchor: [0, -16],
+        popupAnchor: [0, 0],
     })
     marker.setIcon(routeIcon)
 
@@ -65,12 +66,15 @@ function getRouteIconUrl(route, start) {
 
 function setupRoutePath(route) {
     var routePoints = []
-    for (const waypoint in route.waypoints) {
-        if (!waypoint['lat_degrees'] || !waypoint['lng_degrees']) {
-            console.log(waypoint)
+
+    const wp = JSON.parse(route.waypoints)
+    for (var i = 0; i < wp.length; i++) {
+        if (!wp[i].lat_degrees || !wp[i].lng_degrees) {
+            console.log("Unknown route waypoint: ", JSON.stringify(wp[i]))
+            continue
         }
-        var wp = new L.LatLng(waypoint['lat_degrees'], waypoint['lng_degrees'])
-        routePoints.push(wp)
+        var pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
+        routePoints.push(pointLL)
     }
 
     var routePath = new L.Polyline(routePoints, {
@@ -84,6 +88,7 @@ function setupRoutePath(route) {
 
     return routePath
 }
+
 
 
 function routeLabel(route, marker) {
@@ -187,17 +192,21 @@ function updateRoute(id, route = null) {
     if (!isRouteNull) {
         mapData.routes[id] = route
 
-        if (route.marker1.isPopupOpen()) {
-            updateRouteLabel(route, route.marker1)
-        } else {
-            // Make sure label is updated next time it's opened.
-            route.marker1.updated = true
+        if (route.marker1) {
+            if (route.marker1.isPopupOpen()) {
+                updateRouteLabel(route, route.marker1)
+            } else {
+                // Make sure label is updated next time it's opened.
+                route.marker1.updated = true
+            }
         }
-        if (route.marker2.isPopupOpen()) {
-            updateRouteLabel(route, route.marker2)
-        } else {
-            // Make sure label is updated next time it's opened.
-            route.marker2.updated = true
+        if (route.marker2) {
+            if (route.marker2.isPopupOpen()) {
+                updateRouteLabel(route, route.marker2)
+            } else {
+                // Make sure label is updated next time it's opened.
+                route.marker2.updated = true
+            }
         }
     } else {
         updateRouteMarker(mapData.routes[id], mapData.routes[id].marker1)
