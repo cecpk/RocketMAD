@@ -790,6 +790,8 @@ def create_app():
             d['allPokestops'] = True
         if all_weather:
             d['allWeather'] = True
+        if all_routes:
+            d['allRoutes'] = True
         if all_spawnpoints:
             d['allSpawnpoints'] = True
         if all_scanned_locs:
