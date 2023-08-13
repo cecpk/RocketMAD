@@ -17,6 +17,10 @@ function setupRouteMarker(route, start = true) {
         lng = route.end_poi_longitude
     }
 
+    if (!lat || !lng) {
+        console.log(route)
+    }
+
     var marker = L.marker([lat, lng])
 
     marker.start = start
