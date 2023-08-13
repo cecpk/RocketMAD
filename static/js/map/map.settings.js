@@ -115,6 +115,10 @@ function initSettings() {
         settings.notifLureTypes = Store.get('notifLureTypes')
     }
 
+    if (serverSettings.routes) {
+        settings.showRoutes = Store.get('showRoutes')
+    }
+
     settings.showWeather = serverSettings.weather && Store.get('showWeather')
     if (serverSettings.weather) {
         settings.showMainWeather = Store.get('showMainWeather')
@@ -861,6 +865,18 @@ function initSettingsSidebar() {
             updatePokestops()
             updateMap({ loadAllPokestops: true })
             Store.set('includedLureTypes', settings.includedLureTypes)
+        })
+    }
+
+    if (serverSettings.routes) {
+        $('#routes-switch').on('change', function () {
+            settings.showRoutes = this.checked
+            if (this.checked) {
+                updateMap({ loadAllRoutes: true })
+            } else {
+                updateRoutes()
+            }
+            Store.set('showRoutes', this.checked)
         })
     }
 
