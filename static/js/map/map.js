@@ -195,6 +195,7 @@ let getAllPokemon
 let getAllGyms
 let getAllPokestops
 let getAllWeather
+let getAllRoutes
 let getAllSpawnpoints
 let getAllScannedLocs
 let getAllNests
