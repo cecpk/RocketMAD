@@ -590,7 +590,7 @@ function addListeners(marker, type) {
                 updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                 break
             case 'routes':
-                if (mapData.routes[marker.route_id].updated) {
+                if (marker.updated) {
                     updateRouteLabel(mapData.routes[marker.route_id], marker)
                 }
                 break
