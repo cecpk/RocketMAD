@@ -975,6 +975,119 @@ class Nest(db.Model):
         return nests
 
 
+class Routes(db.Model):
+    __tablename__ = 'route'
+
+    route_id = db.Column(db.String(length=50), primary_key=True)
+    waypoints = db.Column(LONGTEXT, nullable=False)
+    type = db.Column(TINYINT, default=0, nullable=False)
+    path_type = db.Column(TINYINT, default=0, nullable=False)
+    name = db.Column(
+        db.String(length=255, collation='utf8mb4_unicode_ci'), nullable=False
+    )
+    description = db.Column(
+        db.String(length=255, collation='utf8mb4_unicode_ci'), nullable=False
+    )
+    version = db.Column(db.Integer, nullable=False)
+    reversible = db.Column(db.BOOLEAN, nullable=False)
+    # submission_time = db.Column(db.DateTime, nullable=False)
+    route_distance_meters = db.Column(db.Integer, nullable=False)
+    route_duration_seconds = db.Column(db.Integer, nullable=False)
+    pins = db.Column(LONGTEXT, nullable=True)
+    tags = db.Column(LONGTEXT, nullable=True)
+    image = db.Column(
+        db.String(length=255, collation='utf8mb4_unicode_ci'), nullable=True
+    )
+    image_border_color_hex = db.Column(
+        db.String(length=8, collation='utf8mb4_unicode_ci'), nullable=True
+    )
+    # route_submission_status = db.Column(TINYINT, default=0, nullable=False)
+    # route_submission_update_time = db.Column(db.DateTime, nullable=False)
+    start_poi_fort_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'), nullable=False
+    )
+    start_poi_latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    start_poi_longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    start_poi_image_url = db.Column(
+        db.String(length=255, collation='utf8mb4_unicode_ci'), nullable=True
+    )
+    end_poi_fort_id = db.Column(
+        db.String(length=50, collation='utf8mb4_unicode_ci'), nullable=False
+    )
+    end_poi_latitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    end_poi_longitude = db.Column(DOUBLE(asdecimal=False), nullable=False)
+    end_poi_image_url = db.Column(
+        db.String(length=255, collation='utf8mb4_unicode_ci'), nullable=True
+    )
+    last_updated = db.Column(
+        db.DateTime, default=datetime.utcnow(), nullable=False
+    )
+
+    @staticmethod
+    def get_routes(swLat, swLng, neLat, neLng, oSwLat=None, oSwLng=None,
+                    oNeLat=None, oNeLng=None, timestamp=0, geofences=None,
+                    exclude_geofences=None):
+        # We can filter by the center of a cell,
+        # this deltas can expand the viewport bounds
+        # So cells with center outside the viewport,
+        # but close to it can be rendered
+        # otherwise edges of cells that intersects
+        # with viewport won't be rendered
+        lat_delta = 0.15
+        lng_delta = 0.4
+
+        query = db.session.query(
+            Routes.route_id, Routes.waypoints, Routes.type, Routes.path_type,
+            Routes.name, Routes.description, Routes.reversible,
+            Routes.route_distance_meters, Routes.route_duration_seconds,
+            Routes.start_poi_latitude, Routes.start_poi_longitude,
+            Routes.end_poi_latitude, Routes.end_poi_longitude,
+            Routes.last_updated
+        )
+
+        if timestamp > 0:
+            # If timestamp is known only send recently updated routes.
+            t = datetime.utcfromtimestamp(timestamp / 1000)
+            query = query.filter(Routes.last_updated > t)
+
+        if swLat and swLng and neLat and neLng:
+            query = query.filter(
+                Routes.start_poi_latitude >= float(swLat) - lat_delta,
+                Routes.start_poi_longitude >= float(swLng) - lng_delta,
+                Routes.start_poi_latitude <= float(neLat) + lat_delta,
+                Routes.start_poi_longitude <= float(neLng) + lng_delta
+            )
+
+        if oSwLat and oSwLng and oNeLat and oNeLng:
+            # Exclude routes within old boundaries.
+            query = query.filter(
+                ~and_(
+                    Routes.start_poi_latitude >= float(oSwLat) - lat_delta,
+                    Routes.start_poi_longitude >= float(oSwLng) - lng_delta,
+                    Routes.start_poi_latitude <= float(oNeLat) + lat_delta,
+                    Routes.start_poi_longitude <= float(oNeLng) + lng_delta
+                )
+            )
+
+        if geofences:
+            sql = geofences_to_query(geofences, 'route',
+                        lat_column_name='start_poi_latitude',
+                        lng_column_name='start_poi_longitude'
+                  )
+            query = query.filter(text(sql))
+
+        if exclude_geofences:
+            sql = geofences_to_query(exclude_geofences, 'route',
+                        lat_column_name='start_poi_latitude',
+                        lng_column_name='start_poi_longitude'
+                  )
+            query = query.filter(~text(sql))
+
+        result = query.all()
+
+        return [w._asdict() for w in result]
+
+
 class RmVersion(db.Model):
     __tablename__ = 'rmversion'
 
