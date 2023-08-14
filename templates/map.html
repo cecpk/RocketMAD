@@ -1074,19 +1074,6 @@
               </div>
             </div>
             {% endif %}
-            {% if settings.routes %}
-            <div class="settings-container">
-              <div class="form-control">
-                <div class="switch">
-                  <label>
-                    <input type="checkbox" id="routes-switch">
-                    <span class="lever"></span>
-                    {{ i18n('Routes') }}
-                  </label>
-                </div>
-              </div>
-            </div>
-            {% endif %}
             {% if settings.lures %}
             <div class="settings-container">
               <div class="form-control">
@@ -1252,6 +1239,17 @@
         <div class="collapsible-header"><i class="material-icons">map</i>{{ i18n('Map misc') }}</div>
         <div class="collapsible-body">
           <div class="settings-container">
+            {% if settings.routes %}
+            <div class="form-control">
+              <div class="switch">
+                <label>
+                  <input type="checkbox" id="routes-switch">
+                  <span class="lever"></span>
+                  {{ i18n('Routes') }}
+                </label>
+              </div>
+            </div>
+            {% endif %}
             {% if settings.spawnpoints %}
             <div class="form-control">
               <div class="switch">
