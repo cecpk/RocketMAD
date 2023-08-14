@@ -4,10 +4,10 @@ initInvasionFilters, initItemFilters, initPokemonFilters, initSettings,
 initSettingsSidebar, initStatsSidebar, isGymRangesActive, isPokemonRangesActive,
 isPokestopRangesActive, isSpawnpointRangesActive, processGym, processNest,
 processPokemon, processPokestop, processScannedLocation, processSpawnpoint,
-processSpawnpoint, processWeather, removePokemon, removeScannedLocation,
+processSpawnpoint, processRoute, processWeather, removePokemon, removeScannedLocation,
 setupWeatherModal, updateAllParks, updateGym, updateGymLabel, updateGymLabel,
 updateNestLabel, updatePokemonLabel, updatePokemonLabel, updatePokestop,
-updatePokestopLabel, updatePokestopLabel, updateS2Overlay, updateS2Overlay,
+updatePokestopLabel, updatePokestopLabel, updateRouteLabel, updateS2Overlay, updateS2Overlay,
 updateScannedLocation, updateSpawnpoint, updateSpawnpointLabel,
 updateSpawnpointLabel, updateStatsTable, updateStatsTable, updateStatsTable,
 updateStatsTable, updateWeatherButton, updateWeatherLabel, updateWeatherLabel
@@ -591,8 +591,8 @@ function addListeners(marker, type) {
                 // Always update label before opening since weather might have become outdated.
                 updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                 break
-            case 'routes':
-                if (marker.updated) {
+            case 'route':
+                if (mapData.routes[marker.route_id].updated) {
                     updateRouteLabel(mapData.routes[marker.route_id], marker)
                 }
                 break
@@ -650,6 +650,11 @@ function addListeners(marker, type) {
                     // Always update label before opening since weather might have become outdated.
                     updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                     break
+                case 'route':
+                    if (mapData.routes[marker.route_id].updated) {
+                        updateRouteLabel(mapData.routes[marker.route_id], marker)
+                    }
+                    break
                 case 'nest':
                     if (mapData.nests[marker.nest_id].updated) {
                         updateNestLabel(mapData.nests[marker.nest_id], marker)
@@ -680,6 +685,12 @@ function addListeners(marker, type) {
                 break
             case 'spawnpoint':
                 mapData.spawnpoints[marker.spawnpoint_id].updated = false
+                break
+            case 'route':
+                mapData.routes[marker.route_id].updated = false
+                break
+            case 'nest':
+                mapData.nests[marker.nest_id].updated = false
                 break
         }
         marker.options.persist = false
@@ -846,6 +857,7 @@ function loadRawData() {
             allPokemon: getAllPokemon,
             allGyms: getAllGyms,
             allPokestops: getAllPokestops,
+            allRoutes: getAllRoutes,
             allWeather: getAllWeather,
             allSpawnpoints: getAllSpawnpoints,
             allScannedLocs: getAllScannedLocs,
@@ -928,10 +940,10 @@ function updateMap({
             $.each(result.pokemons, function (idx, pokemon) {
                 processPokemon(pokemon)
             })
-            $.each(result.gyms, function (id, gym) {
+            $.each(result.gyms, function (idx, gym) {
                 processGym(gym)
             })
-            $.each(result.pokestops, function (id, pokestop) {
+            $.each(result.pokestops, function (idx, pokestop) {
                 processPokestop(pokestop)
             })
             $.each(result.routes, function (idx, route) {
