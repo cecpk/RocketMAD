@@ -29,13 +29,11 @@ function setupRouteMarker(route, start = true) {
 }
 
 function updateRouteMarker(marker) {
-    const routeAnchor = marker.start ? [-12, 20] : [-12, 12]
-
     const routeIcon = L.icon({
         iconUrl: `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`,
         iconSize: [24, 24],
-        iconAnchor: routeAnchor,
-        popupAnchor: [0, 0]
+        iconAnchor: marker.start ? [-12, 20] : [-12, 12],
+        popupAnchor: marker.start ? [24, -5] : [24, 3]
     })
     marker.setIcon(routeIcon)
 
