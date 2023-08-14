@@ -7,8 +7,8 @@ function setupRouteMarker(route, start = true) {
     /* create marker for start point (start = true)
        or end point (start = false) */
 
-    var lat = 0.0
-    var lng = 0.0
+    let lat = 0.0
+    let lng = 0.0
     if (start === true) {
         lat = route.start_poi_latitude
         lng = route.start_poi_longitude
@@ -17,35 +17,29 @@ function setupRouteMarker(route, start = true) {
         lng = route.end_poi_longitude
     }
 
-    var marker = L.marker([lat, lng])
-
+    const marker = L.marker([lat, lng])
     marker.start = start
     marker.route_id = route.route_id
-    updateRouteMarker(route, marker)
+    updateRouteMarker(marker)
     marker.bindPopup('', { autoPan: autoPanPopup() })
-    addListeners(marker, 'routes')
+    addListeners(marker, 'route')
     updateRouteLabel(route, marker)
 
     return marker
 }
 
-function updateRouteMarker(route, marker) {
-
-    var start = marker.start
-    var routeAnchor = [-12, 20]
-    if (start === false) {
-        routeAnchor = [-12, 12]
-    }
+function updateRouteMarker(marker) {
+    const routeAnchor = marker.start ? [-12, 20] : [-12, 12]
 
     const routeIcon = L.icon({
-        iconUrl: getRouteIconUrl(route, start),
+        iconUrl: `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`,
         iconSize: [24, 24],
         iconAnchor: routeAnchor,
-        popupAnchor: [0, 0],
+        popupAnchor: [0, 0]
     })
     marker.setIcon(routeIcon)
 
-    if (start === true) {
+    if (marker.start === true) {
         marker.setZIndexOffset(pokestopQuestZIndex)
     } else {
         marker.setZIndexOffset(pokestopZIndex)
@@ -56,24 +50,16 @@ function updateRouteMarker(route, marker) {
     return marker
 }
 
-function getRouteIconUrl(route, start) {
-    var icon_url = 'static/images/routes/route_start.png'
-    if (start === false) {
-        icon_url = 'static/images/routes/route_end.png'
-    }
-    return icon_url
-}
-
 function setupRoutePath(route) {
-    var routePoints = []
+    const routePoints = []
 
     const wp = JSON.parse(route.waypoints)
-    for (var i = 0; i < wp.length; i++) {
+    for (let i = 0; i < wp.length; i++) {
         if (!wp[i].lat_degrees || !wp[i].lng_degrees) {
-            console.log("Unknown route waypoint: ", JSON.stringify(wp[i]))
+            console.log('Unknown route waypoint: ', JSON.stringify(wp[i]))
             continue
         }
-        var pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
+        const pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
         routePoints.push(pointLL)
     }
 
@@ -92,13 +78,13 @@ function setupRoutePath(route) {
         // dummy method.
         setLatLng: function () {
         }
-    });
+    })
 
-    var routePath = new L.ClusterablePolyline(routePoints, {
+    const routePath = new L.ClusterablePolyline(routePoints, {
         color: '#999999',
         weight: 3,
         smoothFactor: 1
-    });
+    })
     routePath.route_id = route.route_id
 
     markers.addLayer(routePath)
@@ -106,25 +92,17 @@ function setupRoutePath(route) {
     return routePath
 }
 
-
-
 function routeLabel(route, marker) {
-    var start = marker.start
-    var imageUrl = 'static/images/routes/route_icon.png'
-    var icon_url = 'static/images/routes/route_start.png'
-    var routeTitle = 'Route start'
+    const imageUrl = 'static/images/routes/route_icon.png'
+    const iconUrl = `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`
+    const routeTitle = `Route ${marker.start ? 'start' : 'end'}`
 
-    if (start === false) {
-        icon_url = 'static/images/routes/route_end.png'
-        routeTitle = 'Route end'
-    }
-
-    var routeDisplay = `
+    const routeDisplay = `
         <div class='section-divider'></div>
         <div class='pokestop-container'>
           <div class='pokestop-container-left'>
             <div>
-              <img class='quest-image' src="${icon_url}" width='64'/>
+              <img class='quest-image' src="${iconUrl}" width='64'/>
             </div>
           </div>
           <div class='pokestop-container-right'>
@@ -226,8 +204,8 @@ function updateRoute(id, route = null) {
             }
         }
     } else {
-        updateRouteMarker(mapData.routes[id], mapData.routes[id].marker1)
-        updateRouteMarker(mapData.routes[id], mapData.routes[id].marker2)
+        updateRouteMarker(mapData.routes[id].marker1)
+        updateRouteMarker(mapData.routes[id].marker2)
         mapData.routes[id].routePath = setupRoutePath(mapData.routes[id])
     }
 
