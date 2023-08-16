@@ -48,8 +48,54 @@ function updateRouteMarker(marker) {
     return marker
 }
 
+function addPopup(route, marker, color) {
+    const popupContent = `<div>
+                            <div class='title'>
+                              ${route.name}
+                            </div>
+                            <hr style="height:5px;border-width:0;color:${color};background-color:${color}">
+                            <div>
+                              ${i18n('Distance')}: <strong>${route.route_distance_meters} ${i18n('meters')}</strong>
+                            </div>
+                            <div>
+                              ${i18n('Duration')}: <strong>${route.route_duration_seconds} ${i18n('seconds')}</strong>
+                            </div>
+                            <div>
+                              ${i18n('Reversible')}: <strong>${route.reversible}</strong>
+                            </div>
+                          </div>`
+    marker.bindPopup(popupContent, { autoPan: autoPanPopup() })
+
+    marker.on('mouseover', function (e) {
+        this.openPopup(e.latlng)
+        this.setStyle({
+            weight: 6
+        })
+    })
+    marker.on('mouseout', function (e) {
+        this.closePopup()
+        this.setStyle({
+            weight: 3
+        })
+    })
+}
+
 function setupRoutePath(route) {
     const routePoints = []
+
+    const colorTable = ['#DA051B',
+                        '#E84921',
+                        '#EF7D1D',
+                        '#F8B310',
+                        '#F3E500',
+                        '#8EB71B',
+                        '#229548',
+                        '#0094AA',
+                        '#1F4995',
+                        '#172C85',
+                        '#4F2577',
+                        '#A0077C',
+                        '#F5B3F9']
 
     const wp = JSON.parse(route.waypoints)
     for (let i = 0; i < wp.length; i++) {
@@ -78,13 +124,14 @@ function setupRoutePath(route) {
         }
     })
 
+    const colorIdx = parseInt(route.route_id.slice(-5,-3),16)%13
     const routePath = new L.ClusterablePolyline(routePoints, {
-        color: '#999999',
+        color: colorTable[colorIdx],
         weight: 3,
         smoothFactor: 1
     })
     routePath.route_id = route.route_id
-
+    addPopup(route, routePath, colorTable[colorIdx])
     markers.addLayer(routePath)
 
     return routePath
