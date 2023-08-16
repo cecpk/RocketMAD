@@ -34,8 +34,8 @@ function updateRouteMarker(marker) {
     const routeIcon = L.icon({
         iconUrl: `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`,
         iconSize: [24, 24],
-        iconAnchor: marker.start ? [-12, 20] : [-12, 12],
-        popupAnchor: marker.start ? [24, -5] : [24, 3]
+        iconAnchor: marker.start ? [12, 20] : [12, 12],
+        popupAnchor: marker.start ? [0, -5] : [0, 3]
     })
     marker.setIcon(routeIcon)
 
