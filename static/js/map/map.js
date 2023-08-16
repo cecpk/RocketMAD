@@ -592,9 +592,7 @@ function addListeners(marker, type) {
                 updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                 break
             case 'route':
-                if (mapData.routes[marker.route_id].updated) {
-                    updateRouteLabel(mapData.routes[marker.route_id], marker)
-                }
+                updateRouteLabel(mapData.routes[marker.route_id], marker)
                 break
             case 'nest':
                 if (mapData.nests[marker.nest_id].updated) {
@@ -651,9 +649,7 @@ function addListeners(marker, type) {
                     updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                     break
                 case 'route':
-                    if (mapData.routes[marker.route_id].updated) {
-                        updateRouteLabel(mapData.routes[marker.route_id], marker)
-                    }
+                    updateRouteLabel(mapData.routes[marker.route_id], marker)
                     break
                 case 'nest':
                     if (mapData.nests[marker.nest_id].updated) {
@@ -685,9 +681,6 @@ function addListeners(marker, type) {
                 break
             case 'spawnpoint':
                 mapData.spawnpoints[marker.spawnpoint_id].updated = false
-                break
-            case 'route':
-                mapData.routes[marker.route_id].updated = false
                 break
             case 'nest':
                 mapData.nests[marker.nest_id].updated = false
