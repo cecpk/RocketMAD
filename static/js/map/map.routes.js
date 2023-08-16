@@ -1,7 +1,7 @@
 /* globals addListeners, autoPanPopup, mapData, markers, settings,
    updateMarkerLayer, pokestopQuestZIndex, pokestopZIndex
  */
-/* exported processRoute, updateRoutes, updateRouteLabel */
+/* exported processRoute, removeRoutes, updateRouteLabel */
 
 function setupRouteMarker(route, start = true) {
     /* create marker for start point (start = true)
@@ -25,6 +25,8 @@ function setupRouteMarker(route, start = true) {
     addListeners(marker, 'route')
     updateRouteLabel(route, marker)
 
+    markers.addLayer(marker)
+
     return marker
 }
 
@@ -42,8 +44,6 @@ function updateRouteMarker(marker) {
     } else {
         marker.setZIndexOffset(pokestopZIndex)
     }
-
-    updateMarkerLayer(marker, false, {})
 
     return marker
 }
@@ -155,69 +155,23 @@ function processRoute(route) {
     }
 
     const id = route.route_id
-    if (!(id in mapData.routes)) {
-        route.marker1 = setupRouteMarker(route)
-        route.marker2 = setupRouteMarker(route, false)
-        route.routePath = setupRoutePath(route)
-        mapData.routes[id] = route
-    } else {
-        updateRoute(id, route)
-    }
+
+    removeRoute(id)
+    route.marker1 = setupRouteMarker(route)
+    route.marker2 = setupRouteMarker(route, false)
+    route.routePath = setupRoutePath(route)
+    mapData.routes[id] = route
 
     return true
 }
 
-function updateRoute(id, route = null) {
-    if (id == null || !(id in mapData.routes)) {
-        return true
-    }
-
-    const isRouteNull = route === null
-    if (isRouteNull) {
-        route = mapData.routes[id]
-    }
-
-    if (!settings.showRoutes) {
-        removeRoute(route)
-        return true
-    }
-
-    if (!isRouteNull) {
-        mapData.routes[id] = route
-
-        if (route.marker1) {
-            if (route.marker1.isPopupOpen()) {
-                updateRouteLabel(route, route.marker1)
-            } else {
-                // Make sure label is updated next time it's opened.
-                route.marker1.updated = true
-            }
-        }
-        if (route.marker2) {
-            if (route.marker2.isPopupOpen()) {
-                updateRouteLabel(route, route.marker2)
-            } else {
-                // Make sure label is updated next time it's opened.
-                route.marker2.updated = true
-            }
-        }
-    } else {
-        updateRouteMarker(mapData.routes[id].marker1)
-        updateRouteMarker(mapData.routes[id].marker2)
-        mapData.routes[id].routePath = setupRoutePath(mapData.routes[id])
-    }
-
-    return true
-}
-
-function updateRoutes() {
+function removeRoutes() {
     $.each(mapData.routes, function (id, route) {
-        updateRoute(id)
+        removeRoute(id)
     })
 }
 
-function removeRoute(route) {
-    const id = route.route_id
+function removeRoute(id) {
     if (id in mapData.routes) {
         if (mapData.routes[id].marker1) {
             markers.removeLayer(mapData.routes[id].marker1)
