@@ -7,7 +7,7 @@ stopFollowingUser, updateExParks, updateGyms, updateNestParks, updateNests,
 updateMap, updatePokestops, updatePokemons, updateS2Overlay,
 updateScannedLocations, updateSpawnpoints, updateStartLocationMarker,
 updateUserLocationMarker, updateWeatherButton, updateWeathers, setQuestFormFilter,
-updateRoutes
+removeRoutes
 */
 /* exported initBackupModals, initInvasionFilters, initItemFilters, initPokemonFilters, initSettings, initSettingsSidebar */
 
@@ -875,7 +875,7 @@ function initSettingsSidebar() {
             if (this.checked) {
                 updateMap({ loadAllRoutes: true })
             } else {
-                updateRoutes()
+                removeRoutes()
             }
             Store.set('showRoutes', this.checked)
         })
