@@ -293,7 +293,8 @@ function initMap() { // eslint-disable-line no-unused-vars
         zoom: paramZoom || Store.get('zoomLevel'),
         minZoom: serverSettings.maxZoomLevel,
         zoomControl: false,
-        preferCanvas: true
+        preferCanvas: true,
+        padding: 100
     })
 
     setCustomTileServers(serverSettings.customTileServers)
