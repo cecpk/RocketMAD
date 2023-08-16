@@ -95,7 +95,7 @@ function addPopup(route, marker) {
 }
 
 function setupRoutePath(route) {
-    const pointLL = new L.latLng(route.start_poi_latitude, route.start_poi_longitude)
+    let pointLL = new L.latLng(route.start_poi_latitude, route.start_poi_longitude)
     let routePoints = [pointLL]
 
     const wp = JSON.parse(route.waypoints)
@@ -104,10 +104,10 @@ function setupRoutePath(route) {
             console.log('Unknown route waypoint: ', JSON.stringify(wp[i]))
             continue
         }
-        const pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
+        pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
         routePoints.push(pointLL)
     }
-    const pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
+    pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
     routePoints.push(pointLL)
 
     L.ClusterablePolyline = L.Polyline.extend({
@@ -117,10 +117,6 @@ function setupRoutePath(route) {
             this._originalInitialize(bounds, options);
             //this._latlng = this.getBounds().getCenter();
         },
-
-        //getLatLng: function () {
-            //return this._latlng;
-        //},
 
         // dummy method.
         setLatLng: function () {
