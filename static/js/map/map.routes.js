@@ -48,41 +48,7 @@ function updateRouteMarker(marker) {
     return marker
 }
 
-function addPopup(route, marker, color) {
-    const popupContent = `<div>
-                            <div class='title'>
-                              ${route.name}
-                            </div>
-                            <hr style="height:5px;border-width:0;color:${color};background-color:${color}">
-                            <div>
-                              ${i18n('Distance')}: <strong>${route.route_distance_meters} ${i18n('meters')}</strong>
-                            </div>
-                            <div>
-                              ${i18n('Duration')}: <strong>${route.route_duration_seconds} ${i18n('seconds')}</strong>
-                            </div>
-                            <div>
-                              ${i18n('Reversible')}: <strong>${route.reversible}</strong>
-                            </div>
-                          </div>`
-    marker.bindPopup(popupContent, { autoPan: autoPanPopup() })
-
-    marker.on('mouseover', function (e) {
-        this.openPopup(e.latlng)
-        this.setStyle({
-            weight: 6
-        })
-    })
-    marker.on('mouseout', function (e) {
-        this.closePopup()
-        this.setStyle({
-            weight: 3
-        })
-    })
-}
-
-function setupRoutePath(route) {
-    const routePoints = []
-
+function getRouteColor(route) {
     const colorTable = ['#DA051B',
                         '#E84921',
                         '#EF7D1D',
@@ -97,6 +63,41 @@ function setupRoutePath(route) {
                         '#A0077C',
                         '#F5B3F9']
 
+    if (route.route_id) {
+        return colorTable[parseInt(route.route_id.slice(-5,-3),16)%colorTable.length]
+    }
+    return colorTable[Math.floor(Math.random() * colorTable.length)]
+}
+
+function addPopup(route, marker) {
+    const popupContent = routeLabel(route, null)
+    marker.bindPopup(popupContent, { autoPan: autoPanPopup() })
+
+    marker.on('mouseover', function (e) {
+        this.openPopup(e.latlng)
+        this.setStyle({
+            weight: 6
+        })
+    })
+    marker.on('mouseout', function (e) {
+        this.closePopup()
+        this.setStyle({
+            weight: 3
+        })
+    })
+    marker.on('mousemove', function (e) {
+        this.closePopup()
+        this.openPopup(e.latlng)
+        this.setStyle({
+            weight: 6
+        })
+    })
+}
+
+function setupRoutePath(route) {
+    const pointLL = new L.latLng(route.start_poi_latitude, route.start_poi_longitude)
+    let routePoints = [pointLL]
+
     const wp = JSON.parse(route.waypoints)
     for (let i = 0; i < wp.length; i++) {
         if (!wp[i].lat_degrees || !wp[i].lng_degrees) {
@@ -106,32 +107,33 @@ function setupRoutePath(route) {
         const pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
         routePoints.push(pointLL)
     }
+    const pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
+    routePoints.push(pointLL)
 
     L.ClusterablePolyline = L.Polyline.extend({
         _originalInitialize: L.Polyline.prototype.initialize,
 
         initialize: function (bounds, options) {
             this._originalInitialize(bounds, options);
-            this._latlng = this.getBounds().getCenter();
+            //this._latlng = this.getBounds().getCenter();
         },
 
-        getLatLng: function () {
-            return this._latlng;
-        },
+        //getLatLng: function () {
+            //return this._latlng;
+        //},
 
         // dummy method.
         setLatLng: function () {
         }
     })
 
-    const colorIdx = parseInt(route.route_id.slice(-5,-3),16)%13
     const routePath = new L.ClusterablePolyline(routePoints, {
-        color: colorTable[colorIdx],
+        color: getRouteColor(route),
         weight: 3,
         smoothFactor: 1
     })
     routePath.route_id = route.route_id
-    addPopup(route, routePath, colorTable[colorIdx])
+    addPopup(route, routePath)
     markers.addLayer(routePath)
 
     return routePath
@@ -139,11 +141,16 @@ function setupRoutePath(route) {
 
 function routeLabel(route, marker) {
     const imageUrl = 'static/images/routes/route_icon.png'
-    const iconUrl = `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`
-    const routeTitle = `Route ${marker.start ? 'start' : 'end'}`
+    let iconUrl = 'static/images/routes/route_icon.png'
+    let routeTitle = 'Route'
+    if (marker) {    
+        iconUrl = `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`
+        routeTitle = `Route ${marker.start ? 'start' : 'end'}`
+    }
 
+    const color = getRouteColor(route)
     const routeDisplay = `
-        <div class='section-divider'></div>
+        <hr style="height:5px;border-width:0;color:${color};background-color:${color}">
         <div class='pokestop-container'>
           <div class='pokestop-container-left'>
             <div>
