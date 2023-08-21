@@ -95,7 +95,7 @@ function addPopup(route, marker) {
 }
 
 function setupRoutePath(route) {
-    const pointLL = new L.latLng(route.start_poi_latitude, route.start_poi_longitude)
+    let pointLL = new L.latLng(route.start_poi_latitude, route.start_poi_longitude)
     let routePoints = [pointLL]
 
     const wp = JSON.parse(route.waypoints)
