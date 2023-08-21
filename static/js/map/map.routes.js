@@ -87,7 +87,7 @@ function addPopup(route, marker) {
     })
     marker.on('mousemove', function (e) {
         this.closePopup()
-        this.openPopup(e.latlng)
+        this.openPopup(map.mouseEventToLatLng(e.originalEvent))
         this.setStyle({
             weight: 6
         })
@@ -95,7 +95,7 @@ function addPopup(route, marker) {
 }
 
 function setupRoutePath(route) {
-    let pointLL = new L.latLng(route.start_poi_latitude, route.start_poi_longitude)
+    const pointLL = new L.latLng(route.start_poi_latitude, route.start_poi_longitude)
     let routePoints = [pointLL]
 
     const wp = JSON.parse(route.waypoints)
@@ -104,19 +104,23 @@ function setupRoutePath(route) {
             console.log('Unknown route waypoint: ', JSON.stringify(wp[i]))
             continue
         }
-        pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
+        const pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
         routePoints.push(pointLL)
     }
-    pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
+    const pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
     routePoints.push(pointLL)
 
     L.ClusterablePolyline = L.Polyline.extend({
         _originalInitialize: L.Polyline.prototype.initialize,
 
         initialize: function (bounds, options) {
-            this._originalInitialize(bounds, options);
-            //this._latlng = this.getBounds().getCenter();
+            this._originalInitialize(bounds, options)
+            this._latlng = this.getBounds().getCenter()
         },
+
+        //getLatLng: function () {
+            //return this._latlng
+        //},
 
         // dummy method.
         setLatLng: function () {
@@ -135,6 +139,15 @@ function setupRoutePath(route) {
     return routePath
 }
 
+// left pad a string/input to a fixed length with extra padString
+function zpad(input, length, padString) {
+  let s = input.toString()
+  while (s.length < length) {
+    s = padString + s
+  }
+  return s
+}
+
 function routeLabel(route, marker) {
     const imageUrl = 'static/images/routes/route_icon.png'
     let iconUrl = 'static/images/routes/route_icon.png'
@@ -143,6 +156,8 @@ function routeLabel(route, marker) {
         iconUrl = `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`
         routeTitle = `Route ${marker.start ? 'start' : 'end'}`
     }
+    let rDS = parseInt(route.route_duration_seconds,10)
+    let duration = `${Math.floor(rDS/3600)}h ${zpad( Math.floor((rDS%3600)/60), 2, '0')}m ${zpad( Math.floor(rDS%60), 2, '0')}s`
 
     const color = getRouteColor(route)
     const routeDisplay = `
@@ -162,7 +177,7 @@ function routeLabel(route, marker) {
                 ${i18n('Distance')}: <strong>${route.route_distance_meters} ${i18n('meters')}</strong>
               </div>
               <div>
-                ${i18n('Duration')}: <strong>${route.route_duration_seconds} ${i18n('seconds')}</strong>
+                ${i18n('Duration')}: <strong>${duration}</strong>
               </div>
               <div>
                 ${i18n('Reversible')}: <strong>${route.reversible}</strong>
