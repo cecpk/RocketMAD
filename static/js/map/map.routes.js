@@ -104,10 +104,10 @@ function setupRoutePath(route) {
             console.log('Unknown route waypoint: ', JSON.stringify(wp[i]))
             continue
         }
-        const pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
+        pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
         routePoints.push(pointLL)
     }
-    const pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
+    pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
     routePoints.push(pointLL)
 
     L.ClusterablePolyline = L.Polyline.extend({
