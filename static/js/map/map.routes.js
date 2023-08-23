@@ -139,15 +139,6 @@ function setupRoutePath(route) {
     return routePath
 }
 
-// left pad a string/input to a fixed length with extra padString
-function zpad(input, length, padString) {
-  let s = input.toString()
-  while (s.length < length) {
-    s = padString + s
-  }
-  return s
-}
-
 function routeLabel(route, marker) {
     const imageUrl = 'static/images/routes/route_icon.png'
     let iconUrl = 'static/images/routes/route_icon.png'
@@ -156,8 +147,8 @@ function routeLabel(route, marker) {
         iconUrl = `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`
         routeTitle = `Route ${marker.start ? 'start' : 'end'}`
     }
-    let rDS = parseInt(route.route_duration_seconds,10)
-    let duration = `${Math.floor(rDS/3600)}h ${zpad( Math.floor((rDS%3600)/60), 2, '0')}m ${zpad( Math.floor(rDS%60), 2, '0')}s`
+    const rDS = parseInt(route.route_duration_seconds,10)
+    const duration = `${Math.floor(rDS / 3600)}h ${lpad( Math.floor((rDS % 3600)/60), 2, '0')}m ${lpad( Math.floor(rDS % 60), 2, '0')}s`
 
     const color = getRouteColor(route)
     const routeDisplay = `
