@@ -140,12 +140,34 @@ function setupRoutePath(route) {
 }
 
 function routeLabel(route, marker) {
-    const imageUrl = 'static/images/routes/route_icon.png'
+    let imageUrl = 'static/images/routes/route_icon.png'
     let iconUrl = 'static/images/routes/route_icon.png'
-    let routeTitle = 'Route'
-    if (marker) {    
+    let routeTitle = 'Route path'
+    let imageClass = 'pokestop-icon'
+    let imageOnclick = ''
+
+    if (marker) {
+        if (marker.start) {
+            if (route.start_poi_image_url) {
+                imageUrl = route.start_poi_image_url.replace(/^http:\/\//i, '//')
+                imageClass = 'pokestop-image'
+                imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+            } // else keep default route_icon image
+        } else {
+            if (route.start_poi_image_url) {
+                imageUrl = route.end_poi_image_url.replace(/^http:\/\//i, '//')
+                imageClass = 'pokestop-image'
+                imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+            } // else keep default route_icon image
+        }
         iconUrl = `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`
         routeTitle = `Route ${marker.start ? 'start' : 'end'}`
+    } else {
+        if (route.image) {
+            imageUrl = route.image.replace(/^http:\/\//i, '//')
+            imageClass = 'pokestop-image'
+            imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+        } // else keep default route_icon image
     }
     const rDS = parseInt(route.route_duration_seconds,10)
     const duration = `${Math.floor(rDS / 3600)}h ${lpad( Math.floor((rDS % 3600)/60), 2, '0')}m ${lpad( Math.floor(rDS % 60), 2, '0')}s`
@@ -182,7 +204,7 @@ function routeLabel(route, marker) {
           <div class='pokestop-container'>
             <div class='pokestop-container-left'>
               <div>
-                <img class='pokestop-icon' src='${imageUrl}' width='64' height='64'>
+                <img class='${imageClass}' src='${imageUrl}' ${imageOnclick} width='64' height='64'>
               </div>
             </div>
             <div class='pokestop-container-right'>
