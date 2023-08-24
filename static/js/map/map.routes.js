@@ -154,7 +154,7 @@ function routeLabel(route, marker) {
                 imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
             } // else keep default route_icon image
         } else {
-            if (route.start_poi_image_url) {
+            if (route.end_poi_image_url) {
                 imageUrl = route.end_poi_image_url.replace(/^http:\/\//i, '//')
                 imageClass = 'pokestop-image'
                 imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
