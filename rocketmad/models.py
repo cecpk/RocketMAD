@@ -1042,6 +1042,8 @@ class Routes(db.Model):
             Routes.route_distance_meters, Routes.route_duration_seconds,
             Routes.start_poi_latitude, Routes.start_poi_longitude,
             Routes.end_poi_latitude, Routes.end_poi_longitude,
+            Routes.image_border_color_hex, Routes.image, Routes.tags,
+            Routes.start_poi_image_url, Routes.end_poi_image_url,
             Routes.last_updated
         )
 
