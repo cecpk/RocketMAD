@@ -73,6 +73,12 @@ function addPopup(route, marker) {
     const popupContent = routeLabel(route, null)
     marker.bindPopup(popupContent, { autoPan: autoPanPopup() })
 
+    marker.on('click', function (e) {
+        this.openPopup(e.latlng)
+        this.setStyle({
+            weight: 6
+        })
+    })
     marker.on('mouseover', function (e) {
         this.openPopup(e.latlng)
         this.setStyle({
@@ -145,6 +151,7 @@ function routeLabel(route, marker) {
     let routeTitle = 'Route path'
     let imageClass = 'pokestop-icon'
     let imageOnclick = ''
+    let imageStyle = ''
 
     if (marker) {
         if (marker.start) {
@@ -152,12 +159,14 @@ function routeLabel(route, marker) {
                 imageUrl = route.start_poi_image_url.replace(/^http:\/\//i, '//')
                 imageClass = 'pokestop-image'
                 imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+                imageStyle = `style="border-width: 3px; border-color: #${route.image_border_color_hex}; border-style: solid;"`
             } // else keep default route_icon image
         } else {
             if (route.end_poi_image_url) {
                 imageUrl = route.end_poi_image_url.replace(/^http:\/\//i, '//')
                 imageClass = 'pokestop-image'
                 imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+                imageStyle = `style="border-width: 3px; border-color: #${route.image_border_color_hex}; border-style: solid;"`
             } // else keep default route_icon image
         }
         iconUrl = `static/images/routes/route_${marker.start ? 'start' : 'end'}.png`
@@ -167,6 +176,7 @@ function routeLabel(route, marker) {
             imageUrl = route.image.replace(/^http:\/\//i, '//')
             imageClass = 'pokestop-image'
             imageOnclick = `onclick='showImageModal("${imageUrl}", "${route.name.replace(/"/g, '\\&quot;').replace(/'/g, '\\&#39;')}")'`
+            imageStyle = `style="border-width: 3px; border-color: #${route.image_border_color_hex}; border-style: solid;"`
         } // else keep default route_icon image
     }
     const rDS = parseInt(route.route_duration_seconds,10)
@@ -204,7 +214,7 @@ function routeLabel(route, marker) {
           <div class='pokestop-container'>
             <div class='pokestop-container-left'>
               <div>
-                <img class='${imageClass}' src='${imageUrl}' ${imageOnclick} width='64' height='64'>
+                <img class='${imageClass}' ${imageStyle} src='${imageUrl}' ${imageOnclick} width='64' height='64'>
               </div>
             </div>
             <div class='pokestop-container-right'>
@@ -215,7 +225,10 @@ function routeLabel(route, marker) {
                 ${i18n('Last scanned')}: <strong>${timestampToDateTime(route.last_updated)}</strong>
               </div>
               <div>
-                <a href='javascript:void(0);' onclick='javascript:openMapDirections(${route.start_poi_latitude},${route.start_poi_longitude},"${settings.mapServiceProvider}");' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${route.start_poi_latitude.toFixed(5)}, ${route.start_poi_longitude.toFixed(5)}</a>
+                ${i18n('Start POI')}: <a href='javascript:void(0);' onclick='javascript:openMapDirections(${route.start_poi_latitude},${route.start_poi_longitude},"${settings.mapServiceProvider}");' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${route.start_poi_latitude.toFixed(5)}, ${route.start_poi_longitude.toFixed(5)}</a>
+              </div>
+              <div>
+                ${i18n('End POI')}: <a href='javascript:void(0);' onclick='javascript:openMapDirections(${route.end_poi_latitude},${route.end_poi_longitude},"${settings.mapServiceProvider}");' title='${i18n('Open in')} ${mapServiceProviderNames[settings.mapServiceProvider]}'><i class="fas fa-map-marked-alt"></i> ${route.end_poi_latitude.toFixed(5)}, ${route.end_poi_longitude.toFixed(5)}</a>
               </div>
             </div>
           </div>
