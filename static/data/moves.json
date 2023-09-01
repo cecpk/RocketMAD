@@ -1307,6 +1307,10 @@
     "name": "Oblivion Wing",
     "type": "Flying"
   },
+  "390": {
+    "name": "Natures Madness",
+    "type": "Fairy"
+  },
   "391": {
     "name": "Triple Axel",
     "type": "Ice"
