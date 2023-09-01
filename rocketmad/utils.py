@@ -182,6 +182,9 @@ def get_args(access_config=None):
     parser.add_argument('-nsl', '--no-scanned-locs',
                         help=('Disables scanned locations.'),
                         action='store_true', default=False)
+    parser.add_argument('-nrt', '--no-routes',
+                        help=('Disables routes.'),
+                        action='store_true', default=False)
     parser.add_argument('-nsc', '--no-s2-cells',
                         help=('Disables s2 cells.'),
                         action='store_true', default=False)

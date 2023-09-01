@@ -21,7 +21,7 @@ from .auth.auth_factory import AuthFactory
 from .blacklist import fingerprints
 from .dyn_img import ImageGenerator
 from .models import (db, Pokemon, Gym, Pokestop, Nest, ScannedLocation,
-                     TrsSpawn, Weather)
+                     TrsSpawn, Weather, Routes)
 from .transform import transform_from_wgs_to_gcj
 from .utils import (get_args, get_pokemon_name, get_sessions, i18n,
                     parse_geofence_file)
@@ -243,6 +243,7 @@ def create_app():
             'invasions': (not user_args.no_pokestops
                           and not user_args.no_invasions),
             'lures': not user_args.no_pokestops and not user_args.no_lures,
+            'routes': not user_args.no_routes,
             'weather': not user_args.no_weather,
             'spawnpoints': not user_args.no_spawnpoints,
             'scannedLocs': not user_args.no_scanned_locs,
@@ -768,6 +769,8 @@ def create_app():
         scanned_locs = (request.args.get('scannedLocs') == 'true'
                         and not user_args.no_scanned_locs)
         nests = request.args.get('nests') == 'true' and user_args.nests
+        routes = (request.args.get('routes') == 'true'
+                  and not user_args.no_routes)
         exclude_nearby_cells = request.args.get('excludeNearbyCells') == 'true'
 
         all_pokemon = request.args.get('allPokemon') == 'true'
@@ -777,6 +780,7 @@ def create_app():
         all_spawnpoints = request.args.get('allSpawnpoints') == 'true'
         all_scanned_locs = request.args.get('allScannedLocs') == 'true'
         all_nests = request.args.get('allNests') == 'true'
+        all_routes = request.args.get('allRoutes') == 'true'
 
         if all_pokemon:
             d['allPokemon'] = True
@@ -786,6 +790,8 @@ def create_app():
             d['allPokestops'] = True
         if all_weather:
             d['allWeather'] = True
+        if all_routes:
+            d['allRoutes'] = True
         if all_spawnpoints:
             d['allSpawnpoints'] = True
         if all_scanned_locs:
@@ -925,6 +931,25 @@ def create_app():
                         invasions=invasions, lures=lures, geofences=geofences,
                         exclude_geofences=exclude_geofences
                     ))
+
+        if routes:
+            if timestamp == 0 or all_routes:
+                d['routes'] = Routes.get_routes(
+                    swLat, swLng, neLat, neLng, geofences=geofences,
+                    exclude_geofences=exclude_geofences
+                )
+            else:
+                d['routes'] = Routes.get_routes(
+                    swLat, swLng, neLat, neLng, timestamp=timestamp,
+                    geofences=geofences, exclude_geofences=exclude_geofences
+                )
+                if new_area:
+                    d['routes'] += Routes.get_routes(
+                        swLat, swLng, neLat, neLng, oSwLat=oSwLat,
+                        oSwLng=oSwLng, oNeLat=oNeLat, oNeLng=oNeLng,
+                        geofences=geofences,
+                        exclude_geofences=exclude_geofences
+                    )
 
         if weather:
             if timestamp == 0 or all_weather:

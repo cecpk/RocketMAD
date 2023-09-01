@@ -6,7 +6,8 @@ settingsSideNav:writable, startFollowingUser, startLocationMarker,
 stopFollowingUser, updateExParks, updateGyms, updateNestParks, updateNests,
 updateMap, updatePokestops, updatePokemons, updateS2Overlay,
 updateScannedLocations, updateSpawnpoints, updateStartLocationMarker,
-updateUserLocationMarker, updateWeatherButton, updateWeathers, setQuestFormFilter
+updateUserLocationMarker, updateWeatherButton, updateWeathers, setQuestFormFilter,
+removeRoutes
 */
 /* exported initBackupModals, initInvasionFilters, initItemFilters, initPokemonFilters, initSettings, initSettingsSidebar */
 
@@ -113,6 +114,10 @@ function initSettings() {
     }
     if (serverSettings.lures) {
         settings.notifLureTypes = Store.get('notifLureTypes')
+    }
+
+    if (serverSettings.routes) {
+        settings.showRoutes = Store.get('showRoutes')
     }
 
     settings.showWeather = serverSettings.weather && Store.get('showWeather')
@@ -861,6 +866,18 @@ function initSettingsSidebar() {
             updatePokestops()
             updateMap({ loadAllPokestops: true })
             Store.set('includedLureTypes', settings.includedLureTypes)
+        })
+    }
+
+    if (serverSettings.routes) {
+        $('#routes-switch').on('change', function () {
+            settings.showRoutes = this.checked
+            if (this.checked) {
+                updateMap({ loadAllRoutes: true })
+            } else {
+                removeRoutes()
+            }
+            Store.set('showRoutes', this.checked)
         })
     }
 
@@ -1684,6 +1701,11 @@ function initSettingsSidebar() {
     }
     if (serverSettings.lures) {
         $('#lure-type-select').val(settings.includedLureTypes)
+    }
+
+    // Routes.
+    if (serverSettings.routes) {
+        $('#routes-switch').prop('checked', settings.showRoutes)
     }
 
     // Weather.

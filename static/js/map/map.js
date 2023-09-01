@@ -4,10 +4,10 @@ initInvasionFilters, initItemFilters, initPokemonFilters, initSettings,
 initSettingsSidebar, initStatsSidebar, isGymRangesActive, isPokemonRangesActive,
 isPokestopRangesActive, isSpawnpointRangesActive, processGym, processNest,
 processPokemon, processPokestop, processScannedLocation, processSpawnpoint,
-processSpawnpoint, processWeather, removePokemon, removeScannedLocation,
+processSpawnpoint, processRoute, processWeather, removePokemon, removeScannedLocation,
 setupWeatherModal, updateAllParks, updateGym, updateGymLabel, updateGymLabel,
 updateNestLabel, updatePokemonLabel, updatePokemonLabel, updatePokestop,
-updatePokestopLabel, updatePokestopLabel, updateS2Overlay, updateS2Overlay,
+updatePokestopLabel, updatePokestopLabel, updateRouteLabel, updateS2Overlay, updateS2Overlay,
 updateScannedLocation, updateSpawnpoint, updateSpawnpointLabel,
 updateSpawnpointLabel, updateStatsTable, updateStatsTable, updateStatsTable,
 updateStatsTable, updateWeatherButton, updateWeatherLabel, updateWeatherLabel
@@ -116,6 +116,7 @@ const settings = {
     invasionNotifs: null,
     notifInvasions: null,
     notifLureTypes: null,
+    showRoutes: null,
     showWeather: null,
     showWeatherCells: null,
     showMainWeather: null,
@@ -167,6 +168,7 @@ const mapData = {
     gyms: {},
     pokestops: {},
     lurePokemons: {},
+    routes: {},
     weather: {},
     scannedLocs: {},
     spawnpoints: {},
@@ -193,6 +195,7 @@ let getAllPokemon
 let getAllGyms
 let getAllPokestops
 let getAllWeather
+let getAllRoutes
 let getAllSpawnpoints
 let getAllScannedLocs
 let getAllNests
@@ -201,6 +204,7 @@ let getAllPokemonTimestamp
 let getAllGymsTimestamp
 let getAllPokestopsTimestamp
 let getAllWeatherTimestamp
+let getAllRoutesTimestamp
 let getAllSpawnpointsTimestamp
 let getAllScannedLocsTimestamp
 let getAllNestsTimestamp
@@ -289,7 +293,8 @@ function initMap() { // eslint-disable-line no-unused-vars
         zoom: paramZoom || Store.get('zoomLevel'),
         minZoom: serverSettings.maxZoomLevel,
         zoomControl: false,
-        preferCanvas: true
+        preferCanvas: true,
+        padding: 100
     })
 
     setCustomTileServers(serverSettings.customTileServers)
@@ -587,6 +592,9 @@ function addListeners(marker, type) {
                 // Always update label before opening since weather might have become outdated.
                 updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                 break
+            case 'route':
+                updateRouteLabel(mapData.routes[marker.route_id], marker)
+                break
             case 'nest':
                 if (mapData.nests[marker.nest_id].updated) {
                     updateNestLabel(mapData.nests[marker.nest_id], marker)
@@ -641,6 +649,9 @@ function addListeners(marker, type) {
                     // Always update label before opening since weather might have become outdated.
                     updateWeatherLabel(mapData.weather[marker.s2_cell_id], marker)
                     break
+                case 'route':
+                    updateRouteLabel(mapData.routes[marker.route_id], marker)
+                    break
                 case 'nest':
                     if (mapData.nests[marker.nest_id].updated) {
                         updateNestLabel(mapData.nests[marker.nest_id], marker)
@@ -671,6 +682,9 @@ function addListeners(marker, type) {
                 break
             case 'spawnpoint':
                 mapData.spawnpoints[marker.spawnpoint_id].updated = false
+                break
+            case 'nest':
+                mapData.nests[marker.nest_id].updated = false
                 break
         }
         marker.options.persist = false
@@ -789,6 +803,7 @@ function loadRawData() {
     const loadQuestsAr = settings.filterQuestsAr
     const loadInvasions = settings.showInvasions
     const loadLures = settings.includedLureTypes && settings.includedLureTypes.length > 0
+    const loadRoutes = settings.showRoutes
     const loadWeather = settings.showWeather
     const loadSpawnpoints = settings.showSpawnpoints
     const loadScannedLocs = settings.showScannedLocations
@@ -829,12 +844,14 @@ function loadRawData() {
             gyms: loadGyms,
             raids: loadRaids,
             nests: loadNests,
+            routes: loadRoutes,
             weather: loadWeather,
             spawnpoints: loadSpawnpoints,
             scannedLocs: loadScannedLocs,
             allPokemon: getAllPokemon,
             allGyms: getAllGyms,
             allPokestops: getAllPokestops,
+            allRoutes: getAllRoutes,
             allWeather: getAllWeather,
             allSpawnpoints: getAllSpawnpoints,
             allScannedLocs: getAllScannedLocs,
@@ -864,6 +881,7 @@ function updateMap({
     loadAllPokemon = false,
     loadAllGyms = false,
     loadAllPokestops = false,
+    loadAllRoutes = false,
     loadAllWeather = false,
     loadAllSpawnpoints = false,
     loadAllScannedLocs = false,
@@ -880,6 +898,10 @@ function updateMap({
     if (loadAllPokestops) {
         getAllPokestopsTimestamp = Date.now()
         getAllPokestops = true
+    }
+    if (loadAllRoutes) {
+        getAllRoutesTimestamp = Date.now()
+        getAllRoutes = true
     }
     if (loadAllWeather) {
         getAllWeatherTimestamp = Date.now()
@@ -912,11 +934,14 @@ function updateMap({
             $.each(result.pokemons, function (idx, pokemon) {
                 processPokemon(pokemon)
             })
-            $.each(result.gyms, function (id, gym) {
+            $.each(result.gyms, function (idx, gym) {
                 processGym(gym)
             })
-            $.each(result.pokestops, function (id, pokestop) {
+            $.each(result.pokestops, function (idx, pokestop) {
                 processPokestop(pokestop)
+            })
+            $.each(result.routes, function (idx, route) {
+                processRoute(route)
             })
             $.each(result.weather, function (idx, weather) {
                 processWeather(weather)
@@ -952,6 +977,9 @@ function updateMap({
         }
         if (result.allPokestops && getAllPokestopsTimestamp <= requestTimestamp) {
             getAllPokestops = false
+        }
+        if (result.allRoutes && getAllRoutesTimestamp <= requestTimestamp) {
+            getAllRoutes = false
         }
         if (result.allWeather && getAllWeatherTimestamp <= requestTimestamp) {
             getAllWeather = false
