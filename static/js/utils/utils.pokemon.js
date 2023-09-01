@@ -17,7 +17,7 @@ const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'N
 // FontAwesome gender classes.
 const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 var pokemonSearchList = []
-const availablePokemonCount = 809
+const availablePokemonCount = 1010
 const pokemonIds = new Set()
 
 function initPokemonData() {
@@ -45,6 +45,8 @@ function initPokemonData() {
                 gen = 7
             } else if (id <= 898) {
                 gen = 8
+            } else if (id <= 1010) {
+                gen = 9
             }
             pokemonData[id].gen = gen
             pokemonSearchList.push({
@@ -85,19 +87,6 @@ function getPokemonIds() {
         for (let i = 1; i <= availablePokemonCount; i++) {
             pokemonIds.add(i)
         }
-        // Gen 8.
-        pokemonIds.add(819)
-        pokemonIds.add(820)
-        pokemonIds.add(831)
-        pokemonIds.add(832)
-        pokemonIds.add(862)
-        pokemonIds.add(863)
-        pokemonIds.add(865)
-        pokemonIds.add(866)
-        pokemonIds.add(867)
-        pokemonIds.add(870)
-        pokemonIds.add(888)
-        pokemonIds.add(889)
     }
     return new Set(pokemonIds)
 }
