@@ -1310,5 +1310,21 @@
   "389": {
     "name": "Oblivion Wing",
     "type": "Flying"
+  },
+  "390": {
+    "name": "Natures Madness",
+    "type": "Fairy"
+  },
+  "391": {
+    "name": "Triple Axel",
+    "type": "Ice"
+  },
+  "392": {
+    "name": "Trailblaze",
+    "type": "Grass"
+  },
+  "393": {
+    "name": "Scorching Sands",
+    "type": "Ground"
   }
 }
