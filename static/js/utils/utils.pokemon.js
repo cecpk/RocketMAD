@@ -139,15 +139,18 @@ function getPokemonGen(id) {
 }
 
 function getMoveName(id) {
-    return i18n(moveData[id].name)
+    const n = moveData[id].name
+    return i18n(n ? n : 'move_' + id)
 }
 
 function getMoveType(id) {
-    return i18n(moveData[id].type)
+    const n = moveData[id].type
+    return i18n(n ? n : 'move_type_' + id)
 }
 
 function getMoveTypeNoI8ln(id) {
-    return moveData[id].type
+    const n = moveData[id].type
+    return n ? n : 'move_type_' + id
 }
 
 function getPokemonRarity(pokemonId) {
