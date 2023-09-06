@@ -807,5 +807,9 @@
   "510": {
     "type": "",
     "grunt": "Savannah Trainer"
+  },
+  "9001": {
+    "type": "",
+    "grunt": "Showcase"
   }
 }
