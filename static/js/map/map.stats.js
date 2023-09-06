@@ -509,7 +509,7 @@ function updateStatsTable() {
                 ]
             )
         }
-        for (invNum in invasionCounts) {
+        for (let invNum in invasionCounts) {
             pokestopRows.push(
                 [
                     `<img src="${invasionCounts[invNum][1]}" width=32 />`,
