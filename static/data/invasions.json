@@ -807,5 +807,13 @@
   "510": {
     "type": "",
     "grunt": "Savannah Trainer"
+  },
+  "998": {
+    "type": "",
+    "grunt": "Gimmighoul Coins"
+  },
+  "9001": {
+    "type": "",
+    "grunt": "Showcase"
   }
 }
