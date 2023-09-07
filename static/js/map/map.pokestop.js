@@ -342,7 +342,7 @@ function pokestopLabel(pokestop) {
                   </div>
                 </div>
                 <div class='disappear'>
-                  ${timestampToDateTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00m00s</span>)
+                  ${timestampToDateTime(invasionExpireTime)} (<span class='label-countdown' disappears-at='${invasionExpireTime}'>00h00m00s</span>)
                 </div>
                 <div class='info-container'>
                   ${typeDisplay}
