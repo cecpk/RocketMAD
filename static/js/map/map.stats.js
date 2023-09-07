@@ -429,7 +429,7 @@ function updateStatsTable() {
     if (selectedTab === '#pokestop-stats-tab') {
         let noStatusCount = 0
         let questCount = 0
-        let invasionCount = 0
+        let invasionCounts = {}
         let normalLureCount = 0
         let glacialLureCount = 0
         let magneticLureCount = 0
@@ -448,7 +448,15 @@ function updateStatsTable() {
                     hasStatus = true
                 }
                 if (isPokestopMeetsInvasionFilters(pokestop)) {
-                    invasionCount++
+                    if ( !(pokestop.incident_grunt_type in invasionCounts) ) {
+                        let invDesc = 'Unknown Invasion'
+                        if (pokestop.incident_grunt_type != 0) {
+                            invDesc = `${getInvasionType(pokestop.incident_grunt_type)} ${getInvasionGrunt(pokestop.incident_grunt_type)}`
+                        }
+                        invasionCounts[pokestop.incident_grunt_type] = [1, getPokestopIconUrl(pokestop), invDesc]
+                    } else {
+                        invasionCounts[pokestop.incident_grunt_type][0] += 1
+                    }
                     hasStatus = true
                 }
                 if (isPokestopMeetsLureFilters(pokestop)) {
@@ -501,13 +509,13 @@ function updateStatsTable() {
                 ]
             )
         }
-        if (invasionCount > 0) {
+        for (let invNum in invasionCounts) {
             pokestopRows.push(
                 [
-                    '<img src="static/images/pokestop/stop_i.png" width=32 />',
-                    i18n('Rocket Invasion'),
-                    invasionCount,
-                    (invasionCount * 100) / pokestopCount
+                    `<img src="${invasionCounts[invNum][1]}" width=32 />`,
+                    i18n(invasionCounts[invNum][2]),
+                    invasionCounts[invNum][0],
+                    (invasionCounts[invNum][0] * 100) / pokestopCount
                 ]
             )
         }
