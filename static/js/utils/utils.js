@@ -231,7 +231,7 @@ function updateLabelDiffTime() {
         if (disappearsAt.time < disappearsAt.now) {
             timestring = 'expired'
         } else if (days > 0) {
-            timestring = lpad(days, 2, 0) + 'd' + lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm'
+            timestring = days + 'd' + lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm'
         } else if (hours > 0) {
             timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
         } else {
