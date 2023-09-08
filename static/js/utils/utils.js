@@ -201,9 +201,11 @@ function getTimeUntil(time) {
     var sec = Math.floor((tdiff / 1000) % 60)
     var min = Math.floor((tdiff / 1000 / 60) % 60)
     var hour = Math.floor((tdiff / (1000 * 60 * 60)) % 24)
+    var day = Math.floor(tdiff / (1000 * 60 * 60 * 24))
 
     return {
         total: tdiff,
+        day: day,
         hour: hour,
         min: min,
         sec: sec,
@@ -220,6 +222,7 @@ function updateLabelDiffTime() {
     $('.label-countdown').each(function (index, element) {
         var disappearsAt = getTimeUntil(parseInt(element.getAttribute('disappears-at')))
 
+        var days = disappearsAt.day
         var hours = disappearsAt.hour
         var minutes = disappearsAt.min
         var seconds = disappearsAt.sec
@@ -227,6 +230,8 @@ function updateLabelDiffTime() {
 
         if (disappearsAt.time < disappearsAt.now) {
             timestring = 'expired'
+        } else if (days > 0) {
+            timestring = days + 'd' + lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm'
         } else if (hours > 0) {
             timestring = lpad(hours, 2, 0) + 'h' + lpad(minutes, 2, 0) + 'm' + lpad(seconds, 2, 0) + 's'
         } else {
