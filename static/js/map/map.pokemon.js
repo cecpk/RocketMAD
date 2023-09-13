@@ -5,7 +5,7 @@ pokemonNotifiedZIndex, pokemonRareZIndex, pokemonUltraRareZIndex,
 pokemonUncommonZIndex, pokemonVeryRareZIndex, pokemonZIndex, removeMarker,
 removeRangeCircle, sendNotification, settings, setupRangeCircle,
 updateRangeCircle, weatherClassesDay, weatherNames, updateMarkerLayer,
-createPokemonMarker, filterManagers, serverSettings
+createPokemonMarker, filterManagers, serverSettings, getSizeDisplay
 */
 /* exported processPokemon, updatePokemons */
 
@@ -52,6 +52,10 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
             // Pokemon is not encountered.
             return false
         }
+    }
+
+    if (settings.filterPokemonBySize && settings.filterPokemonBySizeOptions && !settings.filterPokemonBySizeOptions.includes(pokemon.size)) {
+        return false
     }
 
     if (settings.excludeNearbyCells && pokemon.seen_type === 'nearby_cell') {
@@ -191,6 +195,7 @@ function pokemonLabel(item) {
     var cp = item.cp
     var cpMultiplier = item.cp_multiplier
     var weatherBoostedCondition = item.weather_boosted_condition
+    var size = getSizeDisplay(item.size)
 
     var pokemonIcon = getPokemonRawIconUrl(item, serverSettings.generateImages)
     var gen = getPokemonGen(id)
@@ -202,6 +207,7 @@ function pokemonLabel(item) {
     var verifiedDisplay = ''
     var typesDisplay = ''
     var statsDisplay = ''
+    var sizeDisplay = ''
     var nearbyStopWarning = ''
 
     if (id === 29 || id === 32) {
@@ -268,6 +274,14 @@ function pokemonLabel(item) {
                 </div>`
         }
 
+        if (size) {
+            sizeDisplay = `
+                <div>
+                    ${i18n('Size')}: <strong>${size}</strong>
+                </div>
+            `
+        }
+
         statsDisplay = `
             <div class='info-container'>
               <div>
@@ -286,6 +300,7 @@ function pokemonLabel(item) {
                 ${i18n('Weight')}: <strong>${weight}kg</strong> | ${i18n('Height')}: <strong>${height}m</strong>
               </div>
               ${catchRatesDisplay}
+              ${sizeDisplay}
             </div>`
 
         let rarityDisplay = ''
