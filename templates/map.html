@@ -694,6 +694,27 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-control">
+                  <div class="switch">
+                    <label>
+                      <input type="checkbox" id="filter-by-size-switch">
+                      <span class="lever"></span>
+                      {{ i18n('Filter by size') }}
+                    </label>
+                  </div>
+                </div>
+                <div class="form-control">
+                  <div class="input-field">
+                    <div class="select-title">{{ i18n('Pokemon Size') }}</div>
+                    <select id="filter-by-size-select" multiple>
+                      <option value="1">{{ i18n('XXS') }}</option>
+                      <option value="2">{{ i18n('XS') }}</option>
+                      <option value="3">{{ i18n('M') }}</option>
+                      <option value="4">{{ i18n('XL') }}</option>
+                      <option value="5">{{ i18n('XXL') }}</option>
+                    </select>
+                  </div>
+                </div>
                 {% if settings.highlightPokemon %}
                 <div class="form-control">
                   <div class="switch">
