@@ -261,8 +261,6 @@ function pokemonLabel(item) {
         var move2Name = getMoveName(item.move_2)
         var move1Type = getMoveTypeNoI8ln(item.move_1)
         var move2Type = getMoveTypeNoI8ln(item.move_2)
-        var weight = item.weight.toFixed(2)
-        var height = item.height.toFixed(2)
 
         var catchRatesDisplay = ''
         if (serverSettings.catchRates && item.catch_prob_1) {
@@ -295,9 +293,6 @@ function pokemonLabel(item) {
               </div>
               <div>
                ${i18n('Charge')}: <strong>${move2Name}</strong> <img class='move-type-icon' src='static/images/types/${move2Type.toLowerCase()}.png' title='${i18n(move2Type)}' width='15'>
-              </div>
-              <div>
-                ${i18n('Weight')}: <strong>${weight}kg</strong> | ${i18n('Height')}: <strong>${height}m</strong>
               </div>
               ${catchRatesDisplay}
               ${sizeDisplay}
