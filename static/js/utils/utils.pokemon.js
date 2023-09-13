@@ -222,7 +222,7 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
 }
 
 function getSizeDisplay(size) {
-    return pokemonSizes[size] ?? i18n('Unknown Size')
+    return i18n(pokemonSizes[size]) ?? i18n('Unknown Size')
 }
 
 function getIvsPercentage(atk, def, sta) {
