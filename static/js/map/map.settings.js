@@ -1644,6 +1644,7 @@ function initSettingsSidebar() {
         $('#pokemon-level-slider-wrapper').toggle(settings.filterPokemonByValues)
         $('#filter-by-size-switch').prop('checked', settings.filterPokemonBySize)
         $('#filter-by-size-select').val(settings.filterPokemonBySizeOptions)
+        $('#filter-by-size-select').closest('.form-control').toggle(settings.filterPokemonBySize)
         if (serverSettings.highlightPokemon) {
             $('#pokemon-highlight-switch').prop('checked', settings.highlightPokemon)
             $('#highlight-pokemon-wrapper').toggle(settings.highlightPokemon)
