@@ -7,13 +7,15 @@ getMoveName, getMoveType, getMoveTypeNoI8ln, getPokemonGen, getPokemonIds,
 getPokemonLevel, getPokemonNameWithForm, getPokemonRarity,
 getPokemonRarityName, getLocationNearStop, getLocationInCell,
 getPokemonRawIconUrl, getPokemonTypes, initMoveData, initPokemonData,
-searchPokemon, createPokemonMarker, updatePokemonRarities
+searchPokemon, createPokemonMarker, updatePokemonRarities,
+getSizeDisplay
 */
 
 var pokemonData = {}
 var moveData = {}
 var pokemonRarities = {}
 const rarityNames = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Ultra Rare', 'New Spawn']
+const pokemonSizes = ['Unknown', 'XXS', 'XS', 'M', 'XL', 'XXL']
 // FontAwesome gender classes.
 const genderClasses = ['fa-mars', 'fa-venus', 'fa-neuter']
 var pokemonSearchList = []
@@ -217,6 +219,10 @@ function getPokemonMapIconUrl(pokemon, generateImages) {
         perfectParam = ivs === 100 ? '&perfect=1' : ''
     }
     return `pkm_img?pkm=${pokemon.pokemon_id}${genderParam}${formParam}${costumeParam}${evolutionParam}${weatherParam}${perfectParam}`
+}
+
+function getSizeDisplay(size) {
+    return i18n(pokemonSizes[size]) ?? i18n('Unknown Size')
 }
 
 function getIvsPercentage(atk, def, sta) {
