@@ -72,6 +72,9 @@ message PokemonDisplayProto {
 		SPRING_2023_INSTINCT = 66;
 		NIGHTCAP = 67;
 		MAY_2023 = 68;
+		PI = 69;
+		FALL_2023 = 70;
+		FALL_2023_NOEVOLVE = 71;
 	}
 
 	enum Form {
