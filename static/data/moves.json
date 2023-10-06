@@ -1322,5 +1322,9 @@
   "393": {
     "name": "Scorching Sands",
     "type": "Ground"
+  },
+  "394": {
+    "name": "Roar of Time",
+    "type": "Dragon"
   }
 }
