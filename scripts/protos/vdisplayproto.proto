@@ -75,6 +75,7 @@ message PokemonDisplayProto {
 		PI = 69;
 		FALL_2023 = 70;
 		FALL_2023_NOEVOLVE = 71;
+  		PI_NOEVOLVE = 72;
 	}
 
 	enum Form {
