@@ -21009,7 +21009,6 @@
   "793": {
     "name": "Nihilego",
     "familyId": 793,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21025,7 +21024,6 @@
   "794": {
     "name": "Buzzwole",
     "familyId": 794,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21041,7 +21039,6 @@
   "795": {
     "name": "Pheromosa",
     "familyId": 795,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21057,7 +21054,6 @@
   "796": {
     "name": "Xurkitree",
     "familyId": 796,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21069,7 +21065,6 @@
   "797": {
     "name": "Celesteela",
     "familyId": 797,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21085,7 +21080,6 @@
   "798": {
     "name": "Kartana",
     "familyId": 798,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21101,7 +21095,6 @@
   "799": {
     "name": "Guzzlord",
     "familyId": 799,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21216,7 +21209,6 @@
   "803": {
     "name": "Poipole",
     "familyId": 803,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21228,7 +21220,6 @@
   "804": {
     "name": "Naganadel",
     "familyId": 803,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21244,7 +21235,6 @@
   "805": {
     "name": "Stakataka",
     "familyId": 805,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
@@ -21260,7 +21250,6 @@
   "806": {
     "name": "Blacephalon",
     "familyId": 806,
-    "legendary": true,
     "ultraBeast": true,
     "types": [
       {
