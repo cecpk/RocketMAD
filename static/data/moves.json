@@ -1330,5 +1330,21 @@
   "394": {
     "name": "Roar of Time",
     "type": "Dragon"
+  },
+  "395": {
+    "name": "Bleakwind Storm",
+    "type": "Flying"
+  },
+  "396": {
+    "name": "Sandsear Storm",
+    "type": "Ground"
+  },
+  "397": {
+    "name": "Wildbolt Storm",
+    "type": "Electric"
+  },
+  "398": {
+    "name": "Spirit Shackle",
+    "type": "Ghost"
   }
 }
