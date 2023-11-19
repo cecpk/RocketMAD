@@ -708,12 +708,11 @@
     ],
     "forms": {
       "598": {
-        "formName": "",
-        "assetId": "00"
+        "formName": ""
       },
       "894": {
         "formName": "",
-        "assetSuffix": "pm0025_00_pgo_fall2019"
+        "genderDiff": true
       },
       "901": {
         "formName": "Libre",
@@ -721,87 +720,102 @@
       },
       "949": {
         "formName": "Clone",
-        "assetSuffix": "pm0025_00_pgo_copy2019"
+        "genderDiff": true
       },
       "977": {
-        "formName": "Shadow",
-        "assetId": "00"
+        "formName": "Shadow"
       },
       "978": {
-        "formName": "Purified",
-        "assetId": "00"
+        "formName": "Purified"
       },
       "2332": {
         "formName": "Flying",
-        "assetSuffix": "pm0025_00_pgo_4thanniversary"
+        "genderDiff": true
       },
       "2669": {
         "formName": "",
-        "assetSuffix": "pm0025_00_pgo_movie2020"
+        "genderDiff": true
       },
       "2670": {
         "formName": "",
-        "assetSuffix": "pm0025_00_pgo_winter2020"
+        "genderDiff": true
       },
       "2675": {
         "formName": "Kariyushi",
-        "assetSuffix": "pm0025_00_pikachu_pgo_kariyushi"
+        "genderDiff": true
       },
       "2676": {
-        "formName": "Popstar",
-        "assetSuffix": "pm0025_00_pgo_popstar"
+        "formName": "Popstar"
       },
       "2677": {
-        "formName": "Rockstar",
-        "assetSuffix": "pm0025_00_pgo_rockstar"
+        "formName": "Rockstar"
       },
       "2678": {
         "formName": "Flying",
-        "assetSuffix": "pm0025_00_pgo_5thanniversary"
+        "genderDiff": true
       },
       "2736": {
         "formName": "Flying Okinawa",
-        "assetId": "00"
+        "genderDiff": true
       },
       "2805": {
         "formName": "GO Fest 2022",
-        "assetId": "00"
+        "genderDiff": true
+      },
+      "2806": {
+        "formName": "Wcs 2022",
+        "genderDiff": true
       },
       "2813": {
         "formName": "T-shirt 1",
-        "assetId": "00"
+        "genderDiff": true
       },
       "2814": {
         "formName": "T-shirt 2",
-        "assetId": "00"
+        "genderDiff": true
       },
       "2815": {
         "formName": "Flying 1",
-        "assetId": "00"
+        "genderDiff": true
       },
       "2816": {
         "formName": "Flying 2",
-        "assetId": "00"
+        "genderDiff": true
       },
       "3002": {
         "formName": "Summer 2023 A",
-        "assetId": "00"
+        "genderDiff": true
       },
       "3003": {
         "formName": "Summer 2023 B",
-        "assetId": "00"
+        "genderDiff": true
       },
       "3004": {
         "formName": "Summer 2023 C",
-        "assetId": "00"
+        "genderDiff": true
       },
       "3005": {
         "formName": "Summer 2023 D",
-        "assetId": "00"
+        "genderDiff": true
       },
       "3010": {
         "formName": "Summer 2023 E",
-        "assetId": "00"
+        "genderDiff": true
+      },
+      "3011": {
+        "formName": "Flying 3",
+        "genderDiff": true
+      },
+      "3012": {
+        "formName": "Jeju Island",
+        "genderDiff": true
+      },
+      "3013": {
+        "formName": "Doctor"
+      },
+      "3014": {
+        "formName": "Wcs 2023",
+        "genderDiff": true
       }
     }
   },
@@ -6399,7 +6413,8 @@
             "color": "#8a8a59"
           }
         ],
-        "assetId": "00"
+        "assetId": "00",
+        "genderDiff": true
       }
     }
   },
@@ -13744,6 +13759,9 @@
       "1858": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2829": {
+        "formName": "Origin"
       }
     }
   },
@@ -13773,6 +13791,9 @@
       "1861": {
         "formName": "Purified",
         "assetId": "00"
+      },
+      "2830": {
+        "formName": "Origin"
       }
     }
   },
@@ -22756,13 +22777,7 @@
         "type": "Rock",
         "color": "#ffffff"
       }
-    ],
-    "forms": {
-      "2806": {
-        "formName": "",
-        "assetId": "00"
-      }
-    }
+    ]
   },
   "901": {
     "name": "Ursaluna",
