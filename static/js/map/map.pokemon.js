@@ -54,6 +54,11 @@ function isPokemonMeetsFilters(pokemon, isNotifPokemon) {
         }
     }
 
+    
+    if(settings.filterPokemonBySize && settings.filterPokemonBySizeOptions && !settings.filterPokemonBySizeOptions.includes(pokemon.size)){
+        return false
+    }
+
     if (settings.excludeNearbyCells && pokemon.seen_type === 'nearby_cell') {
         return false
     }
@@ -191,6 +196,7 @@ function pokemonLabel(item) {
     var cp = item.cp
     var cpMultiplier = item.cp_multiplier
     var weatherBoostedCondition = item.weather_boosted_condition
+    var size = getSizeDisplay(item.size)
 
     var pokemonIcon = getPokemonRawIconUrl(item, serverSettings.generateImages)
     var gen = getPokemonGen(id)
@@ -268,6 +274,17 @@ function pokemonLabel(item) {
                 </div>`
         }
 
+        
+        var sizeDisplay = ''
+        if(size){
+            sizeDisplay = `
+                <div>
+                    ${i18n('Size')}: <strong>${size}</strong>
+                </div>
+            `
+        }
+
+
         statsDisplay = `
             <div class='info-container'>
               <div>
@@ -286,6 +303,7 @@ function pokemonLabel(item) {
                 ${i18n('Weight')}: <strong>${weight}kg</strong> | ${i18n('Height')}: <strong>${height}m</strong>
               </div>
               ${catchRatesDisplay}
+              ${sizeDisplay}
             </div>`
 
         let rarityDisplay = ''
@@ -629,4 +647,18 @@ function sendPokemonNotification(pokemon) {
     notificationData.individual_stamina = pokemon.individual_stamina
     notificationData.cp_multiplier = pokemon.cp_multiplier
     notifiedPokemonData[pokemon.encounter_id] = notificationData
+}
+
+function getSizeDisplay(size){
+       return getSizes()[size] ?? null
+}
+
+function getSizes(){
+       return {
+               1: 'XXS',
+               2: 'XS',
+               3: 'M',
+               4: 'XL',
+               5: 'XXL'
+       };
 }

@@ -148,7 +148,9 @@ const settings = {
     startLocationMarkerStyle: null,
     userLocationMarkerStyle: null,
     darkMode: null,
-    clusterZoomLevel: null
+    clusterZoomLevel: null,
+    filterPokemonBySize: null,
+    filterPokemonBySizeOptions: null
 }
 
 const notifiedPokemonData = {}
