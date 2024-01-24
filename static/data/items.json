@@ -49,7 +49,7 @@
   },
   "103": {
     "name": "Hyper Potion",
-    "questBundles": [2, 3]
+    "questBundles": [2, 3, 5]
   },
   "104": {
     "name": "Max Potion",
