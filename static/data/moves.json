@@ -1312,7 +1312,7 @@
     "type": "Flying"
   },
   "390": {
-    "name": "Natures Madness",
+    "name": "Nature's Madness",
     "type": "Fairy"
   },
   "391": {
@@ -1346,5 +1346,25 @@
   "398": {
     "name": "Spirit Shackle",
     "type": "Ghost"
+  },
+  "399": {
+    "name": "Volt Tackle",
+    "type": "Electric"
+  },
+  "400": {
+    "name": "Darkest Lariat",
+    "type": "Dark"
+  },
+  "401": {
+    "name": "Psywave",
+    "type": "Psychic"
+  },
+  "402": {
+    "name": "Metal Sound",
+    "type": "Steel"
+  },
+  "403": {
+    "name": "Sand Attack",
+    "type": "Ground"
   }
 }
