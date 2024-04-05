@@ -106,11 +106,13 @@ function setupRoutePath(route) {
 
     const wp = JSON.parse(route.waypoints)
     for (let i = 0; i < wp.length; i++) {
-        if (!wp[i].lat_degrees || !wp[i].lng_degrees) {
+        let wp_lat = wp[i].lat_degrees ? wp[i].lat_degrees : wp[i].latDegrees
+        let wp_lng = wp[i].lng_degrees ? wp[i].lng_degrees : wp[i].lngDegrees
+        if (!wp_lat || !wp_lng) {
             console.log('Unknown route waypoint: ', JSON.stringify(wp[i]))
             continue
         }
-        pointLL = new L.latLng(wp[i].lat_degrees, wp[i].lng_degrees)
+        pointLL = new L.latLng(wp_lat, wp_lng)
         routePoints.push(pointLL)
     }
     pointLL = new L.latLng(route.end_poi_latitude, route.end_poi_longitude)
