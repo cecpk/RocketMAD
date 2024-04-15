@@ -1366,5 +1366,13 @@
   "403": {
     "name": "Sand Attack",
     "type": "Ground"
+  },
+  "404": {
+    "name": "Sunsteel Strike",
+    "type": "Steel"
+  },
+  "405": {
+    "name": "Moongeist Beam",
+    "type": "Ghost"
   }
 }
