@@ -81,6 +81,18 @@
   "405": {
     "name": "Mystery Box"
   },
+  "406": {
+    "name": "Daily Adventure Incense"
+  },
+  "407": {
+    "name": "Coin Bag"
+  },
+  "408": {
+    "name": "Incense Day Bonus"
+  },
+  "409": {
+    "name": "Incense Night Bonus"
+  },
   "501": {
     "name": "Lure Module"
   },
@@ -108,6 +120,12 @@
   "604": {
     "name": "X Miracle"
   },
+  "650": {
+    "name": "Beans"
+  },
+  "651": {
+    "name": "Breakfast"
+  },
   "701": {
     "name": "Razz Berry",
     "questBundles": [2, 3, 4, 5, 6, 9]
@@ -131,7 +149,7 @@
     "questBundles": [2]
   },
   "707": {
-    "name": "Golden Pinap Berry"
+    "name": "Golden Nanab Berry"
   },
   "708": {
     "name": "Silver Pinap Berry",
@@ -145,6 +163,9 @@
   },
   "802": {
     "name": "Sticker"
+  },
+  "803": {
+    "name": "Postcard"
   },
   "901": {
     "name": "Unlimited Incubator"
@@ -160,6 +181,9 @@
   },
   "1002": {
     "name": "Item Storage Upgrade"
+  },
+  "1003": {
+    "name": Postcard Storage Upgrade"
   },
   "1101": {
     "name": "Sun Stone"
@@ -201,6 +225,24 @@
   "1302": {
     "name": "XL Rare Candy"
   },
+  "1350": {
+    "name": "Fusion Resource Dawn Wings Necrozma"
+  },
+  "1351": {
+    "name": "Fusion Resource Dusk Mane Necrozma"
+  },
+  "1352": {
+    "name": "Fusion Resource Black Kyurem"
+  },
+  "1353": {
+    "name": "Fusion Resource White Kyurem"
+  },
+  "1354": {
+    "name": "Fusion Resource Ice Rider Calyrex"
+  },
+  "1355": {
+    "name": "Fusion Resource Shadow Rider Calyrex"
+  },
   "1401": {
     "name": "Free Raid Pass"
   },
@@ -230,6 +272,15 @@
   },
   "1503": {
     "name": "Giovanni Map"
+  },
+  "1504": {
+    "name": "Shadow Shard"
+  },
+  "1505": {
+    "name": "Purified Gem"
+  },
+  "1506": {
+    "name": "Item MP"
   },
   "1600": {
     "name": "Global Event Ticket"
