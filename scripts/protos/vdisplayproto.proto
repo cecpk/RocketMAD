@@ -79,6 +79,8 @@ message PokemonDisplayProto {
 		HOLIDAY_2023 = 73;
 		JAN_2024 = 74;
 		SPRING_2024 = 75;
+		SUMMER_2024 = 77;
+		ANNIVERSARY_2024 = 78;
 	}
 
 	enum Form {

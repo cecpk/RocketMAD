@@ -1374,5 +1374,9 @@
   "405": {
     "name": "Moongeist Beam",
     "type": "Ghost"
+  },
+  "408": {
+    "name": "High Jump Kick",
+    "type": "Fighting"
   }
 }

@@ -24,14 +24,17 @@
     "name": "Beast Ball"
   },
   "7": {
+    "name": "Wild Ball"
+  },
+  "87": {
     "name": "Mega Energy",
     "questBundles": [5, 10, 15, 20, 25, 50, 70]
   },
-  "8": {
+  "88": {
     "name": "Candy",
     "questBundles": [3, 20]
   },
-  "9": {
+  "89": {
     "name": "Experience",
     "questBundles": [700]
   },
@@ -206,6 +209,9 @@
   "1107": {
     "name": "Unova Stone"
   },
+  "1150": {
+    "name": "Evolution Stone A"
+  },
   "1201": {
     "name": "Fast TM"
   },
@@ -217,6 +223,9 @@
   },
   "1204": {
     "name": "Elite Charged TM"
+  },
+  "1250": {
+    "name": "Reroll Other Special Attack A"
   },
   "1301": {
     "name": "Rare Candy",
@@ -264,6 +273,9 @@
   "1408": {
     "name": "Remote Raid Pass"
   },
+  "1409": {
+    "name": "S Raid Pass"
+  },
   "1501": {
     "name": "Mysterious Component"
   },
@@ -281,6 +293,9 @@
   },
   "1506": {
     "name": "Item MP"
+  },
+  "1507": {
+    "name": "Item MP Replenish"
   },
   "1600": {
     "name": "Global Event Ticket"
