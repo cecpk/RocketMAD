@@ -137,8 +137,8 @@ $(function () {
                         let rewardText = ''
                         switch (quest.reward_type) {
                             case 1:
-                                rewardImageUrl = getItemImageUrl(9)
-                                rewardText = quest.stardust + ' ' + getItemName(9)
+                                rewardImageUrl = getItemImageUrl(89)
+                                rewardText = quest.stardust + ' ' + getItemName(89)
                                 break
                             case 2:
                                 rewardImageUrl = getItemImageUrl(quest.item_id)
@@ -149,16 +149,16 @@ $(function () {
                                 rewardText = quest.stardust + ' ' + getItemName(99)
                                 break
                             case 4:
-                                rewardImageUrl = getItemImageUrl(8)
-                                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(8)}`
+                                rewardImageUrl = getItemImageUrl(88)
+                                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(88)}`
                                 break
                             case 7:
                                 rewardImageUrl = getPokemonRawIconUrl({ pokemon_id: quest.pokemon_id, form: quest.form_id, costume: quest.costume_id }, serverSettings.generateImages)
                                 rewardText = `${getPokemonNameWithForm(quest.pokemon_id, quest.form_id)} <a href='https://pokemongo.gamepress.gg/pokemon/${quest.pokemon_id}' target='_blank' title='${i18n('View on GamePress')}'>#${quest.pokemon_id}</a>`
                                 break
                             case 12:
-                                rewardImageUrl = getItemImageUrl(7)
-                                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
+                                rewardImageUrl = getItemImageUrl(87)
+                                rewardText = `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(87)}`
                         }
 
                         return `
@@ -174,33 +174,33 @@ $(function () {
                     } else if (type === 'sort') {
                         switch (quest.reward_type) {
                             case 1:
-                                return getItemName(9) + ' ' + quest.stardust
+                                return getItemName(89) + ' ' + quest.stardust
                             case 2:
                                 return getItemName(quest.item_id) + ' ' + quest.item_amount
                             case 3:
                                 return getItemName(99) + ' ' + quest.stardust
                             case 4:
-                                return `${getItemName(8)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
+                                return `${getItemName(88)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
                             case 7:
                                 return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
                             case 12:
-                                return `${getItemName(7)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
+                                return `${getItemName(87)} ${getPokemonName(quest.pokemon_id)} ${quest.item_amount}`
                         }
                     }
 
                     switch (quest.reward_type) {
                         case 1:
-                            return quest.stardust + ' ' + getItemName(9)
+                            return quest.stardust + ' ' + getItemName(89)
                         case 2:
                             return quest.item_amount + ' ' + getItemName(quest.item_id)
                         case 3:
                             return quest.stardust + ' ' + getItemName(99)
                         case 4:
-                            return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(8)}`
+                            return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(88)}`
                         case 7:
                             return getPokemonNameWithForm(quest.pokemon_id, quest.form_id)
                         case 12:
-                            return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(7)}`
+                            return `${quest.item_amount} ${getPokemonName(quest.pokemon_id)} ${getItemName(87)}`
                     }
                 }
             }
