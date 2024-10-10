@@ -26,6 +26,9 @@
   "7": {
     "name": "Wild Ball"
   },
+  "8": {
+    "name": "Wild Ball Premier"
+  },
   "87": {
     "name": "Mega Energy",
     "questBundles": [5, 10, 15, 20, 25, 50, 70]
@@ -292,10 +295,10 @@
     "name": "Purified Gem"
   },
   "1506": {
-    "name": "Item MP"
+    "name": "Max Particles"
   },
   "1507": {
-    "name": "Item MP Replenish"
+    "name": "Max Particle Pack"
   },
   "1600": {
     "name": "Global Event Ticket"

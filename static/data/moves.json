@@ -1375,8 +1375,24 @@
     "name": "Moongeist Beam",
     "type": "Ghost"
   },
+  "406": {
+    "name": "Aura Wheel Electric",
+    "type": "Electric"
+  },
+  "407": {
+    "name": "Aura Wheel Dark",
+    "type": "Dark"
+  },
   "408": {
     "name": "High Jump Kick",
     "type": "Fighting"
+  },
+  "462": {
+    "name": "Force Palm",
+    "type": "Fighting"
+  },
+  "463": {
+    "name": "Sparkling Aria",
+    "type": "Water"
   }
 }
