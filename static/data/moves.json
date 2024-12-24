@@ -1394,5 +1394,13 @@
   "463": {
     "name": "Sparkling Aria",
     "type": "Water"
+  },
+  "464": {
+    "name": "Rage Fist",
+    "type": "Ghost"
+  },
+  "465": {
+    "name": "Flower Trick",
+    "type": "Grass"
   }
 }
